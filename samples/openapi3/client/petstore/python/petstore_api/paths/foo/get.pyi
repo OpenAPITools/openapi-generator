@@ -104,9 +104,44 @@ _all_accept_content_types = (
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _foo_get_oapg(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _foo_get_oapg(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _foo_get_oapg(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
 
     def _foo_get_oapg(
-        self: api_client.Api,
+        self: ,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -158,8 +193,44 @@ class BaseApi(api_client.Api):
 class FooGet(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def foo_get(
-        self: BaseApi,
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def foo_get(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def foo_get(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def foo_get(
+        self: ,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -179,8 +250,44 @@ class FooGet(BaseApi):
 class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def get(
-        self: BaseApi,
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def get(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def get(
+        self: ,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseForDefault,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def get(
+        self: ,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

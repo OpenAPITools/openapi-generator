@@ -27,7 +27,7 @@ from petstore_api import schemas  # noqa: F401
 
 from . import path
 
-# header params
+# Header params
 ApiKeySchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
@@ -51,8 +51,7 @@ request_header_api_key = api_client.HeaderParameter(
     name="api_key",
     style=api_client.ParameterStyle.SIMPLE,
     schema=ApiKeySchema,
-)
-# path params
+)# Path params
 PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
@@ -77,8 +76,7 @@ request_path_pet_id = api_client.PathParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=PetIdSchema,
     required=True,
-)
-_auth = [
+)_auth = [
     'petstore_auth',
 ]
 
@@ -99,9 +97,44 @@ _status_code_to_response = {
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _delete_pet_oapg(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _delete_pet_oapg(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _delete_pet_oapg(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
 
     def _delete_pet_oapg(
-        self: api_client.Api,
+        self: ,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
@@ -171,8 +204,44 @@ class BaseApi(api_client.Api):
 class DeletePet(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def delete_pet(
-        self: BaseApi,
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete_pet(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete_pet(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def delete_pet(
+        self: ,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
@@ -193,8 +262,44 @@ class DeletePet(BaseApi):
 class ApiFordelete(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def delete(
-        self: BaseApi,
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete(
+        self: ,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def delete(
+        self: ,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,

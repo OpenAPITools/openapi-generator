@@ -56,9 +56,48 @@ _status_code_to_response = {
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _post_object_type_matches_objects_request_body_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def _post_object_type_matches_objects_request_body_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _post_object_type_matches_objects_request_body_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
 
     def _post_object_type_matches_objects_request_body_oapg(
-        self: api_client.Api,
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
@@ -117,8 +156,48 @@ class BaseApi(api_client.Api):
 class PostObjectTypeMatchesObjectsRequestBody(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def post_object_type_matches_objects_request_body(
-        self: BaseApi,
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def post_object_type_matches_objects_request_body(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def post_object_type_matches_objects_request_body(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def post_object_type_matches_objects_request_body(
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
@@ -140,8 +219,48 @@ class PostObjectTypeMatchesObjectsRequestBody(BaseApi):
 class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def post(
-        self: BaseApi,
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def post(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def post(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def post(
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,

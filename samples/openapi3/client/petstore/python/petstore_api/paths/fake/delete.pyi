@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-# query params
+# Query params
 RequiredStringGroupSchema = schemas.IntSchema
 RequiredInt64GroupSchema = schemas.Int64Schema
 StringGroupSchema = schemas.IntSchema
@@ -57,27 +57,23 @@ request_query_required_string_group = api_client.QueryParameter(
     schema=RequiredStringGroupSchema,
     required=True,
     explode=True,
-)
-request_query_required_int64_group = api_client.QueryParameter(
+)request_query_required_int64_group = api_client.QueryParameter(
     name="required_int64_group",
     style=api_client.ParameterStyle.FORM,
     schema=RequiredInt64GroupSchema,
     required=True,
     explode=True,
-)
-request_query_string_group = api_client.QueryParameter(
+)request_query_string_group = api_client.QueryParameter(
     name="string_group",
     style=api_client.ParameterStyle.FORM,
     schema=StringGroupSchema,
     explode=True,
-)
-request_query_int64_group = api_client.QueryParameter(
+)request_query_int64_group = api_client.QueryParameter(
     name="int64_group",
     style=api_client.ParameterStyle.FORM,
     schema=Int64GroupSchema,
     explode=True,
-)
-# header params
+)# Header params
 RequiredBooleanGroupSchema = schemas.BoolSchema
 BooleanGroupSchema = schemas.BoolSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -104,13 +100,11 @@ request_header_required_boolean_group = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=RequiredBooleanGroupSchema,
     required=True,
-)
-request_header_boolean_group = api_client.HeaderParameter(
+)request_header_boolean_group = api_client.HeaderParameter(
     name="boolean_group",
     style=api_client.ParameterStyle.SIMPLE,
     schema=BooleanGroupSchema,
 )
-
 
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
@@ -125,9 +119,44 @@ _response_for_400 = api_client.OpenApiResponse(
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _group_parameters_oapg(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _group_parameters_oapg(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _group_parameters_oapg(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
 
     def _group_parameters_oapg(
-        self: api_client.Api,
+        self: ,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
@@ -201,8 +230,44 @@ class BaseApi(api_client.Api):
 class GroupParameters(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def group_parameters(
-        self: BaseApi,
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def group_parameters(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def group_parameters(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def group_parameters(
+        self: ,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
@@ -223,8 +288,44 @@ class GroupParameters(BaseApi):
 class ApiFordelete(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def delete(
-        self: BaseApi,
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def delete(
+        self: ,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def delete(
+        self: ,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,

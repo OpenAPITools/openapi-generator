@@ -27,7 +27,7 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.user import User
 
-# path params
+# Path params
 UsernameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
@@ -52,8 +52,7 @@ request_path_username = api_client.PathParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=UsernameSchema,
     required=True,
-)
-# body param
+)# body param
 SchemaForRequestBodyApplicationJson = User
 
 
@@ -91,9 +90,48 @@ _response_for_404 = api_client.OpenApiResponse(
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _update_user_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def _update_user_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def _update_user_oapg(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
 
     def _update_user_oapg(
-        self: api_client.Api,
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict.frozendict(),
         content_type: str = 'application/json',
@@ -167,8 +205,48 @@ class BaseApi(api_client.Api):
 class UpdateUser(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def update_user(
-        self: BaseApi,
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def update_user(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def update_user(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def update_user(
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict.frozendict(),
         content_type: str = 'application/json',
@@ -191,8 +269,48 @@ class UpdateUser(BaseApi):
 class ApiForput(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def put(
-        self: BaseApi,
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+
+    @typing.overload
+    def put(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    @typing.overload
+    def put(
+        self: ,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        path_params: RequestPathParams = frozendict.frozendict(),
+        content_type: str = 'application/json',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+
+    def put(
+        self: ,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict.frozendict(),
         content_type: str = 'application/json',
