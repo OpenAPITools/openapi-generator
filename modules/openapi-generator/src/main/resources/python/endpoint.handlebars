@@ -21,156 +21,16 @@ from . import path
 {{/unless}}
 {{#with operation}}
 {{#if queryParams}}
-# query params
-{{#each queryParams}}
-{{#with schema}}
-{{> model_templates/schema }}
-{{/with}}
-{{/each}}
-RequestRequiredQueryParams = typing_extensions.TypedDict(
-    'RequestRequiredQueryParams',
-    {
-{{#each queryParams}}
-{{#if required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/if}}
-{{/each}}
-    }
-)
-RequestOptionalQueryParams = typing_extensions.TypedDict(
-    'RequestOptionalQueryParams',
-    {
-{{#each queryParams}}
-{{#unless required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/unless}}
-{{/each}}
-    },
-    total=False
-)
-
-
-class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
-    pass
-
-
-{{#each queryParams}}
-{{> endpoint_parameter }}
-{{/each}}
+{{> endpoint_parameter_schema_and_def xParams=queryParams xParamsName="Query" }}
 {{/if}}
 {{#if headerParams}}
-# header params
-{{#each headerParams}}
-{{#with schema}}
-{{> model_templates/schema }}
-{{/with}}
-{{/each}}
-RequestRequiredHeaderParams = typing_extensions.TypedDict(
-    'RequestRequiredHeaderParams',
-    {
-{{#each headerParams}}
-{{#if required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/if}}
-{{/each}}
-    }
-)
-RequestOptionalHeaderParams = typing_extensions.TypedDict(
-    'RequestOptionalHeaderParams',
-    {
-{{#each headerParams}}
-{{#unless required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/unless}}
-{{/each}}
-    },
-    total=False
-)
-
-
-class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
-    pass
-
-
-{{#each headerParams}}
-{{> endpoint_parameter }}
-{{/each}}
+{{> endpoint_parameter_schema_and_def xParams=headerParams xParamsName="Header" }}
 {{/if}}
 {{#if pathParams}}
-# path params
-{{#each pathParams}}
-{{#with schema}}
-{{> model_templates/schema }}
-{{/with}}
-{{/each}}
-RequestRequiredPathParams = typing_extensions.TypedDict(
-    'RequestRequiredPathParams',
-    {
-{{#each pathParams}}
-{{#if required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/if}}
-{{/each}}
-    }
-)
-RequestOptionalPathParams = typing_extensions.TypedDict(
-    'RequestOptionalPathParams',
-    {
-{{#each pathParams}}
-{{#unless required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/unless}}
-{{/each}}
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-{{#each pathParams}}
-{{> endpoint_parameter }}
-{{/each}}
+{{> endpoint_parameter_schema_and_def xParams=pathParams xParamsName="Path" }}
 {{/if}}
 {{#if cookieParams}}
-# cookie params
-{{#each cookieParams}}
-{{#with schema}}
-{{> model_templates/schema }}
-{{/with}}
-{{/each}}
-RequestRequiredCookieParams = typing_extensions.TypedDict(
-    'RequestRequiredCookieParams',
-    {
-{{#each cookieParams}}
-{{#if required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/if}}
-{{/each}}
-    }
-)
-RequestOptionalCookieParams = typing_extensions.TypedDict(
-    'RequestOptionalCookieParams',
-    {
-{{#each cookieParams}}
-{{#unless required}}
-        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
-{{/unless}}
-{{/each}}
-    },
-    total=False
-)
-
-
-class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookieParams):
-    pass
-
-
-{{#each cookieParams}}
-{{> endpoint_parameter }}
-{{/each}}
+{{> endpoint_parameter_schema_and_def xParams=cookieParams xParamsName="Cookie" }}
 {{/if}}
 {{#with bodyParam}}
 # body param
@@ -373,9 +233,29 @@ _all_accept_content_types = (
 
 
 class BaseApi(api_client.Api):
+{{#if bodyParam}}
+    {{#each getContentTypeToOperation}}
+    {{> endpoint_args_baseapi_wrapper contentType=@key this=this}}
+
+    {{/each}}
+    {{> endpoint_args_baseapi_wrapper contentType="null" this=this}}
+
+{{else}}
+    @typing.overload
+    def _{{operationId}}_oapg(
+    {{> endpoint_args isOverload=true skipDeserialization="False" contentType="null"}}
+{{/if}}
+
+    @typing.overload
+    def _{{operationId}}_oapg(
+    {{> endpoint_args isOverload=true skipDeserialization="True" contentType="null"}}
+
+    @typing.overload
+    def _{{operationId}}_oapg(
+    {{> endpoint_args isOverload=true skipDeserialization="null" contentType="null"}}
 
     def _{{operationId}}_oapg(
-    {{> endpoint_args selfType="api_client.Api" }}
+    {{> endpoint_args isOverload=false skipDeserialization="null" contentType="null"}}
         """
     {{#if summary}}
         {{summary}}
@@ -521,8 +401,29 @@ class BaseApi(api_client.Api):
 class {{operationIdCamelCase}}(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+{{#if bodyParam}}
+    {{#each getContentTypeToOperation}}
+    {{> endpoint_args_operationid_wrapper contentType=@key this=this}}
+
+    {{/each}}
+    {{> endpoint_args_operationid_wrapper contentType="null" this=this}}
+
+{{else}}
+    @typing.overload
     def {{operationId}}(
-    {{> endpoint_args selfType="BaseApi" }}
+    {{> endpoint_args isOverload=true skipDeserialization="False" contentType="null"}}
+{{/if}}
+
+    @typing.overload
+    def {{operationId}}(
+    {{> endpoint_args isOverload=true skipDeserialization="True" contentType="null"}}
+
+    @typing.overload
+    def {{operationId}}(
+    {{> endpoint_args isOverload=true skipDeserialization="null" contentType="null"}}
+
+    def {{operationId}}(
+    {{> endpoint_args isOverload=false skipDeserialization="null" contentType="null"}}
         return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
@@ -531,8 +432,29 @@ class {{operationIdCamelCase}}(BaseApi):
 class ApiFor{{httpMethod}}(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+{{#if bodyParam}}
+    {{#each getContentTypeToOperation}}
+    {{> endpoint_args_httpmethod_wrapper contentType=@key this=this}}
+
+    {{/each}}
+    {{> endpoint_args_httpmethod_wrapper contentType="null" this=this}}
+
+{{else}}
+    @typing.overload
     def {{httpMethod}}(
-    {{> endpoint_args selfType="BaseApi" }}
+    {{> endpoint_args isOverload=true skipDeserialization="False" contentType="null"}}
+{{/if}}
+
+    @typing.overload
+    def {{httpMethod}}(
+    {{> endpoint_args isOverload=true skipDeserialization="True" contentType="null"}}
+
+    @typing.overload
+    def {{httpMethod}}(
+    {{> endpoint_args isOverload=true skipDeserialization="null" contentType="null"}}
+
+    def {{httpMethod}}(
+    {{> endpoint_args isOverload=false skipDeserialization="null" contentType="null"}}
         return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )

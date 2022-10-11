@@ -15,21 +15,7 @@ VERSION = "{{packageVersion}}"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-  "urllib3 >= 1.15",
-  "certifi",
-  "python-dateutil",
-  "frozendict >= 2.0.3",
-{{#if asyncio}}
-  "aiohttp >= 3.0.0",
-{{/if}}
-{{#if tornado}}
-  "tornado>=4.2,<5",
-{{/if}}
-{{#if hasHttpSignatureMethods}}
-  "pem>=19.3.0",
-  "pycryptodome>=3.9.0",
-{{/if}}
-  "typing_extensions",
+    {{> required_libraries quoted=true }}
 ]
 
 setup(

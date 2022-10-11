@@ -29,6 +29,7 @@ Method | HTTP request | Description
 [**object_in_query**](#object_in_query) | **get** /fake/objInQuery | user list
 [**object_model_with_ref_props**](#object_model_with_ref_props) | **post** /fake/refs/object_model_with_ref_props | 
 [**parameter_collisions**](#parameter_collisions) | **post** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
+[**query_param_with_json_content_type**](#query_param_with_json_content_type) | **get** /fake/queryParamWithJsonContentType | query param with json content-type
 [**query_parameter_collection_format**](#query_parameter_collection_format) | **put** /fake/test-query-paramters | 
 [**ref_object_in_query**](#ref_object_in_query) | **get** /fake/refObjInQuery | user list
 [**response_without_schema**](#response_without_schema) | **get** /fake/responseWithoutSchema | receives a response without schema
@@ -1009,10 +1010,10 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#endpoint_parameters.ApiResponseFor400) | Invalid username supplied
+200 | [ApiResponseFor200](#endpoint_parameters.ApiResponseFor200) | Success
 404 | [ApiResponseFor404](#endpoint_parameters.ApiResponseFor404) | User not found
 
-#### endpoint_parameters.ApiResponseFor400
+#### endpoint_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1206,10 +1207,10 @@ str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the ser
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#enum_parameters.ApiResponseFor400) | Invalid request
+200 | [ApiResponseFor200](#enum_parameters.ApiResponseFor200) | Success
 404 | [ApiResponseFor404](#enum_parameters.ApiResponseFor404) | Not found
 
-#### enum_parameters.ApiResponseFor400
+#### enum_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1438,9 +1439,9 @@ bool,  | BoolClass,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#group_parameters.ApiResponseFor400) | Someting wrong
+200 | [ApiResponseFor200](#group_parameters.ApiResponseFor200) | succeeded
 
-#### group_parameters.ApiResponseFor400
+#### group_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -2652,6 +2653,87 @@ n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization i
 200 | [ApiResponseFor200](#parameter_collisions.ApiResponseFor200) | success
 
 #### parameter_collisions.ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+# SchemaFor200ResponseBodyApplicationJson
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
+# **query_param_with_json_content_type**
+<a name="query_param_with_json_content_type"></a>
+> bool, date, datetime, dict, float, int, list, str, none_type query_param_with_json_content_type(some_param)
+
+query param with json content-type
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.apis.tags import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    query_params = {
+        'someParam': ,
+    }
+    try:
+        # query param with json content-type
+        api_response = api_instance.query_param_with_json_content_type(
+            query_params=query_params,
+        )
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->query_param_with_json_content_type: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+query_params | RequestQueryParams | |
+accept_content_types | typing.Tuple[str] | default is ('application/json', ) | Tells the server the content type(s) that are accepted by the client
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+someParam |  | | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | [ApiResponseFor200](#query_param_with_json_content_type.ApiResponseFor200) | success
+
+#### query_param_with_json_content_type.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |

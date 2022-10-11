@@ -778,7 +778,7 @@ class TestFakeApi(ApiTestMixin):
                     )
                 ]
             )
-            api_response = self.api.json_patch(body)
+            api_response = self.api.json_patch(body=body)
             json_body = [
                 {
                     'op': 'add',

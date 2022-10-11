@@ -193,6 +193,27 @@ public class CodegenOperation {
         return responses.stream().anyMatch(response -> response.isDefault);
     }
 
+    public boolean getAllResponsesAreErrors() {
+        return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
+    }
+
+    /**
+     * @return contentTypeToOperation
+     * returns a map where the key is the request body content type and the value is the current CodegenOperation
+     * this is needed by templates when a different signature is needed for each request body content type
+     */
+    public Map<String, CodegenOperation> getContentTypeToOperation() {
+        LinkedHashMap<String, CodegenOperation> contentTypeToOperation = new LinkedHashMap<>();
+        if (bodyParam == null) {
+            return null;
+        }
+        LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
+        for (String contentType: content.keySet()) {
+            contentTypeToOperation.put(contentType, this);
+        }
+        return contentTypeToOperation;
+    }
+
     /**
      * Check if there's at least one vendor extension
      *
