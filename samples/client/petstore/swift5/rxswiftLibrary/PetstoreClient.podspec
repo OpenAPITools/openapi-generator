@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6.6'
-  s.dependency 'RxSwift', '~> 6.5.0'
+  s.dependency 'RxSwift', '~> 6.2.0'
 end
