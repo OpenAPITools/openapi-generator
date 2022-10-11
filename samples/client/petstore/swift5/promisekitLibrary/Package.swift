@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.6"),
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
     ],
     targets: [
