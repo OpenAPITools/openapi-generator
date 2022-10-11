@@ -2,12 +2,12 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.BeforeMethod
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
 import kotlin.test.assertEquals
 
-// todo should we consider testing with multiple different Gradle versions?
-class GenerateTaskCacheabilityTest : TestBase() {
+class GenerateTaskFromCacheTest : TestBase() {
 
     private lateinit var buildCacheDir: File
     private lateinit var projectDir1: File
@@ -21,6 +21,9 @@ class GenerateTaskCacheabilityTest : TestBase() {
         projectDir2 = temp.resolve("projectDir2").apply { mkdir() }
     }
 
+    @DataProvider(name = "gradle_version_provider")
+    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(arrayOf("6.9.2"), arrayOf("7.5.1"))
+
     // inputSpec tests
 
     private val inputSpecExtensionContents = """
@@ -28,14 +31,14 @@ class GenerateTaskCacheabilityTest : TestBase() {
         inputSpec = file("spec.yaml").absolutePath
         """.trimIndent()
 
-    @Test
-    fun `inputSpec - same directory - openApiGenerate task output should come from cache`() {
-        runCacheabilityTestUsingSameDirectory(inputSpecExtensionContents)
+    @Test(dataProvider = "gradle_version_provider")
+    fun `inputSpec - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        runCacheabilityTestUsingSameDirectory(gradleVersion, inputSpecExtensionContents)
     }
 
-    @Test
-    fun `inputSpec - different directory - openApiGenerate task output should come from cache`() {
-        runCacheabilityTestUsingDifferentDirectories(inputSpecExtensionContents)
+    @Test(dataProvider = "gradle_version_provider")
+    fun `inputSpec - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, inputSpecExtensionContents)
     }
 
     // templateDir tests
@@ -46,16 +49,20 @@ class GenerateTaskCacheabilityTest : TestBase() {
         templateDir = file("templateDir").absolutePath
         """.trimIndent()
 
-    @Test
-    fun `templateDir - same directory - openApiGenerate task output should come from cache`() {
+    private fun initializeTemplateDirTest() {
         projectDir1.resolve("templateDir").mkdir()
-        runCacheabilityTestUsingSameDirectory(templateDirExtensionContents)
     }
 
-    @Test
-    fun `templateDir - different directory - openApiGenerate task output should come from cache`() {
-        projectDir1.resolve("templateDir").mkdir()
-        runCacheabilityTestUsingDifferentDirectories(templateDirExtensionContents)
+    @Test(dataProvider = "gradle_version_provider")
+    fun `templateDir - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeTemplateDirTest()
+        runCacheabilityTestUsingSameDirectory(gradleVersion, templateDirExtensionContents)
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `templateDir - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeTemplateDirTest()
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, templateDirExtensionContents)
     }
 
     // configFile tests
@@ -66,22 +73,22 @@ class GenerateTaskCacheabilityTest : TestBase() {
         configFile = file("configFile").absolutePath
         """.trimIndent()
 
-    @Test
-    fun `configFile - same directory - openApiGenerate task output should come from cache`() {
-        projectDir1.resolve("configFile").apply {
-            createNewFile()
-            writeText("""{"foo":"bar"}""")
-        }
-        runCacheabilityTestUsingSameDirectory(configFileExtensionContents)
+    private fun initializeConfigFileTest() {
+        val configFile = projectDir1.resolve("configFile")
+        configFile.createNewFile()
+        configFile.writeText("""{"foo":"bar"}""")
     }
 
-    @Test
-    fun `configFile - different directory - openApiGenerate task output should come from cache`() {
-        projectDir1.resolve("configFile").apply {
-            createNewFile()
-            writeText("""{"foo":"bar"}""")
-        }
-        runCacheabilityTestUsingDifferentDirectories(configFileExtensionContents)
+    @Test(dataProvider = "gradle_version_provider")
+    fun `configFile - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeConfigFileTest()
+        runCacheabilityTestUsingSameDirectory(gradleVersion, configFileExtensionContents)
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `configFile - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeConfigFileTest()
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, configFileExtensionContents)
     }
 
     // ignoreFileOverride tests
@@ -92,21 +99,25 @@ class GenerateTaskCacheabilityTest : TestBase() {
         ignoreFileOverride = file(".openapi-generator-ignore").absolutePath
         """.trimIndent()
 
-    @Test
-    fun `ignoreFileOverride - same directory - openApiGenerate task output should come from cache`() {
+    private fun initializeIgnoreFileTest() {
         projectDir1.resolve(".openapi-generator-ignore").createNewFile()
-        runCacheabilityTestUsingSameDirectory(ignoreFileOverrideExtensionContents)
     }
 
-    @Test
-    fun `ignoreFileOverride - different directory - openApiGenerate task output should come from cache`() {
-        projectDir1.resolve(".openapi-generator-ignore").createNewFile()
-        runCacheabilityTestUsingDifferentDirectories(ignoreFileOverrideExtensionContents)
+    @Test(dataProvider = "gradle_version_provider")
+    fun `ignoreFileOverride - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeIgnoreFileTest()
+        runCacheabilityTestUsingSameDirectory(gradleVersion, ignoreFileOverrideExtensionContents)
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `ignoreFileOverride - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+        initializeIgnoreFileTest()
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, ignoreFileOverrideExtensionContents)
     }
 
     // Helper methods & test fixtures
 
-    private fun runCacheabilityTestUsingSameDirectory(extensionContents: String) {
+    private fun runCacheabilityTestUsingSameDirectory(gradleVersion: String, extensionContents: String) {
         // Arrange
         withProject(extensionContents)
 
@@ -114,11 +125,13 @@ class GenerateTaskCacheabilityTest : TestBase() {
         val result1 = build {
             withProjectDir(projectDir1)
             withArguments("--build-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
         }
 
         val result2 = build {
             withProjectDir(projectDir1)
             withArguments("--build-cache", "clean", "openApiGenerate")
+            withGradleVersion(gradleVersion)
         }
 
         // Assert
@@ -126,7 +139,7 @@ class GenerateTaskCacheabilityTest : TestBase() {
         assertEquals(TaskOutcome.FROM_CACHE, result2.task(":openApiGenerate")?.outcome)
     }
 
-    private fun runCacheabilityTestUsingDifferentDirectories(extensionContents: String) {
+    private fun runCacheabilityTestUsingDifferentDirectories(gradleVersion: String, extensionContents: String) {
         // Arrange
         withProject(extensionContents)
         projectDir1.copyRecursively(projectDir2)
@@ -135,11 +148,13 @@ class GenerateTaskCacheabilityTest : TestBase() {
         val result1 = build {
             withProjectDir(projectDir1)
             withArguments("--build-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
         }
 
         val result2 = build {
             withProjectDir(projectDir2)
             withArguments("--build-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
         }
 
         // Assert
