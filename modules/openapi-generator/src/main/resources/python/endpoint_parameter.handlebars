@@ -4,9 +4,16 @@ request_{{#if isQueryParam}}query{{/if}}{{#if isPathParam}}path{{/if}}{{#if isHe
     style=api_client.ParameterStyle.{{style}},
 {{/if}}
 {{#if schema}}
-{{#with schema}}
+    {{#with schema}}
     schema={{baseName}},
-{{/with}}
+    {{/with}}
+{{/if}}
+{{#if getContent}}
+    content={
+{{#each getContent}}
+        "{{@key}}": {{#with this}}{{#with schema}}{{baseName}}{{/with}}{{/with}},
+{{/each}}
+    },
 {{/if}}
 {{#if required}}
     required=True,

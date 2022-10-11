@@ -1592,6 +1592,26 @@ paths:
           description: OK
         default:
           description: Unexpected error
+  /fake/queryParamWithJsonContentType:
+    get:
+      operationId: queryParamWithJsonContentType
+      summary: query param with json content-type
+      tags:
+        - fake
+      parameters:
+        - name: someParam
+          in: query
+          description: The internal object id
+          required: true
+          content:
+            application/json:
+              schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
