@@ -38,8 +38,10 @@ class ClassModel {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (class_ != null) {
-      json[r'_class'] = class_;
+    if (this.class_ != null) {
+      json[r'_class'] = this.class_;
+    } else {
+      json[r'_class'] = null;
     }
     return json;
   }

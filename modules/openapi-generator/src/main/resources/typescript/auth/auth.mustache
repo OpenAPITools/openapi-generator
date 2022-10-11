@@ -1,8 +1,8 @@
-// typings for btoa are incorrect
 {{#platforms}}
 {{#node}}
+// typings for btoa are incorrect
 //@ts-ignore
-import * as btoa from "btoa";
+import {{^supportsES6}}* as{{/supportsES6}} btoa from "btoa";
 {{/node}}
 {{/platforms}}
 import { RequestContext } from "../http/http{{extensionForDeno}}";

@@ -1014,7 +1014,7 @@ public class ApiClient extends JavaTimeFormatter {
         queryParams,
         allHeaderParams,
         cookieParams,
-        serializeToString(body, formParams, contentType, isBodyNullable),
+        null,
         method,
         target.getUri());
 

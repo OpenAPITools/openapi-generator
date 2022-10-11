@@ -37,8 +37,8 @@ class AdditionalPropertiesClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'map_property'] = mapProperty;
-      json[r'map_of_map_property'] = mapOfMapProperty;
+      json[r'map_property'] = this.mapProperty;
+      json[r'map_of_map_property'] = this.mapOfMapProperty;
     return json;
   }
 

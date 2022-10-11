@@ -1,0 +1,43 @@
+[
+    {
+        "description": "array type matches arrays",
+        "schema": {"type": "array", "items": {}},
+        "tests": [
+            {
+                "description": "an integer is not an array",
+                "data": 1,
+                "valid": false
+            },
+            {
+                "description": "a float is not an array",
+                "data": 1.1,
+                "valid": false
+            },
+            {
+                "description": "a string is not an array",
+                "data": "foo",
+                "valid": false
+            },
+            {
+                "description": "an object is not an array",
+                "data": {},
+                "valid": false
+            },
+            {
+                "description": "an array is an array",
+                "data": [],
+                "valid": true
+            },
+            {
+                "description": "a boolean is not an array",
+                "data": true,
+                "valid": false
+            },
+            {
+                "description": "null is not an array",
+                "data": null,
+                "valid": false
+            }
+        ]
+    }
+]

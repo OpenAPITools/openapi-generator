@@ -51,6 +51,10 @@ namespace Org.OpenAPITools.Model
         public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
         {
             this._Declawed = declawed;
+            if (this.Declawed != null)
+            {
+                this._flagDeclawed = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -163,7 +167,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach (var x in BaseValidate(validationContext))
+            foreach (var x in base.BaseValidate(validationContext))
             {
                 yield return x;
             }

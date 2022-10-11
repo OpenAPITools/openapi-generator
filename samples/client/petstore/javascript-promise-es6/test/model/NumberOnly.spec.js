@@ -50,13 +50,13 @@
   describe('NumberOnly', function() {
     it('should create an instance of NumberOnly', function() {
       // uncomment below and update the code to test NumberOnly
-      //var instane = new OpenApiPetstore.NumberOnly();
+      //var instance = new OpenApiPetstore.NumberOnly();
       //expect(instance).to.be.a(OpenApiPetstore.NumberOnly);
     });
 
     it('should have the property justNumber (base name: "JustNumber")', function() {
       // uncomment below and update the code to test the property justNumber
-      //var instane = new OpenApiPetstore.NumberOnly();
+      //var instance = new OpenApiPetstore.NumberOnly();
       //expect(instance).to.be();
     });
 

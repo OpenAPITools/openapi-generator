@@ -1,6 +1,6 @@
 {{>partial_header}}
+using System;
 using System.Collections.Generic;
-using System.Web;
 
 namespace {{packageName}}.Client
 {
@@ -22,7 +22,7 @@ namespace {{packageName}}.Client
             {
                 foreach (var parameter in parameters)
                 {
-                    _path = _path.Replace("{" + parameter.Key + "}", HttpUtility.UrlEncode(parameter.Value));
+                    _path = _path.Replace("{" + parameter.Key + "}", Uri.EscapeDataString(parameter.Value));
                 }
             }
 
@@ -32,7 +32,7 @@ namespace {{packageName}}.Client
                 {
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + HttpUtility.UrlEncode(value) + "&";
+                        _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
                     }
                 }
             }

@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class User   {
+public class User {
 
   @JsonProperty("id")
   private Long id;

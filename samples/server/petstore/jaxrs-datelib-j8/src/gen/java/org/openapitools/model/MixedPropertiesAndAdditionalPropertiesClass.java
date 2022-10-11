@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -138,7 +137,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   public int hashCode() {
     return Objects.hash(uuid, dateTime, map);
   }
-
 
   @Override
   public String toString() {

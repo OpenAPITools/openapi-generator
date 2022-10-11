@@ -43,10 +43,12 @@ class FileSchemaTestClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (file != null) {
-      json[r'file'] = file;
+    if (this.file != null) {
+      json[r'file'] = this.file;
+    } else {
+      json[r'file'] = null;
     }
-      json[r'files'] = files;
+      json[r'files'] = this.files;
     return json;
   }
 

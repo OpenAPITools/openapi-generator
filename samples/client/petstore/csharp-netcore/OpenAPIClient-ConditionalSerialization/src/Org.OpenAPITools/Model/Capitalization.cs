@@ -44,11 +44,35 @@ namespace Org.OpenAPITools.Model
         public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
             this._SmallCamel = smallCamel;
+            if (this.SmallCamel != null)
+            {
+                this._flagSmallCamel = true;
+            }
             this._CapitalCamel = capitalCamel;
+            if (this.CapitalCamel != null)
+            {
+                this._flagCapitalCamel = true;
+            }
             this._SmallSnake = smallSnake;
+            if (this.SmallSnake != null)
+            {
+                this._flagSmallSnake = true;
+            }
             this._CapitalSnake = capitalSnake;
+            if (this.CapitalSnake != null)
+            {
+                this._flagCapitalSnake = true;
+            }
             this._SCAETHFlowPoints = sCAETHFlowPoints;
+            if (this.SCAETHFlowPoints != null)
+            {
+                this._flagSCAETHFlowPoints = true;
+            }
             this._ATT_NAME = aTTNAME;
+            if (this.ATT_NAME != null)
+            {
+                this._flagATT_NAME = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

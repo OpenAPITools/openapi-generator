@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -666,6 +666,38 @@ public class ApiClient extends JavaTimeFormatter {
 
     Entity<?> entity = serialize(body, formParams, contentType);
 
+    try (Response response = invoke(invocationBuilder, method, entity)) {
+      statusCode = response.getStatusInfo().getStatusCode();
+      responseHeaders = buildResponseHeaders(response);
+
+      if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
+        return null;
+      } else if (response.getStatusInfo().getFamily().equals(Status.Family.SUCCESSFUL)) {
+        if (returnType == null)
+          return null;
+        else
+          return deserialize(response, returnType);
+      } else {
+        String message = "error";
+        String respBody = null;
+        if (response.hasEntity()) {
+          try {
+            respBody = String.valueOf(response.readEntity(String.class));
+            message = respBody;
+          } catch (RuntimeException e) {
+            // e.printStackTrace();
+          }
+        }
+        throw new ApiException(
+          response.getStatus(),
+          message,
+          buildResponseHeaders(response),
+          respBody);
+      }
+    }
+  }
+
+  private Response invoke(Invocation.Builder invocationBuilder, String method, Entity<?> entity) throws ApiException {
     Response response = null;
 
     if ("GET".equals(method)) {
@@ -688,36 +720,10 @@ public class ApiClient extends JavaTimeFormatter {
       throw new ApiException(500, "unknown method type " + method);
     }
 
-    statusCode = response.getStatusInfo().getStatusCode();
-    responseHeaders = buildResponseHeaders(response);
-
-    if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
-      return null;
-    } else if (response.getStatusInfo().getFamily().equals(Status.Family.SUCCESSFUL)) {
-      if (returnType == null)
-        return null;
-      else
-        return deserialize(response, returnType);
-    } else {
-      String message = "error";
-      String respBody = null;
-      if (response.hasEntity()) {
-        try {
-          respBody = String.valueOf(response.readEntity(String.class));
-          message = respBody;
-        } catch (RuntimeException e) {
-          // e.printStackTrace();
-        }
-      }
-      throw new ApiException(
-        response.getStatus(),
-        message,
-        buildResponseHeaders(response),
-        respBody);
-    }
+    return response;
   }
 
-   /**
+  /**
    * Build the Client used to make HTTP requests.
    */
   private Client buildHttpClient(boolean debugging) {

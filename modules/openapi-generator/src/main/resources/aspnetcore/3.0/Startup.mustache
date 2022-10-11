@@ -86,6 +86,8 @@ namespace {{packageName}}
             services
                 .AddSwaggerGen(c =>
                 {
+                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
+                    
                     c.SwaggerDoc("{{{version}}}{{^version}}v1{{/version}}", new OpenApiInfo
                     {
                         Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}",

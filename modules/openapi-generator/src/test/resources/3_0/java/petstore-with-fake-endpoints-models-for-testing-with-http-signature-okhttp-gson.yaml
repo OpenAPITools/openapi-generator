@@ -2182,3 +2182,40 @@ components:
             - sold
       xml:
         name: Pet
+    ArrayOfInlineAllOf:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: doggie
+        array_allof_dog_property:
+          type: array
+          items:
+            allOf:
+              - type: object
+                properties:
+                  breed:
+                    type: string
+              - type: object
+                properties:
+                  color:
+                    type: string
+    EnumStringDiscriminator:
+      type: object
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      required:
+        - enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          type: string
+          enum:
+            - type_a
+            - type_b

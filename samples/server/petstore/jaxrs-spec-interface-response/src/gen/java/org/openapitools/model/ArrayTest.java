@@ -19,11 +19,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
-  
-  private @Valid List<String> arrayOfString = new ArrayList<String>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayTest  implements Serializable {
+  private @Valid List<String> arrayOfString = null;
+  private @Valid List<List<Long>> arrayArrayOfInteger = null;
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   /**
    **/
@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayOfString = arrayOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -46,14 +44,28 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayOfString = arrayOfString;
   }
 
-/**
+  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<>();
+    }
+
+    this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayOfStringItem(String arrayOfStringItem) {
+    if (arrayOfStringItem != null && this.arrayOfString != null) {
+      this.arrayOfString.remove(arrayOfStringItem);
+    }
+
+    return this;
+  }
+  /**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -67,14 +79,28 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-/**
+  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<>();
+    }
+
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (arrayArrayOfIntegerItem != null && this.arrayArrayOfInteger != null) {
+      this.arrayArrayOfInteger.remove(arrayArrayOfIntegerItem);
+    }
+
+    return this;
+  }
+  /**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -88,6 +114,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<>();
+    }
+
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (arrayArrayOfModelItem != null && this.arrayArrayOfModel != null) {
+      this.arrayArrayOfModel.remove(arrayArrayOfModelItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

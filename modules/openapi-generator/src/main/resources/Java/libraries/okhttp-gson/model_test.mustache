@@ -1,0 +1,49 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+{{#fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * Model tests for {{classname}}
+ */
+public class {{classname}}Test {
+    {{#models}}
+    {{#model}}
+    {{^vendorExtensions.x-is-one-of-interface}}
+    {{^isEnum}}
+    private final {{classname}} model = new {{classname}}();
+
+    {{/isEnum}}
+    /**
+     * Model tests for {{classname}}
+     */
+    @Test
+    public void test{{classname}}() {
+        // TODO: test {{classname}}
+    }
+
+    {{#allVars}}
+    /**
+     * Test the property '{{name}}'
+     */
+    @Test
+    public void {{name}}Test() {
+        // TODO: test {{name}}
+    }
+
+    {{/allVars}}
+    {{/vendorExtensions.x-is-one-of-interface}}
+    {{/model}}
+    {{/models}}
+}

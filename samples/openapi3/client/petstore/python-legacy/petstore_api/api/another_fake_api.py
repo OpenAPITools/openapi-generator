@@ -128,8 +128,7 @@ class AnotherFakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if self.api_client.client_side_validation and ('client' not in local_var_params or  # noqa: E501
-                                                        local_var_params['client'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('client') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `call_123_test_special_tags`")  # noqa: E501
 
         collection_formats = {}
@@ -151,10 +150,12 @@ class AnotherFakeApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'PATCH', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501

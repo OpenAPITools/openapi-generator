@@ -50,6 +50,14 @@ private:
     QJsonObject jObj;
 };
 
+inline bool operator==(const {{prefix}}Object& left, const {{prefix}}Object& right){  
+    return (left.asJsonObject() == right.asJsonObject());  
+}
+
+inline uint qHash(const {{prefix}}Object& obj, uint seed = 0) noexcept{
+    return qHash(obj.asJsonObject(), seed);
+}
+
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}

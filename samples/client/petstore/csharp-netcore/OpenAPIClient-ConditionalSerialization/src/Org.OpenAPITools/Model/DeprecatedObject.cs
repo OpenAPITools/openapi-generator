@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public DeprecatedObject(string name = default(string))
         {
             this._Name = name;
+            if (this.Name != null)
+            {
+                this._flagName = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

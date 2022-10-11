@@ -10,19 +10,17 @@
 """
 
 
-import sys
 import unittest
 
-import petstore_api
+import frozendict
+
 from petstore_api.model import apple
 from petstore_api.model import banana
 from petstore_api.model.gm_fruit import GmFruit
-
+from petstore_api import schemas
 
 class TestGmFruit(unittest.TestCase):
     """GmFruit unit test stubs"""
-    length_cm = 20.3
-    color = 'yellow'
 
     def setUp(self):
         pass
@@ -30,159 +28,88 @@ class TestGmFruit(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_set_addprop_attributes(self):
-        # setting a value that doesn't exist works because additional_properties_type allows any type
-        other_fruit = GmFruit(length_cm=self.length_cm, color=self.color)
-        blah = 'blah'
-        other_fruit['a'] = blah
-        assert other_fruit.a == blah
-
-        # with setattr
-        setattr(other_fruit, 'b', blah)
-        assert other_fruit.b == blah
-
-        self.assertEqual(
-            other_fruit.to_dict(),
-            {
-                'a': 'blah',
-                'b': 'blah',
-                'length_cm': self.length_cm,
-                'color': self.color
-            }
-        )
-
-    def test_banana_fruit(self):
+    def testGmFruit(self):
         """Test GmFruit"""
 
         # make an instance of GmFruit, a composed schema anyOf model
         # banana test
-        fruit = GmFruit(length_cm=self.length_cm, color=self.color)
+        length_cm = 20.3
+        color = 'yellow'
+        cultivar = 'banaple'
+        fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
+        assert isinstance(fruit, banana.Banana)
+        assert isinstance(fruit, apple.Apple)
+        assert isinstance(fruit, frozendict.frozendict)
+        assert isinstance(fruit, GmFruit)
         # check its properties
-        self.assertEqual(fruit.length_cm, self.length_cm)
-        self.assertEqual(fruit['length_cm'], self.length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), self.length_cm)
-        self.assertEqual(fruit.color, self.color)
-        self.assertEqual(fruit['color'], self.color)
-        self.assertEqual(getattr(fruit, 'color'), self.color)
+        self.assertEqual(fruit['lengthCm'], length_cm)
+        self.assertEqual(fruit['color'], color)
+
         # check the dict representation
         self.assertEqual(
-            fruit.to_dict(),
+            fruit,
             {
-                'length_cm': self.length_cm,
-                'color': self.color
+                'lengthCm': length_cm,
+                'color': color,
+                'cultivar': cultivar
             }
         )
 
-        # getting a value that doesn't exist raises an exception
-        # with a key
+        # unset key access raises KeyError
+        with self.assertRaises(KeyError):
+            fruit["origin"]
         with self.assertRaises(AttributeError):
-            invalid_variable = fruit['cultivar']
-        # with getattr
-        self.assertTrue(getattr(fruit, 'cultivar', 'some value'), 'some value')
+            fruit.origin
+        assert fruit.get_item_oapg("origin") is schemas.unset
 
-        with self.assertRaises(AttributeError):
-            invalid_variable = getattr(fruit, 'cultivar')
+        with self.assertRaises(KeyError):
+            fruit['unknown_variable']
+        assert fruit.get_item_oapg("unknown_variable") is schemas.unset
+        # with getattr
+        self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
         # make sure that the ModelComposed class properties are correct
-        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [
-                    apple.Apple,
-                    banana.Banana,
-                ],
-                'allOf': [],
-                'oneOf': [],
-            }
-        )
-        # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
-        for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == banana.Banana:
-                banana_instance = composed_instance
-        self.assertEqual(
-            fruit._composed_instances,
-            [banana_instance]
-        )
-        # model._var_name_to_model_instances maps the variable name to the
-        # model instances which store that variable
-        self.assertEqual(
-            fruit._var_name_to_model_instances,
-            {
-                'color': [fruit, banana_instance],
-                'length_cm': [fruit, banana_instance],
-            }
-        )
-        self.assertEqual(
-            fruit._additional_properties_model_instances, [fruit]
+            GmFruit.MetaOapg.any_of(),
+            [
+                apple.Apple,
+                banana.Banana,
+            ],
         )
 
-    def test_combo_fruit(self):
+        # including extra parameters works
+        GmFruit(
+            color=color,
+            length_cm=length_cm,
+            cultivar=cultivar,
+            unknown_property='some value'
+        )
+
         # including input parameters for both anyOf instances works
-        cultivar = 'banaple'
         color = 'orange'
         fruit = GmFruit(
             color=color,
             cultivar=cultivar,
-            length_cm=self.length_cm
+            length_cm=length_cm
         )
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-        self.assertEqual(fruit.length_cm, self.length_cm)
-        self.assertEqual(fruit['length_cm'], self.length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), self.length_cm)
+        self.assertEqual(fruit['length_cm'], length_cm)
 
-        # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
-        for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == apple.Apple:
-                apple_instance = composed_instance
-            elif composed_instance.__class__ == banana.Banana:
-                banana_instance = composed_instance
-        self.assertEqual(
-            fruit._composed_instances,
-            [apple_instance, banana_instance]
-        )
-        # model._var_name_to_model_instances maps the variable name to the
-        # model instances which store that variable
-        self.assertEqual(
-            fruit._var_name_to_model_instances,
-            {
-                'color': [fruit, apple_instance, banana_instance],
-                'length_cm': [fruit, apple_instance, banana_instance],
-                'cultivar': [fruit, apple_instance, banana_instance],
-            }
-        )
-        self.assertEqual(
-            fruit._additional_properties_model_instances, [fruit]
-        )
-
-    def test_apple_fruit(self):
+        # make an instance of GmFruit, a composed schema anyOf model
         # apple test
         color = 'red'
         cultivar = 'golden delicious'
         origin = 'California'
         fruit = GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-
-        self.assertEqual(fruit.origin, origin)
         self.assertEqual(fruit['origin'], origin)
-        self.assertEqual(getattr(fruit, 'origin'), origin)
 
         # check the dict representation
         self.assertEqual(
-            fruit.to_dict(),
+            fruit,
             {
                 'color': color,
                 'cultivar': cultivar,
@@ -190,28 +117,6 @@ class TestGmFruit(unittest.TestCase):
             }
         )
 
-        # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
-        for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == apple.Apple:
-                apple_instance = composed_instance
-        self.assertEqual(
-            fruit._composed_instances,
-            [apple_instance]
-        )
-        # model._var_name_to_model_instances maps the variable name to the
-        # model instances which store that variable
-        self.assertEqual(
-            fruit._var_name_to_model_instances,
-            {
-                'color': [fruit, apple_instance],
-                'cultivar': [fruit, apple_instance],
-                'origin': [fruit, apple_instance],
-            }
-        )
-        self.assertEqual(
-            fruit._additional_properties_model_instances, [fruit]
-        )
 
 if __name__ == '__main__':
     unittest.main()

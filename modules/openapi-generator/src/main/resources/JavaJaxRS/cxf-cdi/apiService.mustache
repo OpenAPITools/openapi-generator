@@ -20,7 +20,7 @@ import javax.ws.rs.core.SecurityContext;
 {{#operations}}
 public interface {{classname}}Service {
   {{#operation}}
-      public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}, {{/allParams}}SecurityContext securityContext);
+      {{#isDeprecated}}@Deprecated {{/isDeprecated}}public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}, {{/allParams}}SecurityContext securityContext);
   {{/operation}}
 }
 {{/operations}}

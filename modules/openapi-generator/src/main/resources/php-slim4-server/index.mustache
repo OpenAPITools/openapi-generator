@@ -14,8 +14,10 @@ use DI\ContainerBuilder;
 use {{appPackage}}\RegisterDependencies;
 use {{appPackage}}\RegisterRoutes;
 use {{appPackage}}\RegisterMiddlewares;
+use {{appPackage}}\ResponseEmitter;
+use Neomerx\Cors\Contracts\AnalyzerInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Slim\ResponseEmitter;
+use Slim\Middleware\ErrorMiddleware;
 {{/apiInfo}}
 
 // Instantiate PHP-DI ContainerBuilder
@@ -66,7 +68,15 @@ $routes($app);
 $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
 
+// Get error middleware from container
+// also anti-pattern, of course we know
+$errorMiddleware = $container->get(ErrorMiddleware::class);
+
 // Run App & Emit Response
 $response = $app->handle($request);
-$responseEmitter = new ResponseEmitter();
+$responseEmitter = (new ResponseEmitter())
+    ->setRequest($request)
+    ->setErrorMiddleware($errorMiddleware)
+    ->setAnalyzer($container->get(AnalyzerInterface::class));
+
 $responseEmitter->emit($response);

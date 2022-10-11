@@ -26,7 +26,7 @@ public class PetApiServiceImpl implements PetApiService {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response deletePet(Long petId,String apiKey,SecurityContext securityContext)
+      public Response deletePet(Long petId,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

@@ -58,19 +58,19 @@ public:
     QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
-    * @param[in]  body PFXUser [required]
+    * @param[in]  pfx_user PFXUser [required]
     */
-    void createUser(const PFXUser &body);
+    void createUser(const PFXUser &pfx_user);
 
     /**
-    * @param[in]  body QList<PFXUser> [required]
+    * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithArrayInput(const QList<PFXUser> &body);
+    void createUsersWithArrayInput(const QList<PFXUser> &pfx_user);
 
     /**
-    * @param[in]  body QList<PFXUser> [required]
+    * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithListInput(const QList<PFXUser> &body);
+    void createUsersWithListInput(const QList<PFXUser> &pfx_user);
 
     /**
     * @param[in]  username QString [required]
@@ -93,9 +93,9 @@ public:
 
     /**
     * @param[in]  username QString [required]
-    * @param[in]  body PFXUser [required]
+    * @param[in]  pfx_user PFXUser [required]
     */
-    void updateUser(const QString &username, const PFXUser &body);
+    void updateUser(const QString &username, const PFXUser &pfx_user);
 
 
 private:

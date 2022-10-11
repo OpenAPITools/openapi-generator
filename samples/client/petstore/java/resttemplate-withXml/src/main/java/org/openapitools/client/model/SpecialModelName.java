@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * SpecialModelName
@@ -43,7 +45,7 @@ public class SpecialModelName {
   @XmlElement(name = "$special[property.name]")
   private Long $specialPropertyName;
 
-  public SpecialModelName() { 
+  public SpecialModelName() {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

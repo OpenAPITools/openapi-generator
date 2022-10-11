@@ -120,7 +120,7 @@ public class ObjectWithDeprecatedFields   {
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
-      this.bars = new ArrayList<String>();
+      this.bars = new ArrayList<>();
     }
     this.bars.add(barsItem);
     return this;
@@ -161,7 +161,6 @@ public class ObjectWithDeprecatedFields   {
   public int hashCode() {
     return Objects.hash(uuid, id, deprecatedRef, bars);
   }
-
 
   @Override
   public String toString() {

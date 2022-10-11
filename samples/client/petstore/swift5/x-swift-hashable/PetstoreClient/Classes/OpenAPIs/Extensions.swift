@@ -9,15 +9,41 @@ import Foundation
 import AnyCodable
 #endif
 
-extension Bool: JSONEncodable {}
-extension Float: JSONEncodable {}
-extension Int: JSONEncodable {}
-extension Int32: JSONEncodable {}
-extension Int64: JSONEncodable {}
-extension Double: JSONEncodable {}
-extension String: JSONEncodable {}
-extension URL: JSONEncodable {}
-extension UUID: JSONEncodable {}
+extension Bool: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Float: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int32: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int64: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Double: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension String: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension UUID: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
 
 extension RawRepresentable where RawValue: JSONEncodable {
     func encodeToJSON() -> Any { return self.rawValue }
@@ -67,8 +93,7 @@ extension Date: JSONEncodable {
 
 extension JSONEncodable where Self: Encodable {
     func encodeToJSON() -> Any {
-        let encoder = CodableHelper.jsonEncoder
-        guard let data = try? encoder.encode(self) else {
+        guard let data = try? CodableHelper.jsonEncoder.encode(self) else {
             fatalError("Could not encode to json: \(self)")
         }
         return data.encodeToJSON()
@@ -120,6 +145,17 @@ extension KeyedEncodingContainerProtocol {
         }
     }
 
+    public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
+        var mutableValue = value
+        let stringValue = NSDecimalString(&mutableValue, Locale(identifier: "en_US"))
+        try encode(stringValue, forKey: key)
+    }
+
+    public mutating func encodeIfPresent(_ value: Decimal?, forKey key: Self.Key) throws {
+        if let value = value {
+            try encode(value, forKey: key)
+        }
+    }
 }
 
 extension KeyedDecodingContainerProtocol {
@@ -159,10 +195,32 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
+    public func decode(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal {
+        let stringValue = try decode(String.self, forKey: key)
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
+    }
+
+    public func decodeIfPresent(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal? {
+        guard let stringValue = try decodeIfPresent(String.self, forKey: key) else {
+            return nil
+        }
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
+    }
+
 }
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return (200 ..< 300).contains(statusCode)
+        return Configuration.successfulStatusCodeRange.contains(statusCode)
     }
 }

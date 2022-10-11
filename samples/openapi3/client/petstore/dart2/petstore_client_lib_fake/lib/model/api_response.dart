@@ -60,14 +60,20 @@ class ApiResponse {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (code != null) {
-      json[r'code'] = code;
+    if (this.code != null) {
+      json[r'code'] = this.code;
+    } else {
+      json[r'code'] = null;
     }
-    if (type != null) {
-      json[r'type'] = type;
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
     }
-    if (message != null) {
-      json[r'message'] = message;
+    if (this.message != null) {
+      json[r'message'] = this.message;
+    } else {
+      json[r'message'] = null;
     }
     return json;
   }

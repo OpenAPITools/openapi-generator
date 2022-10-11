@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test swagger file
+paths:
+  /tree:
+    post:
+      description: Create
+      operationId: createTree
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tree'
+        description: The tree to create
+        required: true
+      tags:
+        - Test
+      responses:
+        '200':
+          description: Successfully created the tree
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Tree'
+        '400':
+          description: Bad request
+components:
+  schemas:
+    Tree:
+      type: object
+      required:
+        - id
+        - name
+        - children
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+        parent:
+          $ref: '#/components/schemas/Tree'
+        forest:
+          $ref: '#/components/schemas/Forest'
+        additional:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tree'
+    Forest:
+      type: object
+      properties:
+        trees:
+          $ref: '#/components/schemas/Tree'
+
+

@@ -28,7 +28,7 @@ import javax.annotation.Generated;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
-public class Tag   {
+public class Tag {
 
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")

@@ -2,7 +2,7 @@
 /**
  * PetTest
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Model
@@ -29,96 +29,125 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * PetTest Class Doc Comment
  *
- * @category    Class */
-// * @description A pet for sale in the pet store
-/**
+ * @category    Class
+ * @description A pet for sale in the pet store
  * @package     OpenAPI\Server\Tests\Model
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \OpenAPI\Server\Model\Pet
  */
 class PetTest extends TestCase
 {
+    protected Pet|MockObject $object;
 
     /**
      * Setup before running any test case
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
+         $this->object = $this->getMockBuilder(Pet::class)->getMockForAbstractClass();
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
     }
 
     /**
-     * Test "Pet"
+     * @group integration
+     * @small
      */
-    public function testPet()
+    public function testTestClassExists(): void
     {
-        $testPet = new Pet();
+        $this->assertTrue(class_exists(Pet::class));
+        $this->assertInstanceOf(Pet::class, $this->object);
     }
 
     /**
      * Test attribute "id"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyId()
+    public function testPropertyId(): void
     {
+        $this->markTestSkipped('Test for property id not implemented');
     }
 
     /**
      * Test attribute "category"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyCategory()
+    public function testPropertyCategory(): void
     {
+        $this->markTestSkipped('Test for property category not implemented');
     }
 
     /**
      * Test attribute "name"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyName()
+    public function testPropertyName(): void
     {
+        $this->markTestSkipped('Test for property name not implemented');
     }
 
     /**
      * Test attribute "photoUrls"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyPhotoUrls()
+    public function testPropertyPhotoUrls(): void
     {
+        $this->markTestSkipped('Test for property photoUrls not implemented');
     }
 
     /**
      * Test attribute "tags"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyTags()
+    public function testPropertyTags(): void
     {
+        $this->markTestSkipped('Test for property tags not implemented');
     }
 
     /**
      * Test attribute "status"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyStatus()
+    public function testPropertyStatus(): void
     {
+        $this->markTestSkipped('Test for property status not implemented');
     }
 }

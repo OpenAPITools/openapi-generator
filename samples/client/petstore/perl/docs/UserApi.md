@@ -69,6 +69,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 ```perl
 use Data::Dumper;
@@ -111,6 +113,8 @@ No authorization required
 > create_users_with_list_input(user => $user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```perl
@@ -200,6 +204,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 ```perl
 use Data::Dumper;
@@ -243,6 +249,8 @@ No authorization required
 > string login_user(username => $username, password => $password)
 
 Logs user into the system
+
+
 
 ### Example
 ```perl
@@ -289,6 +297,8 @@ No authorization required
 > logout_user()
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```perl

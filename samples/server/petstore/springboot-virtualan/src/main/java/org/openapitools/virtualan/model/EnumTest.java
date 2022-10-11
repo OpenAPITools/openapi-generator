@@ -4,14 +4,14 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.virtualan.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -21,8 +21,9 @@ import javax.annotation.Generated;
  * EnumTest
  */
 
+@JsonTypeName("Enum_Test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumTest   {
+public class EnumTest {
 
   /**
    * Gets or Sets enumString
@@ -193,7 +194,7 @@ public class EnumTest   {
    * @return enumString
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_string", required = false)
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -212,7 +213,7 @@ public class EnumTest   {
    * @return enumStringRequired
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "enum_string_required", required = true)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -231,7 +232,7 @@ public class EnumTest   {
    * @return enumInteger
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_integer", required = false)
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -250,7 +251,7 @@ public class EnumTest   {
    * @return enumNumber
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_number", required = false)
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -269,7 +270,7 @@ public class EnumTest   {
    * @return outerEnum
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "outerEnum", required = false)
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

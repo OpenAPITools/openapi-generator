@@ -2,7 +2,12 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{#description}}
+    {{#generateSwagger1Annotations}}
 @ApiModel(description = "{{{description}}}")
+    {{/generateSwagger1Annotations}}
+    {{#generateSwagger2Annotations}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
+    {{/generateSwagger2Annotations}}
 {{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -17,7 +22,10 @@
 {{/additionalModelTypeAnnotations}}
 {{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}{{#useBeanValidation}}
 @Introspected
-{{/useBeanValidation}}{{!
+{{/useBeanValidation}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}{{!
 Declare the class with extends and implements
 }}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
     {{#serializableModel}}
@@ -57,6 +65,9 @@ Declare the class with extends and implements
                 {{/isContainer}}
             {{/isXmlAttribute}}
         {{/withXml}}
+        {{#vendorExtensions.x-field-extra-annotation}}
+        {{{vendorExtensions.x-field-extra-annotation}}}
+        {{/vendorExtensions.x-field-extra-annotation}}
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isContainer}}
     private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
@@ -171,7 +182,13 @@ Declare the class with extends and implements
         {{/maximum}}
      * @return {{name}}
      **/
-{{>common/model/beanValidation}}    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{>common/model/beanValidation}}{{!
+        }}{{#generateSwagger1Annotations}}
+    @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+    @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
+        {{/generateSwagger2Annotations}}
         {{#vendorExtensions.x-extra-annotation}}
     {{{vendorExtensions.x-extra-annotation}}}
         {{/vendorExtensions.x-extra-annotation}}
@@ -180,7 +197,7 @@ Declare the class with extends and implements
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
             {{#jackson}}
-{{>common/model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}       public {{{datatypeWithEnum}}} {{getter}}() {
+{{>common/model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}    public {{#useOptional}}{{^required}}Optional<{{/required}}{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}{{^required}}>{{/required}}{{/useOptional}} {{getter}}() {
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isReadOnly}}
 {{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}    if ({{name}} == null) {
@@ -190,7 +207,17 @@ Declare the class with extends and implements
         return {{name}}.orElse(null);
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
+          {{#useOptional}}
+            {{#required}}
         return {{name}};
+            {{/required}}
+            {{^required}}
+        return Optional.ofNullable({{name}});
+            {{/required}}
+          {{/useOptional}}
+          {{^useOptional}}
+        return {{name}};
+          {{/useOptional}}
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
     }
 
@@ -210,7 +237,7 @@ Declare the class with extends and implements
             {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
 {{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}{{#vendorExtensions.x-setter-extra-annotation}}       {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}       public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
         this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -339,4 +366,39 @@ Declare the class with extends and implements
         }
     };
     {{/parcelableModel}}
+    {{#visitable}}
+    {{#discriminator}}
+    /**
+     * Accept the visitor and invoke it for the specific {{classname}} type.
+     *
+     * @param visitor the {{classname}} visitor
+     * @param <T> the return type of the visitor
+     * @return the result from the visitor
+     */
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
+
+    /**
+     * A {{classname}} visitor implementation allows visiting the various {{classname}} types.
+     *
+     * @param <R> the return type of the visitor
+     */
+    public interface Visitor<R> {
+        {{#discriminator.mappedModels}}
+        R visit{{modelName}}({{modelName}} value);
+        {{/discriminator.mappedModels}}
+        R visit{{classname}}({{classname}} value);
+    }
+
+    {{/discriminator}}
+    {{#parent}}
+        {{#interfaces.0}}
+    @Override
+    public <T> T accept({{{parent}}}.Visitor<T> visitor) {
+        return visitor.visit{{classname}}(this);
+    }
+        {{/interfaces.0}}
+    {{/parent}}
+    {{/visitable}}
 }

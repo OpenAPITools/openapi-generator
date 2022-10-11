@@ -1,5 +1,5 @@
 // TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError} from './baseapi';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
@@ -112,6 +112,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */

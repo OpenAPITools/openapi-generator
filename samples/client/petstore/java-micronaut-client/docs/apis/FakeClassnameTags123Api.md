@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case |
 
 
 ## Creating FakeClassnameTags123Api
@@ -46,9 +46,9 @@ To test class name in snake case
 To test class name in snake case
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **_body** | [**ModelClient**](ModelClient.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **_body** | [**ModelClient**](ModelClient.md)| client model | |
 
 
 ### Return type

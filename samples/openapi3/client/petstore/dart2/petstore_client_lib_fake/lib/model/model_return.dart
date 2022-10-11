@@ -38,8 +38,10 @@ class ModelReturn {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (return_ != null) {
-      json[r'return'] = return_;
+    if (this.return_ != null) {
+      json[r'return'] = this.return_;
+    } else {
+      json[r'return'] = null;
     }
     return json;
   }

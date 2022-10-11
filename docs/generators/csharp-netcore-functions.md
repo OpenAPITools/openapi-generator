@@ -7,46 +7,45 @@ title: Documentation for the csharp-netcore-functions Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | csharp-netcore-functions | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C# | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a csharp server. | |
+| helpTxt | Creates Azure function templates on top of the models/converters created by the C# codegens. This function is contained in a partial class. Default Get/Create/Patch/Post etc. methods are created with an underscore prefix. The assumption is that when the function is implemented, the partial class will be completed with another partial class. The implementing code should be located in a method of the same name, only without the underscore prefix. If no such method is found then the function will throw a Not Implemented exception. This setup allows the endpoints to be specified in the schema at build time, and separated from the implementing function. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
-|conditionalSerialization|Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.| |false|
-|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
-|library|HTTP library template (sub-template) to use|<dl><dt>**httpclient**</dt><dd>HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Experimental. May subject to breaking changes without further notice.)</dd><dt>**restsharp**</dt><dd>RestSharp (https://github.com/restsharp/RestSharp)</dd></dl>|restsharp|
-|licenseId|The identifier of the license| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
-|netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
-|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
+|azureFunctionsVersion|Azure functions version: v4, v3|<dl><dt>**v4**</dt><dd>Azure Functions v4</dd><dt>**v3**</dt><dd>Azure Functions v3</dd></dl>|v4|
+|buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
+|classModifier|Class Modifier for function classes: Empty string or abstract.| ||
+|enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
+|enumValueSuffix|Suffix that will be appended to all enum values.| |Enum|
+|generateBody|Generates method body.| |true|
+|licenseName|The name of the license| |NoLicense|
+|licenseUrl|The URL of the license| |http://localhost|
+|modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
+|netCoreVersion|.NET Core version: 6.0, 5.0, 3.1, 3.0|<dl><dt>**3.0**</dt><dd>.NET Core 3.0</dd><dt>**3.1**</dt><dd>.NET Core 3.1</dd><dt>**5.0**</dt><dd>.NET Core 5.0</dd><dt>**6.0**</dt><dd>.NET Core 6.0</dd></dl>|3.1|
+|newtonsoftVersion|Version for Newtonsoft.Json for .NET Core 3.0+| |3.0.0|
 |nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |false|
-|optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
-|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
-|optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
-|optionalProjectFile|Generate {PackageName}.csproj.| |true|
+|operationIsAsync|Set methods to async or sync (default).| |false|
+|operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
+|operationResultTask|Set methods result to Task&lt;&gt;.| |false|
+|packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
+|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
+|packageDescription|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |A library generated from a OpenAPI doc|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
-|packageTags|Tags to identify the package| |null|
+|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
 |packageVersion|C# package version.| |1.0.0|
-|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dt>**netcoreapp2.1**</dt><dd>.NET Core 2.1 compatible</dd><dt>**netcoreapp3.0**</dt><dd>.NET Core 3.0 compatible</dd><dt>**netcoreapp3.1**</dt><dd>.NET Core 3.1 compatible</dd><dt>**net47**</dt><dd>.NET Framework 4.7 compatible</dd><dt>**net5.0**</dt><dd>.NET 5.0 compatible</dd></dl>|netstandard2.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
-|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
-|validatable|Generates self-validatable models.| |true|
+|useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 
 ## IMPORT MAPPING
 
@@ -109,6 +108,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Version</li>
 <li>abstract</li>
 <li>as</li>
+<li>async</li>
+<li>await</li>
 <li>base</li>
 <li>bool</li>
 <li>break</li>
@@ -126,6 +127,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>delegate</li>
 <li>do</li>
 <li>double</li>
+<li>dynamic</li>
 <li>else</li>
 <li>enum</li>
 <li>event</li>
@@ -195,10 +197,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>unsafe</li>
 <li>ushort</li>
 <li>using</li>
+<li>var</li>
 <li>virtual</li>
 <li>void</li>
 <li>volatile</li>
 <li>while</li>
+<li>yield</li>
 </ul>
 
 ## FEATURE SET
@@ -207,9 +211,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Client Modification Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasePath|✓|ToolingExtension
+|BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
-|UserAgent|✓|ToolingExtension
+|UserAgent|✗|ToolingExtension
 |MockServer|✗|ToolingExtension
 
 ### Data Type Feature
@@ -229,7 +233,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -289,6 +297,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -296,8 +308,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✓|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3

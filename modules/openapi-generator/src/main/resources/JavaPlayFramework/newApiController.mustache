@@ -163,10 +163,10 @@ public class {{classname}}Controller extends Controller {
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
-        String value{{paramName}} = (request.body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0];
+        String[] value{{paramName}} = request.body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}");
         {{{dataType}}} {{paramName}};
         if (value{{paramName}} != null) {
-            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}[0]{{>conversionEnd}};
         } else {
             {{#required}}
             throw new IllegalArgumentException("'{{baseName}}' parameter is required");

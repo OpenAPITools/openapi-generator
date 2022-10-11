@@ -36,7 +36,7 @@ public class ModelList {
   @SerializedName(SERIALIZED_NAME_123LIST)
   private String _123list;
 
-  public ModelList() { 
+  public ModelList() {
   }
 
   public ModelList _123list(String _123list) {

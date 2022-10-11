@@ -15,6 +15,7 @@ from __future__ import absolute_import
 
 # import models into model package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
@@ -35,10 +36,10 @@ from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.foo import Foo
+from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
-from petstore_api.models.inline_response_default import InlineResponseDefault
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
@@ -57,6 +58,7 @@ from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntege
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.single_ref_type import SingleRefType
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User

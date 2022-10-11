@@ -65,15 +65,21 @@ class Name {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'name'] = name;
-    if (snakeCase != null) {
-      json[r'snake_case'] = snakeCase;
+      json[r'name'] = this.name;
+    if (this.snakeCase != null) {
+      json[r'snake_case'] = this.snakeCase;
+    } else {
+      json[r'snake_case'] = null;
     }
-    if (property != null) {
-      json[r'property'] = property;
+    if (this.property != null) {
+      json[r'property'] = this.property;
+    } else {
+      json[r'property'] = null;
     }
-    if (n123number != null) {
-      json[r'123Number'] = n123number;
+    if (this.n123number != null) {
+      json[r'123Number'] = this.n123number;
+    } else {
+      json[r'123Number'] = null;
     }
     return json;
   }

@@ -4,12 +4,12 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -19,8 +19,9 @@ import javax.annotation.Generated;
  * ModelList
  */
 
+@JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ModelList   {
+public class ModelList {
 
   @JsonProperty("123-list")
   private String _123list;
@@ -35,7 +36,7 @@ public class ModelList   {
    * @return _123list
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "123-list", required = false)
   public String get123list() {
     return _123list;
   }

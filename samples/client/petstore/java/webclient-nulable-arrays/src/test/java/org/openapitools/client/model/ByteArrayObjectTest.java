@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -56,6 +58,30 @@ public class ByteArrayObjectTest {
     @Test
     public void normalArrayTest() {
         // TODO: test normalArray
+    }
+
+    /**
+     * Test the property 'nullableString'
+     */
+    @Test
+    public void nullableStringTest() {
+        // TODO: test nullableString
+    }
+
+    /**
+     * Test the property 'stringField'
+     */
+    @Test
+    public void stringFieldTest() {
+        // TODO: test stringField
+    }
+
+    /**
+     * Test the property 'intField'
+     */
+    @Test
+    public void intFieldTest() {
+        // TODO: test intField
     }
 
 }

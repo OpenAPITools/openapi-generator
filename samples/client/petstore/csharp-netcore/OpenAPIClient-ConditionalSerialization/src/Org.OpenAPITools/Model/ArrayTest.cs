@@ -41,8 +41,20 @@ namespace Org.OpenAPITools.Model
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this._ArrayOfString = arrayOfString;
+            if (this.ArrayOfString != null)
+            {
+                this._flagArrayOfString = true;
+            }
             this._ArrayArrayOfInteger = arrayArrayOfInteger;
+            if (this.ArrayArrayOfInteger != null)
+            {
+                this._flagArrayArrayOfInteger = true;
+            }
             this._ArrayArrayOfModel = arrayArrayOfModel;
+            if (this.ArrayArrayOfModel != null)
+            {
+                this._flagArrayArrayOfModel = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

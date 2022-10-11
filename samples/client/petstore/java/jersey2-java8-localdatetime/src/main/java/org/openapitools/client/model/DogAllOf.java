@@ -34,6 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
+@JsonTypeName("Dog_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";

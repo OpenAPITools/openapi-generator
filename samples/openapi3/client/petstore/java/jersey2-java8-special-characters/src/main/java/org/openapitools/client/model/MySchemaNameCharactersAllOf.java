@@ -34,6 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   MySchemaNameCharactersAllOf.JSON_PROPERTY_PROP2
 })
+@JsonTypeName("MySchemaName___Characters_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MySchemaNameCharactersAllOf {
   public static final String JSON_PROPERTY_PROP2 = "prop2";

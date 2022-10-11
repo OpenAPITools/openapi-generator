@@ -39,15 +39,15 @@ class oauthToken
 {
 public:
     oauthToken(QString token, int expiresIn, QString scope, QString tokenType) : m_token(token), m_scope(scope), m_type(tokenType){
-        m_validUntil = time(0) + expiresIn;
+        m_validUntil = time(nullptr) + expiresIn;
     }
     oauthToken(){
-        m_validUntil = time(0) - 1;
+        m_validUntil = time(nullptr) - 1;
     }
     QString getToken(){return m_token;};
     QString getScope(){return m_scope;};
     QString getType(){return m_type;};
-    bool isValid(){return time(0) < m_validUntil;};
+    bool isValid(){return time(nullptr) < m_validUntil;};
 
 private:
     QString m_token;

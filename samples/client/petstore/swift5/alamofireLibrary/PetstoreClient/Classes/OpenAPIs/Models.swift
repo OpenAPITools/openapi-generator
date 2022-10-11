@@ -11,10 +11,6 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-extension JSONEncodable {
-    func encodeToJSON() -> Any { self }
-}
-
 /// An enum where the last case value can be used as a default catch-all.
 protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
 where RawValue: Decodable, AllCases: BidirectionalCollection {}
@@ -111,13 +107,18 @@ open class Response<T> {
 }
 
 public final class RequestTask {
+    private var lock = NSRecursiveLock()
     private var request: Request?
 
     internal func set(request: Request) {
+        lock.lock()
+        defer { lock.unlock() }
         self.request = request
     }
 
     public func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
         request?.cancel()
         request = nil
     }

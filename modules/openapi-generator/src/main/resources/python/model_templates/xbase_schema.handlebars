@@ -1,0 +1,109 @@
+{{#if isArray}}
+schemas.List{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isMap}}
+schemas.Dict{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isString}}
+{{#if getHasMultipleTypes}}
+{{#eq format "date"}}
+schemas.DateBase,
+{{/eq}}
+{{#eq format "date-time"}}
+schemas.DateTimeBase,
+{{/eq}}
+{{#eq format "uuid"}}
+schemas.UUIDBase,
+{{/eq}}
+{{#eq format "number"}}
+schemas.DecimalBase,
+{{/eq}}
+{{#eq format "binary"}}
+schemas.BinaryBase,
+{{/eq}}
+schemas.StrBase,
+{{else}}
+{{#eq format "date"}}
+schemas.DateSchema
+{{/eq}}
+{{#eq format "date-time"}}
+schemas.DateTimeSchema
+{{/eq}}
+{{#eq format "uuid"}}
+schemas.UUIDSchema
+{{/eq}}
+{{#eq format "number"}}
+schemas.DecimalSchema
+{{/eq}}
+{{#eq format "binary"}}
+schemas.BinarySchema
+{{/eq}}
+{{#neq format "date"}}
+{{#neq format "date-time"}}
+{{#neq format "uuid"}}
+{{#neq format "number"}}
+{{#neq format "binary"}}
+schemas.StrSchema
+{{/neq}}
+{{/neq}}
+{{/neq}}
+{{/neq}}
+{{/neq}}
+{{/if}}
+{{/if}}
+{{#if isNumber}}
+{{#if getHasMultipleTypes}}
+{{#eq format "float"}}
+schemas.Float32Base,
+{{/eq}}
+{{#eq format "double"}}
+schemas.Float64Base,
+{{/eq}}
+schemas.NumberBase,
+{{else}}
+{{#eq format "float"}}
+schemas.Float32Schema
+{{/eq}}
+{{#eq format "double"}}
+schemas.Float64Schema
+{{/eq}}
+{{#neq format "float"}}
+{{#neq format "double"}}
+schemas.NumberSchema
+{{/neq}}
+{{/neq}}
+{{/if}}
+{{/if}}
+{{#if isInteger}}
+{{#if getHasMultipleTypes}}
+{{#eq format "int32"}}
+schemas.Int32Base,
+{{/eq}}
+{{#eq format "int64"}}
+schemas.Int64Base,
+{{/eq}}
+schemas.IntBase,
+{{else}}
+{{#eq format "int32"}}
+schemas.Int32Schema
+{{/eq}}
+{{#eq format "int64"}}
+schemas.Int64Schema
+{{/eq}}
+{{#neq format "int32"}}
+{{#neq format "int64"}}
+schemas.IntSchema
+{{/neq}}
+{{/neq}}
+{{/if}}
+{{/if}}
+{{#if isBoolean}}
+schemas.Bool{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isNull}}
+schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if getHasMultipleTypes}}
+schemas.Schema,
+schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#if isString }}Str{{/if}}{{#or isInteger isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
+{{/if}}

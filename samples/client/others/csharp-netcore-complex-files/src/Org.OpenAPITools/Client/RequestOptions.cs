@@ -54,6 +54,16 @@ namespace Org.OpenAPITools.Client
         public List<Cookie> Cookies { get; set; }
 
         /// <summary>
+        /// Operation associated with the request path.
+        /// </summary>
+        public string Operation { get; set; }
+
+        /// <summary>
+        /// Index associated with the operation.
+        /// </summary>
+        public int OperationIndex { get; set; }
+
+        /// <summary>
         /// Any data associated with a request body.
         /// </summary>
         public Object Data { get; set; }

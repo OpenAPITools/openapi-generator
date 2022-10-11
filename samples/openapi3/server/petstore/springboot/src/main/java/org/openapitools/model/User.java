@@ -20,7 +20,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class User   {
+public class User {
 
   @JsonProperty("id")
   private Long id;

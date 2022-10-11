@@ -38,7 +38,7 @@ public class Model200Response {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public Model200Response() { 
+  public Model200Response() {
   }
 
   public Model200Response name(Integer name) {

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -20,7 +21,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name same as property name")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Name   {
+public class Name {
 
   @JsonProperty("name")
   private Integer name;

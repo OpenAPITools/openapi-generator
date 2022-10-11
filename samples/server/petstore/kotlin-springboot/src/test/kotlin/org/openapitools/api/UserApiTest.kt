@@ -17,7 +17,7 @@ class UserApiTest {
      */
     @Test
     fun createUserTest() {
-        val body:User = TODO()
+        val body: User = TODO()
         val response: ResponseEntity<Unit> = api.createUser(body)
 
         // TODO: test validations
@@ -31,7 +31,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithArrayInputTest() {
-        val body:kotlin.collections.List<User> = TODO()
+        val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body)
 
         // TODO: test validations
@@ -45,7 +45,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithListInputTest() {
-        val body:kotlin.collections.List<User> = TODO()
+        val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body)
 
         // TODO: test validations
@@ -59,7 +59,7 @@ class UserApiTest {
      */
     @Test
     fun deleteUserTest() {
-        val username:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
         val response: ResponseEntity<Unit> = api.deleteUser(username)
 
         // TODO: test validations
@@ -73,7 +73,7 @@ class UserApiTest {
      */
     @Test
     fun getUserByNameTest() {
-        val username:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
         val response: ResponseEntity<User> = api.getUserByName(username)
 
         // TODO: test validations
@@ -87,8 +87,8 @@ class UserApiTest {
      */
     @Test
     fun loginUserTest() {
-        val username:kotlin.String = TODO()
-        val password:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
+        val password: kotlin.String = TODO()
         val response: ResponseEntity<kotlin.String> = api.loginUser(username, password)
 
         // TODO: test validations
@@ -115,11 +115,10 @@ class UserApiTest {
      */
     @Test
     fun updateUserTest() {
-        val username:kotlin.String = TODO()
-        val body:User = TODO()
+        val username: kotlin.String = TODO()
+        val body: User = TODO()
         val response: ResponseEntity<Unit> = api.updateUser(username, body)
 
         // TODO: test validations
     }
-
 }

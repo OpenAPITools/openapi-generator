@@ -40,7 +40,15 @@ namespace Org.OpenAPITools.Model
         public Tag(long id = default(long), string name = default(string))
         {
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._Name = name;
+            if (this.Name != null)
+            {
+                this._flagName = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

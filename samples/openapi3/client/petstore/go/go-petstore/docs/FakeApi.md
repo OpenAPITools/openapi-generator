@@ -775,7 +775,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: applicatino/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -787,6 +787,8 @@ Name | Type | Description  | Notes
 > TestInlineAdditionalProperties(ctx).RequestBody(requestBody).Execute()
 
 test inline additionalProperties
+
+
 
 ### Example
 
@@ -849,6 +851,8 @@ No authorization required
 > TestJsonFormData(ctx).Param(param).Param2(param2).Execute()
 
 test json serialization of form data
+
+
 
 ### Example
 

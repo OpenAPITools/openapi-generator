@@ -19,37 +19,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("XmlItem")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class XmlItem  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class XmlItem  implements Serializable {
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> wrappedArray = null;
   private @Valid String nameString;
   private @Valid BigDecimal nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<Integer>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> nameArray = null;
+  private @Valid List<Integer> nameWrappedArray = null;
   private @Valid String prefixString;
   private @Valid BigDecimal prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixArray = null;
+  private @Valid List<Integer> prefixWrappedArray = null;
   private @Valid String namespaceString;
   private @Valid BigDecimal namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<Integer>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> namespaceArray = null;
+  private @Valid List<Integer> namespaceWrappedArray = null;
   private @Valid String prefixNsString;
   private @Valid BigDecimal prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixNsArray = null;
+  private @Valid List<Integer> prefixNsWrappedArray = null;
 
   /**
    **/
@@ -57,8 +57,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.attributeString = attributeString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "string", value = "")
@@ -72,14 +70,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.attributeString = attributeString;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -93,14 +89,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.attributeNumber = attributeNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", value = "")
@@ -114,14 +108,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.attributeInteger = attributeInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", value = "")
@@ -135,14 +127,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.attributeBoolean = attributeBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem wrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -158,7 +148,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<Integer>();
+      this.wrappedArray = new ArrayList<>();
     }
 
     this.wrappedArray.add(wrappedArrayItem);
@@ -172,14 +162,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem nameString(String nameString) {
     this.nameString = nameString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "string", value = "")
@@ -193,14 +181,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.nameString = nameString;
   }
 
-/**
+  /**
    **/
   public XmlItem nameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -214,14 +200,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.nameNumber = nameNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem nameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", value = "")
@@ -235,14 +219,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.nameInteger = nameInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem nameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", value = "")
@@ -256,14 +238,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.nameBoolean = nameBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem nameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -279,7 +259,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<Integer>();
+      this.nameArray = new ArrayList<>();
     }
 
     this.nameArray.add(nameArrayItem);
@@ -293,14 +273,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem nameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -316,7 +294,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<Integer>();
+      this.nameWrappedArray = new ArrayList<>();
     }
 
     this.nameWrappedArray.add(nameWrappedArrayItem);
@@ -330,14 +308,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixString(String prefixString) {
     this.prefixString = prefixString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "string", value = "")
@@ -351,14 +327,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixString = prefixString;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -372,14 +346,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixNumber = prefixNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", value = "")
@@ -393,14 +365,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixInteger = prefixInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", value = "")
@@ -414,14 +384,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixBoolean = prefixBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -437,7 +405,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<Integer>();
+      this.prefixArray = new ArrayList<>();
     }
 
     this.prefixArray.add(prefixArrayItem);
@@ -451,14 +419,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -474,7 +440,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<Integer>();
+      this.prefixWrappedArray = new ArrayList<>();
     }
 
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
@@ -488,14 +454,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem namespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "string", value = "")
@@ -509,14 +473,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.namespaceString = namespaceString;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -530,14 +492,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.namespaceNumber = namespaceNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", value = "")
@@ -551,14 +511,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.namespaceInteger = namespaceInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", value = "")
@@ -572,14 +530,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.namespaceBoolean = namespaceBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -595,7 +551,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<Integer>();
+      this.namespaceArray = new ArrayList<>();
     }
 
     this.namespaceArray.add(namespaceArrayItem);
@@ -609,14 +565,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -632,7 +586,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<Integer>();
+      this.namespaceWrappedArray = new ArrayList<>();
     }
 
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
@@ -646,14 +600,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "string", value = "")
@@ -667,14 +619,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixNsString = prefixNsString;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -688,14 +638,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixNsNumber = prefixNsNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", value = "")
@@ -709,14 +657,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixNsInteger = prefixNsInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", value = "")
@@ -730,14 +676,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -753,7 +697,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<Integer>();
+      this.prefixNsArray = new ArrayList<>();
     }
 
     this.prefixNsArray.add(prefixNsArrayItem);
@@ -767,14 +711,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -790,7 +732,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<Integer>();
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
 
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);

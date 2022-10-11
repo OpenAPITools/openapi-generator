@@ -10,12 +10,12 @@ namespace app\Models;
 class Cat {
 
     /** @var string $className */
-    private $className;
+    public $className = "";
 
     /** @var string $color */
-    private $color;
+    public $color = 'red';
 
     /** @var bool $declawed */
-    private $declawed;
+    public $declawed = false;
 
 }

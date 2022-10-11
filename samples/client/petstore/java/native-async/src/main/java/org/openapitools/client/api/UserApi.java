@@ -30,13 +30,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -80,6 +80,7 @@ public class UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> createUser(User body) throws ApiException {
@@ -162,6 +163,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -244,6 +246,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> createUsersWithListInput(List<User> body) throws ApiException {
@@ -326,6 +329,7 @@ public class UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> deleteUser(String username) throws ApiException {
@@ -599,6 +603,7 @@ public class UserApi {
   /**
    * Logs out current logged in user session
    * 
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> logoutUser() throws ApiException {
@@ -671,6 +676,7 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> updateUser(String username, User body) throws ApiException {

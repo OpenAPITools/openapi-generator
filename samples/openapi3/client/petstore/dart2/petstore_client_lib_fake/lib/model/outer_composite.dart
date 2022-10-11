@@ -60,14 +60,20 @@ class OuterComposite {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (myNumber != null) {
-      json[r'my_number'] = myNumber;
+    if (this.myNumber != null) {
+      json[r'my_number'] = this.myNumber;
+    } else {
+      json[r'my_number'] = null;
     }
-    if (myString != null) {
-      json[r'my_string'] = myString;
+    if (this.myString != null) {
+      json[r'my_string'] = this.myString;
+    } else {
+      json[r'my_string'] = null;
     }
-    if (myBoolean != null) {
-      json[r'my_boolean'] = myBoolean;
+    if (this.myBoolean != null) {
+      json[r'my_boolean'] = this.myBoolean;
+    } else {
+      json[r'my_boolean'] = null;
     }
     return json;
   }

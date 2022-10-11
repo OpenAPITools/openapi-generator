@@ -4,6 +4,7 @@ package {{invokerPackage}}.auth;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.MutableHttpRequest;
@@ -47,26 +48,6 @@ public class AuthorizationBinder implements AnnotatedClientRequestBinder<Authori
     }
 
     private String configurationName(String name) {
-        StringBuilder result = new StringBuilder();
-
-        boolean wasCapital = false;
-        for (int i = 0; i < name.length(); ++i) {
-            char c = name.charAt(i);
-            if (c == '_') {
-                result.append('-');
-                wasCapital = true;
-            } else if (Character.isUpperCase(c)) {
-                if (wasCapital) {
-                    result.append(Character.toLowerCase(c));
-                } else {
-                    result.append('-');
-                    result.append(Character.toLowerCase(c));
-                }
-                wasCapital = true;
-            } else {
-                result.append(c);
-            }
-        }
-        return result.toString();
+        return NameUtils.hyphenate(name.replace('.', '_'), true);
     }
 }

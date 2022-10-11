@@ -103,6 +103,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
+    @Deprecated
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -16,9 +17,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Dog_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class DogAllOf  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class DogAllOf  implements Serializable {
   private @Valid String breed;
+
+  protected DogAllOf(DogAllOfBuilder<?, ?> b) {
+    this.breed = b.breed;
+  }
+
+  public DogAllOf() {
+  }
 
   /**
    **/
@@ -26,8 +34,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.breed = breed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -81,5 +87,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static DogAllOfBuilder<?, ?> builder() {
+    return new DogAllOfBuilderImpl();
+  }
+
+  private static final class DogAllOfBuilderImpl extends DogAllOfBuilder<DogAllOf, DogAllOfBuilderImpl> {
+
+    @Override
+    protected DogAllOfBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public DogAllOf build() {
+      return new DogAllOf(this);
+    }
+  }
+
+  public static abstract class DogAllOfBuilder<C extends DogAllOf, B extends DogAllOfBuilder<C, B>>  {
+    private String breed;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B breed(String breed) {
+      this.breed = breed;
+      return self();
+    }
+  }
 }
 

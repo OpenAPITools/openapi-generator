@@ -48,10 +48,12 @@ class Cat {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = className;
-      json[r'color'] = color;
-    if (declawed != null) {
-      json[r'declawed'] = declawed;
+      json[r'className'] = this.className;
+      json[r'color'] = this.color;
+    if (this.declawed != null) {
+      json[r'declawed'] = this.declawed;
+    } else {
+      json[r'declawed'] = null;
     }
     return json;
   }

@@ -27,6 +27,15 @@ export interface List {
     _123list?: string;
 }
 
+/**
+ * Check if a given object implements the List interface.
+ */
+export function instanceOfList(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ListFromJSON(json: any): List {
     return ListFromJSONTyped(json, false);
 }

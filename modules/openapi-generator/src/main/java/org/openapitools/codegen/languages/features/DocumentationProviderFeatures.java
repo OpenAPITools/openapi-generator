@@ -72,7 +72,7 @@ public interface DocumentationProviderFeatures {
       SWAGGER2("swagger2DocumentationProvider", "Generate an OpenAPI 3 specification using Swagger-Core 2.x.",
           AnnotationLibrary.SWAGGER2, AnnotationLibrary.SWAGGER2),
 
-      SPRINGFOX("springFoxDocumentationProvider", "Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x.",
+      SPRINGFOX("springFoxDocumentationProvider", "Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x. Deprecated (for removal); use springdoc instead.",
           AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER1),
 
       SPRINGDOC("springDocDocumentationProvider", "Generate an OpenAPI 3 specification using SpringDoc.",

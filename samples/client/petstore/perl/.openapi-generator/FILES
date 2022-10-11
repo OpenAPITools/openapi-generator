@@ -3,6 +3,7 @@
 README.md
 bin/autodoc
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -27,10 +28,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -50,6 +51,7 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -64,6 +66,7 @@ lib/WWW/OpenAPIClient/DefaultApi.pm
 lib/WWW/OpenAPIClient/FakeApi.pm
 lib/WWW/OpenAPIClient/FakeClassnameTags123Api.pm
 lib/WWW/OpenAPIClient/Object/AdditionalPropertiesClass.pm
+lib/WWW/OpenAPIClient/Object/AllOfWithSingleRef.pm
 lib/WWW/OpenAPIClient/Object/Animal.pm
 lib/WWW/OpenAPIClient/Object/ApiResponse.pm
 lib/WWW/OpenAPIClient/Object/ArrayOfArrayOfNumberOnly.pm
@@ -84,10 +87,10 @@ lib/WWW/OpenAPIClient/Object/EnumTest.pm
 lib/WWW/OpenAPIClient/Object/File.pm
 lib/WWW/OpenAPIClient/Object/FileSchemaTestClass.pm
 lib/WWW/OpenAPIClient/Object/Foo.pm
+lib/WWW/OpenAPIClient/Object/FooGetDefaultResponse.pm
 lib/WWW/OpenAPIClient/Object/FormatTest.pm
 lib/WWW/OpenAPIClient/Object/HasOnlyReadOnly.pm
 lib/WWW/OpenAPIClient/Object/HealthCheckResult.pm
-lib/WWW/OpenAPIClient/Object/InlineResponseDefault.pm
 lib/WWW/OpenAPIClient/Object/List.pm
 lib/WWW/OpenAPIClient/Object/MapTest.pm
 lib/WWW/OpenAPIClient/Object/MixedPropertiesAndAdditionalPropertiesClass.pm
@@ -106,6 +109,7 @@ lib/WWW/OpenAPIClient/Object/OuterEnumIntegerDefaultValue.pm
 lib/WWW/OpenAPIClient/Object/OuterObjectWithEnumProperty.pm
 lib/WWW/OpenAPIClient/Object/Pet.pm
 lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
+lib/WWW/OpenAPIClient/Object/SingleRefType.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm
 lib/WWW/OpenAPIClient/Object/Tag.pm
 lib/WWW/OpenAPIClient/Object/User.pm

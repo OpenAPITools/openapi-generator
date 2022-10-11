@@ -49,12 +49,21 @@ namespace Org.OpenAPITools.Model
         public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            if (className == null) {
+            if (className == null)
+            {
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null");
             }
             this._ClassName = className;
             this._HasBaleen = hasBaleen;
+            if (this.HasBaleen != null)
+            {
+                this._flagHasBaleen = true;
+            }
             this._HasTeeth = hasTeeth;
+            if (this.HasTeeth != null)
+            {
+                this._flagHasTeeth = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -109,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
         public string ClassName
         {
             get{ return _ClassName;}

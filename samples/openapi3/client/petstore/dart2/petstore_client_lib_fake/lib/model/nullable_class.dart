@@ -87,38 +87,58 @@ class NullableClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (integerProp != null) {
-      json[r'integer_prop'] = integerProp;
+    if (this.integerProp != null) {
+      json[r'integer_prop'] = this.integerProp;
+    } else {
+      json[r'integer_prop'] = null;
     }
-    if (numberProp != null) {
-      json[r'number_prop'] = numberProp;
+    if (this.numberProp != null) {
+      json[r'number_prop'] = this.numberProp;
+    } else {
+      json[r'number_prop'] = null;
     }
-    if (booleanProp != null) {
-      json[r'boolean_prop'] = booleanProp;
+    if (this.booleanProp != null) {
+      json[r'boolean_prop'] = this.booleanProp;
+    } else {
+      json[r'boolean_prop'] = null;
     }
-    if (stringProp != null) {
-      json[r'string_prop'] = stringProp;
+    if (this.stringProp != null) {
+      json[r'string_prop'] = this.stringProp;
+    } else {
+      json[r'string_prop'] = null;
     }
-    if (dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
+    if (this.dateProp != null) {
+      json[r'date_prop'] = _dateFormatter.format(this.dateProp!.toUtc());
+    } else {
+      json[r'date_prop'] = null;
     }
-    if (datetimeProp != null) {
-      json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
+    if (this.datetimeProp != null) {
+      json[r'datetime_prop'] = this.datetimeProp!.toUtc().toIso8601String();
+    } else {
+      json[r'datetime_prop'] = null;
     }
-    if (arrayNullableProp != null) {
-      json[r'array_nullable_prop'] = arrayNullableProp;
+    if (this.arrayNullableProp != null) {
+      json[r'array_nullable_prop'] = this.arrayNullableProp;
+    } else {
+      json[r'array_nullable_prop'] = null;
     }
-    if (arrayAndItemsNullableProp != null) {
-      json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+    if (this.arrayAndItemsNullableProp != null) {
+      json[r'array_and_items_nullable_prop'] = this.arrayAndItemsNullableProp;
+    } else {
+      json[r'array_and_items_nullable_prop'] = null;
     }
-      json[r'array_items_nullable'] = arrayItemsNullable;
-    if (objectNullableProp != null) {
-      json[r'object_nullable_prop'] = objectNullableProp;
+      json[r'array_items_nullable'] = this.arrayItemsNullable;
+    if (this.objectNullableProp != null) {
+      json[r'object_nullable_prop'] = this.objectNullableProp;
+    } else {
+      json[r'object_nullable_prop'] = null;
     }
-    if (objectAndItemsNullableProp != null) {
-      json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+    if (this.objectAndItemsNullableProp != null) {
+      json[r'object_and_items_nullable_prop'] = this.objectAndItemsNullableProp;
+    } else {
+      json[r'object_and_items_nullable_prop'] = null;
     }
-      json[r'object_items_nullable'] = objectItemsNullable;
+      json[r'object_items_nullable'] = this.objectItemsNullable;
     return json;
   }
 
@@ -152,9 +172,9 @@ class NullableClass {
         arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']) ?? const [],
         arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']) ?? const [],
         arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']) ?? const [],
-        objectNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_nullable_prop') ?? const {},
-        objectAndItemsNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_and_items_nullable_prop') ?? const {},
-        objectItemsNullable: mapValueOfType<Map<String, Object>>(json, r'object_items_nullable') ?? const {},
+        objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
+        objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
+        objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},
       );
     }
     return null;

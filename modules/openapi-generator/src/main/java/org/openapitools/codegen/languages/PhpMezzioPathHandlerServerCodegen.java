@@ -30,6 +30,9 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,9 +86,6 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                         SchemaSupportFeature.Polymorphism
                 )
         );
-
-        //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
-        typeMapping.put("double", "float");
 
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");
@@ -415,10 +415,10 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         String httpMethodDeclaration;
         String pathPattern = null;
         for (CodegenOperation op : operationList) {

@@ -5,14 +5,18 @@ package {{package}};
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import jakarta.inject.Inject;
-import reactor.core.publisher.Mono;
-
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
 {{^fullJavaUtil}}
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
 {{/fullJavaUtil}}
 
 
@@ -34,13 +38,24 @@ public class {{classname}}Test {
      {{/notes}}
      */
     @Test
+    @Disabled("Not Implemented")
     public void {{operationId}}Test() {
+        // given
         {{#allParams}}
-        {{{dataType}}} {{paramName}} = null;
+        {{{dataType}}} {{paramName}} = {{{example}}};
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block();
-        // {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} asyncResponse = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-        // TODO: test validations
+
+        // when
+        {{#wrapInHttpResponse}}
+        HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}};{{#returnType}}
+        {{{returnType}}} body = response.body();{{/returnType}}
+        {{/wrapInHttpResponse}}
+        {{^wrapInHttpResponse}}
+        {{#returnType}}{{{returnType}}} body = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}};
+        {{/wrapInHttpResponse}}
+
+        // then
+        // TODO implement the {{operationId}}Test()
     }
 
     {{/operation}}{{/operations}}

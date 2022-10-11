@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Status** | **MultipartMixedStatus** |  | 
 **Marker** | [**MultipartMixedMarker**](MultipartMixedMarker.md) |  | [optional] 
 **File** | **System.IO.Stream** | a file | 
 

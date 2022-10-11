@@ -181,6 +181,8 @@ class FakeController extends Controller
 
         $enumQueryDouble = $input['enumQueryDouble'];
 
+        $enumQueryModelArray = $input['enumQueryModelArray'];
+
         $enumFormStringArray = $input['enumFormStringArray'];
 
         $enumFormString = $input['enumFormString'];

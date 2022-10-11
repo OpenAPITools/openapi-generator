@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,8 +21,9 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Describes the result of uploading an image resource")
+@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ModelApiResponse   {
+public class ModelApiResponse {
 
   @JsonProperty("code")
   private Integer code;

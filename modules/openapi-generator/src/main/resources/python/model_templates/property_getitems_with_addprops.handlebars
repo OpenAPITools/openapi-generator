@@ -1,0 +1,108 @@
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.additional_properties: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/if}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#or vars getRequiredVarsMap}}
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+
+@typing.overload
+def __getitem__(self, name: str) -> {{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}: ...
+{{/unless}}
+{{/with}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="__getitem__" }}
+{{else}}
+{{#not additionalProperties.getIsBooleanSchemaFalse}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="__getitem__" }}
+{{/not}}
+{{/or}}
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+
+@typing.overload
+{{#if complexType}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.additional_properties: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/if}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+
+@typing.overload
+{{#if complexType}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> typing.Union['{{complexType}}', schemas.Unset]: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{name}}, schemas.Unset]: ...
+{{else}}
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]: ...
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#or vars getRequiredVarsMap}}
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+
+@typing.overload
+def get_item_oapg(self, name: str) -> typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]: ...
+{{/unless}}
+{{/with}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="get_item_oapg" }}
+{{else}}
+{{#not additionalProperties.getIsBooleanSchemaFalse}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="get_item_oapg" }}
+{{/not}}
+{{/or}}

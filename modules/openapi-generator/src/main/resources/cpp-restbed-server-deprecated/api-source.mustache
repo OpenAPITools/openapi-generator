@@ -1,0 +1,400 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include <corvusoft/restbed/byte.hpp>
+#include <corvusoft/restbed/string.hpp>
+#include <corvusoft/restbed/settings.hpp>
+#include <corvusoft/restbed/request.hpp>
+#include <corvusoft/restbed/uri.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+
+#include "{{classname}}.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+{{classname}}Exception::{{classname}}Exception(int status_code, std::string what)
+  : m_status(status_code),
+    m_what(what)
+{
+
+}
+int {{classname}}Exception::getStatus() const
+{
+    return m_status;
+}
+const char* {{classname}}Exception::what() const noexcept
+{
+    return m_what.c_str();
+}
+
+
+template<class MODEL_T>
+std::shared_ptr<MODEL_T> extractJsonModelBodyParam(const std::string& bodyContent)
+{
+    std::stringstream sstream(bodyContent);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream, pt);
+
+    auto model = std::make_shared<MODEL_T>(pt);
+    return model;
+}
+
+template<class MODEL_T>
+std::vector<std::shared_ptr<MODEL_T>> extractJsonArrayBodyParam(const std::string& bodyContent)
+{
+    std::stringstream sstream(bodyContent);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream, pt);
+
+    auto arrayRet = std::vector<std::shared_ptr<MODEL_T>>();
+    for (const auto& child: pt) {
+        arrayRet.emplace_back(std::make_shared<MODEL_T>(child.second));
+    }
+    return arrayRet;
+}
+
+template <class KEY_T, class VAL_T>
+std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
+{
+    boost::property_tree::ptree pt;
+    for(const auto &kv: map) {
+    pt.push_back(boost::property_tree::ptree::value_type(
+        boost::lexical_cast<std::string>(kv.first),
+        boost::property_tree::ptree(
+        boost::lexical_cast<std::string>(kv.second))));
+    }
+    std::stringstream sstream;
+    write_json(sstream, pt);
+    std::string result = sstream.str();
+    return result;
+}
+
+{{#operation}}
+{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{contextPath}}" */)
+{
+	this->set_path(context + "{{path}}");
+	this->set_method_handler("{{httpMethod}}",
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
+			std::placeholders::_1));
+	{{#vendorExtensions.x-codegen-other-methods}}
+	this->set_method_handler("{{httpMethod}}",
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
+			std::placeholders::_1));
+	{{/vendorExtensions.x-codegen-other-methods}}
+}
+
+{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource()
+{
+}
+
+std::pair<int, std::string> {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handle{{classname}}Exception(const {{classname}}Exception& e)
+{
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
+}
+
+std::pair<int, std::string> {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, const std::string& contentType)
+{
+    session->close(status, result, { {"Connection", "close"}, {"Content-Type", contentType} });
+}
+
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
+{
+    const auto request = session->get_request();
+    {{#hasBodyParam}}
+    std::string bodyContent = extractBodyContent(session);
+
+    // Get body params or form params here from the body content string
+    {{#allParams}}
+    {{#isModel}}
+    auto {{paramName}} = extractJsonModelBodyParam<{{{baseType}}}>(bodyContent);
+    {{/isModel}}
+    {{#isArray}}
+    auto {{paramName}} = extractJsonArrayBodyParam<{{{baseType}}}>(bodyContent);
+    {{/isArray}}
+    {{/allParams}}
+    {{/hasBodyParam}}
+
+    {{#hasPathParams}}
+    // Getting the path params
+    {{#pathParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getPathParam_{{paramName}}(request);
+    {{/isPrimitiveType}}
+    {{/pathParams}}
+    {{/hasPathParams}}
+
+    {{#hasQueryParams}}
+    // Getting the query params
+    {{#queryParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getQueryParam_{{paramName}}(request);
+    {{/isPrimitiveType}}
+    {{/queryParams}}
+    {{/hasQueryParams}}
+
+    {{#hasHeaderParams}}
+    // Getting the headers
+    {{#headerParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getHeader_{{baseName}}(request);
+    {{/isPrimitiveType}}
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    int status_code = 500;
+    {{#returnType}}
+    {{{.}}} resultObject = {{{defaultResponse}}};
+    {{/returnType}}
+    std::string result = "";
+
+    try {
+        {{#returnType}}
+        std::tie(status_code, resultObject) =
+        {{/returnType}}
+        {{^returnType}}
+         status_code =
+         {{/returnType}}
+             handler_{{httpMethod}}({{#allParams}}{{paramName}}{{^-last}}, {{ / -last}}{{ / allParams}});
+    }
+    catch(const {{classname}}Exception& e) {
+        std::tie(status_code, result) = handle{{classname}}Exception(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+
+    {{#responses}}
+    if (status_code == {{code}}) {
+        {{#returnType}}
+        {{#isModel}}
+        {{#isString}}
+        result = resultObject;
+        {{/isString}}
+        {{^isString}}
+        result = resultObject->toJsonString();
+        {{/isString}}
+        {{/isModel}}
+        {{#isMap}}
+        result = convertMapResponse(resultObject);
+        {{/isMap}}
+        {{/returnType}}
+        {{#headers}}
+        // Description: {{{description}}}
+        setResponseHeader(session, "{{baseName}}");
+        {{/headers}}
+
+        {{#primitiveType}}
+        const constexpr auto contentType = "text/plain";
+        {{/primitiveType}}
+        {{^primitiveType}}
+        const constexpr auto contentType = "application/json";
+        {{/primitiveType}}
+        returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
+        return;
+    }
+    {{/responses}}
+    defaultSessionClose(session, status_code, result);
+}
+
+{{#vendorExtensions.x-codegen-other-methods}}
+// x-extension
+void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
+
+    const auto request = session->get_request();
+    {{#hasBodyParam}}
+    std::string bodyContent = extractBodyContent(session);
+
+    // body params or form params here from the body content string
+    {{#allParams}}
+    {{#isModel}}
+    auto {{paramName}} = extractJsonModelBodyParam<{{{baseType}}}>(bodyContent);
+    {{/isModel}}
+    {{#isArray}}
+    auto {{paramName}} = extractJsonArrayBodyParam<{{{baseType}}}>(bodyContent);
+    {{/isArray}}
+    {{^isModel}}
+    {{^isArray}}
+    auto {{paramName}} = std::make_shared<{{{baseType}}}>(bodyContent);
+    {{/isArray}}
+    {{/isModel}}
+    {{/allParams}}
+    {{/hasBodyParam}}
+
+    {{#hasPathParams}}
+    // Getting the path params
+    {{#pathParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getPathParam_{{paramName}}_x_extension(request);
+
+    {{/isPrimitiveType}}
+    {{/pathParams}}
+    {{/hasPathParams}}
+    {{#hasQueryParams}}
+    // Getting the query params
+    {{#queryParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getQueryParam_{{paramName}}_x_extension(request);
+
+    {{/isPrimitiveType}}
+    {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+    // Getting the headers
+    {{#headerParams}}
+    {{#isPrimitiveType}}
+    const {{{dataType}}} {{{paramName}}} = getHeader_{{baseName}}_x_extension(request);
+
+    {{/isPrimitiveType}}
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    int status_code = 500;
+    {{#returnType}}
+    {{{.}}} resultObject = {{{defaultResponse}}};
+    {{/returnType}}
+    std::string result = "";
+
+    try {
+        {{#returnType}}
+        std::tie(status_code, resultObject) =
+        {{/returnType}}
+        {{^returnType}}
+        status_code =
+        {{/returnType}}
+            handler_{{httpMethod}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    }
+    catch(const {{classname}}Exception& e) {
+        std::tie(status_code, result) = handle{{classname}}Exception(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+
+    {{#responses}}
+    if (status_code == {{code}}) {
+        {{#returnType}}
+        {{#isModel}}
+        {{#isString}}
+        result = resultObject;
+        {{/isString}}
+        {{^isString}}
+        result = resultObject->toJsonString();
+        {{/isString}}
+        {{/isModel}}
+        {{#isMap}}
+        result = convertMapResponse(resultObject);
+        {{/isMap}}
+        {{/returnType}}
+        {{#headers}}
+        // Description: {{{description}}}
+        setResponseHeader(session, "{{baseName}}");
+        {{/headers}}
+
+        {{#primitiveType}}
+        const constexpr auto contentType = "text/plain";
+        {{/primitiveType}}
+        {{^primitiveType}}
+        const constexpr auto contentType = "application/json";
+        {{/primitiveType}}
+        returnResponse(session, {{code}}, result.empty() ? "{{message}}" : result, contentType);
+        return;
+    }
+    {{/responses}}
+    defaultSessionClose(session, status_code, result);
+}
+{{/vendorExtensions.x-codegen-other-methods}}
+
+{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
+        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{
+    throw {{classname}}Exception(501, "Not implemented");
+}
+
+{{#vendorExtensions.x-codegen-other-methods}}
+{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
+    {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{
+    throw {{classname}}Exception(501, "Not implemented");
+}
+{{/vendorExtensions.x-codegen-other-methods}}
+
+std::string {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+{{/operation}}
+
+{{classname}}::{{classname}}(std::shared_ptr<restbed::Service> const& restbedService)
+: m_service(restbedService)
+{
+}
+
+{{classname}}::~{{classname}}() {}
+
+{{#operation}}
+void {{classname}}::set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource) {
+    m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource = sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+    m_service->publish(m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
+}
+{{/operation}}
+
+
+void {{classname}}::publishDefaultResources() {
+    {{#operation}}
+    if (!m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource) {
+        set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource>());
+    }
+    {{/operation}}
+}
+
+std::shared_ptr<restbed::Service> {{classname}}::service() {
+    return m_service;
+}
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

@@ -22,3 +22,7 @@ composer.phar
 !/config/.htaccess
 !/config/dev/default.inc.php
 !/config/prod/default.inc.php
+
+# Logs folder
+/logs/**/*.*
+!/logs/.htaccess

@@ -66,6 +66,20 @@ export interface Category {
     'name'?: string;
 }
 /**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const MediaType = {
+    Json: 'application/json',
+    Xml: 'application/xml'
+} as const;
+
+export type MediaType = typeof MediaType[keyof typeof MediaType];
+
+
+/**
  * An order for a pets from the pet store
  * @export
  * @interface Order
@@ -256,10 +270,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {Pet} pet Pet object that needs to be added to the store
          * @param {Pet} [header1] 
          * @param {Array<Pet>} [header2] 
+         * @param {MediaType} [accept] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet: async (pet: Pet, header1?: Pet, header2?: Array<Pet>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addPet: async (pet: Pet, header1?: Pet, header2?: Array<Pet>, accept?: MediaType, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'pet' is not null or undefined
             assertParamExists('addPet', 'pet', pet)
             const localVarPath = `/pet`;
@@ -278,13 +293,21 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (header1 !== undefined && header1 !== null) {
-                localVarHeaderParameter['header1'] = String(JSON.stringify(header1));
+            if (header1 != null) {
+                localVarHeaderParameter['header1'] = typeof header1 === 'string' 
+                    ? header1 
+                    : JSON.stringify(header1);
             }
 
             if (header2) {
                 let mapped = header2.map(value => (<any>"Array<Pet>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
                 localVarHeaderParameter['header2'] = mapped.join(COLLECTION_FORMATS["csv"]);
+            }
+
+            if (accept != null) {
+                localVarHeaderParameter['Accept'] = typeof accept === 'string' 
+                    ? accept 
+                    : JSON.stringify(accept);
             }
 
 
@@ -329,7 +352,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
+            if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
 
@@ -561,11 +584,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -624,11 +647,12 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {Pet} pet Pet object that needs to be added to the store
          * @param {Pet} [header1] 
          * @param {Array<Pet>} [header2] 
+         * @param {MediaType} [accept] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(pet, header1, header2, options);
+        async addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, accept?: MediaType, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(pet, header1, header2, accept, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -706,11 +730,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -730,11 +754,12 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {Pet} pet Pet object that needs to be added to the store
          * @param {Pet} [header1] 
          * @param {Array<Pet>} [header2] 
+         * @param {MediaType} [accept] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, options?: any): AxiosPromise<void> {
-            return localVarFp.addPet(pet, header1, header2, options).then((request) => request(axios, basePath));
+        addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, accept?: MediaType, options?: any): AxiosPromise<void> {
+            return localVarFp.addPet(pet, header1, header2, accept, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -805,11 +830,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
+        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
         },
     };
@@ -828,12 +853,13 @@ export class PetApi extends BaseAPI {
      * @param {Pet} pet Pet object that needs to be added to the store
      * @param {Pet} [header1] 
      * @param {Array<Pet>} [header2] 
+     * @param {MediaType} [accept] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(pet, header1, header2, options).then((request) => request(this.axios, this.basePath));
+    public addPet(pet: Pet, header1?: Pet, header2?: Array<Pet>, accept?: MediaType, options?: AxiosRequestConfig) {
+        return PetApiFp(this.configuration).addPet(pet, header1, header2, accept, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -917,12 +943,12 @@ export class PetApi extends BaseAPI {
      * @summary uploads an image
      * @param {number} petId ID of pet to update
      * @param {string} [additionalMetadata] Additional data to pass to server
-     * @param {any} [file] file to upload
+     * @param {File} [file] file to upload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig) {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }

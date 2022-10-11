@@ -953,7 +953,7 @@ void (empty response body)
 
 ## TestEnumParameters
 
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<EnumClass> enumQueryModelArray = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -982,13 +982,14 @@ namespace Example
             var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryModelArray = new List<EnumClass>(); // List<EnumClass> |  (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
             }
             catch (ApiException e)
             {
@@ -1012,6 +1013,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
+ **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] 
  **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 

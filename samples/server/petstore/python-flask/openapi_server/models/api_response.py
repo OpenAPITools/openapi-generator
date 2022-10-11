@@ -37,9 +37,9 @@ class ApiResponse(Model):
             'message': 'message'
         }
 
-        self._code = code
-        self._type = type
-        self._message = message
+        self.code = code
+        self.type = type
+        self.message = message
 
     @classmethod
     def from_dict(cls, dikt) -> 'ApiResponse':

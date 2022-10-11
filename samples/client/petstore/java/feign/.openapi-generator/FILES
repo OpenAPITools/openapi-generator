@@ -1,3 +1,4 @@
+.github/workflows/maven.yml
 .gitignore
 .travis.yml
 README.md
@@ -15,7 +16,6 @@ settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiResponseDecoder.java
-src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ParamExpander.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
@@ -39,6 +39,7 @@ src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/auth/OauthClientCredentialsGrant.java
 src/main/java/org/openapitools/client/auth/OauthPasswordGrant.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/ApiResponse.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
@@ -59,10 +60,10 @@ src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/File.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
@@ -82,6 +83,7 @@ src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterObjectWithEnumProperty.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java

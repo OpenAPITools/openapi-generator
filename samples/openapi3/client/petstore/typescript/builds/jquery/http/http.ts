@@ -1,5 +1,3 @@
-// typings of url-parse are incorrect...
-// @ts-ignore
 import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 

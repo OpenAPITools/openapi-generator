@@ -7,8 +7,8 @@ package {{package}};
 import java.io.Serializable;
 {{/serializableModel}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 {{#models}}

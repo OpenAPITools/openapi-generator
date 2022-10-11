@@ -52,10 +52,13 @@ public interface PetApi  {
     @DELETE
     @Path("/pet/{petId}")
     @ApiOperation(value = "Deletes a pet", tags={ "pet" })
+    @io.swagger.annotations.ApiImplicitParams({
+        @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
+    })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid pet value") })
-    public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey);
+    public void deletePet(@PathParam("petId") Long petId);
 
     /**
      * Finds Pets by status

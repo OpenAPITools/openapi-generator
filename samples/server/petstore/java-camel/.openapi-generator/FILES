@@ -1,6 +1,6 @@
 README.md
 pom.xml
-src/main/java/org/openapitools/OpenAPI2SpringBoot.java
+src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
 src/main/java/org/openapitools/RestConfiguration.java
 src/main/java/org/openapitools/ValidationErrorProcessor.java

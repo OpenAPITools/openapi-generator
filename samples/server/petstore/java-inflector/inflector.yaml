@@ -36,6 +36,8 @@ MapTest : org.openapitools.model.MapTest
 MixedPropertiesAndAdditionalPropertiesClass : org.openapitools.model.MixedPropertiesAndAdditionalPropertiesClass
 Model200Response : org.openapitools.model.Model200Response
 ModelApiResponse : org.openapitools.model.ModelApiResponse
+ModelFile : org.openapitools.model.ModelFile
+ModelList : org.openapitools.model.ModelList
 ModelReturn : org.openapitools.model.ModelReturn
 Name : org.openapitools.model.Name
 NumberOnly : org.openapitools.model.NumberOnly

@@ -19,8 +19,8 @@
         {{/isContainer}}
     {{/withXml}}
     {{#isDateTime}}
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "{{{datetimeFormat}}}")
     {{/isDateTime}}
     {{#isDate}}
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "{{{dateFormat}}}")
     {{/isDate}}

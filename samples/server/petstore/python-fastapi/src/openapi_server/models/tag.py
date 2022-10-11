@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
+from pydantic import AnyUrl, BaseModel, EmailStr, Field, validator  # noqa: F401
 
 
 class Tag(BaseModel):
@@ -20,7 +20,7 @@ class Tag(BaseModel):
         name: The name of this Tag [Optional].
     """
 
-    id: Optional[int] = None
-    name: Optional[str] = None
+    id: Optional[int] = Field(alias="id", default=None)
+    name: Optional[str] = Field(alias="name", default=None)
 
 Tag.update_forward_refs()

@@ -58,7 +58,7 @@ public class PetApi  {
       this.delegate = delegate;
    }
 
-    @POST
+    @javax.ws.rs.POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     
@@ -76,7 +76,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.addPet(body, securityContext);
     }
-    @DELETE
+    @javax.ws.rs.DELETE
     @Path("/pet/{petId}")
     
     
@@ -94,7 +94,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/pet/findByStatus")
     
     @Produces({ "application/xml", "application/json" })
@@ -112,7 +112,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/pet/findByTags")
     
     @Produces({ "application/xml", "application/json" })
@@ -130,7 +130,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/pet/{petId}")
     
     @Produces({ "application/xml", "application/json" })
@@ -146,7 +146,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.getPetById(petId, securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     
@@ -166,7 +166,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePet(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -183,7 +183,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePetWithForm(petId, name, status, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
@@ -201,7 +201,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.uploadFile(petId, additionalMetadata, _fileBodypart, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })

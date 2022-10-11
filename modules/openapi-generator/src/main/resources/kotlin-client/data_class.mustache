@@ -19,6 +19,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+{{#enumUnknownDefaultCase}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/enumUnknownDefaultCase}}
 {{#hasEnums}}
 {{/hasEnums}}
 {{/kotlinx_serialization}}
@@ -88,7 +95,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
      */
     {{^multiplatform}}
     {{#kotlinx_serialization}}
-    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
@@ -116,7 +123,22 @@ import {{packageName}}.infrastructure.ITransformForStorage
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    }
+    }{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
+
+    @Serializer(forClass = {{{nameInCamelCase}}}::class)
+    internal object {{nameInCamelCase}}Serializer : KSerializer<{{nameInCamelCase}}> {
+        override val descriptor = {{{dataType}}}.serializer().descriptor
+
+        override fun deserialize(decoder: Decoder): {{nameInCamelCase}} {
+            val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+            return {{nameInCamelCase}}.values().firstOrNull { it.value == value }
+                ?: {{nameInCamelCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+        }
+
+        override fun serialize(encoder: Encoder, value: {{nameInCamelCase}}) {
+            encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+        }
+    }{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}

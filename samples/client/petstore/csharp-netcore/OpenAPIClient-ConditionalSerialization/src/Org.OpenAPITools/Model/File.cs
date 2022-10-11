@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI = default(string))
         {
             this._SourceURI = sourceURI;
+            if (this.SourceURI != null)
+            {
+                this._flagSourceURI = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

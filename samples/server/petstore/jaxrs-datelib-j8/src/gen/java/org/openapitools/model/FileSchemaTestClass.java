@@ -110,7 +110,6 @@ public class FileSchemaTestClass  implements Serializable {
     return Objects.hash(_file, files);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

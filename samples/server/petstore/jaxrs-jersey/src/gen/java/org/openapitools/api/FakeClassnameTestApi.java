@@ -55,7 +55,7 @@ public class FakeClassnameTestApi  {
       this.delegate = delegate;
    }
 
-    @PATCH
+    @javax.ws.rs.PATCH
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })

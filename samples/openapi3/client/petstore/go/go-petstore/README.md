@@ -61,7 +61,7 @@ Each operation can use different server URL defined using `OperationServers` map
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
+```golang
 ctx := context.WithValue(context.Background(), petstore.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
@@ -139,27 +139,35 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [DuplicatedPropChild](docs/DuplicatedPropChild.md)
+ - [DuplicatedPropChildAllOf](docs/DuplicatedPropChildAllOf.md)
+ - [DuplicatedPropParent](docs/DuplicatedPropParent.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
+ - [MapOfFileTest](docs/MapOfFileTest.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [Name](docs/Name.md)
+ - [NullableAllOf](docs/NullableAllOf.md)
+ - [NullableAllOfChild](docs/NullableAllOfChild.md)
  - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
+ - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

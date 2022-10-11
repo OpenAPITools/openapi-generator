@@ -558,8 +558,8 @@ my $int64 = 789; # int | None
 my $float = 3.4; # double | None
 my $string = "string_example"; # string | None
 my $binary = "/path/to/file"; # string | None
-my $date = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
-my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
+my $date = DateTime->from_epoch(epoch => str2time('null')); # DATE | None
+my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DATE_TIME | None
 my $password = "password_example"; # string | None
 my $callback = "callback_example"; # string | None
 
@@ -585,8 +585,8 @@ Name | Type | Description  | Notes
  **float** | **double**| None | [optional] 
  **string** | **string**| None | [optional] 
  **binary** | **string****string**| None | [optional] 
- **date** | **DateTime**| None | [optional] 
- **date_time** | **DateTime**| None | [optional] 
+ **date** | **DATE**| None | [optional] 
+ **date_time** | **DATE_TIME**| None | [optional] 
  **password** | **string**| None | [optional] 
  **callback** | **string**| None | [optional] 
 
@@ -606,7 +606,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_enum_parameters**
-> test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string)
+> test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_query_model_array => $enum_query_model_array, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string)
 
 To test enum parameters
 
@@ -625,11 +625,12 @@ my $enum_query_string_array = [("'$'")]; # ARRAY[string] | Query parameter enum 
 my $enum_query_string = '-efg'; # string | Query parameter enum test (string)
 my $enum_query_integer = 56; # int | Query parameter enum test (double)
 my $enum_query_double = 3.4; # double | Query parameter enum test (double)
+my $enum_query_model_array = [(new WWW::OpenAPIClient.EnumClass())]; # ARRAY[EnumClass] | 
 my $enum_form_string_array = ['$']; # ARRAY[string] | Form parameter enum test (string array)
 my $enum_form_string = '-efg'; # string | Form parameter enum test (string)
 
 eval {
-    $api_instance->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);
+    $api_instance->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_query_model_array => $enum_query_model_array, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_enum_parameters: $@\n";
@@ -646,6 +647,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
+ **enum_query_model_array** | [**ARRAY[EnumClass]**](EnumClass.md)|  | [optional] 
  **enum_form_string_array** | [**ARRAY[string]**](string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -729,6 +731,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 ```perl
 use Data::Dumper;
@@ -771,6 +775,8 @@ No authorization required
 > test_json_form_data(param => $param, param2 => $param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```perl

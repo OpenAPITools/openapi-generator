@@ -103,6 +103,8 @@ No authorization required
 > crate::models::Order place_order(order)
 Place an order for a pet
 
+
+
 ### Parameters
 
 

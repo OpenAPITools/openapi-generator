@@ -13,6 +13,8 @@ Method | HTTP request | Description
 
 Get enums
 
+
+
 ### Example
 ```kotlin
 // Import classes:

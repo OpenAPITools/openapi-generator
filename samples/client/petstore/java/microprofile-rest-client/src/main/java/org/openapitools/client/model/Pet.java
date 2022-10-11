@@ -44,7 +44,7 @@ public class Pet  {
   private String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @JsonbProperty("tags")
   private List<Tag> tags = null;

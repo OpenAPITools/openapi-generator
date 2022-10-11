@@ -85,6 +85,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 
 ```go
@@ -146,6 +148,8 @@ No authorization required
 > CreateUsersWithListInput(ctx).User(user).Execute()
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -277,6 +281,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 
 ```go
@@ -345,6 +351,8 @@ No authorization required
 
 Logs user into the system
 
+
+
 ### Example
 
 ```go
@@ -410,6 +418,8 @@ No authorization required
 > LogoutUser(ctx).Execute()
 
 Logs out current logged in user session
+
+
 
 ### Example
 

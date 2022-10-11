@@ -14,10 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
@@ -93,7 +90,7 @@ public class MapTest {
 
     public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
         if (this.mapMapOfString == null) {
-            this.mapMapOfString = new HashMap<String, Map<String, String>>();
+            this.mapMapOfString = new HashMap<>();
         }
         this.mapMapOfString.put(key, mapMapOfStringItem);
         return this;
@@ -104,16 +101,15 @@ public class MapTest {
      * @return mapMapOfString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Map<String, String>> getMapMapOfString() {
+    public Map<String, Map<String, String>> getMapMapOfString() {
         return mapMapOfString;
     }
 
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
         this.mapMapOfString = mapMapOfString;
     }
 
@@ -124,7 +120,7 @@ public class MapTest {
 
     public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
         if (this.mapOfEnumString == null) {
-            this.mapOfEnumString = new HashMap<String, InnerEnum>();
+            this.mapOfEnumString = new HashMap<>();
         }
         this.mapOfEnumString.put(key, mapOfEnumStringItem);
         return this;
@@ -135,16 +131,15 @@ public class MapTest {
      * @return mapOfEnumString
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, InnerEnum> getMapOfEnumString() {
+    public Map<String, InnerEnum> getMapOfEnumString() {
         return mapOfEnumString;
     }
 
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
         this.mapOfEnumString = mapOfEnumString;
     }
 
@@ -155,7 +150,7 @@ public class MapTest {
 
     public MapTest putDirectMapItem(String key, Boolean directMapItem) {
         if (this.directMap == null) {
-            this.directMap = new HashMap<String, Boolean>();
+            this.directMap = new HashMap<>();
         }
         this.directMap.put(key, directMapItem);
         return this;
@@ -166,16 +161,15 @@ public class MapTest {
      * @return directMap
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Boolean> getDirectMap() {
+    public Map<String, Boolean> getDirectMap() {
         return directMap;
     }
 
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setDirectMap(Map<String, Boolean> directMap) {
+    public void setDirectMap(Map<String, Boolean> directMap) {
         this.directMap = directMap;
     }
 
@@ -186,7 +180,7 @@ public class MapTest {
 
     public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
         if (this.indirectMap == null) {
-            this.indirectMap = new HashMap<String, Boolean>();
+            this.indirectMap = new HashMap<>();
         }
         this.indirectMap.put(key, indirectMapItem);
         return this;
@@ -197,16 +191,15 @@ public class MapTest {
      * @return indirectMap
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Map<String, Boolean> getIndirectMap() {
+    public Map<String, Boolean> getIndirectMap() {
         return indirectMap;
     }
 
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setIndirectMap(Map<String, Boolean> indirectMap) {
+    public void setIndirectMap(Map<String, Boolean> indirectMap) {
         this.indirectMap = indirectMap;
     }
 
