@@ -124,7 +124,7 @@ class GenerateTaskFromCacheTest : TestBase() {
         // Act
         val result1 = build {
             withProjectDir(projectDir1)
-            withArguments("--build-cache", "openApiGenerate")
+            withArguments("--build-cache", "clean", "openApiGenerate")
             withGradleVersion(gradleVersion)
         }
 
@@ -147,13 +147,13 @@ class GenerateTaskFromCacheTest : TestBase() {
         // Act
         val result1 = build {
             withProjectDir(projectDir1)
-            withArguments("--build-cache", "openApiGenerate")
+            withArguments("--build-cache", "clean", "openApiGenerate")
             withGradleVersion(gradleVersion)
         }
 
         val result2 = build {
             withProjectDir(projectDir2)
-            withArguments("--build-cache", "openApiGenerate")
+            withArguments("--build-cache", "clean", "openApiGenerate")
             withGradleVersion(gradleVersion)
         }
 

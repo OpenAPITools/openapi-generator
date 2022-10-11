@@ -120,7 +120,7 @@ class GenerateTaskUpToDateTest : TestBase() {
 
         // Act
         val result1 = build {
-            withArguments("openApiGenerate")
+            withArguments("clean", "openApiGenerate")
             withGradleVersion(gradleVersion)
         }
 
@@ -140,7 +140,7 @@ class GenerateTaskUpToDateTest : TestBase() {
 
         // Act
         val result1 = build {
-            withArguments("openApiGenerate")
+            withArguments("clean", "openApiGenerate")
             withGradleVersion(gradleVersion)
         }
 
@@ -159,6 +159,7 @@ class GenerateTaskUpToDateTest : TestBase() {
     private fun withProject(extensionContents: String) {
         val buildContents = """
             plugins {
+              id 'base'
               id 'org.openapi.generator'
             }
             openApiGenerate {
