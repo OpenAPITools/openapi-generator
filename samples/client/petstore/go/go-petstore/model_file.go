@@ -73,16 +73,19 @@ func (o *File) SetSourceURI(v string) {
 }
 
 func (o File) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o File) ToMap() map[string]interface{} {
+func (o File) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.SourceURI != nil {
-		toSerialize["sourceURI"] = *o.SourceURI
+		toSerialize["sourceURI"] = o.SourceURI
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableFile struct {

@@ -125,9 +125,26 @@ func typeCheckParameter(obj interface{}, expected string, name string) error {
 	return nil
 }
 
+func parameterToString( obj interface{}, keyPrefix string, collectionFormat string ) string {
+	u := url.Values{}
+	parameterAddToQuery( u, keyPrefix, obj, collectionFormat )
+	return u.Encode()
+}
+
+func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interface{}) {
+	switch valuesMap := queryParams.(type) {
+	case url.Values:
+		valuesMap.Add( keyPrefix, fmt.Sprintf("%v", obj) )
+		break
+	case map[string]string:
+		valuesMap[keyPrefix] = fmt.Sprintf("%v", obj)
+		break
+	}
+}
+
 // parameterAddToQuery adds the provided object to the url query supporting deep object specification
 // the del delimiter is used to the split the value as list
-func parameterAddToQuery(queryParams url.Values, keyPrefix string, obj interface{}, collectionFormat string) {
+func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interface{}, collectionFormat string) {
 	var delimiter string
 
 	switch collectionFormat {
@@ -144,62 +161,76 @@ func parameterAddToQuery(queryParams url.Values, keyPrefix string, obj interface
 	if reflect.TypeOf(obj).Kind() == reflect.Slice {
 		sliceValue := strings.Split(fmt.Sprint(obj), delimiter)
 		if len(sliceValue) > 0 {
-			var ifaceValue = make([]interface{}, 0, len(sliceValue))
 			for v := range sliceValue {
-				ifaceValue = append(ifaceValue, v)
+				parameterAddToHolder(queryParams, keyPrefix, v)
 			}
-			parameterAddSliceToQuery( queryParams, keyPrefix, ifaceValue )
 		}
 		return
 
 	} else if reflect.TypeOf(obj).Kind() == reflect.Ptr {
 		var param,ok = obj.(MappedNullable)
 		if ok {
-			dataMap := param.ToMap()
-			parameterAddMapToQuery( queryParams, keyPrefix, dataMap )
+			dataMap,err := param.ToMap()
+			if err != nil {
+				return
+			}
+			parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
 			return
 		}
 
 	} else if t, ok := obj.(time.Time); ok {
-		queryParams.Add( keyPrefix, t.Format(time.RFC3339) )
+		parameterAddToHolder(queryParams, keyPrefix, t.Format(time.RFC3339))
 		return
 	}
 
-	queryParams.Add( keyPrefix, fmt.Sprintf("%v", obj) )
+	parameterAddToHolder(queryParams, keyPrefix, obj)
 }
 
 // parameterAddMapToQuery adds the provided map to the url parameters list supporting deep object specification
-func parameterAddMapToQuery(queryParams url.Values, keyPrefix string, param map[string]interface{}) {
-	if len(param) == 0 {
+func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param interface{}) {
+	if param == nil {
 		return
 	}
-	for key,value := range param {
-		formattedKey := fmt.Sprintf("%s[%s]", keyPrefix, key)
-		if reflect.TypeOf(value).Kind() == reflect.Slice {
-			parameterAddSliceToQuery( queryParams, formattedKey, value.([]interface{}) )
-		} else if reflect.TypeOf(value).Kind() == reflect.Map {
-			parameterAddMapToQuery( queryParams, formattedKey, value.(map[string]interface{}) )
-		} else {
-			queryParams.Add( formattedKey, fmt.Sprintf("%v", value) )
+	var kind = reflect.TypeOf(param).Kind()
+	if kind == reflect.Slice {
+		var indValue = reflect.ValueOf(param)
+		if indValue == reflect.ValueOf(nil) {
+			return
 		}
-	}
-}
+		var lenIndValue = indValue.Len()
+		fmt.Printf("slice len %d\n", lenIndValue)
+		for i:=0;i<lenIndValue;i++ {
+			var arrayValue = indValue.Index(i)
+			parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%d]", keyPrefix, i), arrayValue.Interface())
+		}
+		return
 
-// parameterAddMapToQuery adds the provided slice to the url parameters list supporting deep object specification
-func parameterAddSliceToQuery(queryParams url.Values, keyPrefix string, param []interface{}) {
-	if len(param) == 0 {
+	} else if kind == reflect.Map {
+		var indValue = reflect.ValueOf(param)
+		if indValue == reflect.ValueOf(nil) {
+			return
+		}
+		
+		iter := indValue.MapRange()
+		for iter.Next() {
+			k,v := iter.Key(), iter.Value()
+			parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface())
+		}
 		return
-	}
-	for index,value := range param {
-		formattedKey := fmt.Sprintf("%s[%d]", keyPrefix, index)
-		if reflect.TypeOf(value).Kind() == reflect.Slice {
-			parameterAddSliceToQuery( queryParams, formattedKey, value.([]interface{}) )
-		} else if reflect.TypeOf(value).Kind() == reflect.Map {
-			parameterAddMapToQuery( queryParams, formattedKey, value.(map[string]interface{}) )
-		} else {
-			queryParams.Add( formattedKey, fmt.Sprintf("%v", value) )
+	} else if kind == reflect.Ptr {
+		var param,ok = param.(MappedNullable)
+		if ok {
+			dataMap,err := param.ToMap()
+			if err != nil {
+				return
+			}
+			parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
+			return
 		}
 	}
+
+	// primitive value
+	parameterAddToHolder(queryParams, keyPrefix, param)
 }
 
 // helper for converting interface{} parameters to json strings

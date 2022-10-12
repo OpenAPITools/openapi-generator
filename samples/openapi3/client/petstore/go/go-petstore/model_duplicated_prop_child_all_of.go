@@ -76,21 +76,24 @@ func (o *DuplicatedPropChildAllOf) SetDupProp(v string) {
 }
 
 func (o DuplicatedPropChildAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o DuplicatedPropChildAllOf) ToMap() map[string]interface{} {
+func (o DuplicatedPropChildAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.DupProp != nil {
-		toSerialize["dup-prop"] = *o.DupProp
+		toSerialize["dup-prop"] = o.DupProp
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *DuplicatedPropChildAllOf) UnmarshalJSON(bytes []byte) (err error) {

@@ -108,24 +108,27 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 }
 
 func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o HasOnlyReadOnly) ToMap() map[string]interface{} {
+func (o HasOnlyReadOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Bar != nil {
-		toSerialize["bar"] = *o.Bar
+		toSerialize["bar"] = o.Bar
 	}
 	if o.Foo != nil {
-		toSerialize["foo"] = *o.Foo
+		toSerialize["foo"] = o.Foo
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *HasOnlyReadOnly) UnmarshalJSON(bytes []byte) (err error) {

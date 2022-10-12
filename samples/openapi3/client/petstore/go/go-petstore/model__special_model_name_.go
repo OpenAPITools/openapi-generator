@@ -75,21 +75,24 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 }
 
 func (o SpecialModelName) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o SpecialModelName) ToMap() map[string]interface{} {
+func (o SpecialModelName) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.SpecialPropertyName != nil {
-		toSerialize["$special[property.name]"] = *o.SpecialPropertyName
+		toSerialize["$special[property.name]"] = o.SpecialPropertyName
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *SpecialModelName) UnmarshalJSON(bytes []byte) (err error) {

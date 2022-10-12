@@ -108,24 +108,27 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 }
 
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o FileSchemaTestClass) ToMap() map[string]interface{} {
+func (o FileSchemaTestClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.File != nil {
-		toSerialize["file"] = *o.File
+		toSerialize["file"] = o.File
 	}
 	if o.Files != nil {
-		toSerialize["files"] = *o.Files
+		toSerialize["files"] = o.Files
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *FileSchemaTestClass) UnmarshalJSON(bytes []byte) (err error) {

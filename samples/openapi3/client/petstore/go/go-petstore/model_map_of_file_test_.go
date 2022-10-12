@@ -77,21 +77,24 @@ func (o *MapOfFileTest) SetPropTest(v map[string]*os.File) {
 }
 
 func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o MapOfFileTest) ToMap() map[string]interface{} {
+func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.PropTest != nil {
-		toSerialize["prop_test"] = *o.PropTest
+		toSerialize["prop_test"] = o.PropTest
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {

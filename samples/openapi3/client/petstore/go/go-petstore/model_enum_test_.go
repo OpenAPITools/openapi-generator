@@ -317,42 +317,43 @@ func (o *EnumTest) SetOuterEnumIntegerDefaultValue(v OuterEnumIntegerDefaultValu
 }
 
 func (o EnumTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o EnumTest) ToMap() map[string]interface{} {
+func (o EnumTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EnumString != nil {
-		toSerialize["enum_string"] = *o.EnumString
+		toSerialize["enum_string"] = o.EnumString
 	}
-	if true {
-		toSerialize["enum_string_required"] = *o.EnumStringRequired
-	}
+	toSerialize["enum_string_required"] = o.EnumStringRequired
 	if o.EnumInteger != nil {
-		toSerialize["enum_integer"] = *o.EnumInteger
+		toSerialize["enum_integer"] = o.EnumInteger
 	}
 	if o.EnumNumber != nil {
-		toSerialize["enum_number"] = *o.EnumNumber
+		toSerialize["enum_number"] = o.EnumNumber
 	}
 	if o.OuterEnum.IsSet() {
-		toSerialize["outerEnum"] = *o.OuterEnum.Get()
+		toSerialize["outerEnum"] = o.OuterEnum.Get()
 	}
 	if o.OuterEnumInteger != nil {
-		toSerialize["outerEnumInteger"] = *o.OuterEnumInteger
+		toSerialize["outerEnumInteger"] = o.OuterEnumInteger
 	}
 	if o.OuterEnumDefaultValue != nil {
-		toSerialize["outerEnumDefaultValue"] = *o.OuterEnumDefaultValue
+		toSerialize["outerEnumDefaultValue"] = o.OuterEnumDefaultValue
 	}
 	if o.OuterEnumIntegerDefaultValue != nil {
-		toSerialize["outerEnumIntegerDefaultValue"] = *o.OuterEnumIntegerDefaultValue
+		toSerialize["outerEnumIntegerDefaultValue"] = o.OuterEnumIntegerDefaultValue
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *EnumTest) UnmarshalJSON(bytes []byte) (err error) {

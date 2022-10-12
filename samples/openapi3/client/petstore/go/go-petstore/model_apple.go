@@ -75,21 +75,24 @@ func (o *Apple) SetCultivar(v string) {
 }
 
 func (o Apple) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Apple) ToMap() map[string]interface{} {
+func (o Apple) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Cultivar != nil {
-		toSerialize["cultivar"] = *o.Cultivar
+		toSerialize["cultivar"] = o.Cultivar
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {

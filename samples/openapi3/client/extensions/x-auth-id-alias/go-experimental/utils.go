@@ -328,5 +328,5 @@ func (v *NullableTime) UnmarshalJSON(src []byte) error {
 }
 
 type MappedNullable interface {
-	ToMap() map[string]interface{}
+	ToMap() (map[string]interface{}, error)
 }

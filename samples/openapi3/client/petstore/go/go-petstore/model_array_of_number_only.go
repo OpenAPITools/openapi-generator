@@ -75,21 +75,24 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 }
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ArrayOfNumberOnly) ToMap() map[string]interface{} {
+func (o ArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayNumber != nil {
-		toSerialize["ArrayNumber"] = *o.ArrayNumber
+		toSerialize["ArrayNumber"] = o.ArrayNumber
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *ArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {

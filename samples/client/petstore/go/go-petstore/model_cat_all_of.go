@@ -72,16 +72,19 @@ func (o *CatAllOf) SetDeclawed(v bool) {
 }
 
 func (o CatAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o CatAllOf) ToMap() map[string]interface{} {
+func (o CatAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Declawed != nil {
-		toSerialize["declawed"] = *o.Declawed
+		toSerialize["declawed"] = o.Declawed
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableCatAllOf struct {

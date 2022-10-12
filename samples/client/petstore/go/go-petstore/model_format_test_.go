@@ -475,55 +475,50 @@ func (o *FormatTest) SetBigDecimal(v float64) {
 }
 
 func (o FormatTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o FormatTest) ToMap() map[string]interface{} {
+func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Integer != nil {
-		toSerialize["integer"] = *o.Integer
+		toSerialize["integer"] = o.Integer
 	}
 	if o.Int32 != nil {
-		toSerialize["int32"] = *o.Int32
+		toSerialize["int32"] = o.Int32
 	}
 	if o.Int64 != nil {
-		toSerialize["int64"] = *o.Int64
+		toSerialize["int64"] = o.Int64
 	}
-	if true {
-		toSerialize["number"] = *o.Number
-	}
+	toSerialize["number"] = o.Number
 	if o.Float != nil {
-		toSerialize["float"] = *o.Float
+		toSerialize["float"] = o.Float
 	}
 	if o.Double != nil {
-		toSerialize["double"] = *o.Double
+		toSerialize["double"] = o.Double
 	}
 	if o.String != nil {
-		toSerialize["string"] = *o.String
+		toSerialize["string"] = o.String
 	}
-	if true {
-		toSerialize["byte"] = *o.Byte
-	}
+	toSerialize["byte"] = o.Byte
 	if o.Binary != nil {
-		toSerialize["binary"] = *o.Binary
+		toSerialize["binary"] = o.Binary
 	}
-	if true {
-		toSerialize["date"] = *o.Date
-	}
+	toSerialize["date"] = o.Date
 	if o.DateTime != nil {
-		toSerialize["dateTime"] = *o.DateTime
+		toSerialize["dateTime"] = o.DateTime
 	}
 	if o.Uuid != nil {
-		toSerialize["uuid"] = *o.Uuid
+		toSerialize["uuid"] = o.Uuid
 	}
-	if true {
-		toSerialize["password"] = *o.Password
-	}
+	toSerialize["password"] = o.Password
 	if o.BigDecimal != nil {
-		toSerialize["BigDecimal"] = *o.BigDecimal
+		toSerialize["BigDecimal"] = o.BigDecimal
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableFormatTest struct {

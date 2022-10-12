@@ -101,24 +101,25 @@ func (o *AppleReq) SetMealy(v bool) {
 }
 
 func (o AppleReq) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o AppleReq) ToMap() map[string]interface{} {
+func (o AppleReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["cultivar"] = *o.Cultivar
-	}
+	toSerialize["cultivar"] = o.Cultivar
 	if o.Mealy != nil {
-		toSerialize["mealy"] = *o.Mealy
+		toSerialize["mealy"] = o.Mealy
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {

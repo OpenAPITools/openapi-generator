@@ -102,19 +102,20 @@ func (o *Animal) SetColor(v string) {
 }
 
 func (o Animal) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Animal) ToMap() map[string]interface{} {
+func (o Animal) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["className"] = *o.ClassName
-	}
+	toSerialize["className"] = o.ClassName
 	if o.Color != nil {
-		toSerialize["color"] = *o.Color
+		toSerialize["color"] = o.Color
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableAnimal struct {

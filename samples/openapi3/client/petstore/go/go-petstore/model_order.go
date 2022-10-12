@@ -246,36 +246,39 @@ func (o *Order) SetComplete(v bool) {
 }
 
 func (o Order) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Order) ToMap() map[string]interface{} {
+func (o Order) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
-		toSerialize["id"] = *o.Id
+		toSerialize["id"] = o.Id
 	}
 	if o.PetId != nil {
-		toSerialize["petId"] = *o.PetId
+		toSerialize["petId"] = o.PetId
 	}
 	if o.Quantity != nil {
-		toSerialize["quantity"] = *o.Quantity
+		toSerialize["quantity"] = o.Quantity
 	}
 	if o.ShipDate != nil {
-		toSerialize["shipDate"] = *o.ShipDate
+		toSerialize["shipDate"] = o.ShipDate
 	}
 	if o.Status != nil {
-		toSerialize["status"] = *o.Status
+		toSerialize["status"] = o.Status
 	}
 	if o.Complete != nil {
-		toSerialize["complete"] = *o.Complete
+		toSerialize["complete"] = o.Complete
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Order) UnmarshalJSON(bytes []byte) (err error) {

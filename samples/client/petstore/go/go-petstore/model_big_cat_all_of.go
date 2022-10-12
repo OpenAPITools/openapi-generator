@@ -72,16 +72,19 @@ func (o *BigCatAllOf) SetKind(v string) {
 }
 
 func (o BigCatAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o BigCatAllOf) ToMap() map[string]interface{} {
+func (o BigCatAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Kind != nil {
-		toSerialize["kind"] = *o.Kind
+		toSerialize["kind"] = o.Kind
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableBigCatAllOf struct {

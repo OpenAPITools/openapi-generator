@@ -108,24 +108,27 @@ func (o *Model200Response) SetClass(v string) {
 }
 
 func (o Model200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Model200Response) ToMap() map[string]interface{} {
+func (o Model200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = *o.Name
+		toSerialize["name"] = o.Name
 	}
 	if o.Class != nil {
-		toSerialize["class"] = *o.Class
+		toSerialize["class"] = o.Class
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {

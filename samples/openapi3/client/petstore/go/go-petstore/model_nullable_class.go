@@ -504,29 +504,32 @@ func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface
 }
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o NullableClass) ToMap() map[string]interface{} {
+func (o NullableClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.IntegerProp.IsSet() {
-		toSerialize["integer_prop"] = *o.IntegerProp.Get()
+		toSerialize["integer_prop"] = o.IntegerProp.Get()
 	}
 	if o.NumberProp.IsSet() {
-		toSerialize["number_prop"] = *o.NumberProp.Get()
+		toSerialize["number_prop"] = o.NumberProp.Get()
 	}
 	if o.BooleanProp.IsSet() {
-		toSerialize["boolean_prop"] = *o.BooleanProp.Get()
+		toSerialize["boolean_prop"] = o.BooleanProp.Get()
 	}
 	if o.StringProp.IsSet() {
-		toSerialize["string_prop"] = *o.StringProp.Get()
+		toSerialize["string_prop"] = o.StringProp.Get()
 	}
 	if o.DateProp.IsSet() {
-		toSerialize["date_prop"] = *o.DateProp.Get()
+		toSerialize["date_prop"] = o.DateProp.Get()
 	}
 	if o.DatetimeProp.IsSet() {
-		toSerialize["datetime_prop"] = *o.DatetimeProp.Get()
+		toSerialize["datetime_prop"] = o.DatetimeProp.Get()
 	}
 	if o.ArrayNullableProp != nil {
 		toSerialize["array_nullable_prop"] = *o.ArrayNullableProp
@@ -535,7 +538,7 @@ func (o NullableClass) ToMap() map[string]interface{} {
 		toSerialize["array_and_items_nullable_prop"] = *o.ArrayAndItemsNullableProp
 	}
 	if o.ArrayItemsNullable != nil {
-		toSerialize["array_items_nullable"] = *o.ArrayItemsNullable
+		toSerialize["array_items_nullable"] = o.ArrayItemsNullable
 	}
 	if o.ObjectNullableProp != nil {
 		toSerialize["object_nullable_prop"] = *o.ObjectNullableProp
@@ -544,9 +547,9 @@ func (o NullableClass) ToMap() map[string]interface{} {
 		toSerialize["object_and_items_nullable_prop"] = *o.ObjectAndItemsNullableProp
 	}
 	if o.ObjectItemsNullable != nil {
-		toSerialize["object_items_nullable"] = *o.ObjectItemsNullable
+		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableNullableClass struct {

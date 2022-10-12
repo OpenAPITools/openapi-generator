@@ -105,19 +105,22 @@ func (o *Model200Response) SetClass(v string) {
 }
 
 func (o Model200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Model200Response) ToMap() map[string]interface{} {
+func (o Model200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = *o.Name
+		toSerialize["name"] = o.Name
 	}
 	if o.Class != nil {
-		toSerialize["class"] = *o.Class
+		toSerialize["class"] = o.Class
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableModel200Response struct {

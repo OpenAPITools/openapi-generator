@@ -105,19 +105,22 @@ func (o *EnumArrays) SetArrayEnum(v []string) {
 }
 
 func (o EnumArrays) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o EnumArrays) ToMap() map[string]interface{} {
+func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.JustSymbol != nil {
-		toSerialize["just_symbol"] = *o.JustSymbol
+		toSerialize["just_symbol"] = o.JustSymbol
 	}
 	if o.ArrayEnum != nil {
-		toSerialize["array_enum"] = *o.ArrayEnum
+		toSerialize["array_enum"] = o.ArrayEnum
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableEnumArrays struct {

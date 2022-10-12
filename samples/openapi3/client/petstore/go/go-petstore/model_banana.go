@@ -75,21 +75,24 @@ func (o *Banana) SetLengthCm(v float32) {
 }
 
 func (o Banana) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Banana) ToMap() map[string]interface{} {
+func (o Banana) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.LengthCm != nil {
-		toSerialize["lengthCm"] = *o.LengthCm
+		toSerialize["lengthCm"] = o.LengthCm
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {

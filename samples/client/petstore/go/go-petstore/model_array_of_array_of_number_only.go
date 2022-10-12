@@ -72,16 +72,19 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 }
 
 func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ArrayOfArrayOfNumberOnly) ToMap() map[string]interface{} {
+func (o ArrayOfArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayArrayNumber != nil {
-		toSerialize["ArrayArrayNumber"] = *o.ArrayArrayNumber
+		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableArrayOfArrayOfNumberOnly struct {

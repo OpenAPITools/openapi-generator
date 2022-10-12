@@ -173,28 +173,21 @@ func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderDefault) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o TypeHolderDefault) ToMap() map[string]interface{} {
+func (o TypeHolderDefault) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["string_item"] = *o.StringItem
-	}
-	if true {
-		toSerialize["number_item"] = *o.NumberItem
-	}
-	if true {
-		toSerialize["integer_item"] = *o.IntegerItem
-	}
-	if true {
-		toSerialize["bool_item"] = *o.BoolItem
-	}
-	if true {
-		toSerialize["array_item"] = *o.ArrayItem
-	}
-	return toSerialize
+	toSerialize["string_item"] = o.StringItem
+	toSerialize["number_item"] = o.NumberItem
+	toSerialize["integer_item"] = o.IntegerItem
+	toSerialize["bool_item"] = o.BoolItem
+	toSerialize["array_item"] = o.ArrayItem
+	return toSerialize, nil
 }
 
 type NullableTypeHolderDefault struct {

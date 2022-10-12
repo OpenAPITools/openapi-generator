@@ -72,16 +72,19 @@ func (o *DogAllOf) SetBreed(v string) {
 }
 
 func (o DogAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o DogAllOf) ToMap() map[string]interface{} {
+func (o DogAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Breed != nil {
-		toSerialize["breed"] = *o.Breed
+		toSerialize["breed"] = o.Breed
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableDogAllOf struct {

@@ -108,24 +108,27 @@ func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]
 }
 
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o AdditionalPropertiesClass) ToMap() map[string]interface{} {
+func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MapProperty != nil {
-		toSerialize["map_property"] = *o.MapProperty
+		toSerialize["map_property"] = o.MapProperty
 	}
 	if o.MapOfMapProperty != nil {
-		toSerialize["map_of_map_property"] = *o.MapOfMapProperty
+		toSerialize["map_of_map_property"] = o.MapOfMapProperty
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
