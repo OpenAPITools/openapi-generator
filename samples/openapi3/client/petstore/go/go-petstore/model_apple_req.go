@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AppleReq type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AppleReq{}
+
 // AppleReq struct for AppleReq
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`
@@ -98,19 +101,24 @@ func (o *AppleReq) SetMealy(v bool) {
 }
 
 func (o AppleReq) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AppleReq) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["cultivar"] = o.Cultivar
+		toSerialize["cultivar"] = *o.Cultivar
 	}
 	if o.Mealy != nil {
-		toSerialize["mealy"] = o.Mealy
+		toSerialize["mealy"] = *o.Mealy
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {

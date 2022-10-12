@@ -326,3 +326,7 @@ func (v *NullableTime) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+type MappedNullable interface {
+	ToMap() map[string]interface{}
+}

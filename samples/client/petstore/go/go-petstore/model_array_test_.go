@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayTest{}
+
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString []string `json:"array_of_string,omitempty"`
@@ -135,17 +138,22 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 }
 
 func (o ArrayTest) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayTest) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayOfString != nil {
-		toSerialize["array_of_string"] = o.ArrayOfString
+		toSerialize["array_of_string"] = *o.ArrayOfString
 	}
 	if o.ArrayArrayOfInteger != nil {
-		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
+		toSerialize["array_array_of_integer"] = *o.ArrayArrayOfInteger
 	}
 	if o.ArrayArrayOfModel != nil {
-		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
+		toSerialize["array_array_of_model"] = *o.ArrayArrayOfModel
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableArrayTest struct {

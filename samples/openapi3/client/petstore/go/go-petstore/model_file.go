@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the File type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &File{}
+
 // File Must be named `File` for test.
 type File struct {
 	// Test capitalization
@@ -73,16 +76,21 @@ func (o *File) SetSourceURI(v string) {
 }
 
 func (o File) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o File) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.SourceURI != nil {
-		toSerialize["sourceURI"] = o.SourceURI
+		toSerialize["sourceURI"] = *o.SourceURI
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *File) UnmarshalJSON(bytes []byte) (err error) {

@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the OuterComposite type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &OuterComposite{}
+
 // OuterComposite struct for OuterComposite
 type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`
@@ -138,22 +141,27 @@ func (o *OuterComposite) SetMyBoolean(v bool) {
 }
 
 func (o OuterComposite) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o OuterComposite) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.MyNumber != nil {
-		toSerialize["my_number"] = o.MyNumber
+		toSerialize["my_number"] = *o.MyNumber
 	}
 	if o.MyString != nil {
-		toSerialize["my_string"] = o.MyString
+		toSerialize["my_string"] = *o.MyString
 	}
 	if o.MyBoolean != nil {
-		toSerialize["my_boolean"] = o.MyBoolean
+		toSerialize["my_boolean"] = *o.MyBoolean
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *OuterComposite) UnmarshalJSON(bytes []byte) (err error) {

@@ -1442,20 +1442,20 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("enum_query_string_array", parameterToString(s.Index(i), "multi"))
+				parameterAddToQuery(localVarQueryParams, "enum_query_string_array", s.Index(i), "multi")
 			}
 		} else {
-			localVarQueryParams.Add("enum_query_string_array", parameterToString(t, "multi"))
+                        parameterAddToQuery(localVarQueryParams, "enum_query_string_array", t, "multi")
 		}
 	}
 	if r.enumQueryString != nil {
-		localVarQueryParams.Add("enum_query_string", parameterToString(*r.enumQueryString, ""))
+                parameterAddToQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
 	}
 	if r.enumQueryInteger != nil {
-		localVarQueryParams.Add("enum_query_integer", parameterToString(*r.enumQueryInteger, ""))
+                parameterAddToQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
 	}
 	if r.enumQueryDouble != nil {
-		localVarQueryParams.Add("enum_query_double", parameterToString(*r.enumQueryDouble, ""))
+                parameterAddToQuery(localVarQueryParams, "enum_query_double", r.enumQueryDouble, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1611,10 +1611,10 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	localVarQueryParams.Add("required_string_group", parameterToString(*r.requiredStringGroup, ""))
 	localVarQueryParams.Add("required_int64_group", parameterToString(*r.requiredInt64Group, ""))
 	if r.stringGroup != nil {
-		localVarQueryParams.Add("string_group", parameterToString(*r.stringGroup, ""))
+                parameterAddToQuery(localVarQueryParams, "string_group", r.stringGroup, "")
 	}
 	if r.int64Group != nil {
-		localVarQueryParams.Add("int64_group", parameterToString(*r.int64Group, ""))
+                parameterAddToQuery(localVarQueryParams, "int64_group", r.int64Group, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1977,10 +1977,10 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
+				parameterToString(localVarQueryParams, "pipe", s.Index(i), "multi")
 			}
 		} else {
-			localVarQueryParams.Add("pipe", parameterToString(t, "multi"))
+                        parameterToString(localVarQueryParams, "pipe", t, "multi")
 		}
 	}
 	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
@@ -1991,10 +1991,10 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+				parameterToString(localVarQueryParams, "context", s.Index(i), "multi")
 			}
 		} else {
-			localVarQueryParams.Add("context", parameterToString(t, "multi"))
+                        parameterToString(localVarQueryParams, "context", t, "multi")
 		}
 	}
 	// to determine the Content-Type header
@@ -2110,10 +2110,10 @@ func (a *FakeApiService) TestUniqueItemsHeaderAndQueryParameterCollectionFormatE
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("queryUnique", parameterToString(s.Index(i), "multi"))
+				parameterToString(localVarQueryParams, "queryUnique", s.Index(i), "multi")
 			}
 		} else {
-			localVarQueryParams.Add("queryUnique", parameterToString(t, "multi"))
+                        parameterToString(localVarQueryParams, "queryUnique", t, "multi")
 		}
 	}
 	// to determine the Content-Type header

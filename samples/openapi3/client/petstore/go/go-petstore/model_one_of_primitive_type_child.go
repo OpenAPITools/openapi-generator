@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the OneOfPrimitiveTypeChild type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &OneOfPrimitiveTypeChild{}
+
 // OneOfPrimitiveTypeChild struct for OneOfPrimitiveTypeChild
 type OneOfPrimitiveTypeChild struct {
 	Name *string `json:"name,omitempty"`
@@ -72,16 +75,21 @@ func (o *OneOfPrimitiveTypeChild) SetName(v string) {
 }
 
 func (o OneOfPrimitiveTypeChild) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o OneOfPrimitiveTypeChild) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *OneOfPrimitiveTypeChild) UnmarshalJSON(bytes []byte) (err error) {

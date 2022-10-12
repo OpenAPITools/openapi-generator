@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the MapTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MapTest{}
+
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
@@ -168,20 +171,25 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 }
 
 func (o MapTest) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o MapTest) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.MapMapOfString != nil {
-		toSerialize["map_map_of_string"] = o.MapMapOfString
+		toSerialize["map_map_of_string"] = *o.MapMapOfString
 	}
 	if o.MapOfEnumString != nil {
-		toSerialize["map_of_enum_string"] = o.MapOfEnumString
+		toSerialize["map_of_enum_string"] = *o.MapOfEnumString
 	}
 	if o.DirectMap != nil {
-		toSerialize["direct_map"] = o.DirectMap
+		toSerialize["direct_map"] = *o.DirectMap
 	}
 	if o.IndirectMap != nil {
-		toSerialize["indirect_map"] = o.IndirectMap
+		toSerialize["indirect_map"] = *o.IndirectMap
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableMapTest struct {

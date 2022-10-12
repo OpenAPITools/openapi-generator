@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the User type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &User{}
+
 // User struct for User
 type User struct {
 	Id *int64 `json:"id,omitempty"`
@@ -443,49 +446,54 @@ func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o User) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
-		toSerialize["id"] = o.Id
+		toSerialize["id"] = *o.Id
 	}
 	if o.Username != nil {
-		toSerialize["username"] = o.Username
+		toSerialize["username"] = *o.Username
 	}
 	if o.FirstName != nil {
-		toSerialize["firstName"] = o.FirstName
+		toSerialize["firstName"] = *o.FirstName
 	}
 	if o.LastName != nil {
-		toSerialize["lastName"] = o.LastName
+		toSerialize["lastName"] = *o.LastName
 	}
 	if o.Email != nil {
-		toSerialize["email"] = o.Email
+		toSerialize["email"] = *o.Email
 	}
 	if o.Password != nil {
-		toSerialize["password"] = o.Password
+		toSerialize["password"] = *o.Password
 	}
 	if o.Phone != nil {
-		toSerialize["phone"] = o.Phone
+		toSerialize["phone"] = *o.Phone
 	}
 	if o.UserStatus != nil {
-		toSerialize["userStatus"] = o.UserStatus
+		toSerialize["userStatus"] = *o.UserStatus
 	}
 	if o.ArbitraryObject != nil {
-		toSerialize["arbitraryObject"] = o.ArbitraryObject
+		toSerialize["arbitraryObject"] = *o.ArbitraryObject
 	}
 	if o.ArbitraryNullableObject != nil {
-		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
+		toSerialize["arbitraryNullableObject"] = *o.ArbitraryNullableObject
 	}
 	if o.ArbitraryTypeValue != nil {
-		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
+		toSerialize["arbitraryTypeValue"] = *o.ArbitraryTypeValue
 	}
 	if o.ArbitraryNullableTypeValue != nil {
-		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
+		toSerialize["arbitraryNullableTypeValue"] = *o.ArbitraryNullableTypeValue
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *User) UnmarshalJSON(bytes []byte) (err error) {

@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Dog type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Dog{}
+
 // Dog struct for Dog
 type Dog struct {
 	Animal
@@ -73,6 +76,11 @@ func (o *Dog) SetBreed(v string) {
 }
 
 func (o Dog) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Dog) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
@@ -83,9 +91,9 @@ func (o Dog) MarshalJSON() ([]byte, error) {
 		return []byte{}, errAnimal
 	}
 	if o.Breed != nil {
-		toSerialize["breed"] = o.Breed
+		toSerialize["breed"] = *o.Breed
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableDog struct {

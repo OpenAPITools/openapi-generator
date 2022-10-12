@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Zebra type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Zebra{}
+
 // Zebra struct for Zebra
 type Zebra struct {
 	Type *string `json:"type,omitempty"`
@@ -98,19 +101,24 @@ func (o *Zebra) SetClassName(v string) {
 }
 
 func (o Zebra) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Zebra) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Type != nil {
-		toSerialize["type"] = o.Type
+		toSerialize["type"] = *o.Type
 	}
 	if true {
-		toSerialize["className"] = o.ClassName
+		toSerialize["className"] = *o.ClassName
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *Zebra) UnmarshalJSON(bytes []byte) (err error) {

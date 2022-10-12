@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the DogAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DogAllOf{}
+
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
@@ -72,16 +75,21 @@ func (o *DogAllOf) SetBreed(v string) {
 }
 
 func (o DogAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o DogAllOf) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Breed != nil {
-		toSerialize["breed"] = o.Breed
+		toSerialize["breed"] = *o.Breed
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *DogAllOf) UnmarshalJSON(bytes []byte) (err error) {

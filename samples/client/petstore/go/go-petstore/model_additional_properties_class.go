@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesClass{}
+
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString *map[string]string `json:"map_string,omitempty"`
@@ -399,41 +402,46 @@ func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 }
 
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesClass) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.MapString != nil {
-		toSerialize["map_string"] = o.MapString
+		toSerialize["map_string"] = *o.MapString
 	}
 	if o.MapNumber != nil {
-		toSerialize["map_number"] = o.MapNumber
+		toSerialize["map_number"] = *o.MapNumber
 	}
 	if o.MapInteger != nil {
-		toSerialize["map_integer"] = o.MapInteger
+		toSerialize["map_integer"] = *o.MapInteger
 	}
 	if o.MapBoolean != nil {
-		toSerialize["map_boolean"] = o.MapBoolean
+		toSerialize["map_boolean"] = *o.MapBoolean
 	}
 	if o.MapArrayInteger != nil {
-		toSerialize["map_array_integer"] = o.MapArrayInteger
+		toSerialize["map_array_integer"] = *o.MapArrayInteger
 	}
 	if o.MapArrayAnytype != nil {
-		toSerialize["map_array_anytype"] = o.MapArrayAnytype
+		toSerialize["map_array_anytype"] = *o.MapArrayAnytype
 	}
 	if o.MapMapString != nil {
-		toSerialize["map_map_string"] = o.MapMapString
+		toSerialize["map_map_string"] = *o.MapMapString
 	}
 	if o.MapMapAnytype != nil {
-		toSerialize["map_map_anytype"] = o.MapMapAnytype
+		toSerialize["map_map_anytype"] = *o.MapMapAnytype
 	}
 	if o.Anytype1 != nil {
-		toSerialize["anytype_1"] = o.Anytype1
+		toSerialize["anytype_1"] = *o.Anytype1
 	}
 	if o.Anytype2 != nil {
-		toSerialize["anytype_2"] = o.Anytype2
+		toSerialize["anytype_2"] = *o.Anytype2
 	}
 	if o.Anytype3 != nil {
-		toSerialize["anytype_3"] = o.Anytype3
+		toSerialize["anytype_3"] = *o.Anytype3
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableAdditionalPropertiesClass struct {

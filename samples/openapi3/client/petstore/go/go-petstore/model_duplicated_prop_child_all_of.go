@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the DuplicatedPropChildAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DuplicatedPropChildAllOf{}
+
 // DuplicatedPropChildAllOf struct for DuplicatedPropChildAllOf
 type DuplicatedPropChildAllOf struct {
 	// A discriminator value
@@ -73,16 +76,21 @@ func (o *DuplicatedPropChildAllOf) SetDupProp(v string) {
 }
 
 func (o DuplicatedPropChildAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o DuplicatedPropChildAllOf) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.DupProp != nil {
-		toSerialize["dup-prop"] = o.DupProp
+		toSerialize["dup-prop"] = *o.DupProp
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *DuplicatedPropChildAllOf) UnmarshalJSON(bytes []byte) (err error) {

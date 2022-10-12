@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Client type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Client{}
+
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
@@ -72,16 +75,21 @@ func (o *Client) SetClient(v string) {
 }
 
 func (o Client) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Client) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Client != nil {
-		toSerialize["client"] = o.Client
+		toSerialize["client"] = *o.Client
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *Client) UnmarshalJSON(bytes []byte) (err error) {

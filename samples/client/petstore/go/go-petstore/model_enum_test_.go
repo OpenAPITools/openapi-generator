@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the EnumTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EnumTest{}
+
 // EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString *string `json:"enum_string,omitempty"`
@@ -194,23 +197,28 @@ func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 }
 
 func (o EnumTest) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o EnumTest) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.EnumString != nil {
-		toSerialize["enum_string"] = o.EnumString
+		toSerialize["enum_string"] = *o.EnumString
 	}
 	if true {
-		toSerialize["enum_string_required"] = o.EnumStringRequired
+		toSerialize["enum_string_required"] = *o.EnumStringRequired
 	}
 	if o.EnumInteger != nil {
-		toSerialize["enum_integer"] = o.EnumInteger
+		toSerialize["enum_integer"] = *o.EnumInteger
 	}
 	if o.EnumNumber != nil {
-		toSerialize["enum_number"] = o.EnumNumber
+		toSerialize["enum_number"] = *o.EnumNumber
 	}
 	if o.OuterEnum != nil {
-		toSerialize["outerEnum"] = o.OuterEnum
+		toSerialize["outerEnum"] = *o.OuterEnum
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableEnumTest struct {

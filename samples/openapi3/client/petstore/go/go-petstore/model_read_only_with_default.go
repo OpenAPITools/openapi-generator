@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ReadOnlyWithDefault type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ReadOnlyWithDefault{}
+
 // ReadOnlyWithDefault struct for ReadOnlyWithDefault
 type ReadOnlyWithDefault struct {
 	Prop1 *string `json:"prop1,omitempty"`
@@ -282,34 +285,39 @@ func (o *ReadOnlyWithDefault) SetIntProp2(v float32) {
 }
 
 func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o ReadOnlyWithDefault) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Prop1 != nil {
-		toSerialize["prop1"] = o.Prop1
+		toSerialize["prop1"] = *o.Prop1
 	}
 	if o.Prop2 != nil {
-		toSerialize["prop2"] = o.Prop2
+		toSerialize["prop2"] = *o.Prop2
 	}
 	if o.Prop3 != nil {
-		toSerialize["prop3"] = o.Prop3
+		toSerialize["prop3"] = *o.Prop3
 	}
 	if o.BoolProp1 != nil {
-		toSerialize["boolProp1"] = o.BoolProp1
+		toSerialize["boolProp1"] = *o.BoolProp1
 	}
 	if o.BoolProp2 != nil {
-		toSerialize["boolProp2"] = o.BoolProp2
+		toSerialize["boolProp2"] = *o.BoolProp2
 	}
 	if o.IntProp1 != nil {
-		toSerialize["intProp1"] = o.IntProp1
+		toSerialize["intProp1"] = *o.IntProp1
 	}
 	if o.IntProp2 != nil {
-		toSerialize["intProp2"] = o.IntProp2
+		toSerialize["intProp2"] = *o.IntProp2
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {

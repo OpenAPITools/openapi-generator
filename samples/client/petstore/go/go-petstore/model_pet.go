@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Pet type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Pet{}
+
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
@@ -221,26 +224,31 @@ func (o *Pet) SetStatus(v string) {
 }
 
 func (o Pet) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Pet) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
-		toSerialize["id"] = o.Id
+		toSerialize["id"] = *o.Id
 	}
 	if o.Category != nil {
-		toSerialize["category"] = o.Category
+		toSerialize["category"] = *o.Category
 	}
 	if true {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
 	if true {
-		toSerialize["photoUrls"] = o.PhotoUrls
+		toSerialize["photoUrls"] = *o.PhotoUrls
 	}
 	if o.Tags != nil {
-		toSerialize["tags"] = o.Tags
+		toSerialize["tags"] = *o.Tags
 	}
 	if o.Status != nil {
-		toSerialize["status"] = o.Status
+		toSerialize["status"] = *o.Status
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullablePet struct {

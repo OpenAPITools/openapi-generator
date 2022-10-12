@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Model200Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Model200Response{}
+
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
@@ -105,19 +108,24 @@ func (o *Model200Response) SetClass(v string) {
 }
 
 func (o Model200Response) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Model200Response) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
 	if o.Class != nil {
-		toSerialize["class"] = o.Class
+		toSerialize["class"] = *o.Class
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {

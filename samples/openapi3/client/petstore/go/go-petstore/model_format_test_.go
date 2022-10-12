@@ -16,6 +16,9 @@ import (
 	"time"
 )
 
+// checks if the FormatTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FormatTest{}
+
 // FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`
@@ -510,58 +513,63 @@ func (o *FormatTest) SetPatternWithDigitsAndDelimiter(v string) {
 }
 
 func (o FormatTest) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o FormatTest) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Integer != nil {
-		toSerialize["integer"] = o.Integer
+		toSerialize["integer"] = *o.Integer
 	}
 	if o.Int32 != nil {
-		toSerialize["int32"] = o.Int32
+		toSerialize["int32"] = *o.Int32
 	}
 	if o.Int64 != nil {
-		toSerialize["int64"] = o.Int64
+		toSerialize["int64"] = *o.Int64
 	}
 	if true {
-		toSerialize["number"] = o.Number
+		toSerialize["number"] = *o.Number
 	}
 	if o.Float != nil {
-		toSerialize["float"] = o.Float
+		toSerialize["float"] = *o.Float
 	}
 	if o.Double != nil {
-		toSerialize["double"] = o.Double
+		toSerialize["double"] = *o.Double
 	}
 	if o.String != nil {
-		toSerialize["string"] = o.String
+		toSerialize["string"] = *o.String
 	}
 	if true {
-		toSerialize["byte"] = o.Byte
+		toSerialize["byte"] = *o.Byte
 	}
 	if o.Binary != nil {
-		toSerialize["binary"] = o.Binary
+		toSerialize["binary"] = *o.Binary
 	}
 	if true {
-		toSerialize["date"] = o.Date
+		toSerialize["date"] = *o.Date
 	}
 	if o.DateTime != nil {
-		toSerialize["dateTime"] = o.DateTime
+		toSerialize["dateTime"] = *o.DateTime
 	}
 	if o.Uuid != nil {
-		toSerialize["uuid"] = o.Uuid
+		toSerialize["uuid"] = *o.Uuid
 	}
 	if true {
-		toSerialize["password"] = o.Password
+		toSerialize["password"] = *o.Password
 	}
 	if o.PatternWithDigits != nil {
-		toSerialize["pattern_with_digits"] = o.PatternWithDigits
+		toSerialize["pattern_with_digits"] = *o.PatternWithDigits
 	}
 	if o.PatternWithDigitsAndDelimiter != nil {
-		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
+		toSerialize["pattern_with_digits_and_delimiter"] = *o.PatternWithDigitsAndDelimiter
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {

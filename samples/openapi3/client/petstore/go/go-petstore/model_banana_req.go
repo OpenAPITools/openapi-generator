@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the BananaReq type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &BananaReq{}
+
 // BananaReq struct for BananaReq
 type BananaReq struct {
 	LengthCm float32 `json:"lengthCm"`
@@ -98,19 +101,24 @@ func (o *BananaReq) SetSweet(v bool) {
 }
 
 func (o BananaReq) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o BananaReq) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["lengthCm"] = o.LengthCm
+		toSerialize["lengthCm"] = *o.LengthCm
 	}
 	if o.Sweet != nil {
-		toSerialize["sweet"] = o.Sweet
+		toSerialize["sweet"] = *o.Sweet
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *BananaReq) UnmarshalJSON(bytes []byte) (err error) {

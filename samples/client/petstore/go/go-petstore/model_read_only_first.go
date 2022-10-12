@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ReadOnlyFirst type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ReadOnlyFirst{}
+
 // ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
@@ -102,14 +105,19 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 }
 
 func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o ReadOnlyFirst) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
+		toSerialize["bar"] = *o.Bar
 	}
 	if o.Baz != nil {
-		toSerialize["baz"] = o.Baz
+		toSerialize["baz"] = *o.Baz
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableReadOnlyFirst struct {

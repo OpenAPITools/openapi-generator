@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the MixedPropertiesAndAdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MixedPropertiesAndAdditionalPropertiesClass{}
+
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
@@ -136,17 +139,22 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 }
 
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Uuid != nil {
-		toSerialize["uuid"] = o.Uuid
+		toSerialize["uuid"] = *o.Uuid
 	}
 	if o.DateTime != nil {
-		toSerialize["dateTime"] = o.DateTime
+		toSerialize["dateTime"] = *o.DateTime
 	}
 	if o.Map != nil {
-		toSerialize["map"] = o.Map
+		toSerialize["map"] = *o.Map
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableMixedPropertiesAndAdditionalPropertiesClass struct {

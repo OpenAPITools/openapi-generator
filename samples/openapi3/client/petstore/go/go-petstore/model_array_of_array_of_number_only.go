@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayOfArrayOfNumberOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayOfArrayOfNumberOnly{}
+
 // ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber [][]float32 `json:"ArrayArrayNumber,omitempty"`
@@ -72,16 +75,21 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 }
 
 func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayOfArrayOfNumberOnly) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayArrayNumber != nil {
-		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
+		toSerialize["ArrayArrayNumber"] = *o.ArrayArrayNumber
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {

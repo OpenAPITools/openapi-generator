@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesBoolean type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesBoolean{}
+
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
@@ -69,11 +72,16 @@ func (o *AdditionalPropertiesBoolean) SetName(v string) {
 }
 
 func (o AdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesBoolean) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableAdditionalPropertiesBoolean struct {

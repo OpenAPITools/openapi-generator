@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Tag type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Tag{}
+
 // Tag struct for Tag
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
@@ -102,14 +105,19 @@ func (o *Tag) SetName(v string) {
 }
 
 func (o Tag) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Tag) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
-		toSerialize["id"] = o.Id
+		toSerialize["id"] = *o.Id
 	}
 	if o.Name != nil {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableTag struct {

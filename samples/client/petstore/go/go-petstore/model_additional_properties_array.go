@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesArray type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesArray{}
+
 // AdditionalPropertiesArray struct for AdditionalPropertiesArray
 type AdditionalPropertiesArray struct {
 	Name *string `json:"name,omitempty"`
@@ -69,11 +72,16 @@ func (o *AdditionalPropertiesArray) SetName(v string) {
 }
 
 func (o AdditionalPropertiesArray) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesArray) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = o.Name
+		toSerialize["name"] = *o.Name
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableAdditionalPropertiesArray struct {

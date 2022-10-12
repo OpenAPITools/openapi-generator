@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesClass{}
+
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapProperty *map[string]string `json:"map_property,omitempty"`
@@ -105,19 +108,24 @@ func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]
 }
 
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesClass) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.MapProperty != nil {
-		toSerialize["map_property"] = o.MapProperty
+		toSerialize["map_property"] = *o.MapProperty
 	}
 	if o.MapOfMapProperty != nil {
-		toSerialize["map_of_map_property"] = o.MapOfMapProperty
+		toSerialize["map_of_map_property"] = *o.MapOfMapProperty
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {

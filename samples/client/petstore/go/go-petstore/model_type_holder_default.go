@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the TypeHolderDefault type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TypeHolderDefault{}
+
 // TypeHolderDefault struct for TypeHolderDefault
 type TypeHolderDefault struct {
 	StringItem string `json:"string_item"`
@@ -170,23 +173,28 @@ func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderDefault) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o TypeHolderDefault) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["string_item"] = o.StringItem
+		toSerialize["string_item"] = *o.StringItem
 	}
 	if true {
-		toSerialize["number_item"] = o.NumberItem
+		toSerialize["number_item"] = *o.NumberItem
 	}
 	if true {
-		toSerialize["integer_item"] = o.IntegerItem
+		toSerialize["integer_item"] = *o.IntegerItem
 	}
 	if true {
-		toSerialize["bool_item"] = o.BoolItem
+		toSerialize["bool_item"] = *o.BoolItem
 	}
 	if true {
-		toSerialize["array_item"] = o.ArrayItem
+		toSerialize["array_item"] = *o.ArrayItem
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableTypeHolderDefault struct {

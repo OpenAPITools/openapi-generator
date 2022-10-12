@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the NullableClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableClass{}
+
 // NullableClass struct for NullableClass
 type NullableClass struct {
 	IntegerProp NullableInt32 `json:"integer_prop,omitempty"`
@@ -501,44 +504,49 @@ func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface
 }
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o NullableClass) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.IntegerProp.IsSet() {
-		toSerialize["integer_prop"] = o.IntegerProp.Get()
+		toSerialize["integer_prop"] = *o.IntegerProp.Get()
 	}
 	if o.NumberProp.IsSet() {
-		toSerialize["number_prop"] = o.NumberProp.Get()
+		toSerialize["number_prop"] = *o.NumberProp.Get()
 	}
 	if o.BooleanProp.IsSet() {
-		toSerialize["boolean_prop"] = o.BooleanProp.Get()
+		toSerialize["boolean_prop"] = *o.BooleanProp.Get()
 	}
 	if o.StringProp.IsSet() {
-		toSerialize["string_prop"] = o.StringProp.Get()
+		toSerialize["string_prop"] = *o.StringProp.Get()
 	}
 	if o.DateProp.IsSet() {
-		toSerialize["date_prop"] = o.DateProp.Get()
+		toSerialize["date_prop"] = *o.DateProp.Get()
 	}
 	if o.DatetimeProp.IsSet() {
-		toSerialize["datetime_prop"] = o.DatetimeProp.Get()
+		toSerialize["datetime_prop"] = *o.DatetimeProp.Get()
 	}
 	if o.ArrayNullableProp != nil {
-		toSerialize["array_nullable_prop"] = o.ArrayNullableProp
+		toSerialize["array_nullable_prop"] = *o.ArrayNullableProp
 	}
 	if o.ArrayAndItemsNullableProp != nil {
-		toSerialize["array_and_items_nullable_prop"] = o.ArrayAndItemsNullableProp
+		toSerialize["array_and_items_nullable_prop"] = *o.ArrayAndItemsNullableProp
 	}
 	if o.ArrayItemsNullable != nil {
-		toSerialize["array_items_nullable"] = o.ArrayItemsNullable
+		toSerialize["array_items_nullable"] = *o.ArrayItemsNullable
 	}
 	if o.ObjectNullableProp != nil {
-		toSerialize["object_nullable_prop"] = o.ObjectNullableProp
+		toSerialize["object_nullable_prop"] = *o.ObjectNullableProp
 	}
 	if o.ObjectAndItemsNullableProp != nil {
-		toSerialize["object_and_items_nullable_prop"] = o.ObjectAndItemsNullableProp
+		toSerialize["object_and_items_nullable_prop"] = *o.ObjectAndItemsNullableProp
 	}
 	if o.ObjectItemsNullable != nil {
-		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
+		toSerialize["object_items_nullable"] = *o.ObjectItemsNullable
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableNullableClass struct {

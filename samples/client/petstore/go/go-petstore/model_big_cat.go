@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the BigCat type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &BigCat{}
+
 // BigCat struct for BigCat
 type BigCat struct {
 	Cat
@@ -73,6 +76,11 @@ func (o *BigCat) SetKind(v string) {
 }
 
 func (o BigCat) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o BigCat) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	serializedCat, errCat := json.Marshal(o.Cat)
 	if errCat != nil {
@@ -83,9 +91,9 @@ func (o BigCat) MarshalJSON() ([]byte, error) {
 		return []byte{}, errCat
 	}
 	if o.Kind != nil {
-		toSerialize["kind"] = o.Kind
+		toSerialize["kind"] = *o.Kind
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableBigCat struct {
