@@ -1667,6 +1667,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
+            newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 		}
 		return localVarHTTPResponse, newErr
 	}
