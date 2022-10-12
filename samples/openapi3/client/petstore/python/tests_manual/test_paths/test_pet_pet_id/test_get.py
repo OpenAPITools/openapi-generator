@@ -27,7 +27,7 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
     def test_get(self):
         config_with_auth = configuration.Configuration(api_key={'api_key': 'someKey'})
         used_api_client = api_client.ApiClient(configuration=config_with_auth)
-        api = get.ApiForget(api_client=used_api_client)  # noqa: E501
+        api = get.ApiForget(api_client=used_api_client)
 
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             response_json = {
@@ -59,16 +59,6 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.body, Pet)
             assert isinstance(api_response.headers, schemas.Unset)
             assert api_response.response.status == 200
-
-
-
-
-
-    response_status = 200
-
-
-
-
 
 
 if __name__ == '__main__':
