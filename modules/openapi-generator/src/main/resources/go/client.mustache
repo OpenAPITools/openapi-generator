@@ -141,11 +141,9 @@ func parameterToString( obj interface{}, keyPrefix string, collectionFormat stri
 func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interface{}) {
 	switch valuesMap := queryParams.(type) {
 	case url.Values:
-		fmt.Printf("value1 %v,%v\n", keyPrefix, obj)
 		valuesMap.Add( keyPrefix, fmt.Sprintf("%v", obj) )
 		break
 	case map[string]string:
-		fmt.Printf("value2 %v,%v\n", keyPrefix, obj)
 		valuesMap[keyPrefix] = fmt.Sprintf("%v", obj)
 		break
 	}
@@ -183,7 +181,6 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 			if err != nil {
 				return
 			}
-			fmt.Printf(">> map: %v\n", dataMap)
 			parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
 			return
 		}
@@ -211,7 +208,6 @@ func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param in
 		fmt.Printf("slice len %d\n", lenIndValue)
 		for i:=0;i<lenIndValue;i++ {
 			var arrayValue = indValue.Index(i)
-			fmt.Printf("slice %v,%v\n", i, arrayValue.Interface())
 			parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%d]", keyPrefix, i), arrayValue.Interface())
 		}
 		return
@@ -225,7 +221,6 @@ func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param in
 		iter := indValue.MapRange()
 		for iter.Next() {
 			k,v := iter.Key(), iter.Value()
-			fmt.Printf("map %v,%v\n", k.String(), v.Interface())
 			parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface())
 		}
 		return
@@ -236,7 +231,6 @@ func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param in
 			if err != nil {
 				return
 			}
-			fmt.Printf(">> map: %v\n", dataMap)
 			parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
 			return
 		}
