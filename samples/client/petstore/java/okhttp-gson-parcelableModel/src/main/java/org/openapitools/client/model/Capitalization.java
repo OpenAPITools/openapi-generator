@@ -321,9 +321,7 @@ public class Capitalization implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Capitalization.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Capitalization.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Capitalization is not found in the empty JSON string", Capitalization.openapiRequiredFields.toString()));
         }
       }

@@ -238,9 +238,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }

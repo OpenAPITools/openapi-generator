@@ -205,9 +205,7 @@ public class Apple {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Apple.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Apple.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Apple is not found in the empty JSON string", Apple.openapiRequiredFields.toString()));
         }
       }

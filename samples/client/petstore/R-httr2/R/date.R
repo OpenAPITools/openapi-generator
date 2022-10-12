@@ -38,8 +38,8 @@ Date <- R6::R6Class(
       }
       if (!missing(`url_property`)) {
         stopifnot(is.character(`url_property`), length(`url_property`) == 1)
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", `url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", `url_property`))
         }
         self$`url_property` <- `url_property`
@@ -89,8 +89,8 @@ Date <- R6::R6Class(
         self$`percent_description` <- this_object$`percent_description`
       }
       if (!is.null(this_object$`url_property`)) {
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", this_object$`url_property`))
         }
         self$`url_property` <- this_object$`url_property`
@@ -146,8 +146,8 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`percent_description` <- this_object$`percent_description`
-      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid URL:", this_object$`url_property`))
       }
       self$`url_property` <- this_object$`url_property`
@@ -171,8 +171,8 @@ Date <- R6::R6Class(
       # check the required field `url_property`
       if (!is.null(input_json$`url_property`)) {
         stopifnot(is.character(input_json$`url_property`), length(input_json$`url_property`) == 1)
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", input_json$`url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(input_json$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", input_json$`url_property`))
         }
       } else {

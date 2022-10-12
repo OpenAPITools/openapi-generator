@@ -474,6 +474,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
 
+            // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
             // fixing allVars should suffice instead of patching every collection
             for (CodegenProperty property : model.allVars){
@@ -731,6 +732,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
+                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
+                        var.vendorExtensions.put("x-csharp-value-type", true);
+                    }
+                }
+
+                // https://github.com/OpenAPITools/openapi-generator/issues/12324
+                // we should not need to iterate both vars and allVars
+                // the collections dont have the same instance, so we have to do it again
+                for (CodegenProperty var : model.allVars) {
                     if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
                         var.vendorExtensions.put("x-csharp-value-type", true);
                     }
@@ -1488,8 +1498,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
-        // this is mostly needed for reference types used as a method's parameters
+        // TODO: instead of appending the ?
+        // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
         if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType.endsWith("?")
                 ? parameter.dataType

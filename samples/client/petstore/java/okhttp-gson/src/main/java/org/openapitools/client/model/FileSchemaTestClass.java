@@ -216,9 +216,7 @@ public class FileSchemaTestClass {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (FileSchemaTestClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }

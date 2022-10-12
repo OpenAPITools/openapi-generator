@@ -161,9 +161,7 @@ public class ModelList implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ModelList.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ModelList.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelList is not found in the empty JSON string", ModelList.openapiRequiredFields.toString()));
         }
       }

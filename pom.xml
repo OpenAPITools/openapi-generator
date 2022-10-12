@@ -1271,6 +1271,7 @@
                 <module>samples/client/petstore/java/jersey3</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java-micronaut-client</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->

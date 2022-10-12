@@ -175,9 +175,7 @@ public class Foo {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Foo.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Foo.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Foo is not found in the empty JSON string", Foo.openapiRequiredFields.toString()));
         }
       }

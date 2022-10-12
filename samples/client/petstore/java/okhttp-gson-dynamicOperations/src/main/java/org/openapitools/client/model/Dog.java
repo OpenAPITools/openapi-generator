@@ -145,9 +145,7 @@ public class Dog extends Animal {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Dog.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Dog.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Dog is not found in the empty JSON string", Dog.openapiRequiredFields.toString()));
         }
       }

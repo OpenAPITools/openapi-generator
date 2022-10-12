@@ -177,9 +177,7 @@ public class DeprecatedObject {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (DeprecatedObject.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!DeprecatedObject.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in DeprecatedObject is not found in the empty JSON string", DeprecatedObject.openapiRequiredFields.toString()));
         }
       }

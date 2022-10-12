@@ -161,9 +161,7 @@ public class DogAllOf implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (DogAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!DogAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in DogAllOf is not found in the empty JSON string", DogAllOf.openapiRequiredFields.toString()));
         }
       }

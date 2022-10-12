@@ -175,9 +175,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.toString()));
         }
       }

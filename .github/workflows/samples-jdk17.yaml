@@ -3,15 +3,15 @@ on:
   push:
     paths:
       # clients
-      - samples/openapi3/client/petstore/spring-cloud-3
+      - samples/openapi3/client/petstore/spring-cloud-3/**
       # servers
-      - samples/openapi3/server/petstore/springboot-3
+      - samples/openapi3/server/petstore/springboot-3/**
   pull_request:
     paths:
       # clients
-      - samples/openapi3/client/petstore/spring-cloud-3
+      - samples/openapi3/client/petstore/spring-cloud-3/**
       # servers
-      - samples/openapi3/server/petstore/springboot-3
+      - samples/openapi3/server/petstore/springboot-3/**
 jobs:
   build:
     name: Build with JDK17

@@ -100,6 +100,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
+        apiTestTemplateFiles.put("api_test.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
@@ -302,6 +303,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator;
+    }
+
+    @Override
+    public String apiTestFileFolder()  {
+        return outputFolder + File.separator + "test" + File.separator;
     }
 
     @Override
