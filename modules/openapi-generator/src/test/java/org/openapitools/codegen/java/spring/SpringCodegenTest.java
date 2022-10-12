@@ -1706,8 +1706,8 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13241.yaml");
 
-        JavaFileAssert.assertThat(files.get("Color.java")).printFileContent()
-                .assertMethod("fromValue").bodyContainsLines("UNKNOWN_DEFAULT_OPEN_API");
+        JavaFileAssert.assertThat(files.get("Color.java"))
+                .assertMethod("fromValue").bodyContainsLines("return UNKNOWN_DEFAULT_OPEN_API");
     }
 
     @Test
@@ -1717,7 +1717,7 @@ public class SpringCodegenTest {
         codegen.setLibrary(SPRING_BOOT);
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13241.yaml");
 
-        JavaFileAssert.assertThat(files.get("Color.java")).printFileContent()
+        JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
 
     }
