@@ -72,16 +72,19 @@ func (o *Return) SetReturn(v int32) {
 }
 
 func (o Return) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Return) ToMap() map[string]interface{} {
+func (o Return) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Return != nil {
-		toSerialize["return"] = *o.Return
+		toSerialize["return"] = o.Return
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableReturn struct {

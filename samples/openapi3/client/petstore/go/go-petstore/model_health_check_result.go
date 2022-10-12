@@ -85,21 +85,24 @@ func (o *HealthCheckResult) UnsetNullableMessage() {
 }
 
 func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o HealthCheckResult) ToMap() map[string]interface{} {
+func (o HealthCheckResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.NullableMessage.IsSet() {
-		toSerialize["NullableMessage"] = *o.NullableMessage.Get()
+		toSerialize["NullableMessage"] = o.NullableMessage.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *HealthCheckResult) UnmarshalJSON(bytes []byte) (err error) {

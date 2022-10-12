@@ -138,22 +138,25 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 }
 
 func (o ArrayTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ArrayTest) ToMap() map[string]interface{} {
+func (o ArrayTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ArrayOfString != nil {
-		toSerialize["array_of_string"] = *o.ArrayOfString
+		toSerialize["array_of_string"] = o.ArrayOfString
 	}
 	if o.ArrayArrayOfInteger != nil {
-		toSerialize["array_array_of_integer"] = *o.ArrayArrayOfInteger
+		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
 	}
 	if o.ArrayArrayOfModel != nil {
-		toSerialize["array_array_of_model"] = *o.ArrayArrayOfModel
+		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableArrayTest struct {

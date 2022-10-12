@@ -197,28 +197,29 @@ func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 }
 
 func (o EnumTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o EnumTest) ToMap() map[string]interface{} {
+func (o EnumTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EnumString != nil {
-		toSerialize["enum_string"] = *o.EnumString
+		toSerialize["enum_string"] = o.EnumString
 	}
-	if true {
-		toSerialize["enum_string_required"] = *o.EnumStringRequired
-	}
+	toSerialize["enum_string_required"] = o.EnumStringRequired
 	if o.EnumInteger != nil {
-		toSerialize["enum_integer"] = *o.EnumInteger
+		toSerialize["enum_integer"] = o.EnumInteger
 	}
 	if o.EnumNumber != nil {
-		toSerialize["enum_number"] = *o.EnumNumber
+		toSerialize["enum_number"] = o.EnumNumber
 	}
 	if o.OuterEnum != nil {
-		toSerialize["outerEnum"] = *o.OuterEnum
+		toSerialize["outerEnum"] = o.OuterEnum
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableEnumTest struct {

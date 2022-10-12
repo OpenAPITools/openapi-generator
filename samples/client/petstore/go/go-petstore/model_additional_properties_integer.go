@@ -72,16 +72,19 @@ func (o *AdditionalPropertiesInteger) SetName(v string) {
 }
 
 func (o AdditionalPropertiesInteger) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o AdditionalPropertiesInteger) ToMap() map[string]interface{} {
+func (o AdditionalPropertiesInteger) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = *o.Name
+		toSerialize["name"] = o.Name
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableAdditionalPropertiesInteger struct {

@@ -138,22 +138,25 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ApiResponse) ToMap() map[string]interface{} {
+func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Code != nil {
-		toSerialize["code"] = *o.Code
+		toSerialize["code"] = o.Code
 	}
 	if o.Type != nil {
-		toSerialize["type"] = *o.Type
+		toSerialize["type"] = o.Type
 	}
 	if o.Message != nil {
-		toSerialize["message"] = *o.Message
+		toSerialize["message"] = o.Message
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableApiResponse struct {

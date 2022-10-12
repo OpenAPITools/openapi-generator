@@ -75,21 +75,24 @@ func (o *Client) SetClient(v string) {
 }
 
 func (o Client) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Client) ToMap() map[string]interface{} {
+func (o Client) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Client != nil {
-		toSerialize["client"] = *o.Client
+		toSerialize["client"] = o.Client
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Client) UnmarshalJSON(bytes []byte) (err error) {

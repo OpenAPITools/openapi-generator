@@ -105,19 +105,22 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 }
 
 func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ReadOnlyFirst) ToMap() map[string]interface{} {
+func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Bar != nil {
-		toSerialize["bar"] = *o.Bar
+		toSerialize["bar"] = o.Bar
 	}
 	if o.Baz != nil {
-		toSerialize["baz"] = *o.Baz
+		toSerialize["baz"] = o.Baz
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableReadOnlyFirst struct {

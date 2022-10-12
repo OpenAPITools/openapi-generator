@@ -75,21 +75,24 @@ func (o *NullableAllOfChild) SetName(v string) {
 }
 
 func (o NullableAllOfChild) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o NullableAllOfChild) ToMap() map[string]interface{} {
+func (o NullableAllOfChild) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
-		toSerialize["name"] = *o.Name
+		toSerialize["name"] = o.Name
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *NullableAllOfChild) UnmarshalJSON(bytes []byte) (err error) {

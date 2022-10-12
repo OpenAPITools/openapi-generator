@@ -76,21 +76,24 @@ func (o *File) SetSourceURI(v string) {
 }
 
 func (o File) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o File) ToMap() map[string]interface{} {
+func (o File) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.SourceURI != nil {
-		toSerialize["sourceURI"] = *o.SourceURI
+		toSerialize["sourceURI"] = o.SourceURI
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *File) UnmarshalJSON(bytes []byte) (err error) {

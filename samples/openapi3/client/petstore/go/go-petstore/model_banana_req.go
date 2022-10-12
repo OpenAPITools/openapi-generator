@@ -101,24 +101,25 @@ func (o *BananaReq) SetSweet(v bool) {
 }
 
 func (o BananaReq) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o BananaReq) ToMap() map[string]interface{} {
+func (o BananaReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["lengthCm"] = *o.LengthCm
-	}
+	toSerialize["lengthCm"] = o.LengthCm
 	if o.Sweet != nil {
-		toSerialize["sweet"] = *o.Sweet
+		toSerialize["sweet"] = o.Sweet
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *BananaReq) UnmarshalJSON(bytes []byte) (err error) {

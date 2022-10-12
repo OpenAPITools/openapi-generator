@@ -85,21 +85,24 @@ func (o *NullableAllOf) UnsetChild() {
 }
 
 func (o NullableAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o NullableAllOf) ToMap() map[string]interface{} {
+func (o NullableAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Child.IsSet() {
-		toSerialize["child"] = *o.Child.Get()
+		toSerialize["child"] = o.Child.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *NullableAllOf) UnmarshalJSON(bytes []byte) (err error) {

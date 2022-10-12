@@ -75,21 +75,24 @@ func (o *ClassModel) SetClass(v string) {
 }
 
 func (o ClassModel) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o ClassModel) ToMap() map[string]interface{} {
+func (o ClassModel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Class != nil {
-		toSerialize["_class"] = *o.Class
+		toSerialize["_class"] = o.Class
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *ClassModel) UnmarshalJSON(bytes []byte) (err error) {

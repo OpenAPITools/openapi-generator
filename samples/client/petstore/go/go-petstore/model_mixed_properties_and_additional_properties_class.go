@@ -139,22 +139,25 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 }
 
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() map[string]interface{} {
+func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Uuid != nil {
-		toSerialize["uuid"] = *o.Uuid
+		toSerialize["uuid"] = o.Uuid
 	}
 	if o.DateTime != nil {
-		toSerialize["dateTime"] = *o.DateTime
+		toSerialize["dateTime"] = o.DateTime
 	}
 	if o.Map != nil {
-		toSerialize["map"] = *o.Map
+		toSerialize["map"] = o.Map
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableMixedPropertiesAndAdditionalPropertiesClass struct {

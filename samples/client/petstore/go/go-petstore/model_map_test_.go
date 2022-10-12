@@ -171,25 +171,28 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 }
 
 func (o MapTest) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o MapTest) ToMap() map[string]interface{} {
+func (o MapTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MapMapOfString != nil {
-		toSerialize["map_map_of_string"] = *o.MapMapOfString
+		toSerialize["map_map_of_string"] = o.MapMapOfString
 	}
 	if o.MapOfEnumString != nil {
-		toSerialize["map_of_enum_string"] = *o.MapOfEnumString
+		toSerialize["map_of_enum_string"] = o.MapOfEnumString
 	}
 	if o.DirectMap != nil {
-		toSerialize["direct_map"] = *o.DirectMap
+		toSerialize["direct_map"] = o.DirectMap
 	}
 	if o.IndirectMap != nil {
-		toSerialize["indirect_map"] = *o.IndirectMap
+		toSerialize["indirect_map"] = o.IndirectMap
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableMapTest struct {

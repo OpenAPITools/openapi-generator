@@ -75,21 +75,24 @@ func (o *FooGetDefaultResponse) SetString(v Foo) {
 }
 
 func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o FooGetDefaultResponse) ToMap() map[string]interface{} {
+func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.String != nil {
-		toSerialize["string"] = *o.String
+		toSerialize["string"] = o.String
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {

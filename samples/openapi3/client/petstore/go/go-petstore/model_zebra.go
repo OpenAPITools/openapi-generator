@@ -101,24 +101,25 @@ func (o *Zebra) SetClassName(v string) {
 }
 
 func (o Zebra) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Zebra) ToMap() map[string]interface{} {
+func (o Zebra) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Type != nil {
-		toSerialize["type"] = *o.Type
+		toSerialize["type"] = o.Type
 	}
-	if true {
-		toSerialize["className"] = *o.ClassName
-	}
+	toSerialize["className"] = o.ClassName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Zebra) UnmarshalJSON(bytes []byte) (err error) {

@@ -72,16 +72,19 @@ func (o *List) SetVar123List(v string) {
 }
 
 func (o List) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o List) ToMap() map[string]interface{} {
+func (o List) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Var123List != nil {
-		toSerialize["123-list"] = *o.Var123List
+		toSerialize["123-list"] = o.Var123List
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableList struct {

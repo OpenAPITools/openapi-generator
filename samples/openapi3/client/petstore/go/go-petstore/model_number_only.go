@@ -75,21 +75,24 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 }
 
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o NumberOnly) ToMap() map[string]interface{} {
+func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.JustNumber != nil {
-		toSerialize["JustNumber"] = *o.JustNumber
+		toSerialize["JustNumber"] = o.JustNumber
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *NumberOnly) UnmarshalJSON(bytes []byte) (err error) {

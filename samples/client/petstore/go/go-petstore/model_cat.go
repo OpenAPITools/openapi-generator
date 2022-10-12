@@ -76,24 +76,27 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 func (o Cat) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Cat) ToMap() map[string]interface{} {
+func (o Cat) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	if o.Declawed != nil {
-		toSerialize["declawed"] = *o.Declawed
+		toSerialize["declawed"] = o.Declawed
 	}
-	return toSerialize
+	return toSerialize, nil
 }
 
 type NullableCat struct {

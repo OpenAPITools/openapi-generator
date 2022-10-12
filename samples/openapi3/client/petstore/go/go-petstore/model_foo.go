@@ -79,21 +79,24 @@ func (o *Foo) SetBar(v string) {
 }
 
 func (o Foo) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Foo) ToMap() map[string]interface{} {
+func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Bar != nil {
-		toSerialize["bar"] = *o.Bar
+		toSerialize["bar"] = o.Bar
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {

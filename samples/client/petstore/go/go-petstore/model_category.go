@@ -100,19 +100,20 @@ func (o *Category) SetName(v string) {
 }
 
 func (o Category) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Category) ToMap() map[string]interface{} {
+func (o Category) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
-		toSerialize["id"] = *o.Id
+		toSerialize["id"] = o.Id
 	}
-	if true {
-		toSerialize["name"] = *o.Name
-	}
-	return toSerialize
+	toSerialize["name"] = o.Name
+	return toSerialize, nil
 }
 
 type NullableCategory struct {

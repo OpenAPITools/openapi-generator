@@ -134,27 +134,28 @@ func (o *Whale) SetClassName(v string) {
 }
 
 func (o Whale) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Whale) ToMap() map[string]interface{} {
+func (o Whale) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.HasBaleen != nil {
-		toSerialize["hasBaleen"] = *o.HasBaleen
+		toSerialize["hasBaleen"] = o.HasBaleen
 	}
 	if o.HasTeeth != nil {
-		toSerialize["hasTeeth"] = *o.HasTeeth
+		toSerialize["hasTeeth"] = o.HasTeeth
 	}
-	if true {
-		toSerialize["className"] = *o.ClassName
-	}
+	toSerialize["className"] = o.ClassName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Whale) UnmarshalJSON(bytes []byte) (err error) {

@@ -167,30 +167,31 @@ func (o *Name) SetVar123Number(v int32) {
 }
 
 func (o Name) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Name) ToMap() map[string]interface{} {
+func (o Name) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = *o.Name
-	}
+	toSerialize["name"] = o.Name
 	if o.SnakeCase != nil {
-		toSerialize["snake_case"] = *o.SnakeCase
+		toSerialize["snake_case"] = o.SnakeCase
 	}
 	if o.Property != nil {
-		toSerialize["property"] = *o.Property
+		toSerialize["property"] = o.Property
 	}
 	if o.Var123Number != nil {
-		toSerialize["123Number"] = *o.Var123Number
+		toSerialize["123Number"] = o.Var123Number
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Name) UnmarshalJSON(bytes []byte) (err error) {

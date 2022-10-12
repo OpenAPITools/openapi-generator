@@ -75,21 +75,24 @@ func (o *Return) SetReturn(v int32) {
 }
 
 func (o Return) MarshalJSON() ([]byte, error) {
-	toSerialize := o.ToMap()
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
 	return json.Marshal(toSerialize)
 }
 
-func (o Return) ToMap() map[string]interface{} {
+func (o Return) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Return != nil {
-		toSerialize["return"] = *o.Return
+		toSerialize["return"] = o.Return
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return toSerialize
+	return toSerialize, nil
 }
 
 func (o *Return) UnmarshalJSON(bytes []byte) (err error) {
