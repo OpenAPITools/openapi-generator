@@ -844,7 +844,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+ - **Accept**: application/json
 
 
 ### HTTP response details

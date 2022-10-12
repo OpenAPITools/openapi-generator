@@ -570,15 +570,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
-
-        if (GENERICHOST.equals(getLibrary())) {
-            // all c# libraries should want this, but avoid breaking changes for now
-            // a class cannot contain a property with the same name
-            if (property.name.equals(model.classname)) {
-                property.name = property.name + "Property";
-            }
-        }
-
         super.postProcessModelProperty(model, property);
     }
 

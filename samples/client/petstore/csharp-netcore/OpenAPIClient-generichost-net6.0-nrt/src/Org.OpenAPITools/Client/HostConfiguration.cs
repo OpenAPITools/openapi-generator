@@ -112,7 +112,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
-            _jsonOptions.Converters.Add(new PolymorphicPropertyJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());

@@ -1966,8 +1966,7 @@ namespace Org.OpenAPITools.BaseApi
                         request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
-                        "application/json", 
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+                        "application/json" 
                     };
 
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);

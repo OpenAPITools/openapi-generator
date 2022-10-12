@@ -443,17 +443,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            for (CodegenProperty var : cm.vars) {
-                // check to see if model name is same as the property name
-                // which will result in compilation error
-                // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.classname)) {
-                    var.name = "_" + var.name;
-                }
-            }
-        }
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -520,6 +509,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = composedProperty.datatypeWithEnum;
             property.isMap = composedProperty.isMap;
             property.isContainer = composedProperty.isContainer;
+        }
+
+        if (property.name.equalsIgnoreCase(model.classname)) {
+            property.name = property.name + "Property";
         }
     }
 
