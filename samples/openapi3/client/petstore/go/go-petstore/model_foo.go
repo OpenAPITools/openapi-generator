@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Foo type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Foo{}
+
 // Foo struct for Foo
 type Foo struct {
 	Bar *string `json:"bar,omitempty"`
@@ -45,7 +48,7 @@ func NewFooWithDefaults() *Foo {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *Foo) GetBar() string {
-	if o == nil || isNil(o.Bar) {
+	if o == nil || o.Bar == nil {
 		var ret string
 		return ret
 	}
@@ -55,15 +58,15 @@ func (o *Foo) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Foo) GetBarOk() (*string, bool) {
-	if o == nil || isNil(o.Bar) {
-    return nil, false
+	if o == nil || o.Bar == nil {
+		return nil, false
 	}
 	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *Foo) HasBar() bool {
-	if o != nil && !isNil(o.Bar) {
+	if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -76,16 +79,21 @@ func (o *Foo) SetBar(v string) {
 }
 
 func (o Foo) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o Foo) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
+	if o.Bar != nil {
+		toSerialize["bar"] = *o.Bar
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {

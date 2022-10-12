@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the NullableAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableAllOf{}
+
 // NullableAllOf struct for NullableAllOf
 type NullableAllOf struct {
 	Child NullableNullableAllOfChild `json:"child,omitempty"`
@@ -82,16 +85,21 @@ func (o *NullableAllOf) UnsetChild() {
 }
 
 func (o NullableAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o NullableAllOf) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.Child.IsSet() {
-		toSerialize["child"] = o.Child.Get()
+		toSerialize["child"] = *o.Child.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *NullableAllOf) UnmarshalJSON(bytes []byte) (err error) {

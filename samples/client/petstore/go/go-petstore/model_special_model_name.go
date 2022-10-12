@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the SpecialModelName type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SpecialModelName{}
+
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
@@ -38,7 +41,7 @@ func NewSpecialModelNameWithDefaults() *SpecialModelName {
 
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
 func (o *SpecialModelName) GetSpecialPropertyName() int64 {
-	if o == nil || isNil(o.SpecialPropertyName) {
+	if o == nil || o.SpecialPropertyName == nil {
 		var ret int64
 		return ret
 	}
@@ -48,15 +51,15 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 // GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
-	if o == nil || isNil(o.SpecialPropertyName) {
-    return nil, false
+	if o == nil || o.SpecialPropertyName == nil {
+		return nil, false
 	}
 	return o.SpecialPropertyName, true
 }
 
 // HasSpecialPropertyName returns a boolean if a field has been set.
 func (o *SpecialModelName) HasSpecialPropertyName() bool {
-	if o != nil && !isNil(o.SpecialPropertyName) {
+	if o != nil && o.SpecialPropertyName != nil {
 		return true
 	}
 
@@ -69,11 +72,16 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 }
 
 func (o SpecialModelName) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if !isNil(o.SpecialPropertyName) {
-		toSerialize["$special[property.name]"] = o.SpecialPropertyName
-	}
+	toSerialize := o.ToMap()
 	return json.Marshal(toSerialize)
+}
+
+func (o SpecialModelName) ToMap() map[string]interface{} {
+	toSerialize := map[string]interface{}{}
+	if o.SpecialPropertyName != nil {
+		toSerialize["$special[property.name]"] = *o.SpecialPropertyName
+	}
+	return toSerialize
 }
 
 type NullableSpecialModelName struct {

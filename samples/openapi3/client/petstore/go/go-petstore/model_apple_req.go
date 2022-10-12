@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AppleReq type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AppleReq{}
+
 // AppleReq struct for AppleReq
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`
@@ -55,7 +58,7 @@ func (o *AppleReq) GetCultivar() string {
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Cultivar, true
 }
@@ -67,7 +70,7 @@ func (o *AppleReq) SetCultivar(v string) {
 
 // GetMealy returns the Mealy field value if set, zero value otherwise.
 func (o *AppleReq) GetMealy() bool {
-	if o == nil || isNil(o.Mealy) {
+	if o == nil || o.Mealy == nil {
 		var ret bool
 		return ret
 	}
@@ -77,15 +80,15 @@ func (o *AppleReq) GetMealy() bool {
 // GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetMealyOk() (*bool, bool) {
-	if o == nil || isNil(o.Mealy) {
-    return nil, false
+	if o == nil || o.Mealy == nil {
+		return nil, false
 	}
 	return o.Mealy, true
 }
 
 // HasMealy returns a boolean if a field has been set.
 func (o *AppleReq) HasMealy() bool {
-	if o != nil && !isNil(o.Mealy) {
+	if o != nil && o.Mealy != nil {
 		return true
 	}
 
@@ -98,19 +101,24 @@ func (o *AppleReq) SetMealy(v bool) {
 }
 
 func (o AppleReq) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o AppleReq) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["cultivar"] = o.Cultivar
+		toSerialize["cultivar"] = *o.Cultivar
 	}
-	if !isNil(o.Mealy) {
-		toSerialize["mealy"] = o.Mealy
+	if o.Mealy != nil {
+		toSerialize["mealy"] = *o.Mealy
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {

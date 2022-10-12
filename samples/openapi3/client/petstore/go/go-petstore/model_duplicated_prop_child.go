@@ -16,6 +16,9 @@ import (
 	"strings"
 )
 
+// checks if the DuplicatedPropChild type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DuplicatedPropChild{}
+
 // DuplicatedPropChild struct for DuplicatedPropChild
 type DuplicatedPropChild struct {
 	DuplicatedPropParent
@@ -45,7 +48,7 @@ func NewDuplicatedPropChildWithDefaults() *DuplicatedPropChild {
 
 // GetDupProp returns the DupProp field value if set, zero value otherwise.
 func (o *DuplicatedPropChild) GetDupProp() string {
-	if o == nil || isNil(o.DupProp) {
+	if o == nil || o.DupProp == nil {
 		var ret string
 		return ret
 	}
@@ -55,15 +58,15 @@ func (o *DuplicatedPropChild) GetDupProp() string {
 // GetDupPropOk returns a tuple with the DupProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropChild) GetDupPropOk() (*string, bool) {
-	if o == nil || isNil(o.DupProp) {
-    return nil, false
+	if o == nil || o.DupProp == nil {
+		return nil, false
 	}
 	return o.DupProp, true
 }
 
 // HasDupProp returns a boolean if a field has been set.
 func (o *DuplicatedPropChild) HasDupProp() bool {
-	if o != nil && !isNil(o.DupProp) {
+	if o != nil && o.DupProp != nil {
 		return true
 	}
 
@@ -76,6 +79,11 @@ func (o *DuplicatedPropChild) SetDupProp(v string) {
 }
 
 func (o DuplicatedPropChild) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o DuplicatedPropChild) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	serializedDuplicatedPropParent, errDuplicatedPropParent := json.Marshal(o.DuplicatedPropParent)
 	if errDuplicatedPropParent != nil {
@@ -85,15 +93,15 @@ func (o DuplicatedPropChild) MarshalJSON() ([]byte, error) {
 	if errDuplicatedPropParent != nil {
 		return []byte{}, errDuplicatedPropParent
 	}
-	if !isNil(o.DupProp) {
-		toSerialize["dup-prop"] = o.DupProp
+	if o.DupProp != nil {
+		toSerialize["dup-prop"] = *o.DupProp
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *DuplicatedPropChild) UnmarshalJSON(bytes []byte) (err error) {

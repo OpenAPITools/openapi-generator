@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the FooGetDefaultResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FooGetDefaultResponse{}
+
 // FooGetDefaultResponse struct for FooGetDefaultResponse
 type FooGetDefaultResponse struct {
 	String *Foo `json:"string,omitempty"`
@@ -41,7 +44,7 @@ func NewFooGetDefaultResponseWithDefaults() *FooGetDefaultResponse {
 
 // GetString returns the String field value if set, zero value otherwise.
 func (o *FooGetDefaultResponse) GetString() Foo {
-	if o == nil || isNil(o.String) {
+	if o == nil || o.String == nil {
 		var ret Foo
 		return ret
 	}
@@ -51,15 +54,15 @@ func (o *FooGetDefaultResponse) GetString() Foo {
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
-	if o == nil || isNil(o.String) {
-    return nil, false
+	if o == nil || o.String == nil {
+		return nil, false
 	}
 	return o.String, true
 }
 
 // HasString returns a boolean if a field has been set.
 func (o *FooGetDefaultResponse) HasString() bool {
-	if o != nil && !isNil(o.String) {
+	if o != nil && o.String != nil {
 		return true
 	}
 
@@ -72,16 +75,21 @@ func (o *FooGetDefaultResponse) SetString(v Foo) {
 }
 
 func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o FooGetDefaultResponse) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.String) {
-		toSerialize["string"] = o.String
+	if o.String != nil {
+		toSerialize["string"] = *o.String
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {

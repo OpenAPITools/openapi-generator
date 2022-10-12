@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the NullableClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableClass{}
+
 // NullableClass struct for NullableClass
 type NullableClass struct {
 	IntegerProp NullableInt32 `json:"integer_prop,omitempty"`
@@ -54,7 +57,7 @@ func NewNullableClassWithDefaults() *NullableClass {
 
 // GetIntegerProp returns the IntegerProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetIntegerProp() int32 {
-	if o == nil || isNil(o.IntegerProp.Get()) {
+	if o == nil || o.IntegerProp.Get() == nil {
 		var ret int32
 		return ret
 	}
@@ -66,7 +69,7 @@ func (o *NullableClass) GetIntegerProp() int32 {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetIntegerPropOk() (*int32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.IntegerProp.Get(), o.IntegerProp.IsSet()
 }
@@ -96,7 +99,7 @@ func (o *NullableClass) UnsetIntegerProp() {
 
 // GetNumberProp returns the NumberProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetNumberProp() float32 {
-	if o == nil || isNil(o.NumberProp.Get()) {
+	if o == nil || o.NumberProp.Get() == nil {
 		var ret float32
 		return ret
 	}
@@ -108,7 +111,7 @@ func (o *NullableClass) GetNumberProp() float32 {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetNumberPropOk() (*float32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.NumberProp.Get(), o.NumberProp.IsSet()
 }
@@ -138,7 +141,7 @@ func (o *NullableClass) UnsetNumberProp() {
 
 // GetBooleanProp returns the BooleanProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetBooleanProp() bool {
-	if o == nil || isNil(o.BooleanProp.Get()) {
+	if o == nil || o.BooleanProp.Get() == nil {
 		var ret bool
 		return ret
 	}
@@ -150,7 +153,7 @@ func (o *NullableClass) GetBooleanProp() bool {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetBooleanPropOk() (*bool, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.BooleanProp.Get(), o.BooleanProp.IsSet()
 }
@@ -180,7 +183,7 @@ func (o *NullableClass) UnsetBooleanProp() {
 
 // GetStringProp returns the StringProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetStringProp() string {
-	if o == nil || isNil(o.StringProp.Get()) {
+	if o == nil || o.StringProp.Get() == nil {
 		var ret string
 		return ret
 	}
@@ -192,7 +195,7 @@ func (o *NullableClass) GetStringProp() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetStringPropOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.StringProp.Get(), o.StringProp.IsSet()
 }
@@ -222,7 +225,7 @@ func (o *NullableClass) UnsetStringProp() {
 
 // GetDateProp returns the DateProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetDateProp() string {
-	if o == nil || isNil(o.DateProp.Get()) {
+	if o == nil || o.DateProp.Get() == nil {
 		var ret string
 		return ret
 	}
@@ -234,7 +237,7 @@ func (o *NullableClass) GetDateProp() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatePropOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.DateProp.Get(), o.DateProp.IsSet()
 }
@@ -264,7 +267,7 @@ func (o *NullableClass) UnsetDateProp() {
 
 // GetDatetimeProp returns the DatetimeProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetDatetimeProp() time.Time {
-	if o == nil || isNil(o.DatetimeProp.Get()) {
+	if o == nil || o.DatetimeProp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
@@ -276,7 +279,7 @@ func (o *NullableClass) GetDatetimeProp() time.Time {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatetimePropOk() (*time.Time, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.DatetimeProp.Get(), o.DatetimeProp.IsSet()
 }
@@ -317,15 +320,15 @@ func (o *NullableClass) GetArrayNullableProp() []map[string]interface{} {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool) {
-	if o == nil || isNil(o.ArrayNullableProp) {
-    return nil, false
+	if o == nil || o.ArrayNullableProp == nil {
+		return nil, false
 	}
 	return o.ArrayNullableProp, true
 }
 
 // HasArrayNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayNullableProp() bool {
-	if o != nil && isNil(o.ArrayNullableProp) {
+	if o != nil && o.ArrayNullableProp != nil {
 		return true
 	}
 
@@ -350,15 +353,15 @@ func (o *NullableClass) GetArrayAndItemsNullableProp() []*map[string]interface{}
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]*map[string]interface{}, bool) {
-	if o == nil || isNil(o.ArrayAndItemsNullableProp) {
-    return nil, false
+	if o == nil || o.ArrayAndItemsNullableProp == nil {
+		return nil, false
 	}
 	return o.ArrayAndItemsNullableProp, true
 }
 
 // HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayAndItemsNullableProp() bool {
-	if o != nil && isNil(o.ArrayAndItemsNullableProp) {
+	if o != nil && o.ArrayAndItemsNullableProp != nil {
 		return true
 	}
 
@@ -372,7 +375,7 @@ func (o *NullableClass) SetArrayAndItemsNullableProp(v []*map[string]interface{}
 
 // GetArrayItemsNullable returns the ArrayItemsNullable field value if set, zero value otherwise.
 func (o *NullableClass) GetArrayItemsNullable() []*map[string]interface{} {
-	if o == nil || isNil(o.ArrayItemsNullable) {
+	if o == nil || o.ArrayItemsNullable == nil {
 		var ret []*map[string]interface{}
 		return ret
 	}
@@ -382,15 +385,15 @@ func (o *NullableClass) GetArrayItemsNullable() []*map[string]interface{} {
 // GetArrayItemsNullableOk returns a tuple with the ArrayItemsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NullableClass) GetArrayItemsNullableOk() ([]*map[string]interface{}, bool) {
-	if o == nil || isNil(o.ArrayItemsNullable) {
-    return nil, false
+	if o == nil || o.ArrayItemsNullable == nil {
+		return nil, false
 	}
 	return o.ArrayItemsNullable, true
 }
 
 // HasArrayItemsNullable returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayItemsNullable() bool {
-	if o != nil && !isNil(o.ArrayItemsNullable) {
+	if o != nil && o.ArrayItemsNullable != nil {
 		return true
 	}
 
@@ -415,15 +418,15 @@ func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interface{}, bool) {
-	if o == nil || isNil(o.ObjectNullableProp) {
-    return map[string]map[string]interface{}{}, false
+	if o == nil || o.ObjectNullableProp == nil {
+		return nil, false
 	}
 	return o.ObjectNullableProp, true
 }
 
 // HasObjectNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectNullableProp() bool {
-	if o != nil && isNil(o.ObjectNullableProp) {
+	if o != nil && o.ObjectNullableProp != nil {
 		return true
 	}
 
@@ -448,15 +451,15 @@ func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]in
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string]interface{}, bool) {
-	if o == nil || isNil(o.ObjectAndItemsNullableProp) {
-    return map[string]map[string]interface{}{}, false
+	if o == nil || o.ObjectAndItemsNullableProp == nil {
+		return nil, false
 	}
 	return o.ObjectAndItemsNullableProp, true
 }
 
 // HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
-	if o != nil && isNil(o.ObjectAndItemsNullableProp) {
+	if o != nil && o.ObjectAndItemsNullableProp != nil {
 		return true
 	}
 
@@ -470,7 +473,7 @@ func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]map[string]in
 
 // GetObjectItemsNullable returns the ObjectItemsNullable field value if set, zero value otherwise.
 func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface{} {
-	if o == nil || isNil(o.ObjectItemsNullable) {
+	if o == nil || o.ObjectItemsNullable == nil {
 		var ret map[string]map[string]interface{}
 		return ret
 	}
@@ -480,15 +483,15 @@ func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface
 // GetObjectItemsNullableOk returns a tuple with the ObjectItemsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NullableClass) GetObjectItemsNullableOk() (map[string]map[string]interface{}, bool) {
-	if o == nil || isNil(o.ObjectItemsNullable) {
-    return map[string]map[string]interface{}{}, false
+	if o == nil || o.ObjectItemsNullable == nil {
+		return nil, false
 	}
 	return o.ObjectItemsNullable, true
 }
 
 // HasObjectItemsNullable returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectItemsNullable() bool {
-	if o != nil && !isNil(o.ObjectItemsNullable) {
+	if o != nil && o.ObjectItemsNullable != nil {
 		return true
 	}
 
@@ -501,44 +504,49 @@ func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface
 }
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o NullableClass) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
 	if o.IntegerProp.IsSet() {
-		toSerialize["integer_prop"] = o.IntegerProp.Get()
+		toSerialize["integer_prop"] = *o.IntegerProp.Get()
 	}
 	if o.NumberProp.IsSet() {
-		toSerialize["number_prop"] = o.NumberProp.Get()
+		toSerialize["number_prop"] = *o.NumberProp.Get()
 	}
 	if o.BooleanProp.IsSet() {
-		toSerialize["boolean_prop"] = o.BooleanProp.Get()
+		toSerialize["boolean_prop"] = *o.BooleanProp.Get()
 	}
 	if o.StringProp.IsSet() {
-		toSerialize["string_prop"] = o.StringProp.Get()
+		toSerialize["string_prop"] = *o.StringProp.Get()
 	}
 	if o.DateProp.IsSet() {
-		toSerialize["date_prop"] = o.DateProp.Get()
+		toSerialize["date_prop"] = *o.DateProp.Get()
 	}
 	if o.DatetimeProp.IsSet() {
-		toSerialize["datetime_prop"] = o.DatetimeProp.Get()
+		toSerialize["datetime_prop"] = *o.DatetimeProp.Get()
 	}
 	if o.ArrayNullableProp != nil {
-		toSerialize["array_nullable_prop"] = o.ArrayNullableProp
+		toSerialize["array_nullable_prop"] = *o.ArrayNullableProp
 	}
 	if o.ArrayAndItemsNullableProp != nil {
-		toSerialize["array_and_items_nullable_prop"] = o.ArrayAndItemsNullableProp
+		toSerialize["array_and_items_nullable_prop"] = *o.ArrayAndItemsNullableProp
 	}
-	if !isNil(o.ArrayItemsNullable) {
-		toSerialize["array_items_nullable"] = o.ArrayItemsNullable
+	if o.ArrayItemsNullable != nil {
+		toSerialize["array_items_nullable"] = *o.ArrayItemsNullable
 	}
 	if o.ObjectNullableProp != nil {
-		toSerialize["object_nullable_prop"] = o.ObjectNullableProp
+		toSerialize["object_nullable_prop"] = *o.ObjectNullableProp
 	}
 	if o.ObjectAndItemsNullableProp != nil {
-		toSerialize["object_and_items_nullable_prop"] = o.ObjectAndItemsNullableProp
+		toSerialize["object_and_items_nullable_prop"] = *o.ObjectAndItemsNullableProp
 	}
-	if !isNil(o.ObjectItemsNullable) {
-		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
+	if o.ObjectItemsNullable != nil {
+		toSerialize["object_items_nullable"] = *o.ObjectItemsNullable
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 type NullableNullableClass struct {

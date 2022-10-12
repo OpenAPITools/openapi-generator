@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the CatAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CatAllOf{}
+
 // CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
@@ -41,7 +44,7 @@ func NewCatAllOfWithDefaults() *CatAllOf {
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *CatAllOf) GetDeclawed() bool {
-	if o == nil || isNil(o.Declawed) {
+	if o == nil || o.Declawed == nil {
 		var ret bool
 		return ret
 	}
@@ -51,15 +54,15 @@ func (o *CatAllOf) GetDeclawed() bool {
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CatAllOf) GetDeclawedOk() (*bool, bool) {
-	if o == nil || isNil(o.Declawed) {
-    return nil, false
+	if o == nil || o.Declawed == nil {
+		return nil, false
 	}
 	return o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *CatAllOf) HasDeclawed() bool {
-	if o != nil && !isNil(o.Declawed) {
+	if o != nil && o.Declawed != nil {
 		return true
 	}
 
@@ -72,16 +75,21 @@ func (o *CatAllOf) SetDeclawed(v bool) {
 }
 
 func (o CatAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o CatAllOf) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Declawed) {
-		toSerialize["declawed"] = o.Declawed
+	if o.Declawed != nil {
+		toSerialize["declawed"] = *o.Declawed
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *CatAllOf) UnmarshalJSON(bytes []byte) (err error) {

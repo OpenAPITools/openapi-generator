@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayOfNumberOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayOfNumberOnly{}
+
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
 	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
@@ -41,7 +44,7 @@ func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
 
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
-	if o == nil || isNil(o.ArrayNumber) {
+	if o == nil || o.ArrayNumber == nil {
 		var ret []float32
 		return ret
 	}
@@ -51,15 +54,15 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
-	if o == nil || isNil(o.ArrayNumber) {
-    return nil, false
+	if o == nil || o.ArrayNumber == nil {
+		return nil, false
 	}
 	return o.ArrayNumber, true
 }
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-	if o != nil && !isNil(o.ArrayNumber) {
+	if o != nil && o.ArrayNumber != nil {
 		return true
 	}
 
@@ -72,16 +75,21 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 }
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayOfNumberOnly) ToMap() map[string]interface{} {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.ArrayNumber) {
-		toSerialize["ArrayNumber"] = o.ArrayNumber
+	if o.ArrayNumber != nil {
+		toSerialize["ArrayNumber"] = *o.ArrayNumber
 	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 func (o *ArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {
