@@ -35,18 +35,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_client">_client.</param>
-        public ModelClient(string _client = default(string))
+        /// <param name="clientProperty">clientProperty.</param>
+        public ModelClient(string clientProperty = default(string))
         {
-            this._Client = _client;
+            this._ClientProperty = clientProperty;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Client
+        /// Gets or Sets _ClientProperty
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client { get; set; }
+        public string _ClientProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _Client: ").Append(_Client).Append("\n");
+            sb.Append("  _ClientProperty: ").Append(_ClientProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Client != null)
+                if (this._ClientProperty != null)
                 {
-                    hashCode = (hashCode * 59) + this._Client.GetHashCode();
+                    hashCode = (hashCode * 59) + this._ClientProperty.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
