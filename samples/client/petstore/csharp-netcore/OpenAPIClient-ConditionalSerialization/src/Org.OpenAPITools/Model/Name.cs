@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="name">name (required).</param>
+        /// <param name="nameProperty">nameProperty (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        public Name(int nameProperty = default(int), string property = default(string))
         {
-            this.__Name = name;
+            this._NameProperty = nameProperty;
             this._Property = property;
             if (this.Property != null)
             {
@@ -57,28 +57,28 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets _Name
+        /// Gets or Sets NameProperty
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
-        public int _Name
+        public int NameProperty
         {
-            get{ return __Name;}
+            get{ return _NameProperty;}
             set
             {
-                __Name = value;
-                _flag_Name = true;
+                _NameProperty = value;
+                _flagNameProperty = true;
             }
         }
-        private int __Name;
-        private bool _flag_Name;
+        private int _NameProperty;
+        private bool _flagNameProperty;
 
         /// <summary>
-        /// Returns false as _Name should not be serialized given that it's read-only.
+        /// Returns false as NameProperty should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_Name()
+        public bool ShouldSerializeNameProperty()
         {
-            return _flag_Name;
+            return _flagNameProperty;
         }
         /// <summary>
         /// Gets or Sets SnakeCase
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.NameProperty.GetHashCode();
                 hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                 {

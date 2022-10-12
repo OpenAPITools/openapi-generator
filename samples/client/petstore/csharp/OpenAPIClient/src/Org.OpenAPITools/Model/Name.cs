@@ -38,28 +38,28 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="name">name (required).</param>
+        /// <param name="nameProperty">nameProperty (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        public Name(int nameProperty = default(int), string property = default(string))
         {
-            // to ensure "name" is required (not null)
-            if (name == null)
+            // to ensure "nameProperty" is required (not null)
+            if (nameProperty == null)
             {
-                throw new InvalidDataException("name is a required property for Name and cannot be null");
+                throw new InvalidDataException("nameProperty is a required property for Name and cannot be null");
             }
             else
             {
-                this._Name = name;
+                this.NameProperty = nameProperty;
             }
 
             this.Property = property;
         }
 
         /// <summary>
-        /// Gets or Sets _Name
+        /// Gets or Sets NameProperty
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=true)]
-        public int _Name { get; set; }
+        public int NameProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
@@ -126,9 +126,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this._Name == input._Name ||
-                    (this._Name != null &&
-                    this._Name.Equals(input._Name))
+                    this.NameProperty == input.NameProperty ||
+                    (this.NameProperty != null &&
+                    this.NameProperty.Equals(input.NameProperty))
                 ) && 
                 (
                     this.SnakeCase == input.SnakeCase ||
@@ -156,8 +156,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Name != null)
-                    hashCode = hashCode * 59 + this._Name.GetHashCode();
+                if (this.NameProperty != null)
+                    hashCode = hashCode * 59 + this.NameProperty.GetHashCode();
                 if (this.SnakeCase != null)
                     hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
                 if (this.Property != null)

@@ -5,7 +5,7 @@ Model for testing model name same as property name
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_Name** | **int** |  | 
+**NameProperty** | **int** |  | 
 **SnakeCase** | **int** |  | [optional] [readonly] 
 **Property** | **string** |  | [optional] 
 **_123Number** | **int** |  | [optional] [readonly] 
