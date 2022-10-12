@@ -9,17 +9,10 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
-        {{#useAlamofire}}
-        .iOS(.v10),
-        .macOS(.v10_12),
-        .tvOS(.v10),
-        {{/useAlamofire}}
-        {{^useAlamofire}}
-        .iOS(.v9),
-        .macOS(.v10_11),
-        .tvOS(.v9),
-        {{/useAlamofire}}
-        .watchOS(.v3),
+        .iOS(.v11),
+        .macOS(.v10_13),
+        .tvOS(.v11),
+        .watchOS(.v4),
         {{/useVapor}}
     ],
     products: [
