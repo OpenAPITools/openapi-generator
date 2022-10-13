@@ -5,8 +5,9 @@ package {{package}};
 {{/imports}}
 
 import {{rootJavaEEPackage}}.ws.rs.*;
+{{#returnResponse}}
 import {{rootJavaEEPackage}}.ws.rs.core.Response;
-
+{{/returnResponse}}
 {{#supportAsync}}
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;

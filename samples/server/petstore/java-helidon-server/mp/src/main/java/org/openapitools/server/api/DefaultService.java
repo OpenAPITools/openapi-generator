@@ -15,8 +15,6 @@ package org.openapitools.server.api;
 import org.openapitools.server.model.FooGetDefaultResponse;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-
 
 import java.io.InputStream;
 import java.util.Map;
@@ -30,5 +28,5 @@ public interface DefaultService {
 
     @GET
     @Produces({ "application/json" })
-    abstract Response fooGet();
+    FooGetDefaultResponse fooGet();
 }

@@ -16,8 +16,6 @@ import java.util.Map;
 import org.openapitools.server.model.Order;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-
 
 import java.io.InputStream;
 import java.util.Map;
@@ -31,21 +29,21 @@ public interface StoreService {
 
     @DELETE
     @Path("/order/{order_id}")
-    abstract Response deleteOrder(@PathParam("order_id") String orderId);
+    void deleteOrder(@PathParam("order_id") String orderId);
 
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    abstract Response getInventory();
+    Map<String, Integer> getInventory();
 
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    abstract Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId);
+    Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId);
 
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    abstract Response placeOrder(@Valid @NotNull Order order);
+    Order placeOrder(@Valid @NotNull Order order);
 }

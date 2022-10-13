@@ -24,8 +24,11 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -52,6 +55,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     static final String MICROPROFILE_ROOT_PACKAGE = "rootJavaEEPackage";
     static final String MICROPROFILE_ROOT_DEP_PREFIX = "x-helidon-rootJavaEEDepPrefix";
+    static final String X_HAS_RETURN_TYPE = "x-helidon-hasReturnType";
+    static final String X_RETURN_TYPE_EXAMPLE_VALUE = "x-helidon-exampleReturnTypeValue";
     static final String MICROPROFILE_ROOT_PACKAGE_DESC = "Root package name for Java EE";
     static final String MICROPROFILE_ROOT_PACKAGE_JAVAX = "javax";
     static final String MICROPROFILE_ROOT_PACKAGE_JAKARTA = "jakarta";
@@ -123,6 +128,14 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         additionalProperties.put(HELIDON_VERSION, helidonVersion);
         setEEPackageAndDependencies(helidonVersion);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        op.vendorExtensions.put(X_HAS_RETURN_TYPE, op.returnType != null && !op.returnType.equals("void"));
+        op.vendorExtensions.put(X_RETURN_TYPE_EXAMPLE_VALUE, chooseExampleReturnTypeValue(op));
+        return op;
     }
 
     /**
@@ -256,5 +269,50 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 .filter(cliOption -> opts.contains(cliOption.getOpt()))
                 .collect(Collectors.toSet());
         forRemoval.forEach(cliOptions::remove);
+    }
+
+    private String chooseExampleReturnTypeValue(CodegenOperation op) {
+
+        // See DefaultCodegen#handleMethodResponse to see how the various op fields related to the return type are set.
+        if (op.returnType == null) {
+            return ""; // won't be used anyway in the templates
+        }
+        if (op.isMap) {
+            return "java.util.Collections.emptyMap()";
+        }
+        if (op.isArray) {
+            return "java.util.Collections.emptyList()";
+        }
+        switch (op.returnType) {
+        case "Integer":
+            return "new Integer(0)";
+
+        case "byte[]":
+            return "new byte[0]";
+
+        case "Float":
+            return "new Float(0.0f)";
+
+        case "boolean":
+            return "false";
+
+        case "Long":
+            return "new Long(0L)";
+
+        case "Object":
+            return "new Object()";
+
+        case "String":
+            return "\"\"";
+
+        case "Boolean":
+            return "new Boolean(false)";
+
+        case "Double":
+            return "new Double(0.0d)";
+
+        default:
+            return "null";
+        }
     }
 }

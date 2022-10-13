@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -111,13 +112,13 @@ public class JavaHelidonMpServerCodegenTest {
                 .fileContains("public abstract class StoreService")
                 .assertMethod("placeOrder", "Order")
                 .doesNotHaveImplementation()
-                .hasReturnType("Response");
+                .hasReturnType("Order");
 
         JavaFileAssert.assertThat(Paths.get(apiPackage + "/StoreServiceImpl.java"))
                 .fileContains("public class StoreServiceImpl extends StoreService")
                 .assertMethod("placeOrder", "Order")
-                .hasReturnType("Response")
-                .bodyContainsLines("return Response.ok().entity(\"magic!\").build();");
+                .hasReturnType("Order")
+                .bodyContainsLines("Order result = null; // Replace with correct business logic.", "return result;");
     }
 
     @Test
@@ -131,7 +132,7 @@ public class JavaHelidonMpServerCodegenTest {
         JavaFileAssert.assertThat(Paths.get(apiPackage + "/StoreService.java"))
                 .fileContains("public interface StoreService")
                 .assertMethod("placeOrder", "Order")
-                .hasReturnType("Response");
+                .hasReturnType("Order");
     }
 
     @Test
@@ -204,6 +205,48 @@ public class JavaHelidonMpServerCodegenTest {
         assertThat(Paths.get(outputPath + "/build.gradle").toFile().exists(), is(true));
         assertThat(Paths.get(outputPath + "/settings.gradle").toFile().exists(), is(true));
         TestUtils.assertFileNotExists(Paths.get(outputPath + "/pom.xml"));
+    }
+
+    @Test
+    public void testReturnResponse() {
+        generate(createConfigurator().addAdditionalProperty("returnResponse", "true"));
+
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetService.java"))
+                .fileContains("public interface PetService")
+                .assertMethod("addPet", "Pet")
+                .hasReturnType("Response");
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetService.java"))
+                .fileContains("public interface PetService")
+                .assertMethod("deletePet", "Long", "String", "Long", "String", "Integer", "List<Integer>", "List<String>")
+                .hasReturnType("Response");
+
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetServiceImpl.java"))
+                .fileContains("public class PetServiceImpl implements PetService")
+                .assertMethod("addPet", "Pet")
+                .hasReturnType("Response")
+                .bodyContainsLines("return Response.ok(/* Pass Pet entity payload */).build(); "
+                                   + "// Replace with correct business logic.");
+    }
+
+    @Test
+    public void testSupportAsync() {
+        generate(createConfigurator().addAdditionalProperty("supportAsync", "true"));
+
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetService.java"))
+                .fileContains("public interface PetService")
+                .assertMethod("addPet", "Pet")
+                .hasReturnType("CompletionStage<Pet>");
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetService.java"))
+                .fileContains("public interface PetService")
+                .assertMethod("deletePet", "Long", "String", "Long", "String", "Integer", "List<Integer>", "List<String>")
+                .hasReturnType("CompletionStage<Void>");
+
+        JavaFileAssert.assertThat(Paths.get(apiPackage + "/PetServiceImpl.java"))
+                .fileContains("public class PetServiceImpl implements PetService")
+                .assertMethod("addPet", "Pet")
+                .hasReturnType("CompletionStage<Pet>")
+                .bodyContainsLines("Pet result = null; // Replace with correct business logic.",
+                                   "return CompletableFuture.supplyAsync(() -> result);");
     }
 
 }

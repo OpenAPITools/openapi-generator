@@ -17,8 +17,6 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-
 
 import java.io.InputStream;
 import java.util.Map;
@@ -32,38 +30,38 @@ public interface UserService {
 
     @POST
     @Consumes({ "application/json" })
-    abstract Response createUser(@Valid @NotNull User user);
+    void createUser(@Valid @NotNull User user);
 
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    abstract Response createUsersWithArrayInput(@Valid @NotNull List<User> user);
+    void createUsersWithArrayInput(@Valid @NotNull List<User> user);
 
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    abstract Response createUsersWithListInput(@Valid @NotNull List<User> user);
+    void createUsersWithListInput(@Valid @NotNull List<User> user);
 
     @DELETE
     @Path("/{username}")
-    abstract Response deleteUser(@PathParam("username") String username);
+    void deleteUser(@PathParam("username") String username);
 
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    abstract Response getUserByName(@PathParam("username") String username);
+    User getUserByName(@PathParam("username") String username);
 
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    abstract Response loginUser(@QueryParam("username") @NotNull String username, @QueryParam("password") @NotNull String password);
+    String loginUser(@QueryParam("username") @NotNull String username, @QueryParam("password") @NotNull String password);
 
     @GET
     @Path("/logout")
-    abstract Response logoutUser();
+    void logoutUser();
 
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    abstract Response updateUser(@PathParam("username") String username, @Valid @NotNull User user);
+    void updateUser(@PathParam("username") String username, @Valid @NotNull User user);
 }

@@ -27,8 +27,6 @@ import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-
 
 import java.io.InputStream;
 import java.util.Map;
@@ -43,85 +41,85 @@ public interface FakeService {
     @GET
     @Path("/health")
     @Produces({ "application/json" })
-    abstract Response fakeHealthGet();
+    HealthCheckResult fakeHealthGet();
 
     @GET
     @Path("/http-signature-test")
     @Consumes({ "application/json", "application/xml" })
-    abstract Response fakeHttpSignatureTest(@Valid @NotNull Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1);
+    void fakeHttpSignatureTest(@Valid @NotNull Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1);
 
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    abstract Response fakeOuterBooleanSerialize(@Valid Boolean body);
+    Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
 
     @POST
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    abstract Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite);
+    OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite);
 
     @POST
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    abstract Response fakeOuterNumberSerialize(@Valid BigDecimal body);
+    BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
 
     @POST
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    abstract Response fakeOuterStringSerialize(@Valid String body);
+    String fakeOuterStringSerialize(@Valid String body);
 
     @POST
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    abstract Response fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+    OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
-    abstract Response testBodyWithBinary(@Valid File body);
+    void testBodyWithBinary(@Valid File body);
 
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    abstract Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass);
+    void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass);
 
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    abstract Response testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid @NotNull User user);
+    void testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid @NotNull User user);
 
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    abstract Response testClientModel(@Valid @NotNull Client client);
+    Client testClientModel(@Valid @NotNull Client client);
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    abstract Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number, @FormParam(value = "double")  Double _double, @FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @FormParam(value = "byte")  byte[] _byte, @FormParam(value = "integer")  Integer integer, @FormParam(value = "int32")  Integer int32, @FormParam(value = "int64")  Long int64, @FormParam(value = "float")  Float _float, @FormParam(value = "string")  String string,  @FormParam(value = "binary") InputStream binaryInputStream, @FormParam(value = "date")  LocalDate date, @FormParam(value = "dateTime")  OffsetDateTime dateTime, @FormParam(value = "password")  String password, @FormParam(value = "callback")  String paramCallback);
+    void testEndpointParameters(@FormParam(value = "number")  BigDecimal number, @FormParam(value = "double")  Double _double, @FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @FormParam(value = "byte")  byte[] _byte, @FormParam(value = "integer")  Integer integer, @FormParam(value = "int32")  Integer int32, @FormParam(value = "int64")  Long int64, @FormParam(value = "float")  Float _float, @FormParam(value = "string")  String string,  @FormParam(value = "binary") InputStream binaryInputStream, @FormParam(value = "date")  LocalDate date, @FormParam(value = "dateTime")  OffsetDateTime dateTime, @FormParam(value = "password")  String password, @FormParam(value = "callback")  String paramCallback);
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    abstract Response testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray, @FormParam(value = "enum_form_string")  String enumFormString);
+    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray, @FormParam(value = "enum_form_string")  String enumFormString);
 
     @DELETE
-    abstract Response testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group") @NotNull  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
+    void testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group") @NotNull  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
 
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    abstract Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody);
+    void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody);
 
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    abstract Response testJsonFormData(@FormParam(value = "param")  String param, @FormParam(value = "param2")  String param2);
+    void testJsonFormData(@FormParam(value = "param")  String param, @FormParam(value = "param2")  String param2);
 
     @PUT
     @Path("/test-query-parameters")
-    abstract Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context, @QueryParam("allowEmpty") @NotNull String allowEmpty, @QueryParam("language") Map<String, String> language);
+    void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context, @QueryParam("allowEmpty") @NotNull String allowEmpty, @QueryParam("language") Map<String, String> language);
 }

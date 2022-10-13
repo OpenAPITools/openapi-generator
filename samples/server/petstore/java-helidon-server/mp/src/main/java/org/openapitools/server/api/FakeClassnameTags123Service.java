@@ -15,8 +15,6 @@ package org.openapitools.server.api;
 import org.openapitools.server.model.Client;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-
 
 import java.io.InputStream;
 import java.util.Map;
@@ -31,5 +29,5 @@ public interface FakeClassnameTags123Service {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    abstract Response testClassname(@Valid @NotNull Client client);
+    Client testClassname(@Valid @NotNull Client client);
 }
