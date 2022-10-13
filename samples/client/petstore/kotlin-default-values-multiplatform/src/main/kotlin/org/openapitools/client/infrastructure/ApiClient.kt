@@ -11,10 +11,10 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.*
 import io.ktor.http.content.PartData
 import kotlin.Unit
-import kotlinx.serialization.json.Json
 
 import org.openapitools.client.auth.*
 
@@ -142,9 +142,9 @@ open class ApiClient(
             }
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
-            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
+            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
                 this.setBody(body)
-
+            }
         }
     }
 

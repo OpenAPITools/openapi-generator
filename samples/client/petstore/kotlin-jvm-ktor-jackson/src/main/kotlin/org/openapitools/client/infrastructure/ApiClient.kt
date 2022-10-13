@@ -12,7 +12,6 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.contentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -165,7 +164,6 @@ open class ApiClient(
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
-                contentType(Json)
                 setBody(body)
             }
         }
