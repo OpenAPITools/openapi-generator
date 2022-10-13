@@ -4,17 +4,16 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.*
 import io.ktor.http.content.PartData
 import kotlin.Unit
+import kotlinx.serialization.json.Json
 
 import {{packageName}}.auth.*
 
