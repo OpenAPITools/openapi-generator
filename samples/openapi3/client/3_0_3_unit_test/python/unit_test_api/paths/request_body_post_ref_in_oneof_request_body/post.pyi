@@ -57,18 +57,6 @@ class BaseApi(api_client.Api):
     def _post_ref_in_oneof_request_body_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-    @typing.overload
-    def _post_ref_in_oneof_request_body_oapg(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -162,18 +150,6 @@ class PostRefInOneofRequestBody(BaseApi):
     def post_ref_in_oneof_request_body(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-    @typing.overload
-    def post_ref_in_oneof_request_body(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -225,18 +201,6 @@ class PostRefInOneofRequestBody(BaseApi):
 
 class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
-
-    @typing.overload
-    def post(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,],
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
 
     @typing.overload
     def post(
