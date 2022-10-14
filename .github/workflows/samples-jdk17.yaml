@@ -4,22 +4,22 @@ on:
     paths:
       # clients
       - samples/openapi3/client/petstore/spring-cloud-3/**
-      - samples/client/petstore/java-helidon-client/mp
-      - samples/client/petstore/java-helidon-client/se
+      - samples/client/petstore/java-helidon-client/mp/**
+      - samples/client/petstore/java-helidon-client/se/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
-      - samples/server/petstore/java-helidon-server/mp
-      - samples/server/petstore/java-helidon-server/se
+      - samples/server/petstore/java-helidon-server/mp/**
+      - samples/server/petstore/java-helidon-server/se/**
   pull_request:
     paths:
       # clients
       - samples/openapi3/client/petstore/spring-cloud-3/**
-      - samples/client/petstore/java-helidon-client/mp
-      - samples/client/petstore/java-helidon-client/se
+      - samples/client/petstore/java-helidon-client/mp/**
+      - samples/client/petstore/java-helidon-client/se/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
-      - samples/server/petstore/java-helidon-server/mp
-      - samples/server/petstore/java-helidon-server/se
+      - samples/server/petstore/java-helidon-server/mp/**
+      - samples/server/petstore/java-helidon-server/se/**
 jobs:
   build:
     name: Build with JDK17
