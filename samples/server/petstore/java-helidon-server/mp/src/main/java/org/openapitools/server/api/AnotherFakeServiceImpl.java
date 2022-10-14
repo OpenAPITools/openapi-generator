@@ -15,7 +15,6 @@ package org.openapitools.server.api;
 import org.openapitools.server.model.Client;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
 
 
 import java.io.InputStream;
@@ -31,7 +30,8 @@ public class AnotherFakeServiceImpl implements AnotherFakeService {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
-        return Response.ok().entity("magic!").build();
+    public Client call123testSpecialTags(@Valid @NotNull Client client) {
+        Client result = null; // Replace with correct business logic.
+        return result;
     }
 }

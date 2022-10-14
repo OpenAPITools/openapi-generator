@@ -18,7 +18,6 @@ import org.openapitools.server.model.Pet;
 import java.util.Set;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
 
 
 import java.io.InputStream;
@@ -34,64 +33,65 @@ public class PetServiceImpl implements PetService {
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    public Response addPet(@Valid @NotNull Pet pet) {
-        return Response.ok().entity("magic!").build();
+    public void addPet(@Valid @NotNull Pet pet) {
     }
 
     @DELETE
     @Path("/pet/{petId}")
-    public Response deletePet(@PathParam("petId") Long petId,@HeaderParam("api_key")  String apiKey) {
-        return Response.ok().entity("magic!").build();
+    public void deletePet(@PathParam("petId") Long petId,@HeaderParam("api_key")  String apiKey) {
     }
 
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull List<String> status) {
-        return Response.ok().entity("magic!").build();
+    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull List<String> status) {
+        List<Pet> result = java.util.Collections.emptyList(); // Replace with correct business logic.
+        return result;
     }
 
     @GET
     @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
-    public Response findPetsByTags(@QueryParam("tags") @NotNull Set<String> tags) {
-        return Response.ok().entity("magic!").build();
+    public Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull Set<String> tags) {
+        Set<Pet> result = java.util.Collections.emptySet(); // Replace with correct business logic.
+        return result;
     }
 
     @GET
     @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
-    public Response getPetById(@PathParam("petId") Long petId) {
-        return Response.ok().entity("magic!").build();
+    public Pet getPetById(@PathParam("petId") Long petId) {
+        Pet result = null; // Replace with correct business logic.
+        return result;
     }
 
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    public Response updatePet(@Valid @NotNull Pet pet) {
-        return Response.ok().entity("magic!").build();
+    public void updatePet(@Valid @NotNull Pet pet) {
     }
 
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    public Response updatePetWithForm(@PathParam("petId") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {
-        return Response.ok().entity("magic!").build();
+    public void updatePetWithForm(@PathParam("petId") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {
     }
 
     @POST
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    public Response uploadFile(@PathParam("petId") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
-        return Response.ok().entity("magic!").build();
+    public ModelApiResponse uploadFile(@PathParam("petId") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
+        ModelApiResponse result = null; // Replace with correct business logic.
+        return result;
     }
 
     @POST
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    public Response uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
-        return Response.ok().entity("magic!").build();
+    public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
+        ModelApiResponse result = null; // Replace with correct business logic.
+        return result;
     }
 }

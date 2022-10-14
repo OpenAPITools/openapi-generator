@@ -15,7 +15,6 @@ package org.openapitools.server.api;
 import org.openapitools.server.model.FooGetDefaultResponse;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
 
 
 import java.io.InputStream;
@@ -30,7 +29,8 @@ public class DefaultServiceImpl implements DefaultService {
 
     @GET
     @Produces({ "application/json" })
-    public Response fooGet() {
-        return Response.ok().entity("magic!").build();
+    public FooGetDefaultResponse fooGet() {
+        FooGetDefaultResponse result = null; // Replace with correct business logic.
+        return result;
     }
 }

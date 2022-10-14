@@ -1,3 +1,4 @@
+README.md
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
@@ -53,6 +54,7 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+pom.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiResponse.java
 src/main/java/org/openapitools/client/ApiResponseBase.java

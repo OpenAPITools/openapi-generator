@@ -16,7 +16,6 @@ import java.util.Map;
 import org.openapitools.server.model.Order;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
 
 
 import java.io.InputStream;
@@ -31,29 +30,31 @@ public class StoreServiceImpl implements StoreService {
 
     @DELETE
     @Path("/order/{order_id}")
-    public Response deleteOrder(@PathParam("order_id") String orderId) {
-        return Response.ok().entity("magic!").build();
+    public void deleteOrder(@PathParam("order_id") String orderId) {
     }
 
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    public Response getInventory() {
-        return Response.ok().entity("magic!").build();
+    public Map<String, Integer> getInventory() {
+        Map<String, Integer> result = java.util.Collections.emptyMap(); // Replace with correct business logic.
+        return result;
     }
 
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId) {
-        return Response.ok().entity("magic!").build();
+    public Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId) {
+        Order result = null; // Replace with correct business logic.
+        return result;
     }
 
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    public Response placeOrder(@Valid @NotNull Order order) {
-        return Response.ok().entity("magic!").build();
+    public Order placeOrder(@Valid @NotNull Order order) {
+        Order result = null; // Replace with correct business logic.
+        return result;
     }
 }

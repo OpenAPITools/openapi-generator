@@ -17,7 +17,6 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
 
 
 import java.io.InputStream;
@@ -32,54 +31,50 @@ public class UserServiceImpl implements UserService {
 
     @POST
     @Consumes({ "application/json" })
-    public Response createUser(@Valid @NotNull User user) {
-        return Response.ok().entity("magic!").build();
+    public void createUser(@Valid @NotNull User user) {
     }
 
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<User> user) {
-        return Response.ok().entity("magic!").build();
+    public void createUsersWithArrayInput(@Valid @NotNull List<User> user) {
     }
 
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    public Response createUsersWithListInput(@Valid @NotNull List<User> user) {
-        return Response.ok().entity("magic!").build();
+    public void createUsersWithListInput(@Valid @NotNull List<User> user) {
     }
 
     @DELETE
     @Path("/{username}")
-    public Response deleteUser(@PathParam("username") String username) {
-        return Response.ok().entity("magic!").build();
+    public void deleteUser(@PathParam("username") String username) {
     }
 
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    public Response getUserByName(@PathParam("username") String username) {
-        return Response.ok().entity("magic!").build();
+    public User getUserByName(@PathParam("username") String username) {
+        User result = null; // Replace with correct business logic.
+        return result;
     }
 
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    public Response loginUser(@QueryParam("username") @NotNull String username,@QueryParam("password") @NotNull String password) {
-        return Response.ok().entity("magic!").build();
+    public String loginUser(@QueryParam("username") @NotNull String username,@QueryParam("password") @NotNull String password) {
+        String result = ""; // Replace with correct business logic.
+        return result;
     }
 
     @GET
     @Path("/logout")
-    public Response logoutUser() {
-        return Response.ok().entity("magic!").build();
+    public void logoutUser() {
     }
 
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    public Response updateUser(@PathParam("username") String username,@Valid @NotNull User user) {
-        return Response.ok().entity("magic!").build();
+    public void updateUser(@PathParam("username") String username,@Valid @NotNull User user) {
     }
 }
