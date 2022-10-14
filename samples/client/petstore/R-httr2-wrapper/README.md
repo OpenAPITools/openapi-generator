@@ -62,6 +62,7 @@ To reformat code using [styler](https://styler.r-lib.org/index.html), please run
 ```R
 install.packages("remotes")
 remotes::install_github("r-lib/styler@v1.7.0.9003")
+library("styler")
 style_dir()
 ```
 
