@@ -19,8 +19,10 @@ package org.openapitools.codegen.languages;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,14 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     private static final String VALIDATION_ARTIFACT_PREFIX_KEY = "x-helidon-validationArtifactPrefix";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAVAX = "";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAKARTA = MICROPROFILE_ROOT_PACKAGE_JAKARTA + ".";
+
+    private static final Map<String, String> EXAMPLE_RETURN_VALUES = new HashMap<String, String>() {
+        {
+            put("set", "Set");
+            put("array", "List");
+            put("map", "Map");
+        }
+    };
 
     // for generated doc
     static final String MICROPROFILE_ROOT_PACKAGE_DEFAULT =
@@ -273,15 +283,13 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     private String chooseExampleReturnTypeValue(CodegenOperation op) {
 
+
         // See DefaultCodegen#handleMethodResponse to see how the various op fields related to the return type are set.
         if (op.returnType == null) {
             return ""; // won't be used anyway in the templates
         }
-        if (op.isMap) {
-            return "java.util.Collections.emptyMap()";
-        }
-        if (op.isArray) {
-            return "java.util.Collections.emptyList()";
+        if (op.returnContainer != null) {
+            return "java.util.Collections.empty" + EXAMPLE_RETURN_VALUES.get(op.returnContainer) + "()";
         }
         switch (op.returnType) {
         case "Integer":
