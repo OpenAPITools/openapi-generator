@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/java-helidon/server
 additionalProperties:
   artifactId: petstore-helidon-server-se
   hideGenerationTimestamp: "true"
+  fullProject: "true"

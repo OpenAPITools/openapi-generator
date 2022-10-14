@@ -10,3 +10,4 @@ additionalProperties:
   test: "spock"
   requiredPropertiesInConstructor: "false"
   visitable: "true"
+  fullProject: "true"
