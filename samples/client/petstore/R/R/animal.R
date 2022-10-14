@@ -22,7 +22,7 @@ Animal <- R6::R6Class(
     `_field_list` = c("className", "color"),
     `additional_properties` = list(),
     `_discriminator_property_name` = 'className',
-    `_discriminator_mapping_name` = c('Cat' = 'Cat','Dog' = 'Dog'),
+    `_discriminator_mapping_name` = c('Cat' = 'Cat', 'Dog' = 'Dog'),
     #' Initialize a new Animal class.
     #'
     #' @description
