@@ -522,7 +522,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isContainer = composedProperty.isContainer;
         }
 
-        if (property.name.equalsIgnoreCase(model.classname)) {
+        if (property.name.equalsIgnoreCase(model.classname) ||
+                    reservedWords().contains(property.name) ||
+                    reservedWords().contains(camelize(sanitizeName(property.name), true))) {
             property.name = property.name + "Property";
         }
     }
