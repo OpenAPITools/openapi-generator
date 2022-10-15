@@ -135,6 +135,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     modelFilesConstrainedTo.set(generate.modelFilesConstrainedTo)
                     supportingFilesConstrainedTo.set(generate.supportingFilesConstrainedTo)
                     generateModelTests.set(generate.generateModelTests)
+                    generateSupportingFilesTests.set(generate.generateSupportingFilesTests)
                     generateModelDocumentation.set(generate.generateModelDocumentation)
                     generateApiTests.set(generate.generateApiTests)
                     generateApiDocumentation.set(generate.generateApiDocumentation)

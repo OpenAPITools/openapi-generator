@@ -29,6 +29,8 @@ public class CodegenConstants {
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
     public static final String API_TESTS = "apiTests";
+
+    public static final String SUPPORTING_TESTS = "supportingTest";
     public static final String API_DOCS = "apiDocs";
 
     public static final String WITH_XML = "withXml";
@@ -297,6 +299,8 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+
+    public static final String GENERATE_SUPPORTING_TESTS = "generateSupportingTests";
 
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";

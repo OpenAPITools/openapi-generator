@@ -81,8 +81,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
 
-    public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
-
     protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
     protected boolean withXml = false;
@@ -272,7 +270,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         snapShotVersionOptions.put("false", "Use a Release Version");
         snapShotVersion.setEnum(snapShotVersionOptions);
         cliOptions.add(snapShotVersion);
-        cliOptions.add(CliOption.newString(TEST_OUTPUT, "Set output folder for models and APIs tests").defaultValue(DEFAULT_TEST_FOLDER));
+        cliOptions.add(CliOption.newString(TEST_OUTPUT, "Set output folder for models and APIs tests"));
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -710,12 +708,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String apiTestFileFolder() {
-        return (outputTestFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+        return (getOutputTestFolder() + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputTestFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+        return (getOutputTestFolder() + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
@@ -731,6 +729,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String modelDocFileFolder() {
         return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String supportingTestFileFolder() {
+        return (getOutputTestFolder() + File.separator + testFolder).replace('/', File.separatorChar);
     }
 
     @Override
@@ -1853,17 +1856,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.openApiNullable = openApiNullable;
     }
 
-    @Override
-    public void setOutputDir(String dir) {
-        super.setOutputDir(dir);
-        if (this.outputTestFolder.isEmpty()) {
-            setOutputTestFolder(dir);
-        }
-    }
-
     public String getOutputTestFolder() {
         if (outputTestFolder.isEmpty()) {
-            return DEFAULT_TEST_FOLDER;
+            LOGGER.info("Default output folder for test files, can be configured with {} option", TEST_OUTPUT);
+            return outputFolder;
         }
         return outputTestFolder;
     }

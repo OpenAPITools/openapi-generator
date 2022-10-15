@@ -195,6 +195,7 @@ public class DefaultCodegen implements CodegenConfig {
     See also 'apiTemplateFiles'.
     */
     protected List<SupportingFile> supportingFiles = new ArrayList<>();
+    protected List<SupportingFile> supportingTestFiles = new ArrayList<>();
     protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
@@ -1209,6 +1210,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String supportingTestFileFolder() {
+        return outputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
     public String apiDocFileFolder() {
         return outputFolder;
     }
@@ -1236,6 +1242,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public List<SupportingFile> supportingFiles() {
         return supportingFiles;
+    }
+
+    @Override
+    public List<SupportingFile> supportingTestFiles() {
+        return supportingTestFiles;
     }
 
     @Override

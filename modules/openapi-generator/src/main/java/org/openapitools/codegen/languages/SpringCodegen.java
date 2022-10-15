@@ -474,8 +474,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "OpenApiGeneratorApplication.java"));
-                supportingFiles.add(new SupportingFile("SpringBootTest.mustache",
-                    (testFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                supportingTestFiles.add(new SupportingFile("SpringBootTest.mustache",
+                    basePackage.replace(".", java.io.File.separator),
                     "OpenApiGeneratorApplicationTests.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),

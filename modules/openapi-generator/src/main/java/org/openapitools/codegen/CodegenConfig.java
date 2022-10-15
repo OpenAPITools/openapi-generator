@@ -77,6 +77,8 @@ public interface CodegenConfig {
 
     String modelTestFileFolder();
 
+    String supportingTestFileFolder();
+
     String modelDocFileFolder();
 
     String modelPackage();
@@ -114,6 +116,8 @@ public interface CodegenConfig {
     Set<String> reservedWords();
 
     List<SupportingFile> supportingFiles();
+
+    List<SupportingFile> supportingTestFiles();
 
     String getInputSpec();
 
