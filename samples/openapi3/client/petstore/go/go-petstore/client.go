@@ -143,10 +143,19 @@ func typeCheckParameter(obj interface{}, expected string, name string) error {
 	return nil
 }
 
-func parameterToString( obj interface{}, keyPrefix string, collectionFormat string ) string {
-	u := url.Values{}
-	parameterAddToQuery( u, keyPrefix, obj, collectionFormat )
-	return u.Encode()
+func parameterValueToString( obj interface{}, key string ) string {
+    if reflect.TypeOf(obj).Kind() != reflect.Ptr {
+        return fmt.Sprintf("%v", obj)
+    }
+    var param,ok = obj.(MappedNullable)
+    if !ok {
+        return ""
+    }
+    dataMap,err := param.ToMap()
+    if err != nil {
+        return ""
+    }
+    return fmt.Sprintf("%v", dataMap[key])
 }
 
 func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interface{}) {
@@ -163,25 +172,15 @@ func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interfa
 // parameterAddToQuery adds the provided object to the url query supporting deep object specification
 // the del delimiter is used to the split the value as list
 func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interface{}, collectionFormat string) {
-	var delimiter string
-
-	switch collectionFormat {
-	case "pipes":
-		delimiter = "|"
-	case "ssv":
-		delimiter = " "
-	case "tsv":
-		delimiter = "\t"
-	case "csv":
-		delimiter = ","
-	}
-
 	if reflect.TypeOf(obj).Kind() == reflect.Slice {
-		sliceValue := strings.Split(fmt.Sprint(obj), delimiter)
-		if len(sliceValue) > 0 {
-			for v := range sliceValue {
-				parameterAddToHolder(queryParams, keyPrefix, v)
-			}
+		var indValue = reflect.ValueOf(obj)
+		if indValue == reflect.ValueOf(nil) {
+			return
+		}
+		var lenIndValue = indValue.Len()
+		for i:=0;i<lenIndValue;i++ {
+			var arrayValue = indValue.Index(i)
+			parameterAddDataToQuery(queryParams, keyPrefix, arrayValue.Interface())
 		}
 		return
 
@@ -195,12 +194,18 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 			parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
 			return
 		}
+		// scenario of pointer-to-slice
+		var pointed = reflect.ValueOf(obj).Elem()
+		var pointedValue = pointed.Interface()
+		parameterAddToQuery(queryParams, keyPrefix, pointedValue, collectionFormat)
+		return
 
 	} else if t, ok := obj.(time.Time); ok {
 		parameterAddToHolder(queryParams, keyPrefix, t.Format(time.RFC3339))
 		return
 	}
 
+	// other value
 	parameterAddToHolder(queryParams, keyPrefix, obj)
 }
 
@@ -216,7 +221,6 @@ func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param in
 			return
 		}
 		var lenIndValue = indValue.Len()
-		fmt.Printf("slice len %d\n", lenIndValue)
 		for i:=0;i<lenIndValue;i++ {
 			var arrayValue = indValue.Index(i)
 			parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%d]", keyPrefix, i), arrayValue.Interface())
