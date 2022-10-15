@@ -108,7 +108,7 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
   @SerializedName(SERIALIZED_NAME_UUID_WITH_DEFAULT)
-  private UUID uuidWithDefault = "11111111-206d-4f12-9f12-3d1e525a8e84";
+  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)

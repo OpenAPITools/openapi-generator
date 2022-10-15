@@ -992,6 +992,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else {
                         return null;
                     }
+                } else if (schema.getDefault() instanceof UUID) {
+                    return "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
                 } else {
                     _default = String.valueOf(schema.getDefault());
                 }
