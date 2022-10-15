@@ -470,6 +470,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
+// TODO: move the above method's logic into patchProperty to ensure it happens to all collections
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
