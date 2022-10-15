@@ -21,6 +21,7 @@ title: Global Properties
 | modelDocs | Allows the user to define if model docs will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
 | apiTests | Allows the user to define if api tests will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
 | modelTests | Allows the user to define if model tests will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
+| generateMetadata | Allows the user to define if metadata files will be generated. | `true` or `false` |
 | withXml | Allows the user to control support of XML generated constructs, where supported | none |
 
 

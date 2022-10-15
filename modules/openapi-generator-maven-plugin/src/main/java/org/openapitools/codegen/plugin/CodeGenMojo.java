@@ -406,6 +406,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
+     * Generate the metadata files such as VERSION, FILES and .openapi-generator-ignore
+     */
+    @Parameter(name = "generateMetadata", property = "openapi.generator.maven.plugin.generateMetadata")
+    private Boolean generateMetadata = true;
+
+    /**
      * Generate the api documentation
      */
     @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
@@ -667,6 +673,7 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
             GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GlobalSettings.setProperty(CodegenConstants.GENERATE_METADATA, generateMetadata.toString());
             GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {

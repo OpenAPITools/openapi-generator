@@ -424,6 +424,15 @@ open class GenerateTask : DefaultTask() {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
+     * Defines whether metadata files should be generated.
+     *
+     * This option enables/disables generation of VERSION, FILES and .openapi-generator-ignore files.
+     */
+    @Optional
+    @Input
+    val generateMetadata = project.objects.property<Boolean>()
+
+    /**
      * A special-case setting which configures some generators with XML support. In some cases,
      * this forces json OR xml, so the default here is false.
      */
@@ -546,6 +555,10 @@ open class GenerateTask : DefaultTask() {
 
             if (generateApiTests.isPresent) {
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (generateMetadata.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.GENERATE_METADATA, generateMetadata.get().toString())
             }
 
             if (withXml.isPresent) {
