@@ -828,7 +828,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
                     return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
-                    return "\"" + escapeText((String) p.getDefault()) + "\"";
+                    return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";
                 }
             }
         }

@@ -1496,6 +1496,10 @@ components:
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
+        uuid_with_default:
+          default: 11111111-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          type: string
         password:
           format: password
           maxLength: 64
