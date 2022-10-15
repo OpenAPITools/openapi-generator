@@ -532,19 +532,19 @@ func (o NullableClass) ToMap() (map[string]interface{}, error) {
 		toSerialize["datetime_prop"] = o.DatetimeProp.Get()
 	}
 	if o.ArrayNullableProp != nil {
-		toSerialize["array_nullable_prop"] = *o.ArrayNullableProp
+		toSerialize["array_nullable_prop"] = o.ArrayNullableProp
 	}
 	if o.ArrayAndItemsNullableProp != nil {
-		toSerialize["array_and_items_nullable_prop"] = *o.ArrayAndItemsNullableProp
+		toSerialize["array_and_items_nullable_prop"] = o.ArrayAndItemsNullableProp
 	}
 	if o.ArrayItemsNullable != nil {
 		toSerialize["array_items_nullable"] = o.ArrayItemsNullable
 	}
 	if o.ObjectNullableProp != nil {
-		toSerialize["object_nullable_prop"] = *o.ObjectNullableProp
+		toSerialize["object_nullable_prop"] = o.ObjectNullableProp
 	}
 	if o.ObjectAndItemsNullableProp != nil {
-		toSerialize["object_and_items_nullable_prop"] = *o.ObjectAndItemsNullableProp
+		toSerialize["object_and_items_nullable_prop"] = o.ObjectAndItemsNullableProp
 	}
 	if o.ObjectItemsNullable != nil {
 		toSerialize["object_items_nullable"] = o.ObjectItemsNullable

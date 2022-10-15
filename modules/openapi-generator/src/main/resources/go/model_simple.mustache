@@ -285,7 +285,7 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{#vendorExtensions.x-golang-is-container}}
 	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
 	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = *o.{{name}}
+		toSerialize["{{baseName}}"] = o.{{name}}
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{^vendorExtensions.x-golang-is-container}}

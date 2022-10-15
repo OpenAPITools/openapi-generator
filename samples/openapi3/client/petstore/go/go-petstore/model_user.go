@@ -483,13 +483,13 @@ func (o User) ToMap() (map[string]interface{}, error) {
 		toSerialize["arbitraryObject"] = o.ArbitraryObject
 	}
 	if o.ArbitraryNullableObject != nil {
-		toSerialize["arbitraryNullableObject"] = *o.ArbitraryNullableObject
+		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
 	}
 	if o.ArbitraryTypeValue != nil {
-		toSerialize["arbitraryTypeValue"] = *o.ArbitraryTypeValue
+		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
 	}
 	if o.ArbitraryNullableTypeValue != nil {
-		toSerialize["arbitraryNullableTypeValue"] = *o.ArbitraryNullableTypeValue
+		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
 	}
 
 	for key, value := range o.AdditionalProperties {
