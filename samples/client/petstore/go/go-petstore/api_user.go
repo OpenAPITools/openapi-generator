@@ -462,7 +462,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "username", "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -554,7 +554,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "username", "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -867,7 +867,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*http.Respon
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "username", "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
