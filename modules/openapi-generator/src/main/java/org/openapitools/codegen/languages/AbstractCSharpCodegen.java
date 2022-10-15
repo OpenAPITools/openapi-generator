@@ -439,6 +439,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isInnerEnum = false;
             property.isString = false;
         }
+        if (property.datatypeWithEnum.contains("List>")) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("List>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
+        if (property.datatypeWithEnum.contains("Dictionary>")) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
     }
 
     @Override
