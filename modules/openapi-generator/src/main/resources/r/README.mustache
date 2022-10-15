@@ -63,6 +63,17 @@ install.packages("{{{packageName}}}_{{{packageVersion}}}.tar.gz", repos = NULL, 
 library({{{packageName}}})
 ```
 
+### Reformat code
+
+To reformat code using [styler](https://styler.r-lib.org/index.html), please run the following in the R console:
+
+```R
+install.packages("remotes")
+remotes::install_github("r-lib/styler@v1.7.0.9003")
+library("styler")
+style_dir()
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *{{basePath}}*

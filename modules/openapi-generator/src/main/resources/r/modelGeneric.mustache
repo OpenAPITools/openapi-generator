@@ -32,7 +32,7 @@
     {{/isAdditionalPropertiesTrue}}
     {{#discriminator}}
     `_discriminator_property_name` = '{{discriminator.propertyName}}',
-    {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}},{{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
+    {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}}, {{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
     {{/discriminator}}
     #' Initialize a new {{{classname}}} class.
     #'
@@ -50,9 +50,7 @@
     {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...
-    ) {
+    initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
         {{^isContainer}}
@@ -185,32 +183,32 @@
       {{#vars}}
       if (!is.null(self$`{{name}}`)) {
         {{classname}}Object[["{{baseName}}"]] <-
-       {{#isContainer}}
-       {{#isArray}}
-       {{#isPrimitiveType}}
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
           self$`{{name}}`
-       {{/isPrimitiveType}}
-       {{^isPrimitiveType}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
           lapply(self$`{{name}}`, function(x) x$toJSON())
-        {{/isPrimitiveType}}
-       {{/isArray}}
-       {{#isMap}}
-       {{#isPrimitiveType}}
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
           self$`{{name}}`
-       {{/isPrimitiveType}}
-       {{^isPrimitiveType}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
           lapply(self$`{{name}}`, function(x) x$toJSON())
-       {{/isPrimitiveType}}
-       {{/isMap}}
-       {{/isContainer}}
-       {{^isContainer}}
-       {{#isPrimitiveType}}
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
           self$`{{name}}`
-       {{/isPrimitiveType}}
-       {{^isPrimitiveType}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
           self$`{{name}}`$toJSON()
-       {{/isPrimitiveType}}
-       {{/isContainer}}
+          {{/isPrimitiveType}}
+          {{/isContainer}}
       }
       {{/vars}}
       {{#isAdditionalPropertiesTrue}}
@@ -619,17 +617,18 @@
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#{{classname}}$unlock()
+# {{classname}}$unlock()
 #
 ## Below is an example to define the print fnuction
-#{{classname}}$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# {{classname}}$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#{{classname}}$lock()
+# {{classname}}$lock()

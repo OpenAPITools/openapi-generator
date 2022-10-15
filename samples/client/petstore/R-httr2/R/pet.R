@@ -38,9 +38,7 @@ Pet <- R6::R6Class(
     #' @param status pet status in the store
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, ...
-    ) {
+    initialize = function(`name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, ...) {
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
@@ -306,18 +304,19 @@ Pet <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Pet$unlock()
+# Pet$unlock()
 #
 ## Below is an example to define the print fnuction
-#Pet$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Pet$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Pet$lock()
+# Pet$lock()
 
