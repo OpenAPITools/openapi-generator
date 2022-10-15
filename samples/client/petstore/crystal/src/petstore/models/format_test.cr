@@ -45,8 +45,8 @@ module Petstore
     @[JSON::Field(key: "double", type: Float64?, nillable: true, emit_null: false)]
     property double : Float64?
 
-    @[JSON::Field(key: "decimal", type: Float64?, nillable: true, emit_null: false)]
-    property decimal : Float64?
+    @[JSON::Field(key: "decimal", type: BigDecimal?, nillable: true, emit_null: false)]
+    property decimal : BigDecimal?
 
     @[JSON::Field(key: "string", type: String?, nillable: true, emit_null: false)]
     property string : String?
@@ -70,7 +70,7 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@number : Float64, @byte : String, @date : Time, @password : String, @integer : Int32?, @int32 : Int32?, @int64 : Int64?, @float : Float32?, @double : Float64?, @decimal : Float64?, @string : String?, @binary : ::File?, @date_time : Time?, @uuid : String?, @pattern_with_digits : String?, @pattern_with_digits_and_delimiter : String?)
+    def initialize(@number : Float64, @byte : String, @date : Time, @password : String, @integer : Int32?, @int32 : Int32?, @int64 : Int64?, @float : Float32?, @double : Float64?, @decimal : BigDecimal?, @string : String?, @binary : ::File?, @date_time : Time?, @uuid : String?, @pattern_with_digits : String?, @pattern_with_digits_and_delimiter : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
