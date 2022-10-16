@@ -829,15 +829,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                if (!Boolean.valueOf(p.getDefault().toString()))
                     return "FALSE";
                 else
                     return "TRUE";
             }
         } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();

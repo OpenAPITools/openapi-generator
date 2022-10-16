@@ -78,10 +78,14 @@
         stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
         {{/isBoolean}}
         {{#isDate}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid Date. Must be a string:", `{{name}}`))
+        }
         {{/isDate}}
         {{#isDateTime}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `{{name}}`))
+        }
         {{/isDateTime}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
@@ -134,10 +138,14 @@
         stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
         {{/isBoolean}}
         {{#isDate}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid Date. Must be a string:", `{{name}}`))
+        }
         {{/isDate}}
         {{#isDateTime}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `{{name}}`))
+        }
         {{/isDateTime}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r

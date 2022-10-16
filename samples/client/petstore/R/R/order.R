@@ -57,7 +57,9 @@ Order <- R6::R6Class(
         self$`quantity` <- `quantity`
       }
       if (!is.null(`shipDate`)) {
-        stopifnot(is.character(`shipDate`), length(`shipDate`) == 1)
+        if (!is.character(`shipDate`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `shipDate`))
+        }
         self$`shipDate` <- `shipDate`
       }
       if (!is.null(`status`)) {
