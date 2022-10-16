@@ -78,13 +78,13 @@
         stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
         {{/isBoolean}}
         {{#isDate}}
-        if (class(`{{name}}`) != "Date") {
-          stop(paste("Error! Invalid Date:", `{{name}}`))
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid Date. Must be a string:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (class(`{{name}}`) != "Date") {
-          stop(paste("Error! Invalid Date:", `{{name}}`))
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -138,13 +138,13 @@
         stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
         {{/isBoolean}}
         {{#isDate}}
-        if (class(`{{name}}`) != "Date") {
-          stop(paste("Error! Invalid Date:", `{{name}}`))
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid Date. Must be a string:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (class(`{{name}}`) != "Date") {
-          stop(paste("Error! Invalid Date:", `{{name}}`))
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}

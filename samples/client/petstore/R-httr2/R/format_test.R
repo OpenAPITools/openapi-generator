@@ -59,13 +59,13 @@ FormatTest <- R6::R6Class(
     #' @param double double
     #' @param string string
     #' @param binary binary
-    #' @param dateTime dateTime. Default to as.Date("2015-10-28T14:38:02Z").
+    #' @param dateTime dateTime. Default to "2015-10-28T14:38:02Z".
     #' @param uuid uuid
     #' @param pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
     #' @param pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = as.Date("2015-10-28T14:38:02Z"), `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
+    initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = "2015-10-28T14:38:02Z", `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
       if (!missing(`number`)) {
         self$`number` <- `number`
       }
@@ -73,8 +73,8 @@ FormatTest <- R6::R6Class(
         self$`byte` <- `byte`
       }
       if (!missing(`date`)) {
-        if (class(`date`) != "Date") {
-          stop(paste("Error! Invalid Date:", `date`))
+        if (!is.character(`date`)) {
+          stop(paste("Error! Invalid Date. Must be a string:", `date`))
         }
         self$`date` <- `date`
       }
@@ -110,8 +110,8 @@ FormatTest <- R6::R6Class(
         self$`binary` <- `binary`
       }
       if (!is.null(`dateTime`)) {
-        if (class(`dateTime`) != "Date") {
-          stop(paste("Error! Invalid Date:", `dateTime`))
+        if (!is.character(`dateTime`)) {
+          stop(paste("Error! Invalid DateTime. Must be a string:", `dateTime`))
         }
         self$`dateTime` <- `dateTime`
       }

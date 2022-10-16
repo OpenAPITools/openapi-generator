@@ -836,15 +836,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
-                if (!Boolean.valueOf(p.getDefault().toString())) {
-                    return "as.Date(\"" + p.getDefault().toString() + "\")";
-                }
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() != null) {
-                if (!Boolean.valueOf(p.getDefault().toString())) {
-                    return "as.Date(\"" + p.getDefault().toString() + "\")";
-                }
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {

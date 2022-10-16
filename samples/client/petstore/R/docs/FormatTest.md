@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **string** | **character** |  | [optional] [Pattern: [a-z]/i] 
 **byte** | **character** |  | 
 **binary** | **data.frame** |  | [optional] 
-**date** | **character** |  | [default to as.Date(&quot;Fri Jul 19 00:00:00 UTC 2019&quot;)] 
-**dateTime** | **character** |  | [optional] [default to as.Date(&quot;2015-10-28T14:38:02Z&quot;)] 
+**date** | **character** |  | [default to &quot;Fri Jul 19 00:00:00 UTC 2019&quot;] 
+**dateTime** | **character** |  | [optional] [default to &quot;2015-10-28T14:38:02Z&quot;] 
 **uuid** | **character** |  | [optional] 
 **password** | **character** |  | [Max. length: 64] [Min. length: 10] 
 **pattern_with_digits** | **character** | A string that is a 10 digit number. Can have leading zeros. | [optional] [Pattern: ^\\d{10}$] 
