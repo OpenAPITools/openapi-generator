@@ -521,6 +521,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = composedProperty.datatypeWithEnum;
             property.isMap = composedProperty.isMap;
             property.isContainer = composedProperty.isContainer;
+            // I should be able to get rid of this
         }
 
         if (property.name.equalsIgnoreCase(model.classname) ||
