@@ -11,8 +11,6 @@ declare -a samples=("modules/openapi-generator/src/main/resources/kotlin-server"
                     "modules/openapi-generator/src/main/resources/aspnetcore"
                     "modules/openapi-generator/src/main/resources/powershell"
                     "modules/openapi-generator/src/main/resources/r"
-                    #"modules/openapi-generator/src/main/resources/Java" comment out due to modules/openapi-generator/src/main/resources/Java/gradle-wrapper.jar
-                    "modules/openapi-generator/src/main/resources/csharp-netcore"
                     )
 
 ## now loop through the above array
