@@ -14,12 +14,14 @@ jobs:
   build:
     name: Misc tests
     runs-on: ubuntu-latest
+    env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
+      BUNDLE_GEMFILE: ${{ github.workspace }}/bin/utils/Gemfile
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/checkout@v2
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Detect tabs
         run: /bin/bash ./bin/utils/detect_tab_in_templates.sh
       - name: Detect changes in test files
