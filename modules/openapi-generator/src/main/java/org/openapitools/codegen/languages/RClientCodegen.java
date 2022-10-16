@@ -926,9 +926,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
-            return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (codegenParameter.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -947,9 +947,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         depth++;
 
         if (codegenProperty.isArray) { // array
-            return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+            return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+            return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
