@@ -247,7 +247,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_CUSTOM_JSON_DESERIALIZERS, "Whether to generate custom JSON deserializers for models."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CUSTOM_JSON_DESERIALIZERS, "Whether to generate custom JSON deserializers for models. (Jackson serialization only)"));
     }
 
     public CodegenType getTag() {
