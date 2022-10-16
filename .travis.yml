@@ -147,16 +147,6 @@ script:
   - set -e
   # show docker buildx version
   - docker buildx version
-  # fail if the template files contains tabs
-  - /bin/bash ./bin/utils/detect_tab_in_templates.sh
-  # fail if the test files have changes
-  - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
-  # fail if templates/generators contain carriage return '\r'
-  - /bin/bash ./bin/utils/detect_carriage_return.sh
-  # fail if generators contain merge conflicts
-  - /bin/bash ./bin/utils/detect_merge_conflict.sh
-  # fail if generators contain tab '\t'
-  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
