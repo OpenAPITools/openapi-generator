@@ -169,6 +169,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
             .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
+                .doNotOverwrite());
+
         if (generatePom) {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());

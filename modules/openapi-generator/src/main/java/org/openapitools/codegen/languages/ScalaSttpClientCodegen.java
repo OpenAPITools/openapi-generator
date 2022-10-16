@@ -115,7 +115,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
 
-        String jsonValueClass = jsonLibrary == "circe" ? "io.circe.Json" : "org.json4s.JValue"; 
+        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -127,10 +127,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        importMapping.remove("Seq");
-        importMapping.remove("List");
-        importMapping.remove("Set");
-        importMapping.remove("Map");
+//        importMapping.remove("Seq");
+//        importMapping.remove("List");
+//        importMapping.remove("Set");
+//        importMapping.remove("Map");
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();
@@ -406,6 +406,30 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             return null;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Update datatypeWithEnum for array container
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+            // set datetypeWithEnum as only the inner type is enum
+            property.datatypeWithEnum = toEnumName(baseItem);
+            // naming the enum with respect to the language enum naming convention
+            // e.g. remove [], {} from array/map of enum
+            property.enumName = toEnumName(property);
+            property._enum = baseItem._enum;
+
+            updateCodegenPropertyEnum(property);
         }
     }
 

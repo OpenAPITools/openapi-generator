@@ -40,7 +40,8 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public AdditionalPropertiesBoolean() { 
+  public AdditionalPropertiesBoolean() {
+
   }
 
   public AdditionalPropertiesBoolean name(String name) {

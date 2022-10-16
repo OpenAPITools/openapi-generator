@@ -91,7 +91,8 @@ public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   private Map<String, Object> objectItemsNullable = null;
 
-  public NullableClass() { 
+  public NullableClass() {
+
   }
 
   public NullableClass integerProp(Integer integerProp) {

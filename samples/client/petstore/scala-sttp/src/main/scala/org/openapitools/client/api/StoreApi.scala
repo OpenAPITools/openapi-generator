@@ -33,7 +33,7 @@ class StoreApi(baseUrl: String) {
    * @param orderId ID of the order that needs to be deleted
    */
   def deleteOrder(orderId: String
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -49,7 +49,7 @@ class StoreApi(baseUrl: String) {
    *   api_key (apiKey)
    */
   def getInventory(apiKey: String)(
-): Request[Either[ResponseException[String, Exception], Map[String, Int]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Map[String, Int]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
@@ -67,7 +67,7 @@ class StoreApi(baseUrl: String) {
    * @param orderId ID of pet that needs to be fetched
    */
   def getOrderById(orderId: Long
-): Request[Either[ResponseException[String, Exception], Order], Nothing] =
+): Request[Either[ResponseException[String, Exception], Order], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -83,7 +83,7 @@ class StoreApi(baseUrl: String) {
    * @param order order placed for purchasing the pet
    */
   def placeOrder(order: Order
-): Request[Either[ResponseException[String, Exception], Order], Nothing] =
+): Request[Either[ResponseException[String, Exception], Order], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")

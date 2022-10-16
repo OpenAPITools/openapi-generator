@@ -187,10 +187,10 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                     @SuppressWarnings("unchecked")
                     Set<String> exampleValues = ((Map<String, Example>) rawValue).values().stream()
-                    .map(x -> quoteExample(
-                            StringEscapeUtils.escapeEcmaScript(
-                                    String.valueOf(x.getValue()))))
-                    .collect(Collectors.toCollection(TreeSet::new));
+                            .map(x -> quoteExample(
+                                    StringEscapeUtils.escapeEcmaScript(
+                                            String.valueOf(x.getValue()))))
+                            .collect(Collectors.toCollection(TreeSet::new));
 
                     if (!exampleValues.isEmpty()) {
 
@@ -203,7 +203,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                         writer.write(noExampleParamValue);
                     }
 
-                // handle as (single) 'example'
+                    // handle as (single) 'example'
                 } else {
                     writer.write(String.join("",
                             quoteExample(
@@ -214,7 +214,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                             " // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
                 }
 
-            // param needs to be initialized for subsequent data extraction - see `X_OPERATION_DATAEXTRACT` K6 vendor extension
+                // param needs to be initialized for subsequent data extraction - see `X_OPERATION_DATAEXTRACT` K6 vendor extension
             } else if (fragment.context() instanceof K6ClientCodegen.Parameter
                     && ((K6ClientCodegen.Parameter) fragment.context()).initialize) {
 
@@ -304,8 +304,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         DataExtractSubstituteParameter dataExtract;
 
         public HTTPRequest(String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
-                boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
-                DataExtractSubstituteParameter dataExtract) {
+                           boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
+                           DataExtractSubstituteParameter dataExtract) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
             this.method = method.equals("delete") ? "del" : method;
             this.isDelete = method.equals("delete");
@@ -592,37 +592,38 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 String responseType = getDoubleQuotedString(accepts);
 
                 try {
+                    if (operation != null && operation.getParameters() != null) {
+                        for (io.swagger.v3.oas.models.parameters.Parameter parameter : operation.getParameters()) {
+                            switch (parameter.getIn()) {
+                                case "header":
+                                    httpParams.add(new Parameter(parameter.getName(), getTemplateString(toVarName(parameter.getName()))));
+                                    extraParameters.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
+                                    break;
+                                case "path":
+                                case "query":
+                                    if (parameter.getIn().equals("query"))
+                                        queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
+                                    if (!pathVariables.containsKey(path)) {
+                                        // use 'example' field defined at the parameter level of OpenAPI spec
+                                        if (Objects.nonNull(parameter.getExample())) {
+                                            variables.add(new Parameter(toVarName(parameter.getName()),
+                                                    parameter.getExample(), true));
 
-                    for (io.swagger.v3.oas.models.parameters.Parameter parameter : operation.getParameters()) {
-                        switch (parameter.getIn()) {
-                            case "header":
-                                httpParams.add(new Parameter(parameter.getName(), getTemplateString(toVarName(parameter.getName()))));
-                                extraParameters.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
-                                break;
-                            case "path":
-                            case "query":
-                                if (parameter.getIn().equals("query"))
-                                    queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
-                                if (!pathVariables.containsKey(path)) {
-                                    // use 'example' field defined at the parameter level of OpenAPI spec
-                                    if (Objects.nonNull(parameter.getExample())) {
-                                        variables.add(new Parameter(toVarName(parameter.getName()),
-                                                parameter.getExample(), true));
+                                            // use 'examples' field defined at the parameter level of OpenAPI spec
+                                        } else if (Objects.nonNull(parameter.getExamples())) {
+                                            variables.add(new Parameter(toVarName(parameter.getName()),
+                                                    parameter.getExamples(), true));
 
-                                    // use 'examples' field defined at the parameter level of OpenAPI spec
-                                    } else if (Objects.nonNull(parameter.getExamples())) {
-                                        variables.add(new Parameter(toVarName(parameter.getName()),
-                                                parameter.getExamples(), true));
-
-                                    // no example provided, generated script will contain placeholder value
-                                    } else {
-                                        variables.add(new Parameter(toVarName(parameter.getName()),
-                                                parameter.getName().toUpperCase(Locale.ROOT)));
+                                            // no example provided, generated script will contain placeholder value
+                                        } else {
+                                            variables.add(new Parameter(toVarName(parameter.getName()),
+                                                    parameter.getName().toUpperCase(Locale.ROOT)));
+                                        }
                                     }
-                                }
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 } catch (NullPointerException e) {
@@ -893,7 +894,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param requests
      */
     private void addOrUpdateRequestGroup(Map<String, HTTPRequestGroup> requestGroups, String groupName,
-            Set<Parameter> variables, Map<Integer, HTTPRequest> requests) {
+                                         Set<Parameter> variables, Map<Integer, HTTPRequest> requests) {
         if (requestGroups.containsKey(groupName)) {
             HTTPRequestGroup existingHTTPRequestGroup = requestGroups.get(groupName);
             existingHTTPRequestGroup.addRequests(requests);
@@ -956,16 +957,16 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (Map.Entry<?, ?> xOperationDataExtractPropertiesEntry : xOperationDataExtractProperties.entrySet()) {
 
             switch (String.valueOf(xOperationDataExtractPropertiesEntry.getKey())) {
-            case X_OPERATION_DATAEXTRACT_OPERATION_ID:
-                operationId = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
-                continue;
+                case X_OPERATION_DATAEXTRACT_OPERATION_ID:
+                    operationId = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                    continue;
 
-            case X_OPERATION_DATAEXTRACT_VALUE_PATH:
-                valuePath = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
-                continue;
+                case X_OPERATION_DATAEXTRACT_VALUE_PATH:
+                    valuePath = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                    continue;
 
-            case X_OPERATION_DATAEXTRACT_PARAMETER_NAME:
-                parameterName = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                case X_OPERATION_DATAEXTRACT_PARAMETER_NAME:
+                    parameterName = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
             }
         }
 
@@ -1005,12 +1006,12 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (cgOperation.getHasVendorExtensions() && cgOperation.vendorExtensions.containsKey(X_OPERATION_GROUPING)
                 && cgOperation.vendorExtensions.get(X_OPERATION_GROUPING) instanceof java.util.Map) {
-
             Map.Entry<?, ?> operationGroupingEntry = ((Map<?, ?>) cgOperation.vendorExtensions
                     .get(X_OPERATION_GROUPING)).entrySet().stream().findFirst().orElse(null);
-
-            return Optional.of(new OperationGrouping(String.valueOf(operationGroupingEntry.getKey()),
-                    Integer.parseInt(String.valueOf(operationGroupingEntry.getValue()))));
+            if (operationGroupingEntry != null) {
+                return Optional.of(new OperationGrouping(String.valueOf(operationGroupingEntry.getKey()),
+                        Integer.parseInt(String.valueOf(operationGroupingEntry.getValue()))));
+            }
         }
 
         return operationGrouping;
@@ -1061,7 +1062,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param bodyOrFormParams
      */
     private void extractRequestBodyExample(RequestBody requestBody, String contentTypeValue,
-            List<Parameter> bodyOrFormParams) {
+                                           List<Parameter> bodyOrFormParams) {
 
         Optional<Map.Entry<String, Example>> requestBodyExampleEntry = requestBody.getContent().get(contentTypeValue)
                 .getExamples().entrySet().stream().findFirst();
@@ -1108,14 +1109,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         } else {
             switch (requestsSize) {
-            case 0:
-            case 1:
-                requestOrder = requestsSize;
-                break;
+                case 0:
+                case 1:
+                    requestOrder = requestsSize;
+                    break;
 
-            default:
-                requestOrder = (requestsSize - 1);
-                break;
+                default:
+                    requestOrder = (requestsSize - 1);
+                    break;
             }
         }
 
@@ -1123,6 +1124,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     //
+
     /**
      * Any variables not defined yet but used for subsequent data extraction must be
      * initialized
@@ -1147,5 +1149,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.K_SIX; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.K_SIX;
+    }
 }

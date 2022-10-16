@@ -25,14 +25,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Pet  implements Serializable {
-  
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<Tag> tags = new ArrayList<>();
-
-public enum StatusEnum {
+  private @Valid List<Tag> tags = null;
+  public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
@@ -82,10 +80,16 @@ public enum StatusEnum {
   private @Valid StatusEnum status;
 
   protected Pet(PetBuilder<?, ?> b) {
-  this.id = b.id;this.category = b.category;this.name = b.name;this.photoUrls = b.photoUrls;this.tags = b.tags;this.status = b.status;
+    this.id = b.id;
+    this.category = b.category;
+    this.name = b.name;
+    this.photoUrls = b.photoUrls;
+    this.tags = b.tags;
+    this.status = b.status;
   }
 
-  public Pet() { }
+  public Pet() {
+  }
 
   /**
    **/
@@ -106,7 +110,7 @@ public enum StatusEnum {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -125,7 +129,7 @@ public enum StatusEnum {
     this.category = category;
   }
 
-/**
+  /**
    **/
   public Pet name(String name) {
     this.name = name;
@@ -145,7 +149,7 @@ public enum StatusEnum {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -182,7 +186,7 @@ public enum StatusEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -217,7 +221,7 @@ public enum StatusEnum {
 
     return this;
   }
-/**
+  /**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {

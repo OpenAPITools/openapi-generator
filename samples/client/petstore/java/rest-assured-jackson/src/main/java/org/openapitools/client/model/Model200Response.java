@@ -45,7 +45,7 @@ public class Model200Response {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   private String propertyClass;
 
-  public Model200Response() { 
+  public Model200Response() {
   }
 
   public Model200Response name(Integer name) {

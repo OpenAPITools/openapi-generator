@@ -39,7 +39,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesNumber() { 
+  public AdditionalPropertiesNumber() {
+
   }
 
   public AdditionalPropertiesNumber name(String name) {

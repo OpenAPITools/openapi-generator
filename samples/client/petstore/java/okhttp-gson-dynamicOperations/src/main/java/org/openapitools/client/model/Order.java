@@ -123,7 +123,7 @@ public class Order {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
-  public Order() { 
+  public Order() {
   }
 
   public Order id(Long id) {
@@ -338,9 +338,7 @@ public class Order {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Order.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Order.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Order is not found in the empty JSON string", Order.openapiRequiredFields.toString()));
         }
       }
@@ -352,7 +350,7 @@ public class Order {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Order` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonPrimitive()) {
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
   }

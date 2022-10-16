@@ -185,6 +185,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
             }
             throw $e;
         }
@@ -258,6 +259,7 @@ class UserApi
      */
     public function createUserRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -330,10 +332,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -409,6 +412,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
             }
             throw $e;
         }
@@ -482,6 +486,7 @@ class UserApi
      */
     public function createUsersWithArrayInputRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -554,10 +559,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -633,6 +639,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
             }
             throw $e;
         }
@@ -706,6 +713,7 @@ class UserApi
      */
     public function createUsersWithListInputRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -778,10 +786,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -857,6 +866,8 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -930,6 +941,7 @@ class UserApi
      */
     public function deleteUserRequest($username)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
@@ -1004,10 +1016,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1081,6 +1094,7 @@ class UserApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\User' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1096,6 +1110,9 @@ class UserApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\User';
@@ -1116,6 +1133,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1124,6 +1142,9 @@ class UserApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
+            
             }
             throw $e;
         }
@@ -1210,6 +1231,7 @@ class UserApi
      */
     public function getUserByNameRequest($username)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
@@ -1284,10 +1306,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1363,6 +1386,7 @@ class UserApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('string' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1378,6 +1402,8 @@ class UserApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
             }
 
             $returnType = 'string';
@@ -1398,6 +1424,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1406,6 +1433,8 @@ class UserApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
             }
             throw $e;
         }
@@ -1495,12 +1524,14 @@ class UserApi
      */
     public function loginUserRequest($username, $password)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling loginUser'
             );
         }
+
         // verify the required parameter 'password' is set
         if ($password === null || (is_array($password) && count($password) === 0)) {
             throw new \InvalidArgumentException(
@@ -1585,10 +1616,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1662,6 +1694,7 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
             }
             throw $e;
         }
@@ -1792,10 +1825,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1873,6 +1907,8 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -1949,12 +1985,14 @@ class UserApi
      */
     public function updateUserRequest($username, $user)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling updateUser'
             );
         }
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -2035,10 +2073,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

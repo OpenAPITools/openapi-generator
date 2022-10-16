@@ -839,6 +839,12 @@ paths:
       responses:
         '400':
           description: Someting wrong
+        '5XX':
+          description: Someting wrong
+          content:
+            'applicatino/json':
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
     post:
       tags:
@@ -1986,3 +1992,34 @@ components:
       type: array
       items:
         type: string
+    # `dup-prop` is defined in both parent and child models
+    #  but not identical: optional vs required
+    DuplicatedPropChild:
+      allOf:
+        - $ref: '#/components/schemas/DuplicatedPropParent'
+        - type: object
+          properties:
+            'dup-prop':
+              description: A discriminator value
+              type: string
+    DuplicatedPropParent:
+      description: parent model with duplicated property
+      type: object
+      discriminator:
+        propertyName: 'dup-prop'
+      required:
+        - 'dup-prop'
+      properties:
+        'dup-prop':
+          description: A discriminator value
+          type: string
+    MapOfFileTest:
+      description: test map of file in a property
+      type: object
+      properties:
+        'prop_test':
+          description: a property to test map of file
+          type: object
+          additionalProperties:
+            type: string
+            format: binary

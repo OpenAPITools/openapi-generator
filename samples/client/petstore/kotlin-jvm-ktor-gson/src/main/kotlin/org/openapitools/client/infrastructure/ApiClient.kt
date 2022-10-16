@@ -1,45 +1,47 @@
 package org.openapitools.client.infrastructure
 
+
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.JsonSerializer
-import io.ktor.client.request.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
+import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.utils.EmptyContent
-import io.ktor.http.*
-import io.ktor.http.content.ByteArrayContent
-import io.ktor.http.content.OutgoingContent
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.Parameters
+import io.ktor.http.URLBuilder
 import io.ktor.http.content.PartData
-import kotlin.Unit
-
-import com.google.gson.Gson
-import java.nio.charset.StandardCharsets
-
+import io.ktor.http.encodeURLQueryComponent
+import io.ktor.http.encodedPath
+import io.ktor.http.takeFrom
+import io.ktor.serialization.gson.*
+import com.google.gson.GsonBuilder
+import java.text.DateFormat
+import org.openapitools.client.auth.ApiKeyAuth
+import org.openapitools.client.auth.Authentication
+import org.openapitools.client.auth.HttpBasicAuth
+import org.openapitools.client.auth.HttpBearerAuth
+import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.*
 
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
         httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-        json: Gson,
+        jsonBlock: GsonBuilder.() -> Unit = JSON_DEFAULT,
 ) {
-
-    private val serializer: JsonSerializer by lazy {
-        JsonSerializerImpl(json)
-    }
 
     private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
         {
-            // Hold a reference to the serializer to avoid freezing the entire ApiClient instance
-            // when the JsonFeature is configured.
-            val serializerReference = serializer
-            it.install(JsonFeature) { serializer = serializerReference }
+            it.install(ContentNegotiation) {
+                  gson { jsonBlock() }
+            }
             httpClientConfig?.invoke(it)
         }
     }
@@ -55,9 +57,12 @@ open class ApiClient(
     }
 
     companion object {
-        const val BASE_URL = "http://petstore.swagger.io/v2"
-        val JSON_DEFAULT = Gson()
-        protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
+          const val BASE_URL = "http://petstore.swagger.io/v2"
+          val JSON_DEFAULT : GsonBuilder.() -> Unit = {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+          }
+          protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
     }
 
     /**
@@ -66,7 +71,7 @@ open class ApiClient(
      * @param username Username
      */
     fun setUsername(username: String) {
-        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.username = username
     }
@@ -77,7 +82,7 @@ open class ApiClient(
      * @param password Password
      */
     fun setPassword(password: String) {
-        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.password = password
     }
@@ -89,7 +94,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKey(apiKey: String, paramName: String? = null) {
-        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKey = apiKey
     }
@@ -101,7 +106,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
-        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
+        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKeyPrefix = apiKeyPrefix
     }
@@ -112,7 +117,7 @@ open class ApiClient(
      * @param accessToken Access token
      */
     fun setAccessToken(accessToken: String) {
-        val auth = authentications?.values?.firstOrNull { it is OAuth } as OAuth?
+        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
                 ?: throw Exception("No OAuth2 authentication configured")
         auth.accessToken = accessToken
     }
@@ -123,7 +128,7 @@ open class ApiClient(
      * @param bearerToken The bearer token.
      */
     fun setBearerToken(bearerToken: String) {
-        val auth = authentications?.values?.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
+        val auth = authentications.values.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
                 ?: throw Exception("No Bearer authentication configured")
         auth.bearerToken = bearerToken
     }
@@ -136,18 +141,13 @@ open class ApiClient(
         return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
     }
 
-    protected suspend fun <T: Any?> jsonRequest(requestConfig: RequestConfig<T>, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
-        val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
-                ?: ContentType.Application.Json)
-        return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
-        else request(requestConfig, authNames = authNames)
-    }
+    protected suspend fun <T: Any?> jsonRequest(requestConfig: RequestConfig<T>, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse = request(requestConfig, body, authNames)
 
-    protected suspend fun <T: Any?> request(requestConfig: RequestConfig<T>, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun <T: Any?> request(requestConfig: RequestConfig<T>, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
         requestConfig.updateForAuth<T>(authNames)
         val headers = requestConfig.headers
 
-        return client.request<HttpResponse> {
+        return client.request {
             this.url {
                 this.takeFrom(URLBuilder(baseUrl))
                 appendPath(requestConfig.path.trimStart('/').split('/'))
@@ -160,8 +160,7 @@ open class ApiClient(
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
-                this.body = body
-
+                setBody(body)
         }
     }
 
@@ -187,10 +186,3 @@ open class ApiClient(
             RequestMethod.OPTIONS -> HttpMethod.Options
         }
 }
-
-private class JsonSerializerImpl(private val gson: Gson) : JsonSerializer {
-  override fun write(data: Any, contentType: ContentType): OutgoingContent =
-    ByteArrayContent(gson.toJson(data).toByteArray(StandardCharsets.UTF_8), contentType)
-}
-
-

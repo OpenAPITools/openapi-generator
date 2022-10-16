@@ -44,7 +44,7 @@ public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_FOO = "foo";
   private String foo;
 
-  public HasOnlyReadOnly() { 
+  public HasOnlyReadOnly() {
   }
 
   @JsonCreator

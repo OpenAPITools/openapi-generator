@@ -62,7 +62,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
         'int64' => 'int',
         'number' => 'float',
         'float' => 'float',
-        'double' => 'double',
+        'double' => 'float',
         'decimal' => 'float',
         'string' => 'string',
         'byte' => 'string',
@@ -170,6 +170,16 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     private function getOpenAPINullablesSetToNull(): array
     {
         return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
     }
 
     /**
@@ -636,7 +646,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets double
      *
-     * @return double|null
+     * @return float|null
      */
     public function getDouble()
     {
@@ -646,7 +656,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets double
      *
-     * @param double|null $double double
+     * @param float|null $double double
      *
      * @return self
      */

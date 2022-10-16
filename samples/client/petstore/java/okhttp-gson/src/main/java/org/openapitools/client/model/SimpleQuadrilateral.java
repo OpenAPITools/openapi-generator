@@ -57,7 +57,7 @@ public class SimpleQuadrilateral {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public SimpleQuadrilateral() { 
+  public SimpleQuadrilateral() {
   }
 
   public SimpleQuadrilateral shapeType(String shapeType) {
@@ -207,9 +207,7 @@ public class SimpleQuadrilateral {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (SimpleQuadrilateral.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!SimpleQuadrilateral.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in SimpleQuadrilateral is not found in the empty JSON string", SimpleQuadrilateral.openapiRequiredFields.toString()));
         }
       }
@@ -220,10 +218,10 @@ public class SimpleQuadrilateral {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("shapeType") != null && !jsonObj.get("shapeType").isJsonPrimitive()) {
+      if (!jsonObj.get("shapeType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
-      if (jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
+      if (!jsonObj.get("quadrilateralType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
       }
   }

@@ -59,6 +59,11 @@
   infoLink: "https://e.baidu.com"
   pinned: false
 -
+  caption: "Bandwidth"
+  image: "img/companies/bandwidth.png"
+  infoLink: "https://dev.bandwidth.com/"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"
@@ -482,6 +487,11 @@
   caption: Tencent
   image: "img/companies/tencent.png"
   infoLink: "https://www.tencent.com/"
+  pinned: false
+-
+  caption: TileDB
+  image: "img/companies/tiledb.png"
+  infoLink: "https://www.tiledb.com/"
   pinned: false
 -
   caption: The University of Aizu

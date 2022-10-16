@@ -57,14 +57,6 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected ChildCat()
-        {
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChildCat" /> class.
-        /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
         public ChildCat(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat) : base()
@@ -170,7 +162,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach (var x in BaseValidate(validationContext))
+            foreach (var x in base.BaseValidate(validationContext))
             {
                 yield return x;
             }

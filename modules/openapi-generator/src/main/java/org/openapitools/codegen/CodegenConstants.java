@@ -388,7 +388,10 @@ public class CodegenConstants {
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
-
+    public static final String UNSUPPORTED_V310_SPEC_MSG =
+                    "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
+                    "If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
+                    "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
             "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
@@ -401,4 +404,15 @@ public class CodegenConstants {
 
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
+    public static final String NON_COMPLIANT_USE_DISCR_IF_COMPOSITION_FAILS = "nonCompliantUseDiscriminatorIfCompositionFails";
+
+    public static final String NON_COMPLIANT_USE_DISCR_IF_COMPOSITION_FAILS_DESC =
+            "When true, If the payload fails to validate against composed schemas (allOf/anyOf/oneOf/not) and a " +
+                    "discriminator is present, then ignore the composition validation errors and attempt to use the " +
+                    "discriminator to validate the payload.<br />" +
+                    "Note: setting this to true makes the generated client not comply with json schema because it ignores " +
+                    "composition validation errors. Please consider making your schemas more restrictive rather than " +
+                    "setting this to true. You can do that by:<ul>" +
+                    "<li>defining the propertyName as an enum with only one value in the schemas that are in your discriminator map</li>" +
+                    "<li>setting additionalProperties: false in your schemas</li></ul>";
 }

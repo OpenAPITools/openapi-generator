@@ -39,7 +39,7 @@ public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
 
-  public SpecialModelName() { 
+  public SpecialModelName() {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

@@ -38,7 +38,7 @@ public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
 
-  public FooGetDefaultResponse() { 
+  public FooGetDefaultResponse() {
   }
 
   public FooGetDefaultResponse string(Foo string) {

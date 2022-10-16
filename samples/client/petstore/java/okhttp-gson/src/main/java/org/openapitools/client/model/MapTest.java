@@ -114,7 +114,7 @@ public class MapTest {
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
-  public MapTest() { 
+  public MapTest() {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -346,9 +346,7 @@ public class MapTest {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (MapTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!MapTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in MapTest is not found in the empty JSON string", MapTest.openapiRequiredFields.toString()));
         }
       }

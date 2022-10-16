@@ -57,7 +57,7 @@ public class EquilateralTriangle {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public EquilateralTriangle() { 
+  public EquilateralTriangle() {
   }
 
   public EquilateralTriangle shapeType(String shapeType) {
@@ -207,9 +207,7 @@ public class EquilateralTriangle {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (EquilateralTriangle.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!EquilateralTriangle.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in EquilateralTriangle is not found in the empty JSON string", EquilateralTriangle.openapiRequiredFields.toString()));
         }
       }
@@ -220,10 +218,10 @@ public class EquilateralTriangle {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("shapeType") != null && !jsonObj.get("shapeType").isJsonPrimitive()) {
+      if (!jsonObj.get("shapeType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
-      if (jsonObj.get("triangleType") != null && !jsonObj.get("triangleType").isJsonPrimitive()) {
+      if (!jsonObj.get("triangleType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
       }
   }

@@ -49,33 +49,33 @@ import org.openapitools.client.JSON;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
-  public static final String SERIALIZED_NAME_COLOR = "color";
-  @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color;
+  public static final String SERIALIZED_NAME_BREED = "breed";
+  @SerializedName(SERIALIZED_NAME_BREED)
+  private String breed;
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() { 
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() {
   }
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf color(String color) {
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf breed(String breed) {
     
-    this.color = color;
+    this.breed = breed;
     return this;
   }
 
    /**
-   * Get color
-   * @return color
+   * Get breed
+   * @return breed
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public String getColor() {
-    return color;
+  public String getBreed() {
+    return breed;
   }
 
 
-  public void setColor(String color) {
-    this.color = color;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
   /**
@@ -124,20 +124,20 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
       return false;
     }
     ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf = (ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf) o;
-    return Objects.equals(this.color, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.color)&&
+    return Objects.equals(this.breed, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.breed)&&
         Objects.equals(this.additionalProperties, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(color, additionalProperties);
+    return Objects.hash(breed, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -161,7 +161,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("color");
+    openapiFields.add("breed");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -175,14 +175,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("color") != null && !jsonObj.get("color").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `color` to be a primitive type in the JSON string but got `%s`", jsonObj.get("color").toString()));
+      if ((jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonNull()) && !jsonObj.get("breed").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `breed` to be a primitive type in the JSON string but got `%s`", jsonObj.get("breed").toString()));
       }
   }
 

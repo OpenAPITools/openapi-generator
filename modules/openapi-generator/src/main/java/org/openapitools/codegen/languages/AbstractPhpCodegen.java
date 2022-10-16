@@ -60,6 +60,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractPhpCodegen() {
         super();
 
@@ -89,7 +91,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "boolean",
                         "int",
                         "integer",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -117,7 +118,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("decimal", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
@@ -244,21 +245,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return packageName;
     }
 
-    public String toSrcPath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toSrcPath(final String packageName, final String basePath) {
+        String modifiedPackageName = packageName.replace(invokerPackage, "");
+        String modifiedBasePath = basePath;
+        if (basePath != null && !basePath.isEmpty()) {
+            modifiedBasePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator;
         }
 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
             // Replace period, backslash, forward slash with file separator in package name
-            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
             File.separator
         );
 
         // Trim trailing file separators from the overall path
-        return StringUtils.removeEnd(basePath + packagePath, File.separator);
+        return StringUtils.removeEnd(modifiedBasePath + packagePath, File.separator);
     }
 
     @Override
@@ -463,6 +465,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         name = toGenericName(name);
 
         // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
@@ -478,7 +486,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -646,7 +656,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\'" + escapeText(value) + "\'";
@@ -674,7 +684,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");

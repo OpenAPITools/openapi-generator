@@ -12,7 +12,7 @@ clean:
 		find . -name "__pycache__" -delete
 
 venv: 
-		python -m venv $(VENV)
+		python3 -m venv $(VENV)
 
 test: clean venv
 		bash ./test_python3.sh

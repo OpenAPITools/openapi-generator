@@ -98,7 +98,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
                         "boolean",
                         "int",
                         "integer",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -115,7 +114,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "boolean");

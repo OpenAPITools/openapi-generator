@@ -37,13 +37,13 @@ class ModelReturn {
   String toString() => 'ModelReturn[return_=$return_]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (return_ != null) {
-      _json[r'return'] = return_;
+    final json = <String, dynamic>{};
+    if (this.return_ != null) {
+      json[r'return'] = this.return_;
     } else {
-      _json[r'return'] = null;
+      json[r'return'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [ModelReturn] instance and imports its values from

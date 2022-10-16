@@ -39,6 +39,18 @@
     #'
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}.
+    #' An alias to the method `fromJSON`.
+    #'
+    #' @param input The input JSON.
+    #' @return An instance of {{{classname}}}.
+    #' @export
+    fromJSONString = function(input) {
+      self$fromJSON(input)
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}.
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}.
     #'
     #' @param input The input JSON.
     #' @return An instance of {{{classname}}}.
@@ -46,22 +58,32 @@
     fromJSON = function(input) {
       error_messages <- list()
 
-      {{#anyOf}}
-      {{{.}}}_result <- tryCatch({
-          {{{.}}}$public_methods$validateJSON(input)
-          {{{.}}}_instance <- {{{.}}}$new()
-          self$actual_instance <- {{{.}}}_instance$fromJSON(input)
-          self$actual_type <- "{{{.}}}"
+      {{#composedSchemas.anyOf}}
+      {{^isNull}}
+      {{{dataType}}}_result <- tryCatch({
+          {{#isPrimitiveType}}
+          instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
+          if (typeof(instance) != "{{{dataType}}}") {
+            stop(sprintf("Data type doesn't match. Expected: %s. Actual: %s.", "{{{dataType}}}", typeof(instance)))
+          }
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          {{{dataType}}}$public_methods$validateJSON(input)
+          {{{dataType}}}_instance <- {{{dataType}}}$new()
+          {{/isPrimitiveType}}
+          self$actual_instance <- {{{dataType}}}_instance$fromJSON(input)
+          self$actual_type <- "{{{dataType}}}"
           return(self)
         },
         error = function(err) err
       )
 
-      if (!is.null({{{.}}}_result["error"])) {
-        error_messages <- append(error_messages, {{{.}}}_result["message"])
+      if (!is.null({{{dataType}}}_result["error"])) {
+        error_messages <- append(error_messages, {{{dataType}}}_result["message"])
       }
 
-      {{/anyOf}}
+      {{/isNull}}
+      {{/composedSchemas.anyOf}}
       # no match
       stop(paste("No match found when deserializing the payload into {{{classname}}} with anyOf schemas {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: ",
                  paste(error_messages, collapse = ", ")))
@@ -129,6 +151,28 @@
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
+    },
+    #' Print the object
+    #'
+    #' @description
+    #' Print the object
+    #'
+    #' @export
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
     }
-  )
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
+## Uncomment below to unlock the class to allow modifications of the method or field
+#{{classname}}$unlock()
+#
+## Below is an example to define the print fnuction
+#{{classname}}$set("public", "print", function(...) {
+#  print(jsonlite::prettify(self$toJSONString()))
+#  invisible(self)
+#})
+## Uncomment below to lock the class to prevent modifications to the method or field
+#{{classname}}$lock()

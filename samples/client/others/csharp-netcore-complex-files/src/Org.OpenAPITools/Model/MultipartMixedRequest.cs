@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Status
         /// </summary>
-        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
         public MultipartMixedStatus Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipartMixedRequest" /> class.
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// a file
         /// </summary>
         /// <value>a file</value>
-        [DataMember(Name = "file", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "file", IsRequired = true, EmitDefaultValue = true)]
         public System.IO.Stream File { get; set; }
 
         /// <summary>

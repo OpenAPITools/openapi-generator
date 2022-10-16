@@ -64,7 +64,7 @@ public class ArrayOfInlineAllOf {
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
   private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = null;
 
-  public ArrayOfInlineAllOf() { 
+  public ArrayOfInlineAllOf() {
   }
 
   public ArrayOfInlineAllOf id(Long id) {
@@ -247,9 +247,7 @@ public class ArrayOfInlineAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfInlineAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfInlineAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOf is not found in the empty JSON string", ArrayOfInlineAllOf.openapiRequiredFields.toString()));
         }
       }
@@ -260,20 +258,22 @@ public class ArrayOfInlineAllOf {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      JsonArray jsonArrayarrayAllofDogProperty = jsonObj.getAsJsonArray("array_allof_dog_property");
-      if (jsonArrayarrayAllofDogProperty != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("array_allof_dog_property").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `array_allof_dog_property` to be an array in the JSON string but got `%s`", jsonObj.get("array_allof_dog_property").toString()));
-        }
+      if (jsonObj.get("array_allof_dog_property") != null && !jsonObj.get("array_allof_dog_property").isJsonNull()) {
+        JsonArray jsonArrayarrayAllofDogProperty = jsonObj.getAsJsonArray("array_allof_dog_property");
+        if (jsonArrayarrayAllofDogProperty != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("array_allof_dog_property").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `array_allof_dog_property` to be an array in the JSON string but got `%s`", jsonObj.get("array_allof_dog_property").toString()));
+          }
 
-        // validate the optional field `array_allof_dog_property` (array)
-        for (int i = 0; i < jsonArrayarrayAllofDogProperty.size(); i++) {
-          ArrayOfInlineAllOfArrayAllofDogPropertyInner.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
-        };
+          // validate the optional field `array_allof_dog_property` (array)
+          for (int i = 0; i < jsonArrayarrayAllofDogProperty.size(); i++) {
+            ArrayOfInlineAllOfArrayAllofDogPropertyInner.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

@@ -53,7 +53,7 @@ public class SpecialModelName {
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
-  public SpecialModelName() { 
+  public SpecialModelName() {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
@@ -138,9 +138,7 @@ public class SpecialModelName {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (SpecialModelName.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
       }

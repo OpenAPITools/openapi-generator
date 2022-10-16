@@ -49,7 +49,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_MAP)
   private Map<String, Animal> map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

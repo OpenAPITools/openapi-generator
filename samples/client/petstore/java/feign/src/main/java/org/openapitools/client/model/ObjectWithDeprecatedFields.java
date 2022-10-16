@@ -52,7 +52,7 @@ public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_BARS = "bars";
   private List<String> bars = null;
 
-  public ObjectWithDeprecatedFields() { 
+  public ObjectWithDeprecatedFields() {
   }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {

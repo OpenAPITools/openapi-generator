@@ -54,7 +54,7 @@ public class ModelFile {
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
   private String sourceURI;
 
-  public ModelFile() { 
+  public ModelFile() {
   }
 
   public ModelFile sourceURI(String sourceURI) {
@@ -139,9 +139,7 @@ public class ModelFile {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ModelFile.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ModelFile.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelFile is not found in the empty JSON string", ModelFile.openapiRequiredFields.toString()));
         }
       }
@@ -153,7 +151,7 @@ public class ModelFile {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelFile` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("sourceURI") != null && !jsonObj.get("sourceURI").isJsonPrimitive()) {
+      if ((jsonObj.get("sourceURI") != null && !jsonObj.get("sourceURI").isJsonNull()) && !jsonObj.get("sourceURI").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `sourceURI` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sourceURI").toString()));
       }
   }

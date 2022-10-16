@@ -17,24 +17,46 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
-  {{#vars}}{{#isEnum}}{{^isContainer}}
-
-{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
-
-{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  {{#vars}}
+  {{#isEnum}}
+  {{^isContainer}}
+  {{>enumClass}}
+  {{/isContainer}}
+  {{#isContainer}}
+  {{#mostInnerItems}}
+  {{>enumClass}}
+  {{/mostInnerItems}}
+  {{/isContainer}}
+  {{/isEnum}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}{{#generateBuilders}}{{^additionalProperties}}
+  {{#isContainer}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#required}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}}{{#isNullable}} = null{{/isNullable}}{{/required}}{{^required}} = null{{/required}};
+  {{/isContainer}}
+  {{^isContainer}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/isContainer}}
+  {{/vars}}
+  {{#generateBuilders}}
+  {{^additionalProperties}}
 
   protected {{classname}}({{classname}}Builder<?, ?> b) {
-  {{#parent}}super(b);
-  {{/parent}}{{#vars}}this.{{name}} = b.{{name}};{{/vars}}
+    {{#parent}}
+    super(b);
+    {{/parent}}
+    {{#vars}}
+    this.{{name}} = b.{{name}};
+    {{/vars}}
   }
 
-  public {{classname}}() { }{{/additionalProperties}}{{/generateBuilders}}
+  public {{classname}}() {
+  }
+  {{/additionalProperties}}
+  {{/generateBuilders}}
 
-  {{#vars}}/**
+  {{#vars}}
+  /**
    {{#description}}
    * {{.}}
    {{/description}}

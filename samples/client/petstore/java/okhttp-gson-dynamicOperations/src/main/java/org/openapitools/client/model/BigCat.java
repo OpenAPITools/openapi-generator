@@ -105,7 +105,7 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() { 
+  public BigCat() {
     this.className = this.getClass().getSimpleName();
   }
 
@@ -197,9 +197,7 @@ public class BigCat extends Cat {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (BigCat.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!BigCat.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in BigCat is not found in the empty JSON string", BigCat.openapiRequiredFields.toString()));
         }
       }

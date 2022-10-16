@@ -43,7 +43,7 @@ public class Tag {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public Tag() { 
+  public Tag() {
   }
 
   public Tag id(Long id) {

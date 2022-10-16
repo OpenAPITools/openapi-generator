@@ -55,6 +55,14 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
     }
 
+    /**
+     * As of Java 9, '_' is a keyword, and may not be used as an identifier.
+     */
+    @Test
+    public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
+    }
+
     @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
@@ -845,6 +853,20 @@ public class AbstractJavaCodegenTest {
         // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
         // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
         Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
+    }
+
+    @Test
+    public void testOneOfModelImports() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("Example");
+        CodegenModel cm = codegen.fromModel("Example", schema);
+        Assert.assertEquals(cm.imports.size(), 3);
+        Assert.assertTrue(cm.imports.contains("BigDecimal"));
+        Assert.assertTrue(cm.imports.contains("Date"));
+        Assert.assertTrue(cm.imports.contains("UUID"));
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

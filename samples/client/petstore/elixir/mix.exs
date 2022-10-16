@@ -2,14 +2,16 @@ defmodule OpenapiPetstore.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :openapi_petstore,
-     version: "1.0.0",
-     elixir: "~> 1.10",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package(),
-     description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\",
-     deps: deps()]
+    [
+      app: :openapi_petstore,
+      version: "1.0.0",
+      elixir: "~> 1.10",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\",
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -37,11 +39,10 @@ defmodule OpenapiPetstore.Mixfile do
     ]
   end
 
-   defp package() do
-    [
-      name: "openapi_petstore",
-      files: ~w(.formatter.exs config lib mix.exs README* LICENSE*),
-      licenses: [""]
-    ]
+   defp package do
+      [
+        name: "openapi_petstore",
+        files: ~w(.formatter.exs config lib mix.exs README* LICENSE*),
+      ]
   end
 end

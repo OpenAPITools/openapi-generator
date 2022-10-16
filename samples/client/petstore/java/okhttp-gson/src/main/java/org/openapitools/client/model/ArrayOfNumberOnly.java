@@ -56,7 +56,7 @@ public class ArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
-  public ArrayOfNumberOnly() { 
+  public ArrayOfNumberOnly() {
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -186,14 +186,12 @@ public class ArrayOfNumberOnly {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfNumberOnly is not found in the empty JSON string", ArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
       // ensure the json data is an array
-      if (jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonArray()) {
+      if (!jsonObj.get("ArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayNumber").toString()));
       }
   }

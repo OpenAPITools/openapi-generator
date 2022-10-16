@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ArrayTest
@@ -64,7 +66,7 @@ public class ArrayTest {
   @XmlElement(name = "arrayArrayOfModel")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
-  public ArrayTest() { 
+  public ArrayTest() {
   }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {

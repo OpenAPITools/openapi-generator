@@ -104,7 +104,7 @@ public class BigCatAllOf {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCatAllOf() { 
+  public BigCatAllOf() {
   }
 
   public BigCatAllOf kind(KindEnum kind) {
@@ -189,9 +189,7 @@ public class BigCatAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (BigCatAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!BigCatAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in BigCatAllOf is not found in the empty JSON string", BigCatAllOf.openapiRequiredFields.toString()));
         }
       }
@@ -203,7 +201,7 @@ public class BigCatAllOf {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `BigCatAllOf` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("kind") != null && !jsonObj.get("kind").isJsonPrimitive()) {
+      if ((jsonObj.get("kind") != null && !jsonObj.get("kind").isJsonNull()) && !jsonObj.get("kind").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `kind` to be a primitive type in the JSON string but got `%s`", jsonObj.get("kind").toString()));
       }
   }

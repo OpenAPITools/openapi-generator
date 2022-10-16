@@ -54,7 +54,7 @@ public class ClassModel {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public ClassModel() { 
+  public ClassModel() {
   }
 
   public ClassModel propertyClass(String propertyClass) {
@@ -139,9 +139,7 @@ public class ClassModel {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ClassModel.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ClassModel.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ClassModel is not found in the empty JSON string", ClassModel.openapiRequiredFields.toString()));
         }
       }
@@ -153,7 +151,7 @@ public class ClassModel {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ClassModel` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("_class") != null && !jsonObj.get("_class").isJsonPrimitive()) {
+      if ((jsonObj.get("_class") != null && !jsonObj.get("_class").isJsonNull()) && !jsonObj.get("_class").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `_class` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_class").toString()));
       }
   }

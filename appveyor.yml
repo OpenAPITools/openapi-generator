@@ -55,6 +55,8 @@ build_script:
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
   # build C# API client (.net framework 4.7)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
+  # build C# API client (.net framework 4.8)
+  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net48\Org.OpenAPITools.sln
   # build C# API client (.net 5.0)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
   # build C# API client (.net 5.0 with ConditionalSerialization)
@@ -84,6 +86,8 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test C# API client (.net framework 4.8)
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net 5.0)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API Client using conditional-serialization

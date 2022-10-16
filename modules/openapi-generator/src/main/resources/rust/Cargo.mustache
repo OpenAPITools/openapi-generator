@@ -18,6 +18,11 @@ serde_yaml = "0.7"
 base64 = "~0.7.0"
 futures = "^0.3"
 {{/hyper}}
+{{#withAWSV4Signature}}
+aws-sigv4 = "0.3.0"
+http = "0.2.5"
+secrecy = "0.8.0"
+{{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
 reqwest = "~0.9"
@@ -28,11 +33,6 @@ version = "^0.11"
 features = ["json", "multipart"]
 {{/supportAsync}}
 {{/reqwest}}
-{{#withAWSV4Signature}}
-aws-sigv4 = "0.3.0"
-http = "0.2.5"
-secrecy = "0.8.0"
-{{/withAWSV4Signature}}
 
 [dev-dependencies]
 {{#hyper}}

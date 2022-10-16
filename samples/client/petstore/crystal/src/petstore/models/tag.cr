@@ -8,6 +8,7 @@
 #OpenAPI Generator version: 7.0.0-SNAPSHOT
 #
 
+require "big"
 require "json"
 require "time"
 

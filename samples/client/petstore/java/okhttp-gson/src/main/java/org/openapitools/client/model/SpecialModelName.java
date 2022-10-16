@@ -57,7 +57,7 @@ public class SpecialModelName {
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
   private String specialModelName;
 
-  public SpecialModelName() { 
+  public SpecialModelName() {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
@@ -205,13 +205,11 @@ public class SpecialModelName {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (SpecialModelName.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {
+      if ((jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonNull()) && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `_special_model.name_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_special_model.name_").toString()));
       }
   }

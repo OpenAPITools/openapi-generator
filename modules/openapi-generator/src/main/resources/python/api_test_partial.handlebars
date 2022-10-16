@@ -1,0 +1,21 @@
+api_response = self.api.{{httpMethod}}(
+{{#if bodyParam}}
+    body=body,
+    content_type=content_type
+{{/if}}
+{{#if produces}}
+    accept_content_types=(accept_content_type,)
+{{/if}}
+)
+self.assert_pool_manager_request_called_with(
+    mock_request,
+    self._configuration.host + '{{{path}}}',
+    method='{{httpMethod}}'.upper(),
+{{#if bodyParam}}
+    body=self.json_bytes(payload),
+    content_type=content_type,
+{{/if}}
+{{#if produces}}
+    accept_content_type=accept_content_type,
+{{/if}}
+)

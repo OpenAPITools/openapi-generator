@@ -59,7 +59,7 @@ public class ReadOnlyFirst implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
   
@@ -192,9 +192,7 @@ public class ReadOnlyFirst implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ReadOnlyFirst.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ReadOnlyFirst.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }
@@ -206,10 +204,10 @@ public class ReadOnlyFirst implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ReadOnlyFirst` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonPrimitive()) {
+      if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
       }
-      if (jsonObj.get("baz") != null && !jsonObj.get("baz").isJsonPrimitive()) {
+      if ((jsonObj.get("baz") != null && !jsonObj.get("baz").isJsonNull()) && !jsonObj.get("baz").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `baz` to be a primitive type in the JSON string but got `%s`", jsonObj.get("baz").toString()));
       }
   }

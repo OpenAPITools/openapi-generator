@@ -59,7 +59,7 @@ public class Capitalization {
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   private String ATT_NAME;
 
-  public Capitalization() { 
+  public Capitalization() {
   }
 
   public Capitalization smallCamel(String smallCamel) {

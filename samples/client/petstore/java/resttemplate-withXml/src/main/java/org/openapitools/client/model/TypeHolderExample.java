@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * TypeHolderExample
@@ -73,7 +75,7 @@ public class TypeHolderExample {
   @XmlElement(name = "arrayItem")
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExample() { 
+  public TypeHolderExample() {
   }
 
   public TypeHolderExample stringItem(String stringItem) {

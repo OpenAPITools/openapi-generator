@@ -54,7 +54,7 @@ public class NumberOnly {
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
-  public NumberOnly() { 
+  public NumberOnly() {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -176,9 +176,7 @@ public class NumberOnly {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (NumberOnly.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!NumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in NumberOnly is not found in the empty JSON string", NumberOnly.openapiRequiredFields.toString()));
         }
       }

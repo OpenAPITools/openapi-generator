@@ -40,7 +40,7 @@ public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAZ = "baz";
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
   @JsonCreator

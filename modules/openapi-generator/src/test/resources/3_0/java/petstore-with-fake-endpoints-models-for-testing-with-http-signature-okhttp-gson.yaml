@@ -1504,6 +1504,10 @@ components:
           type: string
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        uuid_with_default:
+          type: string
+          format: uuid
+          default: 11111111-206d-4f12-9f12-3d1e525a8e84
         password:
           type: string
           format: password
@@ -2205,3 +2209,17 @@ components:
                 properties:
                   color:
                     type: string
+    EnumStringDiscriminator:
+      type: object
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      required:
+        - enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          type: string
+          enum:
+            - type_a
+            - type_b

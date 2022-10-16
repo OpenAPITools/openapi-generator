@@ -18,17 +18,16 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import com.google.common.collect.Sets;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,6 +39,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Locale;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 @SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
 

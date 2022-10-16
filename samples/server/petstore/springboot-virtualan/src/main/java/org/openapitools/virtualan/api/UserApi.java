@@ -37,6 +37,7 @@ import javax.annotation.Generated;
 @Validated
 @Tag(name = "user", description = "Operations about user")
 @VirtualService
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface UserApi {
 
     default Optional<NativeWebRequest> getRequest() {

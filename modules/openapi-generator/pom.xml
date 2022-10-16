@@ -248,11 +248,6 @@
     </reporting>
     <dependencies>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-core</artifactId>
-            <version>${swagger-core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>${swagger-parser-groupid.version}</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser.version}</version>

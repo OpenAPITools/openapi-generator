@@ -27,7 +27,7 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
-            isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false,
+            isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
@@ -191,6 +191,27 @@ public class CodegenOperation {
      */
     public boolean getHasDefaultResponse() {
         return responses.stream().anyMatch(response -> response.isDefault);
+    }
+
+    public boolean getAllResponsesAreErrors() {
+        return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
+    }
+
+    /**
+     * @return contentTypeToOperation
+     * returns a map where the key is the request body content type and the value is the current CodegenOperation
+     * this is needed by templates when a different signature is needed for each request body content type
+     */
+    public Map<String, CodegenOperation> getContentTypeToOperation() {
+        LinkedHashMap<String, CodegenOperation> contentTypeToOperation = new LinkedHashMap<>();
+        if (bodyParam == null) {
+            return null;
+        }
+        LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
+        for (String contentType: content.keySet()) {
+            contentTypeToOperation.put(contentType, this);
+        }
+        return contentTypeToOperation;
     }
 
     /**

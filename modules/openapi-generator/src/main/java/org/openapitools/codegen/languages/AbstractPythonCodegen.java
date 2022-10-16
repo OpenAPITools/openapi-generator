@@ -637,6 +637,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
         sanitizedName = sanitizedName.replaceAll("$", "");
+        // remove whitespace
+        sanitizedName = sanitizedName.replaceAll("\\s+", "");
 
         String nameWithPrefixSuffix = sanitizedName;
         if (!StringUtils.isEmpty(modelNamePrefix)) {

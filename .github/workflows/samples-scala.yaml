@@ -19,6 +19,7 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/scalaz
+          #- samples/client/petstore/scala-sttp # won't pass while the same tests in circleci pass
           # servers
           - samples/server/petstore/scala-lagom-server
           - samples/server/petstore/scala-play-server

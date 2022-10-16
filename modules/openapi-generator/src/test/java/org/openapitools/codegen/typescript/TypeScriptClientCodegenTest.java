@@ -9,11 +9,18 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientCodegenTest {
     @Test
     public void getTypeDeclarationTest() {
@@ -79,4 +86,59 @@ public class TypeScriptClientCodegenTest {
         Assert.assertFalse(codegenModel.imports.contains("Set"));
     }
 
+    @Test
+    public void testWithAdditionalProperties() {
+        final Schema inner = new ObjectSchema();
+        inner.setAdditionalProperties(true);
+
+        final Schema root = new ObjectSchema()
+            .addProperties("inner", inner);
+
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openAPI);
+
+        try {
+            // TypeScriptClientCodegen can generate codes without throwing exception.
+            codegen.fromModel("sample", root);
+        } catch (Exception e) {
+            Assert.fail("Exception was thrown.");
+        }
+    }
+
+    @Test
+    public void defaultModelImportTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+
+        final CodegenModel cm = new CodegenModel();
+        cm.setImports(Collections.singleton("ApiResponse"));
+        final ModelsMap models = new ModelsMap();
+        final ModelMap model = new ModelMap();
+        model.setModel(cm);
+        models.setModels(Collections.singletonList(model));
+
+        final ModelsMap processedModels = codegen.postProcessModels(models);
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
+        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse".replace("/", File.separator));
+        Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
+    }
+
+    @Test
+    public void modelImportWithMappingTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final String mappedName = "@namespace/dir/response";
+        codegen.importMapping().put("ApiResponse", mappedName);
+
+        final CodegenModel cm = new CodegenModel();
+        cm.setImports(Collections.singleton("ApiResponse"));
+        final ModelsMap models = new ModelsMap();
+        final ModelMap model = new ModelMap();
+        model.setModel(cm);
+        models.setModels(Collections.singletonList(model));
+
+        final ModelsMap processedModels = codegen.postProcessModels(models);
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
+        Assert.assertEquals(tsImports.get(0).get("filename"), mappedName);
+        Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
+    }
 }

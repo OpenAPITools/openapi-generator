@@ -69,7 +69,7 @@ public class ObjectWithDeprecatedFields {
   @SerializedName(SERIALIZED_NAME_BARS)
   private List<String> bars = null;
 
-  public ObjectWithDeprecatedFields() { 
+  public ObjectWithDeprecatedFields() {
   }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {
@@ -283,21 +283,19 @@ public class ObjectWithDeprecatedFields {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonPrimitive()) {
+      if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
       // validate the optional field `deprecatedRef`
-      if (jsonObj.getAsJsonObject("deprecatedRef") != null) {
+      if (jsonObj.get("deprecatedRef") != null && !jsonObj.get("deprecatedRef").isJsonNull()) {
         DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
       }
       // ensure the json data is an array
-      if (jsonObj.get("bars") != null && !jsonObj.get("bars").isJsonArray()) {
+      if (!jsonObj.get("bars").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `bars` to be an array in the JSON string but got `%s`", jsonObj.get("bars").toString()));
       }
   }

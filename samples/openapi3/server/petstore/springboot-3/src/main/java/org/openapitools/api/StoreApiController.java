@@ -29,7 +29,6 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;

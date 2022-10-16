@@ -31,6 +31,9 @@ docs/Client.md
 docs/DefaultApi.md
 docs/Dog.md
 docs/DogAllOf.md
+docs/DuplicatedPropChild.md
+docs/DuplicatedPropChildAllOf.md
+docs/DuplicatedPropParent.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
@@ -48,6 +51,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
 docs/Mammal.md
+docs/MapOfFileTest.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -100,6 +104,9 @@ model_class_model.go
 model_client.go
 model_dog.go
 model_dog_all_of.go
+model_duplicated_prop_child.go
+model_duplicated_prop_child_all_of.go
+model_duplicated_prop_parent.go
 model_enum_arrays.go
 model_enum_class.go
 model_enum_test_.go
@@ -114,6 +121,7 @@ model_has_only_read_only.go
 model_health_check_result.go
 model_list.go
 model_mammal.go
+model_map_of_file_test_.go
 model_map_test_.go
 model_mixed_properties_and_additional_properties_class.go
 model_name.go

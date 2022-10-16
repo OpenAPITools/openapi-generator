@@ -50,19 +50,19 @@
   describe('Model200Response', function() {
     it('should create an instance of Model200Response', function() {
       // uncomment below and update the code to test Model200Response
-      //var instane = new OpenApiPetstore.Model200Response();
+      //var instance = new OpenApiPetstore.Model200Response();
       //expect(instance).to.be.a(OpenApiPetstore.Model200Response);
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instane = new OpenApiPetstore.Model200Response();
+      //var instance = new OpenApiPetstore.Model200Response();
       //expect(instance).to.be();
     });
 
     it('should have the property _class (base name: "class")', function() {
       // uncomment below and update the code to test the property _class
-      //var instane = new OpenApiPetstore.Model200Response();
+      //var instance = new OpenApiPetstore.Model200Response();
       //expect(instance).to.be();
     });
 

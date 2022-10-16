@@ -243,10 +243,12 @@ sub deserialize
     } elsif (grep /^$class$/, ('DATE_TIME', 'DATE')) {
         return DateTime->from_epoch(epoch => str2time($data));
     } elsif ($class eq 'string') {
+        return undef unless defined $data;
         return $data . q();
     } elsif ($class eq 'object') {
         return $data;
     } elsif (grep /^$class$/, ('int', 'float', 'double')) {
+        return undef unless defined $data;
         return $data + 0;
     } elsif ($class eq 'bool') {
         return !!$data;

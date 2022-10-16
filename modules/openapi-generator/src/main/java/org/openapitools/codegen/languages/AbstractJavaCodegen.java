@@ -130,6 +130,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractJavaCodegen() {
         super();
 
@@ -830,6 +832,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return schemaMapping.get(name);
         }
 
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
@@ -850,6 +858,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
+            schemaKeyToModelNameCache.put(origName, modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
@@ -857,10 +866,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            schemaKeyToModelNameCache.put(origName, modelName);
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
             return modelName;
         }
+
+        schemaKeyToModelNameCache.put(origName, camelizedName);
 
         return camelizedName;
     }
@@ -958,7 +970,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
-                return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
+                return "URI.create(\"" + escapeText(String.valueOf(schema.getDefault())) + "\")";
             }
             return null;
         } else if (ModelUtils.isStringSchema(schema)) {
@@ -980,8 +992,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else {
                         return null;
                     }
+                } else if (schema.getDefault() instanceof UUID) {
+                    return "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
                 } else {
-                    _default = (String) schema.getDefault();
+                    _default = String.valueOf(schema.getDefault());
                 }
 
                 if (schema.getEnum() == null) {
@@ -1285,7 +1299,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+
+        // additional import for different cases
+        addAdditionalImports(codegenModel, codegenModel.oneOf);
+        addAdditionalImports(codegenModel, codegenModel.anyOf);
         return codegenModel;
+    }
+
+    private void addAdditionalImports(CodegenModel model, Set<String> dataTypeSet) {
+        for (String dataType : dataTypeSet) {
+            if (null != importMapping().get(dataType)) {
+                model.imports.add(dataType);
+            }
+        }
     }
 
     @Override
@@ -1522,6 +1548,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
             return getSymbolName(value).toUpperCase(Locale.ROOT);
+        }
+
+        if (" ".equals(value)) {
+            return "SPACE";
         }
 
         // number
@@ -2120,5 +2150,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
+    }
+
+    public boolean isAddNullableImports(CodegenModel cm, boolean addImports, CodegenProperty var) {
+        if (this.openApiNullable) {
+            boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+            // only add JsonNullable and related imports to optional and nullable values
+            addImports |= isOptionalNullable;
+            var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+            findByName(var.name, cm.readOnlyVars)
+                    .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
+        }
+        return addImports;
+    }
+    public static void addImports(List<Map<String, String>> imports, CodegenModel cm, Map<String, String> imports2Classnames) {
+        for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
+            cm.imports.add(entry.getKey());
+            Map<String, String> importsItem = new HashMap<>();
+            importsItem.put("import", entry.getValue());
+            imports.add(importsItem);
+        }
     }
 }

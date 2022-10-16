@@ -64,7 +64,7 @@ public class ArrayTest {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
-  public ArrayTest() { 
+  public ArrayTest() {
   }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -262,22 +262,20 @@ public class ArrayTest {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayTest is not found in the empty JSON string", ArrayTest.openapiRequiredFields.toString()));
         }
       }
       // ensure the json data is an array
-      if (jsonObj.get("array_of_string") != null && !jsonObj.get("array_of_string").isJsonArray()) {
+      if (!jsonObj.get("array_of_string").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_of_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_of_string").toString()));
       }
       // ensure the json data is an array
-      if (jsonObj.get("array_array_of_integer") != null && !jsonObj.get("array_array_of_integer").isJsonArray()) {
+      if (!jsonObj.get("array_array_of_integer").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_integer` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_integer").toString()));
       }
       // ensure the json data is an array
-      if (jsonObj.get("array_array_of_model") != null && !jsonObj.get("array_array_of_model").isJsonArray()) {
+      if (!jsonObj.get("array_array_of_model").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_model` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_model").toString()));
       }
   }

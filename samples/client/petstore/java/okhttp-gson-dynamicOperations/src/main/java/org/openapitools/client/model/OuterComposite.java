@@ -62,7 +62,7 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
-  public OuterComposite() { 
+  public OuterComposite() {
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -199,9 +199,7 @@ public class OuterComposite {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (OuterComposite.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!OuterComposite.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
@@ -213,7 +211,7 @@ public class OuterComposite {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `OuterComposite` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonPrimitive()) {
+      if ((jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonNull()) && !jsonObj.get("my_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
       }
   }

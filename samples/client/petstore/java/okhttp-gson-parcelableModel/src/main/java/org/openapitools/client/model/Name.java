@@ -68,7 +68,7 @@ public class Name implements Parcelable {
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 
-  public Name() { 
+  public Name() {
   }
 
   
@@ -251,9 +251,7 @@ public class Name implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Name.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Name.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Name is not found in the empty JSON string", Name.openapiRequiredFields.toString()));
         }
       }
@@ -272,7 +270,7 @@ public class Name implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("property") != null && !jsonObj.get("property").isJsonPrimitive()) {
+      if ((jsonObj.get("property") != null && !jsonObj.get("property").isJsonNull()) && !jsonObj.get("property").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `property` to be a primitive type in the JSON string but got `%s`", jsonObj.get("property").toString()));
       }
   }

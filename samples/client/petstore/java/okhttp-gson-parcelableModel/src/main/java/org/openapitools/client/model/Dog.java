@@ -56,7 +56,7 @@ public class Dog extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public Dog() { 
+  public Dog() {
     super();
     this.className = this.getClass().getSimpleName();
   }
@@ -171,9 +171,7 @@ public class Dog extends Animal implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Dog.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Dog.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Dog is not found in the empty JSON string", Dog.openapiRequiredFields.toString()));
         }
       }

@@ -106,6 +106,10 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
 
+  public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
+  @SerializedName(SERIALIZED_NAME_UUID_WITH_DEFAULT)
+  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
+
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
@@ -118,7 +122,7 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
   private String patternWithDigitsAndDelimiter;
 
-  public FormatTest() { 
+  public FormatTest() {
   }
 
   public FormatTest integer(Integer integer) {
@@ -430,6 +434,29 @@ public class FormatTest {
   }
 
 
+  public FormatTest uuidWithDefault(UUID uuidWithDefault) {
+    
+    this.uuidWithDefault = uuidWithDefault;
+    return this;
+  }
+
+   /**
+   * Get uuidWithDefault
+   * @return uuidWithDefault
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public UUID getUuidWithDefault() {
+    return uuidWithDefault;
+  }
+
+
+  public void setUuidWithDefault(UUID uuidWithDefault) {
+    this.uuidWithDefault = uuidWithDefault;
+  }
+
+
   public FormatTest password(String password) {
     
     this.password = password;
@@ -557,6 +584,7 @@ public class FormatTest {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.uuidWithDefault, formatTest.uuidWithDefault) &&
         Objects.equals(this.password, formatTest.password) &&
         Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
         Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter)&&
@@ -565,7 +593,7 @@ public class FormatTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter, additionalProperties);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, uuidWithDefault, password, patternWithDigits, patternWithDigitsAndDelimiter, additionalProperties);
   }
 
   @Override
@@ -585,6 +613,7 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    uuidWithDefault: ").append(toIndentedString(uuidWithDefault)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
@@ -624,6 +653,7 @@ public class FormatTest {
     openapiFields.add("date");
     openapiFields.add("dateTime");
     openapiFields.add("uuid");
+    openapiFields.add("uuid_with_default");
     openapiFields.add("password");
     openapiFields.add("pattern_with_digits");
     openapiFields.add("pattern_with_digits_and_delimiter");
@@ -644,9 +674,7 @@ public class FormatTest {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (FormatTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
         }
       }
@@ -657,19 +685,22 @@ public class FormatTest {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("string") != null && !jsonObj.get("string").isJsonPrimitive()) {
+      if ((jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) && !jsonObj.get("string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string").toString()));
       }
-      if (jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonPrimitive()) {
+      if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
-      if (jsonObj.get("password") != null && !jsonObj.get("password").isJsonPrimitive()) {
+      if ((jsonObj.get("uuid_with_default") != null && !jsonObj.get("uuid_with_default").isJsonNull()) && !jsonObj.get("uuid_with_default").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `uuid_with_default` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid_with_default").toString()));
+      }
+      if (!jsonObj.get("password").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
       }
-      if (jsonObj.get("pattern_with_digits") != null && !jsonObj.get("pattern_with_digits").isJsonPrimitive()) {
+      if ((jsonObj.get("pattern_with_digits") != null && !jsonObj.get("pattern_with_digits").isJsonNull()) && !jsonObj.get("pattern_with_digits").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `pattern_with_digits` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits").toString()));
       }
-      if (jsonObj.get("pattern_with_digits_and_delimiter") != null && !jsonObj.get("pattern_with_digits_and_delimiter").isJsonPrimitive()) {
+      if ((jsonObj.get("pattern_with_digits_and_delimiter") != null && !jsonObj.get("pattern_with_digits_and_delimiter").isJsonNull()) && !jsonObj.get("pattern_with_digits_and_delimiter").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `pattern_with_digits_and_delimiter` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits_and_delimiter").toString()));
       }
   }

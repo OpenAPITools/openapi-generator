@@ -53,7 +53,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String nestVersion = "6.0.0";
+    protected String nestVersion = "8.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
@@ -91,7 +91,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -113,7 +113,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Nestjs 6.x client library.";
+        return "Generates a TypeScript Nestjs 8.x or 6.x client library.";
     }
 
     @Override
@@ -170,6 +170,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         additionalProperties.put("injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
+        additionalProperties.put("useAxiosHttpModule", nestVersion.atLeast("8.0.0"));
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
             validateClassSuffixArgument("Service", serviceSuffix);

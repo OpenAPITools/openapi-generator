@@ -8,10 +8,10 @@ plugins {
 group = "org.openapitools"
 version = "1.0.0"
 
-val kotlin_version = "1.6.0"
-val coroutines_version = "1.5.2"
-val serialization_version = "1.3.0"
-val ktor_version = "1.6.4"
+val kotlin_version = "1.6.10"
+val coroutines_version = "1.6.3"
+val serialization_version = "1.3.3"
+val ktor_version = "2.0.3"
 
 repositories {
     mavenCentral()
@@ -30,9 +30,11 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serialization_version")
+
                 api("io.ktor:ktor-client-core:$ktor_version")
-                api("io.ktor:ktor-client-json:$ktor_version")
                 api("io.ktor:ktor-client-serialization:$ktor_version")
+                api("io.ktor:ktor-client-content-negotiation:$ktor_version")
+                api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
             }
         }
 

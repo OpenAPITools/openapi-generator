@@ -57,7 +57,7 @@ public class AppleReq {
   @SerializedName(SERIALIZED_NAME_MEALY)
   private Boolean mealy;
 
-  public AppleReq() { 
+  public AppleReq() {
   }
 
   public AppleReq cultivar(String cultivar) {
@@ -169,9 +169,7 @@ public class AppleReq {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AppleReq.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AppleReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
         }
       }
@@ -190,7 +188,7 @@ public class AppleReq {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonPrimitive()) {
+      if (!jsonObj.get("cultivar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
   }

@@ -40,7 +40,7 @@ public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   private BigDecimal justNumber;
 
-  public NumberOnly() { 
+  public NumberOnly() {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {

@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * BigCat
@@ -97,7 +99,8 @@ public class BigCat extends Cat {
   @XmlElement(name = "kind")
   private KindEnum kind;
 
-  public BigCat() { 
+  public BigCat() {
+
   }
 
   public BigCat kind(KindEnum kind) {

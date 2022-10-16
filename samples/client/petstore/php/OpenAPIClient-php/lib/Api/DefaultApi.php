@@ -177,6 +177,7 @@ class DefaultApi
             }
 
             switch($statusCode) {
+            
                 default:
                     if ('\OpenAPI\Client\Model\FooGetDefaultResponse' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -192,6 +193,7 @@ class DefaultApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\FooGetDefaultResponse';
@@ -212,6 +214,7 @@ class DefaultApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 default:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -220,6 +223,7 @@ class DefaultApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
@@ -359,10 +363,11 @@ class DefaultApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

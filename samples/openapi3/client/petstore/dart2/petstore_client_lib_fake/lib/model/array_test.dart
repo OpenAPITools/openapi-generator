@@ -41,11 +41,11 @@ class ArrayTest {
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'array_of_string'] = arrayOfString;
-      _json[r'array_array_of_integer'] = arrayArrayOfInteger;
-      _json[r'array_array_of_model'] = arrayArrayOfModel;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'array_of_string'] = this.arrayOfString;
+      json[r'array_array_of_integer'] = this.arrayArrayOfInteger;
+      json[r'array_array_of_model'] = this.arrayArrayOfModel;
+    return json;
   }
 
   /// Returns a new [ArrayTest] instance and imports its values from

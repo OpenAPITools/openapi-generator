@@ -183,6 +183,7 @@ class FakeClassnameTags123Api
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -198,6 +199,7 @@ class FakeClassnameTags123Api
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -218,6 +220,7 @@ class FakeClassnameTags123Api
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -226,6 +229,7 @@ class FakeClassnameTags123Api
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
@@ -312,6 +316,7 @@ class FakeClassnameTags123Api
      */
     public function testClassnameRequest($client)
     {
+
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
@@ -389,10 +394,11 @@ class FakeClassnameTags123Api
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PATCH',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

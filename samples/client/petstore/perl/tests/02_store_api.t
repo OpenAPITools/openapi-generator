@@ -1,4 +1,4 @@
-use Test::More tests => 56;
+use Test::More tests => 57;
 use Test::Exception;
 
 use lib 'lib';
@@ -185,3 +185,10 @@ like $pet_object_to_json, qr/\"id\":123/, '$pet_object->tags->[0]->id';
 like $pet_object_to_json, qr/\"name\":\"1000\"/, '$pet_object->tags->[0]->name';
 like $pet_object_to_json, qr/\"id\":456/, '$pet_object->tags->[1]->id';
 like $pet_object_to_json, qr/\"name\":\"test2\"/, '$pet_object->tags->[1]->name';
+
+my %undef_test_order_data = (
+    id     => undef,
+    status => undef,
+);
+my $undef_test_order = WWW::OpenAPIClient::Object::Order->new->from_hash(\%undef_test_order_data);
+lives_ok { JSON->new->convert_blessed->encode($undef_test_order) };

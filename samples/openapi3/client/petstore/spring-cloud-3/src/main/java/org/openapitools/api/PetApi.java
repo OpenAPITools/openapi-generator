@@ -33,6 +33,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "Pet", description = "Everything about your Pets")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface PetApi {
 
     /**

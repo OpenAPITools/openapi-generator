@@ -53,7 +53,7 @@ public class AdditionalPropertiesAnyType {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesAnyType() { 
+  public AdditionalPropertiesAnyType() {
   }
 
   public AdditionalPropertiesAnyType name(String name) {
@@ -138,9 +138,7 @@ public class AdditionalPropertiesAnyType {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AdditionalPropertiesAnyType.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AdditionalPropertiesAnyType.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesAnyType is not found in the empty JSON string", AdditionalPropertiesAnyType.openapiRequiredFields.toString()));
         }
       }
@@ -152,7 +150,7 @@ public class AdditionalPropertiesAnyType {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesAnyType` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
   }

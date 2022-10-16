@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = true)]
         public string TriangleType
         {
             get{ return _TriangleType;}

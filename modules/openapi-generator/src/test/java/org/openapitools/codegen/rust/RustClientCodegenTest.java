@@ -78,151 +78,165 @@ public class RustClientCodegenTest {
     }
 
     @Test
-    public void testGetSchemaTypeIntegerNoBounds() {
+    public void testWithIntegerDefaults() {
         final IntegerSchema s = new IntegerSchema();
         final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setBestFitInt(true);
+        codegen.setBestFitInt(false);
+        codegen.setPreferUnsignedInt(false);
         codegen.processOpts();
 
-        s.setType("i32");
+        s.setMinimum(BigDecimal.valueOf(0));
+        s.setMaximum(BigDecimal.valueOf(1));
 
-        // min and max are null
+        s.setFormat("int32");
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
-        s.setMinimum(BigDecimal.valueOf(Short.MIN_VALUE));
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
 
-        // max is null
+        // Clear format - should use default of i32
+        s.setFormat(null);
+
+        s.setMaximum(BigDecimal.valueOf(Byte.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
         s.setMaximum(BigDecimal.valueOf(Short.MAX_VALUE));
-        s.setMinimum(null);
-
-        // min is null
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
-    }
 
-    @Test
-    public void testGetSchemaTypeI64() {
-        final IntegerSchema s = new IntegerSchema();
-        final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setBestFitInt(true);
-        codegen.processOpts();
-
-        s.setType("i64");
-        s.setMinimum(BigDecimal.valueOf(Long.MIN_VALUE));
-        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
-
-        Assert.assertEquals(codegen.getSchemaType(s), "i64");
-    }
-
-    @Test
-    public void testGetSchemaTypeI32() {
-        final IntegerSchema s = new IntegerSchema();
-        final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setBestFitInt(true);
-        codegen.processOpts();
-
-        s.setType("i32");
-        s.setMinimum(BigDecimal.valueOf(Integer.MIN_VALUE));
         s.setMaximum(BigDecimal.valueOf(Integer.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
     }
 
     @Test
-    public void testGetSchemaTypeI16() {
+    public void testWithIntegerFitting() {
         final IntegerSchema s = new IntegerSchema();
         final RustClientCodegen codegen = new RustClientCodegen();
         codegen.setBestFitInt(true);
+        codegen.setPreferUnsignedInt(false);
         codegen.processOpts();
 
-        s.setType("i32");
-        s.setMinimum(BigDecimal.valueOf(Short.MIN_VALUE));
-        s.setMaximum(BigDecimal.valueOf(Short.MAX_VALUE));
+        // No bounds
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
-        Assert.assertEquals(codegen.getSchemaType(s), "i16");
-    }
+        // Set Bounds
+        s.setMinimum(BigDecimal.valueOf(0));
+        s.setMaximum(BigDecimal.valueOf(1));
 
-    @Test
-    public void testGetSchemaTypeI8() {
-        final IntegerSchema s = new IntegerSchema();
-        final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setBestFitInt(true);
-        codegen.processOpts();
+        // Should respect hardcoded format
+        s.setFormat("int32");
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
-        s.setType("i32");
-        s.setMinimum(BigDecimal.valueOf(-128));
-        s.setMaximum(BigDecimal.valueOf(127));
+        // Should respect hardcoded format
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
 
+        // No format - use best fitting
+        s.setFormat(null);
+
+        s.setMaximum(BigDecimal.valueOf(Byte.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "i8");
-    }
 
-    @Test
-    public void testGetSchemaTypeU64() {
-        final IntegerSchema s = new IntegerSchema();
-        final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setPreferUnsignedInt(true);
-        codegen.processOpts();
+        s.setMaximum(BigDecimal.valueOf(Short.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "i16");
 
-        s.setType("i64");
-        s.setMinimum(BigDecimal.ZERO);
+        s.setMaximum(BigDecimal.valueOf(Integer.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
-        Assert.assertEquals(codegen.getSchemaType(s), "u64");
-
-        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.valueOf(Long.MAX_VALUE)));
-
-        Assert.assertEquals(codegen.getSchemaType(s), "u64");
-
-        s.setMinimum(null);
-        s.setMaximum(null);
-
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
 
     @Test
-    public void testGetSchemaTypeU32() {
+    public void testWithPreferUnsigned() {
         final IntegerSchema s = new IntegerSchema();
         final RustClientCodegen codegen = new RustClientCodegen();
+        codegen.setBestFitInt(false);
         codegen.setPreferUnsignedInt(true);
         codegen.processOpts();
 
-        s.setType("i32");
-        s.setMinimum(BigDecimal.ZERO);
+        // Minimum of zero, should fit in unsigned
+        s.setMinimum(BigDecimal.valueOf(0));
 
+        // No integer fitting, but prefer unsigned
+        s.setMaximum(BigDecimal.valueOf(Byte.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "u32");
 
-        s.setMaximum(BigDecimal.valueOf(65535));
-
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        // Should respect hardcoded 32-bits, but prefer unsigned
+        s.setFormat("int32");
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        // Should respect hardcoded 64-bits, but prefer unsigned
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
+
+        // Unknown minimum - should not use unsigned
+        s.setMinimum(null);
+
+        s.setFormat(null);
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
+
+        s.setFormat("int32");
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
+
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
 
     @Test
-    public void testGetSchemaTypeU16() {
+    public void testWithIntegerFittingAndPreferUnsigned() {
         final IntegerSchema s = new IntegerSchema();
         final RustClientCodegen codegen = new RustClientCodegen();
         codegen.setBestFitInt(true);
         codegen.setPreferUnsignedInt(true);
         codegen.processOpts();
 
-        s.setType("i32");
-        s.setMinimum(BigDecimal.ZERO);
-        s.setMaximum(BigDecimal.valueOf(65535));
+        // Minimum of zero, should fit in unsigned
+        s.setMinimum(BigDecimal.valueOf(0));
+        s.setMaximum(BigDecimal.valueOf(1));
 
-        Assert.assertEquals(codegen.getSchemaType(s), "u16");
-    }
+        // Should respect hardcoded 32-bits, but prefer unsigned
+        s.setFormat("int32");
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
 
-    @Test
-    public void testGetSchemaTypeU8() {
-        final IntegerSchema s = new IntegerSchema();
-        final RustClientCodegen codegen = new RustClientCodegen();
-        codegen.setBestFitInt(true);
-        codegen.setPreferUnsignedInt(true);
-        codegen.processOpts();
+        // Should respect hardcoded 64-bits, but prefer unsigned
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
 
-        s.setType("i32");
-        s.setMinimum(BigDecimal.ZERO);
-        s.setMaximum(BigDecimal.valueOf(255));
+        // No format - use best fitting
+        s.setFormat(null);
 
+        s.setMaximum(BigDecimal.valueOf(Byte.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "u8");
+
+        s.setMaximum(BigDecimal.valueOf(Short.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "u16");
+
+        s.setMaximum(BigDecimal.valueOf(Integer.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
+
+        // Unknown minimum - unable to use unsigned
+        s.setMinimum(null);
+
+        s.setMaximum(BigDecimal.valueOf(Integer.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
+
+        s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
+
+        s.setFormat("int32");
+        Assert.assertEquals(codegen.getSchemaType(s), "i32");
+
+        s.setFormat("int64");
+        Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
+
 }

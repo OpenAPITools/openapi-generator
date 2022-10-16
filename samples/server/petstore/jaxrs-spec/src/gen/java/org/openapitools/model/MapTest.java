@@ -20,10 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class MapTest  implements Serializable {
-  
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
-
-public enum InnerEnum {
+  private @Valid Map<String, Map<String, String>> mapMapOfString = null;
+  public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 
@@ -70,15 +68,19 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
+  private @Valid Map<String, InnerEnum> mapOfEnumString = null;
+  private @Valid Map<String, Boolean> directMap = null;
+  private @Valid Map<String, Boolean> indirectMap = null;
 
   protected MapTest(MapTestBuilder<?, ?> b) {
-  this.mapMapOfString = b.mapMapOfString;this.mapOfEnumString = b.mapOfEnumString;this.directMap = b.directMap;this.indirectMap = b.indirectMap;
+    this.mapMapOfString = b.mapMapOfString;
+    this.mapOfEnumString = b.mapOfEnumString;
+    this.directMap = b.directMap;
+    this.indirectMap = b.indirectMap;
   }
 
-  public MapTest() { }
+  public MapTest() {
+  }
 
   /**
    **/
@@ -115,7 +117,7 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -150,7 +152,7 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -185,7 +187,7 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesAnyType")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
-  
   private @Valid String name;
 
   /**

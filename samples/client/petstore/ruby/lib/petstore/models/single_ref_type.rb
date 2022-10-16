@@ -18,6 +18,10 @@ module Petstore
     ADMIN = "admin".freeze
     USER = "user".freeze
 
+    def self.all_vars
+      @all_vars ||= [ADMIN, USER].freeze
+    end
+
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
@@ -29,9 +33,8 @@ module Petstore
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
     def build_from_hash(value)
-      constantValues = SingleRefType.constants.select { |c| SingleRefType::const_get(c) == value }
-      raise "Invalid ENUM value #{value} for class #SingleRefType" if constantValues.empty?
-      value
+      return value if SingleRefType.all_vars.include?(value)
+      raise "Invalid ENUM value #{value} for class #SingleRefType"
     end
   end
 end

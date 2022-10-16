@@ -10,6 +10,9 @@ stages:
    - pip install -r test-requirements.txt
    - pytest --cov=dynamic_servers
 
+test-3.5:
+  extends: .tests
+  image: python:3.5-alpine
 test-3.6:
   extends: .tests
   image: python:3.6-alpine
@@ -19,6 +22,3 @@ test-3.7:
 test-3.8:
   extends: .tests
   image: python:3.8-alpine
-test-3.9:
-  extends: .tests
-  image: python:3.9-alpine

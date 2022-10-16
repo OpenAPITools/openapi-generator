@@ -185,6 +185,8 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -258,6 +260,7 @@ class StoreApi
      */
     public function deleteOrderRequest($order_id)
     {
+
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -332,10 +335,11 @@ class StoreApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -407,12 +411,13 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('array<string,int>' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('array&lt;string,int&gt;' !== 'string') {
+                        if ('array<string,int>' !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -422,6 +427,7 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = 'array<string,int>';
@@ -442,6 +448,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -450,6 +457,7 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
@@ -598,10 +606,11 @@ class StoreApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -675,6 +684,7 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -690,6 +700,9 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -710,6 +723,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -718,6 +732,9 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
+            
             }
             throw $e;
         }
@@ -804,6 +821,7 @@ class StoreApi
      */
     public function getOrderByIdRequest($order_id)
     {
+
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -885,10 +903,11 @@ class StoreApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -962,6 +981,7 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -977,6 +997,8 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -997,6 +1019,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1005,6 +1028,8 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
             }
             throw $e;
         }
@@ -1091,6 +1116,7 @@ class StoreApi
      */
     public function placeOrderRequest($order)
     {
+
         // verify the required parameter 'order' is set
         if ($order === null || (is_array($order) && count($order) === 0)) {
             throw new \InvalidArgumentException(
@@ -1163,10 +1189,11 @@ class StoreApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

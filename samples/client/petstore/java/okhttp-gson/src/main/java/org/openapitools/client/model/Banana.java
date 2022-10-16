@@ -54,7 +54,7 @@ public class Banana {
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
   private BigDecimal lengthCm;
 
-  public Banana() { 
+  public Banana() {
   }
 
   public Banana lengthCm(BigDecimal lengthCm) {
@@ -176,9 +176,7 @@ public class Banana {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Banana.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Banana.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Banana is not found in the empty JSON string", Banana.openapiRequiredFields.toString()));
         }
       }
