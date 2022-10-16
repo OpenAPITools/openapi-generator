@@ -115,6 +115,7 @@ Class | Method | HTTP request | Description
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [FormatTest](docs/FormatTest.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)

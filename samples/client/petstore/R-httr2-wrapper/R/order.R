@@ -57,7 +57,9 @@ Order <- R6::R6Class(
         self$`quantity` <- `quantity`
       }
       if (!is.null(`shipDate`)) {
-        stopifnot(is.character(`shipDate`), length(`shipDate`) == 1)
+        if (class(`shipDate`) != "Date") {
+          stop(paste("Error! Invalid Date:", `shipDate`))
+        }
         self$`shipDate` <- `shipDate`
       }
       if (!is.null(`status`)) {
