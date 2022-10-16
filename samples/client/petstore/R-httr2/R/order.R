@@ -38,9 +38,7 @@ Order <- R6::R6Class(
     #' @param complete complete. Default to FALSE.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, ...
-    ) {
+    initialize = function(`id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, ...) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
@@ -269,18 +267,19 @@ Order <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Order$unlock()
+# Order$unlock()
 #
 ## Below is an example to define the print fnuction
-#Order$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Order$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Order$lock()
+# Order$lock()
 

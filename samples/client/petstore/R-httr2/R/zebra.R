@@ -26,9 +26,7 @@ Zebra <- R6::R6Class(
     #' @param type type
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `type` = NULL, ...
-    ) {
+    initialize = function(`className`, `type` = NULL, ...) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
@@ -193,18 +191,19 @@ Zebra <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Zebra$unlock()
+# Zebra$unlock()
 #
 ## Below is an example to define the print fnuction
-#Zebra$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Zebra$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Zebra$lock()
+# Zebra$lock()
 

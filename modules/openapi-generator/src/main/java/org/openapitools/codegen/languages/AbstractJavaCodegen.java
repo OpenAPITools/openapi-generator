@@ -970,7 +970,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
-                return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
+                return "URI.create(\"" + escapeText(String.valueOf(schema.getDefault())) + "\")";
             }
             return null;
         } else if (ModelUtils.isStringSchema(schema)) {
@@ -992,8 +992,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else {
                         return null;
                     }
+                } else if (schema.getDefault() instanceof UUID) {
+                    return "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
                 } else {
-                    _default = (String) schema.getDefault();
+                    _default = String.valueOf(schema.getDefault());
                 }
 
                 if (schema.getEnum() == null) {

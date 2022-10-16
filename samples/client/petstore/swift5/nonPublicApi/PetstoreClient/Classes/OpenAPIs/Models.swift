@@ -106,13 +106,18 @@ internal class Response<T> {
 }
 
 internal final class RequestTask {
+    private var lock = NSRecursiveLock()
     private var task: URLSessionTask?
 
     internal func set(task: URLSessionTask) {
+        lock.lock()
+        defer { lock.unlock() }
         self.task = task
     }
 
     internal func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
         task?.cancel()
         task = nil
     }

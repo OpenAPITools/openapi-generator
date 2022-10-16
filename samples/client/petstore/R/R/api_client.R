@@ -42,7 +42,7 @@
 #' @importFrom httr add_headers accept timeout content
 #' @importFrom rlang abort
 #' @export
-ApiClient  <- R6::R6Class(
+ApiClient <- R6::R6Class(
   "ApiClient",
   public = list(
     # base path of all requests
