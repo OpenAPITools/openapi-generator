@@ -848,10 +848,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
+                if (Pattern.compile("\r\n|\r|\n").matcher((String.valueOf(p.getDefault()))).find())
+                    return "'''" + p.getDefault().toString() + "'''";
                 else
-                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
+                    return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
