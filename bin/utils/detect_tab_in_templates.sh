@@ -6,11 +6,13 @@
 ## declare an array of folders
 declare -a samples=("modules/openapi-generator/src/main/resources/kotlin-server"
                     "modules/openapi-generator/src/main/resources/kotlin-spring"
-                    "modules/openapi-generator/src/main/resources/dart-dio"
                     "modules/openapi-generator/src/main/resources/dart"
                     "modules/openapi-generator/src/main/resources/dart2"
                     "modules/openapi-generator/src/main/resources/aspnetcore"
                     "modules/openapi-generator/src/main/resources/powershell"
+                    "modules/openapi-generator/src/main/resources/r"
+                    "modules/openapi-generator/src/main/resources/Java"
+                    "modules/openapi-generator/src/main/resources/csharp-netcore"
                     )
 
 ## now loop through the above array
