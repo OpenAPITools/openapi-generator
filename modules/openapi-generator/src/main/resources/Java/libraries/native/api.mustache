@@ -306,6 +306,12 @@ public class {{classname}} {
     }
     {{/required}}
     {{/allParams}}
+    {{#vendorExtensions.x-dependencies}}
+    // Check dependency: {{& idlDependency}}
+    if({{& assertOperation}}){
+      throw new ApiException(400, "Dependency not satisfied: {{& idlDependency}}");
+    }
+    {{/vendorExtensions.x-dependencies}}
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

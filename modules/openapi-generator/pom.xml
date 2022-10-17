@@ -429,6 +429,11 @@
             <version>2.8.1</version>
         </dependency>
         <dependency>
+            <groupId>es.us.isa</groupId>
+            <artifactId>idl</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.19.0</version>

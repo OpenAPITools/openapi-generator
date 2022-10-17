@@ -3,8 +3,15 @@
     {{#-first}}
             {{#async}}
 return CompletableFuture.supplyAsync(()-> {
-            {{/async}}getRequest().ifPresent(request -> {
-{{#async}}    {{/async}}            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            {{/async}}
+        {{#vendorExtensions.x-dependencies}}
+        // Check dependency: {{& idlDependency}}
+        if({{& assertOperation}}){
+            return new ResponseEntity("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST);
+        }
+        {{/vendorExtensions.x-dependencies}}
+        getRequest().ifPresent(request -> {
+{{#async}}    {{/async}}            {{/jdk8}}for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
 {{#async}}        {{/async}}{{^async}}    {{/async}}                String exampleString = {{>exampleString}};

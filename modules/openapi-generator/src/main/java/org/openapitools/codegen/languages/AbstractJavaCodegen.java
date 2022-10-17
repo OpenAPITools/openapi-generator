@@ -20,6 +20,11 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterators;
+import com.google.inject.Injector;
+import es.us.isa.idl.IDLStandaloneSetupGenerated;
+import es.us.isa.idl.idl.*;
+import es.us.isa.idl.idl.impl.*;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -33,6 +38,12 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.commonmark.node.Code;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
@@ -44,6 +55,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -131,6 +143,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String implicitHeadersRegex = null;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    protected String assertOperation;
+    protected CodegenOperation currentOperation;
 
     public AbstractJavaCodegen() {
         super();
@@ -611,6 +626,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
+        importMapping.put("DependencyUtil", invokerPackage + ".DependencyUtil");
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
@@ -1595,7 +1611,272 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = sanitizePath(op.path);
+
+        if(operation.getExtensions() != null && operation.getExtensions().containsKey("x-dependencies")){
+            List<String> dependencies =(List<String>) operation.getExtensions().get("x-dependencies");
+            List<CodegenDependency> dependencyList = new ArrayList<>();
+            try {
+                Injector injector = new IDLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+                XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+                Resource resource = resourceSet.createResource(URI.createURI("dummy:/example.idl"));
+                currentOperation = op;
+
+                for (String dep: dependencies){
+                    resource.load(new ByteArrayInputStream(dep.getBytes()), resourceSet.getLoadOptions());
+                    String assertion = writeDependency((Dependency) resource.getContents().get(0).eContents().get(0));
+
+                    CodegenDependency dependency = new CodegenDependency();
+                    dependency.idlDependency = dep;
+                    dependency.assertOperation = assertion;
+                    dependencyList.add(dependency);
+                    resource.unload();
+                }
+
+                op.vendorExtensions.put("x-dependencies",dependencyList);
+                op.imports.add("DependencyUtil");
+
+            }catch (IOException e){
+                LOGGER.error("Error while processing IDL dependencies for operation: " + op.operationId + ". They will not be included");
+                op.vendorExtensions.remove("x-dependencies");
+            }catch (IllegalArgumentException e){
+                LOGGER.error("Error while processing IDL dependencies for operation: " + op.operationId + ": " + e.getMessage());
+                op.vendorExtensions.remove("x-dependencies");
+            }
+        }
+
         return op;
+    }
+
+    /**
+     *  Write the assertion operation for the IDL dependency
+     * @param dep
+     * @return Assertion operation for the dependency
+     */
+    public String writeDependency(Dependency dep){
+        assertOperation = "!";
+        if(dep.getDep() instanceof ConditionalDependencyImpl) {
+            writeConditionalDependency((ConditionalDependency) dep.getDep());
+        }else if(dep.getDep() instanceof ArithmeticDependencyImpl){
+            writeArithmeticDependency((ArithmeticDependency) dep.getDep(), true);
+        } else if (dep.getDep() instanceof RelationalDependencyImpl){
+            writeRelationalDependency((RelationalDependency) dep.getDep(), true);
+        } else if (dep.getDep() instanceof GeneralPredefinedDependencyImpl) {
+            assertOperation = "";
+            writePredefinedDependency((GeneralPredefinedDependency) dep.getDep(), true);
+        }
+        return assertOperation;
+    }
+
+    private String writeParamName(String paramName){
+        return getParameter(paramName).paramName;
+    }
+
+    private CodegenParameter getParameter(String paramName){
+        return currentOperation.queryParams.stream().filter(p->p.baseName.equals(paramName)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("IDL parameter \"" + paramName + "\" not found in query params for operation \"" + currentOperation.operationId +"\""));
+    }
+
+    private boolean isParamValueRelation(Param param){
+        return param.getStringValues().size() != 0 || param.getPatternString() != null || param.getBooleanValue() != null || param.getDoubleValue() != null;
+    }
+
+    private void writeClause(GeneralClause clause){
+        if (clause.getPredicate() != null){
+            if (clause.getNot() != null)
+                assertOperation += "!";
+            assertOperation += "(";
+            writePredicate(clause.getPredicate());
+            assertOperation += ")";
+        }
+
+        if (clause.getFirstElement() != null){
+            if (clause.getFirstElement() instanceof RelationalDependencyImpl) {
+                writeRelationalDependency((RelationalDependency) clause.getFirstElement(), false);
+            } else if (clause.getFirstElement() instanceof GeneralTermImpl){
+                GeneralTerm term = (GeneralTerm) clause.getFirstElement();
+                Param param = (Param) term.getParam();
+                CodegenParameter parameter = getParameter(param.getName());
+
+                if(term.getNot() != null)
+                    assertOperation += "!";
+                assertOperation += "(";
+
+                assertOperation += parameter.paramName + " != null";
+                if (parameter.isArray)
+                    assertOperation += " && !" + parameter.paramName + ".isEmpty()";
+
+                if(isParamValueRelation(param)){
+                    assertOperation += " && ";
+                    if (param.getBooleanValue() != null){
+                        if (param.getBooleanValue().equals("false"))
+                            assertOperation += "!";
+                        assertOperation += parameter.paramName;
+                    } else if (param.getDoubleValue() != null){
+                        assertOperation += parameter.paramName + param.getRelationalOp() + Double.parseDouble(param.getDoubleValue());
+                    } else if (param.getStringValues().size() != 0){
+                        assertOperation += "(";
+                        if (parameter.isArray){
+                            for(String s: param.getStringValues()) {
+                                assertOperation += parameter.paramName + ".contains(" + "\"" + s + "\") || ";
+                            }
+                        } else {
+                            for(String s: param.getStringValues()) {
+                                assertOperation += parameter.paramName + ".equals(" + "\"" + s + "\") || ";
+                            }
+                        }
+                        assertOperation = assertOperation.substring(0,assertOperation.length()-4);
+                        assertOperation += ")";
+                    }else if (param.getPatternString() != null){
+                        //TODO assert pattern
+                    }
+                }
+                assertOperation += ")";
+
+            } else if (clause.getFirstElement() instanceof ArithmeticDependencyImpl){
+                writeArithmeticDependency((ArithmeticDependency) clause.getFirstElement(), false);
+            } else if (clause.getFirstElement() instanceof GeneralPredefinedDependencyImpl){
+                writePredefinedDependency((GeneralPredefinedDependency) clause.getFirstElement(), false);
+            }
+
+        }
+    }
+
+    private void writePredicate(GeneralPredicate predicate){
+        writeClause(predicate.getFirstClause());
+
+        if (predicate.getClauseContinuation() != null) {
+            if (predicate.getClauseContinuation().getLogicalOp().equals("AND")){
+                assertOperation += " && ";
+            }else if (predicate.getClauseContinuation().getLogicalOp().equals("OR")){
+                assertOperation += " || ";
+            }
+            writePredicate(predicate.getClauseContinuation().getAdditionalElements());
+        }
+
+    }
+
+    /**
+     * Write conditional dependency (IF condition THEN consequence) as
+     * (!(condition) || (consequence)) in Java syntax
+     * @param dep
+     * @return
+     */
+    private void writeConditionalDependency(ConditionalDependency dep) {
+        assertOperation += "(!";
+        writePredicate(dep.getCondition());
+        assertOperation += " || ";
+        writePredicate(dep.getConsequence());
+        assertOperation += ")";
+    }
+
+    /**
+     * Write a relational dependency (e.g. p1<p2) in Java syntax
+     * @param dep
+     * @param alone
+     * @return
+     */
+    private void writeRelationalDependency(RelationalDependency dep, boolean alone){
+        if(alone)
+            assertOperation += "(!(" + writeParamName(dep.getParam1().getName()) + " != null && " + writeParamName(dep.getParam2().getName()) + " != null) || (" +
+                    writeParamName(dep.getParam1().getName()) + dep.getRelationalOp() + writeParamName(dep.getParam2().getName()) + "))";
+        else assertOperation += "(" + writeParamName(dep.getParam1().getName()) + " != null && " + writeParamName(dep.getParam2().getName()) + " != null && " +
+                writeParamName(dep.getParam1().getName()) + dep.getRelationalOp() + writeParamName(dep.getParam2().getName()) + ")";
+    }
+
+    /**
+     * Writes arithmetic dependency (e.g. p1+p2<100) in Java syntax
+     * @param dep
+     * @param alone
+     * @return
+     */
+    private void writeArithmeticDependency(ArithmeticDependency dep, boolean alone){
+        assertOperation += "(";
+        if (alone)
+            assertOperation += "!(";
+        Iterator params = IteratorExtensions.toIterable(Iterators.filter(dep.eAllContents(), Param.class)).iterator();
+
+        while(params.hasNext()){
+            Param param = (Param) params.next();
+            assertOperation += writeParamName(param.getName()) + " != null && ";
+        }
+
+        if (alone) {
+            assertOperation = assertOperation.substring(0,assertOperation.length()-4);
+            assertOperation += ") || (";
+        }
+
+        writeOperation(dep.getOperation());
+        assertOperation += dep.getRelationalOp();
+        assertOperation += Double.parseDouble(dep.getResult());
+        assertOperation += ")";
+        if (alone)
+            assertOperation += ")";
+
+    }
+
+    private void writeOperation(es.us.isa.idl.idl.Operation operation){
+        if(operation.getOpeningParenthesis() == null){
+            assertOperation += writeParamName(operation.getFirstParam().getName());
+            writeOperationContinuation(operation.getOperationContinuation());
+        } else {
+            assertOperation += "(";
+            writeOperation(operation.getOperation());
+            assertOperation += ")";
+            if (operation.getOperationContinuation() != null)
+                writeOperationContinuation(operation.getOperationContinuation());
+        }
+
+    }
+
+    private void writeOperationContinuation(OperationContinuation opCont){
+        assertOperation += opCont.getArithOp();
+        if(opCont.getAdditionalParams() instanceof ParamImpl){
+            Param param = (Param) opCont.getAdditionalParams();
+            assertOperation += writeParamName(param.getName());
+        } else {
+            writeOperation((es.us.isa.idl.idl.Operation) opCont.getAdditionalParams());
+        }
+
+    }
+
+    /**
+     * Writes a predefined dependency (e.g ZeroOrOne(p1,p2)) as a call to a static method in Java
+     * @param dep
+     * @return
+     */
+    private void writePredefinedDependency(GeneralPredefinedDependency dep, boolean alone){
+        if(!alone ^ dep.getNot() != null)
+            assertOperation += "!";
+        assertOperation += "DependencyUtil.doNotSatisfy" + dep.getPredefDepType() + "Dependency(";
+
+        for(GeneralPredicate depElement:dep.getPredefDepElements()){
+            writePredicate(depElement);
+            assertOperation += ",";
+        }
+        assertOperation = assertOperation.substring(0,assertOperation.length()-1);
+        assertOperation += ")";
+
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter p) {
+        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
+        // defaultValues
+        // remove the l because our users will use Long.parseLong(String defaultValue)
+        // remove the d because our users will use Double.parseDouble(String defaultValue)
+        // remove the f because our users will use Float.parseFloat(String defaultValue)
+        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
+        // literals assigned to Long/Double/Float
+        if (p.defaultValue == null) {
+            return;
+        }
+
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        if (fixLong || fixDouble || fixFloat) {
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+        }
     }
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {

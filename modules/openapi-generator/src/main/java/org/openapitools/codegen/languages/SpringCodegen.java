@@ -672,7 +672,26 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
+
+        if (openAPI.getPaths() != null){
+            for (String pathname : openAPI.getPaths().keySet()) {
+                boolean dependencies = false;
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for(Operation operation : path.readOperations()){
+                        if (operation.getExtensions()!=null && operation.getExtensions().containsKey("x-dependencies")){
+                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + invokerPackage).replace(".", "/"), "DependencyUtil.java"));
+                            dependencies = true;
+                            break;
+                        }
+                    }
+                }
+                if (dependencies)
+                    break;
+            }
+        }
     }
+
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {

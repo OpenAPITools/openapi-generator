@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.models.Path;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -123,6 +127,28 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (openAPI.getPaths() != null){
+            for (String pathname : openAPI.getPaths().keySet()) {
+                boolean dependencies = false;
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for(Operation operation : path.readOperations()){
+                        if (operation.getExtensions()!=null && operation.getExtensions().containsKey("x-dependencies")){
+                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "DependencyUtil.java"));
+                            dependencies = true;
+                            break;
+                        }
+                    }
+                }
+                if (dependencies)
+                    break;
+            }
+        }
+    }
+
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
