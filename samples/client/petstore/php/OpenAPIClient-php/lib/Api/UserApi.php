@@ -185,7 +185,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -412,7 +411,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -639,7 +637,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -866,8 +863,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
-            
             }
             throw $e;
         }
@@ -1094,7 +1089,6 @@ class UserApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\User' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1110,9 +1104,6 @@ class UserApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
-            
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\User';
@@ -1133,7 +1124,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1142,9 +1132,6 @@ class UserApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
-            
-            
             }
             throw $e;
         }
@@ -1386,7 +1373,6 @@ class UserApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('string' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1402,8 +1388,6 @@ class UserApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
-            
             }
 
             $returnType = 'string';
@@ -1424,7 +1408,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1433,8 +1416,6 @@ class UserApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
-            
             }
             throw $e;
         }
@@ -1694,7 +1675,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -1907,8 +1887,6 @@ class UserApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
-            
             }
             throw $e;
         }

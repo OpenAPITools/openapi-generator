@@ -38,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -176,9 +177,7 @@ public class QuadrilateralInterface {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (QuadrilateralInterface.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!QuadrilateralInterface.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in QuadrilateralInterface is not found in the empty JSON string", QuadrilateralInterface.openapiRequiredFields.toString()));
         }
       }
@@ -189,7 +188,7 @@ public class QuadrilateralInterface {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonNull()) && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
+      if (!jsonObj.get("quadrilateralType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
       }
   }
@@ -246,8 +245,10 @@ public class QuadrilateralInterface {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

@@ -146,6 +146,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
+  {{^useBeanValidation}}
+  {{#required}}@NotNull{{/required}}
+  {{/useBeanValidation}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
   {{/swagger2AnnotationLibrary}}

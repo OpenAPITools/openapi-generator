@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import joptsimple.internal.Strings;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -38,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -66,7 +68,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
-    protected Map<String, String> unsignedMapping;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -159,12 +160,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "serde_json::Value");
         typeMapping.put("AnyType", "serde_json::Value");
-
-        unsignedMapping = new HashMap<>();
-        unsignedMapping.put("i8", "u8");
-        unsignedMapping.put("i16", "u16");
-        unsignedMapping.put("i32", "u32");
-        unsignedMapping.put("i64", "u64");
 
         // no need for rust
         //importMapping = new HashMap<String, String>();
@@ -455,42 +450,50 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         String schemaType = super.getSchemaType(p);
         String type = typeMapping.getOrDefault(schemaType, schemaType);
 
-        boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
-        boolean unsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
+        // Implement integer type fitting (when property is enabled)
+        if (Objects.equals(p.getType(), "integer")) {
+            boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
+            boolean preferUnsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
 
-        if (bestFit || unsigned) {
-            BigDecimal maximum = p.getMaximum();
-            BigDecimal minimum = p.getMinimum();
+            BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            boolean exclusiveMinimum = Optional.ofNullable(p.getExclusiveMinimum()).orElse(false);
 
-            try {
-              if (maximum != null && minimum != null) {
-                  long max = maximum.longValueExact();
-                  long min = minimum.longValueExact();
+            boolean unsigned = preferUnsigned && canFitIntoUnsigned(minimum, exclusiveMinimum);
 
-                  if (unsigned && bestFit && max <= (Byte.MAX_VALUE * 2) + 1 && min >= 0) {
-                      type = "u8";
-                  } else if (bestFit && max <= Byte.MAX_VALUE && min >= Byte.MIN_VALUE) {
-                      type = "i8";
-                  } else if (unsigned && bestFit && max <= (Short.MAX_VALUE * 2) + 1 && min >= 0) {
-                      type = "u16";
-                  } else if (bestFit && max <= Short.MAX_VALUE && min >= Short.MIN_VALUE) {
-                      type = "i16";
-                  } else if (unsigned && bestFit && max <= (Integer.MAX_VALUE * 2L) + 1 && min >= 0) {
-                      type = "u32";
-                  } else if (bestFit && max <= Integer.MAX_VALUE && min >= Integer.MIN_VALUE) {
-                      type = "i32";
-                  }
-              }
-            } catch (ArithmeticException a) {
-                // no-op; case will be handled in the next if block
-            }
-
-            if (unsigned && minimum != null && minimum.compareTo(BigDecimal.ZERO) >= 0 && unsignedMapping.containsKey(type)) {
-                type = unsignedMapping.get(type);
+            if (Strings.isNullOrEmpty(p.getFormat())) {
+                if (bestFit) {
+                    return bestFittingIntegerType(
+                            minimum,
+                            exclusiveMinimum,
+                            Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null),
+                            Optional.ofNullable(p.getExclusiveMaximum()).orElse(false),
+                            preferUnsigned);
+                } else {
+                    return unsigned ? "u32" : "i32";
+                }
+            } else {
+                switch (p.getFormat()) {
+                    case "int32":
+                        return unsigned ? "u32" : "i32";
+                    case "int64":
+                        return unsigned ? "u64" : "i64";
+                }
             }
         }
 
         return type;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // If a property is both nullable and non-required then we represent this using a double Option
+        // which requires the `serde_with` extension crate for deserialization.
+        // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
+        if (property.isNullable && !property.required) {
+            additionalProperties.put("serdeWith", true);
+        }
     }
 
     @Override
@@ -564,29 +567,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return objs;
     }
 
-    @Override
-    protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
-    }
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override
@@ -598,6 +584,4 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
     }
 
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

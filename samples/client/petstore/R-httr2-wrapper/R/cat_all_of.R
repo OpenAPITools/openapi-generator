@@ -28,9 +28,7 @@ CatAllOf <- R6::R6Class(
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `declawed` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`declawed` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`declawed`)) {
         stopifnot(is.logical(`declawed`), length(`declawed`) == 1)
         self$`declawed` <- `declawed`
@@ -178,18 +176,19 @@ CatAllOf <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#CatAllOf$unlock()
+# CatAllOf$unlock()
 #
 ## Below is an example to define the print fnuction
-#CatAllOf$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# CatAllOf$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#CatAllOf$lock()
+# CatAllOf$lock()
 

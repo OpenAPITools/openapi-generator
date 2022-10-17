@@ -23,9 +23,7 @@ DogAllOf <- R6::R6Class(
     #' @param breed breed
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `breed` = NULL, ...
-    ) {
+    initialize = function(`breed` = NULL, ...) {
       if (!is.null(`breed`)) {
         stopifnot(is.character(`breed`), length(`breed`) == 1)
         self$`breed` <- `breed`
@@ -145,18 +143,19 @@ DogAllOf <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#DogAllOf$unlock()
+# DogAllOf$unlock()
 #
 ## Below is an example to define the print fnuction
-#DogAllOf$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# DogAllOf$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#DogAllOf$lock()
+# DogAllOf$lock()
 

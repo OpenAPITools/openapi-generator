@@ -38,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -138,9 +139,7 @@ public class AdditionalPropertiesAnyType {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AdditionalPropertiesAnyType.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AdditionalPropertiesAnyType.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesAnyType is not found in the empty JSON string", AdditionalPropertiesAnyType.openapiRequiredFields.toString()));
         }
       }

@@ -839,6 +839,12 @@ paths:
       responses:
         '400':
           description: Someting wrong
+        '5XX':
+          description: Someting wrong
+          content:
+            'applicatino/json':
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
     post:
       tags:
@@ -2017,3 +2023,8 @@ components:
           additionalProperties:
             type: string
             format: binary
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string

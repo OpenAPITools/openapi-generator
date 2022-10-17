@@ -593,6 +593,9 @@ test_that("Tests anyOf", {
 })
 
 test_that("Tests URL validation", {
+  valid_json <- '{"className":"date","percent_description":"abc","url_property":"https://stackoverflow.com/a/1/b/2"}'
+  Date$public_methods$validateJSON(valid_json) # shouldn't throw exception
+
   valid_json <- '{"className":"date","percent_description":"abc","url_property":"https://abc.com/a/1/b/2"}'
   Date$public_methods$validateJSON(valid_json) # shouldn't throw exception
 
@@ -609,4 +612,14 @@ test_that("Tests URL validation", {
   # test fromJSONString with invalid data
   d <- Date$new()
   expect_error(d$fromJSONString(invalid_json), 'Error! Invalid URL: invalid_url') # should throw exception
+})
+
+
+test_that("Order and datetime test", {
+  # test tag
+  t <- Order$new(id = 393, petId = 12930, quantity = 12, shipDate = "2019-09-29T19:39:29Z", status = "approved")
+
+  expect_equal(t$toJSONString(), "{\"id\":393,\"petId\":12930,\"quantity\":12,\"shipDate\":\"2019-09-29T19:39:29Z\",\"status\":\"approved\",\"complete\":false}")
+
+  expect_error(Order$new(id = 393, petId = 12930, quantity = 12, shipDate = TRUE, status = "approved"), "Error! Invalid DateTime. Must be a string: TRUE")
 })

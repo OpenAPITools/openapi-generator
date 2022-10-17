@@ -855,6 +855,20 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
     }
 
+    @Test
+    public void testOneOfModelImports() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("Example");
+        CodegenModel cm = codegen.fromModel("Example", schema);
+        Assert.assertEquals(cm.imports.size(), 3);
+        Assert.assertTrue(cm.imports.contains("BigDecimal"));
+        Assert.assertTrue(cm.imports.contains("Date"));
+        Assert.assertTrue(cm.imports.contains("UUID"));
+    }
+
     private static Schema<?> createObjectSchemaWithMinItems() {
         return new ObjectSchema()
                 .addProperties("id", new IntegerSchema().format("int32"))

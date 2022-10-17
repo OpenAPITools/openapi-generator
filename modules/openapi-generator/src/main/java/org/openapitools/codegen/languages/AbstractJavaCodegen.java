@@ -970,7 +970,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
-                return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
+                return "URI.create(\"" + escapeText(String.valueOf(schema.getDefault())) + "\")";
             }
             return null;
         } else if (ModelUtils.isStringSchema(schema)) {
@@ -992,8 +992,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else {
                         return null;
                     }
+                } else if (schema.getDefault() instanceof UUID) {
+                    return "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
                 } else {
-                    _default = (String) schema.getDefault();
+                    _default = String.valueOf(schema.getDefault());
                 }
 
                 if (schema.getEnum() == null) {
@@ -1297,7 +1299,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+
+        // additional import for different cases
+        addAdditionalImports(codegenModel, codegenModel.oneOf);
+        addAdditionalImports(codegenModel, codegenModel.anyOf);
         return codegenModel;
+    }
+
+    private void addAdditionalImports(CodegenModel model, Set<String> dataTypeSet) {
+        for (String dataType : dataTypeSet) {
+            if (null != importMapping().get(dataType)) {
+                model.imports.add(dataType);
+            }
+        }
     }
 
     @Override
@@ -2136,5 +2150,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
+    }
+
+    public boolean isAddNullableImports(CodegenModel cm, boolean addImports, CodegenProperty var) {
+        if (this.openApiNullable) {
+            boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+            // only add JsonNullable and related imports to optional and nullable values
+            addImports |= isOptionalNullable;
+            var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+            findByName(var.name, cm.readOnlyVars)
+                    .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
+        }
+        return addImports;
+    }
+    public static void addImports(List<Map<String, String>> imports, CodegenModel cm, Map<String, String> imports2Classnames) {
+        for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
+            cm.imports.add(entry.getKey());
+            Map<String, String> importsItem = new HashMap<>();
+            importsItem.put("import", entry.getValue());
+            imports.add(importsItem);
+        }
     }
 }
