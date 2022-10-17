@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.vertxweb.server.model.Category;
+import org.openapitools.vertxweb.server.model.JsonCreator;
 import org.openapitools.vertxweb.server.model.Tag;
 
 /**
