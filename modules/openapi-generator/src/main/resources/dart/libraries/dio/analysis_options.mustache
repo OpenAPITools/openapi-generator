@@ -8,3 +8,7 @@ analyzer:
   exclude:
     - test/*.dart{{#useJsonSerializable}}
     - lib/src/model/*.g.dart{{/useJsonSerializable}}
+    {{#useFreezed}}
+    - lib/src/model/*.g.dart
+    - lib/src/model/*.freezed.dart
+    {{/useFreezed}}
