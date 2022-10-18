@@ -34,17 +34,15 @@ Date <- R6::R6Class(
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `url_property`, `percent_description` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`className`, `url_property`, `percent_description` = NULL, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
       }
       if (!missing(`url_property`)) {
         stopifnot(is.character(`url_property`), length(`url_property`) == 1)
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", `url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", `url_property`))
         }
         self$`url_property` <- `url_property`
@@ -103,8 +101,8 @@ Date <- R6::R6Class(
         self$`percent_description` <- this_object$`percent_description`
       }
       if (!is.null(this_object$`url_property`)) {
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", this_object$`url_property`))
         }
         self$`url_property` <- this_object$`url_property`
@@ -172,8 +170,8 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`percent_description` <- this_object$`percent_description`
-      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid URL:", this_object$`url_property`))
       }
       self$`url_property` <- this_object$`url_property`
@@ -204,8 +202,8 @@ Date <- R6::R6Class(
       # check the required field `url_property`
       if (!is.null(input_json$`url_property`)) {
         stopifnot(is.character(input_json$`url_property`), length(input_json$`url_property`) == 1)
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", input_json$`url_property`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(input_json$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", input_json$`url_property`))
         }
       } else {
@@ -272,18 +270,19 @@ Date <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Date$unlock()
+# Date$unlock()
 #
 ## Below is an example to define the print fnuction
-#Date$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Date$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Date$lock()
+# Date$lock()
 
