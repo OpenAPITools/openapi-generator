@@ -97,6 +97,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)

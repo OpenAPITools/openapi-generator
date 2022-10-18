@@ -90,9 +90,14 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
+
+    @Input
+    @Optional
+    val remoteInputSpec = project.objects.property<String>()
 
     /**
      * The template directory holding a custom template.
@@ -566,6 +571,10 @@ open class GenerateTask : DefaultTask() {
             }
 
             inputSpec.ifNotEmpty { value ->
+                configurator.setInputSpec(value)
+            }
+
+            remoteInputSpec.ifNotEmpty {value ->
                 configurator.setInputSpec(value)
             }
 

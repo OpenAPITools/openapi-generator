@@ -52,6 +52,8 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val inputSpec = project.objects.property<String>()
 
+    val remoteInputSpec = project.objects.property<String>()
+
     /**
      * The template directory holding a custom template.
      */
