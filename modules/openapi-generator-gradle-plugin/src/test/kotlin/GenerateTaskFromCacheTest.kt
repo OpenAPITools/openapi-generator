@@ -173,7 +173,7 @@ class GenerateTaskFromCacheTest : TestBase() {
         val settingsContents = """
             buildCache {
                 local {
-                    directory = file("$buildCacheDir")
+                    directory = file("${buildCacheDir.toURI()}")
                 }
             }
             rootProject.name = "openapi-generator"
