@@ -4,13 +4,13 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.http.*
 import io.ktor.http.content.PartData
 import kotlin.Unit
@@ -146,9 +146,9 @@ open class ApiClient(
             }
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
-            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
+            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
                 this.setBody(body)
-
+            }
         }
     }
 
