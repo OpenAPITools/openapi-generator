@@ -1,8 +1,8 @@
 extern crate petstore_reqwest;
 
-use petstore_reqwest::apis::pet_api::{add_pet, get_pet_by_id};
 use petstore_reqwest::apis::configuration;
-use petstore_reqwest::models::{Pet};
+use petstore_reqwest::apis::pet_api::{add_pet, get_pet_by_id};
+use petstore_reqwest::models::Pet;
 
 #[test]
 fn test_pet() {
@@ -24,7 +24,10 @@ fn test_pet() {
             /* Test code when multiple returns option is not set. */
             assert_eq!(resp.id, Option::Some(8787));
             assert_eq!(resp.name, "Rust Pet");
-            assert_eq!(resp.photo_urls, vec!["https://11".to_string(), "https://22".to_string()]);
+            assert_eq!(
+                resp.photo_urls,
+                vec!["https://11".to_string(), "https://22".to_string()]
+            );
             /* Test code for multiple returns option.
             match resp.entity {
                 Some(petstore_reqwest::apis::pet_api::GetPetByIdSuccess::Status200(pet)) => {
@@ -37,10 +40,10 @@ fn test_pet() {
                 },
             };
             */
-        },
+        }
         Err(error) => {
             println!("error: {:?}", error);
             panic!("Query should succeed");
-        },
+        }
     };
 }

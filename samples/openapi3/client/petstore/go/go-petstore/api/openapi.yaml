@@ -1984,6 +1984,11 @@ components:
           description: a property to test map of file
           type: object
       type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
     _foo_get_default_response:
       example:
         string:

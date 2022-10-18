@@ -30,7 +30,7 @@ library(petstore)
 # Add a new pet to the store
 #
 # prepare function argument(s)
-var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 api_instance <- PetApi$new()
 # Configure HTTP basic authorization: http_auth
@@ -154,7 +154,7 @@ library(petstore)
 # Finds Pets by status
 #
 # prepare function argument(s)
-var_status <- list("available") # array[character] | Status values that need to be considered for filter
+var_status <- c("available") # array[character] | Status values that need to be considered for filter
 
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -218,7 +218,7 @@ library(petstore)
 # Finds Pets by tags
 #
 # prepare function argument(s)
-var_tags <- list("inner_example") # array[character] | Tags to filter by
+var_tags <- c("inner_example") # array[character] | Tags to filter by
 
 api_instance <- PetApi$new()
 result <- tryCatch(
@@ -479,7 +479,7 @@ library(petstore)
 # Update an existing pet
 #
 # prepare function argument(s)
-var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
