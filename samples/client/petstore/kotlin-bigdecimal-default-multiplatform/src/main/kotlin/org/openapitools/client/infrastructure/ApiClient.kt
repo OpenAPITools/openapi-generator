@@ -10,6 +10,7 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.http.*
 import io.ktor.http.content.PartData
 import kotlin.Unit
