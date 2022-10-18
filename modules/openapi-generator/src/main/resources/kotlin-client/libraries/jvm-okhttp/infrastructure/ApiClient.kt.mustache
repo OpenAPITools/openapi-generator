@@ -247,10 +247,10 @@ import com.squareup.moshi.adapter
             }
             return tempFile as T
         }
-        val bodyContent = body.string()
-        if (bodyContent.isEmpty()) {
+        if (typeOf<T>() == typeOf<Unit?>()) {
             return null
         }
+        val bodyContent = body.string()
         return when {
             mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
                 {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
