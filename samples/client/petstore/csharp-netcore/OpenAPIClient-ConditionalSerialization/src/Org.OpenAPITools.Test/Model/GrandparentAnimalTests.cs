@@ -56,15 +56,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test deserialize a ParentPet from type GrandparentAnimal
-        /// </summary>
-        [Fact]
-        public void ParentPetDeserializeFromGrandparentAnimalTest()
-        {
-            // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
-            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
-        }
-        /// <summary>
         /// Test deserialize a ChildCat from type ParentPet
         /// </summary>
         [Fact]
@@ -72,6 +63,15 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO uncomment below to test deserialize a ChildCat from type ParentPet
             //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
+        }
+        /// <summary>
+        /// Test deserialize a ParentPet from type GrandparentAnimal
+        /// </summary>
+        [Fact]
+        public void ParentPetDeserializeFromGrandparentAnimalTest()
+        {
+            // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
+            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ docs/ApiResponse.md
 docs/Baz.md
 docs/Category.md
 docs/FakeApi.md
+docs/OptionalTesting.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -33,6 +34,7 @@ src/models/baz.rs
 src/models/category.rs
 src/models/mod.rs
 src/models/model_return.rs
+src/models/optional_testing.rs
 src/models/order.rs
 src/models/pet.rs
 src/models/property_test.rs
