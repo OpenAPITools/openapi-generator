@@ -19,6 +19,7 @@ jobs:
       matrix:
         sample:
           - samples/server/petstore/go-echo-server/
+          - samples/server/petstore/go-api-server/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
