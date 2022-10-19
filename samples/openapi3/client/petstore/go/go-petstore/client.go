@@ -598,12 +598,12 @@ func formatErrorMessage(status string, v interface{}) string {
 
     field := metaValue.FieldByName("Title")
     if field != (reflect.Value{}) {
-    str = fmt.Sprintf("%s", field.Interface())
+        str = fmt.Sprintf("%s", field.Interface())
     }
 
     field = metaValue.FieldByName("Detail")
     if field != (reflect.Value{}) {
-    str = fmt.Sprintf("%s (%s)", str, field.Interface())
+        str = fmt.Sprintf("%s (%s)", str, field.Interface())
     }
 
     // status title (detail)
