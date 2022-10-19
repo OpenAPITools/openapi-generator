@@ -37,10 +37,10 @@ var bee_client: HTTPClient:
 var bee_host := DEFAULT_HOST:
 	set(value):
 		if value.begins_with("https://"):
-			enable_ssl()
+			bee_enable_ssl()
 			value = value.substr(8)  # "https://".length() == 8
 		elif value.begins_with("http://"):
-			disable_ssl()
+			bee_disable_ssl()
 			value = value.substr(7)  # "http://".length() == 7
 		bee_host = value
 
@@ -55,17 +55,17 @@ var __bee_ssl_enabled := false
 var __bee_verify_host := true  # only if ssl enabled
 
 
-func enable_ssl():
+func bee_enable_ssl():
 	self.__bee_ssl_enabled = true
 	self.bee_port = HTTPS_DEFAULT_PORT
 
 
-func disable_ssl():
+func bee_disable_ssl():
 	self.__bee_ssl_enabled = false
 	self.bee_port = HTTP_DEFAULT_PORT
 
 
-func next_loop_iteration():
+func bee_next_loop_iteration():
 	# Use this when it works, on release (beta3 now)
 #	return Engine.get_main_loop().idle_frame
 	# For now, this works
@@ -114,7 +114,7 @@ func bee_connect_client_if_needed(
 		print("Connecting...")
 		if POLLING_INTERVAL_MS:
 			OS.delay_msec(POLLING_INTERVAL_MS)
-		await next_loop_iteration()
+		await bee_next_loop_iteration()
 
 	if self.bee_client.get_status() != HTTPClient.STATUS_CONNECTED:
 		var error := ApiError.new()
@@ -235,7 +235,7 @@ func bee_do_request_text(
 		print("Requesting...")
 		if POLLING_INTERVAL_MS:  # yeah yeah, needs work
 			OS.delay_msec(POLLING_INTERVAL_MS)
-		await next_loop_iteration()
+		await bee_next_loop_iteration()
 #		if OS.has_feature("web") or async:
 
 	if not self.bee_client.has_response():
@@ -269,7 +269,7 @@ func bee_do_request_text(
 			if not false:
 				OS.delay_usec(POLLING_INTERVAL_MS)
 			else:
-				await next_loop_iteration()
+				await bee_next_loop_iteration()
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
 

@@ -43,7 +43,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code" + File.separator + "gdscript";
         modelTemplateFiles.put("model.handlebars", ".gd");
         apiTemplateFiles.put("api.handlebars", ".gd");
-        //apiTemplateFiles.put("api_base.handlebars", "plop.gd");
 
         embeddedTemplateDir = templateDir = "gdscript";
         apiPackage = "apis";
@@ -59,14 +58,17 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // Local method names used in base API class
-                        // FIXME: bzzzzz
-
+                        "bee_connect_client_if_needed", "bee_request", "bee_request_text", "bee_do_request_text",
+                        "bee_convert_http_method", "bee_urlize_path_param", "bee_escape_path_param",
+                        "bee_next_loop_iteration", "bee_enable_ssl", "bee_disable_ssl",
+                        // Local properties used in base API class
+                        "bee_client", "bee_host", "bee_port", "bee_name",
                         // Local variable names used in API methods (endpoints)
-                        // FIXME
-//                        "all_params", "resource_path", "path_params", "query_params",
-//                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                        "bzz_method", "bzz_path", "bzz_query",
+                        "bzz_result", "bzz_code", "bzz_headers",
+                        "bzz_error",
 
-                        // Global Scope
+                        // Godot's Global Scope
                         // https://github.com/godotengine/godot/blob/master/doc/classes/%40GlobalScope.xml
                         // List generated from modules/openapi-generator/src/main/resources/gdscript/utils/extract_reserved_words.py
                         // Godot's global functions
@@ -225,8 +227,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                         "PhysicsServer2D", "PhysicsServer2DManager", "PhysicsServer3D", "PhysicsServer3DManager",
                         "ProjectSettings", "RenderingServer", "ResourceLoader", "ResourceSaver", "ResourceUID",
                         "TextServerManager", "ThemeDB", "Time", "TranslationServer", "WorkerThreadPool", "XRServer",
-                        // @property
-//                        "property",
 
                         // Tokens from GDScript
                         // https://github.com/godotengine/godot/blob/master/modules/gdscript/gdscript_tokenizer.cpp
@@ -234,18 +234,16 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                         "and", "or", "not",
                         // Control flow
                         "if", "elif", "else", "for", "while", "break", "continue", "pass", "return", "match",
-                        // Keywords
+                        // Keywords – hey, namespace is here, and so is trait !
                         "as", "assert", "await", "breakpoint", "class", "class_name", "const", "enum", "extends",
                         "func", "in", "is", "namespace", "preload", "self", "signal", "static", "super", "trait",
                         "var", "void", "yield",
                         // Constants
-                        "PI", "TAU", "INF", "NaN", // CONST_NAN,
-                        // Special
-                        "Color", // ERROR,
+                        "PI", "TAU", "INF", "NaN",
 
-                        // Types
-                        "float", "int", "String", "bool", "Dictionary", "Array", "Color"
-
+                        // Types TODO: extract all types from somewhere ; we're going to need all the Nodes, as well ?!
+                        "float", "int", "String", "bool", "Dictionary", "Array", "Color",
+                        "Quat", "Vector2", "Vector3", "Transform"
                 )
         );
 
@@ -284,8 +282,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         LOGGER.warn("THIS GENERATOR IS UNSAFE AND MALICIOUS OAS3 YAML FILES MAY HURT YOU.");
         LOGGER.warn("PLEASE READ CAREFULLY THE OAS3 FILE YOU ARE USING BEFORE YOU TRUST IT.");
         LOGGER.info("(this generation itself should be safe, but not the generated code)");
-
-        // TODO: Fill this out.
 
     }
 

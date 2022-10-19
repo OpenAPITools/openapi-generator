@@ -4,7 +4,7 @@
 
 import xml.etree.ElementTree as ET
 import requests
-import xml
+
 
 words_code = ""  # output
 indentation = "                        "
@@ -27,16 +27,25 @@ for singleton in root.iter('member'):
 
 words_code += "%s// List generated from modules/openapi-generator/src/main/resources/gdscript/utils/extract_reserved_words.py\n" % indentation
 
-current_line = "%s" % indentation
+current_line = ""
+
+def new_line():
+    global current_line
+    current_line = "%s" % indentation
+
+def write_line():
+    global current_line, words_code
+    words_code += "%s\n" % current_line
 
 def add_word(word):
     global current_line, words_code
     words_string = "\"%s\", " % word
     if len(current_line) + len(words_string) > max_line_len:
-        words_code += "%s\n" % current_line
-        current_line = "%s" % indentation
+        write_line()
+        new_line()
     current_line += words_string
 
+new_line()
 
 words_code += "%s// Godot's global functions\n" % indentation
 for reserved in methods_list:
@@ -48,6 +57,6 @@ words_code += "%s// Godot's singletons\n" % indentation
 for reserved in singletons_list:
     add_word(reserved)
 
-words_code += "%s\n" % current_line
+write_line()
 
 print(words_code)

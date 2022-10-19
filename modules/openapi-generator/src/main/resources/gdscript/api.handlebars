@@ -1,16 +1,16 @@
+{{>partials/api_headers}}
+
 # API {{classname}}
+{{>partials/api_statement_class}}:
+	{{>partials/api_statement_extends}}
 
 {{#with operations}}
-
-class {{classname}}:
-	extends ApiBee
-
 {{#each operation}}
 
 {{#if isDeprecated}}
 	# /!.  DEPRECATED
 {{/if}}
-	# Operation {{operationId}}  {{httpMethod}} {{path}}
+	# Operation {{operationId}} → {{httpMethod}} {{path}}
 {{#if summary}}
 	# {{summary}}
 {{/if}}
@@ -41,12 +41,10 @@ class {{classname}}:
 
 		# Collect the query parameters
 		# Note: we do not support multiple values for a single param (for now), nor arrays
-		#var bzz_query := Dictionary()
-		var bzz_query := {
+		var bzz_query := Dictionary()
 		{{#each queryParams}}
-			"{{baseName}}": {{paramName}},
+		bzz_query["{{baseName}}"] = {{paramName}}
 		{{/each}}
-		}
 
 		# Convert the HTTP method to something Godot understands
 		var bzz_method := bee_convert_http_method("{{httpMethod}}")
@@ -63,15 +61,15 @@ class {{classname}}:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 {{/each}}
