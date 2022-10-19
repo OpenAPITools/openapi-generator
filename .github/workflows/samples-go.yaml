@@ -4,11 +4,9 @@ on:
   push:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
-      - 'samples/server/petstore/go-api-server/**'
   pull_request:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
-      - 'samples/server/petstore/go-api-server/**'
 
 jobs:
   build:
