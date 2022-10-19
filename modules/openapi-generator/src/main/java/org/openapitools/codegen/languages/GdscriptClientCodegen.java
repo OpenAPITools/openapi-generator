@@ -175,6 +175,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 "bzz_method", "bzz_path", "bzz_query",
                 "bzz_result", "bzz_code", "bzz_headers",
                 "bzz_error",
+                // Hmmm…  Will be removed eventually.  Promises !  ;)
+                "on_success", "on_failure",
 
                 // Godot's Global Scope
                 // https://github.com/godotengine/godot/blob/master/doc/classes/%40GlobalScope.xml

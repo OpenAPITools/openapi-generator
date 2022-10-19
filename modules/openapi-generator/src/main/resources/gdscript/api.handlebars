@@ -1,77 +1,77 @@
 {{>partials/api_headers}}
 
+
 # API {{classname}}
-{{>partials/api_statement_class}}:
-	{{>partials/api_statement_extends}}
+{{>partials/api_statement_extends}}
 
 {{#with operations}}
 {{#each operation}}
 
 {{#if isDeprecated}}
-	# /!.  DEPRECATED
+# /!.  DEPRECATED
 {{/if}}
-	# Operation {{operationId}} → {{httpMethod}} {{path}}
+# Operation {{{operationId}}} → {{{httpMethod}}} {{{path}}}
 {{#if summary}}
-	# {{summary}}
+# {{{summary}}}
 {{/if}}
 {{#if description}}
-	#
-	# {{description}}
+#
+# {{{description}}}
 {{/if}}
 {{#if notes}}
-	#
-	# {{notes}}
+#
+# {{{notes}}}
 {{/if}}
-	func {{operationIdSnakeCase}}(
-		{{#each allParams}}
-		# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
-		# {{description}}
-		{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
-		{{/each}}
-		on_success: Callable,  # func(result{{#if returnType}}: {{returnType}}{{/if}})
-		on_failure: Callable   # func(error: ApiError)
-	):
-		# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
+func {{operationIdSnakeCase}}(
+	{{#each allParams}}
+	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
+	# {{{description}}}
+	{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
+	{{/each}}
+	on_success: Callable,  # func(result{{#if returnType}}: {{returnType}}{{/if}})
+	on_failure: Callable   # func(error: ApiError)
+):
+	# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
 
-		# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-		# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
+	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
-		# Compute the URL path to the API resource
-		var bzz_path := "{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
+	# Compute the URL path to the API resource
+	var bzz_path := "{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
 
-		# Collect the query parameters
-		# Note: we do not support multiple values for a single param (for now), nor arrays
-		var bzz_query := Dictionary()
-		{{#each queryParams}}
-		bzz_query["{{baseName}}"] = {{paramName}}
-		{{/each}}
+	# Collect the query parameters
+	# Note: we do not support multiple values for a single param (for now), nor arrays
+	var bzz_query := Dictionary()
+	{{#each queryParams}}
+	bzz_query["{{baseName}}"] = {{paramName}}
+	{{/each}}
 
-		# Convert the HTTP method to something Godot understands
-		var bzz_method := bee_convert_http_method("{{httpMethod}}")
+	# Convert the HTTP method to something Godot understands
+	var bzz_method := bee_convert_http_method("{{httpMethod}}")
 
-		{{#with returnProperty}}
-		# Will be used at some point for denormalization
-		# baseType = "{{{baseType}}}"
-		# openApiType = "{{{openApiType}}}"
-		# dataType = "{{{dataType}}}"
-		# complexType = "{{{complexType}}}"
-		# isArray = "{{{isArray}}}"
-		var bzz_return_type := "{{{baseType}}}"
-		{{/with}}
+	{{#with returnProperty}}
+	# Will be used at some point for denormalization
+	# baseType = "{{{baseType}}}"
+	# openApiType = "{{{openApiType}}}"
+	# dataType = "{{{dataType}}}"
+	# complexType = "{{{complexType}}}"
+	# isArray = "{{{isArray}}}"
+	var bzz_return_type := "{{{complexType}}}"
+	{{/with}}
 
-		bee_request(
-			bzz_method, bzz_path, bzz_query,
-			func(bzz_result, bzz_code, bzz_headers):
-				#print('SUCCESS!')
-				#print(bzz_result)
-				on_success.call(bzz_result)
-				,  # ざわ‥
-			func(bzz_error):
-				#printerr("FAILURE!")
-				#print(bzz_error)
-				on_failure.call(bzz_error)
-				,  # ざわ‥
-		)
+	bee_request(
+		bzz_method, bzz_path, bzz_query,
+		func(bzz_result, bzz_code, bzz_headers):
+			#print('SUCCESS!')
+			#print(bzz_result)
+			on_success.call(bzz_result)
+			,  # ざわ‥
+		func(bzz_error):
+			#printerr("FAILURE!")
+			#print(bzz_error)
+			on_failure.call(bzz_error)
+			,  # ざわ‥
+	)
 {{/each}}
 
 {{/with}}
