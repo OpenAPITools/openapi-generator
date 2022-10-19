@@ -12,8 +12,6 @@ jobs:
   build:
     name: Java Helidon Functional tests
     runs-on: ubuntu-latest
-    needs:
-      - build
     strategy:
       matrix:
         java-version: [11, 17]
