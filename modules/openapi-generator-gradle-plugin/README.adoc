@@ -711,5 +711,3 @@ apply plugin: 'org.openapi.generator'
 //# /RELEASE_VERSION
 
 See https://github.com/OpenAPITools/openapi-generator/issues/1818[OpenAPITools/openapi-generator#1818] for more details.
-
-

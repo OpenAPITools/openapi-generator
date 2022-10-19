@@ -183,5 +183,3 @@ Please see [an example configuration](examples) for using the plugin. To run the
 ```bash
 mvn -f non-java.xml compile
 ```
-
-
