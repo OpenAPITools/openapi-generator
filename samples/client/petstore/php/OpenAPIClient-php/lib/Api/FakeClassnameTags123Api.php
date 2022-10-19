@@ -332,9 +332,6 @@ class FakeClassnameTags123Api
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testClassname'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeClassnameTags123Api.testClassname, must be one of [".implode(',', self::contentTypes['testClassname'])."].");
-        }
 
         $resourcePath = '/fake_classname_test';
         $formParams = [];

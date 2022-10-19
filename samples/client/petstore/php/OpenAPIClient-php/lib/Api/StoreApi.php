@@ -287,9 +287,6 @@ class StoreApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['deleteOrder'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling StoreApi.deleteOrder, must be one of [".implode(',', self::contentTypes['deleteOrder'])."].");
-        }
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -561,9 +558,6 @@ class StoreApi
     public function getInventoryRequest(string $contentType = self::contentTypes['getInventory'][0])
     {
 
-        if(!in_array($contentType, self::contentTypes['getInventory'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling StoreApi.getInventory, must be one of [".implode(',', self::contentTypes['getInventory'])."].");
-        }
 
         $resourcePath = '/store/inventory';
         $formParams = [];
@@ -850,9 +844,6 @@ class StoreApi
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
         
-        if(!in_array($contentType, self::contentTypes['getOrderById'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling StoreApi.getOrderById, must be one of [".implode(',', self::contentTypes['getOrderById'])."].");
-        }
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -1136,9 +1127,6 @@ class StoreApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['placeOrder'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling StoreApi.placeOrder, must be one of [".implode(',', self::contentTypes['placeOrder'])."].");
-        }
 
         $resourcePath = '/store/order';
         $formParams = [];

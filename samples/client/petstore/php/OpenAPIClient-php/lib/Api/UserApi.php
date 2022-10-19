@@ -299,9 +299,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['createUser'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.createUser, must be one of [".implode(',', self::contentTypes['createUser'])."].");
-        }
 
         $resourcePath = '/user';
         $formParams = [];
@@ -530,9 +527,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['createUsersWithArrayInput'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.createUsersWithArrayInput, must be one of [".implode(',', self::contentTypes['createUsersWithArrayInput'])."].");
-        }
 
         $resourcePath = '/user/createWithArray';
         $formParams = [];
@@ -761,9 +755,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['createUsersWithListInput'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.createUsersWithListInput, must be one of [".implode(',', self::contentTypes['createUsersWithListInput'])."].");
-        }
 
         $resourcePath = '/user/createWithList';
         $formParams = [];
@@ -992,9 +983,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['deleteUser'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.deleteUser, must be one of [".implode(',', self::contentTypes['deleteUser'])."].");
-        }
 
         $resourcePath = '/user/{username}';
         $formParams = [];
@@ -1278,9 +1266,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['getUserByName'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.getUserByName, must be one of [".implode(',', self::contentTypes['getUserByName'])."].");
-        }
 
         $resourcePath = '/user/{username}';
         $formParams = [];
@@ -1576,9 +1561,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['loginUser'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.loginUser, must be one of [".implode(',', self::contentTypes['loginUser'])."].");
-        }
 
         $resourcePath = '/user/login';
         $formParams = [];
@@ -1806,9 +1788,6 @@ class UserApi
     public function logoutUserRequest(string $contentType = self::contentTypes['logoutUser'][0])
     {
 
-        if(!in_array($contentType, self::contentTypes['logoutUser'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.logoutUser, must be one of [".implode(',', self::contentTypes['logoutUser'])."].");
-        }
 
         $resourcePath = '/user/logout';
         $formParams = [];
@@ -2042,9 +2021,6 @@ class UserApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['updateUser'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling UserApi.updateUser, must be one of [".implode(',', self::contentTypes['updateUser'])."].");
-        }
 
         $resourcePath = '/user/{username}';
         $formParams = [];

@@ -394,9 +394,6 @@ class PetApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['addPet'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.addPet, must be one of [".implode(',', self::contentTypes['addPet'])."].");
-        }
 
         $resourcePath = '/pet';
         $formParams = [];
@@ -687,9 +684,6 @@ class PetApi
         }
 
 
-        if(!in_array($contentType, self::contentTypes['deletePet'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.deletePet, must be one of [".implode(',', self::contentTypes['deletePet'])."].");
-        }
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -981,9 +975,6 @@ class PetApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['findPetsByStatus'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.findPetsByStatus, must be one of [".implode(',', self::contentTypes['findPetsByStatus'])."].");
-        }
 
         $resourcePath = '/pet/findByStatus';
         $formParams = [];
@@ -1277,9 +1268,6 @@ class PetApi
             );
         }
         
-        if(!in_array($contentType, self::contentTypes['findPetsByTags'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.findPetsByTags, must be one of [".implode(',', self::contentTypes['findPetsByTags'])."].");
-        }
 
         $resourcePath = '/pet/findByTags';
         $formParams = [];
@@ -1568,9 +1556,6 @@ class PetApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['getPetById'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.getPetById, must be one of [".implode(',', self::contentTypes['getPetById'])."].");
-        }
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -1895,9 +1880,6 @@ class PetApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['updatePet'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.updatePet, must be one of [".implode(',', self::contentTypes['updatePet'])."].");
-        }
 
         $resourcePath = '/pet';
         $formParams = [];
@@ -2194,9 +2176,6 @@ class PetApi
 
 
 
-        if(!in_array($contentType, self::contentTypes['updatePetWithForm'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.updatePetWithForm, must be one of [".implode(',', self::contentTypes['updatePetWithForm'])."].");
-        }
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -2504,9 +2483,6 @@ class PetApi
 
 
 
-        if(!in_array($contentType, self::contentTypes['uploadFile'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.uploadFile, must be one of [".implode(',', self::contentTypes['uploadFile'])."].");
-        }
 
         $resourcePath = '/pet/{petId}/uploadImage';
         $formParams = [];
@@ -2828,9 +2804,6 @@ class PetApi
         }
 
 
-        if(!in_array($contentType, self::contentTypes['uploadFileWithRequiredFile'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling PetApi.uploadFileWithRequiredFile, must be one of [".implode(',', self::contentTypes['uploadFileWithRequiredFile'])."].");
-        }
 
         $resourcePath = '/fake/{petId}/uploadImageWithRequiredFile';
         $formParams = [];

@@ -332,9 +332,6 @@ class AnotherFakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['call123TestSpecialTags'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling AnotherFakeApi.call123TestSpecialTags, must be one of [".implode(',', self::contentTypes['call123TestSpecialTags'])."].");
-        }
 
         $resourcePath = '/another-fake/dummy';
         $formParams = [];

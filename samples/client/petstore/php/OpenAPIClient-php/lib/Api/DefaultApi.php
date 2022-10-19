@@ -312,9 +312,6 @@ class DefaultApi
     public function fooGetRequest(string $contentType = self::contentTypes['fooGet'][0])
     {
 
-        if(!in_array($contentType, self::contentTypes['fooGet'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling DefaultApi.fooGet, must be one of [".implode(',', self::contentTypes['fooGet'])."].");
-        }
 
         $resourcePath = '/foo';
         $formParams = [];

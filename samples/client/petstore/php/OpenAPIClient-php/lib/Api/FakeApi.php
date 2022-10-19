@@ -369,9 +369,6 @@ class FakeApi
     public function fakeHealthGetRequest(string $contentType = self::contentTypes['fakeHealthGet'][0])
     {
 
-        if(!in_array($contentType, self::contentTypes['fakeHealthGet'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeHealthGet, must be one of [".implode(',', self::contentTypes['fakeHealthGet'])."].");
-        }
 
         $resourcePath = '/fake/health';
         $formParams = [];
@@ -605,9 +602,6 @@ class FakeApi
 
 
 
-        if(!in_array($contentType, self::contentTypes['fakeHttpSignatureTest'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeHttpSignatureTest, must be one of [".implode(',', self::contentTypes['fakeHttpSignatureTest'])."].");
-        }
 
         $resourcePath = '/fake/http-signature-test';
         $formParams = [];
@@ -889,9 +883,6 @@ class FakeApi
     {
 
 
-        if(!in_array($contentType, self::contentTypes['fakeOuterBooleanSerialize'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeOuterBooleanSerialize, must be one of [".implode(',', self::contentTypes['fakeOuterBooleanSerialize'])."].");
-        }
 
         $resourcePath = '/fake/outer/boolean';
         $formParams = [];
@@ -1160,9 +1151,6 @@ class FakeApi
     {
 
 
-        if(!in_array($contentType, self::contentTypes['fakeOuterCompositeSerialize'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeOuterCompositeSerialize, must be one of [".implode(',', self::contentTypes['fakeOuterCompositeSerialize'])."].");
-        }
 
         $resourcePath = '/fake/outer/composite';
         $formParams = [];
@@ -1431,9 +1419,6 @@ class FakeApi
     {
 
 
-        if(!in_array($contentType, self::contentTypes['fakeOuterNumberSerialize'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeOuterNumberSerialize, must be one of [".implode(',', self::contentTypes['fakeOuterNumberSerialize'])."].");
-        }
 
         $resourcePath = '/fake/outer/number';
         $formParams = [];
@@ -1702,9 +1687,6 @@ class FakeApi
     {
 
 
-        if(!in_array($contentType, self::contentTypes['fakeOuterStringSerialize'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakeOuterStringSerialize, must be one of [".implode(',', self::contentTypes['fakeOuterStringSerialize'])."].");
-        }
 
         $resourcePath = '/fake/outer/string';
         $formParams = [];
@@ -1979,9 +1961,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['fakePropertyEnumIntegerSerialize'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.fakePropertyEnumIntegerSerialize, must be one of [".implode(',', self::contentTypes['fakePropertyEnumIntegerSerialize'])."].");
-        }
 
         $resourcePath = '/fake/property/enum-int';
         $formParams = [];
@@ -2202,9 +2181,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testBodyWithBinary'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testBodyWithBinary, must be one of [".implode(',', self::contentTypes['testBodyWithBinary'])."].");
-        }
 
         $resourcePath = '/fake/body-with-binary';
         $formParams = [];
@@ -2425,9 +2401,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testBodyWithFileSchema'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testBodyWithFileSchema, must be one of [".implode(',', self::contentTypes['testBodyWithFileSchema'])."].");
-        }
 
         $resourcePath = '/fake/body-with-file-schema';
         $formParams = [];
@@ -2660,9 +2633,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testBodyWithQueryParams'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testBodyWithQueryParams, must be one of [".implode(',', self::contentTypes['testBodyWithQueryParams'])."].");
-        }
 
         $resourcePath = '/fake/body-with-query-params';
         $formParams = [];
@@ -2954,9 +2924,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testClientModel'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testClientModel, must be one of [".implode(',', self::contentTypes['testClientModel'])."].");
-        }
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -3320,9 +3287,6 @@ class FakeApi
         }
         
 
-        if(!in_array($contentType, self::contentTypes['testEndpointParameters'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testEndpointParameters, must be one of [".implode(',', self::contentTypes['testEndpointParameters'])."].");
-        }
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -3654,9 +3618,6 @@ class FakeApi
 
 
 
-        if(!in_array($contentType, self::contentTypes['testEnumParameters'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testEnumParameters, must be one of [".implode(',', self::contentTypes['testEnumParameters'])."].");
-        }
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -4002,9 +3963,6 @@ class FakeApi
 
 
 
-        if(!in_array($contentType, self::contentTypes['testGroupParameters'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testGroupParameters, must be one of [".implode(',', self::contentTypes['testGroupParameters'])."].");
-        }
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -4274,9 +4232,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testInlineAdditionalProperties'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testInlineAdditionalProperties, must be one of [".implode(',', self::contentTypes['testInlineAdditionalProperties'])."].");
-        }
 
         $resourcePath = '/fake/inline-additionalProperties';
         $formParams = [];
@@ -4517,9 +4472,6 @@ class FakeApi
             );
         }
 
-        if(!in_array($contentType, self::contentTypes['testJsonFormData'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testJsonFormData, must be one of [".implode(',', self::contentTypes['testJsonFormData'])."].");
-        }
 
         $resourcePath = '/fake/jsonFormData';
         $formParams = [];
@@ -4807,9 +4759,6 @@ class FakeApi
         }
 
 
-        if(!in_array($contentType, self::contentTypes['testQueryParameterCollectionFormat'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling FakeApi.testQueryParameterCollectionFormat, must be one of [".implode(',', self::contentTypes['testQueryParameterCollectionFormat'])."].");
-        }
 
         $resourcePath = '/fake/test-query-parameters';
         $formParams = [];
