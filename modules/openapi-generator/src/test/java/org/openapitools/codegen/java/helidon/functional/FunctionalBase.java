@@ -359,5 +359,3 @@ abstract class FunctionalBase {
         }
     }
 }
-
-
