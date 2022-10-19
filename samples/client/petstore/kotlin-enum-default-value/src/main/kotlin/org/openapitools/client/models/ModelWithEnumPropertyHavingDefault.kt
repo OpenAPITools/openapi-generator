@@ -25,6 +25,7 @@ import java.io.Serializable
  * @param propertyName 
  */
 
+
 data class ModelWithEnumPropertyHavingDefault (
 
     @Json(name = "propertyName")

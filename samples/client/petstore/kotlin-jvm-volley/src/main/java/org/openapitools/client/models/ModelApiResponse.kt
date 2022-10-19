@@ -28,6 +28,7 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param message 
  */
 
+
 data class ModelApiResponse (
 
     @SerializedName("code")

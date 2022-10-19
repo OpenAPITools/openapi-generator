@@ -26,6 +26,7 @@ import com.squareup.moshi.Json
  * @param message 
  */
 
+
 internal data class ModelApiResponse (
 
     @Json(name = "code")
