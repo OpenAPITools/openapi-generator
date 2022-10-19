@@ -1,4 +1,4 @@
-name: Helidon Functional tests
+name: Java Helidon Functional tests
 
 on:
   push:
@@ -8,8 +8,9 @@ on:
     paths:
       - modules/openapi-generator/src/test/java/org/openapitools/codegen/java/helidon/**
 
-  functional-test:
-    name: Helidon Functional tests
+jobs:
+  build:
+    name: Java Helidon Functional tests
     runs-on: ubuntu-latest
     needs:
       - build
