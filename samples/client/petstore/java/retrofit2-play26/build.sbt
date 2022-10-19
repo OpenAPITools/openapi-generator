@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.12.1" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.1" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.4.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.6.1" % "compile",
       "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "io.gsonfire" % "gson-fire" % "1.8.0" % "compile",
