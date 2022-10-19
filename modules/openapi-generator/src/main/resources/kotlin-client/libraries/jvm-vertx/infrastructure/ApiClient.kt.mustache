@@ -5,7 +5,6 @@ import io.vertx.core.buffer.Buffer
 import java.nio.charset.StandardCharsets
 {{#jackson}}
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationFeature
 {{/jackson}}
 {{#gson}}
 import com.google.gson.reflect.TypeToken
@@ -25,7 +24,6 @@ import com.google.gson.reflect.TypeToken
         val code = response.statusCode()
         val headers = response.headers().associate { it.key to listOf(it.value) }
         val contentType = headers["Content-Type"]?.firstOrNull()?.substringBefore(";")?.lowercase(java.util.Locale.getDefault())
-        Serializer.jacksonObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return when (code) {
             in 100..199 -> Informational(

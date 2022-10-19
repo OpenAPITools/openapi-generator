@@ -12,18 +12,23 @@ import com.fasterxml.jackson.core.type.TypeReference
 {{/jackson}}
 {{#gson}}
 import com.google.gson.reflect.TypeToken
+import com.google.gson.annotations.SerializedName
 {{/gson}}
+{{#moshi}}
+import com.squareup.moshi.Json
+{{/moshi}}
+
 import io.vertx.core.Vertx
 import io.vertx.core.http.RequestOptions
 import io.vertx.core.http.HttpMethod
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.Future
 import io.vertx.ext.web.client.WebClient
-import io.vertx.kotlin.coroutines.await
-import io.vertx.kotlin.coroutines.dispatcher
 import io.vertx.uritemplate.UriTemplate
 
 {{#useCoroutines}}
+import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 {{/useCoroutines}}
@@ -198,15 +203,7 @@ import {{packageName}}.infrastructure.*
 
         return request
             {{#hasBodyParam}}
-            {{#moshi}}
-            .sendBuffer(Buffer.buffer(Serializer.moshi.adapter({{#bodyParams}}{{{dataType}}}{{/bodyParams}}::class.java).toJson({{#bodyParams}}{{{paramName}}}{{/bodyParams}})))
-            {{/moshi}}
-            {{#gson}}
-            .sendBuffer(Buffer.buffer(Serializer.gson.toJson({{#bodyParams}}{{{paramName}}}{{/bodyParams}}, {{#bodyParams}}{{{dataType}}}{{/bodyParams}}::class.java)))
-            {{/gson}}
-            {{#jackson}}
-            .sendBuffer(Buffer.buffer(Serializer.jacksonObjectMapper.writeValueAsBytes({{#bodyParams}}{{{paramName}}}{{/bodyParams}})))
-            {{/jackson}}
+            .sendBuffer(responseBody({{#bodyParams}}{{{paramName}}}{{/bodyParams}}))
             {{/hasBodyParam}}
             {{^hasBodyParam}}
             .send()
@@ -218,5 +215,18 @@ import {{packageName}}.infrastructure.*
     }
 
     {{/operation}}
+
+    private inline fun <reified T: Any?> responseBody(body: T): Buffer {
+        {{#moshi}}
+        return Buffer.buffer(Serializer.moshi.adapter(T::class.java).toJson(body))
+        {{/moshi}}
+        {{#gson}}
+        return Buffer.buffer(Serializer.gson.toJson(body, T::class.java))
+        {{/gson}}
+        {{#jackson}}
+        return Buffer.buffer(Serializer.jacksonObjectMapper.writeValueAsBytes(body))
+        {{/jackson}}
+    }
+
 }
 {{/operations}}
