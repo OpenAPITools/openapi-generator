@@ -18,7 +18,6 @@ jobs:
         sample:
           - samples/server/petstore/go-echo-server/
     steps:
-    steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
         with:
