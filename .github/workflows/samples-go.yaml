@@ -25,7 +25,7 @@ jobs:
       - run: go version
       - name: Install
         working-directory: ${{ matrix.sample }}
-        run: go mod download github.com/labstack/echo/v4
+        run: go get github.com/labstack/echo/v4@v4.9.0
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: go test -v
