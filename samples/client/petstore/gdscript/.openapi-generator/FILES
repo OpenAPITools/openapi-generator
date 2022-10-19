@@ -1,0 +1,13 @@
+.openapi-generator-ignore
+README.md
+apis/PetApi.gd
+apis/StoreApi.gd
+apis/UserApi.gd
+core/ApiBee.gd
+core/ApiError.gd
+models/ApiResponse.gd
+models/Category.gd
+models/Order.gd
+models/Pet.gd
+models/Tag.gd
+models/User.gd

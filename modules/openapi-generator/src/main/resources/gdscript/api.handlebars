@@ -1,0 +1,79 @@
+# API {{classname}}
+
+{{#with operations}}
+
+class {{classname}}:
+	extends ApiBee
+
+{{#each operation}}
+
+{{#if isDeprecated}}
+	# /!.  DEPRECATED
+{{/if}}
+	# Operation {{operationId}}  {{httpMethod}} {{path}}
+{{#if summary}}
+	# {{summary}}
+{{/if}}
+{{#if description}}
+	#
+	# {{description}}
+{{/if}}
+{{#if notes}}
+	#
+	# {{notes}}
+{{/if}}
+	func {{operationIdSnakeCase}}(
+		{{#each allParams}}
+		# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
+		# {{description}}
+		{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
+		{{/each}}
+		on_success: Callable,  # func(result{{#if returnType}}: {{returnType}}{{/if}})
+		on_failure: Callable   # func(error: ApiError)
+	):
+		# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
+
+		# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
+		# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
+		# Compute the URL path to the API resource
+		var bzz_path := "{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
+
+		# Collect the query parameters
+		# Note: we do not support multiple values for a single param (for now), nor arrays
+		#var bzz_query := Dictionary()
+		var bzz_query := {
+		{{#each queryParams}}
+			"{{baseName}}": {{paramName}},
+		{{/each}}
+		}
+
+		# Convert the HTTP method to something Godot understands
+		var bzz_method := bee_convert_http_method("{{httpMethod}}")
+
+		{{#with returnProperty}}
+		# Will be used at some point for denormalization
+		# baseType = "{{{baseType}}}"
+		# openApiType = "{{{openApiType}}}"
+		# dataType = "{{{dataType}}}"
+		# complexType = "{{{complexType}}}"
+		# isArray = "{{{isArray}}}"
+		var bzz_return_type := "{{{baseType}}}"
+		{{/with}}
+
+		bee_request(
+			bzz_method, bzz_path, bzz_query,
+			func(result, code, headers):
+				#print('SUCCESS!')
+				#print(result)
+				on_success.call(result)
+				,  # ざわ‥
+			func(error):
+				#printerr("FAILURE!")
+				#print(error)
+				on_failure.call(error)
+				,  # ざわ‥
+		)
+{{/each}}
+
+{{/with}}
