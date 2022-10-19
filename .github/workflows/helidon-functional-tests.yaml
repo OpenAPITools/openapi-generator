@@ -41,7 +41,6 @@ jobs:
       - name: Run unit tests
         run: cd modules/openapi-generator && mvn --no-snapshot-updates --batch-mode -Dtest="**/functional/*Test" test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - name: Publish unit test reports
-        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: surefire-test-results
