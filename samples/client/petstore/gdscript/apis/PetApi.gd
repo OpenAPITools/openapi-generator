@@ -40,15 +40,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -82,15 +82,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -131,15 +131,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -181,15 +181,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -229,15 +229,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -275,15 +275,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -320,15 +320,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 
@@ -372,15 +372,15 @@ class PetApi:
 
 		bee_request(
 			bzz_method, bzz_path, bzz_query,
-			func(result, code, headers):
+			func(bzz_result, bzz_code, bzz_headers):
 				#print('SUCCESS!')
-				#print(result)
-				on_success.call(result)
+				#print(bzz_result)
+				on_success.call(bzz_result)
 				,  # ざわ‥
-			func(error):
+			func(bzz_error):
 				#printerr("FAILURE!")
-				#print(error)
-				on_failure.call(error)
+				#print(bzz_error)
+				on_failure.call(bzz_error)
 				,  # ざわ‥
 		)
 

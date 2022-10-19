@@ -1,0 +1,36 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+_global_script_classes=[{
+"base": "RefCounted",
+"class": &"ApiBee",
+"language": &"GDScript",
+"path": "res://core/ApiBee.gd"
+}, {
+"base": "Resource",
+"class": &"ApiError",
+"language": &"GDScript",
+"path": "res://core/ApiError.gd"
+}]
+_global_script_class_icons={
+"ApiBee": "",
+"ApiError": ""
+}
+
+[application]
+
+config/name="GDScript Petstore Client"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.0", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Logger="*res://Logger.gd"

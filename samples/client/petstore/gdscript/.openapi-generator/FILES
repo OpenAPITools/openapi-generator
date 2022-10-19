@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 apis/PetApi.gd
 apis/StoreApi.gd

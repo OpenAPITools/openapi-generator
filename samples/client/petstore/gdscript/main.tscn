@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyht2e7myo04l"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_226ps"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_mtjt2"]
+number_color = Color(0, 0.843137, 0.341176, 1)
+symbol_color = Color(1, 1, 1, 1)
+function_color = Color(0.929412, 0.929412, 0.929412, 1)
+member_variable_color = Color(0.764706, 0.764706, 0.764706, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_226ps")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 648.0
+
+[node name="RunTestsButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 322.0
+size_flags_vertical = 3
+text = "  Run Tests  "
+
+[node name="ExitButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+offset_top = 326.0
+offset_right = 100.0
+offset_bottom = 648.0
+size_flags_vertical = 3
+text = "  Exit  "
+
+[node name="LogDump" type="TextEdit" parent="HBoxContainer"]
+layout_mode = 2
+offset_left = 104.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+editable = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+syntax_highlighter = SubResource("CodeHighlighter_mtjt2")
+scroll_past_end_of_file = true
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/RunTestsButton" to="." method="_on_run_tests_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
