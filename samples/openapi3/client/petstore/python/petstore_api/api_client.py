@@ -297,7 +297,7 @@ class StyleFormSerializer(ParameterSerializerBase):
         prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator] = None
     ) -> str:
         if prefix_separator_iterator is None:
-            prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
+            prefix_separator_iterator = PrefixSeparatorIterator('', '&')
         return self._ref6570_expansion(
             variable_name=name,
             in_data=in_data,
@@ -1471,7 +1471,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
-        value = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
+        value = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=True)
         return dict(body=value)
 
     def serialize(

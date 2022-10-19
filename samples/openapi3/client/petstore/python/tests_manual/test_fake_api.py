@@ -35,7 +35,8 @@ class MIMEFormdata(nonmultipart.MIMENonMultipart):
 class TestFakeApi(ApiTestMixin):
     """FakeApi unit test stubs"""
     configuration = petstore_api.Configuration()
-    api = FakeApi(api_client=api_client.ApiClient(configuration=configuration))
+    api_client = api_client.ApiClient(configuration=configuration)
+    api = FakeApi(api_client=api_client)
 
     def test_array_model(self):
         from petstore_api.model import animal_farm, animal
@@ -762,6 +763,32 @@ class TestFakeApi(ApiTestMixin):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
             assert isinstance(api_response.headers, schemas.Unset)
+
+    def test_x_www_form_urlencoded(self):
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            from urllib3._collections import HTTPHeaderDict
+            from petstore_api.apis.tags import pet_api
+
+            pet_id = dict(petId=2345)
+            pet_values = dict(
+                name='mister furball award',
+                status='happy, fuzzy, and bouncy'
+            )
+            mock_request.return_value = self.response("")
+
+            api_instance = pet_api.PetApi(self.api_client)
+            api_instance.update_pet_with_form(path_params=pet_id, body=pet_values)
+            mock_request.assert_called_with(
+                'POST',
+                'http://petstore.swagger.io:80/v2/pet/2345',
+                body='name=mister%20furball%20award&status=happy%2C%20fuzzy%2C%20and%20bouncy',
+                fields={},
+                encode_multipart=False,
+                preload_content=True,
+                timeout=None,
+                headers=HTTPHeaderDict({'User-Agent': self.user_agent,
+                                        'Content-Type': 'application/x-www-form-urlencoded'})
+            )
 
     def test_json_patch(self):
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
