@@ -2,15 +2,11 @@ name: Functional tests
 
 on:
   push:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
-      - functional-test
+    paths:
+      - modules/openapi-generator/src/test/java/org/openapitools/codegen/java/helidon/**
   pull_request:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
-      - functional-test
+    paths:
+      - modules/openapi-generator/src/test/java/org/openapitools/codegen/java/helidon/**
 
  functional-test:
     name: Functional tests
