@@ -16,17 +16,17 @@ lazy val root = (project in file(".")).
 {{#jackson}}
       "com.fasterxml.jackson.core" % "jackson-core" % "2.12.5",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.5",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.6.1",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.4.1",
       {{#openApiNullable}}
       "org.openapitools" % "jackson-databind-nullable" % "0.2.3",
       {{/openApiNullable}}
       {{#withXml}}
-      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.12.6.1",
+      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.13.4.1",
       {{/withXml}}
       {{#joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.12.6.1",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.13.4.1",
       {{/joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.12.6.1",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.13.4.1",
 {{/jackson}}
 {{#gson}}
       "com.google.code.gson" % "gson" % "2.8.9",
