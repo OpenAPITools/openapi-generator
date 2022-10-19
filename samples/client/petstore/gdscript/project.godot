@@ -18,19 +18,55 @@ _global_script_classes=[{
 "class": &"ApiError",
 "language": &"GDScript",
 "path": "res://core/ApiError.gd"
+}, {
+"base": "ApiBee",
+"class": &"ApiResponse",
+"language": &"GDScript",
+"path": "res://models/ApiResponse.gd"
+}, {
+"base": "ApiBee",
+"class": &"Category",
+"language": &"GDScript",
+"path": "res://models/Category.gd"
+}, {
+"base": "ApiBee",
+"class": &"Order",
+"language": &"GDScript",
+"path": "res://models/Order.gd"
+}, {
+"base": "ApiBee",
+"class": &"Pet",
+"language": &"GDScript",
+"path": "res://models/Pet.gd"
+}, {
+"base": "ApiBee",
+"class": &"Tag",
+"language": &"GDScript",
+"path": "res://models/Tag.gd"
+}, {
+"base": "ApiBee",
+"class": &"User",
+"language": &"GDScript",
+"path": "res://models/User.gd"
 }]
 _global_script_class_icons={
 "ApiBee": "",
-"ApiError": ""
+"ApiError": "",
+"ApiResponse": "",
+"Category": "",
+"Order": "",
+"Pet": "",
+"Tag": "",
+"User": ""
 }
 
 [application]
 
 config/name="GDScript Petstore Client"
-run/main_scene="res://main.tscn"
+run/main_scene="res://demo/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Logger="*res://Logger.gd"
+Logger="*res://demo/Logger.gd"
