@@ -1,17 +1,19 @@
-name: New Functional tests
+name: Functional tests
 
 on:
   push:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+      - functional-test
   pull_request:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+      - functional-test
 
  functional-test:
-    name: New Functional tests
+    name: Functional tests
     runs-on: ubuntu-latest
     needs:
       - build
