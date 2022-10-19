@@ -48,7 +48,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient, headers: MutableMap<String, String> = mutableMapOf()) : ApiClient(basePath, client, headers) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
