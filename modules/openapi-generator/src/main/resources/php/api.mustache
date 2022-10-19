@@ -595,9 +595,6 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/minItems}}
         {{/hasValidation}}{{/allParams}}
-        if(!in_array($contentType, self::contentTypes['{{{operationId}}}'], true)) {
-            throw new \InvalidArgumentException("invalid value for \"contentType\" when calling {{classname}}.{{operationId}}, must be one of [".implode(',', self::contentTypes['{{{operationId}}}'])."].");
-        }
 
         $resourcePath = '{{{path}}}';
         $formParams = [];
