@@ -45,3 +45,13 @@ var status: String
 
 
 
+func normalize() -> Dictionary:
+	return {
+		"id": self.id,
+		"category": self.category,
+		"name": self.name,
+		"photoUrls": self.photoUrls,
+		"tags": self.tags,
+		"status": self.status,
+	}
+

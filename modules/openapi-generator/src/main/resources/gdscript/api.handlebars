@@ -40,6 +40,8 @@ func {{operationIdSnakeCase}}(
 	# Compute the URL path to the API resource
 	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("{{httpMethod}}")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -48,8 +50,10 @@ func {{operationIdSnakeCase}}(
 	bzz_query["{{baseName}}"] = {{paramName}}
 	{{/each}}
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("{{httpMethod}}")
+	var bzz_body
+	{{#each bodyParams}}
+	bzz_body = {{paramName}}
+	{{/each}}
 
 	{{#with returnProperty}}
 	# Will be used at some point for denormalization
@@ -62,7 +66,7 @@ func {{operationIdSnakeCase}}(
 	{{/with}}
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

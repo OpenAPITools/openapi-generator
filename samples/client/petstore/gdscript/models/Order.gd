@@ -43,3 +43,13 @@ var complete: bool = false
 
 
 
+func normalize() -> Dictionary:
+	return {
+		"id": self.id,
+		"petId": self.petId,
+		"quantity": self.quantity,
+		"shipDate": self.shipDate,
+		"status": self.status,
+		"complete": self.complete,
+	}
+

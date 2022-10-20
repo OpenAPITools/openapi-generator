@@ -131,12 +131,13 @@ func bee_request(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
 	query: Dictionary,
+	body,  # Variant that will be serialized
 	on_success: Callable,  # func(response: Variant, responseCode: int, responseHeaders: Dictionary)
 	on_failure: Callable,  # func(error: ApiError)
 ):
 
 	bee_request_text(
-		method, path, query,
+		method, path, query, body,
 		func(responseText, responseCode, responseHeaders):
 			var mime: String = responseHeaders['Mime']
 			var deserializedResponse: Dictionary
@@ -179,12 +180,13 @@ func bee_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
 	query: Dictionary,
+	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
 	on_failure: Callable,  # func(error: ApiError)
 ):
 	bee_connect_client_if_needed(
 		func():
-			bee_do_request_text(method, path, query, on_success, on_failure)
+			bee_do_request_text(method, path, query, body, on_success, on_failure)
 			,
 		func(error):
 			on_failure.call(error)
@@ -197,25 +199,31 @@ func bee_do_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
 	query: Dictionary,
+	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
 	on_failure: Callable,  # func(error: ApiError)
 ):
 
-	# How can we help users define more / override these?
+	# TODO: How can we help users define more / override these?
 	# 1. template overrides
 	# 2. CLI args
 	# 3. YAML Config file
+	# 4. class property
 	var headers = [
-		"User-Agent: Pirulo/1.0 (Godot)",
-		"Accept: */*",
+		"User-Agent: Stigmergiac/1.0 (Godot)",
+		"Accept: application/json",
+		"Content-Type: application/json",
 	]
+
+	# TODO: Handle other serialization schemes (json+ld, xml…)
+	var body_serialized = JSON.stringify(body.normalize())
 
 	var path_queried := path
 	var query_string := self.bee_client.query_string_from_dict(query)
 	if query_string:
 		path_queried = "%s?%s" % [path, query_string]
 
-	var requesting := self.bee_client.request(method, path_queried, headers)
+	var requesting := self.bee_client.request(method, path_queried, headers, body_serialized)
 	if requesting != OK:
 		var error := ApiError.new()
 		error.internal_code = requesting
@@ -253,9 +261,6 @@ func bee_do_request_text(
 	response_headers['Encoding'] = encoding
 	response_headers['Mime'] = mime
 
-	prints("RESPONSE CODE:", response_code)
-	prints("RESPONSE HEADERS:", response_headers)
-
 	# TODO: cap the size of this, perhaps?
 	var response_bytes := PackedByteArray()
 
@@ -270,6 +275,8 @@ func bee_do_request_text(
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
 
+	prints("RESPONSE CODE:", response_code)
+	prints("RESPONSE HEADERS:", response_headers)
 	print("RESPONSE SIZE: %d bytes " % response_bytes.size())
 
 	var response_text: String
@@ -289,6 +296,9 @@ func bee_do_request_text(
 		error.message = "%s: request to `%s' made the server hiccup with a %d." % [
 			self.bee_name, path, response_code
 		]
+		error.message += "\n%s" % [
+			bee_format_error_response(response_text)
+		]
 		on_failure.call(error)
 		return
 	elif response_code >= 400:
@@ -296,6 +306,9 @@ func bee_do_request_text(
 		error.identifier = "apibee.response.4xx"
 		error.message = "%s: request to `%s' was denied with a %d." % [
 			self.bee_name, path, response_code
+		]
+		error.message += "\n%s" % [
+			bee_format_error_response(response_text)
 		]
 		on_failure.call(error)
 		return
@@ -342,3 +355,20 @@ func bee_escape_path_param(value: String) -> String:
 	# TODO: escape for URL
 	return value
 
+
+func bee_format_error_response(response: String) -> String:
+	# TODO: handle other (de)serialization schemes
+	var parser := JSON.new()
+	var parsing := parser.parse(response)
+	if OK != parsing:
+		return response
+	if not (parser.data is Dictionary):
+		return response
+	var s := "ERROR"
+	if parser.data.has("code"):
+		s += " %d" % parser.data['code']
+	if parser.data.has("message"):
+		s += "\n%s" % parser.data['message']
+	else:
+		return response
+	return s

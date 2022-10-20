@@ -32,5 +32,12 @@ var {{name}}: {{dataType}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}
 
 {{/each}}
 
+func normalize() -> Dictionary:
+	return {
+{{#each vars}}
+		"{{name}}": self.{{name}},
+{{/each}}
+	}
+
 {{/with}}
 {{/each}}

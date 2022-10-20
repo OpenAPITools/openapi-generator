@@ -27,3 +27,10 @@ var message: String
 
 
 
+func normalize() -> Dictionary:
+	return {
+		"code": self.code,
+		"type": self.type,
+		"message": self.message,
+	}
+

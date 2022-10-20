@@ -25,17 +25,19 @@ func create_user(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
+	bzz_body = user
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -65,17 +67,19 @@ func create_users_with_array_input(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithArray"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
+	bzz_body = user
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -105,17 +109,19 @@ func create_users_with_list_input(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithList"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
+	bzz_body = user
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -147,17 +153,18 @@ func delete_user(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("DELETE")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	var bzz_body
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -187,13 +194,14 @@ func get_user_by_name(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "User"
@@ -204,7 +212,7 @@ func get_user_by_name(
 	var bzz_return_type := "User"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -237,6 +245,8 @@ func login_user(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/login"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -244,8 +254,7 @@ func login_user(
 	bzz_query["username"] = username
 	bzz_query["password"] = password
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "string"
@@ -256,7 +265,7 @@ func login_user(
 	var bzz_return_type := "string"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -283,17 +292,18 @@ func logout_user(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/logout"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -328,17 +338,19 @@ func update_user(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("PUT")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("PUT")
+	var bzz_body
+	bzz_body = user
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

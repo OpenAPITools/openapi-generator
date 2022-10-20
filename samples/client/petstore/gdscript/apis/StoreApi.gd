@@ -25,17 +25,18 @@ func delete_order(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("DELETE")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	var bzz_body
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -64,13 +65,14 @@ func get_inventory(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/inventory"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "map"
@@ -81,7 +83,7 @@ func get_inventory(
 	var bzz_return_type := "integer"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -113,13 +115,14 @@ func get_order_by_id(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "Order"
@@ -130,7 +133,7 @@ func get_order_by_id(
 	var bzz_return_type := "Order"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -160,13 +163,15 @@ func place_order(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
+	bzz_body = order
 
 	# Will be used at some point for denormalization
 	# baseType = "Order"
@@ -177,7 +182,7 @@ func place_order(
 	var bzz_return_type := "Order"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

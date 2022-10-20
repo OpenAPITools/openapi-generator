@@ -22,3 +22,9 @@ var name: String
 
 
 
+func normalize() -> Dictionary:
+	return {
+		"id": self.id,
+		"name": self.name,
+	}
+

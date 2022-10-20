@@ -23,13 +23,15 @@ func add_pet(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
+	bzz_body = pet
 
 	# Will be used at some point for denormalization
 	# baseType = "Pet"
@@ -40,7 +42,7 @@ func add_pet(
 	var bzz_return_type := "Pet"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -73,17 +75,18 @@ func delete_pet(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("DELETE")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	var bzz_body
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -115,14 +118,15 @@ func find_pets_by_status(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByStatus"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 	bzz_query["status"] = status
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "array"
@@ -133,7 +137,7 @@ func find_pets_by_status(
 	var bzz_return_type := "Pet"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -166,14 +170,15 @@ func find_pets_by_tags(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByTags"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 	bzz_query["tags"] = tags
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "array"
@@ -184,7 +189,7 @@ func find_pets_by_tags(
 	var bzz_return_type := "Pet"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -216,13 +221,14 @@ func get_pet_by_id(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "Pet"
@@ -233,7 +239,7 @@ func get_pet_by_id(
 	var bzz_return_type := "Pet"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -263,13 +269,15 @@ func update_pet(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("PUT")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("PUT")
+	var bzz_body
+	bzz_body = pet
 
 	# Will be used at some point for denormalization
 	# baseType = "Pet"
@@ -280,7 +288,7 @@ func update_pet(
 	var bzz_return_type := "Pet"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -316,17 +324,18 @@ func update_pet_with_form(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
 
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -362,13 +371,14 @@ func upload_file(
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	# Convert the HTTP method to something Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_body
 
 	# Will be used at some point for denormalization
 	# baseType = "ApiResponse"
@@ -379,7 +389,7 @@ func upload_file(
 	var bzz_return_type := "ApiResponse"
 
 	bee_request(
-		bzz_method, bzz_path, bzz_query,
+		bzz_method, bzz_path, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
