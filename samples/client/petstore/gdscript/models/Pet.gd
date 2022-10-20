@@ -11,41 +11,91 @@
 extends RefCounted
 class_name Pet
 
+# It's convenient to know the class name, for error messages.
+# https://github.com/godotengine/godot/issues/21789
+var bee_class_name := "Pet"
+
+
 # Type: float
 # Required: False
-var id: float
-
+var id: float:
+	set(value):
+		__id__was__set = true
+		id = value
+var __id__was__set := false
 
 # Type: Category
 # Required: False
-var category: Category
-
+var category: Category:
+	set(value):
+		__category__was__set = true
+		category = value
+var __category__was__set := false
 
 # Type: String
 # Required: True
 # Example: doggie
-var name: String
-
+var name: String:
+	set(value):
+		__name__was__set = true
+		name = value
+var __name__was__set := false
 
 # Type: Array
 # Required: True
-var photoUrls: Array
-
+var photoUrls: Array:
+	set(value):
+		__photoUrls__was__set = true
+		photoUrls = value
+var __photoUrls__was__set := false
 
 # Type: Array
 # Required: False
-var tags: Array
-
+var tags: Array:
+	set(value):
+		__tags__was__set = true
+		tags = value
+var __tags__was__set := false
 
 # /!.  DEPRECATED
 # pet status in the store
 # Type: String
 # Required: False
-var status: String
+var status: String:
+	set(value):
+		__status__was__set = true
+		status = value
+var __status__was__set := false
 
 
 
-func normalize() -> Dictionary:
+func bee_collect_missing_properties() -> Array:
+	var bzz_missing_properties := Array()
+	if not self.__name__was__set:
+		bzz_missing_properties.append("name")
+	if not self.__photoUrls__was__set:
+		bzz_missing_properties.append("photoUrls")
+	return bzz_missing_properties
+
+
+func bee_normalize() -> Dictionary:
+	var bzz_dictionary := Dictionary()
+	if self.__id__was__set:
+		bzz_dictionary["id"] = self.id
+	if self.__category__was__set:
+		bzz_dictionary["category"] = self.category
+	if self.__name__was__set:
+		bzz_dictionary["name"] = self.name
+	if self.__photoUrls__was__set:
+		bzz_dictionary["photoUrls"] = self.photoUrls
+	if self.__tags__was__set:
+		bzz_dictionary["tags"] = self.tags
+	if self.__status__was__set:
+		bzz_dictionary["status"] = self.status
+	return bzz_dictionary
+
+
+func bee_normalize_fully() -> Dictionary:
 	return {
 		"id": self.id,
 		"category": self.category,

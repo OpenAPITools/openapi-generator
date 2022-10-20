@@ -11,23 +11,54 @@
 extends RefCounted
 class_name ApiResponse
 
+# It's convenient to know the class name, for error messages.
+# https://github.com/godotengine/godot/issues/21789
+var bee_class_name := "ApiResponse"
+
+
 # Type: int
 # Required: False
-var code: int
-
-
-# Type: String
-# Required: False
-var type: String
-
+var code: int:
+	set(value):
+		__code__was__set = true
+		code = value
+var __code__was__set := false
 
 # Type: String
 # Required: False
-var message: String
+var type: String:
+	set(value):
+		__type__was__set = true
+		type = value
+var __type__was__set := false
+
+# Type: String
+# Required: False
+var message: String:
+	set(value):
+		__message__was__set = true
+		message = value
+var __message__was__set := false
 
 
 
-func normalize() -> Dictionary:
+func bee_collect_missing_properties() -> Array:
+	var bzz_missing_properties := Array()
+	return bzz_missing_properties
+
+
+func bee_normalize() -> Dictionary:
+	var bzz_dictionary := Dictionary()
+	if self.__code__was__set:
+		bzz_dictionary["code"] = self.code
+	if self.__type__was__set:
+		bzz_dictionary["type"] = self.type
+	if self.__message__was__set:
+		bzz_dictionary["message"] = self.message
+	return bzz_dictionary
+
+
+func bee_normalize_fully() -> Dictionary:
 	return {
 		"code": self.code,
 		"type": self.type,

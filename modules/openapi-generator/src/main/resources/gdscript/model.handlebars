@@ -15,6 +15,11 @@
 {{>partials/model_statement_class_name}}
 
 
+# It's convenient to know the class name, for error messages.
+# https://github.com/godotengine/godot/issues/21789
+var bee_class_name := "{{classname}}"
+
+
 {{#each vars}}
 {{#if deprecated}}
 # /!.  DEPRECATED
@@ -27,12 +32,36 @@
 {{#if example}}
 # Example: {{{example}}}
 {{/if}}
-var {{name}}: {{dataType}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}
-
+var {{name}}: {{dataType}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
+	set(value):
+		__{{name}}__was__set = true
+		{{name}} = value
+var __{{name}}__was__set := false
 
 {{/each}}
 
-func normalize() -> Dictionary:
+
+func bee_collect_missing_properties() -> Array:
+	var bzz_missing_properties := Array()
+{{#each vars}}
+{{#if required}}
+	if not self.__{{name}}__was__set:
+		bzz_missing_properties.append("{{name}}")
+{{/if}}
+{{/each}}
+	return bzz_missing_properties
+
+
+func bee_normalize() -> Dictionary:
+	var bzz_dictionary := Dictionary()
+{{#each vars}}
+	if self.__{{name}}__was__set:
+		bzz_dictionary["{{name}}"] = self.{{name}}
+{{/each}}
+	return bzz_dictionary
+
+
+func bee_normalize_fully() -> Dictionary:
 	return {
 {{#each vars}}
 		"{{name}}": self.{{name}},

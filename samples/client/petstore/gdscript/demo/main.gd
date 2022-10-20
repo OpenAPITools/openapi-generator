@@ -43,7 +43,8 @@ func is_headless() -> bool:
 func fail(msg: String):
 	Logger.error(msg)
 	failed = true
-	gtfo(1)
+	if is_headless():
+		gtfo(1)
 
 
 func run_all_tests(on_done := Callable()):
@@ -62,12 +63,60 @@ func run_all_tests(on_done := Callable()):
 func run_test_01():
 	Logger.inform("Running test 01…")
 	
-	var monkey := Pet.new()
-	monkey.name = "Grégoire"
-	monkey.tags = ['tree', 'fur']
+	var rick := User.new()
+	rick.username = "Rick"
+	rick.password = "ytrom&"
 	
+	var user_api := UserApi.new()
+	user_api.bee_port = 8081
+	user_api.create_user(
+		rick,
+		func(result):
+			print("Created user %s." % rick.username)
+			print(result)
+			authenticate(
+				rick.username, rick.password,
+				func():
+					add_monkey()
+			)
+			,
+		func(error):
+			printerr("ERROR!")
+			fail(str(error))
+			emit_signal("test_ended")
+	)
+
+
+var api_key: String
+
+
+func authenticate(username: String, password: String, on_done: Callable):
+	var user_api := UserApi.new()
+	user_api.bee_port = 8081
+	user_api.login_user(
+		username, password,
+		func(result):
+			prints("Login Response:", result)
+			#api_key = result
+			on_done.call()
+			,
+		func(error):
+			prints("NO SNEAKERS", error)
+			fail(str(error))
+			emit_signal("test_ended")
+			,
+	)
+
+
+func add_monkey():
+	
+	var monkey := Pet.new()
+	monkey.name = "Gregoire"
+	#monkey.photoUrls = ['urlA', 'urlB']
+	#monkey.tags = ['tree', 'fur']
+
 	var pet_api := PetApi.new()
-	pet_api.bee_port = 81
+	pet_api.bee_port = 8081
 	pet_api.add_pet(
 		monkey,
 		func(result):

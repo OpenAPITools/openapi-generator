@@ -11,39 +11,85 @@
 extends RefCounted
 class_name Order
 
-# Type: float
-# Required: False
-var id: float
+# It's convenient to know the class name, for error messages.
+# https://github.com/godotengine/godot/issues/21789
+var bee_class_name := "Order"
 
 
 # Type: float
 # Required: False
-var petId: float
+var id: float:
+	set(value):
+		__id__was__set = true
+		id = value
+var __id__was__set := false
 
+# Type: float
+# Required: False
+var petId: float:
+	set(value):
+		__petId__was__set = true
+		petId = value
+var __petId__was__set := false
 
 # Type: int
 # Required: False
-var quantity: int
-
+var quantity: int:
+	set(value):
+		__quantity__was__set = true
+		quantity = value
+var __quantity__was__set := false
 
 # Type: Dictionary
 # Required: False
-var shipDate: Dictionary
-
+var shipDate: Dictionary:
+	set(value):
+		__shipDate__was__set = true
+		shipDate = value
+var __shipDate__was__set := false
 
 # Order Status
 # Type: String
 # Required: False
-var status: String
-
+var status: String:
+	set(value):
+		__status__was__set = true
+		status = value
+var __status__was__set := false
 
 # Type: bool
 # Required: False
-var complete: bool = false
+var complete: bool = false:
+	set(value):
+		__complete__was__set = true
+		complete = value
+var __complete__was__set := false
 
 
 
-func normalize() -> Dictionary:
+func bee_collect_missing_properties() -> Array:
+	var bzz_missing_properties := Array()
+	return bzz_missing_properties
+
+
+func bee_normalize() -> Dictionary:
+	var bzz_dictionary := Dictionary()
+	if self.__id__was__set:
+		bzz_dictionary["id"] = self.id
+	if self.__petId__was__set:
+		bzz_dictionary["petId"] = self.petId
+	if self.__quantity__was__set:
+		bzz_dictionary["quantity"] = self.quantity
+	if self.__shipDate__was__set:
+		bzz_dictionary["shipDate"] = self.shipDate
+	if self.__status__was__set:
+		bzz_dictionary["status"] = self.status
+	if self.__complete__was__set:
+		bzz_dictionary["complete"] = self.complete
+	return bzz_dictionary
+
+
+func bee_normalize_fully() -> Dictionary:
 	return {
 		"id": self.id,
 		"petId": self.petId,

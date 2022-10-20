@@ -208,15 +208,30 @@ func bee_do_request_text(
 	# 1. template overrides
 	# 2. CLI args
 	# 3. YAML Config file
-	# 4. class property
+	# 4. class property/method (needed anyway for auth)
 	var headers = [
 		"User-Agent: Stigmergiac/1.0 (Godot)",
 		"Accept: application/json",
 		"Content-Type: application/json",
+		"api_key: special-key",
 	]
 
 	# TODO: Handle other serialization schemes (json+ld, xml…)
-	var body_serialized = JSON.stringify(body.normalize())
+	var body_normalized = body
+	if body is Object:
+		if body.has_method('bee_collect_missing_properties'):
+			var missing_properties : Array = body.bee_collect_missing_properties()
+			if missing_properties:
+				var error := ApiError.new()
+				error.identifier = "apibee.request.body.missing_properties"
+				error.message = "%s: `%s' is missing required properties %s." % [
+					self.bee_name, body.bee_class_name, missing_properties
+				]
+				on_failure.call(error)
+				return
+		if body.has_method('bee_normalize'):
+			body_normalized = body.bee_normalize()
+	var body_serialized = JSON.stringify(body_normalized)
 
 	var path_queried := path
 	var query_string := self.bee_client.query_string_from_dict(query)
@@ -274,6 +289,11 @@ func bee_do_request_text(
 				await bee_next_loop_iteration()
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
+
+	print("REQUEST")
+	print("%s %s" % [method, path_queried])
+	print("Headers: %s" % [str(headers)])
+	prints(body_serialized)
 
 	prints("RESPONSE CODE:", response_code)
 	prints("RESPONSE HEADERS:", response_headers)
