@@ -3,6 +3,7 @@ module Api exposing
     , request
     , send
     , sendWithCustomError
+    , sendWithCustomExpect
     , task
     , map
     , withBasePath
@@ -55,13 +56,18 @@ send toMsg req =
 
 
 sendWithCustomError : (Http.Error -> e) -> (Result e a -> msg) -> Request a -> Cmd msg
-sendWithCustomError mapError toMsg (Request req) =
+sendWithCustomError mapError toMsg req =
+    sendWithCustomExpect (expectJson mapError toMsg) req
+
+
+sendWithCustomExpect : (Json.Decode.Decoder a -> Http.Expect msg) -> Request a -> Cmd msg
+sendWithCustomExpect expect (Request req) =
     Http.request
         { method = req.method
         , headers = req.headers
         , url = Url.Builder.crossOrigin req.basePath req.pathParams req.queryParams
         , body = req.body
-        , expect = expectJson mapError toMsg req.decoder
+        , expect = expect req.decoder
         , timeout = req.timeout
         , tracker = req.tracker
         }
