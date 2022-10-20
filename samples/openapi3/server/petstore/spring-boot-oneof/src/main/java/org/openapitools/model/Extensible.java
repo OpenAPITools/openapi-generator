@@ -21,13 +21,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Extensible {
 
-  @JsonProperty("@schemaLocation")
   private String atSchemaLocation;
 
-  @JsonProperty("@baseType")
   private String atBaseType;
 
-  @JsonProperty("@type")
   private String atType;
 
   public Extensible atSchemaLocation(String atSchemaLocation) {
@@ -39,6 +36,7 @@ public class Extensible {
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
   */
+  @JsonProperty("@schemaLocation")
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
   public String getAtSchemaLocation() {
@@ -58,6 +56,7 @@ public class Extensible {
    * When sub-classing, this defines the super-class
    * @return atBaseType
   */
+  @JsonProperty("@baseType")
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
   public String getAtBaseType() {
@@ -77,6 +76,7 @@ public class Extensible {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
   */
+  @JsonProperty("@type")
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
   public String getAtType() {

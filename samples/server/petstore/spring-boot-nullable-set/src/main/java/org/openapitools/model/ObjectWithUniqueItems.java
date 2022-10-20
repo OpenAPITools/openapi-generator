@@ -31,27 +31,21 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ObjectWithUniqueItems {
 
-  @JsonProperty("nullSet")
   @Valid
   private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
 
-  @JsonProperty("notNullSet")
   @Valid
   private Set<String> notNullSet = null;
 
-  @JsonProperty("nullList")
   @Valid
   private JsonNullable<List<String>> nullList = JsonNullable.undefined();
 
-  @JsonProperty("notNullList")
   @Valid
   private List<String> notNullList = null;
 
-  @JsonProperty("notNullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime notNullDateField;
 
-  @JsonProperty("nullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime nullDateField;
 
@@ -72,6 +66,7 @@ public class ObjectWithUniqueItems {
    * Get nullSet
    * @return nullSet
   */
+  @JsonProperty("nullSet")
   
   @Schema(name = "nullSet", required = false)
   public JsonNullable<Set<String>> getNullSet() {
@@ -99,6 +94,7 @@ public class ObjectWithUniqueItems {
    * Get notNullSet
    * @return notNullSet
   */
+  @JsonProperty("notNullSet")
   
   @Schema(name = "notNullSet", required = false)
   public Set<String> getNotNullSet() {
@@ -127,6 +123,7 @@ public class ObjectWithUniqueItems {
    * Get nullList
    * @return nullList
   */
+  @JsonProperty("nullList")
   
   @Schema(name = "nullList", required = false)
   public JsonNullable<List<String>> getNullList() {
@@ -154,6 +151,7 @@ public class ObjectWithUniqueItems {
    * Get notNullList
    * @return notNullList
   */
+  @JsonProperty("notNullList")
   
   @Schema(name = "notNullList", required = false)
   public List<String> getNotNullList() {
@@ -173,6 +171,7 @@ public class ObjectWithUniqueItems {
    * Get notNullDateField
    * @return notNullDateField
   */
+  @JsonProperty("notNullDateField")
   @Valid 
   @Schema(name = "notNullDateField", required = false)
   public OffsetDateTime getNotNullDateField() {
@@ -192,6 +191,7 @@ public class ObjectWithUniqueItems {
    * Get nullDateField
    * @return nullDateField
   */
+  @JsonProperty("nullDateField")
   @Valid 
   @Schema(name = "nullDateField", required = false)
   public OffsetDateTime getNullDateField() {

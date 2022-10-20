@@ -25,16 +25,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("petId")
   private Long petId;
 
-  @JsonProperty("quantity")
   private Integer quantity;
 
-  @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
@@ -75,10 +71,8 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  @JsonProperty("complete")
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -90,6 +84,7 @@ public class Order {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   @ApiModelProperty(value = "")
   public Long getId() {
@@ -109,6 +104,7 @@ public class Order {
    * Get petId
    * @return petId
   */
+  @JsonProperty("petId")
   
   @ApiModelProperty(value = "")
   public Long getPetId() {
@@ -128,6 +124,7 @@ public class Order {
    * Get quantity
    * @return quantity
   */
+  @JsonProperty("quantity")
   
   @ApiModelProperty(value = "")
   public Integer getQuantity() {
@@ -147,6 +144,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   */
+  @JsonProperty("shipDate")
   @Valid 
   @ApiModelProperty(value = "")
   public OffsetDateTime getShipDate() {
@@ -166,6 +164,7 @@ public class Order {
    * Order Status
    * @return status
   */
+  @JsonProperty("status")
   
   @ApiModelProperty(value = "Order Status")
   public StatusEnum getStatus() {
@@ -185,6 +184,7 @@ public class Order {
    * Get complete
    * @return complete
   */
+  @JsonProperty("complete")
   
   @ApiModelProperty(value = "")
   public Boolean getComplete() {

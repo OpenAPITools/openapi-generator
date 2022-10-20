@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NumberOnly {
 
-  @JsonProperty("JustNumber")
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -35,6 +34,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   */
+  @JsonProperty("JustNumber")
   @Valid 
   @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {

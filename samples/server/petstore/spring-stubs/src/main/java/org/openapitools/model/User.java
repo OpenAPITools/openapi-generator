@@ -23,28 +23,20 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -56,6 +48,7 @@ public class User {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   @ApiModelProperty(value = "")
   public Long getId() {
@@ -75,6 +68,7 @@ public class User {
    * Get username
    * @return username
   */
+  @JsonProperty("username")
   
   @ApiModelProperty(value = "")
   public String getUsername() {
@@ -94,6 +88,7 @@ public class User {
    * Get firstName
    * @return firstName
   */
+  @JsonProperty("firstName")
   
   @ApiModelProperty(value = "")
   public String getFirstName() {
@@ -113,6 +108,7 @@ public class User {
    * Get lastName
    * @return lastName
   */
+  @JsonProperty("lastName")
   
   @ApiModelProperty(value = "")
   public String getLastName() {
@@ -132,6 +128,7 @@ public class User {
    * Get email
    * @return email
   */
+  @JsonProperty("email")
   
   @ApiModelProperty(value = "")
   public String getEmail() {
@@ -151,6 +148,7 @@ public class User {
    * Get password
    * @return password
   */
+  @JsonProperty("password")
   
   @ApiModelProperty(value = "")
   public String getPassword() {
@@ -170,6 +168,7 @@ public class User {
    * Get phone
    * @return phone
   */
+  @JsonProperty("phone")
   
   @ApiModelProperty(value = "")
   public String getPhone() {
@@ -189,6 +188,7 @@ public class User {
    * User Status
    * @return userStatus
   */
+  @JsonProperty("userStatus")
   
   @ApiModelProperty(value = "User Status")
   public Integer getUserStatus() {

@@ -44,19 +44,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Entity {
 
-  @JsonProperty("href")
   private String href;
 
-  @JsonProperty("id")
   private String id;
 
-  @JsonProperty("@schemaLocation")
   private String atSchemaLocation;
 
-  @JsonProperty("@baseType")
   private String atBaseType;
 
-  @JsonProperty("@type")
   private String atType;
 
   public Entity href(String href) {
@@ -68,6 +63,7 @@ public class Entity {
    * Hyperlink reference
    * @return href
   */
+  @JsonProperty("href")
   
   @Schema(name = "href", description = "Hyperlink reference", required = false)
   public String getHref() {
@@ -87,6 +83,7 @@ public class Entity {
    * unique identifier
    * @return id
   */
+  @JsonProperty("id")
   
   @Schema(name = "id", description = "unique identifier", required = false)
   public String getId() {
@@ -106,6 +103,7 @@ public class Entity {
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
   */
+  @JsonProperty("@schemaLocation")
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
   public String getAtSchemaLocation() {
@@ -125,6 +123,7 @@ public class Entity {
    * When sub-classing, this defines the super-class
    * @return atBaseType
   */
+  @JsonProperty("@baseType")
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
   public String getAtBaseType() {
@@ -144,6 +143,7 @@ public class Entity {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
   */
+  @JsonProperty("@type")
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
   public String getAtType() {

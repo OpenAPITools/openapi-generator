@@ -26,10 +26,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Foo extends Entity implements FooRefOrValue {
 
-  @JsonProperty("fooPropA")
   private String fooPropA;
 
-  @JsonProperty("fooPropB")
   private String fooPropB;
 
   public Foo fooPropA(String fooPropA) {
@@ -41,6 +39,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropA
    * @return fooPropA
   */
+  @JsonProperty("fooPropA")
   
   @Schema(name = "fooPropA", required = false)
   public String getFooPropA() {
@@ -60,6 +59,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropB
    * @return fooPropB
   */
+  @JsonProperty("fooPropB")
   
   @Schema(name = "fooPropB", required = false)
   public String getFooPropB() {

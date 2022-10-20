@@ -27,7 +27,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PizzaSpeziale extends Pizza {
 
-  @JsonProperty("toppings")
   private String toppings;
 
   public PizzaSpeziale toppings(String toppings) {
@@ -39,6 +38,7 @@ public class PizzaSpeziale extends Pizza {
    * Get toppings
    * @return toppings
   */
+  @JsonProperty("toppings")
   
   @Schema(name = "toppings", required = false)
   public String getToppings() {

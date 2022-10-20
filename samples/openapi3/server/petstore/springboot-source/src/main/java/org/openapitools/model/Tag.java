@@ -20,10 +20,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name;
 
   public Tag id(Long id) {
@@ -35,6 +33,7 @@ public class Tag {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   public Long getId() {
     return id;
@@ -53,6 +52,7 @@ public class Tag {
    * Get name
    * @return name
   */
+  @JsonProperty("name")
   
   public String getName() {
     return name;

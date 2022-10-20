@@ -22,10 +22,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name;
 
   public Category id(Long id) {
@@ -37,6 +35,7 @@ public class Category {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
   public Long getId() {
@@ -56,6 +55,7 @@ public class Category {
    * Get name
    * @return name
   */
+  @JsonProperty("name")
   
   @Schema(name = "name", required = false)
   public String getName() {

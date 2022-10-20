@@ -22,13 +22,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 
-  @JsonProperty("code")
   private Integer code;
 
-  @JsonProperty("type")
   private String type;
 
-  @JsonProperty("message")
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -40,6 +37,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   */
+  @JsonProperty("code")
   
   @Schema(name = "code", required = false)
   public Integer getCode() {
@@ -59,6 +57,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   */
+  @JsonProperty("type")
   
   @Schema(name = "type", required = false)
   public String getType() {
@@ -78,6 +77,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   */
+  @JsonProperty("message")
   
   @Schema(name = "message", required = false)
   public String getMessage() {

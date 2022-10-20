@@ -62,7 +62,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string")
   private EnumStringEnum enumString;
 
   /**
@@ -102,7 +101,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -140,7 +138,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -178,10 +175,8 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -193,6 +188,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   */
+  @JsonProperty("enum_string")
   
   @ApiModelProperty(value = "")
   public EnumStringEnum getEnumString() {
@@ -212,6 +208,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   */
+  @JsonProperty("enum_string_required")
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -231,6 +228,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   */
+  @JsonProperty("enum_integer")
   
   @ApiModelProperty(value = "")
   public EnumIntegerEnum getEnumInteger() {
@@ -250,6 +248,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   */
+  @JsonProperty("enum_number")
   
   @ApiModelProperty(value = "")
   public EnumNumberEnum getEnumNumber() {
@@ -269,6 +268,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   */
+  @JsonProperty("outerEnum")
   @Valid 
   @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {

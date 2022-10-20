@@ -61,7 +61,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string")
   private EnumStringEnum enumString;
 
   /**
@@ -101,7 +100,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -139,7 +137,6 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -177,10 +174,8 @@ public class EnumTest {
     }
   }
 
-  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -192,6 +187,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   */
+  @JsonProperty("enum_string")
   
   @Schema(name = "enum_string", required = false)
   public EnumStringEnum getEnumString() {
@@ -211,6 +207,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   */
+  @JsonProperty("enum_string_required")
   @NotNull 
   @Schema(name = "enum_string_required", required = true)
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -230,6 +227,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   */
+  @JsonProperty("enum_integer")
   
   @Schema(name = "enum_integer", required = false)
   public EnumIntegerEnum getEnumInteger() {
@@ -249,6 +247,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   */
+  @JsonProperty("enum_number")
   
   @Schema(name = "enum_number", required = false)
   public EnumNumberEnum getEnumNumber() {
@@ -268,6 +267,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   */
+  @JsonProperty("outerEnum")
   @Valid 
   @Schema(name = "outerEnum", required = false)
   public OuterEnum getOuterEnum() {

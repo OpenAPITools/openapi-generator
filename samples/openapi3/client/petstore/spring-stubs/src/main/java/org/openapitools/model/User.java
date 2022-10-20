@@ -22,28 +22,20 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -55,6 +47,7 @@ public class User {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
   public Long getId() {
@@ -74,6 +67,7 @@ public class User {
    * Get username
    * @return username
   */
+  @JsonProperty("username")
   
   @Schema(name = "username", required = false)
   public String getUsername() {
@@ -93,6 +87,7 @@ public class User {
    * Get firstName
    * @return firstName
   */
+  @JsonProperty("firstName")
   
   @Schema(name = "firstName", required = false)
   public String getFirstName() {
@@ -112,6 +107,7 @@ public class User {
    * Get lastName
    * @return lastName
   */
+  @JsonProperty("lastName")
   
   @Schema(name = "lastName", required = false)
   public String getLastName() {
@@ -131,6 +127,7 @@ public class User {
    * Get email
    * @return email
   */
+  @JsonProperty("email")
   
   @Schema(name = "email", required = false)
   public String getEmail() {
@@ -150,6 +147,7 @@ public class User {
    * Get password
    * @return password
   */
+  @JsonProperty("password")
   
   @Schema(name = "password", required = false)
   public String getPassword() {
@@ -169,6 +167,7 @@ public class User {
    * Get phone
    * @return phone
   */
+  @JsonProperty("phone")
   
   @Schema(name = "phone", required = false)
   public String getPhone() {
@@ -188,6 +187,7 @@ public class User {
    * User Status
    * @return userStatus
   */
+  @JsonProperty("userStatus")
   
   @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {

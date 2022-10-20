@@ -25,45 +25,34 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClass {
 
-  @JsonProperty("map_string")
   @Valid
   private Map<String, String> mapString = null;
 
-  @JsonProperty("map_number")
   @Valid
   private Map<String, BigDecimal> mapNumber = null;
 
-  @JsonProperty("map_integer")
   @Valid
   private Map<String, Integer> mapInteger = null;
 
-  @JsonProperty("map_boolean")
   @Valid
   private Map<String, Boolean> mapBoolean = null;
 
-  @JsonProperty("map_array_integer")
   @Valid
   private Map<String, List<Integer>> mapArrayInteger = null;
 
-  @JsonProperty("map_array_anytype")
   @Valid
   private Map<String, List<Object>> mapArrayAnytype = null;
 
-  @JsonProperty("map_map_string")
   @Valid
   private Map<String, Map<String, String>> mapMapString = null;
 
-  @JsonProperty("map_map_anytype")
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @JsonProperty("anytype_1")
   private Object anytype1;
 
-  @JsonProperty("anytype_2")
   private Object anytype2;
 
-  @JsonProperty("anytype_3")
   private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -83,6 +72,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   */
+  @JsonProperty("map_string")
   
   @ApiModelProperty(value = "")
   public Map<String, String> getMapString() {
@@ -110,6 +100,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   */
+  @JsonProperty("map_number")
   @Valid 
   @ApiModelProperty(value = "")
   public Map<String, BigDecimal> getMapNumber() {
@@ -137,6 +128,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   */
+  @JsonProperty("map_integer")
   
   @ApiModelProperty(value = "")
   public Map<String, Integer> getMapInteger() {
@@ -164,6 +156,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   */
+  @JsonProperty("map_boolean")
   
   @ApiModelProperty(value = "")
   public Map<String, Boolean> getMapBoolean() {
@@ -191,6 +184,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   */
+  @JsonProperty("map_array_integer")
   @Valid 
   @ApiModelProperty(value = "")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -218,6 +212,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   */
+  @JsonProperty("map_array_anytype")
   @Valid 
   @ApiModelProperty(value = "")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -245,6 +240,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   */
+  @JsonProperty("map_map_string")
   @Valid 
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -272,6 +268,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   */
+  @JsonProperty("map_map_anytype")
   @Valid 
   @ApiModelProperty(value = "")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -291,6 +288,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   */
+  @JsonProperty("anytype_1")
   
   @ApiModelProperty(value = "")
   public Object getAnytype1() {
@@ -310,6 +308,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   */
+  @JsonProperty("anytype_2")
   
   @ApiModelProperty(value = "")
   public Object getAnytype2() {
@@ -329,6 +328,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   */
+  @JsonProperty("anytype_3")
   
   @ApiModelProperty(value = "")
   public Object getAnytype3() {

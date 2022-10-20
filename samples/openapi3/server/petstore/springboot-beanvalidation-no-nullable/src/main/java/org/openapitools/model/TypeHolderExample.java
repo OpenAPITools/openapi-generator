@@ -23,22 +23,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample {
 
-  @JsonProperty("string_item")
   private String stringItem;
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("float_item")
   private Float floatItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
@@ -51,6 +45,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   */
+  @JsonProperty("string_item")
   @NotNull 
   @Schema(name = "string_item", example = "what", required = true)
   public String getStringItem() {
@@ -70,6 +65,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   */
+  @JsonProperty("number_item")
   @NotNull @Valid 
   @Schema(name = "number_item", example = "1.234", required = true)
   public BigDecimal getNumberItem() {
@@ -89,6 +85,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   */
+  @JsonProperty("float_item")
   @NotNull 
   @Schema(name = "float_item", example = "1.234", required = true)
   public Float getFloatItem() {
@@ -108,6 +105,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   */
+  @JsonProperty("integer_item")
   @NotNull 
   @Schema(name = "integer_item", example = "-2", required = true)
   public Integer getIntegerItem() {
@@ -127,6 +125,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   */
+  @JsonProperty("bool_item")
   @NotNull 
   @Schema(name = "bool_item", example = "true", required = true)
   public Boolean getBoolItem() {
@@ -154,6 +153,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   */
+  @JsonProperty("array_item")
   @NotNull 
   @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
   public List<Integer> getArrayItem() {

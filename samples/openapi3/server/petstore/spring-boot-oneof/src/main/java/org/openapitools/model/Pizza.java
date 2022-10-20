@@ -36,7 +36,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pizza extends Entity {
 
-  @JsonProperty("pizzaSize")
   private BigDecimal pizzaSize;
 
   public Pizza pizzaSize(BigDecimal pizzaSize) {
@@ -48,6 +47,7 @@ public class Pizza extends Entity {
    * Get pizzaSize
    * @return pizzaSize
   */
+  @JsonProperty("pizzaSize")
   @Valid 
   @Schema(name = "pizzaSize", required = false)
   public BigDecimal getPizzaSize() {

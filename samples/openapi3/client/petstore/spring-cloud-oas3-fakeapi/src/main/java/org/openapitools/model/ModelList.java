@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList {
 
-  @JsonProperty("123-list")
   private String _123list;
 
   public ModelList _123list(String _123list) {
@@ -35,6 +34,7 @@ public class ModelList {
    * Get _123list
    * @return _123list
   */
+  @JsonProperty("123-list")
   
   @Schema(name = "123-list", required = false)
   public String get123list() {

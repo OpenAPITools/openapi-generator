@@ -21,13 +21,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterComposite {
 
-  @JsonProperty("my_number")
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
   private String myString;
 
-  @JsonProperty("my_boolean")
   private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -39,6 +36,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   */
+  @JsonProperty("my_number")
   @Valid 
   @Schema(name = "my_number", required = false)
   public BigDecimal getMyNumber() {
@@ -58,6 +56,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
   */
+  @JsonProperty("my_string")
   
   @Schema(name = "my_string", required = false)
   public String getMyString() {
@@ -77,6 +76,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   */
+  @JsonProperty("my_boolean")
   
   @Schema(name = "my_boolean", required = false)
   public Boolean getMyBoolean() {

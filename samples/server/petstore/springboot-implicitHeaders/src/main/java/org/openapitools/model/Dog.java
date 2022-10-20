@@ -27,7 +27,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  @JsonProperty("breed")
   private String breed;
 
   public Dog breed(String breed) {
@@ -39,6 +38,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   */
+  @JsonProperty("breed")
   
   @ApiModelProperty(value = "")
   public String getBreed() {

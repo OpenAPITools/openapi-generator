@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class File {
 
-  @JsonProperty("sourceURI")
   private String sourceURI;
 
   public File sourceURI(String sourceURI) {
@@ -35,6 +34,7 @@ public class File {
    * Test capitalization
    * @return sourceURI
   */
+  @JsonProperty("sourceURI")
   
   @ApiModelProperty(value = "Test capitalization")
   public String getSourceURI() {

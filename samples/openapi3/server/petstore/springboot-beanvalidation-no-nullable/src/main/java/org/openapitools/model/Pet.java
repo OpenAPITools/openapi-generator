@@ -28,20 +28,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
   private List<Tag> tags = null;
 
@@ -82,7 +77,6 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
   public Pet id(Long id) {
@@ -94,6 +88,7 @@ public class Pet {
    * Get id
    * @return id
   */
+  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
   public Long getId() {
@@ -113,6 +108,7 @@ public class Pet {
    * Get category
    * @return category
   */
+  @JsonProperty("category")
   @Valid 
   @Schema(name = "category", required = false)
   public Category getCategory() {
@@ -132,6 +128,7 @@ public class Pet {
    * Get name
    * @return name
   */
+  @JsonProperty("name")
   @NotNull 
   @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
@@ -159,6 +156,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   */
+  @JsonProperty("photoUrls")
   @NotNull 
   @Schema(name = "photoUrls", required = true)
   public Set<String> getPhotoUrls() {
@@ -187,6 +185,7 @@ public class Pet {
    * Get tags
    * @return tags
   */
+  @JsonProperty("tags")
   @Valid 
   @Schema(name = "tags", required = false)
   public List<Tag> getTags() {
@@ -206,6 +205,7 @@ public class Pet {
    * pet status in the store
    * @return status
   */
+  @JsonProperty("status")
   
   @Schema(name = "status", description = "pet status in the store", required = false)
   public StatusEnum getStatus() {

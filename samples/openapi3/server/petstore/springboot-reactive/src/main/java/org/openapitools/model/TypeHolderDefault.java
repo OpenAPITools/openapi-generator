@@ -24,19 +24,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefault {
 
-  @JsonProperty("string_item")
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
@@ -49,6 +44,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   */
+  @JsonProperty("string_item")
   @NotNull 
   @Schema(name = "string_item", required = true)
   public String getStringItem() {
@@ -68,6 +64,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   */
+  @JsonProperty("number_item")
   @NotNull @Valid 
   @Schema(name = "number_item", required = true)
   public BigDecimal getNumberItem() {
@@ -87,6 +84,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   */
+  @JsonProperty("integer_item")
   @NotNull 
   @Schema(name = "integer_item", required = true)
   public Integer getIntegerItem() {
@@ -106,6 +104,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   */
+  @JsonProperty("bool_item")
   @NotNull 
   @Schema(name = "bool_item", required = true)
   public Boolean getBoolItem() {
@@ -130,6 +129,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   */
+  @JsonProperty("array_item")
   @NotNull 
   @Schema(name = "array_item", required = true)
   public List<Integer> getArrayItem() {

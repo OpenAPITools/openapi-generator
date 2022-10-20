@@ -35,7 +35,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
@@ -47,6 +46,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   */
+  @JsonProperty("declawed")
   
   @Schema(name = "declawed", required = false)
   public Boolean getDeclawed() {

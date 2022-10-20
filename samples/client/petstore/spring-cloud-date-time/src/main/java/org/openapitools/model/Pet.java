@@ -26,23 +26,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("@type")
   private String atType = "Pet";
 
-  @JsonProperty("age")
   private Integer age = 4;
 
-  @JsonProperty("happy")
   private Boolean happy = true;
 
-  @JsonProperty("price")
   private BigDecimal price = new BigDecimal("32000000000");
 
-  @JsonProperty("lastFeed")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
-  @JsonProperty("dateOfBirth")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
@@ -55,6 +49,7 @@ public class Pet {
    * Get atType
    * @return atType
   */
+  @JsonProperty("@type")
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   public String getAtType() {
@@ -74,6 +69,7 @@ public class Pet {
    * Get age
    * @return age
   */
+  @JsonProperty("age")
   
   @ApiModelProperty(value = "")
   public Integer getAge() {
@@ -93,6 +89,7 @@ public class Pet {
    * Get happy
    * @return happy
   */
+  @JsonProperty("happy")
   
   @ApiModelProperty(value = "")
   public Boolean getHappy() {
@@ -112,6 +109,7 @@ public class Pet {
    * Get price
    * @return price
   */
+  @JsonProperty("price")
   @Valid 
   @ApiModelProperty(value = "")
   public BigDecimal getPrice() {
@@ -131,6 +129,7 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
   */
+  @JsonProperty("lastFeed")
   @Valid 
   @ApiModelProperty(value = "")
   public OffsetDateTime getLastFeed() {
@@ -150,6 +149,7 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
   */
+  @JsonProperty("dateOfBirth")
   @Valid 
   @ApiModelProperty(value = "")
   public LocalDate getDateOfBirth() {

@@ -25,22 +25,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample {
 
-  @JsonProperty("string_item")
   private String stringItem;
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("float_item")
   private Float floatItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
@@ -53,6 +47,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   */
+  @JsonProperty("string_item")
   @NotNull 
   @ApiModelProperty(example = "what", required = true, value = "")
   public String getStringItem() {
@@ -72,6 +67,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   */
+  @JsonProperty("number_item")
   @NotNull @Valid 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   public BigDecimal getNumberItem() {
@@ -91,6 +87,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   */
+  @JsonProperty("float_item")
   @NotNull 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   public Float getFloatItem() {
@@ -110,6 +107,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   */
+  @JsonProperty("integer_item")
   @NotNull 
   @ApiModelProperty(example = "-2", required = true, value = "")
   public Integer getIntegerItem() {
@@ -129,6 +127,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   */
+  @JsonProperty("bool_item")
   @NotNull 
   @ApiModelProperty(example = "true", required = true, value = "")
   public Boolean getBoolItem() {
@@ -153,6 +152,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   */
+  @JsonProperty("array_item")
   @NotNull 
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   public List<Integer> getArrayItem() {

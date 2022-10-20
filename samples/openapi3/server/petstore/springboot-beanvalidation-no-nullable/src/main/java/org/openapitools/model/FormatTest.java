@@ -28,48 +28,34 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest {
 
-  @JsonProperty("integer")
   private Integer integer;
 
-  @JsonProperty("int32")
   private Integer int32;
 
-  @JsonProperty("int64")
   private Long int64;
 
-  @JsonProperty("number")
   private BigDecimal number;
 
-  @JsonProperty("float")
   private Float _float;
 
-  @JsonProperty("double")
   private Double _double;
 
-  @JsonProperty("string")
   private String string;
 
-  @JsonProperty("byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
   private org.springframework.core.io.Resource binary;
 
-  @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
@@ -83,6 +69,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   */
+  @JsonProperty("integer")
   @Min(10) @Max(100) 
   @Schema(name = "integer", required = false)
   public Integer getInteger() {
@@ -104,6 +91,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   */
+  @JsonProperty("int32")
   @Min(20) @Max(200) 
   @Schema(name = "int32", required = false)
   public Integer getInt32() {
@@ -123,6 +111,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   */
+  @JsonProperty("int64")
   
   @Schema(name = "int64", required = false)
   public Long getInt64() {
@@ -144,6 +133,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   */
+  @JsonProperty("number")
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @Schema(name = "number", required = true)
   public BigDecimal getNumber() {
@@ -165,6 +155,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   */
+  @JsonProperty("float")
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @Schema(name = "float", required = false)
   public Float getFloat() {
@@ -186,6 +177,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   */
+  @JsonProperty("double")
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @Schema(name = "double", required = false)
   public Double getDouble() {
@@ -205,6 +197,7 @@ public class FormatTest {
    * Get string
    * @return string
   */
+  @JsonProperty("string")
   @Pattern(regexp = "/[a-z]/i") 
   @Schema(name = "string", required = false)
   public String getString() {
@@ -224,6 +217,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   */
+  @JsonProperty("byte")
   @NotNull 
   @Schema(name = "byte", required = true)
   public byte[] getByte() {
@@ -243,6 +237,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   */
+  @JsonProperty("binary")
   @Valid 
   @Schema(name = "binary", required = false)
   public org.springframework.core.io.Resource getBinary() {
@@ -262,6 +257,7 @@ public class FormatTest {
    * Get date
    * @return date
   */
+  @JsonProperty("date")
   @NotNull @Valid 
   @Schema(name = "date", required = true)
   public LocalDate getDate() {
@@ -281,6 +277,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   */
+  @JsonProperty("dateTime")
   @Valid 
   @Schema(name = "dateTime", required = false)
   public OffsetDateTime getDateTime() {
@@ -300,6 +297,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   */
+  @JsonProperty("uuid")
   @Valid 
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", required = false)
   public UUID getUuid() {
@@ -319,6 +317,7 @@ public class FormatTest {
    * Get password
    * @return password
   */
+  @JsonProperty("password")
   @NotNull @Size(min = 10, max = 64) 
   @Schema(name = "password", required = true)
   public String getPassword() {
@@ -338,6 +337,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
   */
+  @JsonProperty("BigDecimal")
   @Valid 
   @Schema(name = "BigDecimal", required = false)
   public BigDecimal getBigDecimal() {

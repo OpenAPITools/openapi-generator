@@ -63,7 +63,6 @@ public class BigCatAllOf {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
   public BigCatAllOf kind(KindEnum kind) {
@@ -75,6 +74,7 @@ public class BigCatAllOf {
    * Get kind
    * @return kind
   */
+  @JsonProperty("kind")
   
   @ApiModelProperty(value = "")
   public KindEnum getKind() {
