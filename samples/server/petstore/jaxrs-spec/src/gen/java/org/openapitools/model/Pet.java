@@ -10,8 +10,10 @@ import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
@@ -23,7 +25,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class Pet  implements Serializable {
   private @Valid Long id;
   private @Valid Category category;

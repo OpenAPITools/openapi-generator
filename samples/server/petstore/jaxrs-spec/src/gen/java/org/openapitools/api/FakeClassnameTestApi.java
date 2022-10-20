@@ -2,20 +2,29 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
+
+
 
 import io.swagger.annotations.*;
+
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
+
 
 @Path("/fake_classname_test")
 @Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class FakeClassnameTestApi {
 
     @PATCH

@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
@@ -18,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class EnumArrays  implements Serializable {
   public enum JustSymbolEnum {
 

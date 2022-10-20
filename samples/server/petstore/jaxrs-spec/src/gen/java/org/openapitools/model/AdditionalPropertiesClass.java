@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
@@ -20,7 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, String> mapString = null;
   private @Valid Map<String, BigDecimal> mapNumber = null;
