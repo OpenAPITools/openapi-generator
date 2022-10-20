@@ -48,8 +48,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         apiPackage = "apis";
         modelPackage = "models";
 
-        supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", "ApiBee.gd"));
-        supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", "ApiError.gd"));
+        supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", getApiNamePrefix() + "ApiBee.gd"));
+        supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", getApiNamePrefix() + "ApiError.gd"));
         supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
 
 
@@ -165,6 +165,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         // FIXME: Missing Nodes and other Objects globally available (RefCounted, Sprite2D, etc.)
         // FIXME: Missing primitive types (Rect…)
         return Arrays.asList(
+                // Local properties used in Model classes
+                "bee_class_name",
                 // Local method names used in base API class
                 "bee_connect_client_if_needed", "bee_request", "bee_request_text", "bee_do_request_text",
                 "bee_convert_http_method", "bee_urlize_path_param", "bee_escape_path_param",

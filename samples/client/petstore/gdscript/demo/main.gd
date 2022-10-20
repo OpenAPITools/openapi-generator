@@ -112,7 +112,7 @@ func add_monkey():
 	
 	var monkey := Pet.new()
 	monkey.name = "Gregoire"
-	#monkey.photoUrls = ['urlA', 'urlB']
+	monkey.photoUrls = ['urlA', 'urlB']
 	#monkey.tags = ['tree', 'fur']
 
 	var pet_api := PetApi.new()

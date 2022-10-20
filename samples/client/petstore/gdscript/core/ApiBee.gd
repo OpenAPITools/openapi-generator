@@ -1,5 +1,7 @@
 extends RefCounted
-class_name ApiBee  # We name it for now (KISS), but eventually I'd like to remove this.
+# We class_name it for now (KISS), but eventually I'd like to remove this.
+# Not trivial, though, because that means preloads and absolute paths.
+class_name ApiBee
 
 
 # Base class for all generated API endpoints.

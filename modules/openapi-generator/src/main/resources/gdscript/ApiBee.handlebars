@@ -1,5 +1,7 @@
 extends RefCounted
-class_name ApiBee  # We name it for now (KISS), but eventually I'd like to remove this.
+# We class_name it for now (KISS), but eventually I'd like to remove this.
+# Not trivial, though, because that means preloads and absolute paths.
+class_name {{>partials/api_base_class_name}}
 
 
 # Base class for all generated API endpoints.
@@ -71,7 +73,7 @@ func bee_next_loop_iteration():
 
 func bee_connect_client_if_needed(
 	on_success: Callable,  # func()
-	on_failure: Callable,  # func(error: ApiError)
+	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 	#finally: Callable,
 ):
 	if (
@@ -92,7 +94,7 @@ func bee_connect_client_if_needed(
 		self.__bee_ssl_enabled, self.__bee_verify_host
 	)
 	if connecting != OK:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = connecting
 		error.identifier = "apibee.connect_to_host.failure"
 		error.message = "%s: failed to connect to `%s' port %d with error %d" % [
@@ -114,7 +116,7 @@ func bee_connect_client_if_needed(
 		await bee_next_loop_iteration()
 
 	if self.bee_client.get_status() != HTTPClient.STATUS_CONNECTED:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = connecting
 		error.identifier = "apibee.connect_to_host.wrong_status"
 		error.message = "%s: failed to connect to `%s' port %d, with client status %d" % [
@@ -133,7 +135,7 @@ func bee_request(
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(response: Variant, responseCode: int, responseHeaders: Dictionary)
-	on_failure: Callable,  # func(error: ApiError)
+	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 ):
 
 	bee_request_text(
@@ -147,7 +149,7 @@ func bee_request(
 				var parser := JSON.new()
 				var parsing := parser.parse(responseText)
 				if OK != parsing:
-					var error := ApiError.new()
+					var error := {{>partials/api_error_class_name}}.new()
 					error.internal_code = parsing
 					error.identifier = "apibee.deserialize.cannot_parse_json"
 					error.message = "%s: failed to parse JSON at line %d.\n%s" % [
@@ -158,7 +160,7 @@ func bee_request(
 				deserializedResponse = parser.data
 				denormalizedResponse = deserializedResponse  # FIXME
 			else:
-				var error := ApiError.new()
+				var error := {{>partials/api_error_class_name}}.new()
 				error.internal_code = ERR_INVALID_DATA
 				error.identifier = "apibee.deserialize.mime_type_unsupported"
 				error.message = "%s: mime type `%s' is not supported (yet)" % [
@@ -182,7 +184,7 @@ func bee_request_text(
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
-	on_failure: Callable,  # func(error: ApiError)
+	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 ):
 	bee_connect_client_if_needed(
 		func():
@@ -201,7 +203,7 @@ func bee_do_request_text(
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
-	on_failure: Callable,  # func(error: ApiError)
+	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 ):
 
 	# TODO: How can we help users define more / override these?
@@ -222,7 +224,7 @@ func bee_do_request_text(
 		if body.has_method('bee_collect_missing_properties'):
 			var missing_properties : Array = body.bee_collect_missing_properties()
 			if missing_properties:
-				var error := ApiError.new()
+				var error := {{>partials/api_error_class_name}}.new()
 				error.identifier = "apibee.request.body.missing_properties"
 				error.message = "%s: `%s' is missing required properties %s." % [
 					self.bee_name, body.bee_class_name, missing_properties
@@ -240,7 +242,7 @@ func bee_do_request_text(
 
 	var requesting := self.bee_client.request(method, path_queried, headers, body_serialized)
 	if requesting != OK:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = requesting
 		error.identifier = "apibee.request.failure"
 		error.message = "%s: failed to request to path `%s'." % [
@@ -259,7 +261,7 @@ func bee_do_request_text(
 #		if OS.has_feature("web") or async:
 
 	if not self.bee_client.has_response():
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.request.no_response"
 		error.message = "%s: request to `%s' yielded no response whatsoever." % [
 			self.bee_name, path
@@ -310,7 +312,7 @@ func bee_do_request_text(
 		response_text = response_bytes.get_string_from_ascii()
 
 	if response_code >= 500:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = ERR_PRINTER_ON_FIRE
 		error.identifier = "apibee.response.5xx"
 		error.message = "%s: request to `%s' made the server hiccup with a %d." % [
@@ -322,7 +324,7 @@ func bee_do_request_text(
 		on_failure.call(error)
 		return
 	elif response_code >= 400:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.response.4xx"
 		error.message = "%s: request to `%s' was denied with a %d." % [
 			self.bee_name, path, response_code
@@ -333,7 +335,7 @@ func bee_do_request_text(
 		on_failure.call(error)
 		return
 	elif response_code >= 300:
-		var error := ApiError.new()
+		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.response.3xx"
 		error.message = "%s: request to `%s' was redirected with a %d.  We do not support redirects in that client yet." % [
 			self.bee_name, path, response_code
