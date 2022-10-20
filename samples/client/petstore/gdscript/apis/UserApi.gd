@@ -2,9 +2,9 @@
 # For more information on how to customize templates, see:
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
-
 # API UserApi
 extends ApiBee
+class_name UserApi
 
 # Operation createUser → POST /user
 # Create user
@@ -14,8 +14,8 @@ func create_user(
 	# user: User
 	# Created user object
 	user: User,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -23,7 +23,8 @@ func create_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user"
+	var bzz_path := "/v2/user"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -53,8 +54,8 @@ func create_users_with_array_input(
 	# user: Array
 	# List of user object
 	user: Array,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -62,7 +63,8 @@ func create_users_with_array_input(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/createWithArray"
+	var bzz_path := "/v2/user/createWithArray"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -92,8 +94,8 @@ func create_users_with_list_input(
 	# user: Array
 	# List of user object
 	user: Array,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -101,7 +103,8 @@ func create_users_with_list_input(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/createWithList"
+	var bzz_path := "/v2/user/createWithList"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -133,8 +136,8 @@ func delete_user(
 	# username: String   Eg: username_example
 	# The name that needs to be deleted
 	username: String,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -142,7 +145,8 @@ func delete_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -172,8 +176,8 @@ func get_user_by_name(
 	# username: String   Eg: username_example
 	# The name that needs to be fetched. Use user1 for testing.
 	username: String,
-	on_success: Callable,  # func(result: User)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: User)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -181,7 +185,8 @@ func get_user_by_name(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -221,8 +226,8 @@ func login_user(
 	# password: String   Eg: password_example
 	# The password for login in clear text
 	password: String,
-	on_success: Callable,  # func(result: String)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: String)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -230,7 +235,8 @@ func login_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/login"
+	var bzz_path := "/v2/user/login"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -266,8 +272,8 @@ func login_user(
 # Operation logoutUser → GET /user/logout
 # Logs out current logged in user session
 func logout_user(
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -275,7 +281,8 @@ func logout_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/logout"
+	var bzz_path := "/v2/user/logout"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -310,8 +317,8 @@ func update_user(
 	# user: User
 	# Updated user object
 	user: User,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -319,7 +326,8 @@ func update_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays

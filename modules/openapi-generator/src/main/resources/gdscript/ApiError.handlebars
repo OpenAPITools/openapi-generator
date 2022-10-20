@@ -13,3 +13,15 @@ class_name ApiError
 
 # The HTTP response code, if any.  (usually >= 400)
 @export var response_code := HTTPClient.RESPONSE_OK
+
+
+func _to_string() -> String:
+	var s := ""
+
+	if identifier:
+		s += "%s\n" % identifier
+	if message:
+		s += "%s\n" % message
+
+	return s
+

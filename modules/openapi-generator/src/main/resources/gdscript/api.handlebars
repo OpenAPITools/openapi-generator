@@ -1,8 +1,9 @@
 {{>partials/api_headers}}
 
-
 # API {{classname}}
 {{>partials/api_statement_extends}}
+
+{{>partials/api_statement_class_name}}
 
 {{#with operations}}
 {{#each operation}}
@@ -28,8 +29,8 @@ func {{operationIdSnakeCase}}(
 	# {{{description}}}
 	{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
 	{{/each}}
-	on_success: Callable,  # func(result{{#if returnType}}: {{returnType}}{{/if}})
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result{{#if returnType}}: {{returnType}}{{/if}})
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
 
@@ -37,7 +38,8 @@ func {{operationIdSnakeCase}}(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
+	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays

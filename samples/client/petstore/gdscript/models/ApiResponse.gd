@@ -8,7 +8,7 @@
 # namespace: models
 # invoker: 
 
-extends ApiBee
+extends RefCounted
 class_name ApiResponse
 
 # Type: int

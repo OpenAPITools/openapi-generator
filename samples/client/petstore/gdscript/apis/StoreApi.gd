@@ -2,9 +2,9 @@
 # For more information on how to customize templates, see:
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
-
 # API StoreApi
 extends ApiBee
+class_name StoreApi
 
 # Operation deleteOrder → DELETE /store/order/{orderId}
 # Delete purchase order by ID
@@ -14,8 +14,8 @@ func delete_order(
 	# orderId: String   Eg: orderId_example
 	# ID of the order that needs to be deleted
 	orderId: String,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -23,7 +23,8 @@ func delete_order(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
+	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -52,8 +53,8 @@ func delete_order(
 #
 # Returns a map of status codes to quantities
 func get_inventory(
-	on_success: Callable,  # func(result: Dictionary)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Dictionary)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -61,7 +62,8 @@ func get_inventory(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/store/inventory"
+	var bzz_path := "/v2/store/inventory"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -100,8 +102,8 @@ func get_order_by_id(
 	# orderId: float   Eg: 789
 	# ID of pet that needs to be fetched
 	orderId: float,
-	on_success: Callable,  # func(result: Order)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Order)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -109,7 +111,8 @@ func get_order_by_id(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
+	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -146,8 +149,8 @@ func place_order(
 	# order: Order
 	# order placed for purchasing the pet
 	order: Order,
-	on_success: Callable,  # func(result: Order)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Order)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -155,7 +158,8 @@ func place_order(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/store/order"
+	var bzz_path := "/v2/store/order"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays

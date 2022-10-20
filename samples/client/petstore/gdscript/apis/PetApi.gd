@@ -2,9 +2,9 @@
 # For more information on how to customize templates, see:
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
-
 # API PetApi
 extends ApiBee
+class_name PetApi
 
 # Operation addPet → POST /pet
 # Add a new pet to the store
@@ -12,8 +12,8 @@ func add_pet(
 	# pet: Pet
 	# Pet object that needs to be added to the store
 	pet: Pet,
-	on_success: Callable,  # func(result: Pet)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Pet)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -21,7 +21,8 @@ func add_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet"
+	var bzz_path := "/v2/pet"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -61,8 +62,8 @@ func delete_pet(
 	# apiKey: String   Eg: apiKey_example
 	# 
 	apiKey = null,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -70,7 +71,8 @@ func delete_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -102,8 +104,8 @@ func find_pets_by_status(
 	# status: Array
 	# Status values that need to be considered for filter
 	status: Array,
-	on_success: Callable,  # func(result: Array)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Array)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -111,7 +113,8 @@ func find_pets_by_status(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/findByStatus"
+	var bzz_path := "/v2/pet/findByStatus"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -152,8 +155,8 @@ func find_pets_by_tags(
 	# tags: Array
 	# Tags to filter by
 	tags: Array,
-	on_success: Callable,  # func(result: Array)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Array)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -161,7 +164,8 @@ func find_pets_by_tags(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/findByTags"
+	var bzz_path := "/v2/pet/findByTags"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -201,8 +205,8 @@ func get_pet_by_id(
 	# petId: float   Eg: 789
 	# ID of pet to return
 	petId: float,
-	on_success: Callable,  # func(result: Pet)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Pet)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -210,7 +214,8 @@ func get_pet_by_id(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -247,8 +252,8 @@ func update_pet(
 	# pet: Pet
 	# Pet object that needs to be added to the store
 	pet: Pet,
-	on_success: Callable,  # func(result: Pet)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: Pet)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -256,7 +261,8 @@ func update_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet"
+	var bzz_path := "/v2/pet"
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -299,8 +305,8 @@ func update_pet_with_form(
 	# status: String   Eg: status_example
 	# Updated status of the pet
 	status = null,
-	on_success: Callable,  # func(result)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -308,7 +314,8 @@ func update_pet_with_form(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -344,8 +351,8 @@ func upload_file(
 	# file: File   Eg: BINARY_DATA_HERE
 	# file to upload
 	file = null,
-	on_success: Callable,  # func(result: ApiResponse)
-	on_failure: Callable   # func(error: ApiError)
+	on_success: Callable = Callable(),  # func(result: ApiResponse)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
 
@@ -353,7 +360,8 @@ func upload_file(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays

@@ -8,7 +8,7 @@
 # namespace: models
 # invoker: 
 
-extends ApiBee
+extends RefCounted
 class_name Order
 
 # Type: float
@@ -26,9 +26,9 @@ var petId: float
 var quantity: int
 
 
-# Type: DateTime
+# Type: Dictionary
 # Required: False
-var shipDate: DateTime
+var shipDate: Dictionary
 
 
 # Order Status

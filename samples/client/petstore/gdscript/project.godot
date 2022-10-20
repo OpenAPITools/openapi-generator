@@ -19,35 +19,50 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://core/ApiError.gd"
 }, {
-"base": "ApiBee",
+"base": "RefCounted",
 "class": &"ApiResponse",
 "language": &"GDScript",
 "path": "res://models/ApiResponse.gd"
 }, {
-"base": "ApiBee",
+"base": "RefCounted",
 "class": &"Category",
 "language": &"GDScript",
 "path": "res://models/Category.gd"
 }, {
-"base": "ApiBee",
+"base": "RefCounted",
 "class": &"Order",
 "language": &"GDScript",
 "path": "res://models/Order.gd"
 }, {
-"base": "ApiBee",
+"base": "RefCounted",
 "class": &"Pet",
 "language": &"GDScript",
 "path": "res://models/Pet.gd"
 }, {
 "base": "ApiBee",
+"class": &"PetApi",
+"language": &"GDScript",
+"path": "res://apis/PetApi.gd"
+}, {
+"base": "ApiBee",
+"class": &"StoreApi",
+"language": &"GDScript",
+"path": "res://apis/StoreApi.gd"
+}, {
+"base": "RefCounted",
 "class": &"Tag",
 "language": &"GDScript",
 "path": "res://models/Tag.gd"
 }, {
-"base": "ApiBee",
+"base": "RefCounted",
 "class": &"User",
 "language": &"GDScript",
 "path": "res://models/User.gd"
+}, {
+"base": "ApiBee",
+"class": &"UserApi",
+"language": &"GDScript",
+"path": "res://apis/UserApi.gd"
 }]
 _global_script_class_icons={
 "ApiBee": "",
@@ -56,13 +71,17 @@ _global_script_class_icons={
 "Category": "",
 "Order": "",
 "Pet": "",
+"PetApi": "",
+"StoreApi": "",
 "Tag": "",
-"User": ""
+"User": "",
+"UserApi": ""
 }
 
 [application]
 
 config/name="GDScript Petstore Client"
+config/description="A demo of the generated GDScript client for the petstore sample."
 run/main_scene="res://demo/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
@@ -70,3 +89,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Logger="*res://demo/Logger.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="/tmp/gdscript_petstore.log"

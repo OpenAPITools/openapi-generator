@@ -66,10 +66,7 @@ func bee_disable_ssl():
 
 
 func bee_next_loop_iteration():
-	# Use this when it works, on release (beta3 now)
-#	return Engine.get_main_loop().idle_frame
-	# For now, this works
-	return RenderingServer.frame_post_draw
+	return Engine.get_main_loop().process_frame
 
 
 func bee_connect_client_if_needed(
@@ -284,6 +281,32 @@ func bee_do_request_text(
 		response_text = response_bytes.get_string_from_utf32()
 	else:
 		response_text = response_bytes.get_string_from_ascii()
+
+	if response_code >= 500:
+		var error := ApiError.new()
+		error.internal_code = ERR_PRINTER_ON_FIRE
+		error.identifier = "apibee.response.5xx"
+		error.message = "%s: request to `%s' made the server hiccup with a %d." % [
+			self.bee_name, path, response_code
+		]
+		on_failure.call(error)
+		return
+	elif response_code >= 400:
+		var error := ApiError.new()
+		error.identifier = "apibee.response.4xx"
+		error.message = "%s: request to `%s' was denied with a %d." % [
+			self.bee_name, path, response_code
+		]
+		on_failure.call(error)
+		return
+	elif response_code >= 300:
+		var error := ApiError.new()
+		error.identifier = "apibee.response.3xx"
+		error.message = "%s: request to `%s' was redirected with a %d.  We do not support redirects in that client yet." % [
+			self.bee_name, path, response_code
+		]
+		on_failure.call(error)
+		return
 
 	# Should we close ?
 	#self.bee_client.close()

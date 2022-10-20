@@ -73,8 +73,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Array");
         typeMapping.put("date", "string");
-        // FIXME: handle DateTime somehow
-        //typeMapping.put("DateTime", "Date");
+        // FIXME: handle DateTime somehow (with Time singleton)
+        typeMapping.put("DateTime", "Dictionary");
         //typeMapping.put("binary", "any");
         typeMapping.put("file", "File");
         typeMapping.put("ByteArray", "Array");
