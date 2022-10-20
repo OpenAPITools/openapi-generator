@@ -33,6 +33,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_BUILDERS = "generateBuilders";
+    public static final String USE_JAKARTA_EE = "useJakartaEE";
+
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -40,6 +42,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String HELIDON_LIBRARY = "helidon";
     public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
+    private boolean useJakartaEE = false;
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
@@ -96,6 +99,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE,"Generate code and provide dependencies for use with Jakarta EE. (Use jakarta instead of javax in imports).").defaultValue(String.valueOf(useJakartaEE)));
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models.").defaultValue(String.valueOf(generateBuilders)));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
@@ -107,6 +111,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void processOpts() {
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            useJakartaEE = Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString());
+        }
+
         if (additionalProperties.containsKey(GENERATE_POM)) {
             generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
         }
@@ -174,8 +183,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 .doNotOverwrite());
 
         if (generatePom) {
+
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
+
         }
         if (!interfaceOnly) {
             supportingFiles.add(new SupportingFile("RestApplication.mustache",
@@ -228,6 +239,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         } else if(KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
+
+
+
     }
 
     @Override
