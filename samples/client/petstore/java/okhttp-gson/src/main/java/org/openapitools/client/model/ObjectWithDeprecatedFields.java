@@ -295,8 +295,8 @@ public class ObjectWithDeprecatedFields {
       if (jsonObj.get("deprecatedRef") != null && !jsonObj.get("deprecatedRef").isJsonNull()) {
         DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("bars").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("bars") != null && !jsonObj.get("bars").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `bars` to be an array in the JSON string but got `%s`", jsonObj.get("bars").toString()));
       }
   }
