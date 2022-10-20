@@ -4,8 +4,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
   API calls for all endpoints tagged `{{baseName}}`.
   """
 
-  alias {{moduleName}}.Connection
-  import {{moduleName}}.RequestBuilder
+  use Clients.RequestBuilder
 {{#operations}}
 {{#operation}}
 

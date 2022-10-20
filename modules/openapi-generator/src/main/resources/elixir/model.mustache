@@ -18,7 +18,7 @@ end
 
 defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
 {{#hasComplexVars}}
-  import {{&moduleName}}.Deserializer
+  import Clients.Deserializer
   def decode(value, options) do
     value
     {{#vars}}

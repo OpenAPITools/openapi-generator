@@ -140,39 +140,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
          */
         additionalProperties.put("apiVersion", apiVersion);
 
-        /**
-         * Supporting Files.  You can write single files for the generator with the
-         * entire object tree available.  If the input file has a suffix of `.mustache
-         * it will be processed by the template engine.  Otherwise, it will be copied
-         */
-        supportingFiles.add(new SupportingFile("README.md.mustache",   // the input template or file
-                "",                                                       // the destination folder, relative `outputFolder`
-                "README.md")                                          // the output file
-        );
-        supportingFiles.add(new SupportingFile("config.exs.mustache",
-                "config",
-                "config.exs")
-        );
-        supportingFiles.add(new SupportingFile("runtime.exs.mustache",
-                "config",
-                "runtime.exs")
-        );
-        supportingFiles.add(new SupportingFile("mix.exs.mustache",
-                "",
-                "mix.exs")
-        );
-        supportingFiles.add(new SupportingFile("formatter.exs",
-                "",
-                ".formatter.exs")
-        );
-        supportingFiles.add(new SupportingFile("test_helper.exs.mustache",
-                "test",
-                "test_helper.exs")
-        );
-        supportingFiles.add(new SupportingFile("gitignore.mustache",
-                "",
-                ".gitignore")
-        );
+
+
+        boolean noPackageFiles = additionalProperties.containsKey("noPackageFiles") && 
+                                    additionalProperties.get("noPackageFiles") == "true";
 
         /**
          * Language Specific Primitives.  These types will not trigger imports by
@@ -309,18 +280,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, underscored(moduleName));
         }
 
-        supportingFiles.add(new SupportingFile("connection.ex.mustache",
-                sourceFolder(),
-                "connection.ex"));
-
-        supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
-                sourceFolder(),
-                "request_builder.ex"));
-
-
-        supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
-                sourceFolder(),
-                "deserializer.ex"));
     }
 
     @Override
@@ -575,8 +534,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
+        } else {
+            return "any()";
         }
-        return super.getTypeDeclaration(p);
     }
 
     /**
@@ -845,6 +805,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
                 LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
+                sb.append("any()");
             } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
