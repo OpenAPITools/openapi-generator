@@ -1696,4 +1696,27 @@ public class SpringCodegenTest {
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
+
+    @Test
+    public void shouldGenerateJsonPropertyAnnotationLocatedInGetters() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        String jsonPropertyInGetClassName = "@JsonProperty(\"className\") @NotNull @Schema(name = \"className\", required = true) public String getClassName() {";
+        String jsonPropertyInGetColor = "@JsonProperty(\"color\") @Schema(name = \"color\", required = false) public String getColor() {";
+        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Animal.java"), jsonPropertyInGetClassName, jsonPropertyInGetColor);
+    }
 }
