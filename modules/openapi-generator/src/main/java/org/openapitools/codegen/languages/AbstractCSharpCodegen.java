@@ -439,17 +439,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isInnerEnum = false;
             property.isString = false;
         }
-        // fix incorrect data types for maps of maps
-        // this may stop working if DefaultCodegen#updatePropertyForMap is modified
-        // there is a TODO there that says the items property should not be populated for maps
-        if (property.datatypeWithEnum.contains("List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace("List>", property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
-        if (property.datatypeWithEnum.contains("Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
     }
 
     @Override
