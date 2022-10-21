@@ -17,6 +17,7 @@ var bee_class_name := "DemoCategory"
 
 # Type: float
 # Required: False
+# isArray: false
 var id: float:
 	set(value):
 		__id__was__set = true
@@ -25,6 +26,7 @@ var __id__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var name: String:
 	set(value):
 		__name__was__set = true
@@ -44,11 +46,4 @@ func bee_normalize() -> Dictionary:
 	if self.__name__was__set:
 		bzz_dictionary["name"] = self.name
 	return bzz_dictionary
-
-
-func bee_normalize_fully() -> Dictionary:
-	return {
-		"id": self.id,
-		"name": self.name,
-	}
 

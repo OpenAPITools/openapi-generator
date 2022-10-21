@@ -17,6 +17,7 @@ var bee_class_name := "DemoPet"
 
 # Type: float
 # Required: False
+# isArray: false
 var id: float:
 	set(value):
 		__id__was__set = true
@@ -25,6 +26,7 @@ var __id__was__set := false
 
 # Type: DemoCategory
 # Required: False
+# isArray: false
 var category: DemoCategory:
 	set(value):
 		__category__was__set = true
@@ -34,6 +36,7 @@ var __category__was__set := false
 # Type: String
 # Required: True
 # Example: doggie
+# isArray: false
 var name: String:
 	set(value):
 		__name__was__set = true
@@ -42,6 +45,7 @@ var __name__was__set := false
 
 # Type: Array
 # Required: True
+# isArray: true
 var photoUrls: Array:
 	set(value):
 		__photoUrls__was__set = true
@@ -50,6 +54,7 @@ var __photoUrls__was__set := false
 
 # Type: Array
 # Required: False
+# isArray: true
 var tags: Array:
 	set(value):
 		__tags__was__set = true
@@ -60,6 +65,7 @@ var __tags__was__set := false
 # pet status in the store
 # Type: String
 # Required: False
+# isArray: false
 # Allowed values: "available", "pending", "sold"
 var status: String:
 	set(value):
@@ -99,15 +105,4 @@ func bee_normalize() -> Dictionary:
 	if self.__status__was__set:
 		bzz_dictionary["status"] = self.status
 	return bzz_dictionary
-
-
-func bee_normalize_fully() -> Dictionary:
-	return {
-		"id": self.id,
-		"category": self.category,
-		"name": self.name,
-		"photoUrls": self.photoUrls,
-		"tags": self.tags,
-		"status": self.status,
-	}
 

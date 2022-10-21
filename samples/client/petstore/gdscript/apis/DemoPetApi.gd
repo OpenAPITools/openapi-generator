@@ -18,9 +18,6 @@ func add_pet(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -94,9 +91,6 @@ func delete_pet(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 
@@ -143,9 +137,6 @@ func find_pets_by_status(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 
@@ -205,9 +196,7 @@ func find_pets_by_tags(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+	push_warning("Usage of `find_pets_by_tags()` is deprecated.")
 
 
 
@@ -267,9 +256,6 @@ func get_pet_by_id(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -324,9 +310,6 @@ func update_pet(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 
@@ -404,9 +387,6 @@ func update_pet_with_form(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 
@@ -476,9 +456,6 @@ func upload_file(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 

@@ -17,6 +17,7 @@ var bee_class_name := "DemoUser"
 
 # Type: float
 # Required: False
+# isArray: false
 var id: float:
 	set(value):
 		__id__was__set = true
@@ -25,6 +26,7 @@ var __id__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var username: String:
 	set(value):
 		__username__was__set = true
@@ -33,6 +35,7 @@ var __username__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var firstName: String:
 	set(value):
 		__firstName__was__set = true
@@ -41,6 +44,7 @@ var __firstName__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var lastName: String:
 	set(value):
 		__lastName__was__set = true
@@ -49,6 +53,7 @@ var __lastName__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var email: String:
 	set(value):
 		__email__was__set = true
@@ -57,6 +62,7 @@ var __email__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var password: String:
 	set(value):
 		__password__was__set = true
@@ -65,6 +71,7 @@ var __password__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var phone: String:
 	set(value):
 		__phone__was__set = true
@@ -74,6 +81,7 @@ var __phone__was__set := false
 # User Status
 # Type: int
 # Required: False
+# isArray: false
 var userStatus: int:
 	set(value):
 		__userStatus__was__set = true
@@ -105,17 +113,4 @@ func bee_normalize() -> Dictionary:
 	if self.__userStatus__was__set:
 		bzz_dictionary["userStatus"] = self.userStatus
 	return bzz_dictionary
-
-
-func bee_normalize_fully() -> Dictionary:
-	return {
-		"id": self.id,
-		"username": self.username,
-		"firstName": self.firstName,
-		"lastName": self.lastName,
-		"email": self.email,
-		"password": self.password,
-		"phone": self.phone,
-		"userStatus": self.userStatus,
-	}
 

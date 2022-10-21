@@ -17,6 +17,7 @@ var bee_class_name := "DemoOrder"
 
 # Type: float
 # Required: False
+# isArray: false
 var id: float:
 	set(value):
 		__id__was__set = true
@@ -25,6 +26,7 @@ var __id__was__set := false
 
 # Type: float
 # Required: False
+# isArray: false
 var petId: float:
 	set(value):
 		__petId__was__set = true
@@ -33,15 +35,18 @@ var __petId__was__set := false
 
 # Type: int
 # Required: False
+# isArray: false
 var quantity: int:
 	set(value):
 		__quantity__was__set = true
 		quantity = value
 var __quantity__was__set := false
 
-# Type: Dictionary
+# Type: DateTime
+#       (but it's actually a DateTime ; no generated conversion because of lack of support for timezones in Godot)
 # Required: False
-var shipDate: Dictionary:
+# isArray: false
+var shipDate: DateTime:
 	set(value):
 		__shipDate__was__set = true
 		shipDate = value
@@ -50,6 +55,7 @@ var __shipDate__was__set := false
 # Order Status
 # Type: String
 # Required: False
+# isArray: false
 # Allowed values: "placed", "approved", "delivered"
 var status: String:
 	set(value):
@@ -64,6 +70,7 @@ var __status__allowable__values := ["placed", "approved", "delivered"]
 
 # Type: bool
 # Required: False
+# isArray: false
 var complete: bool = false:
 	set(value):
 		__complete__was__set = true
@@ -91,15 +98,4 @@ func bee_normalize() -> Dictionary:
 	if self.__complete__was__set:
 		bzz_dictionary["complete"] = self.complete
 	return bzz_dictionary
-
-
-func bee_normalize_fully() -> Dictionary:
-	return {
-		"id": self.id,
-		"petId": self.petId,
-		"quantity": self.quantity,
-		"shipDate": self.shipDate,
-		"status": self.status,
-		"complete": self.complete,
-	}
 

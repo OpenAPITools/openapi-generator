@@ -94,25 +94,25 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("integer", "int");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Array");
-        typeMapping.put("date", "string");
-        // FIXME: handle DateTime somehow (with Time singleton)
-        typeMapping.put("DateTime", "Dictionary");
+        // No timezone support in Godot so I'm skipping Datetimes for now
+        typeMapping.put("date", "String");
+        typeMapping.put("datetime", "String");
         //typeMapping.put("binary", "any");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "String"); // untested-
         typeMapping.put("ByteArray", "Array");
         typeMapping.put("UUID", "String");
         //typeMapping.put("Error", "Error");
         //typeMapping.put("AnyType", "Variant");
 
 
-        // TODO: add meaningful parameters
-        cliOptions.add(new CliOption(PROJECT_NAME, "The name of the project !!"));
-        cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all generated classes"));
+        //cliOptions.add(new CliOption(PROJECT_NAME, "The name of the project !!"));
+        cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all core classes"));
+        cliOptions.add(new CliOption(CORE_NAME_SUFFIX, "PascalCase suffix added to all core classes"));
 
         // This constructor is ran twice, because … reasons.
-        LOGGER.warn("THIS GENERATOR IS UNSAFE AND MALICIOUS OAS3 YAML FILES MAY HURT YOU.");
-        LOGGER.warn("PLEASE READ CAREFULLY THE OAS3 FILE YOU ARE USING BEFORE YOU TRUST IT.");
-        LOGGER.info("(this generation itself should be safe, but not the generated code)");
+        LOGGER.warn("---- THIS GENERATOR IS UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
+        LOGGER.warn("PLEASE READ *CAREFULLY* THE OAS FILE YOU ARE USING BEFORE YOU TRUST IT.");
+        LOGGER.info("This generation itself should be safe but maybe not the generated code.");
 
     }
 
@@ -206,7 +206,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "";
     }
 
-    // → Same
+    // → Same code smell, I'm probably handling this wrong.
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {

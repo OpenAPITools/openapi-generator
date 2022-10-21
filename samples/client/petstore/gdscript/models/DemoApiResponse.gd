@@ -17,6 +17,7 @@ var bee_class_name := "DemoApiResponse"
 
 # Type: int
 # Required: False
+# isArray: false
 var code: int:
 	set(value):
 		__code__was__set = true
@@ -25,6 +26,7 @@ var __code__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var type: String:
 	set(value):
 		__type__was__set = true
@@ -33,6 +35,7 @@ var __type__was__set := false
 
 # Type: String
 # Required: False
+# isArray: false
 var message: String:
 	set(value):
 		__message__was__set = true
@@ -54,12 +57,4 @@ func bee_normalize() -> Dictionary:
 	if self.__message__was__set:
 		bzz_dictionary["message"] = self.message
 	return bzz_dictionary
-
-
-func bee_normalize_fully() -> Dictionary:
-	return {
-		"code": self.code,
-		"type": self.type,
-		"message": self.message,
-	}
 

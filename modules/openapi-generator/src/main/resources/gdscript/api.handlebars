@@ -33,10 +33,14 @@ func {{operationIdSnakeCase}}(
 	on_success: Callable = Callable(),  # func(result{{#if returnType}}: {{returnType}}{{/if}})
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
-	# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
+{{!--
+	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames.
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+--}}
+	# CollectionFormat: {{#if collectionFormat}}YES{{/if}}{{#unless collectionFormat}}NO{{/unless}}
+{{#if isDeprecated}}
+	push_warning("Usage of `{{operationIdSnakeCase}}()` is deprecated.")
+{{/if}}
 
 	{{#each allParams}}
 	{{!--

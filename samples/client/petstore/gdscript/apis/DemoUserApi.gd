@@ -20,9 +20,6 @@ func create_user(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -81,9 +78,6 @@ func create_users_with_array_input(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -141,9 +135,6 @@ func create_users_with_list_input(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 
@@ -205,9 +196,6 @@ func delete_user(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -250,9 +238,6 @@ func get_user_by_name(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 
@@ -311,9 +296,6 @@ func login_user(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Validate param `username` constraints
 	var bzz_username_regex := RegEx.new()
@@ -387,9 +369,6 @@ func logout_user(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
@@ -436,9 +415,6 @@ func update_user(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 

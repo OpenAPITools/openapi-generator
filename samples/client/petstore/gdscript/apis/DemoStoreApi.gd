@@ -20,9 +20,6 @@ func delete_order(
 ):
 	# CollectionFormat: NO
 
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -64,9 +61,6 @@ func get_inventory(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 	# Convert the String HTTP method to a Constant Godot understands
@@ -123,9 +117,6 @@ func get_order_by_id(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Validate param `orderId` constraints
 	if orderId > 5:
@@ -194,9 +185,6 @@ func place_order(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
 
