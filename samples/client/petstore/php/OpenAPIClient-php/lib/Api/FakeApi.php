@@ -181,7 +181,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\HealthCheckResult' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -197,7 +196,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
@@ -218,7 +216,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -227,7 +224,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -455,7 +451,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -697,7 +692,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('bool' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -713,7 +707,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = 'bool';
@@ -734,7 +727,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -743,7 +735,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -967,7 +958,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\OuterComposite' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -983,7 +973,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\OuterComposite';
@@ -1004,7 +993,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1013,7 +1001,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -1237,7 +1224,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('float' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1253,7 +1239,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = 'float';
@@ -1274,7 +1259,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1283,7 +1267,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -1507,7 +1490,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('string' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1523,7 +1505,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = 'string';
@@ -1544,7 +1525,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1553,7 +1533,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -1777,7 +1756,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\OuterObjectWithEnumProperty' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1793,7 +1771,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\OuterObjectWithEnumProperty';
@@ -1814,7 +1791,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1823,7 +1799,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -2055,7 +2030,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -2274,7 +2248,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -2495,7 +2468,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -2735,7 +2707,6 @@ class FakeApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -2751,7 +2722,6 @@ class FakeApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -2772,7 +2742,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -2781,7 +2750,6 @@ class FakeApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -3047,8 +3015,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
-            
             }
             throw $e;
         }
@@ -3470,8 +3436,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
-            
             }
             throw $e;
         }
@@ -3796,7 +3760,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -4110,7 +4073,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -4339,7 +4301,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }
@@ -4586,7 +4547,6 @@ class FakeApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
             }
             throw $e;
         }

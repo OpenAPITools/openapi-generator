@@ -29,9 +29,7 @@ ModelApiResponse <- R6::R6Class(
     #' @param message message
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `code` = NULL, `type` = NULL, `message` = NULL, ...
-    ) {
+    initialize = function(`code` = NULL, `type` = NULL, `message` = NULL, ...) {
       if (!is.null(`code`)) {
         stopifnot(is.numeric(`code`), length(`code`) == 1)
         self$`code` <- `code`
@@ -191,18 +189,19 @@ ModelApiResponse <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#ModelApiResponse$unlock()
+# ModelApiResponse$unlock()
 #
 ## Below is an example to define the print fnuction
-#ModelApiResponse$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# ModelApiResponse$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#ModelApiResponse$lock()
+# ModelApiResponse$lock()
 

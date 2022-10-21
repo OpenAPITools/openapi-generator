@@ -288,7 +288,7 @@
 #' ####################  add_pet  ####################
 #'
 #' library(petstore)
-#' var_pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 #'
 #' #Add a new pet to the store
 #' api_instance <- PetApi$new()
@@ -326,7 +326,7 @@
 #'
 #' library(petstore)
 #' var_pet_id <- 56 # integer | Pet id to delete
-#' var_api_key <- "api_key_example" # character | 
+#' var_api_key <- "api_key_example" # character |  (Optional)
 #'
 #' #Deletes a pet
 #' api_instance <- PetApi$new()
@@ -354,7 +354,7 @@
 #' ####################  find_pets_by_status  ####################
 #'
 #' library(petstore)
-#' var_status <- ["status_example"] # array[character] | Status values that need to be considered for filter
+#' var_status <- c("available") # array[character] | Status values that need to be considered for filter
 #'
 #' #Finds Pets by status
 #' api_instance <- PetApi$new()
@@ -390,7 +390,7 @@
 #' ####################  find_pets_by_tags  ####################
 #'
 #' library(petstore)
-#' var_tags <- ["tags_example"] # array[character] | Tags to filter by
+#' var_tags <- c("inner_example") # array[character] | Tags to filter by
 #'
 #' #Finds Pets by tags
 #' api_instance <- PetApi$new()
@@ -537,7 +537,7 @@
 #' ####################  update_pet  ####################
 #'
 #' library(petstore)
-#' var_pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 #'
 #' #Update an existing pet
 #' api_instance <- PetApi$new()
@@ -574,8 +574,8 @@
 #'
 #' library(petstore)
 #' var_pet_id <- 56 # integer | ID of pet that needs to be updated
-#' var_name <- "name_example" # character | Updated name of the pet
-#' var_status <- "status_example" # character | Updated status of the pet
+#' var_name <- "name_example" # character | Updated name of the pet (Optional)
+#' var_status <- "status_example" # character | Updated status of the pet (Optional)
 #'
 #' #Updates a pet in the store with form data
 #' api_instance <- PetApi$new()
@@ -601,8 +601,8 @@
 #'
 #' library(petstore)
 #' var_pet_id <- 56 # integer | ID of pet to update
-#' var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server
-#' var_file <- File.new('/path/to/file') # data.frame | file to upload
+#' var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server (Optional)
+#' var_file <- File.new('/path/to/file') # data.frame | file to upload (Optional)
 #'
 #' #uploads an image
 #' api_instance <- PetApi$new()
@@ -742,15 +742,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -980,15 +980,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1096,15 +1096,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1217,15 +1217,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1349,15 +1349,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1479,15 +1479,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1601,15 +1601,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -1839,15 +1839,15 @@ PetApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "ModelApiResponse", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj

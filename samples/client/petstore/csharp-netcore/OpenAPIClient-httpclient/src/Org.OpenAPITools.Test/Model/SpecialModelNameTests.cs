@@ -64,6 +64,14 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SpecialPropertyName'
         }
+        /// <summary>
+        /// Test the property '_SpecialModelName'
+        /// </summary>
+        [Fact]
+        public void _SpecialModelNameTest()
+        {
+            // TODO unit test for the property '_SpecialModelName'
+        }
 
     }
 

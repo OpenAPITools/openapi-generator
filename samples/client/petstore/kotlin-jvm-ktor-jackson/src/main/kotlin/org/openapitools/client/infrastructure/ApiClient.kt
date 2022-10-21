@@ -12,6 +12,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.contentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
@@ -27,11 +28,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import org.openapitools.client.auth.ApiKeyAuth
-import org.openapitools.client.auth.Authentication
-import org.openapitools.client.auth.HttpBasicAuth
-import org.openapitools.client.auth.HttpBearerAuth
-import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.*
 
 open class ApiClient(
@@ -79,7 +75,7 @@ open class ApiClient(
      * @param username Username
      */
     fun setUsername(username: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.username = username
     }
@@ -90,7 +86,7 @@ open class ApiClient(
      * @param password Password
      */
     fun setPassword(password: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.password = password
     }
@@ -102,7 +98,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKey(apiKey: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKey = apiKey
     }
@@ -114,7 +110,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKeyPrefix = apiKeyPrefix
     }
@@ -125,7 +121,7 @@ open class ApiClient(
      * @param accessToken Access token
      */
     fun setAccessToken(accessToken: String) {
-        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
+        val auth = authentications?.values?.firstOrNull { it is OAuth } as OAuth?
                 ?: throw Exception("No OAuth2 authentication configured")
         auth.accessToken = accessToken
     }
@@ -136,7 +132,7 @@ open class ApiClient(
      * @param bearerToken The bearer token.
      */
     fun setBearerToken(bearerToken: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
                 ?: throw Exception("No Bearer authentication configured")
         auth.bearerToken = bearerToken
     }
@@ -167,8 +163,9 @@ open class ApiClient(
             }
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
-            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
+            if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
                 setBody(body)
+            }
         }
     }
 

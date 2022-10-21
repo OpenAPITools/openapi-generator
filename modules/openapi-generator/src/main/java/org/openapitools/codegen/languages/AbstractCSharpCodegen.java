@@ -529,6 +529,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     reservedWords().contains(camelize(sanitizeName(property.name), true))) {
             property.name = property.name + "Property";
         }
+
+        // fix incorrect data types for maps of maps
+        if (property.datatypeWithEnum.contains("List>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("List>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
+        if (property.datatypeWithEnum.contains("Dictionary>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
     }
 
     @Override
@@ -1058,7 +1068,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
+                String _default = String.valueOf(p.getDefault());
                 if (p.getEnum() == null) {
                     return "\"" + _default + "\"";
                 } else {
