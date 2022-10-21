@@ -21,6 +21,7 @@ func add_pet(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
 
@@ -73,6 +74,8 @@ func delete_pet(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
@@ -115,6 +118,7 @@ func find_pets_by_status(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByStatus"
@@ -168,6 +172,7 @@ func find_pets_by_tags(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByTags"
 
@@ -219,6 +224,7 @@ func get_pet_by_id(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
@@ -266,6 +272,7 @@ func update_pet(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
@@ -322,6 +329,9 @@ func update_pet_with_form(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
+
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
@@ -331,8 +341,13 @@ func update_pet_with_form(
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
+	#bzz_query["name"] = name
+	#bzz_query["status"] = status
 
 	var bzz_body = null
+	bzz_body = Dictionary()
+	bzz_body["name"] = name
+	bzz_body["status"] = status
 
 
 	bee_request(
@@ -369,6 +384,9 @@ func upload_file(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
+
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
@@ -378,8 +396,13 @@ func upload_file(
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
+	#bzz_query["additionalMetadata"] = additionalMetadata
+	#bzz_query["file"] = file
 
 	var bzz_body = null
+	bzz_body = Dictionary()
+	bzz_body["additionalMetadata"] = additionalMetadata
+	bzz_body["file"] = file
 
 	# Will be used at some point for denormalization
 	# baseType = "ApiResponse"

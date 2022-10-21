@@ -23,6 +23,7 @@ func delete_order(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
@@ -113,6 +114,20 @@ func get_order_by_id(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+	# Validate param `orderId` constraints
+	if orderId > 5:
+		var error := DemoApiError.new()
+		error.identifier = "get_order_by_id.param.validation.maximum"
+		error.message = "Invalid value for `orderId`, must be smaller than or equal to 5."
+		on_failure.call(error)
+		return
+	if orderId < 1:
+		var error := DemoApiError.new()
+		error.identifier = "get_order_by_id.param.validation.minimum"
+		error.message = "Invalid value for `orderId`, must be greater than or equal to 1."
+		on_failure.call(error)
+		return
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
@@ -160,6 +175,7 @@ func place_order(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order"

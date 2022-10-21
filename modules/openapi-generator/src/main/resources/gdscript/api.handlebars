@@ -38,6 +38,96 @@ func {{operationIdSnakeCase}}(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+	{{#each allParams}}
+	{{!--
+	# Verify required param `{{paramName}}` is set
+	# → done by the func signature, perhaps we could check against null or empty array anyway?
+
+	{{#if isString}}# STRING  {{paramName}}{{/if}}
+	{{#if isNumeric}}# NUMBER  {{paramName}}{{/if}}
+	--}}
+	{{#if hasValidation}}
+	# Validate param `{{paramName}}` constraints
+	{{#if maxLength}}
+	{{#if isString}}
+	if ({{paramName}} is String) and {{paramName}}.length() > {{maxLength}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		#error.internal_code = ERR_INVALID_PARAMETER
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.max_length"
+		error.message = "Invalid length for `{{paramName}}`, must be smaller than or equal to {{maxLength}}."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if minLength}}
+	{{#if isString}}
+	if ({{paramName}} is String) and {{paramName}}.length() < {{minLength}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.min_length"
+		error.message = "Invalid length for `{{paramName}}`, must be greater than or equal to {{minLength}}."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if maximum}}
+	{{! isNumeric / isNumber yields false yet isLong yields true }}
+	{{! not sure if bug 'cause of handlebars or not ; let's skip }}
+	{{!#if isNumeric}}
+	if {{paramName}} >{{#if exclusiveMaximum}}={{/if}} {{maximum}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.maximum"
+		error.message = "Invalid value for `{{paramName}}`, must be smaller than{{#unless exclusiveMaximum}} or equal to{{/unless}} {{maximum}}."
+		on_failure.call(error)
+		return
+	{{!/if}}
+	{{/if}}
+	{{#if minimum}}
+	{{!#if isNumeric}}
+	if {{paramName}} <{{#if exclusiveMinimum}}={{/if}} {{minimum}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.minimum"
+		error.message = "Invalid value for `{{paramName}}`, must be greater than{{#unless exclusiveMinimum}} or equal to{{/unless}} {{minimum}}."
+		on_failure.call(error)
+		return
+	{{!/if}}
+	{{/if}}
+	{{#if maxItems}}
+	{{#if isArray}}
+	if ({{paramName}} is Array) and {{paramName}}.size() > {{maxItems}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.max_items"
+		error.message = "Invalid array size for `{{paramName}}`, must hold at most {{maxItems}} elements."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if minItems}}
+	{{#if isArray}}
+	if ({{paramName}} is Array) and {{paramName}}.size() < {{minItems}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.min_items"
+		error.message = "Invalid array size for `{{paramName}}`, must hold at least {{minItems}} elements."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if pattern}}
+	{{!#if isString}}{{! We are lenient and casting the param to string before trying to match }}
+	var bzz_{{paramName}}_regex := RegEx.new()
+	{{! We have to trim encapsulating slashes, and we don't support flags }}
+	{{! A solution would be to use another RegEx to extract that data from the pattern }}
+	bzz_{{paramName}}_regex.compile("{{{pattern}}}".trim_prefix('/').trim_suffix('/'))
+	if not bzz_{{paramName}}_regex.search(str({{paramName}})):
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.pattern"
+		error.message = "Invalid value for `{{paramName}}`, must conform to the pattern `{{{pattern}}}`."
+		on_failure.call(error)
+		return
+	{{!/if}}
+	{{/if}}
+	{{/if}}
+
+	{{/each}}
 	# Compute the URL path to the API resource
 	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
 
@@ -50,11 +140,22 @@ func {{operationIdSnakeCase}}(
 	{{#each queryParams}}
 	bzz_query["{{baseName}}"] = {{paramName}}
 	{{/each}}
+	{{#each formParams}}
+	#bzz_query["{{baseName}}"] = {{paramName}}
+	{{/each}}
 
 	var bzz_body = null
+	{{#if bodyParams}}
 	{{#each bodyParams}}
 	bzz_body = {{paramName}}
 	{{/each}}
+	{{/if}}
+	{{#if formParams}}
+	bzz_body = Dictionary()
+	{{#each formParams}}
+	bzz_body["{{paramName}}"] = {{paramName}}
+	{{/each}}
+	{{/if}}
 
 	{{#with returnProperty}}
 	# Will be used at some point for denormalization

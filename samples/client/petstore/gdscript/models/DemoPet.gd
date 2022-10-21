@@ -63,7 +63,8 @@ var __tags__was__set := false
 # Allowed values: "available", "pending", "sold"
 var status: String:
 	set(value):
-		push_warning("DemoPet: property `status` is deprecated.")
+		if str(value) != "":
+			push_warning("DemoPet: property `status` is deprecated.")
 		if str(value) != "" and not (str(value) in __status__allowable__values):
 			printerr("DemoPet: tried to set property `status` to a value that is not allowed." +
 				"  Allowed values: `available`, `pending`, `sold`")

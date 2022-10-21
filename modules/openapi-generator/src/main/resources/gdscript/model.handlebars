@@ -37,7 +37,8 @@ var bee_class_name := "{{classname}}"
 var {{name}}: {{>partials/data_type}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
 	set(value):
 {{#if deprecated}}
-		push_warning("{{classname}}: property `{{name}}` is deprecated.")
+		if str(value) != "":
+			push_warning("{{classname}}: property `{{name}}` is deprecated.")
 {{/if}}
 {{#if isEnum}}
 		if str(value) != "" and not (str(value) in __{{name}}__allowable__values):

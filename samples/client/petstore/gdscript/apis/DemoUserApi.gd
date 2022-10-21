@@ -23,6 +23,7 @@ func create_user(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user"
 
@@ -65,6 +66,7 @@ func create_users_with_array_input(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithArray"
 
@@ -106,6 +108,7 @@ func create_users_with_list_input(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithList"
@@ -151,6 +154,7 @@ func delete_user(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
@@ -191,6 +195,7 @@ func get_user_by_name(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
@@ -242,6 +247,25 @@ func login_user(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
+	# Validate param `username` constraints
+	var bzz_username_regex := RegEx.new()
+	bzz_username_regex.compile("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/".trim_prefix('/').trim_suffix('/'))
+	if not bzz_username_regex.search(str(username)):
+		var error := DemoApiError.new()
+		error.identifier = "login_user.param.validation.pattern"
+		error.message = "Invalid value for `username`, must conform to the pattern `/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/`."
+		on_failure.call(error)
+		return
+
+	# Validate param `password` constraints
+	if (password is String) and password.length() > 7:
+		var error := DemoApiError.new()
+		#error.internal_code = ERR_INVALID_PARAMETER
+		error.identifier = "login_user.param.validation.max_length"
+		error.message = "Invalid length for `password`, must be smaller than or equal to 7."
+		on_failure.call(error)
+		return
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/login"
@@ -335,6 +359,8 @@ func update_user(
 
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
+
 
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
