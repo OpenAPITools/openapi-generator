@@ -17,6 +17,26 @@ const HTTP_DEFAULT_PORT := 80
 const HTTPS_DEFAULT_PORT := 443
 const POLLING_INTERVAL_MS := 500  # milliseconds
 
+const BEE_CONTENT_TYPE_TEXT := "text/plain"
+const BEE_CONTENT_TYPE_JSON := "application/json"
+const BEE_CONTENT_TYPE_FORM := "application/x-www-form-urlencoded"
+const BEE_CONTENT_TYPE_JSONLD := "application/json+ld"  # unsupported (for now)
+const BEE_CONTENT_TYPE_XML := "application/xml"  # unsupported (for now)
+
+# From this client's point of view.
+# Adding a content type here won't magically make the client support it, but you may reorder.
+# These are sorted by decreasing preference. (first → preferred)
+const BEE_PRODUCIBLE_CONTENT_TYPES := [
+	BEE_CONTENT_TYPE_JSON,
+	BEE_CONTENT_TYPE_FORM,
+]
+
+# From this client's point of view.
+# Adding a content type here won't magically make the client support it, but you may reorder.
+# These are sorted by decreasing preference. (first → preferred)
+const BEE_CONSUMABLE_CONTENT_TYPES := [
+	BEE_CONTENT_TYPE_JSON,
+]
 
 # We'll probably only use this for logging
 var bee_name := "ApiBee"
@@ -48,8 +68,28 @@ var bee_host := DEFAULT_HOST:
 
 
 # Port through which the connection will be established.
-# Note: changing the host may change the port as well.
+# Note: changing the host may change the port as well if the scheme was provided, see above.
 var bee_port := HTTP_DEFAULT_PORT
+
+
+# Headers used as base for all requests made by this instance.
+# Those are the lowest priority headers, and are merged with custom headers provided in the bee_request() method call
+# to compute the final, actually sent headers.
+# Note: the factory, if used, will set up here a shared dictionary across all instances.
+var bee_headers_base := {
+	# Stigmergy: everyone does what is left to do (like ants do)
+	"User-Agent": "Stigmergiac/1.0 (Godot)",
+	# For my mental health's sake, only JSON is supported for now
+	"Accept": "application/json",
+	"Content-Type": "application/json",
+	# FIXME: Remove demo cheat code
+	"api_key": "special-key",
+}
+
+
+# High-priority headers, they will always override other headers coming from the base above or the method call.
+# Note: the factory, if used, will set up here a shared dictionary across all instances.
+var bee_headers_override := {}
 
 
 # @private
@@ -68,6 +108,7 @@ func bee_disable_ssl():
 
 
 func bee_next_loop_iteration():
+	# I can't find `idle_frame` in 4-beta3, but we probably want idle_frame here
 	return Engine.get_main_loop().process_frame
 
 
@@ -132,6 +173,7 @@ func bee_connect_client_if_needed(
 func bee_request(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
+	headers: Dictionary,
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(response: Variant, responseCode: int, responseHeaders: Dictionary)
@@ -139,7 +181,7 @@ func bee_request(
 ):
 
 	bee_request_text(
-		method, path, query, body,
+		method, path, headers, query, body,
 		func(responseText, responseCode, responseHeaders):
 			var mime: String = responseHeaders['Mime']
 			var deserializedResponse: Dictionary
@@ -181,6 +223,7 @@ func bee_request(
 func bee_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
+	headers: Dictionary,
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
@@ -188,7 +231,7 @@ func bee_request_text(
 ):
 	bee_connect_client_if_needed(
 		func():
-			bee_do_request_text(method, path, query, body, on_success, on_failure)
+			bee_do_request_text(method, path, headers, query, body, on_success, on_failure)
 			,
 		func(error):
 			on_failure.call(error)
@@ -200,25 +243,17 @@ func bee_request_text(
 func bee_do_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
+	headers: Dictionary,
 	query: Dictionary,
 	body,  # Variant that will be serialized
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
 	on_failure: Callable,  # func(error: DemoApiError)
 ):
 
-	# TODO: How can we help users define more / override these?
-	# 1. template overrides
-	# 2. CLI args
-	# 3. YAML Config file
-	# 4. class property/method (needed anyway for auth)
-	var headers = [
-		"User-Agent: Stigmergiac/1.0 (Godot)",
-		"Accept: application/json",
-		"Content-Type: application/json",
-		"api_key: special-key",
-	]
+	headers = headers.duplicate(true)
+	headers.merge(self.bee_headers_base)
+	headers.merge(self.bee_headers_override, true)
 
-	# TODO: Handle other serialization schemes (json+ld, xml…)
 	var body_normalized = body
 	if body is Object:
 		if body.has_method('bee_collect_missing_properties'):
@@ -233,14 +268,27 @@ func bee_do_request_text(
 				return
 		if body.has_method('bee_normalize'):
 			body_normalized = body.bee_normalize()
-	var body_serialized = JSON.stringify(body_normalized)
+
+	var body_serialized := ""
+	var content_type := self.bee_get_content_type(headers)
+	if content_type == BEE_CONTENT_TYPE_JSON:
+		body_serialized = JSON.stringify(body_normalized)
+	elif content_type == BEE_CONTENT_TYPE_FORM:
+		body_serialized = self.bee_client.query_string_from_dict(body_normalized)
+	else:
+		# TODO: Handle other serialization schemes (json+ld, xml…)
+		push_warning("Unsupported content-type `%s`." % content_type)
 
 	var path_queried := path
 	var query_string := self.bee_client.query_string_from_dict(query)
 	if query_string:
 		path_queried = "%s?%s" % [path, query_string]
 
-	var requesting := self.bee_client.request(method, path_queried, headers, body_serialized)
+	var headers_for_godot := Array()  # of String
+	for key in headers:
+		headers_for_godot.append("%s: %s" % [key, headers[key]])
+
+	var requesting := self.bee_client.request(method, path_queried, headers_for_godot, body_serialized)
 	if requesting != OK:
 		var error := DemoApiError.new()
 		error.internal_code = requesting
@@ -292,8 +340,7 @@ func bee_do_request_text(
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
 
-	print("REQUEST")
-	print("%s %s" % [method, path_queried])
+	print("REQUEST %s %s" % [method, path_queried])
 	print("Headers: %s" % [str(headers)])
 	prints(body_serialized)
 
@@ -376,6 +423,12 @@ func bee_urlize_path_param(anything) -> String:
 func bee_escape_path_param(value: String) -> String:
 	# TODO: escape for URL
 	return value
+
+
+func bee_get_content_type(headers: Dictionary) -> String:
+	if headers.has("Content-Type"):
+		return headers["Content-Type"]
+	return BEE_PRODUCIBLE_CONTENT_TYPES[0]
 
 
 func bee_format_error_response(response: String) -> String:

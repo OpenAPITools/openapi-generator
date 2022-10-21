@@ -116,6 +116,7 @@ func {{operationIdSnakeCase}}(
 	var bzz_{{paramName}}_regex := RegEx.new()
 	{{! We have to trim encapsulating slashes, and we don't support flags }}
 	{{! A solution would be to use another RegEx to extract that data from the pattern }}
+	{{! Perhaps not, since the encapsulating slashes are seemingly added by the engine… }}
 	bzz_{{paramName}}_regex.compile("{{{pattern}}}".trim_prefix('/').trim_suffix('/'))
 	if not bzz_{{paramName}}_regex.search(str({{paramName}})):
 		var error := {{>partials/api_error_class_name}}.new()
@@ -128,11 +129,48 @@ func {{operationIdSnakeCase}}(
 	{{/if}}
 
 	{{/each}}
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("{{httpMethod}}")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("{{httpMethod}}")
+{{!--
+	# Allowed media types, from the server's point of view
+	var bzz_media_types = {
+		'produces': [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}],
+		'consumes': [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}],
+	}
+--}}
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	{{#each headerParams}}
+	bzz_headers["{{baseName}}"] = {{paramName}}
+	{{/each}}
+	{{#if consumes}}
+	var bzz_server_consumed_mimes := [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{#if produces}}
+	var bzz_server_produced_mimes := [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
+	{{/if}}
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -167,8 +205,8 @@ func {{operationIdSnakeCase}}(
 	var _bzz_return_type := "{{{complexType}}}"
 	{{/with}}
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

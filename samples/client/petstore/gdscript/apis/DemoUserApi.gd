@@ -24,11 +24,29 @@ func create_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "create_user.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -38,8 +56,8 @@ func create_user(
 	bzz_body = demoUser
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -67,11 +85,29 @@ func create_users_with_array_input(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithArray"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "create_users_with_array_input.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -81,8 +117,8 @@ func create_users_with_array_input(
 	bzz_body = user
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -110,11 +146,29 @@ func create_users_with_list_input(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/createWithList"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "create_users_with_list_input.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -124,8 +178,8 @@ func create_users_with_list_input(
 	bzz_body = user
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -155,11 +209,15 @@ func delete_user(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("DELETE")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	# Collect the headers
+	var bzz_headers := Dictionary()
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -168,8 +226,8 @@ func delete_user(
 	var bzz_body = null
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -197,11 +255,20 @@ func get_user_by_name(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -217,8 +284,8 @@ func get_user_by_name(
 	# isArray = "false"
 	var _bzz_return_type := "User"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -267,11 +334,20 @@ func login_user(
 		on_failure.call(error)
 		return
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/login"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -289,8 +365,8 @@ func login_user(
 	# isArray = "false"
 	var _bzz_return_type := "string"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -314,11 +390,15 @@ func logout_user(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/logout"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -327,8 +407,8 @@ func logout_user(
 	var bzz_body = null
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -362,11 +442,29 @@ func update_user(
 
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("PUT")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("PUT")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "update_user.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -376,8 +474,8 @@ func update_user(
 	bzz_body = demoUser
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

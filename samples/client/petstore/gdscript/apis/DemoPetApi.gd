@@ -22,11 +22,34 @@ func add_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json', 'application/xml']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "add_pet.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -43,8 +66,8 @@ func add_pet(
 	# isArray = "false"
 	var _bzz_return_type := "Pet"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -76,11 +99,16 @@ func delete_pet(
 
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("DELETE")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	bzz_headers["api_key"] = apiKey
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -89,8 +117,8 @@ func delete_pet(
 	var bzz_body = null
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -120,11 +148,20 @@ func find_pets_by_status(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByStatus"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -141,8 +178,8 @@ func find_pets_by_status(
 	# isArray = "true"
 	var _bzz_return_type := "Pet"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -173,11 +210,20 @@ func find_pets_by_tags(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/findByTags"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -194,8 +240,8 @@ func find_pets_by_tags(
 	# isArray = "true"
 	var _bzz_return_type := "Pet"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -225,11 +271,20 @@ func get_pet_by_id(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -245,8 +300,8 @@ func get_pet_by_id(
 	# isArray = "false"
 	var _bzz_return_type := "Pet"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -274,11 +329,34 @@ func update_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("PUT")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("PUT")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json', 'application/xml']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "update_pet.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -295,8 +373,8 @@ func update_pet(
 	# isArray = "false"
 	var _bzz_return_type := "Pet"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -332,11 +410,29 @@ func update_pet_with_form(
 
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/x-www-form-urlencoded']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "update_pet_with_form.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -350,8 +446,8 @@ func update_pet_with_form(
 	bzz_body["status"] = status
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -387,11 +483,34 @@ func upload_file(
 
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['multipart/form-data']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "upload_file.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	var bzz_server_produced_mimes := ['application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -412,8 +531,8 @@ func upload_file(
 	# isArray = "false"
 	var _bzz_return_type := "ApiResponse"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

@@ -24,11 +24,15 @@ func delete_order(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("DELETE")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("DELETE")
+	# Collect the headers
+	var bzz_headers := Dictionary()
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -37,8 +41,8 @@ func delete_order(
 	var bzz_body = null
 
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -64,11 +68,20 @@ func get_inventory(
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/inventory"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -84,8 +97,8 @@ func get_inventory(
 	# isArray = "false"
 	var _bzz_return_type := "integer"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -128,11 +141,20 @@ func get_order_by_id(
 		on_failure.call(error)
 		return
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("GET")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order/{orderId}".replace("{" + "orderId" + "}", bee_urlize_path_param(orderId))
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -148,8 +170,8 @@ func get_order_by_id(
 	# isArray = "false"
 	var _bzz_return_type := "Order"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)
@@ -177,11 +199,34 @@ func place_order(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self.bee_convert_http_method("POST")
+
 	# Compute the URL path to the API resource
 	var bzz_path := "/v2/store/order"
 
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	var bzz_server_consumed_mimes := ['application/json']
+	var bzz_found_target_mime := false
+	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_consumed_mimes:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_target_mime = true
+			break
+	if not bzz_found_target_mime:
+		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+		var error := DemoApiError.new()
+		error.identifier = "place_order.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_server_produced_mimes:
+			bzz_headers["Accept"] = bzz_mime
+			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -198,8 +243,8 @@ func place_order(
 	# isArray = "false"
 	var _bzz_return_type := "Order"
 
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
+	self.bee_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			#print('SUCCESS!')
 			#print(bzz_result)

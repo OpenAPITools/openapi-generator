@@ -77,7 +77,14 @@ func run_test_01():
 			authenticate(
 				rick.username, rick.password,
 				func():
-					add_monkey()
+					add_monkey(
+						func(monkey):
+							update_monkey(
+								monkey, "Summer",
+								func(result):
+									emit_signal("test_ended")
+							)
+					)
 			)
 			,
 		func(error):
@@ -87,9 +94,6 @@ func run_test_01():
 	)
 
 
-var api_key: String
-
-
 func authenticate(username: String, password: String, on_done: Callable):
 	var user_api := DemoUserApi.new()
 	user_api.bee_port = 8081
@@ -97,7 +101,6 @@ func authenticate(username: String, password: String, on_done: Callable):
 		username, password,
 		func(result):
 			prints("Login Response:", result)
-			#api_key = result
 			on_done.call()
 			,
 		func(error):
@@ -108,7 +111,7 @@ func authenticate(username: String, password: String, on_done: Callable):
 	)
 
 
-func add_monkey():
+func add_monkey(on_done: Callable):
 	
 	var monkey := DemoPet.new()
 	monkey.name = "Gregoire"
@@ -123,7 +126,8 @@ func add_monkey():
 		monkey,
 		func(result):
 			print("Added monkey.")
-			emit_signal("test_ended")
+			on_done.call(result)
+			#emit_signal("test_ended")
 			,
 		#func(error: ApiError):  #  ←  straight up crash, try again later
 		func(error):
@@ -136,7 +140,28 @@ func add_monkey():
 			emit_signal("test_ended")
 			,
 	)
-	
-	
-	
+
+
+func update_monkey(monkey, new_name, on_done: Callable):
+
+	var pet_api := DemoPetApi.new()
+	pet_api.bee_port = 8081
+	pet_api.update_pet_with_form(
+		monkey.id, new_name, "available",
+		func(result):
+			print("Updated monkey.")
+			print(result)
+			on_done.call(result)
+			,
+		#func(error: ApiError):  #  ←  straight up crash, try again later
+		func(error):
+			# OH GOSH THIS CRASHES AS WELL (works with RefCounted)
+			# (but error does have type ApiError)
+#			if not (error is ApiError):
+#				fail("Error in on_failure callback has the wrong type.")
+			printerr("ERROR!")
+			fail(str(error))
+			emit_signal("test_ended")
+			,
+	)
 
