@@ -3,17 +3,16 @@
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
 
-# Order Model
+# DemoOrder Model
 # An order for a pets from the pet store
 # namespace: models
-# invoker: 
 
 extends RefCounted
-class_name Order
+class_name DemoOrder
 
 # It's convenient to know the class name, for error messages.
 # https://github.com/godotengine/godot/issues/21789
-var bee_class_name := "Order"
+var bee_class_name := "DemoOrder"
 
 
 # Type: float
@@ -51,6 +50,7 @@ var __shipDate__was__set := false
 # Order Status
 # Type: String
 # Required: False
+# Allowed values:
 var status: String:
 	set(value):
 		__status__was__set = true
@@ -64,7 +64,6 @@ var complete: bool = false:
 		__complete__was__set = true
 		complete = value
 var __complete__was__set := false
-
 
 
 func bee_collect_missing_properties() -> Array:

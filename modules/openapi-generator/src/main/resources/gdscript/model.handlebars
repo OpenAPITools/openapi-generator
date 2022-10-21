@@ -8,7 +8,6 @@
 # {{{description}}}
 {{/if}}
 # namespace: {{modelPackage}}
-# invoker: {{invokerPackage}}
 
 {{>partials/model_statement_extends}}
 
@@ -27,19 +26,21 @@ var bee_class_name := "{{classname}}"
 {{#if description}}
 # {{{description}}}
 {{/if}}
-# Type: {{dataType}}
+# Type: {{>partials/data_type}}
 # Required: {{#unless required}}False{{/unless}}{{#if required}}True{{/if}}
 {{#if example}}
 # Example: {{{example}}}
 {{/if}}
-var {{name}}: {{dataType}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
+{{#if isEnum}}
+# Allowed values:
+{{/if}}
+var {{name}}: {{>partials/data_type}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
 	set(value):
 		__{{name}}__was__set = true
 		{{name}} = value
 var __{{name}}__was__set := false
 
 {{/each}}
-
 
 func bee_collect_missing_properties() -> Array:
 	var bzz_missing_properties := Array()

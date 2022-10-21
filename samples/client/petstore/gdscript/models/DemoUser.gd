@@ -3,17 +3,16 @@
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
 
-# User Model
+# DemoUser Model
 # A User who is purchasing from the pet store
 # namespace: models
-# invoker: 
 
 extends RefCounted
-class_name User
+class_name DemoUser
 
 # It's convenient to know the class name, for error messages.
 # https://github.com/godotengine/godot/issues/21789
-var bee_class_name := "User"
+var bee_class_name := "DemoUser"
 
 
 # Type: float
@@ -80,7 +79,6 @@ var userStatus: int:
 		__userStatus__was__set = true
 		userStatus = value
 var __userStatus__was__set := false
-
 
 
 func bee_collect_missing_properties() -> Array:

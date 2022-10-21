@@ -3,17 +3,16 @@
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
 
-# ApiResponse Model
+# DemoApiResponse Model
 # Describes the result of uploading an image resource
 # namespace: models
-# invoker: 
 
 extends RefCounted
-class_name ApiResponse
+class_name DemoApiResponse
 
 # It's convenient to know the class name, for error messages.
 # https://github.com/godotengine/godot/issues/21789
-var bee_class_name := "ApiResponse"
+var bee_class_name := "DemoApiResponse"
 
 
 # Type: int
@@ -39,7 +38,6 @@ var message: String:
 		__message__was__set = true
 		message = value
 var __message__was__set := false
-
 
 
 func bee_collect_missing_properties() -> Array:

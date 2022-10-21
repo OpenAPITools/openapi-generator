@@ -2,17 +2,20 @@
 # For more information on how to customize templates, see:
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
-# API PetApi
-extends ApiBee
-class_name PetApi
+# API DemoUserApi
 
-# Operation addPet → POST /pet
-# Add a new pet to the store
-func add_pet(
-	# pet: Pet
-	# Pet object that needs to be added to the store
-	pet: Pet,
-	on_success: Callable = Callable(),  # func(result: Pet)
+extends DemoApiBee
+class_name DemoUserApi
+
+# Operation createUser → POST /user
+# Create user
+#
+# This can only be done by the logged in user.
+func create_user(
+	# demoUser: DemoUser
+	# Created user object
+	demoUser: DemoUser,
+	on_success: Callable = Callable(),  # func(result)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
@@ -21,7 +24,7 @@ func add_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet"
+	var bzz_path := "/v2/user"
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := bee_convert_http_method("POST")
@@ -31,15 +34,8 @@ func add_pet(
 	var bzz_query := Dictionary()
 
 	var bzz_body
-	bzz_body = pet
+	bzz_body = demoUser
 
-	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
-	# isArray = "false"
-	var bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -55,15 +51,12 @@ func add_pet(
 			,  # ざわ‥
 	)
 
-# Operation deletePet → DELETE /pet/{petId}
-# Deletes a pet
-func delete_pet(
-	# petId: float   Eg: 789
-	# Pet id to delete
-	petId: float,
-	# apiKey: String   Eg: apiKey_example
-	# 
-	apiKey = null,
+# Operation createUsersWithArrayInput → POST /user/createWithArray
+# Creates list of users with given input array
+func create_users_with_array_input(
+	# user: Array
+	# List of user object
+	user: Array,
 	on_success: Callable = Callable(),  # func(result)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
@@ -73,7 +66,93 @@ func delete_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/user/createWithArray"
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
+
+	# Collect the query parameters
+	# Note: we do not support multiple values for a single param (for now), nor arrays
+	var bzz_query := Dictionary()
+
+	var bzz_body
+	bzz_body = user
+
+
+	bee_request(
+		bzz_method, bzz_path, bzz_query, bzz_body,
+		func(bzz_result, bzz_code, bzz_headers):
+			#print('SUCCESS!')
+			#print(bzz_result)
+			on_success.call(bzz_result)
+			,  # ざわ‥
+		func(bzz_error):
+			#printerr("FAILURE!")
+			#print(bzz_error)
+			on_failure.call(bzz_error)
+			,  # ざわ‥
+	)
+
+# Operation createUsersWithListInput → POST /user/createWithList
+# Creates list of users with given input array
+func create_users_with_list_input(
+	# user: Array
+	# List of user object
+	user: Array,
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
+):
+	# CollectionFormat: NO
+
+	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
+	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
+	# Compute the URL path to the API resource
+	var bzz_path := "/v2/user/createWithList"
+
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := bee_convert_http_method("POST")
+
+	# Collect the query parameters
+	# Note: we do not support multiple values for a single param (for now), nor arrays
+	var bzz_query := Dictionary()
+
+	var bzz_body
+	bzz_body = user
+
+
+	bee_request(
+		bzz_method, bzz_path, bzz_query, bzz_body,
+		func(bzz_result, bzz_code, bzz_headers):
+			#print('SUCCESS!')
+			#print(bzz_result)
+			on_success.call(bzz_result)
+			,  # ざわ‥
+		func(bzz_error):
+			#printerr("FAILURE!")
+			#print(bzz_error)
+			on_failure.call(bzz_error)
+			,  # ざわ‥
+	)
+
+# Operation deleteUser → DELETE /user/{username}
+# Delete user
+#
+# This can only be done by the logged in user.
+func delete_user(
+	# username: String   Eg: username_example
+	# The name that needs to be deleted
+	username: String,
+	on_success: Callable = Callable(),  # func(result)
+	on_failure: Callable = Callable(),  # func(error: ApiError)
+):
+	# CollectionFormat: NO
+
+	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
+	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
+
+	# Compute the URL path to the API resource
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := bee_convert_http_method("DELETE")
@@ -99,15 +178,13 @@ func delete_pet(
 			,  # ざわ‥
 	)
 
-# Operation findPetsByStatus → GET /pet/findByStatus
-# Finds Pets by status
-#
-# Multiple status values can be provided with comma separated strings
-func find_pets_by_status(
-	# status: Array
-	# Status values that need to be considered for filter
-	status: Array,
-	on_success: Callable = Callable(),  # func(result: Array)
+# Operation getUserByName → GET /user/{username}
+# Get user by user name
+func get_user_by_name(
+	# username: String   Eg: username_example
+	# The name that needs to be fetched. Use user1 for testing.
+	username: String,
+	on_success: Callable = Callable(),  # func(result: User)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
@@ -116,110 +193,7 @@ func find_pets_by_status(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/findByStatus"
-
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
-
-	# Collect the query parameters
-	# Note: we do not support multiple values for a single param (for now), nor arrays
-	var bzz_query := Dictionary()
-	bzz_query["status"] = status
-
-	var bzz_body
-
-	# Will be used at some point for denormalization
-	# baseType = "array"
-	# openApiType = "array"
-	# dataType = "Array"
-	# complexType = "Pet"
-	# isArray = "true"
-	var bzz_return_type := "Pet"
-
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
-		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
-			on_success.call(bzz_result)
-			,  # ざわ‥
-		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
-			on_failure.call(bzz_error)
-			,  # ざわ‥
-	)
-
-# /!.  DEPRECATED
-# Operation findPetsByTags → GET /pet/findByTags
-# Finds Pets by tags
-#
-# Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-func find_pets_by_tags(
-	# tags: Array
-	# Tags to filter by
-	tags: Array,
-	on_success: Callable = Callable(),  # func(result: Array)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
-):
-	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
-	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/findByTags"
-
-	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("GET")
-
-	# Collect the query parameters
-	# Note: we do not support multiple values for a single param (for now), nor arrays
-	var bzz_query := Dictionary()
-	bzz_query["tags"] = tags
-
-	var bzz_body
-
-	# Will be used at some point for denormalization
-	# baseType = "array"
-	# openApiType = "array"
-	# dataType = "Array"
-	# complexType = "Pet"
-	# isArray = "true"
-	var bzz_return_type := "Pet"
-
-	bee_request(
-		bzz_method, bzz_path, bzz_query, bzz_body,
-		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
-			on_success.call(bzz_result)
-			,  # ざわ‥
-		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
-			on_failure.call(bzz_error)
-			,  # ざわ‥
-	)
-
-# Operation getPetById → GET /pet/{petId}
-# Find pet by ID
-#
-# Returns a single pet
-func get_pet_by_id(
-	# petId: float   Eg: 789
-	# ID of pet to return
-	petId: float,
-	on_success: Callable = Callable(),  # func(result: Pet)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
-):
-	# CollectionFormat: NO
-
-	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames
-	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
-
-	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := bee_convert_http_method("GET")
@@ -231,12 +205,12 @@ func get_pet_by_id(
 	var bzz_body
 
 	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
+	# baseType = "User"
+	# openApiType = "User"
+	# dataType = "User"
+	# complexType = "User"
 	# isArray = "false"
-	var bzz_return_type := "Pet"
+	var bzz_return_type := "User"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -252,13 +226,16 @@ func get_pet_by_id(
 			,  # ざわ‥
 	)
 
-# Operation updatePet → PUT /pet
-# Update an existing pet
-func update_pet(
-	# pet: Pet
-	# Pet object that needs to be added to the store
-	pet: Pet,
-	on_success: Callable = Callable(),  # func(result: Pet)
+# Operation loginUser → GET /user/login
+# Logs user into the system
+func login_user(
+	# username: String   Eg: username_example
+	# The user name for login
+	username: String,
+	# password: String   Eg: password_example
+	# The password for login in clear text
+	password: String,
+	on_success: Callable = Callable(),  # func(result: String)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
@@ -267,25 +244,26 @@ func update_pet(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet"
+	var bzz_path := "/v2/user/login"
 
 	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("PUT")
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
+	bzz_query["username"] = username
+	bzz_query["password"] = password
 
 	var bzz_body
-	bzz_body = pet
 
 	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
+	# baseType = "string"
+	# openApiType = "string"
+	# dataType = "String"
+	# complexType = "string"
 	# isArray = "false"
-	var bzz_return_type := "Pet"
+	var bzz_return_type := "string"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -301,18 +279,9 @@ func update_pet(
 			,  # ざわ‥
 	)
 
-# Operation updatePetWithForm → POST /pet/{petId}
-# Updates a pet in the store with form data
-func update_pet_with_form(
-	# petId: float   Eg: 789
-	# ID of pet that needs to be updated
-	petId: float,
-	# name: String   Eg: name_example
-	# Updated name of the pet
-	name = null,
-	# status: String   Eg: status_example
-	# Updated status of the pet
-	status = null,
+# Operation logoutUser → GET /user/logout
+# Logs out current logged in user session
+func logout_user(
 	on_success: Callable = Callable(),  # func(result)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
@@ -322,10 +291,10 @@ func update_pet_with_form(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/{petId}".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/user/logout"
 
 	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_method := bee_convert_http_method("GET")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
@@ -348,19 +317,18 @@ func update_pet_with_form(
 			,  # ざわ‥
 	)
 
-# Operation uploadFile → POST /pet/{petId}/uploadImage
-# uploads an image
-func upload_file(
-	# petId: float   Eg: 789
-	# ID of pet to update
-	petId: float,
-	# additionalMetadata: String   Eg: additionalMetadata_example
-	# Additional data to pass to server
-	additionalMetadata = null,
-	# file: File   Eg: BINARY_DATA_HERE
-	# file to upload
-	file = null,
-	on_success: Callable = Callable(),  # func(result: ApiResponse)
+# Operation updateUser → PUT /user/{username}
+# Updated user
+#
+# This can only be done by the logged in user.
+func update_user(
+	# username: String   Eg: username_example
+	# name that need to be deleted
+	username: String,
+	# demoUser: DemoUser
+	# Updated user object
+	demoUser: DemoUser,
+	on_success: Callable = Callable(),  # func(result)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
@@ -369,24 +337,18 @@ func upload_file(
 	# Warn: Make sure all local variable names here are also listed in our Java CodeGen.
 
 	# Compute the URL path to the API resource
-	var bzz_path := "/v2/pet/{petId}/uploadImage".replace("{" + "petId" + "}", bee_urlize_path_param(petId))
+	var bzz_path := "/v2/user/{username}".replace("{" + "username" + "}", bee_urlize_path_param(username))
 
 	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := bee_convert_http_method("POST")
+	var bzz_method := bee_convert_http_method("PUT")
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
 	var bzz_body
+	bzz_body = demoUser
 
-	# Will be used at some point for denormalization
-	# baseType = "ApiResponse"
-	# openApiType = "ApiResponse"
-	# dataType = "ApiResponse"
-	# complexType = "ApiResponse"
-	# isArray = "false"
-	var bzz_return_type := "ApiResponse"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,

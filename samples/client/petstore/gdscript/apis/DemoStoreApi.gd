@@ -2,9 +2,10 @@
 # For more information on how to customize templates, see:
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
-# API StoreApi
-extends ApiBee
-class_name StoreApi
+# API DemoStoreApi
+
+extends DemoApiBee
+class_name DemoStoreApi
 
 # Operation deleteOrder → DELETE /store/order/{orderId}
 # Delete purchase order by ID
@@ -149,9 +150,9 @@ func get_order_by_id(
 # Operation placeOrder → POST /store/order
 # Place an order for a pet
 func place_order(
-	# order: Order
+	# demoOrder: DemoOrder
 	# order placed for purchasing the pet
-	order: Order,
+	demoOrder: DemoOrder,
 	on_success: Callable = Callable(),  # func(result: Order)
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
@@ -171,7 +172,7 @@ func place_order(
 	var bzz_query := Dictionary()
 
 	var bzz_body
-	bzz_body = order
+	bzz_body = demoOrder
 
 	# Will be used at some point for denormalization
 	# baseType = "Order"

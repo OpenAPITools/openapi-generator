@@ -1,5 +1,5 @@
 extends Resource
-class_name ApiError
+class_name DemoApiError
 
 # Helps finding the error in the code, among other things.
 # Could be a UUID, or even a translation key, so long as it's unique.

@@ -12,15 +12,42 @@ import java.util.List;
 
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    // All generated GDScript classes (including core) will use this prefix both in class_name and file name.
+    public static final String CORE_NAME_PREFIX = "coreNamePrefix";
+    public static final String CORE_NAME_SUFFIX = "coreNameSuffix";
+    // Perhaps for the README's title ?  Any chars allowed ?
     public static final String PROJECT_NAME = "projectName";
 
     @SuppressWarnings("FieldCanBeLocal")
     private final Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
+
+    // Perhaps an IDE issue but it can't find the module
+    //protected String coreNamePrefix = org.openapitools.codegen.options.GdscriptClientCodegenOptionsProvider.CORE_NAME_PREFIX_VALUE;
+    protected String coreNamePrefix = "";
+    protected String coreNameSuffix = "";
+
+    public void setCoreNamePrefix(String prefix) {
+        coreNamePrefix = prefix;
+    }
+
+    public String getCoreNamePrefix() {
+        return coreNamePrefix;
+    }
+
+    public String getCoreNameSuffix() {
+        return coreNameSuffix;
+    }
+
+    public void setCoreNameSuffix(String coreNameSuffix) {
+        this.coreNameSuffix = coreNameSuffix;
+    }
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -41,18 +68,13 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         // Since most users will set the output dir, we need to document that fact.
         String addonName = "oas." + "petstore"; // TODO: replace "petstore" from CLI or YAML or both  (how?)
         outputFolder = "generated-code" + File.separator + "gdscript" + File.separator + "addons" + File.separator + addonName;
-        modelTemplateFiles.put("model.handlebars", ".gd");
-        apiTemplateFiles.put("api.handlebars", ".gd");
-
         embeddedTemplateDir = templateDir = "gdscript";
         apiPackage = "apis";
         modelPackage = "models";
 
-        supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", getApiNamePrefix() + "ApiBee.gd"));
-        supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", getApiNamePrefix() + "ApiError.gd"));
-        supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
-
-
+        modelTemplateFiles.put("model.handlebars", ".gd");
+        apiTemplateFiles.put("api.handlebars", ".gd");
+        // more supported files are defined in processOpts()
 
         setReservedWordsLowerCase(getReservedWords());
 
@@ -85,6 +107,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
         // TODO: add meaningful parameters
         cliOptions.add(new CliOption(PROJECT_NAME, "The name of the project !!"));
+        cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all generated classes"));
 
         // This constructor is ran twice, because … reasons.
         LOGGER.warn("THIS GENERATOR IS UNSAFE AND MALICIOUS OAS3 YAML FILES MAY HURT YOU.");
@@ -98,9 +121,28 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "handlebars";
     }
 
+
+    public void processAdditionalProperties() {
+        if (additionalProperties.containsKey(CORE_NAME_PREFIX)) {
+            setCoreNamePrefix((String) additionalProperties.get(CORE_NAME_PREFIX));
+        } else {
+            additionalProperties.put(CORE_NAME_PREFIX, "");
+        }
+        if (additionalProperties.containsKey(CORE_NAME_SUFFIX)) {
+            setCoreNameSuffix((String) additionalProperties.get(CORE_NAME_SUFFIX));
+        } else {
+            additionalProperties.put(CORE_NAME_SUFFIX, "");
+        }
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
+
+        processAdditionalProperties();
+        supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", toCoreFilename("ApiBee") + ".gd"));
+        supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", toCoreFilename("ApiError") + ".gd"));
+        supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
 
         // Ensure we're using the appropriate template engine, and configure it while we're at it.
         // We had to use handlebars because the truthy value of mustache includes `""` and `"null"`,
@@ -133,6 +175,19 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 ;
     }
 
+    // In GDScript we want our file names to match our class names.
+    // This ensures we get the (optional) prefix and suffix added to the file name.
+    // Perhaps we'll even do (optional) snake_case in here later on.
+    @Override
+    public String toModelFilename(String name) {
+        return toModelName(name);
+    }
+
+    public String toCoreFilename(String name) {
+        return camelize(getCoreNamePrefix() + '_' + name + '_' + getCoreNameSuffix());
+    }
+
+
     // When example is "null" (with quotes), mustache's {{#example}} triggers
     // Not sure why this happens on {{#example}} but not {{#description}}
     // Perhaps I'm just using mustache wrong…  Anyway, it's voodoo.
@@ -161,6 +216,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "";
     }
 
+    // We are generous with the keywords, but what is actually accepted by GDScript ir more lenient
+    // than what is properly highlighted in the editor.  Readability matters ?
     protected List<String> getReservedWords() {
         // FIXME: Missing Nodes and other Objects globally available (RefCounted, Sprite2D, etc.)
         // FIXME: Missing primitive types (Rect…)

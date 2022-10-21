@@ -3,17 +3,16 @@
 # https://openapi-generator.tech
 # The OpenAPI Generator Community, © Public Domain, 2022
 
-# Category Model
+# DemoCategory Model
 # A category for a pet
 # namespace: models
-# invoker: 
 
 extends RefCounted
-class_name Category
+class_name DemoCategory
 
 # It's convenient to know the class name, for error messages.
 # https://github.com/godotengine/godot/issues/21789
-var bee_class_name := "Category"
+var bee_class_name := "DemoCategory"
 
 
 # Type: float
@@ -31,7 +30,6 @@ var name: String:
 		__name__was__set = true
 		name = value
 var __name__was__set := false
-
 
 
 func bee_collect_missing_properties() -> Array:

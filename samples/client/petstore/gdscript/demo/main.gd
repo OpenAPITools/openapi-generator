@@ -63,11 +63,11 @@ func run_all_tests(on_done := Callable()):
 func run_test_01():
 	Logger.inform("Running test 01…")
 	
-	var rick := User.new()
+	var rick := DemoUser.new()
 	rick.username = "Rick"
 	rick.password = "ytrom&"
 	
-	var user_api := UserApi.new()
+	var user_api := DemoUserApi.new()
 	user_api.bee_port = 8081
 	user_api.create_user(
 		rick,
@@ -91,7 +91,7 @@ var api_key: String
 
 
 func authenticate(username: String, password: String, on_done: Callable):
-	var user_api := UserApi.new()
+	var user_api := DemoUserApi.new()
 	user_api.bee_port = 8081
 	user_api.login_user(
 		username, password,
@@ -110,12 +110,12 @@ func authenticate(username: String, password: String, on_done: Callable):
 
 func add_monkey():
 	
-	var monkey := Pet.new()
+	var monkey := DemoPet.new()
 	monkey.name = "Gregoire"
 	monkey.photoUrls = ['urlA', 'urlB']
 	#monkey.tags = ['tree', 'fur']
 
-	var pet_api := PetApi.new()
+	var pet_api := DemoPetApi.new()
 	pet_api.bee_port = 8081
 	pet_api.add_pet(
 		monkey,
