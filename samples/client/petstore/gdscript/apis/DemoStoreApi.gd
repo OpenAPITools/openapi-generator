@@ -33,7 +33,7 @@ func delete_order(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 
 	bee_request(
@@ -73,7 +73,7 @@ func get_inventory(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "map"
@@ -81,7 +81,7 @@ func get_inventory(
 	# dataType = "Dictionary"
 	# complexType = "integer"
 	# isArray = "false"
-	var bzz_return_type := "integer"
+	var _bzz_return_type := "integer"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -123,7 +123,7 @@ func get_order_by_id(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "Order"
@@ -131,7 +131,7 @@ func get_order_by_id(
 	# dataType = "Order"
 	# complexType = "Order"
 	# isArray = "false"
-	var bzz_return_type := "Order"
+	var _bzz_return_type := "Order"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -171,7 +171,7 @@ func place_order(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = demoOrder
 
 	# Will be used at some point for denormalization
@@ -180,7 +180,7 @@ func place_order(
 	# dataType = "Order"
 	# complexType = "Order"
 	# isArray = "false"
-	var bzz_return_type := "Order"
+	var _bzz_return_type := "Order"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,

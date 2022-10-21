@@ -31,7 +31,7 @@ func add_pet(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = demoPet
 
 	# Will be used at some point for denormalization
@@ -40,7 +40,7 @@ func add_pet(
 	# dataType = "Pet"
 	# complexType = "Pet"
 	# isArray = "false"
-	var bzz_return_type := "Pet"
+	var _bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -83,7 +83,7 @@ func delete_pet(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 
 	bee_request(
@@ -127,7 +127,7 @@ func find_pets_by_status(
 	var bzz_query := Dictionary()
 	bzz_query["status"] = status
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "array"
@@ -135,7 +135,7 @@ func find_pets_by_status(
 	# dataType = "Array"
 	# complexType = "Pet"
 	# isArray = "true"
-	var bzz_return_type := "Pet"
+	var _bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -179,7 +179,7 @@ func find_pets_by_tags(
 	var bzz_query := Dictionary()
 	bzz_query["tags"] = tags
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "array"
@@ -187,7 +187,7 @@ func find_pets_by_tags(
 	# dataType = "Array"
 	# complexType = "Pet"
 	# isArray = "true"
-	var bzz_return_type := "Pet"
+	var _bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -229,7 +229,7 @@ func get_pet_by_id(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "Pet"
@@ -237,7 +237,7 @@ func get_pet_by_id(
 	# dataType = "Pet"
 	# complexType = "Pet"
 	# isArray = "false"
-	var bzz_return_type := "Pet"
+	var _bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -277,7 +277,7 @@ func update_pet(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = demoPet
 
 	# Will be used at some point for denormalization
@@ -286,7 +286,7 @@ func update_pet(
 	# dataType = "Pet"
 	# complexType = "Pet"
 	# isArray = "false"
-	var bzz_return_type := "Pet"
+	var _bzz_return_type := "Pet"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -332,7 +332,7 @@ func update_pet_with_form(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 
 	bee_request(
@@ -379,7 +379,7 @@ func upload_file(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "ApiResponse"
@@ -387,7 +387,7 @@ func upload_file(
 	# dataType = "ApiResponse"
 	# complexType = "ApiResponse"
 	# isArray = "false"
-	var bzz_return_type := "ApiResponse"
+	var _bzz_return_type := "ApiResponse"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,

@@ -60,12 +60,18 @@ var __tags__was__set := false
 # pet status in the store
 # Type: String
 # Required: False
-# Allowed values:
+# Allowed values: "available", "pending", "sold"
 var status: String:
 	set(value):
+		push_warning("DemoPet: property `status` is deprecated.")
+		if str(value) != "" and not (str(value) in __status__allowable__values):
+			printerr("DemoPet: tried to set property `status` to a value that is not allowed." +
+				"  Allowed values: `available`, `pending`, `sold`")
+			return
 		__status__was__set = true
 		status = value
 var __status__was__set := false
+var __status__allowable__values := ["available", "pending", "sold"]
 
 
 func bee_collect_missing_properties() -> Array:

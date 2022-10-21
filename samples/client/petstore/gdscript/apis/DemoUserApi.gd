@@ -33,7 +33,7 @@ func create_user(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = demoUser
 
 
@@ -75,7 +75,7 @@ func create_users_with_array_input(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = user
 
 
@@ -117,7 +117,7 @@ func create_users_with_list_input(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = user
 
 
@@ -161,7 +161,7 @@ func delete_user(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 
 	bee_request(
@@ -202,7 +202,7 @@ func get_user_by_name(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "User"
@@ -210,7 +210,7 @@ func get_user_by_name(
 	# dataType = "User"
 	# complexType = "User"
 	# isArray = "false"
-	var bzz_return_type := "User"
+	var _bzz_return_type := "User"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -255,7 +255,7 @@ func login_user(
 	bzz_query["username"] = username
 	bzz_query["password"] = password
 
-	var bzz_body
+	var bzz_body = null
 
 	# Will be used at some point for denormalization
 	# baseType = "string"
@@ -263,7 +263,7 @@ func login_user(
 	# dataType = "String"
 	# complexType = "string"
 	# isArray = "false"
-	var bzz_return_type := "string"
+	var _bzz_return_type := "string"
 
 	bee_request(
 		bzz_method, bzz_path, bzz_query, bzz_body,
@@ -300,7 +300,7 @@ func logout_user(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 
 
 	bee_request(
@@ -346,7 +346,7 @@ func update_user(
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
 
-	var bzz_body
+	var bzz_body = null
 	bzz_body = demoUser
 
 

@@ -51,7 +51,7 @@ func {{operationIdSnakeCase}}(
 	bzz_query["{{baseName}}"] = {{paramName}}
 	{{/each}}
 
-	var bzz_body
+	var bzz_body = null
 	{{#each bodyParams}}
 	bzz_body = {{paramName}}
 	{{/each}}
@@ -63,7 +63,7 @@ func {{operationIdSnakeCase}}(
 	# dataType = "{{{dataType}}}"
 	# complexType = "{{{complexType}}}"
 	# isArray = "{{{isArray}}}"
-	var bzz_return_type := "{{{complexType}}}"
+	var _bzz_return_type := "{{{complexType}}}"
 	{{/with}}
 
 	bee_request(

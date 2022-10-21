@@ -113,6 +113,8 @@ func add_monkey():
 	var monkey := DemoPet.new()
 	monkey.name = "Gregoire"
 	monkey.photoUrls = ['urlA', 'urlB']
+	monkey.status = "available"
+	monkey.status = "shenaniganing"
 	#monkey.tags = ['tree', 'fur']
 
 	var pet_api := DemoPetApi.new()

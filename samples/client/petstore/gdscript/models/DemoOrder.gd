@@ -50,12 +50,17 @@ var __shipDate__was__set := false
 # Order Status
 # Type: String
 # Required: False
-# Allowed values:
+# Allowed values: "placed", "approved", "delivered"
 var status: String:
 	set(value):
+		if str(value) != "" and not (str(value) in __status__allowable__values):
+			printerr("DemoOrder: tried to set property `status` to a value that is not allowed." +
+				"  Allowed values: `placed`, `approved`, `delivered`")
+			return
 		__status__was__set = true
 		status = value
 var __status__was__set := false
+var __status__allowable__values := ["placed", "approved", "delivered"]
 
 # Type: bool
 # Required: False
