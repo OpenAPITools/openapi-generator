@@ -842,6 +842,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.derivedApiPackage = derivedApiPackage;
     }
 
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
+    }
+
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
