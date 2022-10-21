@@ -236,6 +236,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testSingleInheritanceAliasesGetResolved() throws Exception {
+        // See Issue #13784
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        Map<String, String> allAliases = codegen.getAllAliases(openAPI.getComponents().getSchemas());
+
+        Assert.assertEquals(allAliases.size(), 8);
+        Assert.assertEquals(allAliases.get("Id"), "string");
+        Assert.assertEquals(allAliases.get("IdReference"), "string");
+        Assert.assertEquals(allAliases.get("EntityWithId_idReference"), "string");
+        Assert.assertEquals(allAliases.get("EntityWithId_idAnyOfDeepReference"), "string");
+        Assert.assertEquals(allAliases.get("EntityWithId_idAllOfDeepReference"), "string");
+        Assert.assertEquals(allAliases.get("EntityWithId_idOneOfDeepReference"), "string");
+        Assert.assertEquals(allAliases.get("UuidAlias"), "UUID");
+        Assert.assertEquals(allAliases.get("EntityWithId_uuidReference"), "UUID");
+    }
+
+    @Test
     public void testFormParameterHasDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

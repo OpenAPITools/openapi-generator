@@ -5701,6 +5701,28 @@ public class DefaultCodegen implements CodegenConfig {
 
         }
 
+		boolean foundNewAlias;
+		do {
+			foundNewAlias = false;
+			for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
+				if (aliases.containsKey(entry.getKey())) {
+					continue;
+				}
+				Schema schema = entry.getValue();
+				if(!(schema instanceof ComposedSchema)) {
+					continue;
+				}
+				List<Schema> subTypes = ModelUtils.getInterfaces((ComposedSchema)schema);
+				if (subTypes.size() == 1) {
+					String aliasType = ModelUtils.getSimpleRef(subTypes.get(0).get$ref());
+					if (aliases.containsKey(aliasType)) {
+						aliases.put(entry.getKey(), aliases.get(aliasType));
+						foundNewAlias = true;
+					}
+				}
+			}
+		} while (foundNewAlias);
+
         return aliases;
     }
 

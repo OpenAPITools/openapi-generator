@@ -1643,26 +1643,63 @@ public class JavaClientCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
-                .setAdditionalProperties(additionalProperties)
-                .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
-                .setOutputDir(output.getAbsolutePath()
-                        .replace("\\", "/"));
+            .setAdditionalProperties(additionalProperties)
+            .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
+            .setOutputDir(output.getAbsolutePath()
+                .replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+            .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("DefaultApi.java"))
-                .assertMethod("operationWithHttpInfo")
-                    .hasParameter("requestBody")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull")
-                .toParameter().toMethod()
-                    .hasParameter("xNonNullHeaderParameter")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull");
+            .assertMethod("operationWithHttpInfo")
+            .hasParameter("requestBody")
+            .assertParameterAnnotations()
+            .containsWithName("NotNull")
+            .toParameter().toMethod()
+            .hasParameter("xNonNullHeaderParameter")
+            .assertParameterAnnotations()
+            .containsWithName("NotNull");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13784
+     */
+    @Test
+    public void testSingleInheritanceAliasesGetResolved() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+            .setInputSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getId")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getIdReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getIdAnyOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getIdAllOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getIdOneOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+            .assertMethod("getUuidReference")
+            .hasReturnType("UUID");
     }
 
     @Test
