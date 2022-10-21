@@ -230,7 +230,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Map<String, String> aliases = codegen.getAllAliases(schemas);
+        Map<String, Schema> aliases = codegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -241,17 +241,32 @@ public class DefaultCodegenTest {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
-        Map<String, String> allAliases = codegen.getAllAliases(openAPI.getComponents().getSchemas());
 
-        Assert.assertEquals(allAliases.size(), 8);
-        Assert.assertEquals(allAliases.get("Id"), "string");
-        Assert.assertEquals(allAliases.get("IdReference"), "string");
-        Assert.assertEquals(allAliases.get("EntityWithId_idReference"), "string");
-        Assert.assertEquals(allAliases.get("EntityWithId_idAnyOfDeepReference"), "string");
-        Assert.assertEquals(allAliases.get("EntityWithId_idAllOfDeepReference"), "string");
-        Assert.assertEquals(allAliases.get("EntityWithId_idOneOfDeepReference"), "string");
-        Assert.assertEquals(allAliases.get("UuidAlias"), "UUID");
-        Assert.assertEquals(allAliases.get("EntityWithId_uuidReference"), "UUID");
+        // Assert Model
+        Assert.assertEquals(codegen.getAlias("EntityWithId"), "EntityWithId");
+
+        Assert.assertEquals(codegen.getAlias("Id"), "string");
+        Assert.assertEquals(codegen.getAlias("IdReference"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idReference"), "string");
+        // This is instead of EntityWithId_idAnyOfDeepReference, because that type is equivalent to the path's parameter type
+        Assert.assertEquals(codegen.getAlias("_aliasedParameterAndReturnType_get_id_parameter"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idAllOfDeepReference"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idOneOfDeepReference"), "string");
+        Assert.assertEquals(codegen.getAlias("UuidAlias"), "UUID");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_uuidReference"), "UUID");
+
+        // Assert Path Return Type
+        String path = "/aliasedParameterAndReturnType";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation co = codegen.fromOperation(path, "GET", operation, null);
+        assertEquals(co.returnType, "String");
+
+        // Assert Path Parameter
+        CodegenParameter parameter = co.pathParams.get(0);
+        assertEquals(parameter.dataType, "String");
+        assertEquals(parameter.isPrimitiveType, true);
+        assertEquals(parameter.isString, true);
+        assertEquals(parameter.isAnyType, false);
     }
 
     @Test

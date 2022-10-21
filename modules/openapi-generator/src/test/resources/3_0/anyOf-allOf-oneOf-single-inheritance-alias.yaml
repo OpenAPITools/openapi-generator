@@ -4,21 +4,22 @@ info:
   version: 1.0.0
   description: todo
 paths:
-  /entity:
+  /aliasedParameterAndReturnType:
     description: Query for Entity
     get:
       parameters:
         - name: id
           in: path
           schema:
-            allOf:
+            anyOf:
               - $ref: '#/components/schemas/IdReference'
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EntityWithId'
+                anyOf:
+                  - $ref: '#/components/schemas/IdReference'
           description: Entity
 components:
   schemas:

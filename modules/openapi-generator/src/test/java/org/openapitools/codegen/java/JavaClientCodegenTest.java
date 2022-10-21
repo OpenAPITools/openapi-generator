@@ -1674,6 +1674,8 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
             .setInputSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml")
+            // Adding a suffix allows us to detect confusion between String and StringApiDto
+            .setModelNameSuffix("ApiDto")
             .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -1682,24 +1684,36 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        // Assert Model
+        File entityFile = files.get("EntityWithIdApiDto.java");
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getId")
             .hasReturnType("String");
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getIdReference")
             .hasReturnType("String");
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getIdAnyOfDeepReference")
             .hasReturnType("String");
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getIdAllOfDeepReference")
             .hasReturnType("String");
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getIdOneOfDeepReference")
             .hasReturnType("String");
-        JavaFileAssert.assertThat(files.get("EntityWithId.java"))
+        JavaFileAssert.assertThat(entityFile)
             .assertMethod("getUuidReference")
             .hasReturnType("UUID");
+
+        // Assert API
+        File apiFile = files.get("DefaultApi.java");
+        JavaFileAssert.assertThat(apiFile)
+            .assertMethod("aliasedParameterAndReturnTypeGet")
+            .hasParameter("id")
+            .withType("String");
+        JavaFileAssert.assertThat(apiFile)
+            .assertMethod("aliasedParameterAndReturnTypeGet")
+            .hasReturnType("String");
     }
 
     @Test
