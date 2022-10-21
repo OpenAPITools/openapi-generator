@@ -41,6 +41,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
+
 data class Pet (
 
     @SerialName(value = "name")

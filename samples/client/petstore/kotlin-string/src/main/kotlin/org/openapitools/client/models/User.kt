@@ -32,6 +32,7 @@ import java.io.Serializable
  * @param userStatus User Status
  */
 
+
 data class User (
 
     @Json(name = "id")

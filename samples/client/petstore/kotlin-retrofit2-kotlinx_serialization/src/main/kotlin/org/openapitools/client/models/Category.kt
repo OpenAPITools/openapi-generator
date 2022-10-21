@@ -28,6 +28,7 @@ import java.io.Serializable
  * @param name 
  */
 @KSerializable
+
 data class Category (
 
     @SerialName(value = "id")

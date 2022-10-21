@@ -33,6 +33,7 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param userStatus User Status
  */
 
+
 data class User (
 
     @SerializedName("id")

@@ -39,6 +39,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
+
 data class Order (
 
     @SerialName(value = "id")
