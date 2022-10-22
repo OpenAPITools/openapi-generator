@@ -42,8 +42,8 @@ namespace Org.OpenAPITools.Model
             if (specialPropertyName == null)
                 throw new ArgumentNullException("specialPropertyName is a required property for SpecialModelName and cannot be null.");
 
-            if (specialModelName == null)
-                throw new ArgumentNullException("specialModelName is a required property for SpecialModelName and cannot be null.");
+            if (specialModelNameProperty == null)
+                throw new ArgumentNullException("specialModelNameProperty is a required property for SpecialModelName and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'

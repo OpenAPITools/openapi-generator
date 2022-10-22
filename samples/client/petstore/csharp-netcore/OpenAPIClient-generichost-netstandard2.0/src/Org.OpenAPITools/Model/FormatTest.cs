@@ -32,12 +32,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
         /// <param name="binary">binary</param>
-        /// <param name="_byte">_byte</param>
+        /// <param name="byteProperty">byteProperty</param>
         /// <param name="date">date</param>
         /// <param name="dateTime">dateTime</param>
-        /// <param name="_decimal">_decimal</param>
-        /// <param name="_double">_double</param>
-        /// <param name="_float">_float</param>
+        /// <param name="decimalProperty">decimalProperty</param>
+        /// <param name="doubleProperty">doubleProperty</param>
+        /// <param name="floatProperty">floatProperty</param>
         /// <param name="int32">int32</param>
         /// <param name="int64">int64</param>
         /// <param name="integer">integer</param>
@@ -45,10 +45,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
-        /// <param name="_string">_string</param>
+        /// <param name="stringProperty">stringProperty</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] _byte, DateTime date, DateTime dateTime, decimal _decimal, double _double, float _float, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string _string, Guid uuid)
+        public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, Guid uuid)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -65,20 +65,20 @@ namespace Org.OpenAPITools.Model
             if (number == null)
                 throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
 
-            if (_float == null)
-                throw new ArgumentNullException("_float is a required property for FormatTest and cannot be null.");
+            if (floatProperty == null)
+                throw new ArgumentNullException("floatProperty is a required property for FormatTest and cannot be null.");
 
-            if (_double == null)
-                throw new ArgumentNullException("_double is a required property for FormatTest and cannot be null.");
+            if (doubleProperty == null)
+                throw new ArgumentNullException("doubleProperty is a required property for FormatTest and cannot be null.");
 
-            if (_decimal == null)
-                throw new ArgumentNullException("_decimal is a required property for FormatTest and cannot be null.");
+            if (decimalProperty == null)
+                throw new ArgumentNullException("decimalProperty is a required property for FormatTest and cannot be null.");
 
-            if (_string == null)
-                throw new ArgumentNullException("_string is a required property for FormatTest and cannot be null.");
+            if (stringProperty == null)
+                throw new ArgumentNullException("stringProperty is a required property for FormatTest and cannot be null.");
 
-            if (_byte == null)
-                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null.");
+            if (byteProperty == null)
+                throw new ArgumentNullException("byteProperty is a required property for FormatTest and cannot be null.");
 
             if (binary == null)
                 throw new ArgumentNullException("binary is a required property for FormatTest and cannot be null.");
@@ -105,12 +105,12 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Binary = binary;
-            Byte = _byte;
+            ByteProperty = byteProperty;
             Date = date;
             DateTime = dateTime;
-            Decimal = _decimal;
-            Double = _double;
-            Float = _float;
+            DecimalProperty = decimalProperty;
+            DoubleProperty = doubleProperty;
+            FloatProperty = floatProperty;
             Int32 = int32;
             Int64 = int64;
             Integer = integer;
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
             Password = password;
             PatternWithDigits = patternWithDigits;
             PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            String = _string;
+            StringProperty = stringProperty;
             Uuid = uuid;
         }
 
@@ -129,10 +129,10 @@ namespace Org.OpenAPITools.Model
         public System.IO.Stream Binary { get; set; }
 
         /// <summary>
-        /// Gets or Sets Byte
+        /// Gets or Sets ByteProperty
         /// </summary>
         [JsonPropertyName("byte")]
-        public byte[] Byte { get; set; }
+        public byte[] ByteProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
@@ -147,22 +147,22 @@ namespace Org.OpenAPITools.Model
         public DateTime DateTime { get; set; }
 
         /// <summary>
-        /// Gets or Sets Decimal
+        /// Gets or Sets DecimalProperty
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal Decimal { get; set; }
+        public decimal DecimalProperty { get; set; }
 
         /// <summary>
-        /// Gets or Sets Double
+        /// Gets or Sets DoubleProperty
         /// </summary>
         [JsonPropertyName("double")]
-        public double Double { get; set; }
+        public double DoubleProperty { get; set; }
 
         /// <summary>
-        /// Gets or Sets Float
+        /// Gets or Sets FloatProperty
         /// </summary>
         [JsonPropertyName("float")]
-        public float Float { get; set; }
+        public float FloatProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
@@ -209,10 +209,10 @@ namespace Org.OpenAPITools.Model
         public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets StringProperty
         /// </summary>
         [JsonPropertyName("string")]
-        public string String { get; set; }
+        public string StringProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
@@ -235,12 +235,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
-            sb.Append("  Byte: ").Append(Byte).Append("\n");
+            sb.Append("  ByteProperty: ").Append(ByteProperty).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
-            sb.Append("  Double: ").Append(Double).Append("\n");
-            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  DecimalProperty: ").Append(DecimalProperty).Append("\n");
+            sb.Append("  DoubleProperty: ").Append(DoubleProperty).Append("\n");
+            sb.Append("  FloatProperty: ").Append(FloatProperty).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -261,28 +261,28 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
-            // Double (double) maximum
-            if (this.Double > (double)123.4)
+            // DoubleProperty (double) maximum
+            if (this.DoubleProperty > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DoubleProperty, must be a value less than or equal to 123.4.", new [] { "DoubleProperty" });
             }
 
-            // Double (double) minimum
-            if (this.Double < (double)67.8)
+            // DoubleProperty (double) minimum
+            if (this.DoubleProperty < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DoubleProperty, must be a value greater than or equal to 67.8.", new [] { "DoubleProperty" });
             }
 
-            // Float (float) maximum
-            if (this.Float > (float)987.6)
+            // FloatProperty (float) maximum
+            if (this.FloatProperty > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FloatProperty, must be a value less than or equal to 987.6.", new [] { "FloatProperty" });
             }
 
-            // Float (float) minimum
-            if (this.Float < (float)54.3)
+            // FloatProperty (float) minimum
+            if (this.FloatProperty < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FloatProperty, must be a value greater than or equal to 54.3.", new [] { "FloatProperty" });
             }
 
             // Int32 (int) maximum
@@ -347,11 +347,11 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
             }
 
-            // String (string) pattern
-            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexString.Match(this.String).Success)
+            // StringProperty (string) pattern
+            Regex regexStringProperty = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexStringProperty.Match(this.StringProperty).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StringProperty, must match a pattern of " + regexStringProperty, new [] { "StringProperty" });
             }
 
             yield break;
@@ -381,12 +381,12 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             System.IO.Stream binary = default;
-            byte[] _byte = default;
+            byte[] byteProperty = default;
             DateTime date = default;
             DateTime dateTime = default;
-            decimal _decimal = default;
-            double _double = default;
-            float _float = default;
+            decimal decimalProperty = default;
+            double doubleProperty = default;
+            float floatProperty = default;
             int int32 = default;
             long int64 = default;
             int integer = default;
@@ -394,7 +394,7 @@ namespace Org.OpenAPITools.Model
             string password = default;
             string patternWithDigits = default;
             string patternWithDigitsAndDelimiter = default;
-            string _string = default;
+            string stringProperty = default;
             Guid uuid = default;
 
             while (reader.Read())
@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Model
                             binary = JsonSerializer.Deserialize<System.IO.Stream>(ref reader, options);
                             break;
                         case "byte":
-                            _byte = JsonSerializer.Deserialize<byte[]>(ref reader, options);
+                            byteProperty = JsonSerializer.Deserialize<byte[]>(ref reader, options);
                             break;
                         case "date":
                             date = JsonSerializer.Deserialize<DateTime>(ref reader, options);
@@ -425,13 +425,13 @@ namespace Org.OpenAPITools.Model
                             dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "decimal":
-                            _decimal = JsonSerializer.Deserialize<decimal>(ref reader, options);
+                            decimalProperty = JsonSerializer.Deserialize<decimal>(ref reader, options);
                             break;
                         case "double":
-                            _double = reader.GetDouble();
+                            doubleProperty = reader.GetDouble();
                             break;
                         case "float":
-                            _float = (float)reader.GetDouble();
+                            floatProperty = (float)reader.GetDouble();
                             break;
                         case "int32":
                             int32 = reader.GetInt32();
@@ -455,7 +455,7 @@ namespace Org.OpenAPITools.Model
                             patternWithDigitsAndDelimiter = reader.GetString();
                             break;
                         case "string":
-                            _string = reader.GetString();
+                            stringProperty = reader.GetString();
                             break;
                         case "uuid":
                             uuid = reader.GetGuid();
@@ -466,7 +466,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FormatTest(binary, _byte, date, dateTime, _decimal, _double, _float, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, _string, uuid);
+            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, uuid);
         }
 
         /// <summary>
@@ -483,15 +483,15 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("binary");
             JsonSerializer.Serialize(writer, formatTest.Binary, options);
             writer.WritePropertyName("byte");
-            JsonSerializer.Serialize(writer, formatTest.Byte, options);
+            JsonSerializer.Serialize(writer, formatTest.ByteProperty, options);
             writer.WritePropertyName("date");
             JsonSerializer.Serialize(writer, formatTest.Date, options);
             writer.WritePropertyName("dateTime");
             JsonSerializer.Serialize(writer, formatTest.DateTime, options);
             writer.WritePropertyName("decimal");
-            JsonSerializer.Serialize(writer, formatTest.Decimal, options);
-            writer.WriteNumber("double", (int)formatTest.Double);
-            writer.WriteNumber("float", (int)formatTest.Float);
+            JsonSerializer.Serialize(writer, formatTest.DecimalProperty, options);
+            writer.WriteNumber("double", (int)formatTest.DoubleProperty);
+            writer.WriteNumber("float", (int)formatTest.FloatProperty);
             writer.WriteNumber("int32", (int)formatTest.Int32);
             writer.WriteNumber("int64", (int)formatTest.Int64);
             writer.WriteNumber("integer", (int)formatTest.Integer);
@@ -499,7 +499,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("password", formatTest.Password);
             writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
             writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);
-            writer.WriteString("string", formatTest.String);
+            writer.WriteString("string", formatTest.StringProperty);
             writer.WriteString("uuid", formatTest.Uuid);
 
             writer.WriteEndObject();

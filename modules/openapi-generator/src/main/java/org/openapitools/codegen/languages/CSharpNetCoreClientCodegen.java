@@ -1453,7 +1453,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
-    private void EnsureInheritedPropertiesArePresent(CodegenModel derivedModel) {
+    private void ensureInheritedPropertiesArePresent(CodegenModel derivedModel) {
         // every c# generator should definetly want this, or we should fix the issue
         // still, lets avoid breaking changes :(
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
@@ -1473,7 +1473,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        EnsureInheritedPropertiesArePresent(derivedModel.parentModel);
+        ensureInheritedPropertiesArePresent(derivedModel.parentModel);
     }
 
     /**
@@ -1510,10 +1510,44 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 });
             }
 
-            EnsureInheritedPropertiesArePresent(cm);
+            ensureInheritedPropertiesArePresent(cm);
+
+            for (CodegenProperty property : cm.allVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.vars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.readWriteVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.optionalVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.parentVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.requiredVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.readOnlyVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.nonNullableVars){
+                fixInvalidPropertyName(cm, property);
+            }
         }
 
         return objs;
+    }
+
+    private void fixInvalidPropertyName(CodegenModel model, CodegenProperty property){
+        // TODO: remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
+        if (property.name.equalsIgnoreCase(model.classname) ||
+                    reservedWords().contains(property.name) ||
+                    reservedWords().contains(camelize(sanitizeName(property.name), true))) {
+            property.name = property.name + "Property";
+        }
     }
 
     /**

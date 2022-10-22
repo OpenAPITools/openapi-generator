@@ -33,10 +33,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="_class">_class</param>
+        /// <param name="classProperty">classProperty</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string _class, int name)
+        public Model200Response(string classProperty, int name)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -44,21 +44,21 @@ namespace Org.OpenAPITools.Model
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Model200Response and cannot be null.");
 
-            if (_class == null)
-                throw new ArgumentNullException("_class is a required property for Model200Response and cannot be null.");
+            if (classProperty == null)
+                throw new ArgumentNullException("classProperty is a required property for Model200Response and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            Class = _class;
+            ClassProperty = classProperty;
             Name = name;
         }
 
         /// <summary>
-        /// Gets or Sets Class
+        /// Gets or Sets ClassProperty
         /// </summary>
         [JsonPropertyName("class")]
-        public string Class { get; set; }
+        public string ClassProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            string _class = default;
+            string classProperty = default;
             int name = default;
 
             while (reader.Read())
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "class":
-                            _class = reader.GetString();
+                            classProperty = reader.GetString();
                             break;
                         case "name":
                             name = reader.GetInt32();
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Model200Response(_class, name);
+            return new Model200Response(classProperty, name);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("class", model200Response.Class);
+            writer.WriteString("class", model200Response.ClassProperty);
             writer.WriteNumber("name", (int)model200Response.Name);
 
             writer.WriteEndObject();
