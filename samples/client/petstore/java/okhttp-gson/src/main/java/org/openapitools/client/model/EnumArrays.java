@@ -317,8 +317,8 @@ public class EnumArrays {
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_enum").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }
   }

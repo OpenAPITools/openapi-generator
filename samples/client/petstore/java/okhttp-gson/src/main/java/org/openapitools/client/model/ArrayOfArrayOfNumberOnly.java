@@ -191,8 +191,8 @@ public class ArrayOfArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfArrayOfNumberOnly is not found in the empty JSON string", ArrayOfArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
       }
   }

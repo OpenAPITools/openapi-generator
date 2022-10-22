@@ -325,8 +325,10 @@ public class TypeHolderDefault implements Parcelable {
       if (!jsonObj.get("string_item").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonNull()) && !jsonObj.get("array_item").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("array_item") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("array_item").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }
