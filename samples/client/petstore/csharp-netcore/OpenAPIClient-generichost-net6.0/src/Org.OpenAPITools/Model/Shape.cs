@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,17 +26,24 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Shape
     /// </summary>
-    public partial class Shape : IEquatable<Shape>, IValidatableObject
+    public partial class Shape : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Shape(Triangle triangle, string quadrilateralType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
+                throw new ArgumentNullException(nameof(QuadrilateralType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Triangle = triangle;
             QuadrilateralType = quadrilateralType;
@@ -47,11 +53,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public Shape(Quadrilateral quadrilateral, string quadrilateralType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
+                throw new ArgumentNullException(nameof(QuadrilateralType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Quadrilateral = quadrilateral;
             QuadrilateralType = quadrilateralType;
@@ -77,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -92,48 +105,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Shape).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Shape instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Shape to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Shape input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.QuadrilateralType != null)
-                {
-                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -161,13 +132,6 @@ namespace Org.OpenAPITools.Model
     public class ShapeJsonConverter : JsonConverter<Shape>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Shape).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -179,8 +143,10 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader triangleReader = reader;
             bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
@@ -192,10 +158,13 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -204,6 +173,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "quadrilateralType":
                             quadrilateralType = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -225,6 +196,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="shape"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("quadrilateralType", shape.QuadrilateralType);
+
+            writer.WriteEndObject();
+        }
     }
 }

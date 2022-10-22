@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Api.DefaultApi
+# Org.OpenAPITools.BaseApi.DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -16,7 +16,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.BaseApi;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
