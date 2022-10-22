@@ -1608,7 +1608,7 @@ public class ApiClient {
                 if (entry.getKey().equals(param.getName())) {
                     switch (param.getIn()) {
                         case "path":
-                            path = path.replaceAll("\\{" + param.getName() + "\\}", escapeString(value.toString()));
+                            path = path.replace("{" + param.getName() + "}", escapeString(value.toString()));
                             break;
                         case "query":
                             if (value instanceof Collection<?>) {
