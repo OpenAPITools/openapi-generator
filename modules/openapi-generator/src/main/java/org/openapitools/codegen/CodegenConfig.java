@@ -309,6 +309,10 @@ public interface CodegenConfig {
 
     FeatureSet getFeatureSet();
 
+    boolean isGenerateFormAsModel();
+
+    void setGenerateFormAsModel(boolean generateFormAsModel);
+
     boolean isRemoveEnumValuePrefix();
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);

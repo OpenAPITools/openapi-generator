@@ -360,6 +360,9 @@ public class CodegenConstants {
         "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
         "An 'array' schema is a list of sub schemas in a OAS document";
 
+    public static final String GENERATE_FORM_AS_MODEL = "generateFormAsModel";
+    public static final String GENERATE_FORM_AS_MODEL_DESC = "Generate model implementation for request form body.";
+
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
 
