@@ -137,7 +137,7 @@ public class {{classname}} {
         // create path and map variables
         {{^dynamicOperations}}
         String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll("\\{" + "{{baseName}}" + "\\}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
+            .replace("{" + "{{baseName}}" + "}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
         {{/dynamicOperations}}
         {{#dynamicOperations}}
         ApiOperation apiOperation = localVarApiClient.getOperationLookupMap().get("{{{operationId}}}");
