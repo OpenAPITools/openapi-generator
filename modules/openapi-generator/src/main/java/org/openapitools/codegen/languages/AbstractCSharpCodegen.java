@@ -443,6 +443,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        // remove this with https://github.com/OpenAPITools/openapi-generator/pull/13681
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                // check to see if model name is same as the property name
+                // which will result in compilation error
+                // if found, prepend with _ to workaround the limitation
+                if (var.name.equalsIgnoreCase(cm.classname)) {
+                    var.name = "_" + var.name;
+                }
+            }
+        }
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -463,7 +475,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            removeCircularReferencesInComposedSchemas(model);
+            // removeCircularReferencesInComposedSchemas(model);
 
             // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
@@ -514,11 +526,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // I should be able to get rid of this
         }
 
-        if (property.name.equalsIgnoreCase(model.classname) ||
-                    reservedWords().contains(property.name) ||
-                    reservedWords().contains(camelize(sanitizeName(property.name), true))) {
-            property.name = property.name + "Property";
-        }
+        // if (property.name.equalsIgnoreCase(model.classname) ||
+        //             reservedWords().contains(property.name) ||
+        //             reservedWords().contains(camelize(sanitizeName(property.name), true))) {
+        //     property.name = property.name + "Property";
+        // }
 
         // fix incorrect data types for maps of maps
         if (property.datatypeWithEnum.contains("List>") && property.items != null) {
@@ -531,30 +543,30 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
-    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
-        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
-        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
-        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
+    // /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
+    // private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
+    //     cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
+    //     cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
+    //     cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
 
-        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null){
-            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
-            if (anyOf != null) {
-                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
+    //     CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
+    //     if (composedSchemas != null){
+    //         List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
+    //         if (anyOf != null) {
+    //             anyOf.removeIf(p -> p.dataType.equals(cm.classname));
+    //         }
 
-            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null){
-                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
+    //         List<CodegenProperty> oneOf = composedSchemas.getOneOf();
+    //         if (oneOf != null){
+    //             oneOf.removeIf(p -> p.dataType.equals(cm.classname));
+    //         }
 
-            List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null){
-                allOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-        }
-    }
+    //         List<CodegenProperty> allOf = composedSchemas.getAllOf();
+    //         if (allOf != null){
+    //             allOf.removeIf(p -> p.dataType.equals(cm.classname));
+    //         }
+    //     }
+    // }
 
     @Override
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
