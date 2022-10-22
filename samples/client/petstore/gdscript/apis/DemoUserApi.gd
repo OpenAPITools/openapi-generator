@@ -16,7 +16,7 @@ func create_user(
 	# Created user object
 	demoUser: DemoUser,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -67,7 +67,7 @@ func create_users_with_array_input(
 	# List of user object
 	user: Array,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -118,7 +118,7 @@ func create_users_with_list_input(
 	# List of user object
 	user: Array,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -171,7 +171,7 @@ func delete_user(
 	# The name that needs to be deleted
 	username: String,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -207,7 +207,7 @@ func get_user_by_name(
 	# The name that needs to be fetched. Use user1 for testing.
 	username: String,
 	on_success: Callable = Callable(),  # func(result: User)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -252,7 +252,7 @@ func login_user(
 	# The password for login in clear text
 	password: String,
 	on_success: Callable = Callable(),  # func(result: String)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -311,7 +311,7 @@ func login_user(
 # Logs out current logged in user session
 func logout_user(
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -352,7 +352,7 @@ func update_user(
 	# Updated user object
 	demoUser: DemoUser,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 

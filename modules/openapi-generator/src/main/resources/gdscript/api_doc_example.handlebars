@@ -1,0 +1,44 @@
+```gdscript
+{{!--
+{{> doc_auth_partial}}
+--}}
+
+var api = {{{classname}}}.new()
+api.bee_host = "localhost"  # customize host if needed
+api.bee_port = 8080  # use the factory to share configs
+
+# Customize configuration, if needed (TODO)
+var config := {{coreNamePrefix}}ApiConfig.new()
+config.host = "localhost"
+config.port = 8080
+api.config = config
+
+{{#each bodyParams}}
+{{#if dataType}}
+{{#if isModel}}
+var {{paramName}} = {{dataType}}.new()
+# … fill model with data
+{{/if}}
+{{/if}}
+{{/each}}
+
+api.{{{operationIdSnakeCase}}}(
+{{#each allParams}}
+	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
+	# {{{description}}}
+{{!-- `example` is not available here, not sure why --}}
+	{{paramName}},
+{{/each}}
+	# On Success
+	func(result):{{#with returnProperty}}  # result is {{>partials/complex_type}}{{/with}}
+		prints("Success!", result)
+		pass  # do things
+		,
+	# On Error
+	func(error):  # error is {{>partials/api_error_class_name}}
+		printerr(str(error))
+		pass  # do things
+		,
+)
+
+```

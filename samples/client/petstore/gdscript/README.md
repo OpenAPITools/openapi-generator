@@ -35,36 +35,36 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DemoPetApi* | [**add_pet**](DemoPetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
-*DemoPetApi* | [**delete_pet**](DemoPetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
-*DemoPetApi* | [**find_pets_by_status**](DemoPetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
-*DemoPetApi* | [**find_pets_by_tags**](DemoPetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
-*DemoPetApi* | [**get_pet_by_id**](DemoPetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
-*DemoPetApi* | [**update_pet**](DemoPetApi.md#update_pet) | **PUT** /pet | Update an existing pet
-*DemoPetApi* | [**update_pet_with_form**](DemoPetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*DemoPetApi* | [**upload_file**](DemoPetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-*DemoStoreApi* | [**delete_order**](DemoStoreApi.md#delete_order) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-*DemoStoreApi* | [**get_inventory**](DemoStoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
-*DemoStoreApi* | [**get_order_by_id**](DemoStoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
-*DemoStoreApi* | [**place_order**](DemoStoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
-*DemoUserApi* | [**create_user**](DemoUserApi.md#create_user) | **POST** /user | Create user
-*DemoUserApi* | [**create_users_with_array_input**](DemoUserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
-*DemoUserApi* | [**create_users_with_list_input**](DemoUserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
-*DemoUserApi* | [**delete_user**](DemoUserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
-*DemoUserApi* | [**get_user_by_name**](DemoUserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
-*DemoUserApi* | [**login_user**](DemoUserApi.md#login_user) | **GET** /user/login | Logs user into the system
-*DemoUserApi* | [**logout_user**](DemoUserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
-*DemoUserApi* | [**update_user**](DemoUserApi.md#update_user) | **PUT** /user/{username} | Updated user
+*DemoPetApi* | [**add_pet**](apis/DemoPetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
+*DemoPetApi* | [**delete_pet**](apis/DemoPetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
+*DemoPetApi* | [**find_pets_by_status**](apis/DemoPetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
+*DemoPetApi* | [**find_pets_by_tags**](apis/DemoPetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
+*DemoPetApi* | [**get_pet_by_id**](apis/DemoPetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+*DemoPetApi* | [**update_pet**](apis/DemoPetApi.md#update_pet) | **PUT** /pet | Update an existing pet
+*DemoPetApi* | [**update_pet_with_form**](apis/DemoPetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*DemoPetApi* | [**upload_file**](apis/DemoPetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+*DemoStoreApi* | [**delete_order**](apis/DemoStoreApi.md#delete_order) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*DemoStoreApi* | [**get_inventory**](apis/DemoStoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
+*DemoStoreApi* | [**get_order_by_id**](apis/DemoStoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
+*DemoStoreApi* | [**place_order**](apis/DemoStoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+*DemoUserApi* | [**create_user**](apis/DemoUserApi.md#create_user) | **POST** /user | Create user
+*DemoUserApi* | [**create_users_with_array_input**](apis/DemoUserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
+*DemoUserApi* | [**create_users_with_list_input**](apis/DemoUserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
+*DemoUserApi* | [**delete_user**](apis/DemoUserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
+*DemoUserApi* | [**get_user_by_name**](apis/DemoUserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
+*DemoUserApi* | [**login_user**](apis/DemoUserApi.md#login_user) | **GET** /user/login | Logs user into the system
+*DemoUserApi* | [**logout_user**](apis/DemoUserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
+*DemoUserApi* | [**update_user**](apis/DemoUserApi.md#update_user) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation For Models
 
-- [DemoApiResponse](DemoApiResponse.md)
-- [DemoCategory](DemoCategory.md)
-- [DemoOrder](DemoOrder.md)
-- [DemoPet](DemoPet.md)
-- [DemoTag](DemoTag.md)
-- [DemoUser](DemoUser.md)
+- [DemoApiResponse](models/DemoApiResponse.md)
+- [DemoCategory](models/DemoCategory.md)
+- [DemoOrder](models/DemoOrder.md)
+- [DemoPet](models/DemoPet.md)
+- [DemoTag](models/DemoTag.md)
+- [DemoUser](models/DemoUser.md)
 
 
 ## Documentation For Authorization

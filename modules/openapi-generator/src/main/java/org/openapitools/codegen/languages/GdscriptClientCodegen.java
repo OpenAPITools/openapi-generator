@@ -33,6 +33,10 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     protected String coreNamePrefix = "";
     protected String coreNameSuffix = "";
 
+    // We're putting the doc files right next their target code file
+    protected String apiDocPath = "apis/";
+    protected String modelDocPath = "models/";
+
     public void setCoreNamePrefix(String prefix) {
         coreNamePrefix = prefix;
     }
@@ -74,7 +78,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
         modelTemplateFiles.put("model.handlebars", ".gd");
         apiTemplateFiles.put("api.handlebars", ".gd");
-        // more supported files are defined in processOpts()
+        apiDocTemplateFiles.put("api_doc.handlebars", ".md");
+        // more supported files are defined in processOpts() (for coreNamePrefix)
 
         setReservedWordsLowerCase(getReservedWords());
 
@@ -123,6 +128,10 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
 
     public void processAdditionalProperties() {
+
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         if (additionalProperties.containsKey(CORE_NAME_PREFIX)) {
             setCoreNamePrefix((String) additionalProperties.get(CORE_NAME_PREFIX));
         } else {
@@ -142,6 +151,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         processAdditionalProperties();
         supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", toCoreFilename("ApiBee") + ".gd"));
         supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", toCoreFilename("ApiError") + ".gd"));
+        supportingFiles.add(new SupportingFile("ApiConfig.handlebars", "core", toCoreFilename("ApiConfig") + ".gd"));
         supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
 
         // Ensure we're using the appropriate template engine, and configure it while we're at it.
@@ -186,6 +196,17 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public String toCoreFilename(String name) {
         return camelize(getCoreNamePrefix() + '_' + name + '_' + getCoreNameSuffix());
     }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath);
+    }
+
 
 
     // When example is "null" (with quotes), mustache's {{#example}} triggers

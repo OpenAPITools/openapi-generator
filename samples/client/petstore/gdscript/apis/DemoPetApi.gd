@@ -14,7 +14,7 @@ func add_pet(
 	# Pet object that needs to be added to the store
 	demoPet: DemoPet,
 	on_success: Callable = Callable(),  # func(result: Pet)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -74,7 +74,7 @@ func delete_pet(
 	# 
 	apiKey = null,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -113,7 +113,7 @@ func find_pets_by_status(
 	# Status values that need to be considered for filter
 	status: Array,
 	on_success: Callable = Callable(),  # func(result: Array)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -159,7 +159,7 @@ func find_pets_by_tags(
 	# Tags to filter by
 	tags: Array,
 	on_success: Callable = Callable(),  # func(result: Array)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 	push_warning("Usage of `find_pets_by_tags()` is deprecated.")
@@ -205,7 +205,7 @@ func get_pet_by_id(
 	# ID of pet to return
 	petId: float,
 	on_success: Callable = Callable(),  # func(result: Pet)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -247,7 +247,7 @@ func update_pet(
 	# Pet object that needs to be added to the store
 	demoPet: DemoPet,
 	on_success: Callable = Callable(),  # func(result: Pet)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -310,7 +310,7 @@ func update_pet_with_form(
 	# Updated status of the pet
 	status = null,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -369,7 +369,7 @@ func upload_file(
 	# file to upload
 	file = null,
 	on_success: Callable = Callable(),  # func(result: ApiResponse)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 

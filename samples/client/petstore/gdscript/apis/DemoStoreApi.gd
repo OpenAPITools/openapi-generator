@@ -16,7 +16,7 @@ func delete_order(
 	# ID of the order that needs to be deleted
 	orderId: String,
 	on_success: Callable = Callable(),  # func(result)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -51,7 +51,7 @@ func delete_order(
 # Returns a map of status codes to quantities
 func get_inventory(
 	on_success: Callable = Callable(),  # func(result: Dictionary)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -94,7 +94,7 @@ func get_order_by_id(
 	# ID of pet that needs to be fetched
 	orderId: float,
 	on_success: Callable = Callable(),  # func(result: Order)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 
@@ -150,7 +150,7 @@ func place_order(
 	# order placed for purchasing the pet
 	demoOrder: DemoOrder,
 	on_success: Callable = Callable(),  # func(result: Order)
-	on_failure: Callable = Callable(),  # func(error: ApiError)
+	on_failure: Callable = Callable(),  # func(error: DemoApiError)
 ):
 	# CollectionFormat: NO
 

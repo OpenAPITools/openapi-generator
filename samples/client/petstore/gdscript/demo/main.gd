@@ -21,7 +21,7 @@ func _ready():
 
 
 func _on_run_tests_button_pressed():
-	run_all_tests(func(): pass)
+	run_all_tests(func(): pass)  # optional Callables are unstable
 
 
 func _on_exit_button_pressed():
@@ -47,7 +47,11 @@ func fail(msg: String):
 		gtfo(1)
 
 
+var cfg := DemoApiConfig.new()
+
+
 func run_all_tests(on_done := Callable()):
+	cfg.port = 8081
 	log_text_edit.text = ""
 	
 	var started_at := Time.get_ticks_msec()
@@ -59,21 +63,22 @@ func run_all_tests(on_done := Callable()):
 	var ended_at := Time.get_ticks_msec()
 	Logger.inform("Ran tests for %.2fs" % [0.001 * (ended_at - started_at)])
 	if failed:
-		print("FAILURE")
+		Logger.inform("FAILURE")
 	else:
-		print("SUCCESS")
+		Logger.inform("SUCCESS")
 	on_done.call()
 
 
 func run_test_01():
 	Logger.inform("Running test 01…")
 	
+	
 	var rick := DemoUser.new()
 	rick.username = "Rick"
 	rick.password = "ytrom&"
 	
 	var user_api := DemoUserApi.new()
-	user_api.bee_port = 8081
+	user_api.bee_config = cfg
 	user_api.create_user(
 		rick,
 		func(result):
@@ -101,7 +106,7 @@ func run_test_01():
 
 func authenticate(username: String, password: String, on_done: Callable):
 	var user_api := DemoUserApi.new()
-	user_api.bee_port = 8081
+	user_api.bee_config = cfg
 	user_api.login_user(
 		username, password,
 		func(result):
@@ -125,7 +130,7 @@ func add_monkey(on_done: Callable):
 	#monkey.tags = ['tree', 'fur']
 
 	var pet_api := DemoPetApi.new()
-	pet_api.bee_port = 8081
+	pet_api.bee_config = cfg
 	pet_api.add_pet(
 		monkey,
 		func(result):
@@ -149,7 +154,7 @@ func add_monkey(on_done: Callable):
 func update_monkey(monkey, new_name, on_done: Callable):
 
 	var pet_api := DemoPetApi.new()
-	pet_api.bee_port = 8081
+	pet_api.bee_config = cfg
 	pet_api.update_pet_with_form(
 		monkey.id, new_name, "available",
 		func(result):
@@ -174,12 +179,16 @@ func run_test_02():
 	Logger.inform("Running test 02…")
 
 	var pet_api := DemoPetApi.new()
-	pet_api.bee_port = 8081
+	pet_api.bee_config = cfg
 	pet_api.find_pets_by_status(
 		['available'],
 		func(result):
 			prints("Found some pets.")
 			prints(result)
+			if not (result is Array):
+				fail("Expected an array as result.")
+			if result.size() == 0:
+				fail("Expected some pets in the result.")
 			emit_signal("test_ended")
 			,
 		func(error):

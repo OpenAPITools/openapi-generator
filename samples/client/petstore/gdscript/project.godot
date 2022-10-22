@@ -15,6 +15,11 @@ _global_script_classes=[{
 "path": "res://core/DemoApiBee.gd"
 }, {
 "base": "Resource",
+"class": &"DemoApiConfig",
+"language": &"GDScript",
+"path": "res://core/DemoApiConfig.gd"
+}, {
+"base": "Resource",
 "class": &"DemoApiError",
 "language": &"GDScript",
 "path": "res://core/DemoApiError.gd"
@@ -66,6 +71,7 @@ _global_script_classes=[{
 }]
 _global_script_class_icons={
 "DemoApiBee": "",
+"DemoApiConfig": "",
 "DemoApiError": "",
 "DemoApiResponse": "",
 "DemoCategory": "",
