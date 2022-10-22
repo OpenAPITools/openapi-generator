@@ -65,6 +65,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _custom_server_oapg(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -150,6 +151,7 @@ class CustomServer(BaseApi):
     @typing.overload
     def custom_server(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -204,6 +206,7 @@ class ApiForget(BaseApi):
     @typing.overload
     def get(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         host_index: typing.Optional[int] = None,
         stream: bool = False,

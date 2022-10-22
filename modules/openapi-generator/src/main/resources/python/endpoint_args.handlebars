@@ -73,6 +73,12 @@
         {{/eq}}
         {{/with}}
     {{/if}}
+{{else}}
+    {{#if isOverload}}
+        {{#eq skipDeserialization "True"}}
+    skip_deserialization: typing_extensions.Literal[True],
+        {{/eq}}
+    {{/if}}
 {{/if}}
 {{#if queryParams}}
     query_params: RequestQueryParams = frozendict.frozendict(),

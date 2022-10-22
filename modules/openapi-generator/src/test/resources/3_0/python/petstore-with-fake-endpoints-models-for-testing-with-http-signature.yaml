@@ -2979,3 +2979,16 @@ components:
       required:
         - from
         - "!reference"
+    ObjectWithOptionalTestProp:
+      type: object
+      properties:
+        test:
+          type: string
+    ObjectWithAllOfWithReqTestPropFromUnsetAddProp:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalTestProp'
+        - type: object
+          required: [ test ]
+          properties:
+            name:
+              type: string

@@ -97,10 +97,12 @@ docs/models/NumberOnly.md
 docs/models/NumberWithValidations.md
 docs/models/ObjectInterface.md
 docs/models/ObjectModelWithRefProps.md
+docs/models/ObjectWithAllOfWithReqTestPropFromUnsetAddProp.md
 docs/models/ObjectWithDecimalProperties.md
 docs/models/ObjectWithDifficultlyNamedProps.md
 docs/models/ObjectWithInlineCompositionProperty.md
 docs/models/ObjectWithInvalidNamedRefedProperties.md
+docs/models/ObjectWithOptionalTestProp.md
 docs/models/ObjectWithValidations.md
 docs/models/Order.md
 docs/models/ParentPet.md
@@ -318,6 +320,8 @@ petstore_api/model/object_interface.py
 petstore_api/model/object_interface.pyi
 petstore_api/model/object_model_with_ref_props.py
 petstore_api/model/object_model_with_ref_props.pyi
+petstore_api/model/object_with_all_of_with_req_test_prop_from_unset_add_prop.py
+petstore_api/model/object_with_all_of_with_req_test_prop_from_unset_add_prop.pyi
 petstore_api/model/object_with_decimal_properties.py
 petstore_api/model/object_with_decimal_properties.pyi
 petstore_api/model/object_with_difficultly_named_props.py
@@ -326,6 +330,8 @@ petstore_api/model/object_with_inline_composition_property.py
 petstore_api/model/object_with_inline_composition_property.pyi
 petstore_api/model/object_with_invalid_named_refed_properties.py
 petstore_api/model/object_with_invalid_named_refed_properties.pyi
+petstore_api/model/object_with_optional_test_prop.py
+petstore_api/model/object_with_optional_test_prop.pyi
 petstore_api/model/object_with_validations.py
 petstore_api/model/object_with_validations.pyi
 petstore_api/model/order.py

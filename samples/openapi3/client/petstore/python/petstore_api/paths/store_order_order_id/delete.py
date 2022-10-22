@@ -94,6 +94,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _delete_order_oapg(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -176,6 +177,7 @@ class DeleteOrder(BaseApi):
     @typing.overload
     def delete_order(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -221,6 +223,7 @@ class ApiFordelete(BaseApi):
     @typing.overload
     def delete(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
