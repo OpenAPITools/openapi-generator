@@ -49,7 +49,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(xmlItem).then(Mono.empty());
 
     }
 
@@ -65,7 +65,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -88,7 +88,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -104,7 +104,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -120,7 +120,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -136,7 +136,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -153,7 +153,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -176,7 +176,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -291,7 +291,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(param).then(Mono.empty());
 
     }
 
