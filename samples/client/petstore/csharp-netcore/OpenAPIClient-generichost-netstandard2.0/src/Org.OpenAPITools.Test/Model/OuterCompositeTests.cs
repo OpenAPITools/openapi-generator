@@ -14,10 +14,11 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,14 +57,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'MyBoolean'
-        /// </summary>
-        [Fact]
-        public void MyBooleanTest()
-        {
-            // TODO unit test for the property 'MyBoolean'
-        }
-        /// <summary>
         /// Test the property 'MyNumber'
         /// </summary>
         [Fact]
@@ -78,6 +71,14 @@ namespace Org.OpenAPITools.Test.Model
         public void MyStringTest()
         {
             // TODO unit test for the property 'MyString'
+        }
+        /// <summary>
+        /// Test the property 'MyBoolean'
+        /// </summary>
+        [Fact]
+        public void MyBooleanTest()
+        {
+            // TODO unit test for the property 'MyBoolean'
         }
 
     }

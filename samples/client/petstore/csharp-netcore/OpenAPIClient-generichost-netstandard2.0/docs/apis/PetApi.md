@@ -1,4 +1,4 @@
-# Org.OpenAPITools.BaseApi.PetApi
+# Org.OpenAPITools.Api.PetApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -24,7 +24,7 @@ Add a new pet to the store
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -112,7 +112,7 @@ Deletes a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -204,7 +204,7 @@ Multiple status values can be provided with comma separated strings
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -299,7 +299,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -394,7 +394,7 @@ Returns a single pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -490,7 +490,7 @@ Update an existing pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -580,7 +580,7 @@ Updates a pet in the store with form data
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -664,7 +664,7 @@ void (empty response body)
 
 <a name="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, System.IO.Stream file = null, string additionalMetadata = null)
+> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
 
 uploads an image
 
@@ -672,7 +672,7 @@ uploads an image
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -689,13 +689,13 @@ namespace Example
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet to update
-            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
             var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
 
             try
             {
                 // uploads an image
-                ApiResponse result = apiInstance.UploadFile(petId, file, additionalMetadata);
+                ApiResponse result = apiInstance.UploadFile(petId, additionalMetadata, file);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -716,7 +716,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, file, additionalMetadata);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, additionalMetadata, file);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -734,8 +734,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet to update |  |
-| **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
 | **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
+| **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
 
 ### Return type
 
@@ -760,7 +760,7 @@ catch (ApiException e)
 
 <a name="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (System.IO.Stream requiredFile, long petId, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
 
 uploads an image (required)
 
@@ -768,7 +768,7 @@ uploads an image (required)
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -784,14 +784,14 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
             var petId = 789L;  // long | ID of pet to update
+            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
             var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {
                 // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
+                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -812,7 +812,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(requiredFile, petId, additionalMetadata);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -829,8 +829,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
 | **petId** | **long** | ID of pet to update |  |
+| **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
 | **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type

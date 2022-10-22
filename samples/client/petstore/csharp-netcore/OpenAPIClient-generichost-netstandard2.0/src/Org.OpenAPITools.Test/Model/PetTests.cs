@@ -14,10 +14,11 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,22 +57,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'Category'
-        /// </summary>
-        [Fact]
-        public void CategoryTest()
-        {
-            // TODO unit test for the property 'Category'
-        }
-        /// <summary>
-        /// Test the property 'Id'
-        /// </summary>
-        [Fact]
-        public void IdTest()
-        {
-            // TODO unit test for the property 'Id'
-        }
-        /// <summary>
         /// Test the property 'Name'
         /// </summary>
         [Fact]
@@ -88,12 +73,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'PhotoUrls'
         }
         /// <summary>
-        /// Test the property 'Status'
+        /// Test the property 'Id'
         /// </summary>
         [Fact]
-        public void StatusTest()
+        public void IdTest()
         {
-            // TODO unit test for the property 'Status'
+            // TODO unit test for the property 'Id'
+        }
+        /// <summary>
+        /// Test the property 'Category'
+        /// </summary>
+        [Fact]
+        public void CategoryTest()
+        {
+            // TODO unit test for the property 'Category'
         }
         /// <summary>
         /// Test the property 'Tags'
@@ -102,6 +95,14 @@ namespace Org.OpenAPITools.Test.Model
         public void TagsTest()
         {
             // TODO unit test for the property 'Tags'
+        }
+        /// <summary>
+        /// Test the property 'Status'
+        /// </summary>
+        [Fact]
+        public void StatusTest()
+        {
+            // TODO unit test for the property 'Status'
         }
 
     }

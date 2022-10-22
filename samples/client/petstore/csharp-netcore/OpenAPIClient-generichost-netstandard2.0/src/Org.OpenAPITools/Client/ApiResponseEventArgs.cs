@@ -12,31 +12,22 @@ namespace Org.OpenAPITools.Client
         /// The time the request was sent.
         /// </summary>
         public DateTime RequestedAt { get; }
-
         /// <summary>
         /// The time the response was received.
         /// </summary>
         public DateTime ReceivedAt { get; }
-
         /// <summary>
         /// The HttpStatusCode received.
         /// </summary>
         public HttpStatusCode HttpStatus { get; }
-
         /// <summary>
         /// The path requested.
         /// </summary>
-        public string PathFormat { get; }
-
+        public string Path { get; }
         /// <summary>
         /// The elapsed time from request to response.
         /// </summary>
         public TimeSpan ToTimeSpan => this.ReceivedAt - this.RequestedAt;
-
-        /// <summary>
-        /// The path
-        /// </summary>
-        public string Path { get; }
 
         /// <summary>
         /// The event args used to track server health.
@@ -44,14 +35,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="requestedAt"></param>
         /// <param name="receivedAt"></param>
         /// <param name="httpStatus"></param>
-        /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        public ApiResponseEventArgs(DateTime requestedAt, DateTime receivedAt, HttpStatusCode httpStatus, string pathFormat, string path)
+        public ApiResponseEventArgs(DateTime requestedAt, DateTime receivedAt, HttpStatusCode httpStatus, string path)
         {
             RequestedAt = requestedAt;
             ReceivedAt = receivedAt;
             HttpStatus = httpStatus;
-            PathFormat = pathFormat;
             Path = path;
         }
     }

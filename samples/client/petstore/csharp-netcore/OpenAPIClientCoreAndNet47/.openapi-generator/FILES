@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Org.OpenAPITools.sln
 README.md
 appveyor.yml
@@ -13,15 +12,6 @@ docs/Tag.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
-src/Org.OpenAPITools.Test/Api/PetApiTests.cs
-src/Org.OpenAPITools.Test/Api/StoreApiTests.cs
-src/Org.OpenAPITools.Test/Api/UserApiTests.cs
-src/Org.OpenAPITools.Test/Model/ApiResponseTests.cs
-src/Org.OpenAPITools.Test/Model/CategoryTests.cs
-src/Org.OpenAPITools.Test/Model/OrderTests.cs
-src/Org.OpenAPITools.Test/Model/PetTests.cs
-src/Org.OpenAPITools.Test/Model/TagTests.cs
-src/Org.OpenAPITools.Test/Model/UserTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/PetApi.cs
 src/Org.OpenAPITools/Api/StoreApi.cs
