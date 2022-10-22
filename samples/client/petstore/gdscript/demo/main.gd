@@ -49,11 +49,12 @@ func fail(msg: String):
 
 func run_all_tests(on_done := Callable()):
 	log_text_edit.text = ""
+	
 	var started_at := Time.get_ticks_msec()
 	run_test_01()
 	await test_ended
-#	run_test_02()
-#	await test_ended
+	run_test_02()
+	await test_ended
 	# …
 	var ended_at := Time.get_ticks_msec()
 	Logger.inform("Ran tests for %.2fs" % [0.001 * (ended_at - started_at)])
@@ -165,3 +166,22 @@ func update_monkey(monkey, new_name, on_done: Callable):
 			,
 	)
 
+
+func run_test_02():
+	Logger.inform("Running test 02…")
+
+	var pet_api := DemoPetApi.new()
+	pet_api.bee_port = 8081
+	pet_api.find_pets_by_status(
+		['available'],
+		func(result):
+			prints("Found some pets.")
+			prints(result)
+			emit_signal("test_ended")
+			,
+		func(error):
+			printerr("ERROR!")
+			fail(str(error))
+			emit_signal("test_ended")
+			,
+	)

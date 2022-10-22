@@ -449,7 +449,7 @@ func upload_file(
 	# additionalMetadata: String   Eg: additionalMetadata_example
 	# Additional data to pass to server
 	additionalMetadata = null,
-	# file: File   Eg: BINARY_DATA_HERE
+	# file: String   Eg: BINARY_DATA_HERE
 	# file to upload
 	file = null,
 	on_success: Callable = Callable(),  # func(result: ApiResponse)

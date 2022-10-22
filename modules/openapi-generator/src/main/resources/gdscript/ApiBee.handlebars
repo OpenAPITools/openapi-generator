@@ -18,6 +18,7 @@ const HTTPS_DEFAULT_PORT := 443
 const POLLING_INTERVAL_MS := 500  # milliseconds
 
 const BEE_CONTENT_TYPE_TEXT := "text/plain"
+const BEE_CONTENT_TYPE_HTML := "text/html"
 const BEE_CONTENT_TYPE_JSON := "application/json"
 const BEE_CONTENT_TYPE_FORM := "application/x-www-form-urlencoded"
 const BEE_CONTENT_TYPE_JSONLD := "application/json+ld"  # unsupported (for now)
@@ -184,10 +185,14 @@ func bee_request(
 		method, path, headers, query, body,
 		func(responseText, responseCode, responseHeaders):
 			var mime: String = responseHeaders['Mime']
-			var deserializedResponse: Dictionary
+			var deserializedResponse  # Variant
 			var denormalizedResponse  # Variant
 
-			if "application/json" == mime:
+			if BEE_CONTENT_TYPE_TEXT == mime:
+				deserializedResponse = responseText
+			elif BEE_CONTENT_TYPE_HTML == mime:
+				deserializedResponse = responseText
+			elif BEE_CONTENT_TYPE_JSON == mime:
 				var parser := JSON.new()
 				var parsing := parser.parse(responseText)
 				if OK != parsing:
@@ -200,7 +205,6 @@ func bee_request(
 					on_failure.call(error)
 					return
 				deserializedResponse = parser.data
-				denormalizedResponse = deserializedResponse  # FIXME
 			else:
 				var error := {{>partials/api_error_class_name}}.new()
 				error.internal_code = ERR_INVALID_DATA
@@ -210,6 +214,8 @@ func bee_request(
 				]
 				on_failure.call(error)
 				return
+
+			denormalizedResponse = deserializedResponse  # FIXME
 
 			on_success.call(denormalizedResponse, responseCode, responseHeaders)
 			,
