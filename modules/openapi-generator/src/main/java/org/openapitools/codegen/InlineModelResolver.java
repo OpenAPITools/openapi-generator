@@ -903,7 +903,7 @@ public class InlineModelResolver {
         addGenerated(name, schema);
         openAPI.getComponents().addSchemas(name, schema);
         if (!name.equals(schema.getTitle()) && !inlineSchemaNameMappingValues.contains(name)) {
-            LOGGER.info("Inline schema created as {}. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mapping in CLI).", name);
+            LOGGER.info("Inline schema created as {}. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).", name);
         }
 
         uniqueNames.add(name);
