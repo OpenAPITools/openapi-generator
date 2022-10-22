@@ -834,10 +834,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    public void setClientPackage(String clientPackage) {
-        this.clientPackage = clientPackage;
-    }
-
     public void setDerivedApiPackage(String derivedApiPackage) {
         this.derivedApiPackage = derivedApiPackage;
     }
@@ -1506,8 +1502,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
             cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
 
-            removeCircularReferencesInComposedSchemas(cm);
-
             if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
                 cm.getComposedSchemas().getAllOf().forEach(allOf -> {
                     if (allOf.dataType.equals(cm.parent)){
@@ -1520,31 +1514,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
-    }
-
-    /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
-    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
-        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
-        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
-        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
-
-        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null){
-            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
-            if (anyOf != null) {
-                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null){
-                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null){
-                allOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-        }
     }
 
     /**
