@@ -514,6 +514,11 @@
   infoLink: "http://www.tui-infotec.com/"
   pinned: false
 -
+  caption: "Twilio"
+  image: "img/companies/twilio.png"
+  infoLink: "https://twilio.com"
+  pinned: false
+-
   caption: "Twitter"
   image: "img/companies/twitter.png"
   infoLink: "https://twitter.com"
