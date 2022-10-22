@@ -179,7 +179,6 @@ public class ApiClient {
             this.basePath = basePath;
         }
 
-{{#hasOAuthMethods}}
         String tokenUrl = "{{{tokenUrl}}}";
         if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
@@ -196,7 +195,6 @@ public class ApiClient {
                 retryingOAuth
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
-{{/hasOAuthMethods}}
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
