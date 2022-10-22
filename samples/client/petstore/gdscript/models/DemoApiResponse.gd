@@ -58,3 +58,29 @@ func bee_normalize() -> Dictionary:
 		bzz_dictionary["message"] = self.message
 	return bzz_dictionary
 
+
+# Won't work for JSON+LD
+static func bee_denormalize_single(from_dict: Dictionary):
+	var me := new()
+	if from_dict.has("code"):
+		me.code = from_dict["code"]
+	if from_dict.has("type"):
+		me.type = from_dict["type"]
+	if from_dict.has("message"):
+		me.message = from_dict["message"]
+	return me
+
+
+# Won't work for JSON+LD
+static func bee_denormalize_multiple(from_array: Array):
+	var mes := Array()
+	for element in from_array:
+		if element is Array:
+			mes.append(bee_denormalize_multiple(element))
+		elif element is Dictionary:
+			# TODO: perhaps check first if it looks like a match or an intermediate container
+			mes.append(bee_denormalize_single(element))
+		else:
+			mes.append(element)
+	return mes
+

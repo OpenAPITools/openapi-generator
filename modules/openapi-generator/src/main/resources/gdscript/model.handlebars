@@ -85,6 +85,42 @@ func bee_normalize() -> Dictionary:
 {{/each}}
 	return bzz_dictionary
 
+
+# Won't work for JSON+LD
+{{!-- LEAKING if we specify return -> {{classname}} in func def --}}
+static func bee_denormalize_single(from_dict: Dictionary):
+	var me := new()
+{{#each vars}}
+	if from_dict.has("{{name}}"):
+	{{#if isModel}}
+		me.{{name}} = {{>partials/complex_type}}.bee_denormalize_single(from_dict["{{name}}"])
+	{{else if isArray}}
+		{{#if mostInnerItems.isModel}}
+		me.{{name}} = {{>partials/complex_type}}.bee_denormalize_multiple(from_dict["{{name}}"])
+		{{else}}
+		me.{{name}} = from_dict["{{name}}"]
+		{{/if}}
+	{{else}}
+		me.{{name}} = from_dict["{{name}}"]
+	{{/if}}
+{{/each}}
+	return me
+
+
+# Won't work for JSON+LD
+{{!-- LEAKING if we specify return -> {{classname}} in func def --}}
+static func bee_denormalize_multiple(from_array: Array):
+	var mes := Array()
+	for element in from_array:
+		if element is Array:
+			mes.append(bee_denormalize_multiple(element))
+		elif element is Dictionary:
+			# TODO: perhaps check first if it looks like a match or an intermediate container
+			mes.append(bee_denormalize_single(element))
+		else:
+			mes.append(element)
+	return mes
+
 {{!-- UNUSED
 func bee_normalize_fully() -> Dictionary:
 	return {

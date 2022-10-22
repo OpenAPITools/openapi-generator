@@ -37,17 +37,12 @@ func delete_order(
 
 	var bzz_body = null
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -83,24 +78,12 @@ func get_inventory(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "map"
-	# openApiType = "object"
-	# dataType = "Dictionary"
-	# complexType = "integer"
-	# isArray = "false"
-	var _bzz_return_type := "integer"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -153,24 +136,13 @@ func get_order_by_id(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "Order"
-	# openApiType = "Order"
-	# dataType = "Order"
-	# complexType = "Order"
-	# isArray = "false"
-	var _bzz_return_type := "Order"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoOrder.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -223,24 +195,13 @@ func place_order(
 	var bzz_body = null
 	bzz_body = demoOrder
 
-	# Will be used at some point for denormalization
-	# baseType = "Order"
-	# openApiType = "Order"
-	# dataType = "Order"
-	# complexType = "Order"
-	# isArray = "false"
-	var _bzz_return_type := "Order"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoOrder.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)

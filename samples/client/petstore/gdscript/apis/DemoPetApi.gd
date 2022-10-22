@@ -55,24 +55,13 @@ func add_pet(
 	var bzz_body = null
 	bzz_body = demoPet
 
-	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
-	# isArray = "false"
-	var _bzz_return_type := "Pet"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoPet.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -110,17 +99,12 @@ func delete_pet(
 
 	var bzz_body = null
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -161,24 +145,13 @@ func find_pets_by_status(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "array"
-	# openApiType = "array"
-	# dataType = "Array"
-	# complexType = "Pet"
-	# isArray = "true"
-	var _bzz_return_type := "Pet"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoPet.bee_denormalize_multiple(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -221,24 +194,13 @@ func find_pets_by_tags(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "array"
-	# openApiType = "array"
-	# dataType = "Array"
-	# complexType = "Pet"
-	# isArray = "true"
-	var _bzz_return_type := "Pet"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoPet.bee_denormalize_multiple(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -278,24 +240,13 @@ func get_pet_by_id(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
-	# isArray = "false"
-	var _bzz_return_type := "Pet"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoPet.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -348,24 +299,13 @@ func update_pet(
 	var bzz_body = null
 	bzz_body = demoPet
 
-	# Will be used at some point for denormalization
-	# baseType = "Pet"
-	# openApiType = "Pet"
-	# dataType = "Pet"
-	# complexType = "Pet"
-	# isArray = "false"
-	var _bzz_return_type := "Pet"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoPet.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -425,17 +365,12 @@ func update_pet_with_form(
 	bzz_body["name"] = name
 	bzz_body["status"] = status
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -500,24 +435,13 @@ func upload_file(
 	bzz_body["additionalMetadata"] = additionalMetadata
 	bzz_body["file"] = file
 
-	# Will be used at some point for denormalization
-	# baseType = "ApiResponse"
-	# openApiType = "ApiResponse"
-	# dataType = "ApiResponse"
-	# complexType = "ApiResponse"
-	# isArray = "false"
-	var _bzz_return_type := "ApiResponse"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoApiResponse.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)

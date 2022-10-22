@@ -52,17 +52,12 @@ func create_user(
 	var bzz_body = null
 	bzz_body = demoUser
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -110,17 +105,12 @@ func create_users_with_array_input(
 	var bzz_body = null
 	bzz_body = user
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -168,17 +158,12 @@ func create_users_with_list_input(
 	var bzz_body = null
 	bzz_body = user
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -213,17 +198,12 @@ func delete_user(
 
 	var bzz_body = null
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -261,24 +241,13 @@ func get_user_by_name(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "User"
-	# openApiType = "User"
-	# dataType = "User"
-	# complexType = "User"
-	# isArray = "false"
-	var _bzz_return_type := "User"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+			bzz_result = DemoUser.bee_denormalize_single(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -339,24 +308,12 @@ func login_user(
 
 	var bzz_body = null
 
-	# Will be used at some point for denormalization
-	# baseType = "string"
-	# openApiType = "string"
-	# dataType = "String"
-	# complexType = "string"
-	# isArray = "false"
-	var _bzz_return_type := "string"
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -385,17 +342,12 @@ func logout_user(
 
 	var bzz_body = null
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
@@ -449,17 +401,12 @@ func update_user(
 	var bzz_body = null
 	bzz_body = demoUser
 
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)

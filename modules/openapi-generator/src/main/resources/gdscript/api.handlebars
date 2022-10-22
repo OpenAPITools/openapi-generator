@@ -199,26 +199,19 @@ func {{operationIdSnakeCase}}(
 	{{/each}}
 	{{/if}}
 
-	{{#with returnProperty}}
-	# Will be used at some point for denormalization
-	# baseType = "{{{baseType}}}"
-	# openApiType = "{{{openApiType}}}"
-	# dataType = "{{{dataType}}}"
-	# complexType = "{{{complexType}}}"
-	# isArray = "{{{isArray}}}"
-	var _bzz_return_type := "{{{complexType}}}"
-	{{/with}}
-
 	self.bee_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
-			#print('SUCCESS!')
-			#print(bzz_result)
+{{#with returnProperty}}
+	{{#if isArray}}
+			bzz_result = {{>partials/complex_type}}.bee_denormalize_multiple(bzz_result)
+	{{else if isModel}}
+			bzz_result = {{>partials/complex_type}}.bee_denormalize_single(bzz_result)
+	{{/if}}
+{{/with}}
 			on_success.call(bzz_result)
 			,  # ざわ‥
 		func(bzz_error):
-			#printerr("FAILURE!")
-			#print(bzz_error)
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
