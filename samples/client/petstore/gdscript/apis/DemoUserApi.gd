@@ -20,8 +20,6 @@ func create_user(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -30,15 +28,15 @@ func create_user(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "create_user.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
@@ -73,8 +71,6 @@ func create_users_with_array_input(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -83,15 +79,15 @@ func create_users_with_array_input(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "create_users_with_array_input.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
@@ -126,8 +122,6 @@ func create_users_with_list_input(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -136,15 +130,15 @@ func create_users_with_list_input(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "create_users_with_list_input.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
@@ -180,8 +174,6 @@ func delete_user(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("DELETE")
@@ -219,8 +211,6 @@ func get_user_by_name(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -229,9 +219,9 @@ func get_user_by_name(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -285,7 +275,6 @@ func login_user(
 		on_failure.call(error)
 		return
 
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -294,9 +283,9 @@ func login_user(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -325,7 +314,6 @@ func logout_user(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
@@ -368,9 +356,6 @@ func update_user(
 ):
 	# CollectionFormat: NO
 
-
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("PUT")
 
@@ -379,15 +364,15 @@ func update_user(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "update_user.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."

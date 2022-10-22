@@ -3,7 +3,6 @@ extends RefCounted
 # Not trivial, though, because that means preloads and absolute paths.
 class_name {{>partials/api_base_class_name}}
 
-
 # Base class for all generated API endpoints.
 #
 # Every property/method defined here may collide with userland,
@@ -11,11 +10,14 @@ class_name {{>partials/api_base_class_name}}
 # We want to keep the amount of renaming to a minimum, though.
 # Therefore, we use the bee_ prefix, even if awkward.
 
+# These are constants.
+# To set different values at runtime, use the bee_xxxx properties below.
+{{!-- const BEE_DEFAULT_HOST := "{{#if servers}}{{servers.0.url}}{{else}}localhost{{/if}}"--}}
+const BEE_DEFAULT_HOST := "{{#if host}}{{host}}{{else}}localhost{{/if}}"
+const BEE_DEFAULT_PORT_HTTP := 80
+const BEE_DEFAULT_PORT_HTTPS := 443
+const BEE_DEFAULT_POLLING_INTERVAL_MS := 500  # milliseconds
 
-const DEFAULT_HOST := "localhost"
-const HTTP_DEFAULT_PORT := 80
-const HTTPS_DEFAULT_PORT := 443
-const POLLING_INTERVAL_MS := 500  # milliseconds
 
 const BEE_CONTENT_TYPE_TEXT := "text/plain"
 const BEE_CONTENT_TYPE_HTML := "text/html"
@@ -57,7 +59,7 @@ var bee_client: HTTPClient:
 # The host to connect to, with or without the scheme.
 # Eg: "gitea.com", "https://gitea.com"
 # We configure TLS accordingly to the provided scheme, if any.
-var bee_host := DEFAULT_HOST:
+var bee_host := BEE_DEFAULT_HOST:
 	set(value):
 		if value.begins_with("https://"):
 			bee_enable_ssl()
@@ -70,7 +72,7 @@ var bee_host := DEFAULT_HOST:
 
 # Port through which the connection will be established.
 # Note: changing the host may change the port as well if the scheme was provided, see above.
-var bee_port := HTTP_DEFAULT_PORT
+var bee_port := BEE_DEFAULT_PORT_HTTP
 
 
 # Headers used as base for all requests made by this instance.
@@ -92,6 +94,8 @@ var bee_headers_base := {
 # Note: the factory, if used, will set up here a shared dictionary across all instances.
 var bee_headers_override := {}
 
+# Duration of sleep between poll() calls
+var bee_polling_interval_ms := BEE_DEFAULT_POLLING_INTERVAL_MS  # milliseconds
 
 # @private
 var __bee_ssl_enabled := false
@@ -100,12 +104,12 @@ var __bee_verify_host := true  # only if ssl enabled
 
 func bee_enable_ssl():
 	self.__bee_ssl_enabled = true
-	self.bee_port = HTTPS_DEFAULT_PORT
+	self.bee_port = BEE_DEFAULT_PORT_HTTPS
 
 
 func bee_disable_ssl():
 	self.__bee_ssl_enabled = false
-	self.bee_port = HTTP_DEFAULT_PORT
+	self.bee_port = BEE_DEFAULT_PORT_HTTP
 
 
 func bee_next_loop_iteration():
@@ -153,8 +157,8 @@ func bee_connect_client_if_needed(
 	):
 		self.bee_client.poll()
 		print("Connecting...")
-		if POLLING_INTERVAL_MS:
-			OS.delay_msec(POLLING_INTERVAL_MS)
+		if self.bee_polling_interval_ms:
+			OS.delay_msec(self.bee_polling_interval_ms)
 		await bee_next_loop_iteration()
 
 	if self.bee_client.get_status() != HTTPClient.STATUS_CONNECTED:
@@ -310,8 +314,8 @@ func bee_do_request_text(
 		# Keep polling for as long as the request is being processed.
 		self.bee_client.poll()
 		print("Requesting...")
-		if POLLING_INTERVAL_MS:  # yeah yeah, needs work
-			OS.delay_msec(POLLING_INTERVAL_MS)
+		if self.bee_polling_interval_ms:
+			OS.delay_msec(self.bee_polling_interval_ms)
 		await bee_next_loop_iteration()
 #		if OS.has_feature("web") or async:
 
@@ -340,10 +344,9 @@ func bee_do_request_text(
 		self.bee_client.poll()
 		var chunk = self.bee_client.read_response_body_chunk()
 		if chunk.size() == 0:  # Got nothing, wait for buffers to fill a bit.
-			if not false:
-				OS.delay_usec(POLLING_INTERVAL_MS)
-			else:
-				await bee_next_loop_iteration()
+			if self.bee_polling_interval_ms:
+				OS.delay_usec(self.bee_polling_interval_ms)
+			await bee_next_loop_iteration()
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
 

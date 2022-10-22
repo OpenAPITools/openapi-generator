@@ -43,13 +43,11 @@ func {{operationIdSnakeCase}}(
 {{/if}}
 
 	{{#each allParams}}
-	{{!--
+{{!--
 	# Verify required param `{{paramName}}` is set
-	# → done by the func signature, perhaps we could check against null or empty array anyway?
-
-	{{#if isString}}# STRING  {{paramName}}{{/if}}
-	{{#if isNumeric}}# NUMBER  {{paramName}}{{/if}}
-	--}}
+	# → done by the (non-nullable) type in func signature,
+	# perhaps we could check against null or empty array anyway?
+--}}
 	{{#if hasValidation}}
 	# Validate param `{{paramName}}` constraints
 	{{#if maxLength}}
@@ -130,38 +128,30 @@ func {{operationIdSnakeCase}}(
 		return
 	{{!/if}}
 	{{/if}}
+
 	{{/if}}
-
 	{{/each}}
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("{{httpMethod}}")
 
 	# Compute the URL path to the API resource
 	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
 
-{{!--
-	# Allowed media types, from the server's point of view
-	var bzz_media_types = {
-		'produces': [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}],
-		'consumes': [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}],
-	}
---}}
 	# Collect the headers
 	var bzz_headers := Dictionary()
 	{{#each headerParams}}
 	bzz_headers["{{baseName}}"] = {{paramName}}
 	{{/each}}
 	{{#if consumes}}
-	var bzz_server_consumed_mimes := [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "{{operationIdSnakeCase}}.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
@@ -169,9 +159,9 @@ func {{operationIdSnakeCase}}(
 		return
 	{{/if}}
 	{{#if produces}}
-	var bzz_server_produced_mimes := [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	var bzz_mimes_produced_by_server := [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 	{{/if}}
@@ -181,9 +171,6 @@ func {{operationIdSnakeCase}}(
 	var bzz_query := Dictionary()
 	{{#each queryParams}}
 	bzz_query["{{baseName}}"] = {{paramName}}
-	{{/each}}
-	{{#each formParams}}
-	#bzz_query["{{baseName}}"] = {{paramName}}
 	{{/each}}
 
 	var bzz_body = null

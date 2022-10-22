@@ -58,6 +58,10 @@ func run_all_tests(on_done := Callable()):
 	# …
 	var ended_at := Time.get_ticks_msec()
 	Logger.inform("Ran tests for %.2fs" % [0.001 * (ended_at - started_at)])
+	if failed:
+		print("FAILURE")
+	else:
+		print("SUCCESS")
 	on_done.call()
 
 
@@ -105,7 +109,6 @@ func authenticate(username: String, password: String, on_done: Callable):
 			on_done.call()
 			,
 		func(error):
-			prints("NO SNEAKERS", error)
 			fail(str(error))
 			emit_signal("test_ended")
 			,

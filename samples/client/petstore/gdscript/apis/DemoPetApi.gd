@@ -18,8 +18,6 @@ func add_pet(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -28,23 +26,23 @@ func add_pet(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json', 'application/xml']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json', 'application/xml']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "add_pet.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
 		on_failure.call(error)
 		return
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -79,9 +77,6 @@ func delete_pet(
 	on_failure: Callable = Callable(),  # func(error: ApiError)
 ):
 	# CollectionFormat: NO
-
-
-
 
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("DELETE")
@@ -122,8 +117,6 @@ func find_pets_by_status(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -132,9 +125,9 @@ func find_pets_by_status(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -171,8 +164,6 @@ func find_pets_by_tags(
 	# CollectionFormat: NO
 	push_warning("Usage of `find_pets_by_tags()` is deprecated.")
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -181,9 +172,9 @@ func find_pets_by_tags(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -218,8 +209,6 @@ func get_pet_by_id(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -228,9 +217,9 @@ func get_pet_by_id(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -262,8 +251,6 @@ func update_pet(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("PUT")
 
@@ -272,23 +259,23 @@ func update_pet(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json', 'application/xml']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json', 'application/xml']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "update_pet.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
 		on_failure.call(error)
 		return
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -327,10 +314,6 @@ func update_pet_with_form(
 ):
 	# CollectionFormat: NO
 
-
-
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -339,15 +322,15 @@ func update_pet_with_form(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/x-www-form-urlencoded']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/x-www-form-urlencoded']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "update_pet_with_form.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
@@ -357,8 +340,6 @@ func update_pet_with_form(
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
-	#bzz_query["name"] = name
-	#bzz_query["status"] = status
 
 	var bzz_body = null
 	bzz_body = Dictionary()
@@ -392,10 +373,6 @@ func upload_file(
 ):
 	# CollectionFormat: NO
 
-
-
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -404,31 +381,29 @@ func upload_file(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['multipart/form-data']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['multipart/form-data']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "upload_file.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
 		on_failure.call(error)
 		return
-	var bzz_server_produced_mimes := ['application/json']
+	var bzz_mimes_produced_by_server := ['application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
 	# Collect the query parameters
 	# Note: we do not support multiple values for a single param (for now), nor arrays
 	var bzz_query := Dictionary()
-	#bzz_query["additionalMetadata"] = additionalMetadata
-	#bzz_query["file"] = file
 
 	var bzz_body = null
 	bzz_body = Dictionary()

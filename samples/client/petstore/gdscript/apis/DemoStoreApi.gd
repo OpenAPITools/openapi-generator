@@ -20,8 +20,6 @@ func delete_order(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("DELETE")
 
@@ -57,7 +55,6 @@ func get_inventory(
 ):
 	# CollectionFormat: NO
 
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -66,9 +63,9 @@ func get_inventory(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/json']
+	var bzz_mimes_produced_by_server := ['application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -115,7 +112,6 @@ func get_order_by_id(
 		on_failure.call(error)
 		return
 
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("GET")
 
@@ -124,9 +120,9 @@ func get_order_by_id(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
@@ -158,8 +154,6 @@ func place_order(
 ):
 	# CollectionFormat: NO
 
-
-
 	# Convert the String HTTP method to a Constant Godot understands
 	var bzz_method := self.bee_convert_http_method("POST")
 
@@ -168,23 +162,23 @@ func place_order(
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
-	var bzz_server_consumed_mimes := ['application/json']
-	var bzz_found_target_mime := false
+	var bzz_mimes_consumable_by_server := ['application/json']
+	var bzz_found_producible_mime := false
 	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_consumed_mimes:
+		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
-			bzz_found_target_mime = true
+			bzz_found_producible_mime = true
 			break
-	if not bzz_found_target_mime:
-		# This is a bit strict, perhaps we could just warn and send JSON anyway?
+	if not bzz_found_producible_mime:
+		# This is a bit strict, perhaps we could just push a warning and send JSON anyway?
 		var error := DemoApiError.new()
 		error.identifier = "place_order.headers.content_type"
 		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
 		on_failure.call(error)
 		return
-	var bzz_server_produced_mimes := ['application/xml', 'application/json']
+	var bzz_mimes_produced_by_server := ['application/xml', 'application/json']
 	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
-		if bzz_mime in bzz_server_produced_mimes:
+		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
 
