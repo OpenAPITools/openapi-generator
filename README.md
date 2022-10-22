@@ -684,6 +684,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [TribalScale](https://www.tribalscale.com)
 - [Trifork](https://trifork.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
+- [Twilio](https://www.twilio.com/)
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
