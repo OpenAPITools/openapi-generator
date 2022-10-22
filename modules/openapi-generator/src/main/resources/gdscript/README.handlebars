@@ -35,10 +35,19 @@ Then, enable the addon in your project settings.
 
 You can now use it anywhere in your code:
 
-```gdscript
-# TODO
-var
-```
+{{#with apiInfo}}
+{{#each apis}}
+{{#if @first}}
+{{#with operations}}
+{{#each operation}}
+{{#if @first}}
+{{>api_doc_example}}
+{{/if}}
+{{/each}}
+{{/with}}
+{{/if}}
+{{/each}}
+{{/with}}
 
 
 ## Documentation for API Endpoints

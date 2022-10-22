@@ -25,15 +25,13 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ```gdscript
 
-var api = DemoStoreApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoStoreApi.new()
+api.config = config  # optionally
 
 
 api.delete_order(
@@ -69,15 +67,13 @@ Returns a map of status codes to quantities
 
 ```gdscript
 
-var api = DemoStoreApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoStoreApi.new()
+api.config = config  # optionally
 
 
 api.get_inventory(
@@ -109,15 +105,13 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ```gdscript
 
-var api = DemoStoreApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoStoreApi.new()
+api.config = config  # optionally
 
 
 api.get_order_by_id(
@@ -152,15 +146,13 @@ Place an order for a pet
 
 ```gdscript
 
-var api = DemoStoreApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoStoreApi.new()
+api.config = config  # optionally
 
 var demoOrder = DemoOrder.new()
 # … fill model with data

@@ -3,15 +3,13 @@
 {{> doc_auth_partial}}
 --}}
 
-var api = {{{classname}}}.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
-var config := {{coreNamePrefix}}ApiConfig.new()
+# Customize configuration, if needed
+var config := {{>partials/api_config_class_name}}.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = {{{classname}}}.new()
+api.config = config  # optionally
 
 {{#each bodyParams}}
 {{#if dataType}}

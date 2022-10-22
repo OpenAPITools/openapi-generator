@@ -30,15 +30,13 @@ Add a new pet to the store
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 var demoPet = DemoPet.new()
 # … fill model with data
@@ -76,15 +74,13 @@ Deletes a pet
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.delete_pet(
@@ -123,15 +119,13 @@ Multiple status values can be provided with comma separated strings
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.find_pets_by_status(
@@ -167,15 +161,13 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.find_pets_by_tags(
@@ -211,15 +203,13 @@ Returns a single pet
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.get_pet_by_id(
@@ -255,15 +245,13 @@ Update an existing pet
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 var demoPet = DemoPet.new()
 # … fill model with data
@@ -301,15 +289,13 @@ Updates a pet in the store with form data
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.update_pet_with_form(
@@ -351,15 +337,13 @@ uploads an image
 
 ```gdscript
 
-var api = DemoPetApi.new()
-api.bee_host = "localhost"  # customize host if needed
-api.bee_port = 8080  # use the factory to share configs
-
-# Customize configuration, if needed (TODO)
+# Customize configuration, if needed
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
-api.config = config
+
+var api = DemoPetApi.new()
+api.config = config  # optionally
 
 
 api.upload_file(
