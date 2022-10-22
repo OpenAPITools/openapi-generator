@@ -1085,7 +1085,7 @@ public class ApiClient {
             }
             return RequestBody.create(content, MediaType.parse(contentType));
         } else if (obj instanceof String) {
-            return RequestBody.create(MediaType.parse(contentType), (String) obj);
+            return RequestBody.create((String) obj, MediaType.parse(contentType));
         } else {
             throw new ApiException("Content type \"" + contentType + "\" is not supported");
         }
