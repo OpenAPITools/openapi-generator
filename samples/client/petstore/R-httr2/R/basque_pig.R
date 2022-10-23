@@ -28,11 +28,15 @@ BasquePig <- R6::R6Class(
     #' @export
     initialize = function(`className`, `color`, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!missing(`color`)) {
-        stopifnot(is.character(`color`), length(`color`) == 1)
+        if (!(is.character(`color`) && length(`color`) == 1)) {
+          stop(paste("Error! Invalid data for `color`. Must be a string:", `color`))
+        }
         self$`color` <- `color`
       }
     },
@@ -127,13 +131,17 @@ BasquePig <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for BasquePig: the required field `className` is missing."))
       }
       # check the required field `color`
       if (!is.null(input_json$`color`)) {
-        stopifnot(is.character(input_json$`color`), length(input_json$`color`) == 1)
+        if (!(is.character(input_json$`color`) && length(input_json$`color`) == 1)) {
+          stop(paste("Error! Invalid data for `color`. Must be a string:", input_json$`color`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for BasquePig: the required field `color` is missing."))
       }

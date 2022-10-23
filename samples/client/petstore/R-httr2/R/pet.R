@@ -40,7 +40,9 @@ Pet <- R6::R6Class(
     #' @export
     initialize = function(`name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, ...) {
       if (!missing(`name`)) {
-        stopifnot(is.character(`name`), length(`name`) == 1)
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
         self$`name` <- `name`
       }
       if (!missing(`photoUrls`)) {
@@ -49,7 +51,9 @@ Pet <- R6::R6Class(
         self$`photoUrls` <- `photoUrls`
       }
       if (!is.null(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        if (!(is.numeric(`id`) && length(`id`) == 1)) {
+          stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
+        }
         self$`id` <- `id`
       }
       if (!is.null(`category`)) {
@@ -65,7 +69,9 @@ Pet <- R6::R6Class(
         if (!(`status` %in% c("available", "pending", "sold"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".", sep = ""))
         }
-        stopifnot(is.character(`status`), length(`status`) == 1)
+        if (!(is.character(`status`) && length(`status`) == 1)) {
+          stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
+        }
         self$`status` <- `status`
       }
     },
@@ -232,7 +238,9 @@ Pet <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `name`
       if (!is.null(input_json$`name`)) {
-        stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
+        if (!(is.character(input_json$`name`) && length(input_json$`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", input_json$`name`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `name` is missing."))
       }

@@ -46,35 +46,51 @@ User <- R6::R6Class(
     #' @export
     initialize = function(`id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, ...) {
       if (!is.null(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        if (!(is.numeric(`id`) && length(`id`) == 1)) {
+          stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
+        }
         self$`id` <- `id`
       }
       if (!is.null(`username`)) {
-        stopifnot(is.character(`username`), length(`username`) == 1)
+        if (!(is.character(`username`) && length(`username`) == 1)) {
+          stop(paste("Error! Invalid data for `username`. Must be a string:", `username`))
+        }
         self$`username` <- `username`
       }
       if (!is.null(`firstName`)) {
-        stopifnot(is.character(`firstName`), length(`firstName`) == 1)
+        if (!(is.character(`firstName`) && length(`firstName`) == 1)) {
+          stop(paste("Error! Invalid data for `firstName`. Must be a string:", `firstName`))
+        }
         self$`firstName` <- `firstName`
       }
       if (!is.null(`lastName`)) {
-        stopifnot(is.character(`lastName`), length(`lastName`) == 1)
+        if (!(is.character(`lastName`) && length(`lastName`) == 1)) {
+          stop(paste("Error! Invalid data for `lastName`. Must be a string:", `lastName`))
+        }
         self$`lastName` <- `lastName`
       }
       if (!is.null(`email`)) {
-        stopifnot(is.character(`email`), length(`email`) == 1)
+        if (!(is.character(`email`) && length(`email`) == 1)) {
+          stop(paste("Error! Invalid data for `email`. Must be a string:", `email`))
+        }
         self$`email` <- `email`
       }
       if (!is.null(`password`)) {
-        stopifnot(is.character(`password`), length(`password`) == 1)
+        if (!(is.character(`password`) && length(`password`) == 1)) {
+          stop(paste("Error! Invalid data for `password`. Must be a string:", `password`))
+        }
         self$`password` <- `password`
       }
       if (!is.null(`phone`)) {
-        stopifnot(is.character(`phone`), length(`phone`) == 1)
+        if (!(is.character(`phone`) && length(`phone`) == 1)) {
+          stop(paste("Error! Invalid data for `phone`. Must be a string:", `phone`))
+        }
         self$`phone` <- `phone`
       }
       if (!is.null(`userStatus`)) {
-        stopifnot(is.numeric(`userStatus`), length(`userStatus`) == 1)
+        if (!(is.numeric(`userStatus`) && length(`userStatus`) == 1)) {
+          stop(paste("Error! Invalid data for `userStatus`. Must be an integer:", `userStatus`))
+        }
         self$`userStatus` <- `userStatus`
       }
     },
