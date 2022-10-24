@@ -13,6 +13,7 @@ import {
 {{#discriminator}}
 import {
 {{#discriminator.mappedModels}}
+     {{modelName}}ToJSON,
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
 } from './';
@@ -110,8 +111,16 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     if (value === null) {
         return null;
     }
+
     return {
         {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
+
+        {{#discriminator}}
+        {{#discriminator.mappedModels}}
+          ...value['{{discriminator.propertyName}}'] === '{{mappingName}}' ? {{modelName}}ToJSON(value as any) : {},
+        {{/discriminator.mappedModels}}
+        {{/discriminator}}
+
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
