@@ -763,6 +763,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
+        // We need to rePrepend the "_" if it appears as first character of a series of characters in a name.
+        // name is not just equal to "_" which translates to "_u" corner case.
+        boolean prependUnderscore = name.length()!=1 && name.startsWith("_");
+
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
         }
@@ -798,7 +802,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for _ in start of word, put it back in, as camelize removes it totally.
+        if (isReservedWord(name) || name.matches("^\\d.*") || prependUnderscore ) {
             name = escapeReservedWord(name);
         }
 
@@ -1988,6 +1993,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name == null || name.length() == 0) {
             return name;
         }
+        boolean prependUnderscore = name.length()!=1 && name.startsWith("_");
         name = toVarName(name);
         //
         // Let the property name capitalized
@@ -1998,7 +2004,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
             lowercaseFirstLetter = true;
         }
-        return camelize(name, lowercaseFirstLetter);
+        name = camelize(name, lowercaseFirstLetter);
+        // Note capitalizing "P" initial letter since camelize capitalizes it
+        if ( prependUnderscore && !name.equals("PropertyClass")) {
+            name = "_" + name;
+        }
+        return name;
     }
 
     @Override
