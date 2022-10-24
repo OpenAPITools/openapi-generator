@@ -952,6 +952,26 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testUniqueMappingDiscriminatorWithCustomMapping() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setOpenAPI(openAPI);
+        codegen.setUniqueModelMappings(true);
+
+        String path = "/person/display/{personId}";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, null);
+        verifyPersonDiscriminatorWithUniqueMappings(codegenOperation.discriminator);
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel personModel = codegen.fromModel("Person", person);
+        verifyPersonDiscriminatorWithUniqueMappings(personModel.discriminator);
+        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
@@ -1592,6 +1612,54 @@ public class DefaultCodegenTest {
         assertEquals(cm.discriminator, discriminator);
     }
 
+    @Test
+    public void verifyXDiscriminatorValueWithUniqueMappingNames() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/x-discriminator-value.yaml");
+        final DefaultCodegen config = new DefaultCodegen();
+        config.setOpenAPI(openAPI);
+        config.setUniqueModelMappings(true);
+
+        String modelName;
+        CodegenDiscriminator discriminator;
+        CodegenModel cm;
+
+        Boolean dryRun = Boolean.TRUE;
+        final DefaultGenerator generator = new DefaultGenerator(dryRun);
+        generator.openAPI = openAPI;
+        generator.config = config;
+        generator.configureGeneratorProperties();
+
+        // for us to check a model's children we need to run generator.generateModels
+        // because children are assigned in config.updateAllModels which is invoked in generator.generateModels
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<ModelMap> allModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas);
+
+        // check that the model's children contain the x-discriminator-values
+        modelName = "BaseObj";
+        cm = getModel(allModels, modelName);
+        Assert.assertNotNull(cm);
+        Assert.assertNotNull(cm.children);
+        List<String> expectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
+        ArrayList<String> xDiscriminatorValues = new ArrayList<>();
+        for (CodegenModel child : cm.children) {
+            xDiscriminatorValues.add((String) child.vendorExtensions.get("x-discriminator-value"));
+        }
+        assertEquals(xDiscriminatorValues, expectedDiscriminatorValues);
+
+        // check that the discriminator's MappedModels also contains the x-discriminator-values
+        discriminator = new CodegenDiscriminator();
+        String prop = "object_type";
+        discriminator.setPropertyName(config.toVarName(prop));
+        discriminator.setPropertyBaseName(prop);
+        discriminator.setMapping(null);
+        discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
+            add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
+            add(new CodegenDiscriminator.MappedModel("sub-obj", "SubObj"));
+        }});
+        assertEquals(cm.discriminator, discriminator);
+    }
 
     @Test
     public void testAllOfSingleRefNoOwnProps() {
@@ -1993,6 +2061,18 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Child", "Child"));
+        Assert.assertEquals(discriminator, test);
+    }
+
+    private void verifyPersonDiscriminatorWithUniqueMappings(CodegenDiscriminator discriminator) {
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("DollarUnderscoretype");
+        test.setPropertyBaseName("$_type");
+        test.setMapping(new HashMap<>());
+        test.getMapping().put("a", "#/components/schemas/Adult");
+        test.getMapping().put("c", "Child");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
         Assert.assertEquals(discriminator, test);
     }
 

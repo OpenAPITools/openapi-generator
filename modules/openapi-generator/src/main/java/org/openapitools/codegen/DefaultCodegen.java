@@ -267,6 +267,8 @@ public class DefaultCodegen implements CodegenConfig {
     // Support legacy logic for evaluating discriminators
     protected boolean legacyDiscriminatorBehavior = true;
 
+    private boolean uniqueModelMappings = false;
+
     // Specify what to do if the 'additionalProperties' keyword is not present in a schema.
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
@@ -1363,6 +1365,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setLegacyDiscriminatorBehavior(boolean val) {
         this.legacyDiscriminatorBehavior = val;
+    }
+
+    public boolean isUniqueModelMappings() {
+        return uniqueModelMappings;
+    }
+
+    public void setUniqueModelMappings(boolean uniqueModelMappings) {
+        this.uniqueModelMappings = uniqueModelMappings;
     }
 
     public Boolean getDisallowAdditionalPropertiesIfNotPresent() {
@@ -3361,13 +3371,19 @@ public class DefaultCodegen implements CodegenConfig {
                 break;
             }
             currentSchemaName = queue.remove(0);
-            MappedModel mm = new MappedModel(currentSchemaName, toModelName(currentSchemaName));
-            descendentSchemas.add(mm);
             Schema cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
-            if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
+            boolean hasDiscriminatorValue =
+                vendorExtensions != null && !vendorExtensions.isEmpty()
+                    && vendorExtensions.containsKey("x-discriminator-value");
+
+            if (!uniqueModelMappings || !hasDiscriminatorValue) {
+                MappedModel mm = new MappedModel(currentSchemaName, toModelName(currentSchemaName));
+                descendentSchemas.add(mm);
+            }
+            if (hasDiscriminatorValue) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
+                MappedModel mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
                 descendentSchemas.add(mm);
             }
         }
@@ -3422,7 +3438,8 @@ public class DefaultCodegen implements CodegenConfig {
                 // add only if the mapping names are not the same
                 boolean matched = false;
                 for (MappedModel uniqueDescendant : uniqueDescendants) {
-                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())) {
+                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())
+                        || (uniqueModelMappings && uniqueDescendant.getModelName().equals(otherDescendant.getModelName()))) {
                         matched = true;
                         break;
                     }
