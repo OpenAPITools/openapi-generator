@@ -20,11 +20,13 @@ from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
+from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
+from petstore_api.models.danish_pig import DanishPig
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog_all_of import DogAllOf
 from petstore_api.models.file import File
@@ -48,6 +50,7 @@ from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
 
+from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
@@ -56,3 +59,4 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.pet import Pet
+from petstore_api.models.pig import Pig

@@ -36,6 +36,7 @@ class TestNullableClass(unittest.TestCase):
         # model = petstore_api.models.nullable_class.NullableClass()  # noqa: E501
         if include_optional :
             return NullableClass(
+                required_integer_prop = 56,
                 integer_prop = 56, 
                 number_prop = 1.337, 
                 boolean_prop = True, 
@@ -63,6 +64,7 @@ class TestNullableClass(unittest.TestCase):
             )
         else :
             return NullableClass(
+                required_integer_prop = 56
         )
 
     def testNullableClass(self):

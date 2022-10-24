@@ -23,8 +23,9 @@ from petstore_api import models
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr
 
-from typing import List, Optional
+from typing import List, Literal, Optional
 
+from petstore_api import models
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -340,7 +341,7 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def find_pets_by_status(self, status : Annotated[List[StrictStr], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
+    def find_pets_by_status(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501

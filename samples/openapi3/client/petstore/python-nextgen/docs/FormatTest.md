@@ -10,11 +10,10 @@ Name | Type | Description | Notes
 **number** | **float** |  | 
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
-**decimal** | [**Decimal**](Decimal.md) |  | [optional] 
 **string** | **str** |  | [optional] 
 **byte** | **str** |  | 
 **binary** | **file** |  | [optional] 
-**date** | **date** |  | 
+**_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
 **password** | **str** |  | 

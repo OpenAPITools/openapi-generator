@@ -114,6 +114,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        "date",
                         // local variable name used in API methods (endpoints)
                         "all_params", "resource_path", "path_params", "query_params",
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
@@ -349,8 +350,37 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     return "StrictStr";
                 }
             }
-        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger
-                || cp.isNumber || cp.isFloat || cp.isDouble) {
+        } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. confloat(ge=10, le=100, strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("gt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMaximum());
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("lt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+
+                pydanticImports.add("confloat");
+                return String.format("%s(%s)", "confloat",
+                        StringUtils.join(fieldCustomization, ", "));
+            } else {
+                pydanticImports.add("StrictFloat");
+                return "StrictFloat";
+            }
+        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. conint(ge=10, le=100, strict=True)
@@ -373,17 +403,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
-                    pydanticImports.add("conint");
-                    return String.format("%s(%s)", "conint",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
-                    pydanticImports.add("confloat");
-                    return String.format("%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else {
-                    throw new RuntimeException("Error! Unknown numeric type found: " + cp);
-                }
+                pydanticImports.add("conint");
+                return String.format("%s(%s)", "conint",
+                        StringUtils.join(fieldCustomization, ", "));
+
             } else {
                 pydanticImports.add("StrictInt");
                 return "StrictInt";
@@ -478,7 +501,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports) {
-        if (cp.isArray) {
+        if (cp.isEnum) {
+            // use Literal for inline enum
+            typingImports.add("Literal");
+            List<String> values = new ArrayList<>();
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cp.allowableValues.get("enumVars");
+            if (enumVars != null) {
+                for (Map<String, Object> enumVar : enumVars) {
+                    values.add((String) enumVar.get("value"));
+                }
+            }
+            return String.format("Literal[%s]", StringUtils.join(values, ", "));
+        } else if (cp.isArray) {
             typingImports.add("List");
             return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
         } else if (cp.isMap) {
@@ -509,41 +543,62 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     return "StrictStr";
                 }
             }
-        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger
-                || cp.isNumber || cp.isFloat || cp.isDouble) {
+        } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conint(ge=10, le=100, strict=True)
+                // e.g. confloat(ge=10, le=100, strict=True)
                 fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
+                        fieldCustomization.add("lt=" + cp.getMaximum());
                     } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
+                        fieldCustomization.add("le=" + cp.getMaximum());
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
+                        fieldCustomization.add("gt=" + cp.getMinimum());
                     } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
+                        fieldCustomization.add("ge=" + cp.getMinimum());
                     }
                 }
                 if (cp.getMultipleOf() != null) {
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
-                    pydanticImports.add("conint");
-                    return String.format("%s(%s)", "conint",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
-                    pydanticImports.add("confloat");
-                    return String.format("%s(%s)", "confloat",
-                            StringUtils.join(fieldCustomization, ", "));
-                } else {
-                    throw new RuntimeException("Error! Unknown numeric type found: " + cp);
+                pydanticImports.add("confloat");
+                return String.format("%s(%s)", "confloat",
+                        StringUtils.join(fieldCustomization, ", "));
+            } else {
+                pydanticImports.add("StrictFloat");
+                return "StrictFloat";
+            }
+        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. conint(ge=10, le=100, strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("lt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMaximum());
+                    }
                 }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("gt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+
+                pydanticImports.add("conint");
+                return String.format("%s(%s)", "conint",
+                        StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictInt");
                 return "StrictInt";
@@ -646,10 +701,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     typing = "Optional[" + typing + "]";
                     typingImports.add("Optional");
                 } else { // required
+                    firstField = "...";
                     if (param.isNullable) {
-                        firstField = "None";
-                    } else {
-                        firstField = "...";
+                        typing = "Optional[" + typing + "]";
+                        typingImports.add("Optional");
                     }
                 }
 
@@ -741,18 +796,41 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        // process enum in models
+        objs = postProcessModelsEnum(objs);
+
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
 
         for (ModelMap m : objs.getModels()) {
             hasModelsToImport = false;
+            int property_count = 1;
             typingImports.clear();
             pydanticImports.clear();
             datetimeImports.clear();
 
             CodegenModel model = m.getModel();
-            for (CodegenProperty cp : model.allVars) {
+            List<CodegenProperty> codegenProperties = null;
+            if (!model.oneOf.isEmpty()) { // oneOfValidationError
+                codegenProperties = model.getComposedSchemas().getOneOf();
+                typingImports.add("Any");
+                typingImports.add("List");
+                pydanticImports.add("Field");
+                pydanticImports.add("StrictStr");
+                pydanticImports.add("ValidationError");
+                pydanticImports.add("validator");
+            } else if (!model.anyOf.isEmpty()) { // anyOF
+                codegenProperties = model.getComposedSchemas().getAnyOf();
+                pydanticImports.add("Field");
+                pydanticImports.add("StrictStr");
+                pydanticImports.add("ValidationError");
+                pydanticImports.add("validator");
+            } else { // typical model
+                codegenProperties = model.vars;
+            }
+            //loop through properties/schemas to setup typing, pydantic
+            for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
@@ -762,10 +840,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     typing = "Optional[" + typing + "]";
                     typingImports.add("Optional");
                 } else { // required
+                    firstField = "...";
                     if (cp.isNullable) {
-                        firstField = "None";
-                    } else {
-                        firstField = "...";
+                        typing = "Optional[" + typing + "]";
+                        typingImports.add("Optional");
                     }
                 }
 
@@ -801,9 +879,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
+
+                // setup x-py-name for each oneOf/anyOf schema
+                if (!model.oneOf.isEmpty()) { // oneOf
+                    cp.vendorExtensions.put("x-py-name", String.format("__oneof_schema_%d", property_count++));
+                } else if (!model.anyOf.isEmpty()) { // anyOf
+                    cp.vendorExtensions.put("x-py-name", String.format("__anyof_schema_%d", property_count++));
+                }
             }
 
-            if (!model.isEnum) { // add BaseModel import only if it's not an enum
+            if (!model.isEnum) {
                 pydanticImports.add("BaseModel");
             }
 
@@ -817,8 +902,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             }
         }
 
-        // process enum in models
-        return postProcessModelsEnum(objs);
+        return objs;
     }
 
     @Override
@@ -847,6 +931,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
+            // TOOD update the check below follow python convention
             //Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "

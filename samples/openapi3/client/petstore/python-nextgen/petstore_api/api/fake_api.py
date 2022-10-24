@@ -23,10 +23,11 @@ from petstore_api import models
 
 from datetime import date, datetime
 
-from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, confloat, conint, constr
+from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, confloat, conint, constr
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Literal, Optional
 
+from petstore_api import models
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -898,7 +899,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_body_with_binary(self, body : Annotated[StrictBytes, Field(None, description="image to upload")], **kwargs):  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[StrictBytes], Field(..., description="image to upload")], **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1499,8 +1500,8 @@ class FakeApi(object):
         :type string: str
         :param binary: None
         :type binary: file
-        :param date: None
-        :type date: date
+        :param _date: None
+        :type _date: date
         :param date_time: None
         :type date_time: datetime
         :param password: None
@@ -1556,8 +1557,8 @@ class FakeApi(object):
         :type string: str
         :param binary: None
         :type binary: file
-        :param date: None
-        :type date: date
+        :param _date: None
+        :type _date: date
         :param date_time: None
         :type date_time: datetime
         :param password: None
@@ -1601,7 +1602,7 @@ class FakeApi(object):
             'float',
             'string',
             'binary',
-            'date',
+            '_date',
             'date_time',
             'password',
             'param_callback'
@@ -1668,8 +1669,8 @@ class FakeApi(object):
             form_params.append(('byte', local_var_params['byte']))  # noqa: E501
         if 'binary' in local_var_params:
             local_var_files['binary'] = local_var_params['binary']  # noqa: E501
-        if 'date' in local_var_params:
-            form_params.append(('date', local_var_params['date']))  # noqa: E501
+        if '_date' in local_var_params:
+            form_params.append(('date', local_var_params['_date']))  # noqa: E501
         if 'date_time' in local_var_params:
             form_params.append(('dateTime', local_var_params['date_time']))  # noqa: E501
         if 'password' in local_var_params:

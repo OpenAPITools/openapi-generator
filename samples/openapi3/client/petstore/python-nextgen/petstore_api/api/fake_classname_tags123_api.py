@@ -23,6 +23,7 @@ from petstore_api import models
 
 from pydantic import Field
 
+from petstore_api import models
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

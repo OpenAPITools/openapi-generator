@@ -4,6 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**required_integer_prop** | **int** |  | 
 **integer_prop** | **int** |  | [optional] 
 **number_prop** | **float** |  | [optional] 
 **boolean_prop** | **bool** |  | [optional] 

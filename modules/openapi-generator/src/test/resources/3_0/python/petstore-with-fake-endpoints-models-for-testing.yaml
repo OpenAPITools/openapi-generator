@@ -1529,9 +1529,9 @@ components:
           format: double
           maximum: 123.4
           minimum: 67.8
-        decimal:
-          type: string
-          format: number
+        #decimal:
+        #  type: string
+        #  format: number
         string:
           type: string
           pattern: '/[a-z]/i'
@@ -1837,7 +1837,11 @@ components:
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     NullableClass:
       type: object
+      required: [required_integer_prop]
       properties:
+        required_integer_prop:
+          type: integer
+          nullable: true
         integer_prop:
           type: integer
           nullable: true
@@ -1937,3 +1941,40 @@ components:
       enum:
         - admin
         - user
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
+    AnyOfPig:
+      anyOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    #NestedOneOf:
+    #  type: object
+    #  properties:
+    #    size:
+    #      type: integer
+    #    nested_pig:
+    #      $ref: '#/components/schemas/Pig'
