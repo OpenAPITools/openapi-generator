@@ -36,7 +36,7 @@ class Animal(BaseModel):
         allow_population_by_field_name = True
         validate_assignment = True
 
-    _discriminator_value_class_map = {
+    __discriminator_value_class_map = {
         'Cat': 'Cat',
         'Dog': 'Dog'
     }
@@ -45,7 +45,7 @@ class Animal(BaseModel):
         """Returns the real base class specified by the discriminator"""
         discriminator_key = self.attribute_map[self.discriminator]
         discriminator_value = data[discriminator_key]
-        return self._discriminator_value_class_map.get(discriminator_value)
+        return self.__discriminator_value_class_map.get(discriminator_value)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

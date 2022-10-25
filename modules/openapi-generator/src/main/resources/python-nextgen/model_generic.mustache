@@ -29,7 +29,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
         validate_assignment = True
 {{#discriminator}}
 
-    _discriminator_value_class_map = {
+    __discriminator_value_class_map = {
 {{#children}}
         '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
 {{/children}}
@@ -41,7 +41,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
         """Returns the real base class specified by the discriminator"""
         discriminator_key = self.attribute_map[self.discriminator]
         discriminator_value = data[discriminator_key]
-        return self._discriminator_value_class_map.get(discriminator_value)
+        return self.__discriminator_value_class_map.get(discriminator_value)
 
 {{/discriminator}}
     def to_str(self) -> str:
