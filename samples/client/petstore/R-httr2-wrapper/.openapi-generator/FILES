@@ -21,6 +21,7 @@ R/date.R
 R/dog.R
 R/dog_all_of.R
 R/fake_api.R
+R/format_test.R
 R/mammal.R
 R/model_api_response.R
 R/nested_one_of.R
@@ -52,6 +53,7 @@ docs/Date.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/FakeApi.md
+docs/FormatTest.md
 docs/Mammal.md
 docs/ModelApiResponse.md
 docs/NestedOneOf.md

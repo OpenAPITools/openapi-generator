@@ -488,7 +488,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return boolean true if the MediaType represents JSON, false otherwise
      */
     public boolean isJsonMime(MediaType mediaType) {
-        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*\\+json[;]?\\s*$"));
+        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*(\\+json|ndjson)[;]?\\s*$"));
     }
 
     /**

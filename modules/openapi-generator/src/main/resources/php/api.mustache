@@ -261,8 +261,8 @@ use {{invokerPackage}}\ObjectSerializer;
 
             switch($statusCode) {
             {{/-first}}
-            {{#dataType}}{{^isRange}}
-                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+            {{#dataType}}
+                {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                     if ('{{{dataType}}}' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
@@ -276,8 +276,8 @@ use {{invokerPackage}}\ObjectSerializer;
                         ObjectSerializer::deserialize($content, '{{{dataType}}}', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
-            {{/isRange}}{{/dataType}}
+                    ];{{/isRange}}
+            {{/dataType}}
             {{#-last}}
             }
             {{/-last}}
@@ -307,16 +307,16 @@ use {{invokerPackage}}\ObjectSerializer;
         } catch (ApiException $e) {
             switch ($e->getCode()) {
         {{#responses}}
-            {{#dataType}}{{^isRange}}
-                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+            {{#dataType}}
+                {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '{{{dataType}}}',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
-            {{/isRange}}{{/dataType}}
+                    break;{{/isRange}}
+            {{/dataType}}
         {{/responses}}
             }
             throw $e;

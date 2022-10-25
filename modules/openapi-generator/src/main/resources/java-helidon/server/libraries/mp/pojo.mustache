@@ -1,0 +1,161 @@
+
+{{#jsonb}}
+import java.lang.reflect.Type;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeDeserializer;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.DeserializationContext;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbDeserializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.SerializationContext;
+import {{rootJavaEEPackage}}.json.stream.JsonGenerator;
+import {{rootJavaEEPackage}}.json.stream.JsonParser;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbProperty;
+{{#vendorExtensions.x-has-readonly-properties}}
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/jsonb}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+{{/jackson}}
+
+{{#description}}
+/**
+  * {{{.}}}
+ **/
+{{/description}}
+{{>additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+  {{#vars}}{{#isEnum}}{{^isContainer}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+{{#description}}
+ /**
+   * {{{.}}}
+  **/
+{{/description}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
+{{#isContainer}}
+  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+{{/isContainer}}
+{{^isContainer}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+{{/isContainer}}
+  {{/vars}}
+{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+  public {{classname}}() {
+  }
+
+  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
+  public {{classname}}(
+  {{#readOnlyVars}}
+    {{#jsonb}}@JsonbProperty("{{baseName}}") {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/jsonb}}
+    {{#jackson}}@JsonProperty(value="{{baseName}}") {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/jackson}}
+  {{/readOnlyVars}}
+  ) {
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }
+  {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
+  {{#vars}}
+ /**
+  {{#description}}
+   * {{.}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{.}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{.}}
+  {{/maximum}}
+   * @return {{name}}
+  {{#deprecated}}
+   * @deprecated
+  {{/deprecated}}
+  **/
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
+    if ({{name}} == null) {
+      return null;
+    }
+    return {{name}}.value();
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{datatypeWithEnum}} {{getter}}() {
+    return {{name}};
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isEnum}}
+
+  {{^isReadOnly}}
+  /**
+    * Set {{name}}
+  **/
+  {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isArray}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+  {{/isReadOnly}}
+
+  {{/vars}}
+
+  /**
+    * Create a string representation of this pojo.
+  **/
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private static String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+}

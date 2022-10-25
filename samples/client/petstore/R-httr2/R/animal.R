@@ -18,7 +18,7 @@ Animal <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     `_discriminator_property_name` = 'className',
-    `_discriminator_mapping_name` = c('Cat' = 'Cat','Dog' = 'Dog'),
+    `_discriminator_mapping_name` = c('Cat' = 'Cat', 'Dog' = 'Dog'),
     #' Initialize a new Animal class.
     #'
     #' @description
@@ -28,9 +28,7 @@ Animal <- R6::R6Class(
     #' @param color color. Default to "red".
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `color` = "red", ...
-    ) {
+    initialize = function(`className`, `color` = "red", ...) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
@@ -186,18 +184,19 @@ Animal <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Animal$unlock()
+# Animal$unlock()
 #
 ## Below is an example to define the print fnuction
-#Animal$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Animal$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Animal$lock()
+# Animal$lock()
 
