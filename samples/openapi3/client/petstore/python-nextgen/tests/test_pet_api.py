@@ -173,7 +173,7 @@ class PetApiTests(unittest.TestCase):
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id("-9999999999999", async_req=True)
+        thread = self.pet_api.get_pet_by_id(9999999999999, async_req=True)
 
         exception = None
         try:

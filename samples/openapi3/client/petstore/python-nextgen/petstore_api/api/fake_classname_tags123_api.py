@@ -41,7 +41,7 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    #@validate_arguments
+    @validate_arguments
     def test_classname(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
@@ -72,7 +72,7 @@ class FakeClassnameTags123Api(object):
         kwargs['_return_http_data_only'] = True
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def test_classname_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 

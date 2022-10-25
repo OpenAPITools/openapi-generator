@@ -38,7 +38,7 @@ class DefaultApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    #@validate_arguments
+    @validate_arguments
     def foo_get(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -66,7 +66,7 @@ class DefaultApi(object):
         kwargs['_return_http_data_only'] = True
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def foo_get_with_http_info(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 

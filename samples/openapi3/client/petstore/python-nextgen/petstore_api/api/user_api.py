@@ -43,7 +43,7 @@ class UserApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    #@validate_arguments
+    @validate_arguments
     def create_user(self, user : Annotated[models.User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
@@ -74,7 +74,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def create_user_with_http_info(self, user : Annotated[models.User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
@@ -183,7 +183,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def create_users_with_array_input(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -214,7 +214,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def create_users_with_array_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -323,7 +323,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def create_users_with_list_input(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -354,7 +354,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def create_users_with_list_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
@@ -463,7 +463,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def delete_user(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
 
@@ -494,7 +494,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
 
@@ -595,7 +595,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def get_user_by_name(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
@@ -626,7 +626,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
@@ -735,7 +735,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def login_user(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
@@ -768,7 +768,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def login_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
@@ -884,7 +884,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def logout_user(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
@@ -913,7 +913,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.logout_user_with_http_info(**kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def logout_user_with_http_info(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
@@ -1006,7 +1006,7 @@ class UserApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[models.User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
@@ -1039,7 +1039,7 @@ class UserApi(object):
         kwargs['_return_http_data_only'] = True
         return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[models.User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 

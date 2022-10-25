@@ -41,7 +41,7 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    #@validate_arguments
+    @validate_arguments
     def call_123_test_special_tags(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
@@ -72,7 +72,7 @@ class AnotherFakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def call_123_test_special_tags_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 

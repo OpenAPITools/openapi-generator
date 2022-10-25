@@ -317,7 +317,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format("Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
-        } else if (cp.isString) {
+        } else if (cp.isString || cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. constr(regex=r'/[a-z]/i', strict=True)
@@ -403,6 +403,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("StrictInt");
                 return "StrictInt";
             }
+        /* comment out the following as byte/binary is a string at the moment (path to the file, e.g. "/var/tmp/a.gif")
         } else if (cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -421,7 +422,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
                 return "StrictBytes";
-            }
+            }*/
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");
             return "StrictBool";

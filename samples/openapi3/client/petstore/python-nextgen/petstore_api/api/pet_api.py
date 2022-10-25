@@ -18,7 +18,7 @@ from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 from petstore_api import models
 
-from pydantic import Field, StrictBytes, StrictInt, StrictStr
+from pydantic import Field, StrictInt, StrictStr
 
 from typing import List, Literal, Optional
 
@@ -43,7 +43,7 @@ class PetApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    #@validate_arguments
+    @validate_arguments
     def add_pet(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
@@ -74,7 +74,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def add_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
@@ -198,7 +198,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
@@ -231,7 +231,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
@@ -337,7 +337,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def find_pets_by_status(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
@@ -368,7 +368,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def find_pets_by_status_with_http_info(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
@@ -477,7 +477,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
@@ -508,7 +508,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
@@ -617,7 +617,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def get_pet_by_id(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
@@ -648,7 +648,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
@@ -757,7 +757,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def update_pet(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
@@ -788,7 +788,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def update_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
@@ -912,7 +912,7 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
+    @validate_arguments
     def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
@@ -947,7 +947,7 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
-    #@validate_arguments
+    @validate_arguments
     def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
@@ -1066,8 +1066,8 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
-    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictBytes], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
+    @validate_arguments
+    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1101,8 +1101,8 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
-    #@validate_arguments
-    def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictBytes], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
+    @validate_arguments
+    def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1226,8 +1226,8 @@ class PetApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    #@validate_arguments
-    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictBytes, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
+    @validate_arguments
+    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
@@ -1261,8 +1261,8 @@ class PetApi(object):
         kwargs['_return_http_data_only'] = True
         return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
-    #@validate_arguments
-    def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictBytes, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
+    @validate_arguments
+    def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
