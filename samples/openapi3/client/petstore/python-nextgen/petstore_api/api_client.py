@@ -677,22 +677,23 @@ class ApiClient(object):
                 and klass.discriminator_value_class_map):
             has_discriminator = True
 
-        if not klass.openapi_types and has_discriminator is False:
-            return data
+        #if not klass.openapi_types and has_discriminator is False:
+        #    return data
 
-        kwargs = {}
-        if (data is not None and
-                klass.openapi_types is not None and
-                isinstance(data, (list, dict))):
-            for attr, attr_type in six.iteritems(klass.openapi_types):
-                if klass.attribute_map[attr] in data:
-                    value = data[klass.attribute_map[attr]]
-                    kwargs[attr] = self.__deserialize(value, attr_type)
+        #kwargs = {}
+        #if (data is not None and
+        #        klass.openapi_types is not None and
+        #        isinstance(data, (list, dict))):
+        #    for attr, attr_type in six.iteritems(klass.openapi_types):
+        #        if klass.attribute_map[attr] in data:
+        #            value = data[klass.attribute_map[attr]]
+        #            kwargs[attr] = self.__deserialize(value, attr_type)
 
-        instance = klass(**kwargs)
+        #instance = klass(**kwargs)
+        instance = klass.from_dict(data)
 
-        if has_discriminator:
-            klass_name = instance.get_real_child_model(data)
-            if klass_name:
-                instance = self.__deserialize(data, klass_name)
+        #if has_discriminator:
+        #    klass_name = instance.get_real_child_model(data)
+        #    if klass_name:
+        #        instance = self.__deserialize(data, klass_name)
         return instance
