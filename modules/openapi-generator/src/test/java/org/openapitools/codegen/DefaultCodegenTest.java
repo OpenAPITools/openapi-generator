@@ -1101,7 +1101,6 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
-        hs.add(new CodegenDiscriminator.MappedModel("B", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
         Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
@@ -1585,8 +1584,6 @@ public class DefaultCodegenTest {
         discriminator.setPropertyBaseName(prop);
         discriminator.setMapping(null);
         discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
-            add(new CodegenDiscriminator.MappedModel("DailySubObj", "DailySubObj"));
-            add(new CodegenDiscriminator.MappedModel("SubObj", "SubObj"));
             add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
             add(new CodegenDiscriminator.MappedModel("sub-obj", "SubObj"));
         }});
@@ -1984,8 +1981,6 @@ public class DefaultCodegenTest {
         test.getMapping().put("c", "Child");
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Child", "Child"));
         Assert.assertEquals(discriminator, test);
     }
 
