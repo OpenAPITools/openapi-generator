@@ -29,7 +29,7 @@ class Foo(BaseModel):
 
     Do not edit the class manually.
     """
-    bar: Optional[StrictStr] = None
+    bar: Optional[StrictStr] = 'bar'
 
     class Config:
         allow_population_by_field_name = True

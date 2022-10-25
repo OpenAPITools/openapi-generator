@@ -24,7 +24,7 @@ class ModelTests(unittest.TestCase):
         self.pet.status = "available"
         cate = petstore_api.Category(name="dog")
         cate.id = 1
-        # cate.name = "dog"
+        cate.name = "dog"
         self.pet.category = cate
         tag = petstore_api.Tag()
         tag.id = 1
@@ -34,19 +34,17 @@ class ModelTests(unittest.TestCase):
         self.cat = petstore_api.Cat(class_name="cat")
         self.assertEqual("cat", self.cat.class_name)
         self.assertEqual("red", self.cat.color)
-        #cat_str = "{'class_name': 'cat', 'color': 'red', 'declawed': None}"
-        #self.assertEqual("", self.cat.to_str())
-
+        cat_str = "{'className': 'cat', 'color': 'red'}"
+        self.assertEqual(cat_str, self.cat.to_str())
 
     def test_to_str(self):
         data = ("{'category': {'id': 1, 'name': 'dog'},\n"
                 " 'id': 1,\n"
                 " 'name': 'test name',\n"
-                " 'photo_urls': ['string'],\n"
+                " 'photoUrls': ['string'],\n"
                 " 'status': 'available',\n"
-                " 'tags': [{'id': 1, 'name': None}]}")
+                " 'tags': [{'id': 1}]}")
         self.assertEqual(data, self.pet.to_str())
-
 
     def test_equal(self):
         self.pet1 = petstore_api.Pet(name="test name", photo_urls=["string"])
@@ -65,7 +63,7 @@ class ModelTests(unittest.TestCase):
         self.pet2.status = "available"
         cate2 = petstore_api.Category(name="dog")
         cate2.id = 1
-        # cate2.name = "dog"
+        cate2.name = "dog"
         self.pet.category = cate2
         tag2 = petstore_api.Tag()
         tag2.id = 1

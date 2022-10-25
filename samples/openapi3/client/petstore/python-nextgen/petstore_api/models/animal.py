@@ -30,7 +30,7 @@ class Animal(BaseModel):
     Do not edit the class manually.
     """
     class_name: StrictStr = Field(..., alias="className")
-    color: Optional[StrictStr] = None
+    color: Optional[StrictStr] = 'red'
 
     class Config:
         allow_population_by_field_name = True

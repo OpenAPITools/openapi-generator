@@ -34,7 +34,7 @@ class Order(BaseModel):
     quantity: Optional[StrictInt] = None
     ship_date: Optional[datetime] = Field(None, alias="shipDate")
     status: Optional[Literal['placed', 'approved', 'delivered']] = Field(None, description="Order Status")
-    complete: Optional[StrictBool] = None
+    complete: Optional[StrictBool] = False
 
     class Config:
         allow_population_by_field_name = True

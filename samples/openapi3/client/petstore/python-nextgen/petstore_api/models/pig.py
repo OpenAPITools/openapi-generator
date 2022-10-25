@@ -34,9 +34,9 @@ class Pig(BaseModel):
     Do not edit the class manually.
     """
     # data type: BasquePig
-    __oneof_schema_1: Optional[models.BasquePig] = None
+    _oneof_schema_1: Optional[models.BasquePig] = None
     # data type: DanishPig
-    __oneof_schema_2: Optional[models.DanishPig] = None
+    _oneof_schema_2: Optional[models.DanishPig] = None
     actual_instance: Any
     one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
 
@@ -77,13 +77,13 @@ class Pig(BaseModel):
         instance = cls()
         error_messages = []
         match = 0
-        # __oneof_schema_1: Optional[models.BasquePig] = None
+        # _oneof_schema_1: Optional[models.BasquePig] = None
         try:
             instance.actual_instance = models.BasquePig.from_json(json_str)
             match += 1
         except ValidationError as e:
              error_messages.append(str(e))
-        # __oneof_schema_2: Optional[models.DanishPig] = None
+        # _oneof_schema_2: Optional[models.DanishPig] = None
         try:
             instance.actual_instance = models.DanishPig.from_json(json_str)
             match += 1

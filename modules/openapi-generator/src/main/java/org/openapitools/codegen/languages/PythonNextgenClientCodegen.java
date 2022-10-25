@@ -860,14 +860,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add("unique_items=True");
                 }
 
-                /*
+                /* TODO
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format("example=%s", cp.getExample()));
                 }*/
 
                 String fieldCustomization;
                 if ("None".equals(firstField)) {
-                    fieldCustomization = "None";
+                    if (cp.defaultValue == null) {
+                        fieldCustomization = "None";
+                    } else {
+                        fieldCustomization = cp.defaultValue;
+                    }
                 } else { // required field
                     fieldCustomization = firstField;
                 }
@@ -882,9 +886,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format("__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format("_oneof_schema_%d", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format("__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format("_anyof_schema_%d", property_count++));
                 }
             }
 
