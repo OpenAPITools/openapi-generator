@@ -5077,7 +5077,7 @@ public class DefaultCodegen implements CodegenConfig {
                             properties.entrySet().stream()
                                     .map(entry -> {
                                         CodegenProperty property = fromProperty(entry.getKey(), entry.getValue(), requiredVarNames.contains(entry.getKey()));
-                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                        //property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
                                         return property;
                                     }).collect(Collectors.toList());
                 } else {
