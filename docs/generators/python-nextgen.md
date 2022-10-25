@@ -10,7 +10,7 @@ title: Documentation for the python-nextgen Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Python | |
-| generator language version | 2.7 and 3.4+ | |
+| generator language version | 3.7+ | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a Python client library. | |
 
@@ -28,7 +28,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
 
@@ -72,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>break</li>
 <li>class</li>
 <li>continue</li>
+<li>date</li>
 <li>def</li>
 <li>del</li>
 <li>elif</li>
