@@ -73,7 +73,7 @@ class AnotherFakeApi(object):
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def call_123_test_special_tags_with_http_info(self, client, **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501

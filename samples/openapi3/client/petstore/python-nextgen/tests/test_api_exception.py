@@ -29,7 +29,7 @@ class ApiExceptionTests(unittest.TestCase):
     def setUpModels(self):
         self.category = petstore_api.Category(name="dog")
         self.category.id = id_gen()
-        #self.category.name = "dog"
+        self.category.name = "dog"
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "blank"
@@ -75,13 +75,11 @@ class ApiExceptionTests(unittest.TestCase):
             self.checkRegex(e.body, "Error 500 Internal Server Error")
 
     def checkRaiseRegex(self, expected_exception, expected_regex):
-        if sys.version_info < (3, 0):
-            return self.assertRaisesRegexp(expected_exception, expected_regex)
-
+        #if sys.version_info < (3, 0):
+        #    return self.assertRaisesRegexp(expected_exception, expected_regex)
         return self.assertRaisesRegex(expected_exception, expected_regex)
 
     def checkRegex(self, text, expected_regex):
-        if sys.version_info < (3, 0):
-            return self.assertRegexpMatches(text, expected_regex)
-
+        #if sys.version_info < (3, 0):
+        #    return self.assertRegexpMatches(text, expected_regex)
         return self.assertRegex(text, expected_regex)

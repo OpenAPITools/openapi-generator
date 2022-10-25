@@ -608,107 +608,107 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
-    get:
-      tags:
-        - fake
-      summary: To test enum parameters
-      description: To test enum parameters
-      operationId: testEnumParameters
-      parameters:
-        - name: enum_header_string_array
-          in: header
-          description: Header parameter enum test (string array)
-          schema:
-            type: array
-            items:
-              type: string
-              default: $
-              enum:
-                - '>'
-                - $
-        - name: enum_header_string
-          in: header
-          description: Header parameter enum test (string)
-          schema:
-            type: string
-            enum:
-              - _abc
-              - '-efg'
-              - (xyz)
-            default: '-efg'
-        - name: enum_query_string_array
-          in: query
-          description: Query parameter enum test (string array)
-          schema:
-            type: array
-            items:
-              type: string
-              default: $
-              enum:
-                - '>'
-                - $
-        - name: enum_query_string
-          in: query
-          description: Query parameter enum test (string)
-          schema:
-            type: string
-            enum:
-              - _abc
-              - '-efg'
-              - (xyz)
-            default: '-efg'
-        - name: enum_query_integer
-          in: query
-          description: Query parameter enum test (double)
-          schema:
-            type: integer
-            format: int32
-            enum:
-              - 1
-              - -2
-        - name: enum_query_double
-          in: query
-          description: Query parameter enum test (double)
-          schema:
-            type: number
-            format: double
-            enum:
-              - 1.1
-              - -1.2
-        #- name: enum_query_model_array
-        #  in: query
-        #  schema:
-        #    type: array
-        #    items:
-        #      $ref: '#/components/schemas/EnumClass'
-      responses:
-        '400':
-          description: Invalid request
-        '404':
-          description: Not found
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  type: array
-                  items:
-                    type: string
-                    default: $
-                    enum:
-                      - '>'
-                      - $
-                enum_form_string:
-                  description: Form parameter enum test (string)
-                  type: string
-                  enum:
-                    - _abc
-                    - '-efg'
-                    - (xyz)
-                  default: '-efg'
+        #    get:
+        #      tags:
+        #        - fake
+        #      summary: To test enum parameters
+        #      description: To test enum parameters
+        #      operationId: testEnumParameters
+        #      parameters:
+        #        - name: enum_header_string_array
+        #          in: header
+        #          description: Header parameter enum test (string array)
+        #          schema:
+        #            type: array
+        #            items:
+        #              type: string
+        #              default: $
+        #              enum:
+        #                - '>'
+        #                - $
+        #        - name: enum_header_string
+        #          in: header
+        #          description: Header parameter enum test (string)
+        #          schema:
+        #            type: string
+        #            enum:
+        #              - _abc
+        #              - '-efg'
+        #              - (xyz)
+        #            default: '-efg'
+        #        - name: enum_query_string_array
+        #          in: query
+        #          description: Query parameter enum test (string array)
+        #          schema:
+        #            type: array
+        #            items:
+        #              type: string
+        #              default: $
+        #              enum:
+        #                - '>'
+        #                - $
+        #        - name: enum_query_string
+        #          in: query
+        #          description: Query parameter enum test (string)
+        #          schema:
+        #            type: string
+        #            enum:
+        #              - _abc
+        #              - '-efg'
+        #              - (xyz)
+        #            default: '-efg'
+        #        - name: enum_query_integer
+        #          in: query
+        #          description: Query parameter enum test (double)
+        #          schema:
+        #            type: integer
+        #            format: int32
+        #            enum:
+        #              - 1
+        #              - -2
+        #        - name: enum_query_double
+        #          in: query
+        #          description: Query parameter enum test (double)
+        #          schema:
+        #            type: number
+        #            format: double
+        #            enum:
+        #              - 1.1
+        #              - -1.2
+        #        #- name: enum_query_model_array
+        #        #  in: query
+        #        #  schema:
+        #        #    type: array
+        #        #    items:
+        #        #      $ref: '#/components/schemas/EnumClass'
+        #      responses:
+        #        '400':
+        #          description: Invalid request
+        #        '404':
+        #          description: Not found
+        #      requestBody:
+        #        content:
+        #          application/x-www-form-urlencoded:
+        #            schema:
+        #              type: object
+        #              properties:
+        #                enum_form_string_array:
+        #                  description: Form parameter enum test (string array)
+        #                  type: array
+        #                  items:
+        #                    type: string
+        #                    default: $
+        #                    enum:
+        #                      - '>'
+        #                      - $
+        #                enum_form_string:
+        #                  description: Form parameter enum test (string)
+        #                  type: string
+        #                  enum:
+        #                    - _abc
+        #                    - '-efg'
+        #                    - (xyz)
+        #                  default: '-efg'
     post:
       tags:
         - fake

@@ -75,7 +75,7 @@ class PetApi(object):
         return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def add_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -199,14 +199,14 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], **kwargs):  # noqa: E501
+    def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_pet(pet_id, async_req=True)
+        >>> thread = api.delete_pet(pet_id, api_key, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: Pet id to delete (required)
@@ -229,17 +229,17 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
+        return self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_pet_with_http_info(pet_id, async_req=True)
+        >>> thread = api.delete_pet_with_http_info(pet_id, api_key, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: Pet id to delete (required)
@@ -308,7 +308,7 @@ class PetApi(object):
         query_params = []
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'api_key' in local_var_params:
+        if 'api_key' in local_var_params and local_var_params['api_key']:
             header_params['api_key'] = local_var_params['api_key']  # noqa: E501
 
         form_params = []
@@ -369,7 +369,7 @@ class PetApi(object):
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def find_pets_by_status_with_http_info(self, status, **kwargs):  # noqa: E501
+    def find_pets_by_status_with_http_info(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -509,7 +509,7 @@ class PetApi(object):
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def find_pets_by_tags_with_http_info(self, tags, **kwargs):  # noqa: E501
+    def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -649,7 +649,7 @@ class PetApi(object):
         return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def get_pet_by_id_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -789,7 +789,7 @@ class PetApi(object):
         return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def update_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -913,14 +913,14 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], **kwargs):  # noqa: E501
+    def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_pet_with_form(pet_id, async_req=True)
+        >>> thread = api.update_pet_with_form(pet_id, name, status, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet that needs to be updated (required)
@@ -945,17 +945,17 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
+        return self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_pet_with_form_with_http_info(pet_id, async_req=True)
+        >>> thread = api.update_pet_with_form_with_http_info(pet_id, name, status, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet that needs to be updated (required)
@@ -1030,9 +1030,9 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'name' in local_var_params:
+        if 'name' in local_var_params and local_var_params['name']:
             form_params.append(('name', local_var_params['name']))  # noqa: E501
-        if 'status' in local_var_params:
+        if 'status' in local_var_params and local_var_params['status']:
             form_params.append(('status', local_var_params['status']))  # noqa: E501
 
         body_params = None
@@ -1067,14 +1067,14 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], **kwargs):  # noqa: E501
+    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictBytes], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file(pet_id, async_req=True)
+        >>> thread = api.upload_file(pet_id, additional_metadata, file, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet to update (required)
@@ -1099,17 +1099,17 @@ class PetApi(object):
         :rtype: ApiResponse
         """
         kwargs['_return_http_data_only'] = True
-        return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
+        return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictBytes], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file_with_http_info(pet_id, async_req=True)
+        >>> thread = api.upload_file_with_http_info(pet_id, additional_metadata, file, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet to update (required)
@@ -1184,9 +1184,9 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'additional_metadata' in local_var_params:
+        if 'additional_metadata' in local_var_params and local_var_params['additional_metadata']:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
-        if 'file' in local_var_params:
+        if 'file' in local_var_params and local_var_params['file']:
             local_var_files['file'] = local_var_params['file']  # noqa: E501
 
         body_params = None
@@ -1227,14 +1227,14 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictBytes, Field(..., description="file to upload")], **kwargs):  # noqa: E501
+    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictBytes, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file_with_required_file(pet_id, required_file, async_req=True)
+        >>> thread = api.upload_file_with_required_file(pet_id, required_file, additional_metadata, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet to update (required)
@@ -1259,17 +1259,17 @@ class PetApi(object):
         :rtype: ApiResponse
         """
         kwargs['_return_http_data_only'] = True
-        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
+        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictBytes, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, required_file, async_req=True)
+        >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, async_req=True)
         >>> result = thread.get()
 
         :param pet_id: ID of pet to update (required)
@@ -1347,9 +1347,9 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'additional_metadata' in local_var_params:
+        if 'additional_metadata' in local_var_params and local_var_params['additional_metadata']:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
-        if 'required_file' in local_var_params:
+        if 'required_file' in local_var_params and local_var_params['required_file']:
             local_var_files['requiredFile'] = local_var_params['required_file']  # noqa: E501
 
         body_params = None

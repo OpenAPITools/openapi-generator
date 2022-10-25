@@ -22,7 +22,7 @@ from datetime import date, datetime
 
 from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, confloat, conint, constr
 
-from typing import Dict, List, Literal, Optional
+from typing import Dict, List, Optional
 
 from petstore_api import models
 
@@ -172,13 +172,13 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def fake_http_signature_test(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
+    def fake_http_signature_test(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_http_signature_test(pet, async_req=True)
+        >>> thread = api.fake_http_signature_test(pet, query_1, header_1, async_req=True)
         >>> result = thread.get()
 
         :param pet: Pet object that needs to be added to the store (required)
@@ -203,16 +203,16 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.fake_http_signature_test_with_http_info(pet, **kwargs)  # noqa: E501
+        return self.fake_http_signature_test_with_http_info(pet, query_1, header_1, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def fake_http_signature_test_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def fake_http_signature_test_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_http_signature_test_with_http_info(pet, async_req=True)
+        >>> thread = api.fake_http_signature_test_with_http_info(pet, query_1, header_1, async_req=True)
         >>> result = thread.get()
 
         :param pet: Pet object that needs to be added to the store (required)
@@ -284,7 +284,7 @@ class FakeApi(object):
             query_params.append(('query_1', local_var_params['query_1']))  # noqa: E501
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'header_1' in local_var_params:
+        if 'header_1' in local_var_params and local_var_params['header_1']:
             header_params['header_1'] = local_var_params['header_1']  # noqa: E501
 
         form_params = []
@@ -324,14 +324,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
+    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_boolean_serialize(async_req=True)
+        >>> thread = api.fake_outer_boolean_serialize(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input boolean as post body
@@ -352,17 +352,17 @@ class FakeApi(object):
         :rtype: bool
         """
         kwargs['_return_http_data_only'] = True
-        return self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
+        return self.fake_outer_boolean_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def fake_outer_boolean_serialize_with_http_info(self, **kwargs):  # noqa: E501
+    def fake_outer_boolean_serialize_with_http_info(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_boolean_serialize_with_http_info(async_req=True)
+        >>> thread = api.fake_outer_boolean_serialize_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input boolean as post body
@@ -467,14 +467,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[models.OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_composite_serialize(async_req=True)
+        >>> thread = api.fake_outer_composite_serialize(outer_composite, async_req=True)
         >>> result = thread.get()
 
         :param outer_composite: Input composite as post body
@@ -495,17 +495,17 @@ class FakeApi(object):
         :rtype: OuterComposite
         """
         kwargs['_return_http_data_only'] = True
-        return self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
+        return self.fake_outer_composite_serialize_with_http_info(outer_composite, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def fake_outer_composite_serialize_with_http_info(self, **kwargs):  # noqa: E501
+    def fake_outer_composite_serialize_with_http_info(self, outer_composite : Annotated[Optional[models.OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_composite_serialize_with_http_info(async_req=True)
+        >>> thread = api.fake_outer_composite_serialize_with_http_info(outer_composite, async_req=True)
         >>> result = thread.get()
 
         :param outer_composite: Input composite as post body
@@ -610,14 +610,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def fake_outer_number_serialize(self, **kwargs):  # noqa: E501
+    def fake_outer_number_serialize(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_number_serialize(async_req=True)
+        >>> thread = api.fake_outer_number_serialize(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input number as post body
@@ -638,17 +638,17 @@ class FakeApi(object):
         :rtype: float
         """
         kwargs['_return_http_data_only'] = True
-        return self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
+        return self.fake_outer_number_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def fake_outer_number_serialize_with_http_info(self, **kwargs):  # noqa: E501
+    def fake_outer_number_serialize_with_http_info(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_number_serialize_with_http_info(async_req=True)
+        >>> thread = api.fake_outer_number_serialize_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input number as post body
@@ -753,14 +753,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def fake_outer_string_serialize(self, **kwargs):  # noqa: E501
+    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_string_serialize(async_req=True)
+        >>> thread = api.fake_outer_string_serialize(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input string as post body
@@ -781,17 +781,17 @@ class FakeApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
-        return self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
+        return self.fake_outer_string_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def fake_outer_string_serialize_with_http_info(self, **kwargs):  # noqa: E501
+    def fake_outer_string_serialize_with_http_info(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.fake_outer_string_serialize_with_http_info(async_req=True)
+        >>> thread = api.fake_outer_string_serialize_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param body: Input string as post body
@@ -927,7 +927,7 @@ class FakeApi(object):
         return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_body_with_binary_with_http_info(self, body, **kwargs):  # noqa: E501
+    def test_body_with_binary_with_http_info(self, body : Annotated[Optional[StrictBytes], Field(..., description="image to upload")], **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1033,7 +1033,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_body_with_file_schema(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, ...], **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, Field()], **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1064,7 +1064,7 @@ class FakeApi(object):
         return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
+    def test_body_with_file_schema_with_http_info(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, Field()], **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1173,7 +1173,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_body_with_query_params(self, query : Annotated[StrictStr, ...], user : Annotated[models.User, ...], **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query : Annotated[StrictStr, Field()], user : Annotated[models.User, Field()], **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1205,7 +1205,7 @@ class FakeApi(object):
         return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_body_with_query_params_with_http_info(self, query, user, **kwargs):  # noqa: E501
+    def test_body_with_query_params_with_http_info(self, query : Annotated[StrictStr, Field()], user : Annotated[models.User, Field()], **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1352,7 +1352,7 @@ class FakeApi(object):
         return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
+    def test_client_model_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -1467,14 +1467,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictBytes, Field(..., description="None")], **kwargs):  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictBytes, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictBytes], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
+        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, async_req=True)
         >>> result = thread.get()
 
         :param number: None (required)
@@ -1521,17 +1521,17 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
+        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_endpoint_parameters_with_http_info(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
+    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictBytes, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictBytes], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, async_req=True)
+        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, async_req=True)
         >>> result = thread.get()
 
         :param number: None (required)
@@ -1646,33 +1646,33 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'integer' in local_var_params:
+        if 'integer' in local_var_params and local_var_params['integer']:
             form_params.append(('integer', local_var_params['integer']))  # noqa: E501
-        if 'int32' in local_var_params:
+        if 'int32' in local_var_params and local_var_params['int32']:
             form_params.append(('int32', local_var_params['int32']))  # noqa: E501
-        if 'int64' in local_var_params:
+        if 'int64' in local_var_params and local_var_params['int64']:
             form_params.append(('int64', local_var_params['int64']))  # noqa: E501
-        if 'number' in local_var_params:
+        if 'number' in local_var_params and local_var_params['number']:
             form_params.append(('number', local_var_params['number']))  # noqa: E501
-        if 'float' in local_var_params:
+        if 'float' in local_var_params and local_var_params['float']:
             form_params.append(('float', local_var_params['float']))  # noqa: E501
-        if 'double' in local_var_params:
+        if 'double' in local_var_params and local_var_params['double']:
             form_params.append(('double', local_var_params['double']))  # noqa: E501
-        if 'string' in local_var_params:
+        if 'string' in local_var_params and local_var_params['string']:
             form_params.append(('string', local_var_params['string']))  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params:
+        if 'pattern_without_delimiter' in local_var_params and local_var_params['pattern_without_delimiter']:
             form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))  # noqa: E501
-        if 'byte' in local_var_params:
+        if 'byte' in local_var_params and local_var_params['byte']:
             form_params.append(('byte', local_var_params['byte']))  # noqa: E501
-        if 'binary' in local_var_params:
+        if 'binary' in local_var_params and local_var_params['binary']:
             local_var_files['binary'] = local_var_params['binary']  # noqa: E501
-        if '_date' in local_var_params:
+        if '_date' in local_var_params and local_var_params['_date']:
             form_params.append(('date', local_var_params['_date']))  # noqa: E501
-        if 'date_time' in local_var_params:
+        if 'date_time' in local_var_params and local_var_params['date_time']:
             form_params.append(('dateTime', local_var_params['date_time']))  # noqa: E501
-        if 'password' in local_var_params:
+        if 'password' in local_var_params and local_var_params['password']:
             form_params.append(('password', local_var_params['password']))  # noqa: E501
-        if 'param_callback' in local_var_params:
+        if 'param_callback' in local_var_params and local_var_params['param_callback']:
             form_params.append(('callback', local_var_params['param_callback']))  # noqa: E501
 
         body_params = None
@@ -1707,203 +1707,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_enum_parameters(self, **kwargs):  # noqa: E501
-        """To test enum parameters  # noqa: E501
-
-        To test enum parameters  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_enum_parameters(async_req=True)
-        >>> result = thread.get()
-
-        :param enum_header_string_array: Header parameter enum test (string array)
-        :type enum_header_string_array: list[str]
-        :param enum_header_string: Header parameter enum test (string)
-        :type enum_header_string: str
-        :param enum_query_string_array: Query parameter enum test (string array)
-        :type enum_query_string_array: list[str]
-        :param enum_query_string: Query parameter enum test (string)
-        :type enum_query_string: str
-        :param enum_query_integer: Query parameter enum test (double)
-        :type enum_query_integer: int
-        :param enum_query_double: Query parameter enum test (double)
-        :type enum_query_double: float
-        :param enum_form_string_array: Form parameter enum test (string array)
-        :type enum_form_string_array: list[str]
-        :param enum_form_string: Form parameter enum test (string)
-        :type enum_form_string: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
-
-    #@validate_arguments
-    def test_enum_parameters_with_http_info(self, **kwargs):  # noqa: E501
-        """To test enum parameters  # noqa: E501
-
-        To test enum parameters  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.test_enum_parameters_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param enum_header_string_array: Header parameter enum test (string array)
-        :type enum_header_string_array: list[str]
-        :param enum_header_string: Header parameter enum test (string)
-        :type enum_header_string: str
-        :param enum_query_string_array: Query parameter enum test (string array)
-        :type enum_query_string_array: list[str]
-        :param enum_query_string: Query parameter enum test (string)
-        :type enum_query_string: str
-        :param enum_query_integer: Query parameter enum test (double)
-        :type enum_query_integer: int
-        :param enum_query_double: Query parameter enum test (double)
-        :type enum_query_double: float
-        :param enum_form_string_array: Form parameter enum test (string array)
-        :type enum_form_string_array: list[str]
-        :param enum_form_string: Form parameter enum test (string)
-        :type enum_form_string: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: None
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'enum_header_string_array',
-            'enum_header_string',
-            'enum_query_string_array',
-            'enum_query_string',
-            'enum_query_integer',
-            'enum_query_double',
-            'enum_form_string_array',
-            'enum_form_string'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
-
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method test_enum_parameters" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-        if local_var_params.get('enum_query_string_array') is not None:  # noqa: E501
-            query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
-            collection_formats['enum_query_string_array'] = 'multi'  # noqa: E501
-        if local_var_params.get('enum_query_string') is not None:  # noqa: E501
-            query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
-        if local_var_params.get('enum_query_integer') is not None:  # noqa: E501
-            query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
-        if local_var_params.get('enum_query_double') is not None:  # noqa: E501
-            query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
-
-        header_params = dict(local_var_params.get('_headers', {}))
-        if 'enum_header_string_array' in local_var_params:
-            header_params['enum_header_string_array'] = local_var_params['enum_header_string_array']  # noqa: E501
-            collection_formats['enum_header_string_array'] = 'csv'  # noqa: E501
-        if 'enum_header_string' in local_var_params:
-            header_params['enum_header_string'] = local_var_params['enum_header_string']  # noqa: E501
-
-        form_params = []
-        local_var_files = {}
-        if 'enum_form_string_array' in local_var_params:
-            form_params.append(('enum_form_string_array', local_var_params['enum_form_string_array']))  # noqa: E501
-            collection_formats['enum_form_string_array'] = 'csv'  # noqa: E501
-        if 'enum_form_string' in local_var_params:
-            form_params.append(('enum_form_string', local_var_params['enum_form_string']))  # noqa: E501
-
-        body_params = None
-        # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/x-www-form-urlencoded'],
-                'GET', body_params))  # noqa: E501
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        response_types_map = {}
-
-        return self.api_client.call_api(
-            '/fake', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
-    #@validate_arguments
-    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], **kwargs):  # noqa: E501
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
+        >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, async_req=True)
         >>> result = thread.get()
 
         :param required_string_group: Required String in group parameters (required)
@@ -1934,17 +1745,17 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
+        return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_group_parameters_with_http_info(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
+    def test_group_parameters_with_http_info(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, async_req=True)
+        >>> thread = api.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, async_req=True)
         >>> result = thread.get()
 
         :param required_string_group: Required String in group parameters (required)
@@ -2037,9 +1848,9 @@ class FakeApi(object):
             query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'required_boolean_group' in local_var_params:
+        if 'required_boolean_group' in local_var_params and local_var_params['required_boolean_group']:
             header_params['required_boolean_group'] = local_var_params['required_boolean_group']  # noqa: E501
-        if 'boolean_group' in local_var_params:
+        if 'boolean_group' in local_var_params and local_var_params['boolean_group']:
             header_params['boolean_group'] = local_var_params['boolean_group']  # noqa: E501
 
         form_params = []
@@ -2100,7 +1911,7 @@ class FakeApi(object):
         return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
+    def test_inline_additional_properties_with_http_info(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2242,7 +2053,7 @@ class FakeApi(object):
         return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
+    def test_json_form_data_with_http_info(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
@@ -2322,9 +2133,9 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'param' in local_var_params:
+        if 'param' in local_var_params and local_var_params['param']:
             form_params.append(('param', local_var_params['param']))  # noqa: E501
-        if 'param2' in local_var_params:
+        if 'param2' in local_var_params and local_var_params['param2']:
             form_params.append(('param2', local_var_params['param2']))  # noqa: E501
 
         body_params = None
@@ -2359,14 +2170,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     #@validate_arguments
-    def test_query_parameter_collection_format(self, pipe : Annotated[List[StrictStr], ...], ioutil : Annotated[List[StrictStr], ...], http : Annotated[List[StrictStr], ...], url : Annotated[List[StrictStr], ...], context : Annotated[List[StrictStr], ...], allow_empty : Annotated[StrictStr, ...], **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe : Annotated[List[StrictStr], Field()], ioutil : Annotated[List[StrictStr], Field()], http : Annotated[List[StrictStr], Field()], url : Annotated[List[StrictStr], Field()], context : Annotated[List[StrictStr], Field()], allow_empty : Annotated[StrictStr, Field()], language : Annotated[Optional[Dict[str, StrictStr]], Field()] = None, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2399,17 +2210,17 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, **kwargs)  # noqa: E501
+        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe : Annotated[List[StrictStr], Field()], ioutil : Annotated[List[StrictStr], Field()], http : Annotated[List[StrictStr], Field()], url : Annotated[List[StrictStr], Field()], context : Annotated[List[StrictStr], Field()], allow_empty : Annotated[StrictStr, Field()], language : Annotated[Optional[Dict[str, StrictStr]], Field()] = None, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)

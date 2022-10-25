@@ -715,15 +715,19 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 String fieldCustomization;
                 if ("None".equals(firstField)) {
-                    fieldCustomization = "None";
+                    fieldCustomization = null;
                 } else { // required field
                     fieldCustomization = firstField;
                 }
 
                 if (!fields.isEmpty()) {
-                    fields.add(0, fieldCustomization);
+                    if (fieldCustomization != null) {
+                        fields.add(0, fieldCustomization);
+                    }
                     pydanticImports.add("Field");
                     fieldCustomization = String.format("Field(%s)", StringUtils.join(fields, ", "));
+                } else {
+                    fieldCustomization = "Field()";
                 }
 
                 param.vendorExtensions.put("x-py-typing", String.format("Annotated[%s, %s]", typing, fieldCustomization));

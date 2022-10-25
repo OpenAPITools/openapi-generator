@@ -73,7 +73,7 @@ class FakeClassnameTags123Api(object):
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def test_classname_with_http_info(self, client, **kwargs):  # noqa: E501
+    def test_classname_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501

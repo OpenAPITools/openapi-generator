@@ -36,7 +36,7 @@ class {{classname}}(object):
 {{#operation}}
 
     #@validate_arguments
-    def {{operationId}}(self, {{#allParams}}{{#required}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}, {{/required}}{{/allParams}}**kwargs):  # noqa: E501
+    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs):  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -45,7 +45,7 @@ class {{classname}}(object):
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}async_req=True)
+        >>> thread = api.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}async_req=True)
         >>> result = thread.get()
 
 {{#allParams}}
@@ -68,10 +68,10 @@ class {{classname}}(object):
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
-        return self.{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs)  # noqa: E501
+        return self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
     #@validate_arguments
-    def {{operationId}}_with_http_info(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):  # noqa: E501
+    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs):  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -80,7 +80,7 @@ class {{classname}}(object):
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}async_req=True)
+        >>> thread = api.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}async_req=True)
         >>> result = thread.get()
 
 {{#allParams}}
@@ -181,15 +181,15 @@ class {{classname}}(object):
 
         header_params = dict(local_var_params.get('_headers', {}))
 {{#headerParams}}
-        if '{{paramName}}' in local_var_params:
-            header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}']:
+            header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}} # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/headerParams}}
 
         form_params = []
         local_var_files = {}
 {{#formParams}}
-        if '{{paramName}}' in local_var_params:
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}']:
             {{^isFile}}form_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = local_var_params['{{paramName}}']{{/isFile}}{{#isArray}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/formParams}}

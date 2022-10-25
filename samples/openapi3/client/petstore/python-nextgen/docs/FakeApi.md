@@ -15,7 +15,6 @@ Method | HTTP request | Description
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
@@ -787,82 +786,6 @@ void (empty response body)
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
 **404** | User not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **test_enum_parameters**
-> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
-
-To test enum parameters
-
-To test enum parameters
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import petstore_api
-from petstore_api.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
-    # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
-enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
-enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
-enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
-enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
-
-    try:
-        # To test enum parameters
-        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
-    except ApiException as e:
-        print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
- **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**400** | Invalid request |  -  |
-**404** | Not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

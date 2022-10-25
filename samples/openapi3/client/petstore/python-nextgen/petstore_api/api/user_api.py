@@ -75,7 +75,7 @@ class UserApi(object):
         return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def create_user_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_user_with_http_info(self, user : Annotated[models.User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -215,7 +215,7 @@ class UserApi(object):
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def create_users_with_array_input_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_users_with_array_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -355,7 +355,7 @@ class UserApi(object):
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def create_users_with_list_input_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_users_with_list_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -495,7 +495,7 @@ class UserApi(object):
         return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def delete_user_with_http_info(self, username, **kwargs):  # noqa: E501
+    def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -627,7 +627,7 @@ class UserApi(object):
         return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def get_user_by_name_with_http_info(self, username, **kwargs):  # noqa: E501
+    def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
           # noqa: E501
@@ -769,7 +769,7 @@ class UserApi(object):
         return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def login_user_with_http_info(self, username, password, **kwargs):  # noqa: E501
+    def login_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
           # noqa: E501
@@ -1040,7 +1040,7 @@ class UserApi(object):
         return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
 
     #@validate_arguments
-    def update_user_with_http_info(self, username, user, **kwargs):  # noqa: E501
+    def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[models.User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
