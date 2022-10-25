@@ -127,7 +127,6 @@ namespace Org.OpenAPITools.Client
             if (obj is Enum && HasEnumMemberAttrValue(obj))
                 return GetEnumMemberAttrValue(obj);
 
-
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
         }
 
