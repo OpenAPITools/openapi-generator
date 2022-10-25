@@ -12,6 +12,7 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Date;
 
 import java.lang.reflect.Type;

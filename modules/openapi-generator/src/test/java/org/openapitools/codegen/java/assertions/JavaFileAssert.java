@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.github.javaparser.ast.body.ConstructorDeclaration;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
@@ -82,9 +82,36 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new PropertyAssert(this, fieldOptional.get());
     }
 
+    /**
+     * Asserts that the file has the given imports.
+     * Fails if the imports are not in the file or occur more than once.
+     * @param imports
+     * @return true if the imports are found exactly once
+     */
     public JavaFileAssert hasImports(final String... imports) {
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Empty file"))
+            .toString();
         Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
-            .containsAll(Arrays.asList(imports));
+            .containsOnlyOnce(imports)
+            .withFailMessage("File should contain imports\n====\n%s\n====\nbut contains\n====\n%s\n====",
+            imports, actualBody);
+        return this;
+    }
+
+    /**
+     * Asserts that the file does not have the given imports.
+     * @param imports
+     * @return true if the imports are not in the file
+     */
+    public JavaFileAssert doesNotHaveImports(final String... imports) {
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Empty file"))
+            .toString();
+        Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
+            .doesNotContain(imports)
+            .withFailMessage("File should not contain imports\n====\n%s\n====\nbut contains\n====\n%s\n====",
+            imports, actualBody);
         return this;
     }
 
@@ -99,7 +126,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             .toString();
         Assertions.assertThat(actualBody)
             .withFailMessage(
-                "File should contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                "File should contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
                 Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
             )
             .contains(lines);

@@ -17,12 +17,21 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.v3.oas.models.ExternalDocumentation;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import io.swagger.v3.oas.models.ExternalDocumentation;
 
 /**
  * CodegenModel represents a schema object in a OpenAPI document.
@@ -83,7 +92,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation, hasNullable;
     /**
      * Indicates the OAS schema specifies "nullable: true".
      */
