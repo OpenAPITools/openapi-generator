@@ -12,8 +12,8 @@ For more information, please visit [https://example.org](https://example.org)
 
 ## Requires
 
-* Kotlin 1.4.30
-* Gradle 6.8.3
+* Kotlin 1.6.10
+* Gradle 7.5
 
 ## Build
 

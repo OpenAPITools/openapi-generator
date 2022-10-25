@@ -110,7 +110,7 @@ class TestParameter(unittest.TestCase):
     def test_application_x_www_form_urlencoded_serialization(self):
         payload = dict(
             some_null=None,
-            some_str='a',
+            some_str='hi, spacether!',
             some_int=1,
             some_float=3.14,
             some_list=[],
@@ -123,7 +123,7 @@ class TestParameter(unittest.TestCase):
         serialization = request_body.serialize(payload, content_type)
         self.assertEqual(
             serialization,
-            dict(body='?some_str=a&some_int=1&some_float=3.14')
+            dict(body='some_str=hi%2C%20spacether%21&some_int=1&some_float=3.14')
         )
 
         serialization = request_body.serialize({}, content_type)

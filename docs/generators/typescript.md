@@ -87,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>char</li>
 <li>class</li>
 <li>const</li>
+<li>constructor</li>
 <li>continue</li>
 <li>debugger</li>
 <li>default</li>

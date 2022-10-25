@@ -9,6 +9,8 @@ docs/apis/FakeClassnameTags123Api.md
 docs/apis/PetApi.md
 docs/apis/StoreApi.md
 docs/apis/UserApi.md
+docs/models/Activity.md
+docs/models/ActivityOutputElementRepresentation.md
 docs/models/AdditionalPropertiesClass.md
 docs/models/Animal.md
 docs/models/ApiResponse.md
@@ -115,6 +117,8 @@ src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs
 src/Org.OpenAPITools/Client/TokenProvider`1.cs
+src/Org.OpenAPITools/Model/Activity.cs
+src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs

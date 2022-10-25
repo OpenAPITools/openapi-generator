@@ -536,6 +536,10 @@ public class FormatTest {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the FormatTest instance itself
    */
   public FormatTest putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -547,6 +551,8 @@ public class FormatTest {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -554,6 +560,9 @@ public class FormatTest {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {

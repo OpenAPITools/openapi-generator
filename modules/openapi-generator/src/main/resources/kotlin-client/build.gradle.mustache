@@ -11,7 +11,7 @@ wrapper {
 buildscript {
     ext.kotlin_version = '1.6.10'
     {{#jvm-ktor}}
-    ext.ktor_version = '2.0.3'
+    ext.ktor_version = '2.1.2'
     {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
@@ -25,6 +25,9 @@ buildscript {
     {{#useRxJava3}}
     ext.rxJava3Version = '3.0.12'
     {{/useRxJava3}}
+    {{#jvm-vertx}}
+    ext.vertx_version = "4.3.3"
+    {{/jvm-vertx}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -149,6 +152,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    {{#jvm-vertx}}
+    implementation "io.vertx:vertx-web-client:$vertx_version"
+    implementation "io.vertx:vertx-core:$vertx_version"
+    implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
+    implementation "io.vertx:vertx-uri-template:$vertx_version"
+    {{#useCoroutines}}
+    implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
+    {{/useCoroutines}}
+    {{/jvm-vertx}}
 }
 {{#kotlinx_serialization}}
 

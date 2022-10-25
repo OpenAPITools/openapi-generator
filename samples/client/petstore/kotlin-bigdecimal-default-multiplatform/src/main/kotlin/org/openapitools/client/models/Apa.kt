@@ -31,6 +31,7 @@ import kotlinx.serialization.encoding.*
  * @param gepa 
  */
 @Serializable
+
 data class Apa (
 
     @SerialName(value = "bepa") @Required val bepa: kotlin.Double = (0).toDouble(),

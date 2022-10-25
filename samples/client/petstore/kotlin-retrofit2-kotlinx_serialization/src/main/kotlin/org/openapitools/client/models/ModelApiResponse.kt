@@ -29,6 +29,7 @@ import java.io.Serializable
  * @param message 
  */
 @KSerializable
+
 data class ModelApiResponse (
 
     @SerialName(value = "code")

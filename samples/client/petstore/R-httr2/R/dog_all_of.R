@@ -25,7 +25,9 @@ DogAllOf <- R6::R6Class(
     #' @export
     initialize = function(`breed` = NULL, ...) {
       if (!is.null(`breed`)) {
-        stopifnot(is.character(`breed`), length(`breed`) == 1)
+        if (!(is.character(`breed`) && length(`breed`) == 1)) {
+          stop(paste("Error! Invalid data for `breed`. Must be a string:", `breed`))
+        }
         self$`breed` <- `breed`
       }
     },

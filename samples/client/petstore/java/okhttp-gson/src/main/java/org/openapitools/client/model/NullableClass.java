@@ -551,16 +551,16 @@ public class NullableClass {
       if ((jsonObj.get("string_prop") != null && !jsonObj.get("string_prop").isJsonNull()) && !jsonObj.get("string_prop").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_nullable_prop").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_nullable_prop") != null && !jsonObj.get("array_nullable_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_and_items_nullable_prop") != null && !jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_items_nullable").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_items_nullable") != null && !jsonObj.get("array_items_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
       }
   }

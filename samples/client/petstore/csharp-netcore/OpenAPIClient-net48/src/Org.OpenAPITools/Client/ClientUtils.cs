@@ -13,6 +13,7 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
@@ -123,6 +124,9 @@ namespace Org.OpenAPITools.Client
                 }
                 return string.Join(",", stringCollection.ToArray());
             }
+            if (obj is Enum && HasEnumMemberAttrValue(obj))
+                return GetEnumMemberAttrValue(obj);
+
 
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
         }
@@ -220,6 +224,41 @@ namespace Org.OpenAPITools.Client
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Is the Enum decorated with EnumMember Attribute
+        /// </summary>
+        /// <param name="enumVal"></param>
+        /// <returns>true if found</returns>
+        private static bool HasEnumMemberAttrValue(object enumVal)
+        {
+            if (enumVal == null)
+                throw new ArgumentNullException(nameof(enumVal));
+            var enumType = enumVal.GetType();
+            var memInfo = enumType.GetMember(enumVal.ToString() ?? throw new InvalidOperationException());
+            var attr = memInfo.FirstOrDefault()?.GetCustomAttributes(false).OfType<EnumMemberAttribute>().FirstOrDefault();
+            if (attr != null) return true;
+                return false;
+        }
+
+        /// <summary>
+        /// Get the EnumMember value
+        /// </summary>
+        /// <param name="enumVal"></param>
+        /// <returns>EnumMember value as string otherwise null</returns>
+        private static string GetEnumMemberAttrValue(object enumVal)
+        {
+            if (enumVal == null)
+                throw new ArgumentNullException(nameof(enumVal));
+            var enumType = enumVal.GetType();
+            var memInfo = enumType.GetMember(enumVal.ToString() ?? throw new InvalidOperationException());
+            var attr = memInfo.FirstOrDefault()?.GetCustomAttributes(false).OfType<EnumMemberAttribute>().FirstOrDefault();
+            if (attr != null)
+            {
+                return attr.Value;
+            }
+            return null;
         }
     }
 }

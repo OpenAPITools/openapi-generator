@@ -29,6 +29,7 @@ import com.squareup.moshi.Json
  * @param gepa 
  */
 
+
 data class Apa (
 
     @Json(name = "bepa")

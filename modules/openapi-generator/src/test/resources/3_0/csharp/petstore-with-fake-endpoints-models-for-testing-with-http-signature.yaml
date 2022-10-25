@@ -2160,3 +2160,22 @@ components:
     StringArrayItem:
       type: string
       format: string
+    Activity:
+      description: "test map of maps"
+      type: object
+      properties:
+        activity_outputs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ActivityOutputRepresentation'
+    ActivityOutputRepresentation:
+      type: array
+      items: 
+        $ref: '#/components/schemas/ActivityOutputElementRepresentation'
+    ActivityOutputElementRepresentation:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: object

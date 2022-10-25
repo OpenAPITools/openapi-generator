@@ -15,7 +15,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.3.0'
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.11.0'
     }
 }
 
@@ -110,19 +110,19 @@ ext {
 }
 
 dependencies {
-    implementation 'io.swagger:swagger-annotations:1.6.5'
+    implementation 'io.swagger:swagger-annotations:1.6.8'
     implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'io.gsonfire:gson-fire:1.8.5'
     implementation 'javax.ws.rs:jsr311-api:1.1.1'
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     {{#openApiNullable}}
-    implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
     {{/openApiNullable}}
     {{#hasOAuthMethods}}
-    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
+    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.2'
     {{/hasOAuthMethods}}
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     {{#joda}}
@@ -132,9 +132,9 @@ dependencies {
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.0.30'
     {{/dynamicOperations}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
     testImplementation 'org.mockito:mockito-core:3.12.4'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
 }
 
 javadoc {
