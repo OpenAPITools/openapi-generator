@@ -20,7 +20,6 @@ import os
 import re
 import tempfile
 
-# python 2 and python 3 compatibility library
 from urllib.parse import quote
 
 from petstore_api.configuration import Configuration

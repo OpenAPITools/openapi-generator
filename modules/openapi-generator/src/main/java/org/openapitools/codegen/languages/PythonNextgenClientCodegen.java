@@ -41,15 +41,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
-    // nose is a python testing framework, we use pytest if USE_NOSE is unset
-    public static final String USE_NOSE = "useNose";
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
 
     protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useNose = Boolean.FALSE;
     protected boolean hasModelsToImport = Boolean.FALSE;
 
     protected Map<Character, String> regexModifiers;
@@ -148,8 +145,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
-                defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
@@ -214,10 +209,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         if (additionalProperties.containsKey(PACKAGE_URL)) {
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
-        }
-
-        if (additionalProperties.containsKey(USE_NOSE)) {
-            setUseNose((String) additionalProperties.get(USE_NOSE));
         }
 
         // check to see if setRecursionLimit is set and whether it's an integer
@@ -1026,12 +1017,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public String modelTestFileFolder() {
         return outputFolder + File.separatorChar + testFolder;
     }
-
-
-    public void setUseNose(String val) {
-        this.useNose = Boolean.parseBoolean(val);
-    }
-
 
     public void setPackageUrl(String packageUrl) {
         this.packageUrl = packageUrl;
