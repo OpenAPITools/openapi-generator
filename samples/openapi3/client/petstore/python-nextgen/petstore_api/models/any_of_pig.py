@@ -17,7 +17,6 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-import six
 from petstore_api import models
 
 from typing import Optional

@@ -9,8 +9,7 @@ import re
 import ssl
 
 import aiohttp
-# python 2 and python 3 compatibility library
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode, quote_plus
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
 

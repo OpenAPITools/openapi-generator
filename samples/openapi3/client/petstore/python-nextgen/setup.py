@@ -21,7 +21,7 @@ VERSION = "1.0.0"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["urllib3 >= 1.25.3", "six >= 1.10", "python-dateutil"]
+REQUIRES = ["urllib3 >= 1.25.3", "python-dateutil", "pydantic", "aenum"]
 
 setup(
     name=NAME,

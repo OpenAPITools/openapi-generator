@@ -28,7 +28,6 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-import six
 from aenum import Enum, no_arg
 
 
