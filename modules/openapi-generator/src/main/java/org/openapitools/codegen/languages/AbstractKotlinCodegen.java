@@ -687,7 +687,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
-        // memoization
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
         }
@@ -1025,6 +1024,37 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return number + "L";
         }
         return number;
+    }
+
+    @Override
+    protected void updateRequestBodyForObject(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+        if (isFreeFormObject(schema)) {
+            // non-composed object type with no properties + additionalProperties
+            // additionalProperties must be null, ObjectSchema, or empty Schema
+            codegenParameter.isFreeFormObject = true;
+
+            // HTTP request body is free form object
+            CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema, false);
+            if (codegenProperty != null) {
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = "body";  // default to body
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+                codegenParameter.isPrimitiveType = true;
+                codegenParameter.baseType = codegenProperty.baseType;
+                codegenParameter.dataType = codegenProperty.dataType;
+                codegenParameter.description = codegenProperty.description;
+                codegenParameter.isNullable = codegenProperty.isNullable;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            }
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isMapSchema(schema)) {
+            // object type schema or composed schema with properties defined
+            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+        }
+        addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
     }
 
     @Override
