@@ -61,7 +61,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
         return self.json(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{{classname}}}:
+    def from_json(cls, json_str: str) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
         """Create an instance of {{{classname}}} from a JSON string"""
         {{#discriminator}}
         return cls.from_dict(json.loads(json_str))
@@ -75,7 +75,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{{classname}}}:
+    def from_dict(cls, obj: dict) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#discriminator}}
         # look up the object type based on discriminator mapping

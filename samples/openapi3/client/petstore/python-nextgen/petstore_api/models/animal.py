@@ -64,7 +64,7 @@ class Animal(BaseModel):
         return self.json(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_json(cls, json_str: str) -> Animal:
+    def from_json(cls, json_str: str) -> Union(Cat, Dog, Animal):
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -73,7 +73,7 @@ class Animal(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Animal:
+    def from_dict(cls, obj: dict) -> Union(Cat, Dog, Animal):
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
