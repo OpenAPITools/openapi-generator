@@ -137,6 +137,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

@@ -163,8 +163,9 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
+        if local_var_params['pet']:
             body_params = local_var_params['pet']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -298,19 +299,20 @@ class PetApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'pet_id' in local_var_params:
-            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+        if local_var_params['pet_id']:
+            path_params['petId'] = local_var_params['pet_id']
 
         query_params = []
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'api_key' in local_var_params and local_var_params['api_key']:
-            header_params['api_key'] = local_var_params['api_key']  # noqa: E501
+        if local_var_params['api_key']:
+            header_params['api_key'] = local_var_params['api_key']
 
         form_params = []
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
@@ -433,8 +435,8 @@ class PetApi(object):
 
         query_params = []
         if local_var_params.get('status') is not None:  # noqa: E501
-            query_params.append(('status', local_var_params['status']))  # noqa: E501
-            collection_formats['status'] = 'csv'  # noqa: E501
+            query_params.append(('status', local_var_params['status']))
+            collection_formats['status'] = 'csv'
 
         header_params = dict(local_var_params.get('_headers', {}))
 
@@ -442,6 +444,7 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -571,8 +574,8 @@ class PetApi(object):
 
         query_params = []
         if local_var_params.get('tags') is not None:  # noqa: E501
-            query_params.append(('tags', local_var_params['tags']))  # noqa: E501
-            collection_formats['tags'] = 'csv'  # noqa: E501
+            query_params.append(('tags', local_var_params['tags']))
+            collection_formats['tags'] = 'csv'
 
         header_params = dict(local_var_params.get('_headers', {}))
 
@@ -580,6 +583,7 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -706,8 +710,8 @@ class PetApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'pet_id' in local_var_params:
-            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+        if local_var_params['pet_id']:
+            path_params['petId'] = local_var_params['pet_id']
 
         query_params = []
 
@@ -717,6 +721,7 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -867,8 +872,9 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
+        if local_var_params['pet']:
             body_params = local_var_params['pet']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1007,8 +1013,8 @@ class PetApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'pet_id' in local_var_params:
-            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+        if local_var_params['pet_id']:
+            path_params['petId'] = local_var_params['pet_id']
 
         query_params = []
 
@@ -1016,12 +1022,13 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'name' in local_var_params and local_var_params['name']:
-            form_params.append(('name', local_var_params['name']))  # noqa: E501
-        if 'status' in local_var_params and local_var_params['status']:
-            form_params.append(('status', local_var_params['status']))  # noqa: E501
+        if local_var_params['name']:
+            form_params.append(('name', local_var_params['name']))
+        if local_var_params['status']:
+            form_params.append(('status', local_var_params['status']))
 
         body_params = None
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1159,8 +1166,8 @@ class PetApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'pet_id' in local_var_params:
-            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+        if local_var_params['pet_id']:
+            path_params['petId'] = local_var_params['pet_id']
 
         query_params = []
 
@@ -1168,12 +1175,13 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'additional_metadata' in local_var_params and local_var_params['additional_metadata']:
-            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
-        if 'file' in local_var_params and local_var_params['file']:
-            local_var_files['file'] = local_var_params['file']  # noqa: E501
+        if local_var_params['additional_metadata']:
+            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))
+        if local_var_params['file']:
+            local_var_files['file'] = local_var_params['file']
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -1317,8 +1325,8 @@ class PetApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'pet_id' in local_var_params:
-            path_params['petId'] = local_var_params['pet_id']  # noqa: E501
+        if local_var_params['pet_id']:
+            path_params['petId'] = local_var_params['pet_id']
 
         query_params = []
 
@@ -1326,12 +1334,13 @@ class PetApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'additional_metadata' in local_var_params and local_var_params['additional_metadata']:
-            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
-        if 'required_file' in local_var_params and local_var_params['required_file']:
-            local_var_files['requiredFile'] = local_var_params['required_file']  # noqa: E501
+        if local_var_params['additional_metadata']:
+            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))
+        if local_var_params['required_file']:
+            local_var_files['requiredFile'] = local_var_params['required_file']
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

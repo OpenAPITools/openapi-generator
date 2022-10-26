@@ -147,8 +147,9 @@ class AnotherFakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in local_var_params:
+        if local_var_params['client']:
             body_params = local_var_params['client']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

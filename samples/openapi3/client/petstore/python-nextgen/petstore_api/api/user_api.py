@@ -149,8 +149,9 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
+        if local_var_params['user']:
             body_params = local_var_params['user']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -287,8 +288,9 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
+        if local_var_params['user']:
             body_params = local_var_params['user']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -425,8 +427,9 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
+        if local_var_params['user']:
             body_params = local_var_params['user']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -554,8 +557,8 @@ class UserApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'username' in local_var_params:
-            path_params['username'] = local_var_params['username']  # noqa: E501
+        if local_var_params['username']:
+            path_params['username'] = local_var_params['username']
 
         query_params = []
 
@@ -565,6 +568,7 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -684,8 +688,8 @@ class UserApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'username' in local_var_params:
-            path_params['username'] = local_var_params['username']  # noqa: E501
+        if local_var_params['username']:
+            path_params['username'] = local_var_params['username']
 
         query_params = []
 
@@ -695,6 +699,7 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -830,9 +835,9 @@ class UserApi(object):
 
         query_params = []
         if local_var_params.get('username') is not None:  # noqa: E501
-            query_params.append(('username', local_var_params['username']))  # noqa: E501
+            query_params.append(('username', local_var_params['username']))
         if local_var_params.get('password') is not None:  # noqa: E501
-            query_params.append(('password', local_var_params['password']))  # noqa: E501
+            query_params.append(('password', local_var_params['password']))
 
         header_params = dict(local_var_params.get('_headers', {}))
 
@@ -840,6 +845,7 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -970,6 +976,7 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -1094,8 +1101,8 @@ class UserApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'username' in local_var_params:
-            path_params['username'] = local_var_params['username']  # noqa: E501
+        if local_var_params['username']:
+            path_params['username'] = local_var_params['username']
 
         query_params = []
 
@@ -1105,8 +1112,9 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
+        if local_var_params['user']:
             body_params = local_var_params['user']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(

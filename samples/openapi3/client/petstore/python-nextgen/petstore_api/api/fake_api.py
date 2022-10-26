@@ -144,6 +144,7 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -280,18 +281,19 @@ class FakeApi(object):
 
         query_params = []
         if local_var_params.get('query_1') is not None:  # noqa: E501
-            query_params.append(('query_1', local_var_params['query_1']))  # noqa: E501
+            query_params.append(('query_1', local_var_params['query_1']))
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'header_1' in local_var_params and local_var_params['header_1']:
-            header_params['header_1'] = local_var_params['header_1']  # noqa: E501
+        if local_var_params['header_1']:
+            header_params['header_1'] = local_var_params['header_1']
 
         form_params = []
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
+        if local_var_params['pet']:
             body_params = local_var_params['pet']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -428,8 +430,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in local_var_params:
+        if local_var_params['body']:
             body_params = local_var_params['body']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -572,8 +575,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'outer_composite' in local_var_params:
+        if local_var_params['outer_composite']:
             body_params = local_var_params['outer_composite']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -716,8 +720,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in local_var_params:
+        if local_var_params['body']:
             body_params = local_var_params['body']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -860,8 +865,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in local_var_params:
+        if local_var_params['body']:
             body_params = local_var_params['body']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -1004,8 +1010,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in local_var_params:
+        if local_var_params['body']:
             body_params = local_var_params['body']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1142,8 +1149,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'file_schema_test_class' in local_var_params:
+        if local_var_params['file_schema_test_class']:
             body_params = local_var_params['file_schema_test_class']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1277,7 +1285,7 @@ class FakeApi(object):
 
         query_params = []
         if local_var_params.get('query') is not None:  # noqa: E501
-            query_params.append(('query', local_var_params['query']))  # noqa: E501
+            query_params.append(('query', local_var_params['query']))
 
         header_params = dict(local_var_params.get('_headers', {}))
 
@@ -1285,8 +1293,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
+        if local_var_params['user']:
             body_params = local_var_params['user']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1423,8 +1432,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in local_var_params:
+        if local_var_params['client']:
             body_params = local_var_params['client']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -1630,36 +1640,37 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'integer' in local_var_params and local_var_params['integer']:
-            form_params.append(('integer', local_var_params['integer']))  # noqa: E501
-        if 'int32' in local_var_params and local_var_params['int32']:
-            form_params.append(('int32', local_var_params['int32']))  # noqa: E501
-        if 'int64' in local_var_params and local_var_params['int64']:
-            form_params.append(('int64', local_var_params['int64']))  # noqa: E501
-        if 'number' in local_var_params and local_var_params['number']:
-            form_params.append(('number', local_var_params['number']))  # noqa: E501
-        if 'float' in local_var_params and local_var_params['float']:
-            form_params.append(('float', local_var_params['float']))  # noqa: E501
-        if 'double' in local_var_params and local_var_params['double']:
-            form_params.append(('double', local_var_params['double']))  # noqa: E501
-        if 'string' in local_var_params and local_var_params['string']:
-            form_params.append(('string', local_var_params['string']))  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params and local_var_params['pattern_without_delimiter']:
-            form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))  # noqa: E501
-        if 'byte' in local_var_params and local_var_params['byte']:
-            form_params.append(('byte', local_var_params['byte']))  # noqa: E501
-        if 'binary' in local_var_params and local_var_params['binary']:
-            local_var_files['binary'] = local_var_params['binary']  # noqa: E501
-        if '_date' in local_var_params and local_var_params['_date']:
-            form_params.append(('date', local_var_params['_date']))  # noqa: E501
-        if 'date_time' in local_var_params and local_var_params['date_time']:
-            form_params.append(('dateTime', local_var_params['date_time']))  # noqa: E501
-        if 'password' in local_var_params and local_var_params['password']:
-            form_params.append(('password', local_var_params['password']))  # noqa: E501
-        if 'param_callback' in local_var_params and local_var_params['param_callback']:
-            form_params.append(('callback', local_var_params['param_callback']))  # noqa: E501
+        if local_var_params['integer']:
+            form_params.append(('integer', local_var_params['integer']))
+        if local_var_params['int32']:
+            form_params.append(('int32', local_var_params['int32']))
+        if local_var_params['int64']:
+            form_params.append(('int64', local_var_params['int64']))
+        if local_var_params['number']:
+            form_params.append(('number', local_var_params['number']))
+        if local_var_params['float']:
+            form_params.append(('float', local_var_params['float']))
+        if local_var_params['double']:
+            form_params.append(('double', local_var_params['double']))
+        if local_var_params['string']:
+            form_params.append(('string', local_var_params['string']))
+        if local_var_params['pattern_without_delimiter']:
+            form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))
+        if local_var_params['byte']:
+            form_params.append(('byte', local_var_params['byte']))
+        if local_var_params['binary']:
+            local_var_files['binary'] = local_var_params['binary']
+        if local_var_params['_date']:
+            form_params.append(('date', local_var_params['_date']))
+        if local_var_params['date_time']:
+            form_params.append(('dateTime', local_var_params['date_time']))
+        if local_var_params['password']:
+            form_params.append(('password', local_var_params['password']))
+        if local_var_params['param_callback']:
+            form_params.append(('callback', local_var_params['param_callback']))
 
         body_params = None
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1815,24 +1826,25 @@ class FakeApi(object):
 
         query_params = []
         if local_var_params.get('required_string_group') is not None:  # noqa: E501
-            query_params.append(('required_string_group', local_var_params['required_string_group']))  # noqa: E501
+            query_params.append(('required_string_group', local_var_params['required_string_group']))
         if local_var_params.get('required_int64_group') is not None:  # noqa: E501
-            query_params.append(('required_int64_group', local_var_params['required_int64_group']))  # noqa: E501
+            query_params.append(('required_int64_group', local_var_params['required_int64_group']))
         if local_var_params.get('string_group') is not None:  # noqa: E501
-            query_params.append(('string_group', local_var_params['string_group']))  # noqa: E501
+            query_params.append(('string_group', local_var_params['string_group']))
         if local_var_params.get('int64_group') is not None:  # noqa: E501
-            query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
+            query_params.append(('int64_group', local_var_params['int64_group']))
 
         header_params = dict(local_var_params.get('_headers', {}))
-        if 'required_boolean_group' in local_var_params and local_var_params['required_boolean_group']:
-            header_params['required_boolean_group'] = local_var_params['required_boolean_group']  # noqa: E501
-        if 'boolean_group' in local_var_params and local_var_params['boolean_group']:
-            header_params['boolean_group'] = local_var_params['boolean_group']  # noqa: E501
+        if local_var_params['required_boolean_group']:
+            header_params['required_boolean_group'] = local_var_params['required_boolean_group']
+        if local_var_params['boolean_group']:
+            header_params['boolean_group'] = local_var_params['boolean_group']
 
         form_params = []
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
 
@@ -1961,8 +1973,9 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'request_body' in local_var_params:
+        if local_var_params['request_body']:
             body_params = local_var_params['request_body']
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2102,12 +2115,13 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'param' in local_var_params and local_var_params['param']:
-            form_params.append(('param', local_var_params['param']))  # noqa: E501
-        if 'param2' in local_var_params and local_var_params['param2']:
-            form_params.append(('param2', local_var_params['param2']))  # noqa: E501
+        if local_var_params['param']:
+            form_params.append(('param', local_var_params['param']))
+        if local_var_params['param2']:
+            form_params.append(('param2', local_var_params['param2']))
 
         body_params = None
+
         # HTTP header `Content-Type`
         content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2268,24 +2282,24 @@ class FakeApi(object):
 
         query_params = []
         if local_var_params.get('pipe') is not None:  # noqa: E501
-            query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
-            collection_formats['pipe'] = 'pipes'  # noqa: E501
+            query_params.append(('pipe', local_var_params['pipe']))
+            collection_formats['pipe'] = 'pipes'
         if local_var_params.get('ioutil') is not None:  # noqa: E501
-            query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
-            collection_formats['ioutil'] = 'csv'  # noqa: E501
+            query_params.append(('ioutil', local_var_params['ioutil']))
+            collection_formats['ioutil'] = 'csv'
         if local_var_params.get('http') is not None:  # noqa: E501
-            query_params.append(('http', local_var_params['http']))  # noqa: E501
-            collection_formats['http'] = 'ssv'  # noqa: E501
+            query_params.append(('http', local_var_params['http']))
+            collection_formats['http'] = 'ssv'
         if local_var_params.get('url') is not None:  # noqa: E501
-            query_params.append(('url', local_var_params['url']))  # noqa: E501
-            collection_formats['url'] = 'csv'  # noqa: E501
+            query_params.append(('url', local_var_params['url']))
+            collection_formats['url'] = 'csv'
         if local_var_params.get('context') is not None:  # noqa: E501
-            query_params.append(('context', local_var_params['context']))  # noqa: E501
-            collection_formats['context'] = 'multi'  # noqa: E501
+            query_params.append(('context', local_var_params['context']))
+            collection_formats['context'] = 'multi'
         if local_var_params.get('language') is not None:  # noqa: E501
-            query_params.append(('language', local_var_params['language']))  # noqa: E501
+            query_params.append(('language', local_var_params['language']))
         if local_var_params.get('allow_empty') is not None:  # noqa: E501
-            query_params.append(('allowEmpty', local_var_params['allow_empty']))  # noqa: E501
+            query_params.append(('allowEmpty', local_var_params['allow_empty']))
 
         header_params = dict(local_var_params.get('_headers', {}))
 
@@ -2293,6 +2307,7 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 

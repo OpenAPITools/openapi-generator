@@ -138,8 +138,8 @@ class StoreApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'order_id' in local_var_params:
-            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
+        if local_var_params['order_id']:
+            path_params['order_id'] = local_var_params['order_id']
 
         query_params = []
 
@@ -149,6 +149,7 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -272,6 +273,7 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -397,8 +399,8 @@ class StoreApi(object):
         collection_formats = {}
 
         path_params = {}
-        if 'order_id' in local_var_params:
-            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
+        if local_var_params['order_id']:
+            path_params['order_id'] = local_var_params['order_id']
 
         query_params = []
 
@@ -408,6 +410,7 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -544,8 +547,9 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'order' in local_var_params:
+        if local_var_params['order']:
             body_params = local_var_params['order']
+
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
