@@ -243,6 +243,20 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, "datetime")
         self.assertIsNone(deserialized)
 
+    def test_deserialize_pig(self):
+        """ deserialize pig (oneOf) """
+        data = {
+            "className": "BasqueBig",
+            "color": "white"
+        }
+
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, "Pig")
+        self.assertTrue(isinstance(deserialized.actual_instance,
+                                   petstore_api.BasquePig))
+        self.assertEqual(deserialized.actual_instance.class_name, "BasqueBig")
+        self.assertEqual(deserialized.actual_instance.color, "white")
+
     def test_deserialize_animal(self):
         """ deserialize animal with discriminator mapping """
         data = {

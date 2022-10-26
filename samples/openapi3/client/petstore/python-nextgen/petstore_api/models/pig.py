@@ -73,7 +73,7 @@ class Pig(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: dict) -> Pig:
-        return cls.from_json(json.dumps(input))
+        return cls.from_json(json.dumps(obj))
 
     @classmethod
     def from_json(cls, json_str: str) -> Pig:

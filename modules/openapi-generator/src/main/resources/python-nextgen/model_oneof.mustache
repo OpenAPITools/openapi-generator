@@ -64,7 +64,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
 
     @classmethod
     def from_dict(cls, obj: dict) -> {{{classname}}}:
-        return cls.from_json(json.dumps(input))
+        return cls.from_json(json.dumps(obj))
 
     @classmethod
     def from_json(cls, json_str: str) -> {{{classname}}}:
