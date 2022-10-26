@@ -199,7 +199,7 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
+    def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501
@@ -232,7 +232,7 @@ class PetApi(object):
         return self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Annotated[Optional[StrictStr], Field()] = None, **kwargs):  # noqa: E501
+    def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
           # noqa: E501

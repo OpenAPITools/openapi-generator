@@ -1033,7 +1033,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_file_schema(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, Field()], **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, file_schema_test_class : models.FileSchemaTestClass, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1064,7 +1064,7 @@ class FakeApi(object):
         return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_file_schema_with_http_info(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, Field()], **kwargs):  # noqa: E501
+    def test_body_with_file_schema_with_http_info(self, file_schema_test_class : models.FileSchemaTestClass, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1173,7 +1173,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_query_params(self, query : Annotated[StrictStr, Field()], user : Annotated[models.User, Field()], **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query : StrictStr, user : models.User, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1205,7 +1205,7 @@ class FakeApi(object):
         return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_query_params_with_http_info(self, query : Annotated[StrictStr, Field()], user : Annotated[models.User, Field()], **kwargs):  # noqa: E501
+    def test_body_with_query_params_with_http_info(self, query : StrictStr, user : models.User, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -2170,7 +2170,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_query_parameter_collection_format(self, pipe : Annotated[List[StrictStr], Field()], ioutil : Annotated[List[StrictStr], Field()], http : Annotated[List[StrictStr], Field()], url : Annotated[List[StrictStr], Field()], context : Annotated[List[StrictStr], Field()], allow_empty : Annotated[StrictStr, Field()], language : Annotated[Optional[Dict[str, StrictStr]], Field()] = None, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -2213,7 +2213,7 @@ class FakeApi(object):
         return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_parameter_collection_format_with_http_info(self, pipe : Annotated[List[StrictStr], Field()], ioutil : Annotated[List[StrictStr], Field()], http : Annotated[List[StrictStr], Field()], url : Annotated[List[StrictStr], Field()], context : Annotated[List[StrictStr], Field()], allow_empty : Annotated[StrictStr, Field()], language : Annotated[Optional[Dict[str, StrictStr]], Field()] = None, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501

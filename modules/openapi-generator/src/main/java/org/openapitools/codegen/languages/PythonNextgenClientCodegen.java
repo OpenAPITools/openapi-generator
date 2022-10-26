@@ -731,7 +731,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization = "Field()";
                 }
 
-                param.vendorExtensions.put("x-py-typing", String.format("Annotated[%s, %s]", typing, fieldCustomization));
+                if ("Field()".equals(fieldCustomization)) {
+                    param.vendorExtensions.put("x-py-typing", typing);
+                } else {
+                    param.vendorExtensions.put("x-py-typing", String.format("Annotated[%s, %s]", typing, fieldCustomization));
+                }
             }
 
             /* TODO return type
