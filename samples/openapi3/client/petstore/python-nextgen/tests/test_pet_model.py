@@ -139,8 +139,8 @@ class PetModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             self.assertTrue(
-                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig" in str(
-                    e))
+                "No match found when deserializing the JSON string into Pig with oneOf schemas: "
+                "BasquePig, DanishPig" in str(e))
 
         # failure
         try:
@@ -149,7 +149,7 @@ class PetModelTests(unittest.TestCase):
         except ValueError as e:
             error_message = (
                 "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
-                "Details: 1 validation error for BasquePig\n "
+                "Details: 1 validation error for BasquePig\n"
                 "__root__\n"
                 "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
                 "__root__\n"
@@ -177,8 +177,7 @@ class PetModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue(
                 "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
-                "DanishPig" in str(
-                    e))
+                "DanishPig" in str(e))
 
         # failure
         try:
@@ -187,7 +186,7 @@ class PetModelTests(unittest.TestCase):
         except ValueError as e:
             error_message = (
                 "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
-                "DanishPig. Details: 1 validation error for BasquePig\n "
+                "DanishPig. Details: 1 validation error for BasquePig\n"
                 "__root__\n"
                 "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
                 "__root__\n"

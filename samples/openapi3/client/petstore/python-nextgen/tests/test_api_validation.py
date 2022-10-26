@@ -63,15 +63,11 @@ class ApiExceptionTests(unittest.TestCase):
         except ValidationError as e:
             self.assertEqual(str(e), "1 validation error for FindPetsByStatus\n"
                                      "status -> 0\n"
-                                     "unexpected value; permitted: 'available', 'pending', 'sold' ("
+                                     "  unexpected value; permitted: 'available', 'pending', 'sold' ("
                                      "type=value_error.const; given=Cat; permitted=('available', 'pending', 'sold'))")
 
     def checkRaiseRegex(self, expected_exception, expected_regex):
-        # if sys.version_info < (3, 0):
-        #    return self.assertRaisesRegexp(expected_exception, expected_regex)
         return self.assertRaisesRegex(expected_exception, expected_regex)
 
     def checkRegex(self, text, expected_regex):
-        # if sys.version_info < (3, 0):
-        #    return self.assertRegexpMatches(text, expected_regex)
         return self.assertRegex(text, expected_regex)

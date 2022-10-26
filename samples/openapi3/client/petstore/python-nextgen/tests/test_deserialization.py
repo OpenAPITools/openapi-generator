@@ -256,7 +256,7 @@ class DeserializationTests(unittest.TestCase):
             deserialized = self.deserialize(response, "Animal")
         assert str(
             ex.value) == 'Animal failed to lookup discriminator value from {"declawed": true, "className": ' \
-                         '"Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"} '
+                         '"Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"}'
 
         data = {
             "declawed": True,

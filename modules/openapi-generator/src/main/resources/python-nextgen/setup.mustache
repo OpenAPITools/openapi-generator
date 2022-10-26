@@ -4,18 +4,18 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "{{{projectName}}}"
-VERSION = "{{packageVersion}}"
-{{#apiInfo}}
-{{#apis}}
-{{#-last}}
 # To install the library, run the following
 #
 # python setup.py install
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+PYTHON_REQUIRES = ">=3.7"
+{{#apiInfo}}
+{{#apis}}
+{{#-last}}
 REQUIRES = ["urllib3 >= 1.25.3", "python-dateutil", "pydantic", "aenum"]
 {{#asyncio}}
 REQUIRES.append("aiohttp >= 3.0.0")
