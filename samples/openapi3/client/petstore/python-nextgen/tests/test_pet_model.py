@@ -16,6 +16,7 @@ import unittest
 import petstore_api
 from pydantic import ValidationError
 
+
 class PetModelTests(unittest.TestCase):
 
     def setUp(self):
@@ -24,7 +25,7 @@ class PetModelTests(unittest.TestCase):
         self.pet.status = "available"
         cate = petstore_api.Category(name="dog")
         cate.id = 1
-        #cate.name = "dog"
+        # cate.name = "dog"
         self.pet.category = cate
         tag = petstore_api.Tag()
         tag.id = 1
@@ -45,7 +46,7 @@ class PetModelTests(unittest.TestCase):
         self.pet1.status = "available"
         cate1 = petstore_api.Category(name="dog")
         cate1.id = 1
-        #cate1.name = "dog"
+        # cate1.name = "dog"
         self.pet.category = cate1
         tag1 = petstore_api.Tag()
         tag1.id = 1
@@ -56,7 +57,7 @@ class PetModelTests(unittest.TestCase):
         self.pet2.status = "available"
         cate2 = petstore_api.Category(name="dog")
         cate2.id = 1
-        #cate2.name = "dog"
+        # cate2.name = "dog"
         self.pet.category = cate2
         tag2 = petstore_api.Tag()
         tag2.id = 1
@@ -69,13 +70,13 @@ class PetModelTests(unittest.TestCase):
         self.assertFalse(self.pet1 == self.pet2)
 
     # test from_json, to_json, to_dict, from_dict
-    def test_from_to_methods(self):        
+    def test_from_to_methods(self):
         json_str = ("{\"category\": {\"id\": 1, \"name\": \"dog\"},\n"
-                " \"id\": 1,\n"
-                " \"name\": \"test name\",\n"
-                " \"photoUrls\": [\"string\"],\n"
-                " \"status\": \"available\",\n"
-                " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
+                    " \"id\": 1,\n"
+                    " \"name\": \"test name\",\n"
+                    " \"photoUrls\": [\"string\"],\n"
+                    " \"status\": \"available\",\n"
+                    " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
         pet = petstore_api.Pet.from_json(json_str)
         self.assertEqual(pet.id, 1)
         self.assertEqual(pet.status, "available")
@@ -84,10 +85,14 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet.tags[0].name, "None")
         self.assertEqual(pet.category.id, 1)
         # test to_json
-        self.assertEqual(pet.to_json(), '{"id": 1, "category": {"id": 1, "name": "dog"}, "name": "test name", "photoUrls": ["string"], "tags": [{"id": 1, "name": "None"}], "status": "available"}')
+        self.assertEqual(pet.to_json(),
+                         '{"id": 1, "category": {"id": 1, "name": "dog"}, "name": "test name", "photoUrls": ['
+                         '"string"], "tags": [{"id": 1, "name": "None"}], "status": "available"}')
 
         # test to_dict
-        self.assertEqual(pet.to_dict(), {"id": 1, "category": {"id": 1, "name": "dog"}, "name": "test name", "photoUrls": ["string"], "tags": [{"id": 1, "name": "None"}], "status": "available"})
+        self.assertEqual(pet.to_dict(),
+                         {"id": 1, "category": {"id": 1, "name": "dog"}, "name": "test name", "photoUrls": ["string"],
+                          "tags": [{"id": 1, "name": "None"}], "status": "available"})
 
         # test from_dict
         pet2 = petstore_api.Pet.from_dict(pet.to_dict())
@@ -105,17 +110,16 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet.to_json(), '{"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
         self.assertEqual(pet.to_dict(), {"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
 
-
     def test_inheritance(self):
         dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
         self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
-                                         'dog', 'color': 'white'})
+            'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
-        
+
         self.assertTrue(isinstance(dog2, petstore_api.Animal))
 
     def test_oneOf(self):
@@ -126,26 +130,30 @@ class PetModelTests(unittest.TestCase):
 
         # test init
         basque_pig = p.actual_instance
-        pig2 = petstore_api.Pig(actual_instance = basque_pig)
+        pig2 = petstore_api.Pig(actual_instance=basque_pig)
         self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
 
         # test failed init
         try:
-            pig3 = petstore_api.Pig(actual_instance = "123")
-            self.assertTrue(False) # this line shouldn't execute
+            pig3 = petstore_api.Pig(actual_instance="123")
+            self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig" in str(e))
+            self.assertTrue(
+                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig" in str(
+                    e))
 
         # failure
         try:
             p2 = petstore_api.Pig.from_json("1")
-            self.assertTrue(False) # this line shouldn't execute
+            self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            error_message = ("No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: 1 validation error for BasquePig\n"
-            "__root__\n"
-            "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
-            "__root__\n"
-            "  DanishPig expected dict not int (type=type_error)")
+            error_message = (
+                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
+                "Details: 1 validation error for BasquePig\n "
+                "__root__\n"
+                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
+                "__root__\n"
+                "  DanishPig expected dict not int (type=type_error)")
             self.assertEqual(str(e), error_message)
 
         # test to_json
@@ -159,26 +167,31 @@ class PetModelTests(unittest.TestCase):
 
         # test init
         basque_pig = p.actual_instance
-        pig2 = petstore_api.Pig(actual_instance = basque_pig)
+        pig2 = petstore_api.Pig(actual_instance=basque_pig)
         self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
 
         # test failed init
         try:
-            pig3 = petstore_api.AnyOfPig(actual_instance = "123")
-            self.assertTrue(False) # this line shouldn't execute
+            pig3 = petstore_api.AnyOfPig(actual_instance="123")
+            self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig" in str(e))
+            self.assertTrue(
+                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "DanishPig" in str(
+                    e))
 
         # failure
         try:
             p2 = petstore_api.AnyOfPig.from_json("1")
-            self.assertTrue(False) # this line shouldn't execute
+            self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            error_message = ("No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: 1 validation error for BasquePig\n"
-            "__root__\n"
-            "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
-            "__root__\n"
-            "  DanishPig expected dict not int (type=type_error)")
+            error_message = (
+                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "DanishPig. Details: 1 validation error for BasquePig\n "
+                "__root__\n"
+                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
+                "__root__\n"
+                "  DanishPig expected dict not int (type=type_error)")
             self.assertEqual(str(e), error_message)
 
         # test to_json

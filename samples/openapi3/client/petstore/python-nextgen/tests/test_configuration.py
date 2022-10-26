@@ -33,7 +33,6 @@ class TestConfiguration(unittest.TestCase):
         self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
 
     def testDefaultConfiguration(self):
-
         # prepare default configuration
         c1 = petstore_api.Configuration(host="example.com")
         c1.debug = True

@@ -121,12 +121,12 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(result, data)
 
         # date
-        data = parse("1997-07-16").date()    # date
+        data = parse("1997-07-16").date()  # date
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16")
 
         # datetime
-        data = parse("1997-07-16T19:20:30.45+01:00")    # datetime
+        data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 

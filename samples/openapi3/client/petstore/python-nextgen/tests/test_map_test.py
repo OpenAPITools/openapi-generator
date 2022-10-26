@@ -19,13 +19,13 @@ import petstore_api
 class MapTestTests(unittest.TestCase):
 
     def test_maptest_init(self):
-      #
-      # Test MapTest construction with valid values
-      #
-      up_or_low_dict = {
-        'UPPER': "UP", 
-        'lower': "low"
-      }
+        #
+        # Test MapTest construction with valid values
+        #
+        up_or_low_dict = {
+            'UPPER': "UP",
+            'lower': "low"
+        }
 #      map_enum_test = petstore_api.MapTest(map_of_enum_string=up_or_low_dict)
 #
 #      self.assertEqual(map_enum_test.map_of_enum_string, up_or_low_dict)

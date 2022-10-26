@@ -66,7 +66,7 @@ class PetApiTests(unittest.TestCase):
     def setUpModels(self):
         self.category = petstore_api.Category(name="dog")
         self.category.id = id_gen()
-        #self.category.name = "dog"
+        # self.category.name = "dog"
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"
@@ -268,6 +268,7 @@ class PetApiTests(unittest.TestCase):
             raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
+
 
 if __name__ == '__main__':
     unittest.main()

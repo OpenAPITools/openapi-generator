@@ -19,7 +19,6 @@ import pytest as pytest
 
 import petstore_api
 
-
 MockResponse = namedtuple('MockResponse', 'data')
 
 
@@ -29,7 +28,7 @@ class DeserializationTests(unittest.TestCase):
         self.api_client = petstore_api.ApiClient()
         self.deserialize = self.api_client.deserialize
 
-    #def test_enum_test(self):
+    # def test_enum_test(self):
     #    """ deserialize dict(str, Enum_Test) """
     #    data = {
     #        'enum_test': {
@@ -247,21 +246,22 @@ class DeserializationTests(unittest.TestCase):
     def test_deserialize_animal(self):
         """ deserialize animal with discriminator mapping """
         data = {
-                "declawed": True,
-                "className": "Cat2222" #incorrect class name
-               }
+            "declawed": True,
+            "className": "Cat2222"  # incorrect class name
+        }
 
         response = MockResponse(data=json.dumps(data))
 
         with pytest.raises(ValueError) as ex:
             deserialized = self.deserialize(response, "Animal")
-        assert str(ex.value) == 'Animal failed to lookup discriminator value from {"declawed": true, "className": "Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"}'
-
+        assert str(
+            ex.value) == 'Animal failed to lookup discriminator value from {"declawed": true, "className": ' \
+                         '"Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"} '
 
         data = {
-                "declawed": True,
-                "className": "Cat" #correct class name
-               }
+            "declawed": True,
+            "className": "Cat"  # correct class name
+        }
 
         response = MockResponse(data=json.dumps(data))
 
