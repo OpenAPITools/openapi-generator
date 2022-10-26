@@ -409,6 +409,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: "PTV Group"
+  image: "img/companies/ptvgroup.png"
+  infoLink: "https://www.myptv.com/"
+  pinned: false  
+-
   caption: Puppet
   image: "img/companies/puppet.svg"
   infoLink: "https://www.puppet.com"
