@@ -53,7 +53,8 @@ class Tag(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Tag:
+    def from_dict(cls, obj: dict) -> Tag:
         """Create an instance of Tag from a dict"""
-        return Tag.parse_obj(dict)
+        return Tag.parse_obj(obj)
+
 

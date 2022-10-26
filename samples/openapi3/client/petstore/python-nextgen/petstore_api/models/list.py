@@ -52,7 +52,8 @@ class List(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> List:
+    def from_dict(cls, obj: dict) -> List:
         """Create an instance of List from a dict"""
-        return List.parse_obj(dict)
+        return List.parse_obj(obj)
+
 

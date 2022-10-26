@@ -52,7 +52,8 @@ class ModelReturn(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ModelReturn:
+    def from_dict(cls, obj: dict) -> ModelReturn:
         """Create an instance of ModelReturn from a dict"""
-        return ModelReturn.parse_obj(dict)
+        return ModelReturn.parse_obj(obj)
+
 

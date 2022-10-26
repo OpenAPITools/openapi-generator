@@ -55,7 +55,8 @@ class Name(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Name:
+    def from_dict(cls, obj: dict) -> Name:
         """Create an instance of Name from a dict"""
-        return Name.parse_obj(dict)
+        return Name.parse_obj(obj)
+
 

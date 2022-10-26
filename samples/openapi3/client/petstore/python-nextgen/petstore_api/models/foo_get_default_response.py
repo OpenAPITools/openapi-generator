@@ -53,7 +53,8 @@ class FooGetDefaultResponse(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> FooGetDefaultResponse:
+    def from_dict(cls, obj: dict) -> FooGetDefaultResponse:
         """Create an instance of FooGetDefaultResponse from a dict"""
-        return FooGetDefaultResponse.parse_obj(dict)
+        return FooGetDefaultResponse.parse_obj(obj)
+
 

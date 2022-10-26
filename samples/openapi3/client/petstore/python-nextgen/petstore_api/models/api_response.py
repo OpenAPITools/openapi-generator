@@ -54,7 +54,8 @@ class ApiResponse(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ApiResponse:
+    def from_dict(cls, obj: dict) -> ApiResponse:
         """Create an instance of ApiResponse from a dict"""
-        return ApiResponse.parse_obj(dict)
+        return ApiResponse.parse_obj(obj)
+
 

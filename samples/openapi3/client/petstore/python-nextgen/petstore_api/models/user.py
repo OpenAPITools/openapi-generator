@@ -59,7 +59,8 @@ class User(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> User:
+    def from_dict(cls, obj: dict) -> User:
         """Create an instance of User from a dict"""
-        return User.parse_obj(dict)
+        return User.parse_obj(obj)
+
 

@@ -57,7 +57,8 @@ class Capitalization(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Capitalization:
+    def from_dict(cls, obj: dict) -> Capitalization:
         """Create an instance of Capitalization from a dict"""
-        return Capitalization.parse_obj(dict)
+        return Capitalization.parse_obj(obj)
+
 

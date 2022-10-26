@@ -53,7 +53,8 @@ class AdditionalPropertiesClass(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> AdditionalPropertiesClass:
+    def from_dict(cls, obj: dict) -> AdditionalPropertiesClass:
         """Create an instance of AdditionalPropertiesClass from a dict"""
-        return AdditionalPropertiesClass.parse_obj(dict)
+        return AdditionalPropertiesClass.parse_obj(obj)
+
 

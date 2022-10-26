@@ -243,3 +243,39 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "datetime")
         self.assertIsNone(deserialized)
+
+    def test_deserialize_animal(self):
+        """ deserialize animal with discriminator mapping """
+        data = {
+                "declawed": True,
+                "className": "Cat2222" #incorrect class name
+               }
+
+        response = MockResponse(data=json.dumps(data))
+
+        with pytest.raises(ValueError) as ex:
+            deserialized = self.deserialize(response, "Animal")
+        assert str(ex.value) == 'Animal failed to lookup discriminator value from {"declawed": true, "className": "Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"}'
+
+
+        data = {
+                "declawed": True,
+                "className": "Cat" #correct class name
+               }
+
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "Animal")
+        self.assertTrue(isinstance(deserialized, petstore_api.Cat))
+        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized.declawed, True)
+        self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
+
+        # test from json
+        json_str = '{"className": "Cat", "color": "red", "declawed": true}'
+
+        deserialized = petstore_api.Animal.from_json(json_str)
+        self.assertTrue(isinstance(deserialized, petstore_api.Cat))
+        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized.declawed, True)
+        self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')

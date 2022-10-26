@@ -55,7 +55,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> MixedPropertiesAndAdditionalPropertiesClass:
+    def from_dict(cls, obj: dict) -> MixedPropertiesAndAdditionalPropertiesClass:
         """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a dict"""
-        return MixedPropertiesAndAdditionalPropertiesClass.parse_obj(dict)
+        return MixedPropertiesAndAdditionalPropertiesClass.parse_obj(obj)
+
 

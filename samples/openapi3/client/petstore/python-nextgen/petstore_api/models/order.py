@@ -57,7 +57,8 @@ class Order(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Order:
+    def from_dict(cls, obj: dict) -> Order:
         """Create an instance of Order from a dict"""
-        return Order.parse_obj(dict)
+        return Order.parse_obj(obj)
+
 

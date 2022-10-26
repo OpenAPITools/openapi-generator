@@ -52,7 +52,8 @@ class SpecialModelName(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> SpecialModelName:
+    def from_dict(cls, obj: dict) -> SpecialModelName:
         """Create an instance of SpecialModelName from a dict"""
-        return SpecialModelName.parse_obj(dict)
+        return SpecialModelName.parse_obj(obj)
+
 

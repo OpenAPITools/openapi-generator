@@ -53,7 +53,8 @@ class Model200Response(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Model200Response:
+    def from_dict(cls, obj: dict) -> Model200Response:
         """Create an instance of Model200Response from a dict"""
-        return Model200Response.parse_obj(dict)
+        return Model200Response.parse_obj(obj)
+
 

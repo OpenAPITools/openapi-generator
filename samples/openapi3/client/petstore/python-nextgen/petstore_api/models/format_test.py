@@ -66,7 +66,8 @@ class FormatTest(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> FormatTest:
+    def from_dict(cls, obj: dict) -> FormatTest:
         """Create an instance of FormatTest from a dict"""
-        return FormatTest.parse_obj(dict)
+        return FormatTest.parse_obj(obj)
+
 

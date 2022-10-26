@@ -52,7 +52,8 @@ class DogAllOf(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> DogAllOf:
+    def from_dict(cls, obj: dict) -> DogAllOf:
         """Create an instance of DogAllOf from a dict"""
-        return DogAllOf.parse_obj(dict)
+        return DogAllOf.parse_obj(obj)
+
 

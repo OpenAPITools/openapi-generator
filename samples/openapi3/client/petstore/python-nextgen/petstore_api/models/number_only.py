@@ -52,7 +52,8 @@ class NumberOnly(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> NumberOnly:
+    def from_dict(cls, obj: dict) -> NumberOnly:
         """Create an instance of NumberOnly from a dict"""
-        return NumberOnly.parse_obj(dict)
+        return NumberOnly.parse_obj(obj)
+
 

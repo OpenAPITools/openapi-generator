@@ -53,7 +53,8 @@ class AllOfWithSingleRef(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> AllOfWithSingleRef:
+    def from_dict(cls, obj: dict) -> AllOfWithSingleRef:
         """Create an instance of AllOfWithSingleRef from a dict"""
-        return AllOfWithSingleRef.parse_obj(dict)
+        return AllOfWithSingleRef.parse_obj(obj)
+
 

@@ -53,7 +53,8 @@ class Category(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Category:
+    def from_dict(cls, obj: dict) -> Category:
         """Create an instance of Category from a dict"""
-        return Category.parse_obj(dict)
+        return Category.parse_obj(obj)
+
 

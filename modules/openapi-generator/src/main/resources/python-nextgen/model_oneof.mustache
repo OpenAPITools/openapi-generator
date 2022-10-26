@@ -4,6 +4,7 @@ try:
 except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
+import json
 import re  # noqa: F401
 {{#vendorExtensions.x-py-import-models}}
 from {{packageName}} import models
@@ -62,6 +63,10 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
             return v
 
     @classmethod
+    def from_dict(cls, obj: dict) -> {{{classname}}}:
+        return cls.from_json(json.dumps(input))
+
+    @classmethod
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the string representation of the model"""
         instance = cls()
@@ -69,7 +74,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
         match = 0
         {{#composedSchemas.oneOf}}
         {{^isPrimitiveType}}
-        # {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
+        # deserialize data into {{{dataType}}}
         try:
             instance.actual_instance = models.{{{dataType}}}.from_json(json_str)
             match += 1

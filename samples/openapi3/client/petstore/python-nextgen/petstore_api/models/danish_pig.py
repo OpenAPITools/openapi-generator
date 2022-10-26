@@ -53,7 +53,8 @@ class DanishPig(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> DanishPig:
+    def from_dict(cls, obj: dict) -> DanishPig:
         """Create an instance of DanishPig from a dict"""
-        return DanishPig.parse_obj(dict)
+        return DanishPig.parse_obj(obj)
+
 

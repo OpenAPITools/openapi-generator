@@ -52,7 +52,8 @@ class HealthCheckResult(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> HealthCheckResult:
+    def from_dict(cls, obj: dict) -> HealthCheckResult:
         """Create an instance of HealthCheckResult from a dict"""
-        return HealthCheckResult.parse_obj(dict)
+        return HealthCheckResult.parse_obj(obj)
+
 

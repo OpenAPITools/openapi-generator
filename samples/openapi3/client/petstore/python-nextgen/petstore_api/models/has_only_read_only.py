@@ -53,7 +53,8 @@ class HasOnlyReadOnly(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> HasOnlyReadOnly:
+    def from_dict(cls, obj: dict) -> HasOnlyReadOnly:
         """Create an instance of HasOnlyReadOnly from a dict"""
-        return HasOnlyReadOnly.parse_obj(dict)
+        return HasOnlyReadOnly.parse_obj(obj)
+
 

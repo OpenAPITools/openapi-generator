@@ -55,7 +55,8 @@ class MapTest(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> MapTest:
+    def from_dict(cls, obj: dict) -> MapTest:
         """Create an instance of MapTest from a dict"""
-        return MapTest.parse_obj(dict)
+        return MapTest.parse_obj(obj)
+
 

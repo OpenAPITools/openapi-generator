@@ -16,6 +16,7 @@ try:
 except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
+import json
 import re  # noqa: F401
 from petstore_api import models
 
@@ -71,18 +72,22 @@ class Pig(BaseModel):
             return v
 
     @classmethod
+    def from_dict(cls, obj: dict) -> Pig:
+        return cls.from_json(json.dumps(input))
+
+    @classmethod
     def from_json(cls, json_str: str) -> Pig:
         """Returns the string representation of the model"""
         instance = cls()
         error_messages = []
         match = 0
-        # __oneof_schema_1: Optional[models.BasquePig] = None
+        # deserialize data into BasquePig
         try:
             instance.actual_instance = models.BasquePig.from_json(json_str)
             match += 1
         except ValidationError as e:
              error_messages.append(str(e))
-        # __oneof_schema_2: Optional[models.DanishPig] = None
+        # deserialize data into DanishPig
         try:
             instance.actual_instance = models.DanishPig.from_json(json_str)
             match += 1

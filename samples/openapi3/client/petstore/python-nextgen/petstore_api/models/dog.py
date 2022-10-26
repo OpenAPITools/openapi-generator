@@ -53,7 +53,8 @@ class Dog(models.Animal):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Dog:
+    def from_dict(cls, obj: dict) -> Dog:
         """Create an instance of Dog from a dict"""
-        return Dog.parse_obj(dict)
+        return Dog.parse_obj(obj)
+
 

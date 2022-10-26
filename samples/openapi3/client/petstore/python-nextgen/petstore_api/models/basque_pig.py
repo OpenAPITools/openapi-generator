@@ -53,7 +53,8 @@ class BasquePig(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> BasquePig:
+    def from_dict(cls, obj: dict) -> BasquePig:
         """Create an instance of BasquePig from a dict"""
-        return BasquePig.parse_obj(dict)
+        return BasquePig.parse_obj(obj)
+
 

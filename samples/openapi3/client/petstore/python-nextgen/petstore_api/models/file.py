@@ -52,7 +52,8 @@ class File(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> File:
+    def from_dict(cls, obj: dict) -> File:
         """Create an instance of File from a dict"""
-        return File.parse_obj(dict)
+        return File.parse_obj(obj)
+
 

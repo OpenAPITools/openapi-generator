@@ -52,7 +52,8 @@ class DeprecatedObject(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> DeprecatedObject:
+    def from_dict(cls, obj: dict) -> DeprecatedObject:
         """Create an instance of DeprecatedObject from a dict"""
-        return DeprecatedObject.parse_obj(dict)
+        return DeprecatedObject.parse_obj(obj)
+
 

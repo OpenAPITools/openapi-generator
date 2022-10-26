@@ -52,7 +52,8 @@ class Client(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Client:
+    def from_dict(cls, obj: dict) -> Client:
         """Create an instance of Client from a dict"""
-        return Client.parse_obj(dict)
+        return Client.parse_obj(obj)
+
 

@@ -54,7 +54,8 @@ class OuterComposite(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> OuterComposite:
+    def from_dict(cls, obj: dict) -> OuterComposite:
         """Create an instance of OuterComposite from a dict"""
-        return OuterComposite.parse_obj(dict)
+        return OuterComposite.parse_obj(obj)
+
 

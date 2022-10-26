@@ -53,7 +53,8 @@ class ReadOnlyFirst(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ReadOnlyFirst:
+    def from_dict(cls, obj: dict) -> ReadOnlyFirst:
         """Create an instance of ReadOnlyFirst from a dict"""
-        return ReadOnlyFirst.parse_obj(dict)
+        return ReadOnlyFirst.parse_obj(obj)
+
 

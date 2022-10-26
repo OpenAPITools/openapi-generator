@@ -55,7 +55,8 @@ class ArrayTest(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ArrayTest:
+    def from_dict(cls, obj: dict) -> ArrayTest:
         """Create an instance of ArrayTest from a dict"""
-        return ArrayTest.parse_obj(dict)
+        return ArrayTest.parse_obj(obj)
+
 

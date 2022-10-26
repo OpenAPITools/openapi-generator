@@ -52,7 +52,8 @@ class CatAllOf(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> CatAllOf:
+    def from_dict(cls, obj: dict) -> CatAllOf:
         """Create an instance of CatAllOf from a dict"""
-        return CatAllOf.parse_obj(dict)
+        return CatAllOf.parse_obj(obj)
+
 

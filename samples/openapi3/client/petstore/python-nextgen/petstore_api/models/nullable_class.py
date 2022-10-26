@@ -64,7 +64,8 @@ class NullableClass(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> NullableClass:
+    def from_dict(cls, obj: dict) -> NullableClass:
         """Create an instance of NullableClass from a dict"""
-        return NullableClass.parse_obj(dict)
+        return NullableClass.parse_obj(obj)
+
 

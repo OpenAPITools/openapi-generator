@@ -17,6 +17,8 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import petstore_api.models
+import json
 
 
 from typing import Optional
@@ -35,16 +37,23 @@ class Animal(BaseModel):
         allow_population_by_field_name = True
         validate_assignment = True
 
+    # JSON field name that stores the object type
+    __discriminator_property_name = 'className'
+
+    # discriminator mappings
     __discriminator_value_class_map = {
         'Cat': 'Cat',
         'Dog': 'Dog'
     }
 
-    def get_real_child_model(self, data):
-        """Returns the real base class specified by the discriminator"""
-        discriminator_key = self.attribute_map[self.discriminator]
-        discriminator_value = data[discriminator_key]
-        return self.__discriminator_value_class_map.get(discriminator_value)
+    @classmethod
+    def get_discriminator_value(cls, obj: dict) -> str:
+        """Returns the discriminator value (object type) of the data"""
+        discriminator_value = obj[cls.__discriminator_property_name]
+        if discriminator_value:
+            return cls.__discriminator_value_class_map.get(discriminator_value)
+        else:
+            return None
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -57,14 +66,23 @@ class Animal(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> Animal:
         """Create an instance of Animal from a JSON string"""
-        return Animal.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Animal:
+    def from_dict(cls, obj: dict) -> Animal:
         """Create an instance of Animal from a dict"""
-        return Animal.parse_obj(dict)
+        # look up the object type based on discriminator mapping
+        object_type = cls.get_discriminator_value(obj)
+        if object_type:
+            klass = getattr(petstore_api.models, object_type)
+            return klass.from_dict(obj)
+        else:
+            raise ValueError("Animal failed to lookup discriminator value from " +
+                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+
 

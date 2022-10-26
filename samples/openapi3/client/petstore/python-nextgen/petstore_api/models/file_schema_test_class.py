@@ -54,7 +54,8 @@ class FileSchemaTestClass(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> FileSchemaTestClass:
+    def from_dict(cls, obj: dict) -> FileSchemaTestClass:
         """Create an instance of FileSchemaTestClass from a dict"""
-        return FileSchemaTestClass.parse_obj(dict)
+        return FileSchemaTestClass.parse_obj(obj)
+
 

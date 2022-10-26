@@ -56,7 +56,8 @@ class ObjectWithDeprecatedFields(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ObjectWithDeprecatedFields:
+    def from_dict(cls, obj: dict) -> ObjectWithDeprecatedFields:
         """Create an instance of ObjectWithDeprecatedFields from a dict"""
-        return ObjectWithDeprecatedFields.parse_obj(dict)
+        return ObjectWithDeprecatedFields.parse_obj(obj)
+
 

@@ -52,7 +52,8 @@ class Foo(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Foo:
+    def from_dict(cls, obj: dict) -> Foo:
         """Create an instance of Foo from a dict"""
-        return Foo.parse_obj(dict)
+        return Foo.parse_obj(obj)
+
 

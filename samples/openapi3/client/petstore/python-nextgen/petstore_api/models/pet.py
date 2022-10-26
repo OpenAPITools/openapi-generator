@@ -58,7 +58,8 @@ class Pet(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> Pet:
+    def from_dict(cls, obj: dict) -> Pet:
         """Create an instance of Pet from a dict"""
-        return Pet.parse_obj(dict)
+        return Pet.parse_obj(obj)
+
 

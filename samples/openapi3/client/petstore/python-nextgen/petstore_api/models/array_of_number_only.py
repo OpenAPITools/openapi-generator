@@ -52,7 +52,8 @@ class ArrayOfNumberOnly(BaseModel):
         return self.dict(by_alias=True, exclude_none=True)
 
     @classmethod
-    def from_dict(cls, dict: dict) -> ArrayOfNumberOnly:
+    def from_dict(cls, obj: dict) -> ArrayOfNumberOnly:
         """Create an instance of ArrayOfNumberOnly from a dict"""
-        return ArrayOfNumberOnly.parse_obj(dict)
+        return ArrayOfNumberOnly.parse_obj(obj)
+
 
