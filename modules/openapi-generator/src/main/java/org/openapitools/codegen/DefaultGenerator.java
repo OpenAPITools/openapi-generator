@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -206,21 +207,26 @@ public class DefaultGenerator implements Generator {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
+        Boolean doApiGeneration = GlobalSettings.getPropertyOpt(CodegenConstants.GENERATE_APIS).map(Boolean::parseBoolean).orElse(null);
         generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
+        Boolean doModelGeneration = GlobalSettings.getPropertyOpt(CodegenConstants.GENERATE_MODELS).map(Boolean::parseBoolean).orElse(null);
         generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
+        Boolean doSupportingFilesGeneration = GlobalSettings.getPropertyOpt(CodegenConstants.GENERATE_SUPPORTING_FILES).map(Boolean::parseBoolean).orElse(null);
 
         if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
-            // no specifics are set, generate everything
-            generateApis = generateModels = generateSupportingFiles = true;
+            // no specifics are set, use generateApi properties
+            generateApis = doApiGeneration == null || doApiGeneration;
+            generateModels = doModelGeneration == null || doModelGeneration;
+            generateSupportingFiles = doSupportingFilesGeneration == null || doSupportingFilesGeneration;
         } else {
-            if (generateApis == null) {
-                generateApis = false;
+            if (generateApis == null || doApiGeneration != null) {
+                generateApis = doApiGeneration != null && doApiGeneration;
             }
-            if (generateModels == null) {
-                generateModels = false;
+            if (generateModels == null || doModelGeneration != null) {
+                generateModels = doModelGeneration != null && doModelGeneration;
             }
-            if (generateSupportingFiles == null) {
-                generateSupportingFiles = false;
+            if (generateSupportingFiles == null || doSupportingFilesGeneration != null) {
+                generateSupportingFiles = doSupportingFilesGeneration != null && doSupportingFilesGeneration;
             }
         }
         // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
@@ -238,7 +244,8 @@ public class DefaultGenerator implements Generator {
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_DOCS, generateModelDocumentation);
 
         config.additionalProperties().put(CodegenConstants.GENERATE_APIS, generateApis);
-        config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);
+        config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);;
+        config.additionalProperties().put(CodegenConstants.GENERATE_SUPPORTING_FILES, generateSupportingFiles);
 
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
