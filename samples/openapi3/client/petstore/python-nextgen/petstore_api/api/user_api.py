@@ -136,9 +136,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `user` when calling `create_user`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -276,9 +274,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `user` when calling `create_users_with_array_input`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -416,9 +412,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `user` when calling `create_users_with_list_input`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -556,9 +550,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -688,9 +680,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -833,12 +823,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `username` when calling `login_user`")  # noqa: E501
-        # verify the required parameter 'password' is set
-        if self.api_client.client_side_validation and local_var_params.get('password') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -972,6 +957,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
         collection_formats = {}
 
         path_params = {}
@@ -1104,12 +1090,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `username` when calling `update_user`")  # noqa: E501
-        # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `user` when calling `update_user`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}

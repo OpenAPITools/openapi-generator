@@ -150,9 +150,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet` when calling `add_pet`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -296,9 +294,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -430,9 +426,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'status' is set
-        if self.api_client.client_side_validation and local_var_params.get('status') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -570,9 +564,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'tags' is set
-        if self.api_client.client_side_validation and local_var_params.get('tags') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -710,9 +702,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -864,9 +854,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet` when calling `update_pet`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -1015,9 +1003,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -1169,9 +1155,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -1329,12 +1313,7 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('pet_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
-        # verify the required parameter 'required_file' is set
-        if self.api_client.client_side_validation and local_var_params.get('required_file') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}

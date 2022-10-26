@@ -134,9 +134,7 @@ class FakeClassnameTags123Api(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'client' is set
-        if self.api_client.client_side_validation and local_var_params.get('client') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}

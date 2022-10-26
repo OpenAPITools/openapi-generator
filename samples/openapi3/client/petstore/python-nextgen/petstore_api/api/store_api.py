@@ -134,9 +134,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('order_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -261,6 +259,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
         collection_formats = {}
 
         path_params = {}
@@ -394,9 +393,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and local_var_params.get('order_id') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -534,9 +531,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'order' is set
-        if self.api_client.client_side_validation and local_var_params.get('order') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
