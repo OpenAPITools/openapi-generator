@@ -20,6 +20,7 @@ package org.openapitools.codegen.java.spring;
 import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -106,10 +107,9 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .assertTypeAnnotations()
-                .hasSize(4)
+                .hasSize(3)
                 .containsWithName("Validated")
                 .containsWithName("Generated")
-                .containsWithName("RequestMapping")
                 .containsWithNameAndAttributes("Generated", ImmutableMap.of(
                         "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
                 ))
@@ -660,6 +660,7 @@ public class SpringCodegenTest {
     public void testRequestMappingAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.iface);
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
 
