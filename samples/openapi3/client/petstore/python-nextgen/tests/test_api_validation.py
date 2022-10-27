@@ -41,6 +41,12 @@ class ApiExceptionTests(unittest.TestCase):
         self.pet.category = self.category
         self.pet.tags = [self.tag]
 
+    def test_set_param_validation(self):
+        try:
+            self.pet_api.find_pets_by_tags(["a", "a"])
+        except ValidationError as e:
+            self.assertTrue("the list has duplicated items" in str(e))
+
     def test_required_param_validation(self):
         try:
             self.pet_api.get_pet_by_id()
