@@ -79,7 +79,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
             instance.actual_instance = models.{{{dataType}}}.from_json(json_str)
             match += 1
         except ValidationError as e:
-             error_messages.append(str(e))
+            error_messages.append(str(e))
         {{/isPrimitiveType}}
         {{/composedSchemas.oneOf}}
 

@@ -17,6 +17,7 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import json
 
 from petstore_api import models
 from datetime import datetime
@@ -43,7 +44,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return self.json(by_alias=True, exclude_none=True)
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, json_str: str) -> MixedPropertiesAndAdditionalPropertiesClass:
@@ -52,7 +53,16 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        return self.dict(by_alias=True, exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each value in map (dict)
+        _field_dict = {}
+        if self.map:
+            for _key in self.map:
+                if self.map[_key]:
+                    _field_dict[_key] = self.map[_key].to_dict()
+            _dict['map'] = _field_dict
+
+        return _dict
 
     @classmethod
     def from_dict(cls, obj: dict) -> MixedPropertiesAndAdditionalPropertiesClass:

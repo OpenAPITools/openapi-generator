@@ -17,6 +17,7 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import json
 
 
 from typing import Any, Optional
@@ -41,7 +42,7 @@ class AllOfWithSingleRef(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return self.json(by_alias=True, exclude_none=True)
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, json_str: str) -> AllOfWithSingleRef:
@@ -50,7 +51,12 @@ class AllOfWithSingleRef(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        return self.dict(by_alias=True, exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of single_ref_type
+        if self.single_ref_type:
+            _dict['SingleRefType'] = self.single_ref_type.to_dict()
+
+        return _dict
 
     @classmethod
     def from_dict(cls, obj: dict) -> AllOfWithSingleRef:

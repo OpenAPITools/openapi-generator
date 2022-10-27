@@ -17,6 +17,7 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import json
 
 
 from typing import Optional
@@ -41,7 +42,7 @@ class HasOnlyReadOnly(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return self.json(by_alias=True, exclude_none=True)
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, json_str: str) -> HasOnlyReadOnly:
@@ -50,7 +51,9 @@ class HasOnlyReadOnly(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        return self.dict(by_alias=True, exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude_none=True)
+
+        return _dict
 
     @classmethod
     def from_dict(cls, obj: dict) -> HasOnlyReadOnly:

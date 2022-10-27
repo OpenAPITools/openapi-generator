@@ -17,6 +17,7 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import json
 
 from petstore_api import models
 
@@ -44,7 +45,7 @@ class ObjectWithDeprecatedFields(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return self.json(by_alias=True, exclude_none=True)
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, json_str: str) -> ObjectWithDeprecatedFields:
@@ -53,7 +54,12 @@ class ObjectWithDeprecatedFields(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        return self.dict(by_alias=True, exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of deprecated_ref
+        if self.deprecated_ref:
+            _dict['deprecatedRef'] = self.deprecated_ref.to_dict()
+
+        return _dict
 
     @classmethod
     def from_dict(cls, obj: dict) -> ObjectWithDeprecatedFields:

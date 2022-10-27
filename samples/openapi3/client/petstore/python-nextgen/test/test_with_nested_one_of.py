@@ -16,11 +16,11 @@ import unittest
 import datetime
 
 import petstore_api
-from petstore_api.models.nested_one_of import NestedOneOf  # noqa: E501
+from petstore_api.models.with_nested_one_of import WithNestedOneOf  # noqa: E501
 from petstore_api.rest import ApiException
 
-class TestNestedOneOf(unittest.TestCase):
-    """NestedOneOf unit test stubs"""
+class TestWithNestedOneOf(unittest.TestCase):
+    """WithNestedOneOf unit test stubs"""
 
     def setUp(self):
         pass
@@ -29,22 +29,22 @@ class TestNestedOneOf(unittest.TestCase):
         pass
 
     def make_instance(self, include_optional):
-        """Test NestedOneOf
+        """Test WithNestedOneOf
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.nested_one_of.NestedOneOf()  # noqa: E501
+        # model = petstore_api.models.with_nested_one_of.WithNestedOneOf()  # noqa: E501
         if include_optional :
-            return NestedOneOf(
+            return WithNestedOneOf(
                 size = 56, 
                 nested_pig = None
             )
         else :
-            return NestedOneOf(
+            return WithNestedOneOf(
         )
 
-    def testNestedOneOf(self):
-        """Test NestedOneOf"""
+    def testWithNestedOneOf(self):
+        """Test WithNestedOneOf"""
         #inst_req_only = self.make_instance(include_optional=False)
         #inst_req_and_optional = self.make_instance(include_optional=True)
 

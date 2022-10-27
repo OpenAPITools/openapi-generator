@@ -1971,10 +1971,10 @@ components:
       anyOf:
         - $ref: '#/components/schemas/BasquePig'
         - $ref: '#/components/schemas/DanishPig'
-    #NestedOneOf:
-    #  type: object
-    #  properties:
-    #    size:
-    #      type: integer
-    #    nested_pig:
-    #      $ref: '#/components/schemas/Pig'
+    WithNestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'

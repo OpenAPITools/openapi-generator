@@ -5,9 +5,9 @@ except ImportError:
     from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
+import json
 {{#discriminator}}
 import {{{modelPackage}}}
-import json
 {{/discriminator}}
 
 {{#vendorExtensions.x-py-import-models}}
@@ -58,7 +58,7 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        return self.json(by_alias=True, exclude_none=True)
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, json_str: str) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
@@ -72,7 +72,42 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/p
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        return self.dict(by_alias=True, exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude_none=True)
+        {{#allVars}}
+        {{#isContainer}}
+        {{#isArray}}
+        {{^items.isPrimitiveType}}
+        # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
+        _items = []
+        if self.{{{name}}}:
+            for _item in self.{{{name}}}:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['{{{baseName}}}'] = _items
+        {{/items.isPrimitiveType}}
+        {{/isArray}}
+        {{#isMap}}
+        {{^items.isPrimitiveType}}
+        # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
+        _field_dict = {}
+        if self.{{{name}}}:
+            for _key in self.{{{name}}}:
+                if self.{{{name}}}[_key]:
+                    _field_dict[_key] = self.{{{name}}}[_key].to_dict()
+            _dict['{{{baseName}}}'] = _field_dict
+        {{/items.isPrimitiveType}}
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        # override the default output from pydantic by calling `to_dict()` of {{{name}}}
+        if self.{{{name}}}:
+            _dict['{{{baseName}}}'] = self.{{{name}}}.to_dict()
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{/allVars}}
+
+        return _dict
 
     @classmethod
     def from_dict(cls, obj: dict) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:

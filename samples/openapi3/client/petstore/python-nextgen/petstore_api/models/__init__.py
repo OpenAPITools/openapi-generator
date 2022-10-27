@@ -60,3 +60,4 @@ from petstore_api.models.mixed_properties_and_additional_properties_class import
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.with_nested_one_of import WithNestedOneOf
