@@ -20,6 +20,7 @@ package org.openapitools.codegen.java.spring;
 import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
@@ -674,7 +675,7 @@ public class SpringCodegenTest {
     }
 
    @Test
-   public void testNoRequestMappingAnnotation() throws IOException {
+   public void testNoRequestMappingAnnotation_spring_cloud_default() throws IOException {
       final SpringCodegen codegen = new SpringCodegen();
       codegen.setLibrary( "spring-cloud" );
 
@@ -686,6 +687,21 @@ public class SpringCodegenTest {
             .containsWithName( "Generated" ).containsWithName( "Tag" );
 
    }
+
+    @Test
+    public void testNoRequestMappingAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary( "spring-cloud" );
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.none);
+
+        final Map<String, File> files = generateFiles( codegen, "src/test/resources/2_0/petstore.yaml" );
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        final File petApiFile = files.get( "PetApi.java" );
+        JavaFileAssert.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
+            .containsWithName( "Generated" ).containsWithName( "Tag" );
+    }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
