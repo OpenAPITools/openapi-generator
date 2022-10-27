@@ -49,7 +49,7 @@ class ArrayTest(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> ArrayTest:
         """Create an instance of ArrayTest from a JSON string"""
-        return ArrayTest.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

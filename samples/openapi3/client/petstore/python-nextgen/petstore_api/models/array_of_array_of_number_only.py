@@ -47,7 +47,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> ArrayOfArrayOfNumberOnly:
         """Create an instance of ArrayOfArrayOfNumberOnly from a JSON string"""
-        return ArrayOfArrayOfNumberOnly.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

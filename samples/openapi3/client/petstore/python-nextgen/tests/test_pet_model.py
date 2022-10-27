@@ -163,6 +163,10 @@ class PetModelTests(unittest.TestCase):
         nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
         self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
 
+        #nested_json = nested.to_json()
+        #nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
+        #self.assertEqual(nested2.to_json(), nested_json)
+
     def test_anyOf(self):
         # succeeded
         json_str = '{"className": "BasquePig", "color": "red"}'

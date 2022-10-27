@@ -59,7 +59,7 @@ class NullableClass(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> NullableClass:
         """Create an instance of NullableClass from a JSON string"""
-        return NullableClass.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

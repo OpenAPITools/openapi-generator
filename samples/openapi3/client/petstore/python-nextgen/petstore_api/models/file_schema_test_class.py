@@ -48,7 +48,7 @@ class FileSchemaTestClass(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> FileSchemaTestClass:
         """Create an instance of FileSchemaTestClass from a JSON string"""
-        return FileSchemaTestClass.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

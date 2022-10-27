@@ -47,7 +47,7 @@ class SpecialModelName(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> SpecialModelName:
         """Create an instance of SpecialModelName from a JSON string"""
-        return SpecialModelName.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

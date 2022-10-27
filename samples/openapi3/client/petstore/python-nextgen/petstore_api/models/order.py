@@ -52,7 +52,7 @@ class Order(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> Order:
         """Create an instance of Order from a JSON string"""
-        return Order.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

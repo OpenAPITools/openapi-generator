@@ -49,7 +49,7 @@ class ApiResponse(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> ApiResponse:
         """Create an instance of ApiResponse from a JSON string"""
-        return ApiResponse.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

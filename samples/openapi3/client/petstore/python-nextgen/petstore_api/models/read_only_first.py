@@ -48,7 +48,7 @@ class ReadOnlyFirst(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> ReadOnlyFirst:
         """Create an instance of ReadOnlyFirst from a JSON string"""
-        return ReadOnlyFirst.parse_raw(json_str)
+        return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""

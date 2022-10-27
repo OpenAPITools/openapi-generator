@@ -61,12 +61,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def from_json(cls, json_str: str) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
         """Create an instance of {{{classname}}} from a JSON string"""
-        {{#discriminator}}
         return cls.from_dict(json.loads(json_str))
-        {{/discriminator}}
-        {{^discriminator}}
-        return {{{classname}}}.parse_raw(json_str)
-        {{/discriminator}}
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
