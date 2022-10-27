@@ -19,7 +19,6 @@ import pprint
 import re  # noqa: F401
 import json
 
-from petstore_api import models
 
 from typing import List, Literal, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr

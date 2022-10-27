@@ -6,9 +6,6 @@ except ImportError:
 import pprint
 import json
 import re  # noqa: F401
-{{#vendorExtensions.x-py-import-models}}
-from {{packageName}} import models
-{{/vendorExtensions.x-py-import-models}}
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
 {{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
 {{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
@@ -77,7 +74,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^isPrimitiveType}}
         # deserialize data into {{{dataType}}}
         try:
-            instance.actual_instance = models.{{{dataType}}}.from_json(json_str)
+            instance.actual_instance = {{{dataType}}}.from_json(json_str)
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))

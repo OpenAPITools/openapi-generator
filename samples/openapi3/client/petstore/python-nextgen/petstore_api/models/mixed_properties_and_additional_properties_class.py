@@ -19,7 +19,6 @@ import pprint
 import re  # noqa: F401
 import json
 
-from petstore_api import models
 from datetime import datetime
 from typing import Dict, Optional
 from pydantic import BaseModel, Field, StrictStr

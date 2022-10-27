@@ -18,7 +18,6 @@ except ImportError:
 import pprint
 import json
 import re  # noqa: F401
-from petstore_api import models
 
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
@@ -84,13 +83,13 @@ class Pig(BaseModel):
         match = 0
         # deserialize data into BasquePig
         try:
-            instance.actual_instance = models.BasquePig.from_json(json_str)
+            instance.actual_instance = BasquePig.from_json(json_str)
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
         # deserialize data into DanishPig
         try:
-            instance.actual_instance = models.DanishPig.from_json(json_str)
+            instance.actual_instance = DanishPig.from_json(json_str)
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
