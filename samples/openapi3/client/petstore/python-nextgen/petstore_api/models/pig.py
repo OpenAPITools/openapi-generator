@@ -22,6 +22,7 @@ from petstore_api import models
 
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from petstore_api.models import BasquePig, DanishPig
 from typing import Any, List
 from pydantic import StrictStr, Field
 
@@ -51,13 +52,13 @@ class Pig(BaseModel):
         error_messages = []
         match = 0
         # validate data type: BasquePig
-        if type(v) is not models.BasquePig:
+        if type(v) is not BasquePig:
             error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
         else:
             match += 1
 
         # validate data type: DanishPig
-        if type(v) is not models.DanishPig:
+        if type(v) is not DanishPig:
             error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
         else:
             match += 1

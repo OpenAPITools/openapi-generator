@@ -910,6 +910,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("BaseModel");
             }
 
+            // add parent model to import
+            if (!StringUtils.isEmpty(model.parent)) {
+                modelImports.add(model.parent);
+            }
+
             // set the extensions if the key is absent
             model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);

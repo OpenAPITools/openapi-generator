@@ -21,6 +21,7 @@ from petstore_api import models
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from petstore_api.models import BasquePig, DanishPig
 from typing import Any, List
 from pydantic import StrictStr, Field
 
@@ -46,13 +47,13 @@ class AnyOfPig(BaseModel):
     def actual_instance_must_validate_anyof(cls, v):
         error_messages = []
         # validate data type: BasquePig
-        if type(v) is not models.BasquePig:
+        if type(v) is not BasquePig:
             error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
         else:
             return v
 
         # validate data type: DanishPig
-        if type(v) is not models.DanishPig:
+        if type(v) is not DanishPig:
             error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
         else:
             return v
@@ -70,13 +71,13 @@ class AnyOfPig(BaseModel):
         error_messages = []
         # __anyof_schema_1: Optional[BasquePig] = None
         try:
-            instance.actual_instance = models.BasquePig.from_json(json_str)
+            instance.actual_instance = BasquePig.from_json(json_str)
             return instance
         except ValidationError as e:
              error_messages.append(str(e))
         # __anyof_schema_2: Optional[DanishPig] = None
         try:
-            instance.actual_instance = models.DanishPig.from_json(json_str)
+            instance.actual_instance = DanishPig.from_json(json_str)
             return instance
         except ValidationError as e:
              error_messages.append(str(e))
