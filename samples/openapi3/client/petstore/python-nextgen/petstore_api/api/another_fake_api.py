@@ -21,6 +21,7 @@ from petstore_api import models
 from pydantic import Field
 
 from petstore_api import models
+from petstore_api.models import Client
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -42,7 +43,7 @@ class AnotherFakeApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def call_123_test_special_tags(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def call_123_test_special_tags(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -73,7 +74,7 @@ class AnotherFakeApi(object):
         return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def call_123_test_special_tags_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501

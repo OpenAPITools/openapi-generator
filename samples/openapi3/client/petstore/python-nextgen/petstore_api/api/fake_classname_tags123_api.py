@@ -21,6 +21,7 @@ from petstore_api import models
 from pydantic import Field
 
 from petstore_api import models
+from petstore_api.models import Client
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -42,7 +43,7 @@ class FakeClassnameTags123Api(object):
         self.api_client = api_client
 
     @validate_arguments
-    def test_classname(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_classname(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -73,7 +74,7 @@ class FakeClassnameTags123Api(object):
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_classname_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_classname_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501

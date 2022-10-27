@@ -23,6 +23,7 @@ from pydantic import Field, StrictStr
 from typing import List
 
 from petstore_api import models
+from petstore_api.models import User
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -44,7 +45,7 @@ class UserApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def create_user(self, user : Annotated[models.User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
+    def create_user(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -75,7 +76,7 @@ class UserApi(object):
         return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_user_with_http_info(self, user : Annotated[models.User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
+    def create_user_with_http_info(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -183,7 +184,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_array_input(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_array_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -214,7 +215,7 @@ class UserApi(object):
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_users_with_array_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_array_input_with_http_info(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -322,7 +323,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_list_input(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_list_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -353,7 +354,7 @@ class UserApi(object):
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_users_with_list_input_with_http_info(self, user : Annotated[List[models.User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_list_input_with_http_info(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -1000,7 +1001,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[models.User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
+    def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -1033,7 +1034,7 @@ class UserApi(object):
         return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[models.User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
+    def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501

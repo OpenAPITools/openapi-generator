@@ -23,6 +23,7 @@ from pydantic import Field, StrictInt, StrictStr
 from typing import List, Literal, Optional
 
 from petstore_api import models
+from petstore_api.models import Pet
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -44,7 +45,7 @@ class PetApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def add_pet(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
+    def add_pet(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -75,7 +76,7 @@ class PetApi(object):
         return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def add_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
+    def add_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
           # noqa: E501
@@ -753,7 +754,7 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def update_pet(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
+    def update_pet(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
           # noqa: E501
@@ -784,7 +785,7 @@ class PetApi(object):
         return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_pet_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
+    def update_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
           # noqa: E501

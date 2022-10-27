@@ -21,6 +21,7 @@ from petstore_api import models
 from pydantic import Field, StrictStr, conint
 
 from petstore_api import models
+from petstore_api.models import Order
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -442,7 +443,7 @@ class StoreApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def place_order(self, order : Annotated[models.Order, Field(..., description="order placed for purchasing the pet")], **kwargs):  # noqa: E501
+    def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501
@@ -473,7 +474,7 @@ class StoreApi(object):
         return self.place_order_with_http_info(order, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def place_order_with_http_info(self, order : Annotated[models.Order, Field(..., description="order placed for purchasing the pet")], **kwargs):  # noqa: E501
+    def place_order_with_http_info(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501

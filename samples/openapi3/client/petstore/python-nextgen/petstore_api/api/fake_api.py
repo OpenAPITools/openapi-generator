@@ -25,6 +25,7 @@ from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, confl
 from typing import Dict, List, Optional
 
 from petstore_api import models
+from petstore_api.models import Client, FileSchemaTestClass, OuterComposite, Pet, User
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -174,7 +175,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_http_signature_test(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
+    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -208,7 +209,7 @@ class FakeApi(object):
         return self.fake_http_signature_test_with_http_info(pet, query_1, header_1, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_http_signature_test_with_http_info(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
+    def fake_http_signature_test_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -470,7 +471,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[models.OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -501,7 +502,7 @@ class FakeApi(object):
         return self.fake_outer_composite_serialize_with_http_info(outer_composite, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_outer_composite_serialize_with_http_info(self, outer_composite : Annotated[Optional[models.OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_composite_serialize_with_http_info(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -1044,7 +1045,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_file_schema(self, file_schema_test_class : models.FileSchemaTestClass, **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1075,7 +1076,7 @@ class FakeApi(object):
         return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_file_schema_with_http_info(self, file_schema_test_class : models.FileSchemaTestClass, **kwargs):  # noqa: E501
+    def test_body_with_file_schema_with_http_info(self, file_schema_test_class : FileSchemaTestClass, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1183,7 +1184,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_query_params(self, query : StrictStr, user : models.User, **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1215,7 +1216,7 @@ class FakeApi(object):
         return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_query_params_with_http_info(self, query : StrictStr, user : models.User, **kwargs):  # noqa: E501
+    def test_body_with_query_params_with_http_info(self, query : StrictStr, user : User, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1327,7 +1328,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_client_model(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -1358,7 +1359,7 @@ class FakeApi(object):
         return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_client_model_with_http_info(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_client_model_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
