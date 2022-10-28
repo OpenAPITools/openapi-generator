@@ -1,11 +1,22 @@
 [package]
 name = "{{{packageName}}}"
 version = "{{{packageVersion}}}"
-authors = [{{#infoEmail}}"{{{.}}}"{{/infoEmail}}]
+{{#infoEmail}}
+authors = ["{{{.}}}"]
+{{/infoEmail}}
+{{^infoEmail}}
+authors = ["OpenAPI Generator team and contributors"]
+{{/infoEmail}}
 {{#appDescription}}
 description = "{{{.}}}"
 {{/appDescription}}
+{{#licenseInfo}}
+license = "{{.}}"
+{{/licenseInfo}}
+{{^licenseInfo}}
+# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
+{{/licenseInfo}}
 edition = "2018"
 {{#publishRustRegistry}}
 publish = ["{{.}}"]

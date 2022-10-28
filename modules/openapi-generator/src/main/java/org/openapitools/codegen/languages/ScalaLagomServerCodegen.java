@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -163,7 +164,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
 
     @Override
