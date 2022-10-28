@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientCodegen extends AbstractGoCodegen {
@@ -392,7 +393,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty prop = super.fromProperty(name, p, required);
-        String cc = camelize(prop.name, true);
+        String cc = camelize(prop.name, LOWERCASE_FIRST_LETTER);
         if (isReservedWord(cc)) {
             cc = escapeReservedWord(cc);
         }

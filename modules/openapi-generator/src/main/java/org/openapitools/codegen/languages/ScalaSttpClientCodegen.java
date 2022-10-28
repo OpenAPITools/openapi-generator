@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -560,17 +563,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            final StringWriter tempWriter = new StringWriter();
-            frag.execute(tempWriter);
-            out.write(formatFragment(tempWriter.toString()));
-        }
-
-        public abstract String formatFragment(String fragment);
-    }
-
     private static class JavadocLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
@@ -589,19 +581,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public String formatFragment(String fragment) {
             return StringUtils.capitalize(fragment);
-        }
-    }
-
-    private static class CamelizeLambda extends CustomLambda {
-        private final boolean capitalizeFirst;
-
-        public CamelizeLambda(boolean capitalizeFirst) {
-            this.capitalizeFirst = capitalizeFirst;
-        }
-
-        @Override
-        public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
         }
     }
 

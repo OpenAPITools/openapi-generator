@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import com.samskivert.mustache.Mustache;
@@ -639,7 +640,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -767,7 +768,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (final CodegenSecurity authMethod : authMethods) {
-                    authMethod.name = camelize(sanitizeName(authMethod.name), true);
+                    authMethod.name = camelize(sanitizeName(authMethod.name), LOWERCASE_FIRST_LETTER);
                 }
             }
         }
