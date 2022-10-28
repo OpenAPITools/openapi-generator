@@ -431,7 +431,6 @@ public class FormatTest {
    * @return uuidWithDefault
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public UUID getUuidWithDefault() {
     return uuidWithDefault;
