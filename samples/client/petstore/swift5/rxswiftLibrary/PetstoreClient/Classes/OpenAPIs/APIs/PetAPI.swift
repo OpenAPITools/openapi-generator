@@ -24,6 +24,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -80,6 +81,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -315,6 +317,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -369,6 +372,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):

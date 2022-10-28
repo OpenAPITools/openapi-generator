@@ -23,6 +23,7 @@ open class PetAPI {
         let deferred = Promise<Void>.pending()
         addPetWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -73,6 +74,7 @@ open class PetAPI {
         let deferred = Promise<Void>.pending()
         deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -284,6 +286,7 @@ open class PetAPI {
         let deferred = Promise<Void>.pending()
         updatePetWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -332,6 +335,7 @@ open class PetAPI {
         let deferred = Promise<Void>.pending()
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):

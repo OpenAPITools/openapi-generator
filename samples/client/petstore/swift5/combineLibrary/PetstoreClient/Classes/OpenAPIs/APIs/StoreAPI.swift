@@ -28,6 +28,7 @@ open class StoreAPI {
         return Future<Void, Error> { promise in
             requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):

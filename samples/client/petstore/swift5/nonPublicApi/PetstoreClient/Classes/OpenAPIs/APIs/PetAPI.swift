@@ -23,6 +23,7 @@ internal class PetAPI {
     internal class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
+
             case .success:
                 completion((), nil)
             case let .failure(error):
@@ -73,6 +74,7 @@ internal class PetAPI {
     internal class func deletePet(apiKey: String? = nil, petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute(apiResponseQueue) { result in
             switch result {
+
             case .success:
                 completion((), nil)
             case let .failure(error):
@@ -284,6 +286,7 @@ internal class PetAPI {
     internal class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
+
             case .success:
                 completion((), nil)
             case let .failure(error):
@@ -332,6 +335,7 @@ internal class PetAPI {
     internal class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
             switch result {
+
             case .success:
                 completion((), nil)
             case let .failure(error):

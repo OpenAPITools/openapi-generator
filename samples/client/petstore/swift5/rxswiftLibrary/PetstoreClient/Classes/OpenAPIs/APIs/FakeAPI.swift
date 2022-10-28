@@ -215,6 +215,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -264,6 +265,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -379,6 +381,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -537,6 +540,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -613,6 +617,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -675,6 +680,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -725,6 +731,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):

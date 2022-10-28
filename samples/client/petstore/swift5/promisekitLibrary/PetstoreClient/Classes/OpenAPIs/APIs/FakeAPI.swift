@@ -190,6 +190,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -233,6 +234,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -336,6 +338,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -488,6 +491,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -558,6 +562,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -614,6 +619,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -658,6 +664,7 @@ open class FakeAPI {
         let deferred = Promise<Void>.pending()
         testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):

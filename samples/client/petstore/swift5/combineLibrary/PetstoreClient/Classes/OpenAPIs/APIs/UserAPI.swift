@@ -28,6 +28,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = createUserWithRequestBuilder(body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -80,6 +81,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -131,6 +133,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -182,6 +185,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -348,6 +352,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = logoutUserWithRequestBuilder().execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -399,6 +404,7 @@ open class UserAPI {
         return Future<Void, Error> { promise in
             requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):

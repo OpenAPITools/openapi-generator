@@ -28,6 +28,7 @@ open class PetAPI {
         return Future<Void, Error> { promise in
             requestTask = addPetWithRequestBuilder(body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -86,6 +87,7 @@ open class PetAPI {
         return Future<Void, Error> { promise in
             requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -329,6 +331,7 @@ open class PetAPI {
         return Future<Void, Error> { promise in
             requestTask = updatePetWithRequestBuilder(body: body).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):
@@ -385,6 +388,7 @@ open class PetAPI {
         return Future<Void, Error> { promise in
             requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
                 switch result {
+
                 case .success:
                     promise(.success(()))
                 case let .failure(error):

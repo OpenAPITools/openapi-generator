@@ -24,6 +24,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):

@@ -23,6 +23,7 @@ open class StoreAPI {
         let deferred = Promise<Void>.pending()
         deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):

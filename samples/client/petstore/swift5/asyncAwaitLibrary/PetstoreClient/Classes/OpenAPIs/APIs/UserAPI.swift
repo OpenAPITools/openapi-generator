@@ -32,6 +32,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):
@@ -89,6 +90,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):
@@ -145,6 +147,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):
@@ -201,6 +204,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):
@@ -382,6 +386,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):
@@ -438,6 +443,7 @@ open class UserAPI {
 
                 requestBuilder.execute { result in
                     switch result {
+
                     case .success:
                         continuation.resume(returning: ())
                     case let .failure(error):

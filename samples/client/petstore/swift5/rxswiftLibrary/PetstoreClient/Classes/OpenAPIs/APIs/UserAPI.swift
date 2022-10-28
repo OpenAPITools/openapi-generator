@@ -24,6 +24,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -74,6 +75,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -123,6 +125,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -172,6 +175,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -332,6 +336,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):
@@ -381,6 +386,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             let requestTask = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                 switch result {
+
                 case .success:
                     observer.onNext(())
                 case let .failure(error):

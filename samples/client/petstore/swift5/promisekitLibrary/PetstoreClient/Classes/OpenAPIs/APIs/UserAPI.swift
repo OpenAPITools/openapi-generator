@@ -23,6 +23,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         createUserWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -67,6 +68,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -110,6 +112,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         createUsersWithListInputWithRequestBuilder(body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -153,6 +156,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         deleteUserWithRequestBuilder(username: username).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -295,6 +299,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         logoutUserWithRequestBuilder().execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
@@ -338,6 +343,7 @@ open class UserAPI {
         let deferred = Promise<Void>.pending()
         updateUserWithRequestBuilder(username: username, body: body).execute { result in
             switch result {
+
             case .success:
                 deferred.resolver.fulfill(())
             case let .failure(error):
