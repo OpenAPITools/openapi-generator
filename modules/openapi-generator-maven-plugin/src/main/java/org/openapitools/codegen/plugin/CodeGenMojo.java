@@ -376,6 +376,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateSupportingFiles = true;
 
     /**
+     * Generate the supporting files tests
+     */
+    @Parameter(name = "generateSupportingFilesTests", property = "openapi.generator.maven.plugin.generateSupportingFilesTests")
+    private Boolean generateSupportingFilesTests = true;
+
+    /**
      * A comma separated list of models to generate. All models is the default.
      */
     @Parameter(name = "supportingFilesToGenerate", property = "openapi.generator.maven.plugin.supportingFilesToGenerate")
@@ -662,7 +668,7 @@ public class CodeGenMojo extends AbstractMojo {
             } else {
                 GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
             }
-
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_TESTS, generateSupportingFilesTests.toString());
             GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
             GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());

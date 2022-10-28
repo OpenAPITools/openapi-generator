@@ -87,6 +87,8 @@ public class DefaultGenerator implements Generator {
     private Boolean generateModels = null;
     private Boolean generateSupportingFiles = null;
     private Boolean generateApiTests = null;
+
+    private Boolean generateSupportingFilesTests = null;
     private Boolean generateApiDocumentation = null;
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
@@ -228,11 +230,13 @@ public class DefaultGenerator implements Generator {
         generateModelTests = GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
         generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
+        generateSupportingFilesTests = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SUPPORTING_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
+        config.additionalProperties().put(CodegenConstants.GENERATE_SUPPORTING_TESTS, generateSupportingFilesTests);
 
         config.additionalProperties().put(CodegenConstants.GENERATE_API_DOCS, generateApiDocumentation);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_DOCS, generateModelDocumentation);
@@ -715,35 +719,11 @@ public class DefaultGenerator implements Generator {
         }
 
         for (SupportingFile support : config.supportingFiles()) {
-            try {
-                String outputFolder = config.outputFolder();
-                if (StringUtils.isNotEmpty(support.getFolder())) {
-                    outputFolder += File.separator + support.getFolder();
-                }
-                File of = new File(outputFolder);
-                if (!of.isDirectory()) {
-                    if (!dryRun && !of.mkdirs()) {
-                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
-                    }
-                }
-                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
-                        ? support.getDestinationFilename()
-                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
-
-                boolean shouldGenerate = true;
-                if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
-                }
-
-                File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
-                if (written != null) {
-                    files.add(written);
-                    if (config.isEnablePostProcessFile() && !dryRun) {
-                        config.postProcessFile(written, "supporting-file");
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
+            generateSupportingFile(files, bundle, supportingFilesToGenerate, support, this.config.getOutputDir());
+        }
+        if (generateSupportingFilesTests) {
+            for (SupportingFile support : config.supportingTestFiles()) {
+                generateSupportingFile(files, bundle, supportingFilesToGenerate, support, this.config.supportingTestFileFolder());
             }
         }
 
@@ -773,6 +753,39 @@ public class DefaultGenerator implements Generator {
         }
 
         generateVersionMetadata(files);
+    }
+
+    private void generateSupportingFile(List<File> files, Map<String, Object> bundle, Set<String> supportingFilesToGenerate, SupportingFile support, String intendedOutputDir) {
+        try {
+            String outputFolder = intendedOutputDir;
+            if (StringUtils.isNotEmpty(support.getFolder())) {
+                outputFolder += File.separator + support.getFolder();
+            }
+            File of = new File(outputFolder);
+            if (!of.isDirectory()) {
+                if (!dryRun && !of.mkdirs()) {
+                    once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
+                }
+            }
+            String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
+                    ? support.getDestinationFilename()
+                    : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
+
+            boolean shouldGenerate = true;
+            if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
+            }
+
+            File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES, intendedOutputDir);
+            if (written != null) {
+                files.add(written);
+                if (config.isEnablePostProcessFile() && !dryRun) {
+                    config.postProcessFile(written, "supporting-file");
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
+        }
     }
 
     Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {

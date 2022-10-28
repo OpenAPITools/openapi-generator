@@ -380,6 +380,18 @@ open class GenerateTask : DefaultTask() {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
+     * Defines whether supporting-related _test_ files should be generated.
+     *
+     * This option enables/disables generation of ALL supporting-related _test_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
+     */
+    @Optional
+    @Input
+    val generateSupportingFilesTests = project.objects.property<Boolean>()
+
+    /**
      * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.
@@ -542,6 +554,10 @@ open class GenerateTask : DefaultTask() {
 
             if (generateModelDocumentation.isPresent) {
                 GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            }
+
+            if (generateSupportingFilesTests.isPresent) {
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_TESTS, generateSupportingFilesTests.get().toString())
             }
 
             if (generateModelTests.isPresent) {

@@ -256,6 +256,16 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
+     * Defines whether supportingFiles-related _test_ files should be generated.
+     *
+     * This option enables/disables generation of ALL supportingFiles-related _test_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
+     */
+    val generateSupportingFilesTests = project.objects.property<Boolean>()
+
+    /**
      * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.
@@ -346,6 +356,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         modelNamePrefix.set("")
         modelNameSuffix.set("")
         apiNameSuffix.set("")
+        generateSupportingFilesTests.set(true)
         generateModelTests.set(true)
         generateModelDocumentation.set(true)
         generateApiTests.set(true)
