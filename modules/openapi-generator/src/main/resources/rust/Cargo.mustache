@@ -1,8 +1,35 @@
 [package]
 name = "{{{packageName}}}"
 version = "{{#lambdaVersion}}{{{packageVersion}}}{{/lambdaVersion}}"
+{{#infoEmail}}
+authors = ["{{{.}}}"]
+{{/infoEmail}}
+{{^infoEmail}}
 authors = ["OpenAPI Generator team and contributors"]
+{{/infoEmail}}
+{{#appDescription}}
+description = "{{{.}}}"
+{{/appDescription}}
+{{#licenseInfo}}
+license = "{{.}}"
+{{/licenseInfo}}
+{{^licenseInfo}}
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+{{/licenseInfo}}
 edition = "2018"
+{{#publishRustRegistry}}
+publish = ["{{.}}"]
+{{/publishRustRegistry}}
+{{#repositoryUrl}}
+repository = "{{.}}"
+{{/repositoryUrl}}
+{{#documentationUrl}}
+documentation = "{{.}}"
+{{/documentationUrl}}
+{{#homePageUrl}}
+homepage = "{{.}}
+{{/homePageUrl}}
 
 [dependencies]
 serde = "^1.0"
