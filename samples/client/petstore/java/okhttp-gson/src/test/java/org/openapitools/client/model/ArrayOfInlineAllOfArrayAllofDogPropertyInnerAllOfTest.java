@@ -38,11 +38,11 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOfTest {
     }
 
     /**
-     * Test the property 'color'
+     * Test the property 'breed'
      */
     @Test
-    public void colorTest() {
-        // TODO: test color
+    public void breedTest() {
+        // TODO: test breed
     }
 
 }
