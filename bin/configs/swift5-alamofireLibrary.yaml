@@ -5,6 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-
 templateDir: modules/openapi-generator/src/main/resources/swift5
 generateAliasAsModel: true
 useCustomDateWithoutTime: true
+returnDataInsteadOfVoid: true
 additionalProperties:
   podAuthors: ""
   podSummary: PetstoreClient
