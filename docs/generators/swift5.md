@@ -47,6 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |readonlyProperties|Make properties readonly (default: false)| |null|
 |removeMigrationProjectNameClass|Make properties removeMigrationProjectNameClass (default: false)| |null|
 |responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine, AsyncAwait are available.| |null|
+|returnDataInsteadOfVoid|Generated APIs will return Data instead of Void. This is useful when following redirects where response data from redirected location would otherwise be discarded by mapping to Void. (default: false)| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |swiftPackagePath|Set a custom source path instead of OpenAPIClient/Classes/OpenAPIs.| |null|
