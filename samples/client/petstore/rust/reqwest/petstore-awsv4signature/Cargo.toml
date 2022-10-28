@@ -15,5 +15,3 @@ aws-sigv4 = "0.3.0"
 http = "0.2.5"
 secrecy = "0.8.0"
 reqwest = "~0.9"
-
-[dev-dependencies]
