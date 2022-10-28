@@ -136,7 +136,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -197,7 +198,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
+        let localVarPath = `/store/inventory`;
+        return this.httpClient.request<{ [key: string]: number; }>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -256,7 +258,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        return this.httpClient.request<Order>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -324,10 +327,11 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
-            order,
+        let localVarPath = `/store/order`;
+        return this.httpClient.request<Order>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: order,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

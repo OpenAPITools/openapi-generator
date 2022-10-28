@@ -268,7 +268,7 @@ public class DefaultCodegenTest {
     @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
-        String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";
+        String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";
         OpenAPI openAPI = TestUtils.parseFlattenSpec(location);
         SemVer version = ModelUtils.getOpenApiVersion(openAPI, location, null);
         Assert.assertEquals(version, new SemVer("2.0.0"));
@@ -4244,5 +4244,13 @@ public class DefaultCodegenTest {
         Assert.assertFalse(fooOptional.vars.get(0).required);
         Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
         Assert.assertEquals(fooOptional.requiredVars.size(), 0);
+    }
+
+    @Test
+    public void testAssigning310SpecWorks() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
     }
 }

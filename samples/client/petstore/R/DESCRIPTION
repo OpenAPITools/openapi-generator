@@ -12,4 +12,4 @@ License: Apache License 2.0
 LazyData: true
 Suggests: testthat
 Imports: jsonlite, httr, R6, base64enc, stringr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

@@ -1,0 +1,10 @@
+
+# {{baseName}}
+{{#if complexType}}
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md) | {{#if description}}{{description}}{{/if}} | {{#if isReadOnly}}[readonly] {{/if}}
+
+{{else}}
+{{> schema_doc complexTypePrefix="{{complexTypePrefix}}" }}
+{{/if}}

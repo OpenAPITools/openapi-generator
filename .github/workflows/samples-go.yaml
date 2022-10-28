@@ -1,0 +1,36 @@
+name: Samples Go 
+
+on:
+  push:
+    paths:
+      - 'samples/server/petstore/go-echo-server/**'
+      - 'samples/server/petstore/go-api-server/**'
+  pull_request:
+    paths:
+      - 'samples/server/petstore/go-echo-server/**'
+      - 'samples/server/petstore/go-api-server/**'
+
+jobs:
+  build:
+    name: Build Go 
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/petstore/go-echo-server/
+          - samples/server/petstore/go-api-server/
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+      - run: go version
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go get github.com/labstack/echo/v4/middleware@v4.9.0
+          go get github.com/labstack/echo/v4@v4.9.0
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: go test -v

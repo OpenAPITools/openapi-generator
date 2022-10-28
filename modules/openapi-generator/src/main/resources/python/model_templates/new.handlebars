@@ -1,0 +1,100 @@
+def __new__(
+    cls,
+{{#if getHasMultipleTypes}}
+    *args: typing.Union[{{> model_templates/schema_python_types }}],
+{{else}}
+{{#if isArray }}
+    arg: typing.Union[typing.Tuple[{{#with items}}{{#if complexType}}'{{complexType}}'{{else}}typing.Union[MetaOapg.{{baseName}}, {{> model_templates/schema_python_types }}]{{/if}}{{/with}}], typing.List[{{#with items}}{{#if complexType}}'{{complexType}}'{{else}}typing.Union[MetaOapg.{{baseName}}, {{> model_templates/schema_python_types }}]{{/if}}{{/with}}]],
+{{else}}
+    *args: typing.Union[{{> model_templates/schema_python_types }}],
+{{/if}}
+{{/if}}
+{{#unless isNull}}
+{{#if getHasRequired}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+{{#unless nameInSnakeCase}}
+{{#if complexType}}
+    {{baseName}}: '{{complexType}}',
+{{else}}
+    {{#if getSchemaIsFromAdditionalProperties}}
+        {{#if addPropsUnset}}
+    {{baseName}}: typing.Union[schemas.AnyTypeSchema, {{> model_templates/schema_python_types }}],
+        {{else}}
+    {{baseName}}: typing.Union[MetaOapg.additional_properties, {{> model_templates/schema_python_types }}],
+        {{/if}}
+    {{else}}
+    {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, {{> model_templates/schema_python_types }}],
+    {{/if}}
+{{/if}}
+{{/unless}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each vars}}
+{{#unless nameInSnakeCase}}
+{{#unless getRequired}}
+{{#if complexType}}
+    {{baseName}}: typing.Union['{{complexType}}', schemas.Unset] = schemas.unset,
+{{else}}
+    {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, {{> model_templates/schema_python_types }}schemas.Unset] = schemas.unset,
+{{/if}}
+{{/unless}}
+{{/unless}}
+{{/each}}
+    _configuration: typing.Optional[schemas.Configuration] = None,
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+{{#if complexType}}
+    **kwargs: '{{complexType}}',
+{{else}}
+    **kwargs: typing.Union[MetaOapg.additional_properties, {{> model_templates/schema_python_types }}],
+{{/if}}
+{{/unless}}
+{{else}}
+{{#or isMap isAnyType}}
+    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+{{/or}}
+{{/with}}
+) -> '{{> model_templates/classname }}':
+    return super().__new__(
+        cls,
+{{#if getHasMultipleTypes}}
+        *args,
+{{else}}
+{{#if isArray }}
+        arg,
+{{else}}
+        *args,
+{{/if}}
+{{/if}}
+{{#unless isNull}}
+{{#if getHasRequired}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+{{#unless nameInSnakeCase}}
+        {{baseName}}={{baseName}},
+{{/unless}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each vars}}
+{{#unless getRequired}}
+{{#unless nameInSnakeCase}}
+        {{baseName}}={{baseName}},
+{{/unless}}
+{{/unless}}
+{{/each}}
+        _configuration=_configuration,
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+        **kwargs,
+{{/unless}}
+{{else}}
+{{#or isMap isAnyType}}
+        **kwargs,
+{{/or}}
+{{/with}}
+    )

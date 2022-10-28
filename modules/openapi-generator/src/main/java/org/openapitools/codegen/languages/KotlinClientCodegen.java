@@ -63,6 +63,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
+    protected static final String JVM_VERTX = "jvm-vertx";
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
@@ -215,6 +216,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
+        supportedLibraries.put(JVM_VERTX, "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -441,6 +443,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
                 break;
+            case JVM_VERTX:
+                processJVMVertXLibrary(infrastructureFolder);
+                break;
             default:
                 break;
         }
@@ -664,6 +669,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+    }
+
+    /**
+     * Process Vert.x client options
+     *
+     * @param infrastructureFolder infrastructure destination folder
+     */
+    private void processJVMVertXLibrary(final String infrastructureFolder) {
+        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
+        addSupportingSerializerAdapters(infrastructureFolder);
+
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_VERTX, true);
     }
 
     private void processJVMOkHttpLibrary(final String infrastructureFolder) {

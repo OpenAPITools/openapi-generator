@@ -328,4 +328,6 @@ public interface CodegenConfig {
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
+
+    boolean getAddSuffixToDuplicateOperationNicknames();
 }

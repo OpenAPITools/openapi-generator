@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title Store operations
-#' @description petstore.Store
+#' @description StoreApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
@@ -118,24 +118,26 @@
 #' ####################  delete_order  ####################
 #'
 #' library(petstore)
-#' var.order_id <- "order_id_example" # character | ID of the order that needs to be deleted
+#' var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 #'
 #' #Delete purchase order by ID
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$delete_order(var.order_id),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$delete_order(var_order_id),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `delete_order`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  get_inventory  ####################
@@ -143,76 +145,100 @@
 #' library(petstore)
 #'
 #' #Returns pet inventories by status
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$get_inventory(),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$get_inventory(data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$get_inventory(),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `get_inventory`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  get_order_by_id  ####################
 #'
 #' library(petstore)
-#' var.order_id <- 56 # integer | ID of pet that needs to be fetched
+#' var_order_id <- 56 # integer | ID of pet that needs to be fetched
 #'
 #' #Find purchase order by ID
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$get_order_by_id(var.order_id),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$get_order_by_id(var_order_id, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$get_order_by_id(var_order_id),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `get_order_by_id`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  place_order  ####################
 #'
 #' library(petstore)
-#' var.order <- Order$new() # Order | order placed for purchasing the pet
+#' var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$place_order(var.order),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$place_order(var_order, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$place_order(var_order),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `place_order`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' }
@@ -288,7 +314,7 @@ StoreApi <- R6::R6Class(
 
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{orderId\\}", URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -408,15 +434,15 @@ StoreApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "map(integer)", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -511,7 +537,7 @@ StoreApi <- R6::R6Class(
 
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{orderId\\}", URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -537,15 +563,15 @@ StoreApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Order", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -626,7 +652,7 @@ StoreApi <- R6::R6Class(
       }
 
 
-      if (!missing(`order`)) {
+      if (!is.null(`order`)) {
         local_var_body <- `order`$toJSONString()
       } else {
         body <- NULL
@@ -656,15 +682,15 @@ StoreApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Order", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj

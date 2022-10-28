@@ -62,6 +62,41 @@ internal struct APIHelper {
         return source
     }
 
+    /// maps all values from source to query parameters
+    ///
+    /// explode attribute is respected: collection values might be either joined or split up into seperate key value pairs
+    internal static func mapValuesToQueryItems(_ source: [String: (wrappedValue: Any?, isExplode: Bool)]) -> [URLQueryItem]? {
+        let destination = source.filter { $0.value.wrappedValue != nil }.reduce(into: [URLQueryItem]()) { result, item in
+            if let collection = item.value.wrappedValue as? [Any?] {
+
+                let collectionValues: [String] = collection.compactMap { value in
+                    guard let value = value else { return nil }
+                    return "\(value)"
+                }
+
+                if !item.value.isExplode {
+                    result.append(URLQueryItem(name: item.key, value: collectionValues.joined(separator: ",")))
+                } else {
+                    collectionValues
+                        .forEach { value in
+                            result.append(URLQueryItem(name: item.key, value: value))
+                        }
+                }
+
+            } else if let value = item.value.wrappedValue {
+                result.append(URLQueryItem(name: item.key, value: "\(value)"))
+            }
+        }
+
+        if destination.isEmpty {
+            return nil
+        }
+        return destination
+    }
+
+    /// maps all values from source to query parameters
+    ///
+    /// collection values are always exploded
     internal static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
         let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value as? [Any?] {
@@ -73,6 +108,7 @@ internal struct APIHelper {
                     .forEach { value in
                         result.append(URLQueryItem(name: item.key, value: value))
                     }
+
             } else if let value = item.value {
                 result.append(URLQueryItem(name: item.key, value: "\(value)"))
             }

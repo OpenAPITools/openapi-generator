@@ -44,6 +44,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -383,9 +384,7 @@ public class Pet implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Pet.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
         }
       }
@@ -408,24 +407,28 @@ public class Pet implements Parcelable {
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
-      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
+      if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonNull()) && !jsonObj.get("photoUrls").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("photoUrls") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
-      JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
-      if (jsonArraytags != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("tags").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
-        }
+      if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
+        JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
+        if (jsonArraytags != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("tags").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+          }
 
-        // validate the optional field `tags` (array)
-        for (int i = 0; i < jsonArraytags.size(); i++) {
-          Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
-        };
+          // validate the optional field `tags` (array)
+          for (int i = 0; i < jsonArraytags.size(); i++) {
+            Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
+          };
+        }
       }
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));

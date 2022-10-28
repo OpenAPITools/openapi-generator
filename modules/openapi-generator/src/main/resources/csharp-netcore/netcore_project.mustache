@@ -32,7 +32,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     {{/useGenericHost}}
       {{#useRestSharp}}
-    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
       {{/useRestSharp}}
       {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
@@ -51,8 +51,14 @@
 
   <ItemGroup>
     <None Remove="System.Web" />
+    {{#net48}}
+    <None Remove="System.Net.Http" />
+    {{/net48}}
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />
+    {{#net48}}
+    <Reference Include="System.Net.Http" />
+    {{/net48}}
   </ItemGroup>
 </Project>

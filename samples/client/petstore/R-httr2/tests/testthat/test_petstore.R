@@ -260,6 +260,32 @@ test_that ("Tests validations", {
 
 })
 
+test_that("Tests oneOf primitive types", {
+  test <- OneOfPrimitiveTypeTest$new()
+  test$fromJSONString("\"123abc\"")
+  expect_equal(test$actual_instance,  '123abc')
+  expect_equal(test$actual_type,  'character')
+
+  test$fromJSONString("456")
+  expect_equal(test$actual_instance,  456)
+  expect_equal(test$actual_type,  'integer')
+
+  expect_error(test$fromJSONString("[45,12]"), "No match found when deserializing the payload into OneOfPrimitiveTypeTest with oneOf schemas character, integer. Details:  Data type doesn't match. Expected: integer. Actual: list., Data type doesn't match. Expected: character. Actual: list.") # should throw an error
+})
+
+test_that("Tests anyOf primitive types", {
+  test <- AnyOfPrimitiveTypeTest$new()
+  test$fromJSONString("\"123abc\"")
+  expect_equal(test$actual_instance,  '123abc')
+  expect_equal(test$actual_type,  'character')
+
+  test$fromJSONString("456")
+  expect_equal(test$actual_instance,  456)
+  expect_equal(test$actual_type,  'integer')
+
+  expect_error(test$fromJSONString("[45,12]"), "No match found when deserializing the payload into AnyOfPrimitiveTypeTest with oneOf schemas character, integer. Details:  Data type doesn't match. Expected: integer. Actual: list., Data type doesn't match. Expected: character. Actual: list.") # should throw an error
+})
+
 test_that("Tests oneOf", {
   basque_pig_json <-
   '{"className": "BasquePig", "color": "red"}'

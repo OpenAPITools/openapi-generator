@@ -21,9 +21,11 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```R
 library(petstore)
 
+# Delete purchase order by ID
+#
+# prepare function argument(s)
 var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 
-# Delete purchase order by ID
 api_instance <- StoreApi$new()
 result <- tryCatch(
              api_instance$delete_order(var_order_id),
@@ -75,8 +77,9 @@ Returns a map of status codes to quantities
 ```R
 library(petstore)
 
-
 # Returns pet inventories by status
+#
+
 api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -132,9 +135,11 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```R
 library(petstore)
 
+# Find purchase order by ID
+#
+# prepare function argument(s)
 var_order_id <- 56 # integer | ID of pet that needs to be fetched
 
-# Find purchase order by ID
 api_instance <- StoreApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -193,9 +198,11 @@ Place an order for a pet
 ```R
 library(petstore)
 
+# Place an order for a pet
+#
+# prepare function argument(s)
 var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 
-# Place an order for a pet
 api_instance <- StoreApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.

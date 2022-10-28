@@ -2286,11 +2286,13 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     ChildCat_allOf:
       properties:
         name:
@@ -2302,6 +2304,7 @@ components:
           type: string
           x-enum-as-string: true
       type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

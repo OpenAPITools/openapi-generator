@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
@@ -39,13 +40,183 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    /**
+     * Help generating code for any kind of URL parameters (path, matrix, query).
+     * <p>
+     * Generators may use this class when substituting URL-parameter-placeholders
+     * with generated code:
+     * </p>
+     * <p>
+     * While parsing placeholders character-by-character, this class helps accumulating these characters and
+     * building the final placeholder name.
+     * </p>
+     * <p>
+     * With the placeholder name, this class tries to find the parameter in the operation.
+     * The class then uses this parameter to build code that is usable by the generator.
+     * </p>
+     */
+    // TODO: this class grew quite large and most code now is specific to TypeScriptAngularClientCodeGen.java.
+    //  => move code-generation to the concrete generator and let the generator pass this as lambda
+    @SuppressWarnings("StringBufferField")
+    public static class ParameterExpander {
+        private static final Pattern JS_QUOTE_PATTERN = Pattern.compile("\"");
+        private static final String JS_QUOTE_REPLACEMENT = "\\\"";
+
+        /**
+         * How the parameter is formatted/converted/encoded in the actual request.
+         * <p>
+         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">Style Values</a>.
+         * </p>
+         */
+        public enum ParamStyle {
+            matrix,
+            label,
+            form,
+            simple,
+            spaceDelimited,
+            pipeDelimited,
+            deepObject;
+
+            public String asString() {
+                return name();
+            }
+        }
+
+        /**
+         * Where the parameter is located in the request.
+         * <p>
+         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations">Parameter Locations</a>
+         * </p>
+         */
+        public enum Location {
+            query((operation, param) -> operation.queryParams.contains(param), form),
+            header((operation, param) -> operation.headerParams.contains(param), simple),
+            path((operation, param) -> operation.pathParams.contains(param), simple),
+            cookie((operation, param) -> operation.cookieParams.contains(param), form);
+
+            public final ParamStyle defaultStyle;
+            public final BiPredicate<CodegenOperation, CodegenParameter> isPresentIn;
+
+            Location(BiPredicate<CodegenOperation, CodegenParameter> isPresentIn, ParamStyle defaultStyle) {
+                this.defaultStyle = defaultStyle;
+                this.isPresentIn = isPresentIn;
+            }
+
+            public String defaultStyle(@Nullable String style) {
+                if (style != null && !style.trim().isEmpty()) {
+                    return style;
+                }
+                return defaultStyle.asString();
+            }
+
+            public static Location fromParam(CodegenOperation op, CodegenParameter param) {
+                return Arrays.stream(values())
+                        .filter(v -> v.isPresentIn.test(op, param))
+                        .findAny()
+                        .orElseThrow(() -> new IllegalArgumentException(String.format(
+                                Locale.ROOT,
+                                "Cannot find param ' %s' in operation '%s'",
+                                param, op.operationId
+                        )));
+            }
+        }
+
+        private final StringBuilder parameterName = new StringBuilder();
+        private final CodegenOperation op;
+        private final Function<String, String> toParameterName;
+
+        public ParameterExpander(CodegenOperation op, Function<String, String> toParameterName) {
+            this.op = op;
+            this.toParameterName = toParameterName;
+        }
+
+        private void reset() {
+            parameterName.setLength(0);
+        }
+
+        public void appendToParameterName(char c) {
+            parameterName.append(c);
+        }
+
+        public String buildPathEntry() {
+            CodegenParameter parameter = findPathParameterByName();
+
+            String result = "";
+            if (parameter != null) {
+                String generatedParameterName = toParameterName.apply(parameterName.toString());
+                result = buildPathEntry(parameter, generatedParameterName);
+            }
+
+            reset();
+            return result;
+        }
+
+        private String buildPathEntry(CodegenParameter parameter, String generatedParameterName) {
+            Location location = Location.fromParam(op, parameter);
+            String style = location.defaultStyle(parameter.style);
+
+            String optsObject = String.format(
+                    Locale.ROOT,
+                    "{name: %s, value: %s, in: %s, style: %s, explode: %s, dataType: %s, dataFormat: %s}",
+                    quotedJSString(parameter.paramName),
+                    generatedParameterName,
+                    quotedJSString(location.name()),
+                    quotedJSString(style),
+                    parameter.isExplode,
+                    quotedJSString(parameter.dataType),
+                    nullableQuotedJSString(parameter.dataFormat)
+            );
+
+            String result = String.format(Locale.ROOT, "${this.configuration.encodeParam(%s)}", optsObject);
+            return result;
+        }
+
+        private @Nullable CodegenParameter findPathParameterByName() {
+            for (CodegenParameter param : op.pathParams) {
+                if (param.baseName.equals(parameterName.toString())) {
+                    return param;
+                }
+            }
+            return null;
+        }
+
+        private static String quotedJSString(String string) {
+            String escaped = escapeForQuotedJSString(string);
+            String result = '"' + escaped + '"';
+            return result;
+        }
+
+        protected static String escapeForQuotedJSString(String string) {
+            String quoted = JS_QUOTE_PATTERN.matcher(string)
+                    .replaceAll(JS_QUOTE_REPLACEMENT);
+
+            return quoted;
+        }
+
+
+        protected String nullableQuotedJSString(@Nullable String string) {
+            if (string == null) {
+                return "undefined";
+            }
+
+            String result = quotedJSString(string);
+
+            return result;
+        }
+    }
+
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
@@ -547,7 +718,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + escapeText((String) p.getDefault()) + "'";
+                return "'" + escapeText(String.valueOf(p.getDefault())) + "'";
             }
             return UNDEFINED_VALUE;
         } else {

@@ -5,13 +5,17 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <stdexcept>
+#include <regex>
 {{#hasEnums}}
 #include <algorithm>
 {{/hasEnums}}
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "helpers.h"
 
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -26,34 +30,18 @@ namespace {{this}} {
         fromPropertyTree(pt);
 }
 
-std::string {{classname}}::toJsonString(bool prettyJson /* = false */)
-{
-    return toJsonString_internal(prettyJson);
-}
 
-void {{classname}}::fromJsonString(std::string const& jsonString)
-{
-    fromJsonString_internal(jsonString);
-}
-
-boost::property_tree::ptree {{classname}}::toPropertyTree()
-{
-    return toPropertyTree_internal();
-}
-
-void {{classname}}::fromPropertyTree(boost::property_tree::ptree const& pt)
-{
-    fromPropertyTree_internal(pt);
-}
-
-std::string {{classname}}::toJsonString_internal(bool prettyJson)
+std::string {{classname}}::toJsonString(bool prettyJson /* = false */) const
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
-	return ss.str();
+    // workaround inspired by: https://stackoverflow.com/a/56395440
+    std::regex reg("\\\"([0-9]+\\.{0,1}[0-9]*)\\\"");
+    std::string result = std::regex_replace(ss.str(), reg, "$1");
+    return result;
 }
 
-void {{classname}}::fromJsonString_internal(std::string const& jsonString)
+void {{classname}}::fromJsonString(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -61,7 +49,7 @@ void {{classname}}::fromJsonString_internal(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree {{classname}}::toPropertyTree_internal()
+ptree {{classname}}::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
@@ -81,36 +69,34 @@ ptree {{classname}}::toPropertyTree_internal()
 	pt.put("{{baseName}}", m_{{name}});
 	{{/isDateTime}}
 	{{#isModel}}
-	if (m_{{name}} != nullptr) {
-		pt.add_child("{{baseName}}", m_{{name}}->toPropertyTree());
-	}
+	pt.add_child("{{baseName}}", m_{{name}}.toPropertyTree());
 	{{/isModel}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{#isContainer}}
 	// generate tree for {{name}}
+    {{#isMap}}
+    {{^isModel}}
+    if (!m_{{name}}.empty()) {
+        tmp_node = toPt(m_{{name}});
+        pt.add_child("{{baseName}}", tmp_node);
+    }
+    {{/isModel}}
+    {{/isMap}}
+    tmp_node.clear();
+    {{^isMap}}
 	if (!m_{{name}}.empty()) {
-		for (const auto &childEntry : m_{{name}}) {
-            {{#items}}
-            {{#isModel}}
-            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
-            {{/isModel}}
-            {{^isModel}}
-            ptree {{name}}_node;
-            {{name}}_node.put("", childEntry);
-            tmp_node.push_back(std::make_pair("", {{name}}_node));
-            {{/isModel}}
-            {{/items}}
-		}
+        tmp_node = toPt(m_{{name}});
 		pt.add_child("{{baseName}}", tmp_node);
 		tmp_node.clear();
 	}
+    {{/isMap}}
 	{{/isContainer}}
 	{{/vars}}
 	return pt;
 }
 
-void {{classname}}::fromPropertyTree_internal(ptree const &pt)
+void {{classname}}::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	{{#vars}}
@@ -136,65 +122,58 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 	{{/isEnum}}
 	{{#isModel}}
 	if (pt.get_child_optional("{{baseName}}")) {
-		m_{{name}} = {{{defaultValue}}};
-		m_{{name}}->fromPropertyTree(pt.get_child("{{baseName}}"));
+        m_{{{name}}} = fromPt<{{{dataType}}}>(pt.get_child("{{baseName}}"));
 	}
 	{{/isModel}}
 	{{/isContainer}}
 	{{#isContainer}}
-	{{^isModelContainer}}
-	// push all items of {{name}} into member vector
+    {{#isMap}}
+    if (pt.get_child_optional("{{baseName}}")) {
+        m_{{{name}}} = fromPt<{{{dataType}}}>(pt.get_child("{{baseName}}"));
+    }
+    {{/isMap}}
+    {{^isMap}}
+    {{^isModelContainer}}
+	// push all items of {{name}} into member
 	if (pt.get_child_optional("{{baseName}}")) {
-		for (const auto &childTree : pt.get_child("{{baseName}}")) {
-		    {{#mostInnerItems}}
-            {{{dataType}}} val =
-            {{#isNumeric}}
-                {{^isFloat}}
-                {{^isLong}}
-                {{^isInteger}}
-                std::stod(childTree.second.data());
-                {{/isInteger}}
-                {{/isLong}}
-                {{/isFloat}}
-                {{#isDouble}}
-                std::stod(childTree.second.data());
-                {{/isDouble}}
-                {{#isFloat}}
-                std::stof(childTree.second.data());
-                {{/isFloat}}
-                {{#isInteger}}
-                std::stoi(childTree.second.data());
-                {{/isInteger}}
-                {{#isLong}}
-                std::stol(childTree.second.data());
-                {{/isLong}}
-            {{/isNumeric}}
-            {{#isString}}
-                childTree.second.data();
-            {{/isString}}
-            {{#isModel}}
-                std::make_shared<{{baseType}}>(childTree.second);
-            {{/isModel}}
-            m_{{name}}.emplace_back(std::move(val));
-		    {{/mostInnerItems}}
-		}
+        m_{{{name}}} = fromPt<{{{dataType}}}>(pt.get_child("{{baseName}}"));
 	}
-	{{/isModelContainer}}
-	{{#isModelContainer}}
-	// generate new {{complexType}} Object for each item and assign it to the current
-	if (pt.get_child_optional("{{baseName}}")) {
-		for (const auto &childTree : pt.get_child("{{baseName}}")) {
-		{{#mostInnerItems}}
-			m_{{name}}.emplace_back({{{defaultValue}}});
-			m_{{name}}.back()->fromPropertyTree(childTree.second);
-		{{/mostInnerItems}}
-		}
-	}
-	{{/isModelContainer}}
+    {{/isModelContainer}}
+    {{#isModelContainer}}
+    // generate new {{complexType}} Object for each item and assign it to the current
+    if (pt.get_child_optional("{{baseName}}")) {
+        m_{{{name}}} = fromPt<{{{dataType}}}>(pt.get_child("{{baseName}}"));
+    }
+    {{/isModelContainer}}
+    {{/isMap}}
 	{{/isContainer}}
 	{{/vars}}
 }
 
+{{#isEnum}}
+std::string {{classname}}::toString() const {
+    return boost::lexical_cast<std::string>(getEnumValue());
+}
+
+void {{classname}}::fromString(const std::string& str) {
+    setEnumValue(boost::lexical_cast<{{{dataType}}}>(str));
+}
+
+{{{dataType}}} {{classname}}::getEnumValue() const {
+    return m_{{{name}}}EnumValue;
+}
+
+void {{classname}}::setEnumValue(const {{{dataType}}}& val) {
+    static const std::array<{{#complexType}}{{{.}}}{{/complexType}}{{^complexType}}{{{dataType}}}{{/complexType}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+    if (std::find(allowedValues.begin(), allowedValues.end(), val) != allowedValues.end()) {
+        m_{{{name}}}EnumValue = val;
+    } else {
+        throw std::runtime_error("Value " + boost::lexical_cast<std::string>(val) + " not allowed");
+    }
+}
+{{/isEnum}}
 {{#vars}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
@@ -203,12 +182,42 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
-		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
+	{{#isEnum}}
+    static const std::array<{{#complexType}}{{{.}}}{{/complexType}}{{^complexType}}{{{dataType}}}{{/complexType}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+        {{#allowableValues}}{{#enumVars}}{{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+
+	{{#isContainer}}
+    {{#isMap}}
+    for (const auto &v: value) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v.first) == allowedValues.end()) {
+            throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v.first) + " not allowed");
+        }
+    }
+    m_{{name}} = value;
+    {{/isMap}}
+    {{^isMap}}
+    for (const auto &v: value) {
+        if (std::find(allowedValues.begin(), allowedValues.end(), v) == allowedValues.end()) {
+            throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v) + " not allowed");
+        }
+    }
+    {{/isMap}}
+    {{/isContainer}}
+	{{^isContainer}}
+    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
+		m_{{name}} = value;
 	} else {
-		throw std::runtime_error("Value " + value + " not allowed");
-	}{{/isEnum}}
+		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
+	}
+    {{/isContainer}}
+    {{/isEnum}}
+    {{^isEnum}}
+    m_{{name}} = value;
+    {{/isEnum}}
 }
+
+
 {{/vars}}
 
 std::vector<{{classname}}> create{{classname}}VectorFromJsonString(const std::string& json)

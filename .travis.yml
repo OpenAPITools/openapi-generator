@@ -111,6 +111,8 @@ before_install:
   - cmake --version
   # install Qt5
   #- sudo apt install -y --no-install-recommends qt5-default
+  # install boost
+  - sudo apt install -y --no-install-recommends libboost-all-dev
   # perl dep
   - cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
   - cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Ignored failure from cpanm"
@@ -145,16 +147,6 @@ script:
   - set -e
   # show docker buildx version
   - docker buildx version
-  # fail if the template files contains tabs
-  - /bin/bash ./bin/utils/detect_tab_in_templates.sh
-  # fail if the test files have changes
-  - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
-  # fail if templates/generators contain carriage return '\r'
-  - /bin/bash ./bin/utils/detect_carriage_return.sh
-  # fail if generators contain merge conflicts
-  - /bin/bash ./bin/utils/detect_merge_conflict.sh
-  # fail if generators contain tab '\t'
-  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
@@ -197,7 +189,7 @@ after_success:
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
       docker buildx create --use;
       if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
           echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
       fi;
       if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
@@ -214,7 +206,7 @@ after_success:
       docker buildx create --use;
       docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
       if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest-release ./modules/openapi-generator-cli;
           echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
       fi;
       if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then

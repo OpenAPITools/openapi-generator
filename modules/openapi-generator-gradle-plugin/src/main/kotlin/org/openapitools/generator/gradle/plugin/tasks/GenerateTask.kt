@@ -21,6 +21,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -98,7 +99,8 @@ open class GenerateTask : DefaultTask() {
      * The template directory holding a custom template.
      */
     @Optional
-    @Input
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     val templateDir = project.objects.property<String?>()
 
     /**
@@ -122,7 +124,8 @@ open class GenerateTask : DefaultTask() {
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val configFile = project.objects.property<String>()
 
     /**
@@ -320,7 +323,8 @@ open class GenerateTask : DefaultTask() {
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val ignoreFileOverride = project.objects.property<String?>()
 
     /**
@@ -495,12 +499,14 @@ open class GenerateTask : DefaultTask() {
         }
     }
 
+    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
-        } else CodegenConfigurator()
+        } else createDefaultCodegenConfigurator()
 
         try {
             if (globalProperties.isPresent) {

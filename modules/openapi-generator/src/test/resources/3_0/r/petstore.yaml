@@ -82,7 +82,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
-          explode: false
+          explode: true # change to true for testing purpose
           deprecated: true
           schema:
             type: array
@@ -148,9 +148,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid tag value
-      security:
-        - petstore_auth:
-            - 'read:pets'
+      # comment out for testing purpose
+      #security:
+      #  - petstore_auth:
+      #      - 'read:pets'
       deprecated: true
   '/pet/{petId}':
     get:
@@ -628,6 +629,25 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/path_array/{path_array}/testing:
+    get:
+      tags:
+        - fake
+      summary: test array parameter in path
+      description: ''
+      operationId: fake_path_array
+      parameters:
+        - name: path_array
+          in: path 
+          description: dummy path parameter
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
   /fake/regular_expression:
     get:
       tags:
@@ -676,6 +696,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /fake/set_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test set query parameter
+      description: ''
+      operationId: fake_set_query
+      parameters:
+        - name: set_dummy 
+          in: query 
+          description: set query
+          required: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: array_dummy
+          in: query 
+          description: array query
+          required: true
+          schema:
+            type: array
+            uniqueItems: false
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+  /fake/test_optional_body_parameter:
+    post:
+      tags:
+        - fake
+      summary: Add a new pet to the store (optional body)
+      description: ''
+      operationId: addPetOptional
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '405':
+          description: Invalid input
+      security:
+        - http_auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalPet'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -718,6 +790,34 @@ components:
                     type: string
       description: Pet object that needs to be added to the store
       required: true
+    OptionalPet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        multipart/related:  # message with binary body part
+          schema:
+            type: object
+            properties: # Request parts
+              jsonData:
+                $ref: '#/components/schemas/Pet'
+              binaryDataN2Information:
+                type: string
+                format: binary
+          encoding:
+            jsonData:
+              contentType:  application/json
+            binaryDataN2Information:
+              contentType:  application/vnd.3gpp.ngap
+              headers:
+                Content-Id:
+                  schema:
+                    type: string
+      description: Pet object that needs to be added to the store
+      required: false
   securitySchemes:
     http_auth:
       type : http
@@ -875,6 +975,11 @@ components:
       description: Describes the result of uploading an image resource
       type: object
       properties:
+        set_test:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
         self:
           type: integer
           format: int32
@@ -960,3 +1065,127 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+    OneOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    AnyOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    mammal:
+      oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+    whale:
+      type: object
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+        - className
+    zebra:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+      required:
+        - className
+    Date:
+      description: to test the model name `Date`
+      type: object
+      properties:
+        className:
+          type: string
+        percent_description:
+          description: using % in the description
+          type: string
+        url_property:
+          type: string
+          format: uri
+      required:
+        - className
+        - url_property
+    format_test:
+      type: object
+      required:
+        - number
+        - byte
+        - date
+        - password
+      properties:
+        integer:
+          type: integer
+          maximum: 100
+          minimum: 10
+        int32:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+        int64:
+          type: integer
+          format: int64
+        number:
+          maximum: 543.2
+          minimum: 32.1
+          type: number
+        float:
+          type: number
+          format: float
+          maximum: 987.6
+          minimum: 54.3
+        double:
+          type: number
+          format: double
+          maximum: 123.4
+          minimum: 67.8
+        string:
+          type: string
+          pattern: '/[a-z]/i'
+        byte:
+          type: string
+          format: byte
+        binary:
+          type: string
+          format: binary
+        date:
+          type: string
+          format: date
+          default: 2019-07-19
+        dateTime:
+          type: string
+          format: date-time
+          default: 2015-10-28T14:38:02Z
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        password:
+          type: string
+          format: password
+          maxLength: 64
+          minLength: 10
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros.
+          type: string
+          pattern: '^\d{10}$'
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+          type: string
+          pattern: '/^image_\d{1,3}$/i'

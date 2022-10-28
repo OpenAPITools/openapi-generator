@@ -12,9 +12,20 @@ pet <- Pet$new("name_test",
   status = "available"
 )
 
-pet_api$api_client$username <- ""
-pet_api$api_client$password <- ""
+# no need to set uasername, password and there should be no error
+# since the endpoint can support multi auth schema
+#pet_api$api_client$username <- ""
+#pet_api$api_client$password <- ""
 result <- pet_api$AddPet(pet)
+
+test_that("Test discriminator and mapping", {
+  d <- '{"breed": "bulldog","color":"white","className":"Dog"}'
+  dog <- ApiClient$new()$deserialize(d, "Animal", loadNamespace("petstore"))
+  expect_equal(class(dog)[1], "Dog")
+  expect_equal(dog$breed, "bulldog")
+  expect_equal(dog$color, "white")
+  expect_equal(dog$className, "Dog")
+})
 
 test_that("Test toJSONString", {
   expect_equal(pet_id, 123321)

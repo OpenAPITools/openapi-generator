@@ -330,6 +330,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return apiName;
     }
 
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
     /**
      * Return the golang implementation type for the specified property.
      *
@@ -640,6 +645,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+            }
+
+            // if oneOf contains "time.Time" type
+            if (!addedTimeImport && model.oneOf != null && model.oneOf.contains("time.Time")) {
+                imports.add(createMapping("import", "time"));
+                addedTimeImport = true;
             }
 
             // if oneOf contains "null" type

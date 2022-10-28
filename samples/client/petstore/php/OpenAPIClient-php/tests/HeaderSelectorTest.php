@@ -1,58 +1,70 @@
 <?php
-
 namespace OpenAPI\Client;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * class HeaderSelectorTest
+ *
+ * @package OpenAPI\Client
+ */
 class HeaderSelectorTest extends TestCase
 {
-    public function testSelectingHeaders()
+    /**
+     * @dataProvider headersProvider
+     * @param string[] $accept
+     * @param string   $contentType
+     * @param bool     $isMultiple
+     * @param string[] $expectedHeaders
+     */
+    public function testSelectHeaders(array $accept, string $contentType, bool $isMultiple, array $expectedHeaders): void
     {
         $selector = new HeaderSelector();
-        $headers = $selector->selectHeaders([
-            'application/xml',
-            'application/json'
-        ], []);
-        $this->assertSame('application/json', $headers['Accept']);
 
-        $headers = $selector->selectHeaders([], []);
-        $this->assertArrayNotHasKey('Accept', $headers);
-
-        $header = $selector->selectHeaders([
-            'application/yaml',
-            'application/xml'
-        ], []);
-        $this->assertSame('application/yaml,application/xml', $header['Accept']);
-
-        // test selectHeaderContentType
-        $headers = $selector->selectHeaders([], [
-            'application/xml',
-            'application/json'
-        ]);
-        $this->assertSame('application/json', $headers['Content-Type']);
-
-        $headers = $selector->selectHeaders([], []);
-        $this->assertSame('application/json', $headers['Content-Type']);
-        $headers = $selector->selectHeaders([], [
-            'application/yaml',
-            'application/xml'
-        ]);
-        $this->assertSame('application/yaml,application/xml', $headers['Content-Type']);
+        $headers = $selector->selectHeaders($accept, $contentType, $isMultiple);
+        $this->assertEquals($expectedHeaders, $headers);
     }
 
-    public function testSelectingHeadersForMultipartBody()
+    /**
+     * @return array[][]
+     */
+    public function headersProvider(): array
     {
-        // test selectHeaderAccept
-        $selector = new HeaderSelector();
-        $headers = $selector->selectHeadersForMultipart([
-            'application/xml',
-            'application/json'
-        ]);
-        $this->assertSame('application/json', $headers['Accept']);
-        $this->assertArrayNotHasKey('Content-Type', $headers);
-
-        $headers = $selector->selectHeadersForMultipart([]);
-        $this->assertArrayNotHasKey('Accept', $headers);
-        $this->assertArrayNotHasKey('Content-Type', $headers);
+        return [
+            // array $accept, string $contentType, bool $isMultipart, array $expectedHeaders
+            [
+                [], 'application/xml', false, ['Content-Type' => 'application/xml'],
+            ],
+            [
+                [], 'application/xml', true, [],
+            ],
+            [
+                ['application/xml'], '', false, ['Accept' => 'application/xml', 'Content-Type' => 'application/json'],
+            ],
+            [
+                ['application/xml'], '', true, ['Accept' => 'application/xml'],
+            ],
+            [
+                ['application/xml'], 'application/xml', false, ['Accept' => 'application/xml', 'Content-Type' => 'application/xml'],
+            ],
+            [
+                ['application/xml'], 'application/xml', true, ['Accept' => 'application/xml'],
+            ],
+            [
+                ['application/xml', 'text/html'], 'application/xml', false, ['Accept' => 'application/xml,text/html', 'Content-Type' => 'application/xml'],
+            ],
+            [
+                ['application/json', 'text/html'], 'application/xml', false, ['Accept' => 'application/json', 'Content-Type' => 'application/xml'],
+            ],
+            [
+                ['text/html', 'application/json'], 'application/xml', false, ['Accept' => 'application/json', 'Content-Type' => 'application/xml'],
+            ],
+            [
+                ['application/json;format=flowed'], 'text/plain;format=fixed', false, ['Accept' => 'application/json;format=flowed', 'Content-Type' => 'text/plain;format=fixed'],
+            ],
+            [
+                ['text/html', 'application/json;format=flowed'], 'text/plain;format=fixed', false, ['Accept' => 'application/json;format=flowed', 'Content-Type' => 'text/plain;format=fixed'],
+            ],
+        ];
     }
 }

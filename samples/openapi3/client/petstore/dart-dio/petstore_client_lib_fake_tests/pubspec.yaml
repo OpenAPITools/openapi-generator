@@ -8,8 +8,8 @@ environment:
   sdk: '>=2.10.0 <3.0.0'
 
 dev_dependencies:
-  built_collection: 5.1.0
-  built_value: 8.1.0
+  built_collection: 5.1.1
+  built_value: 8.4.0
   dio: 4.0.1
   http_mock_adapter: 0.3.2
   mockito: 5.0.11

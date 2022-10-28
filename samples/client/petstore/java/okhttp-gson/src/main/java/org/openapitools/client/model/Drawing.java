@@ -43,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -248,9 +249,7 @@ public class Drawing {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Drawing.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }
@@ -274,17 +273,19 @@ public class Drawing {
       if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
       }
-      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
-      if (jsonArrayshapes != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("shapes").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
-        }
+      if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
+        JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+        if (jsonArrayshapes != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("shapes").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
+          }
 
-        // validate the optional field `shapes` (array)
-        for (int i = 0; i < jsonArrayshapes.size(); i++) {
-          Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
-        };
+          // validate the optional field `shapes` (array)
+          for (int i = 0; i < jsonArrayshapes.size(); i++) {
+            Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

@@ -1908,3 +1908,72 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    Pig:
+      nullable: true
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
+    NestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'
+    NestedColor:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/Color'
+    RgbColor:
+      description: RGB three element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 3
+      maxItems: 3
+    RgbaColor:
+      description: RGBA four element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 4
+      maxItems: 4
+    HexColor:
+      description: 'Hex color string, such as #00FF00.'
+      type: string
+      pattern: ^#(?:[0-9a-fA-F]{3}){1,2}$
+      minLength: 7
+      maxLength: 7
+    Color:
+      description: RGB array, RGBA array, or hex string.
+      oneOf:
+      - $ref: '#/components/schemas/RgbColor'
+      - $ref: '#/components/schemas/RgbaColor'
+      - $ref: '#/components/schemas/HexColor'

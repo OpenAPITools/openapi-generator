@@ -1496,6 +1496,10 @@ components:
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
+        uuid_with_default:
+          default: 11111111-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          type: string
         password:
           format: password
           maxLength: 64
@@ -2350,20 +2354,27 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
+      properties:
+        breed:
+          type: string
+      type: object
+    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
       properties:
         color:
           type: string
       type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/Dog_allOf'
       - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
   securitySchemes:
     petstore_auth:
       flows:

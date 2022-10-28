@@ -173,7 +173,7 @@ public class {{classname}} {
 
   public class API{{operationId}}Request {
     {{#allParams}}
-    private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{paramName}};
+    private {{{dataType}}} {{paramName}};
     {{/allParams}}
 
     private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) {

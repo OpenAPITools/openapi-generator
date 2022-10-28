@@ -59,6 +59,11 @@
   infoLink: "https://e.baidu.com"
   pinned: false
 -
+  caption: "Bandwidth"
+  image: "img/companies/bandwidth.png"
+  infoLink: "https://dev.bandwidth.com/"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"
@@ -404,6 +409,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: "PTV Group"
+  image: "img/companies/ptvgroup.png"
+  infoLink: "https://www.myptv.com/"
+  pinned: false  
+-
   caption: Puppet
   image: "img/companies/puppet.svg"
   infoLink: "https://www.puppet.com"
@@ -484,6 +494,11 @@
   infoLink: "https://www.tencent.com/"
   pinned: false
 -
+  caption: TileDB
+  image: "img/companies/tiledb.png"
+  infoLink: "https://www.tiledb.com/"
+  pinned: false
+-
   caption: The University of Aizu
   image: "img/companies/uoa.png"
   infoLink: "https://www.u-aizu.ac.jp/en/"
@@ -502,6 +517,11 @@
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
+  pinned: false
+-
+  caption: "Twilio"
+  image: "img/companies/twilio.png"
+  infoLink: "https://twilio.com"
   pinned: false
 -
   caption: "Twitter"

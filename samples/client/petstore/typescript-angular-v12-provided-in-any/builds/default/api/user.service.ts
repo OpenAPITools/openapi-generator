@@ -144,10 +144,11 @@ export class UserService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
-            body,
+        let localVarPath = `/user`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -209,10 +210,11 @@ export class UserService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
-            body,
+        let localVarPath = `/user/createWithArray`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -274,10 +276,11 @@ export class UserService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
-            body,
+        let localVarPath = `/user/createWithList`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -332,7 +335,8 @@ export class UserService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        let localVarPath = `/user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -390,7 +394,8 @@ export class UserService {
             }
         }
 
-        return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        let localVarPath = `/user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<User>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -462,7 +467,8 @@ export class UserService {
             }
         }
 
-        return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
+        let localVarPath = `/user/login`;
+        return this.httpClient.request<string>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -515,7 +521,8 @@ export class UserService {
             }
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
+        let localVarPath = `/user/logout`;
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -584,10 +591,11 @@ export class UserService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            body,
+        let localVarPath = `/user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

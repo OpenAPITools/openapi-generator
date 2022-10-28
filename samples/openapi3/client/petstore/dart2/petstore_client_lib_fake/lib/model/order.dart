@@ -247,7 +247,7 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'placed': return OrderStatusEnum.placed;
         case r'approved': return OrderStatusEnum.approved;
         case r'delivered': return OrderStatusEnum.delivered;

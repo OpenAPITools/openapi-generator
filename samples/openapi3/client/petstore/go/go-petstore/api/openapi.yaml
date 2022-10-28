@@ -667,6 +667,12 @@ paths:
       responses:
         "400":
           description: Someting wrong
+        "5XX":
+          content:
+            applicatino/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Someting wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -1978,6 +1984,11 @@ components:
           description: a property to test map of file
           type: object
       type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
     _foo_get_default_response:
       example:
         string:
@@ -2126,11 +2137,13 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     NullableAllOf_child:
       allOf:
       - $ref: '#/components/schemas/NullableAllOfChild'
@@ -2141,6 +2154,7 @@ components:
           description: A discriminator value
           type: string
       type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

@@ -44,7 +44,7 @@
 #' @importFrom rlang abort
 {{/useRlangExceptionHandling}}
 #' @export
-ApiClient  <- R6::R6Class(
+ApiClient <- R6::R6Class(
   "ApiClient",
   public = list(
     # base path of all requests
@@ -388,6 +388,20 @@ ApiClient  <- R6::R6Class(
         # To handle model objects which are not array or map containers. Ex:"Pet"
         return_type <- get(return_type, envir = as.environment(pkg_env))
         return_obj <- return_type$new()
+        # check if discriminator is defined
+        if (!is.null(return_obj$`_discriminator_property_name`)) {
+          data_type <- return_obj$`_discriminator_property_name`
+          # use discriminator mapping if provided
+          if (!is.null(return_obj$`_discriminator_mapping_name`)) {
+            data_type <- (return_obj$`_discriminator_mapping_name`)[[obj[[data_type]]]]
+          } else {
+            # no mapping provided, use the value directly
+            data_type <- obj[[data_type]]
+          }
+          # create an object of the mapped type (e.g. Cat)
+          return_type <- get(data_type, envir = as.environment(pkg_env))
+          return_obj <- return_type$new()
+        }
         return_obj$fromJSON(
           jsonlite::toJSON(obj, digits = NA, auto_unbox = TRUE)
         )

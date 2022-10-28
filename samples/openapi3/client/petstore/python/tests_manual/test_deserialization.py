@@ -9,38 +9,32 @@ $ cd OpenAPIPetstore-python
 $ nosetests -v
 """
 from collections import namedtuple
+from decimal import Decimal
 import json
-import os
-import time
+import typing
 import unittest
-import datetime
+
+import urllib3
 
 import petstore_api
-from petstore_api.model import (
-    shape,
-    equilateral_triangle,
-    animal,
-    dog,
-    apple,
-    mammal,
-    whale,
-    zebra,
-    banana,
-    fruit_req,
-    drawing,
-    banana_req,
-    number_with_validations,
-)
+from petstore_api import api_client
+from petstore_api.schemas import NoneClass
 
 
 MockResponse = namedtuple('MockResponse', 'data')
 
 
 class DeserializationTests(unittest.TestCase):
+    json_content_type = 'application/json'
+    json_content_type_headers = {'content-type': json_content_type}
+    configuration = petstore_api.Configuration()
 
-    def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.deserialize = self.api_client.deserialize
+    @classmethod
+    def __response(cls, data: typing.Any) -> urllib3.HTTPResponse:
+        return urllib3.HTTPResponse(
+            json.dumps(data).encode('utf-8'),
+            headers=cls.json_content_type_headers
+        )
 
     def test_deserialize_shape(self):
         """
@@ -54,35 +48,36 @@ class DeserializationTests(unittest.TestCase):
         - SimpleQuadrilateral
         by traveling through 2 discriminators
         """
-        shape_type, triangle_type  = ['Triangle', 'EquilateralTriangle']
-        data = {
-            'shapeType': shape_type,
-            'triangleType': triangle_type,
-        }
-        response = MockResponse(data=json.dumps(data))
-
-        deserialized = self.deserialize(response, (shape.Shape,), True)
-        self.assertTrue(isinstance(deserialized, equilateral_triangle.EquilateralTriangle))
-        self.assertEqual(deserialized.shape_type, shape_type)
-        self.assertEqual(deserialized.triangle_type, triangle_type)
-
-        # invalid second discriminator value
-        shape_type, quadrilateral_type  = ['Quadrilateral', 'Triangle']
-        data = {
-            'shapeType': shape_type,
-            'quadrilateralType': quadrilateral_type,
-        }
-        response = MockResponse(data=json.dumps(data))
-
-        err_msg = ("Cannot deserialize input data due to invalid discriminator "
-            "value. The OpenAPI document has no mapping for discriminator "
-            "property '{}'='{}' at path: ()"
+        from petstore_api.model import shape, equilateral_triangle
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=shape.Shape),
+            },
         )
-        with self.assertRaisesRegex(
-            petstore_api.ApiValueError,
-            err_msg.format("quadrilateralType", "Triangle")
-        ):
-            self.deserialize(response, (shape.Shape,), True)
+        data = {
+            'shapeType': 'Triangle',
+            'triangleType': 'EquilateralTriangle',
+        }
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, equilateral_triangle.EquilateralTriangle))
+        self.assertEqual(body['shapeType'], 'Triangle')
+        self.assertEqual(body['triangleType'], 'EquilateralTriangle')
+
+        # invalid quadrilateralType, second discriminator value
+        data = {
+            'shapeType': 'Quadrilateral',
+            'quadrilateralType': 'Triangle',
+        }
+        response = self.__response(data)
+
+        err_msg = (
+            r"Invalid discriminator value was passed in to Quadrilateral.quadrilateralType Only the values "
+            r"\['ComplexQuadrilateral', 'SimpleQuadrilateral'\] are allowed at \('args\[0\]', 'quadrilateralType'\)"
+        )
+        with self.assertRaisesRegex(petstore_api.ApiValueError, err_msg):
+            _response_for_200.deserialize(response, self.configuration)
 
     def test_deserialize_animal(self):
         """
@@ -91,26 +86,30 @@ class DeserializationTests(unittest.TestCase):
         that inherrit from Animal
         This is the swagger (v2) way of doing something like oneOf composition
         """
-        class_name = 'Dog'
-        color = 'white'
-        breed = 'Jack Russel Terrier'
+        from petstore_api.model import animal, dog
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=animal.Animal),
+            },
+        )
         data = {
-            'className': class_name,
-            'color': color,
-            'breed': breed
+            'className': 'Dog',
+            'color': 'white',
+            'breed': 'Jack Russel Terrier'
         }
-        response = MockResponse(data=json.dumps(data))
-
-        deserialized = self.deserialize(response, (animal.Animal,), True)
-        self.assertTrue(isinstance(deserialized, dog.Dog))
-        self.assertEqual(deserialized.class_name, class_name)
-        self.assertEqual(deserialized.color, color)
-        self.assertEqual(deserialized.breed, breed)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, dog.Dog))
+        self.assertEqual(body['className'], 'Dog')
+        self.assertEqual(body['color'], 'white')
+        self.assertEqual(body['breed'], 'Jack Russel Terrier')
 
     def test_regex_constraint(self):
         """
         Test regex pattern validation.
         """
+        from petstore_api.model import apple
 
         # Test with valid regex pattern.
         inst = apple.Apple(
@@ -118,24 +117,29 @@ class DeserializationTests(unittest.TestCase):
         )
         assert isinstance(inst, apple.Apple)
 
-        # Test with invalid regex pattern in cultivar
-        err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
+        inst = apple.Apple(
+            cultivar="Golden Delicious",
+            origin="cHiLe"
+        )
+        assert isinstance(inst, apple.Apple)
+
+        # Test with invalid regex pattern.
+        err_regex = r"Invalid value `.+?`, must match regular expression `.+?` at \('args\[0\]', 'cultivar'\)"
         with self.assertRaisesRegex(
             petstore_api.ApiValueError,
-            err_msg.format("cultivar", "[^`]*")
+            err_regex
         ):
             inst = apple.Apple(
                 cultivar="!@#%@$#Akane"
             )
 
-        # Test with invalid regex pattern in origin
-        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        err_regex = r"Invalid value `.+?`, must match regular expression `.+?` at \('args\[0\]', 'origin'\)"
         with self.assertRaisesRegex(
             petstore_api.ApiValueError,
-            err_msg.format("origin", "[^`]*")
+            err_regex
         ):
             inst = apple.Apple(
-                cultivar="Akane",
+                cultivar="Golden Delicious",
                 origin="!@#%@$#Chile"
             )
 
@@ -146,6 +150,12 @@ class DeserializationTests(unittest.TestCase):
         """
 
         # whale test
+        from petstore_api.model import mammal, zebra, whale
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=mammal.Mammal),
+            },
+        )
         has_baleen = True
         has_teeth = False
         class_name = 'whale'
@@ -154,12 +164,13 @@ class DeserializationTests(unittest.TestCase):
             'hasTeeth': has_teeth,
             'className': class_name
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (mammal.Mammal,), True)
-        self.assertTrue(isinstance(deserialized, whale.Whale))
-        self.assertEqual(deserialized.has_baleen, has_baleen)
-        self.assertEqual(deserialized.has_teeth, has_teeth)
-        self.assertEqual(deserialized.class_name, class_name)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, whale.Whale))
+        self.assertEqual(bool(body['hasBaleen']), has_baleen)
+        self.assertEqual(bool(body['hasTeeth']), has_teeth)
+        self.assertEqual(body.className, class_name)
 
         # zebra test
         zebra_type = 'plains'
@@ -168,47 +179,64 @@ class DeserializationTests(unittest.TestCase):
             'type': zebra_type,
             'className': class_name
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (mammal.Mammal,), True)
-        self.assertTrue(isinstance(deserialized, zebra.Zebra))
-        self.assertEqual(deserialized.type, zebra_type)
-        self.assertEqual(deserialized.class_name, class_name)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, zebra.Zebra))
+        self.assertEqual(body['type'], zebra_type)
+        self.assertEqual(body.className, class_name)
 
     def test_deserialize_float_value(self):
         """
         Deserialize floating point values.
         """
+        from petstore_api.model import banana
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=banana.Banana),
+            },
+        )
         data = {
           'lengthCm': 3.1415
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (banana.Banana,), True)
-        self.assertTrue(isinstance(deserialized, banana.Banana))
-        self.assertEqual(deserialized.length_cm, 3.1415)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, banana.Banana))
+        self.assertTrue(isinstance(body.lengthCm, Decimal))
+        self.assertEqual(body.lengthCm, 3.1415)
 
-        # Float value is serialized without decimal point
+        """
+        Float value is serialized without decimal point
+        The client receive it as an integer, which work because Banana.lengthCm is type number without format
+        Which accepts int AND float
+        """
         data = {
           'lengthCm': 3
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (banana.Banana,), True)
-        self.assertTrue(isinstance(deserialized, banana.Banana))
-        self.assertEqual(deserialized.length_cm, 3.0)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, banana.Banana))
+        self.assertTrue(isinstance(body.lengthCm, Decimal))
+        self.assertEqual(body.lengthCm, 3)
 
     def test_deserialize_fruit_null_value(self):
         """
         deserialize fruit with null value.
         fruitReq is a oneOf composed schema model with discriminator, including 'null' type.
         """
-
-        # Unmarshal 'null' value
+        from petstore_api.model import fruit_req
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=fruit_req.FruitReq),
+            },
+        )
         data = None
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (fruit_req.FruitReq, type(None)), True)
-        self.assertEqual(type(deserialized), type(None))
-
-        inst = fruit_req.FruitReq(None)
-        self.assertIsNone(inst)
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        self.assertTrue(isinstance(deserialized.body, fruit_req.FruitReq))
+        self.assertTrue(isinstance(deserialized.body, NoneClass))
 
     def test_deserialize_with_additional_properties(self):
         """
@@ -223,6 +251,7 @@ class DeserializationTests(unittest.TestCase):
         # The additionalProperties keyword is used to control the handling of extra stuff,
         # that is, properties whose names are not listed in the properties keyword.
         # By default any additional properties are allowed.
+        from petstore_api.model import dog, mammal, zebra, banana_req
         data = {
             'className': 'Dog',
             'color': 'brown',
@@ -231,37 +260,56 @@ class DeserializationTests(unittest.TestCase):
             'group': 'Terrier Group',
             'size': 'medium',
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (dog.Dog,), True)
-        self.assertEqual(type(deserialized), dog.Dog)
-        self.assertEqual(deserialized.class_name, 'Dog')
-        self.assertEqual(deserialized.breed, 'golden retriever')
+        response = self.__response(data)
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=dog.Dog),
+            },
+        )
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, dog.Dog))
+        self.assertEqual(body['className'], 'Dog')
+        self.assertEqual(body['color'], 'brown')
+        self.assertEqual(body['breed'], 'golden retriever')
+        self.assertEqual(body['group'], 'Terrier Group')
+        self.assertEqual(body['size'], 'medium')
 
         # The 'zebra' schema allows additional properties by explicitly setting
         # additionalProperties: true.
         # This is equivalent to 'additionalProperties' not being present.
         data = {
-            'class_name': 'zebra',
+            'className': 'zebra',
             'type': 'plains',
             # Below are additional, undeclared properties
             'group': 'abc',
             'size': 3,
             'p1': True,
-            'p2': [ 'a', 'b', 123],
+            'p2': ['a', 'b', 123],
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (mammal.Mammal,), True)
-        self.assertEqual(type(deserialized), zebra.Zebra)
-        self.assertEqual(deserialized.class_name, 'zebra')
-        self.assertEqual(deserialized.type, 'plains')
-        self.assertEqual(deserialized.p1, True)
+        response = self.__response(data)
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=mammal.Mammal),
+            },
+        )
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        body = deserialized.body
+        self.assertTrue(isinstance(body, zebra.Zebra))
+        self.assertEqual(body['className'], 'zebra')
+        self.assertEqual(body['type'], 'plains')
+        self.assertEqual(bool(body['p1']), True)
 
         # The 'bananaReq' schema disallows additional properties by explicitly setting
         # additionalProperties: false
-        err_msg = ("{} has no attribute '{}' at ")
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=banana_req.BananaReq),
+            },
+        )
         with self.assertRaisesRegex(
-            petstore_api.exceptions.ApiAttributeError,
-            err_msg.format("BananaReq", "unknown-group")
+            petstore_api.exceptions.ApiTypeError,
+            r"BananaReq was passed 1 invalid argument: \['unknown-group'\]"
         ):
             data = {
                 'lengthCm': 21.2,
@@ -270,58 +318,141 @@ class DeserializationTests(unittest.TestCase):
                 # an exception must be raised.
                 'unknown-group': 'abc',
             }
-            response = MockResponse(data=json.dumps(data))
-            deserialized = self.deserialize(response, (banana_req.BananaReq,), True)
-            self.assertEqual(type(deserialized), banana_req.BananaReq)
-            self.assertEqual(deserialized.lengthCm, 21)
-            self.assertEqual(deserialized.p1, True)
+            response = self.__response(data)
+            _response_for_200.deserialize(response, self.configuration)
 
     def test_deserialize_with_additional_properties_and_reference(self):
         """
         Deserialize data with schemas that has the additionalProperties keyword
         and the schema is specified as a reference ($ref).
         """
+        from petstore_api.model import drawing
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=drawing.Drawing),
+            },
+        )
         data = {
-            'main_shape': {
-                'shape_type': 'Triangle',
-                'triangle_type': 'EquilateralTriangle',
+            'mainShape': {
+                'shapeType': 'Triangle',
+                'triangleType': 'EquilateralTriangle',
             },
             'shapes': [
                 {
-                    'shape_type': 'Triangle',
-                    'triangle_type': 'IsoscelesTriangle',
+                    'shapeType': 'Triangle',
+                    'triangleType': 'IsoscelesTriangle',
                 },
                 {
-                    'shape_type': 'Quadrilateral',
-                    'quadrilateral_type': 'ComplexQuadrilateral',
+                    'shapeType': 'Quadrilateral',
+                    'quadrilateralType': 'ComplexQuadrilateral',
                 },
             ],
+            'an_additional_prop': {
+                'lengthCm': 4,
+                'color': 'yellow'
+            }
         }
-        response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (drawing.Drawing,), True)
+        response = self.__response(data)
+        _response_for_200.deserialize(response, self.configuration)
 
     def test_deserialize_NumberWithValidations(self):
-        """ deserialize NumberWithValidations """
+        from petstore_api.model.number_with_validations import NumberWithValidations
+        from petstore_api.paths.fake_refs_number.post import _response_for_200
+
         # make sure that an exception is thrown on an invalid type value
         with self.assertRaises(petstore_api.ApiTypeError):
-            self.deserialize(
-                MockResponse(data=json.dumps("test str")),
-                (number_with_validations.NumberWithValidations,),
-                True
-            )
+            response = self.__response('test str')
+            _response_for_200.deserialize(response, self.configuration)
 
         # make sure that an exception is thrown on an invalid value
         with self.assertRaises(petstore_api.ApiValueError):
-            self.deserialize(
-                MockResponse(data=json.dumps(21.0)),
-                (number_with_validations.NumberWithValidations,),
-                True
-            )
+            response = self.__response(21.0)
+            _response_for_200.deserialize(response, self.configuration)
 
         # valid value works
         number_val = 11.0
-        response = MockResponse(data=json.dumps(number_val))
-        number = self.deserialize(response,
-            (number_with_validations.NumberWithValidations,), True)
-        self.assertTrue(isinstance(number, number_with_validations.NumberWithValidations))
-        self.assertTrue(number.value == number_val)
+        response = self.__response(number_val)
+        response = _response_for_200.deserialize(response, self.configuration)
+        self.assertTrue(isinstance(response.body, NumberWithValidations))
+        self.assertEqual(response.body, number_val)
+
+    def test_array_of_enums(self):
+        from petstore_api.model.array_of_enums import ArrayOfEnums
+        from petstore_api.paths.fake_refs_array_of_enums.post import _response_for_200
+        from petstore_api.model import string_enum
+        data = ["placed", None]
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        assert isinstance(deserialized.body, ArrayOfEnums)
+        expected_results = ArrayOfEnums([string_enum.StringEnum(v) for v in data])
+        assert expected_results == deserialized.body
+
+    def test_multiple_of_deserialization(self):
+        data = {
+            'byte': '3',
+            'date': '1970-01-01',
+            'password': "abcdefghijkl",
+            'integer': 30,
+            'number': 65.0,
+            'float': 62.4,
+        }
+        from petstore_api.model import format_test
+        _response_for_200 = api_client.OpenApiResponse(
+            content={
+                self.json_content_type: api_client.MediaType(schema=format_test.FormatTest),
+            },
+        )
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, self.configuration)
+        self.assertTrue(isinstance(deserialized.body, format_test.FormatTest))
+
+        with self.assertRaisesRegex(
+            petstore_api.exceptions.ApiValueError,
+            r"Invalid value `31`, value must be a multiple of `2` at \('args\[0\]', 'integer'\)"
+        ):
+            data = {
+                'byte': '3',
+                'date': '1970-01-01',
+                'password': "abcdefghijkl",
+                'integer': 31,  # Value is supposed to be multiple of '2'. An error must be raised
+                'number': 65.0,
+                'float': 62.4,
+            }
+            response = self.__response(data)
+            _response_for_200.deserialize(response, self.configuration)
+
+        # Disable JSON schema validation. No error should be raised during deserialization.
+        configuration = petstore_api.Configuration()
+        configuration.disabled_client_side_validations = "multipleOf"
+
+        data = {
+            'byte': '3',
+            'date': '1970-01-01',
+            'password': "abcdefghijkl",
+            'integer': 31, # Value is supposed to be multiple of '2'
+            'number': 65.0,
+            'float': 62.4,
+        }
+        response = self.__response(data)
+        deserialized = _response_for_200.deserialize(response, configuration)
+        self.assertTrue(isinstance(deserialized.body, format_test.FormatTest))
+
+        # Disable JSON schema validation but for a different keyword.
+        # An error should be raised during deserialization.
+        configuration = petstore_api.Configuration()
+        configuration.disabled_client_side_validations = "maxItems"
+
+        with self.assertRaisesRegex(
+            petstore_api.exceptions.ApiValueError,
+            r"Invalid value `31`, value must be a multiple of `2` at \('args\[0\]', 'integer'\)"
+        ):
+            data = {
+                'byte': '3',
+                'date': '1970-01-01',
+                'password': "abcdefghijkl",
+                'integer': 31, # Value is supposed to be multiple of '2'
+                'number': 65.0,
+                'float': 62.4,
+            }
+            response = self.__response(data)
+            _response_for_200.deserialize(response, configuration)

@@ -61,7 +61,7 @@ Each operation can use different server URL defined using `OperationServers` map
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
+```golang
 ctx := context.WithValue(context.Background(), petstore.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
@@ -168,6 +168,7 @@ Class | Method | HTTP request | Description
  - [NumberOnly](docs/NumberOnly.md)
  - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
  - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
+ - [OneOfPrimitiveTypes](docs/OneOfPrimitiveTypes.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

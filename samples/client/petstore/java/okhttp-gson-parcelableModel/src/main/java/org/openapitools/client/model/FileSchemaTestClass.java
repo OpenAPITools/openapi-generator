@@ -41,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -200,9 +201,7 @@ public class FileSchemaTestClass implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (FileSchemaTestClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
@@ -218,17 +217,19 @@ public class FileSchemaTestClass implements Parcelable {
       if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
-      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      if (jsonArrayfiles != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("files").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
-        }
+      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
+        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        if (jsonArrayfiles != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("files").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+          }
 
-        // validate the optional field `files` (array)
-        for (int i = 0; i < jsonArrayfiles.size(); i++) {
-          ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
-        };
+          // validate the optional field `files` (array)
+          for (int i = 0; i < jsonArrayfiles.size(); i++) {
+            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 
