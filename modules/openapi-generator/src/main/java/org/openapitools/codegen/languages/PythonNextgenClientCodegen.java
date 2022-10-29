@@ -743,26 +743,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
             }
 
-            /* TODO return type
-            operation.returnType
+            // update typing import for operation return type
+            if (!StringUtils.isEmpty(operation.returnType)) {
+                String typing = getPydanticType(operation.returnProperty, typingImports, pydanticImports, datetimeImports, modelImports);
+            }
 
-            List<CodegenResponse> responses = operation.responses;
-            if (responses != null) {
-                for (CodegenResponse resp : responses) {
-                    if (resp.is2xx) {
-
-                    }
-                }
-            }*/
-
-            // set the extensions if the key is absent
-            //model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
-            //model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
-            //model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
-
-            //if (hasModelsToImport || !StringUtils.isEmpty(model.parent)) {
-            //    model.vendorExtensions.put("x-py-import-models", true);
-            //}
         }
 
         List<Map<String, String>> newImports = new ArrayList<>();

@@ -17,6 +17,8 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
+from petstore_api import models
+from petstore_api.models import FooGetDefaultResponse
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -38,7 +40,7 @@ class DefaultApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def foo_get(self, **kwargs):  # noqa: E501
+    def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an

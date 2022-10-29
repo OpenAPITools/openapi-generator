@@ -44,7 +44,7 @@ class UserApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def create_user(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
+    def create_user(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs) -> None:  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -183,7 +183,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_array_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_array_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -322,7 +322,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_list_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_list_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -461,7 +461,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_user(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs):  # noqa: E501
+    def delete_user(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs) -> None:  # noqa: E501
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -592,7 +592,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def get_user_by_name(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs):  # noqa: E501
+    def get_user_by_name(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> User:  # noqa: E501
         """Get user by user name  # noqa: E501
 
           # noqa: E501
@@ -731,7 +731,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def login_user(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs):  # noqa: E501
+    def login_user(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs) -> str:  # noqa: E501
         """Logs user into the system  # noqa: E501
 
           # noqa: E501
@@ -876,7 +876,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def logout_user(self, **kwargs):  # noqa: E501
+    def logout_user(self, **kwargs) -> None:  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
           # noqa: E501
@@ -1000,7 +1000,7 @@ class UserApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
+    def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs) -> None:  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501

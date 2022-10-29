@@ -42,7 +42,7 @@ class FakeClassnameTags123Api(object):
         self.api_client = api_client
 
     @validate_arguments
-    def test_classname(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_classname(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501

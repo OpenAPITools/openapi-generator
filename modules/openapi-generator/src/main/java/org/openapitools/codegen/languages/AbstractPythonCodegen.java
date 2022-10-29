@@ -85,7 +85,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
         typeMapping.put("set", "list");
-        typeMapping.put("map", "dict");
+        typeMapping.put("map", "Dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
@@ -130,7 +130,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
 
-            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }

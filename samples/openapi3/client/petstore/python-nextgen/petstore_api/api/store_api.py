@@ -17,7 +17,9 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr, conint
+from pydantic import Field, StrictInt, StrictStr, conint
+
+from typing import Dict
 
 from petstore_api import models
 from petstore_api.models import Order
@@ -42,7 +44,7 @@ class StoreApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def delete_order(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], **kwargs):  # noqa: E501
+    def delete_order(self, order_id : Annotated[StrictStr, Field(..., description="ID of the order that needs to be deleted")], **kwargs) -> None:  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -173,7 +175,7 @@ class StoreApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def get_inventory(self, **kwargs):  # noqa: E501
+    def get_inventory(self, **kwargs) -> Dict[str, int]:  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
         Returns a map of status codes to quantities  # noqa: E501
@@ -196,7 +198,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: dict(str, int)
+        :rtype: Dict[str, int]
         """
         kwargs['_return_http_data_only'] = True
         return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
@@ -233,7 +235,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Dict[str, int], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -282,7 +284,7 @@ class StoreApi(object):
         auth_settings = ['api_key']  # noqa: E501
 
         response_types_map = {
-            200: "dict(str, int)",
+            200: "Dict[str, int]",
         }
 
         return self.api_client.call_api(
@@ -303,7 +305,7 @@ class StoreApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def get_order_by_id(self, order_id : Annotated[conint(strict=True, ge=5, le=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs):  # noqa: E501
+    def get_order_by_id(self, order_id : Annotated[conint(strict=True, ge=5, le=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> Order:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -442,7 +444,7 @@ class StoreApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs):  # noqa: E501
+    def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs) -> Order:  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
           # noqa: E501

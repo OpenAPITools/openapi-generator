@@ -24,7 +24,7 @@ from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, confl
 from typing import Dict, List, Optional
 
 from petstore_api import models
-from petstore_api.models import Client, FileSchemaTestClass, OuterComposite, Pet, User
+from petstore_api.models import Client, FileSchemaTestClass, HealthCheckResult, OuterComposite, Pet, User
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
@@ -46,7 +46,7 @@ class FakeApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def fake_health_get(self, **kwargs):  # noqa: E501
+    def fake_health_get(self, **kwargs) -> HealthCheckResult:  # noqa: E501
         """Health check endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -174,7 +174,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs):  # noqa: E501
+    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> None:  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -325,7 +325,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> bool:  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
@@ -470,7 +470,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> OuterComposite:  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -615,7 +615,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_number_serialize(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_number_serialize(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs) -> float:  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
@@ -760,7 +760,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs):  # noqa: E501
+    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
@@ -905,7 +905,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs):  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1044,7 +1044,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs) -> None:  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1183,7 +1183,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs) -> None:  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1327,7 +1327,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -1472,7 +1472,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -1702,7 +1702,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs):  # noqa: E501
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1868,7 +1868,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs):  # noqa: E501
+    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -1879,7 +1879,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: dict(str, str)
+        :type request_body: Dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1910,7 +1910,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: dict(str, str)
+        :type request_body: Dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2007,7 +2007,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs):  # noqa: E501
+    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs) -> None:  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
@@ -2153,7 +2153,7 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_query_parameter_collection_format(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -2176,7 +2176,7 @@ class FakeApi(object):
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: dict(str, str)
+        :type language: Dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2219,7 +2219,7 @@ class FakeApi(object):
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: dict(str, str)
+        :type language: Dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
