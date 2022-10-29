@@ -2,18 +2,12 @@
 
 # flake8: noqa
 
-"""
-Run the tests.
-$ pip install nose (optional)
-$ cd petstore_api-python
-$ nosetests -v
-"""
-
 import os
 import time
 import unittest
 
 import petstore_api
+import json
 from pydantic import ValidationError
 
 
@@ -103,6 +97,12 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet2.tags[0].name, "None")
         self.assertEqual(pet2.category.id, 1)
 
+    def test_unpack_operator(self):
+        d = {"name": "required name", "id": 123, "photoUrls": ["https://a.com", "https://b.com"]}
+        pet = petstore_api.Pet(**d)
+        self.assertEqual(pet.to_json(), '{"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
+        self.assertEqual(pet.to_dict(), {"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
+
     def test_optional_fields(self):
         pet = petstore_api.Pet(name="required name",
                                photoUrls=["https://a.com",
@@ -123,7 +123,12 @@ class PetModelTests(unittest.TestCase):
         self.assertTrue(isinstance(dog2, petstore_api.Animal))
 
     def test_oneOf(self):
-        # succeeded
+        # test new Pig
+        new_pig = petstore_api.Pig()
+        self.assertEqual("null", new_pig.to_json())
+        self.assertEqual(None, new_pig.actual_instance)
+
+        # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.Pig.from_json(json_str)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
@@ -168,7 +173,12 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(nested2.to_json(), nested_json)
 
     def test_anyOf(self):
-        # succeeded
+        # test new AnyOfPig
+        new_anypig = petstore_api.AnyOfPig()
+        self.assertEqual("null", new_anypig.to_json())
+        self.assertEqual(None, new_anypig.actual_instance)
+
+        # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.AnyOfPig.from_json(json_str)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
@@ -203,3 +213,5 @@ class PetModelTests(unittest.TestCase):
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+    def test_json(self):
+        self.assertEqual("null", json.dumps(None))

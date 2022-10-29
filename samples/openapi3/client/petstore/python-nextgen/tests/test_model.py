@@ -2,12 +2,6 @@
 
 # flake8: noqa
 
-"""
-Run the tests.
-$ pip install nose (optional)
-$ cd petstore_api-python
-$ nosetests -v
-"""
 
 import os
 import time

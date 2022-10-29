@@ -105,14 +105,14 @@ class Pig(BaseModel):
         if self.actual_instance is not None:
             return self.actual_instance.to_json()
         else:
-            return None
+            return "null"
 
     def to_dict(self) -> dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is not None:
             return self.actual_instance.to_dict()
         else:
-            return None
+            return dict()
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

@@ -34,16 +34,16 @@ class Configuration(object):
     Ref: https://openapi-generator.tech
     Do not edit the class manually.
 
-    :param host: Base url
+    :param host: Base url.
     :param api_key: Dict to store API key(s).
       Each entry in the dict specifies an API key.
       The dict key is the name of the security scheme in the OAS specification.
       The dict value is the API key secret.
-    :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
+    :param api_key_prefix: Dict to store API prefix (e.g. Bearer).
       The dict key is the name of the security scheme in the OAS specification.
       The dict value is an API key prefix when generating the auth data.
-    :param username: Username for HTTP basic authentication
-    :param password: Password for HTTP basic authentication
+    :param username: Username for HTTP basic authentication.
+    :param password: Password for HTTP basic authentication.
     :param discard_unknown_keys: Boolean value indicating whether to discard
       unknown properties. A server may send a response that includes additional
       properties that are not known by the client in the following scenarios:
@@ -80,7 +80,7 @@ class Configuration(object):
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum values before.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
-      in PEM format
+      in PEM format.
 
     :Example:
 
