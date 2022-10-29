@@ -201,7 +201,7 @@ class ApiClient(object):
             match = None
             content_type = response_data.getheader('content-type')
             if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
             encoding = match.group(1) if match else "utf-8"
             response_data.data = response_data.data.decode(encoding)
 
@@ -293,12 +293,12 @@ class ApiClient(object):
 
         if type(klass) == str:
             if klass.startswith('list['):
-                sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
+                sub_kls = re.match(r'list\[(.*)]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
             if klass.startswith('Dict['):
-                sub_kls = re.match(r'Dict\[([^,]*), (.*)\]', klass).group(2)
+                sub_kls = re.match(r'Dict\[([^,]*), (.*)]', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in data.items()}
 
