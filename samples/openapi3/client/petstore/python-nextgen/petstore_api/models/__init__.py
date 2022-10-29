@@ -31,6 +31,7 @@ from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog_all_of import DogAllOf
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file import File
 from petstore_api.models.foo import Foo
 from petstore_api.models.format_test import FormatTest
@@ -59,7 +60,6 @@ from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass

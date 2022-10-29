@@ -1600,14 +1600,14 @@ components:
           enum:
             - 1.1
             - -1.2
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
-        outerEnumInteger:
-          $ref: '#/components/schemas/OuterEnumInteger'
-        outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
-        outerEnumIntegerDefaultValue:
-          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+              #outerEnum:
+              #  $ref: '#/components/schemas/OuterEnum'
+              #outerEnumInteger:
+              #  $ref: '#/components/schemas/OuterEnumInteger'
+              #outerEnumDefaultValue:
+              #  $ref: '#/components/schemas/OuterEnumDefaultValue'
+              #outerEnumIntegerDefaultValue:
+              #  $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
     AdditionalPropertiesClass:
       type: object
       properties:
