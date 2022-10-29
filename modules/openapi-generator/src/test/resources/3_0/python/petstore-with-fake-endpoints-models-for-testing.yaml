@@ -1564,13 +1564,13 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
-    #EnumClass:
-    #  type: string
-    #  default: '-efg'
-    #  enum:
-    #    - _abc
-    #    - '-efg'
-    #    - (xyz)
+    EnumClass:
+      type: string
+      default: '-efg'
+      enum:
+        - _abc
+        - '-efg'
+        - (xyz)
     Enum_Test:
       type: object
       required:
@@ -1743,21 +1743,21 @@ components:
             type: array
             items:
               type: number
-    #EnumArrays:
-    #  type: object
-    #  properties:
-    #    just_symbol:
-    #      type: string
-    #      enum:
-    #        - '>='
-    #        - $
-    #    array_enum:
-    #      type: array
-    #      items:
-    #        type: string
-    #        enum:
-    #          - fish
-    #          - crab
+    EnumArrays:
+      type: object
+      properties:
+        just_symbol:
+          type: string
+          enum:
+            - '>='
+            - $
+        array_enum:
+          type: array
+          items:
+            type: string
+            enum:
+              - fish
+              - crab
     OuterEnum:
       nullable: true
       type: string
@@ -1897,15 +1897,15 @@ components:
       additionalProperties:
         type: object
         nullable: true
-    #OuterObjectWithEnumProperty:
-    #  type: object
-    #  example:
-    #    value: 2
-    #  required:
-    #    - value
-    #  properties:
-    #    value:
-    #      $ref: '#/components/schemas/OuterEnumInteger'
+    OuterObjectWithEnumProperty:
+      type: object
+      example:
+        value: 2
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/OuterEnumInteger'
     DeprecatedObject:
       type: object
       deprecated: true
