@@ -10,10 +10,7 @@
 """
 
 
-try:
-    from inspect import getfullargspec
-except ImportError:
-    from inspect import getargspec as getfullargspec
+from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg

@@ -1,8 +1,5 @@
 from __future__ import annotations
-try:
-    from inspect import getfullargspec
-except ImportError:
-    from inspect import getargspec as getfullargspec
+from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}

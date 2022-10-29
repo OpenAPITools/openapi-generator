@@ -11,10 +11,7 @@
 
 
 from __future__ import annotations
-try:
-    from inspect import getfullargspec
-except ImportError:
-    from inspect import getargspec as getfullargspec
+from inspect import getfullargspec
 import pprint
 import json
 import re  # noqa: F401
