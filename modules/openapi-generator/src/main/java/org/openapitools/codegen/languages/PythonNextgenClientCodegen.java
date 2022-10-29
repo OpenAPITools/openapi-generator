@@ -745,7 +745,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
-                String typing = getPydanticType(operation.returnProperty, typingImports, pydanticImports, datetimeImports, modelImports);
+                String typing = getPydanticType(operation.returnProperty, typingImports,
+                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports);
             }
 
         }
