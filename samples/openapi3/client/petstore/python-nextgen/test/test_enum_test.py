@@ -16,11 +16,11 @@ import unittest
 import datetime
 
 import petstore_api
-from petstore_api.models.category import Category  # noqa: E501
+from petstore_api.models.enum_test import EnumTest  # noqa: E501
 from petstore_api.rest import ApiException
 
-class TestCategory(unittest.TestCase):
-    """Category unit test stubs"""
+class TestEnumTest(unittest.TestCase):
+    """EnumTest unit test stubs"""
 
     def setUp(self):
         pass
@@ -29,23 +29,29 @@ class TestCategory(unittest.TestCase):
         pass
 
     def make_instance(self, include_optional):
-        """Test Category
+        """Test EnumTest
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.category.Category()  # noqa: E501
+        # model = petstore_api.models.enum_test.EnumTest()  # noqa: E501
         if include_optional :
-            return Category(
-                id = 56, 
-                name = 'default-name'
+            return EnumTest(
+                enum_string = 'UPPER', 
+                enum_string_required = 'UPPER', 
+                enum_integer = 1, 
+                enum_number = 1.1, 
+                outer_enum = 'placed', 
+                outer_enum_integer = 2, 
+                outer_enum_default_value = 'placed', 
+                outer_enum_integer_default_value = 0
             )
         else :
-            return Category(
-                name = 'default-name',
+            return EnumTest(
+                enum_string_required = 'UPPER',
         )
 
-    def testCategory(self):
-        """Test Category"""
+    def testEnumTest(self):
+        """Test EnumTest"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

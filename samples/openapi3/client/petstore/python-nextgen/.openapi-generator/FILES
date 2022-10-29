@@ -23,6 +23,7 @@ docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
+docs/EnumTest.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/File.md
@@ -43,6 +44,9 @@ docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
+docs/OuterEnum.md
+docs/OuterEnumDefaultValue.md
+docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetApi.md
@@ -88,6 +92,7 @@ petstore_api/models/danish_pig.py
 petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
 petstore_api/models/dog_all_of.py
+petstore_api/models/enum_test.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
 petstore_api/models/foo.py
@@ -106,6 +111,9 @@ petstore_api/models/number_only.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
+petstore_api/models/outer_enum.py
+petstore_api/models/outer_enum_default_value.py
+petstore_api/models/outer_enum_integer.py
 petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
@@ -121,3 +129,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_enum_test.py

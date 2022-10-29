@@ -28,28 +28,28 @@ class DeserializationTests(unittest.TestCase):
         self.api_client = petstore_api.ApiClient()
         self.deserialize = self.api_client.deserialize
 
-    # def test_enum_test(self):
-    #    """ deserialize Dict[str, EnumTest] """
-    #    data = {
-    #        'enum_test': {
-    #            "enum_string": "UPPER",
-    #            "enum_string_required": "lower",
-    #            "enum_integer": 1,
-    #            "enum_number": 1.1,
-    #            "outerEnum": "placed"
-    #        }
-    #    }
-    #    response = MockResponse(data=json.dumps(data))
+    def test_enum_test(self):
+       """ deserialize Dict[str, EnumTest] """
+       data = {
+           'enum_test': {
+               "enum_string": "UPPER",
+               "enum_string_required": "lower",
+               "enum_integer": 1,
+               "enum_number": 1.1,
+               "outerEnum": "placed"
+           }
+       }
+       response = MockResponse(data=json.dumps(data))
 
-    #    deserialized = self.deserialize(response, 'Dict[str, EnumTest]')
-    #    self.assertTrue(isinstance(deserialized, dict))
-    #    self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
-    #    self.assertEqual(deserialized['enum_test'],
-    #                     petstore_api.EnumTest(enum_string="UPPER",
-    #                                           enum_string_required="lower",
-    #                                           enum_integer=1,
-    #                                           enum_number=1.1,
-    #                                           outer_enum=petstore_api.OuterEnum.PLACED))
+       deserialized = self.deserialize(response, 'Dict[str, EnumTest]')
+       self.assertTrue(isinstance(deserialized, dict))
+       self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
+       self.assertEqual(deserialized['enum_test'],
+                        petstore_api.EnumTest(enum_string="UPPER",
+                                              enum_string_required="lower",
+                                              enum_integer=1,
+                                              enum_number=1.1,
+                                              outer_enum=petstore_api.OuterEnum.PLACED))
 
     def test_deserialize_dict_str_pet(self):
         """ deserialize Dict[str, Pet] """

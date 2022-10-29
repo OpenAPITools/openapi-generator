@@ -64,6 +64,9 @@ from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.single_ref_type import SingleRefType
@@ -75,6 +78,7 @@ from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
+from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass

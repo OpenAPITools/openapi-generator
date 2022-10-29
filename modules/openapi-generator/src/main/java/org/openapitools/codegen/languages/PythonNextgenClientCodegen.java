@@ -714,7 +714,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add("unique_items=True");
                 }
 
-                /*
+                /* TODO support example
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format("example=%s", cp.getExample()));
                 }*/

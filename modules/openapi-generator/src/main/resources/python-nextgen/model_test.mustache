@@ -21,7 +21,7 @@ class Test{{classname}}(unittest.TestCase):
 
     def tearDown(self):
         pass
-{{^interfaces}}
+{{^isEnum}}
 
     def make_instance(self, include_optional):
         """Test {{classname}}
@@ -43,20 +43,17 @@ class Test{{classname}}(unittest.TestCase):
 {{/required}}
 {{/vars}}
         )
-{{/interfaces}}
+{{/isEnum}}
 
     def test{{classname}}(self):
         """Test {{classname}}"""
-{{^interfaces}}
-        #inst_req_only = self.make_instance(include_optional=False)
-        #inst_req_and_optional = self.make_instance(include_optional=True)
-{{/interfaces}}
-{{#interfaces}}
-{{#-last}}
+{{^isEnum}}
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
-{{/-last}}
-{{/interfaces}}
+{{/isEnum}}
+{{#isEnum}}
+        # inst = {{{classname}}}()
+{{/isEnum}}
 {{/model}}
 {{/models}}
 
