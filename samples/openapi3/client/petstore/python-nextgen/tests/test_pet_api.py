@@ -76,10 +76,16 @@ class PetApiTests(unittest.TestCase):
         self.pet.category = self.category
         self.pet.tags = [self.tag]
 
+        self.pet2 = petstore_api.Pet(name="hello kity 2", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet2.id = id_gen() + 1
+        self.pet2.status = "available"
+        self.pet2.category = self.category
+        self.pet2.tags = [self.tag]
+
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
-        self.foo = os.path.join(self.test_file_dir, "foo.png")
+        self.foo = os.path.join(self.test_file_dir, "pix.gif")
 
     def test_preload_content_flag(self):
         self.pet_api.add_pet(self.pet)
@@ -215,11 +221,14 @@ class PetApiTests(unittest.TestCase):
 
     def test_find_pets_by_status(self):
         self.pet_api.add_pet(self.pet)
+        self.pet_api.add_pet(self.pet2)
 
-        self.assertIn(
-            self.pet.id,
-            list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_status(status=[self.pet.status])))
-        )
+        results = self.pet_api.find_pets_by_status(status=["pending", "available"])
+        self.assertIsInstance(results, list)
+        self.assertTrue(len(results) > 1)
+        # TODO
+        #for result in results:
+        #    self.assertTrue(result.status in ["sold", "available"])
 
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(self.pet)
@@ -232,7 +241,7 @@ class PetApiTests(unittest.TestCase):
     def test_update_pet_with_form(self):
         self.pet_api.add_pet(self.pet)
 
-        name = "hello kity with form updated"
+        name = "hello kity with form updated abc"
         status = "pending"
         self.pet_api.update_pet_with_form(pet_id=self.pet.id, name=name, status=status)
 
@@ -244,7 +253,7 @@ class PetApiTests(unittest.TestCase):
     def test_upload_file(self):
         # upload file with form parameter
         try:
-            additional_metadata = "special"
+            additional_metadata = "special data 123"
             self.pet_api.upload_file(
                 pet_id=self.pet.id,
                 additional_metadata=additional_metadata,
