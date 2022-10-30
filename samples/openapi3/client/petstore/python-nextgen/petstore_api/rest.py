@@ -131,6 +131,9 @@ class RESTClientObject(object):
 
         post_params = post_params or {}
         headers = headers or {}
+        # url already contains the URL query string
+        # so reset query_params to empty dict
+        query_params = {}
 
         timeout = None
         if _request_timeout:
@@ -144,8 +147,6 @@ class RESTClientObject(object):
         try:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
-                if query_params:
-                    url += '?' + urlencode(query_params)
 
                 # no content type provided or payload is json
                 if not headers.get('Content-Type') or re.search('json', headers['Content-Type'], re.IGNORECASE):
@@ -198,7 +199,7 @@ class RESTClientObject(object):
             # For `GET`, `HEAD`
             else:
                 r = self.pool_manager.request(method, url,
-                                              fields=query_params,
+                                              fields={},
                                               preload_content=_preload_content,
                                               timeout=timeout,
                                               headers=headers)

@@ -76,7 +76,7 @@ class PetApiTests(unittest.TestCase):
         self.pet.category = self.category
         self.pet.tags = [self.tag]
 
-        self.pet2 = petstore_api.Pet(name="hello kity 2", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet2 = petstore_api.Pet(name="superman 2", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet2.id = id_gen() + 1
         self.pet2.status = "available"
         self.pet2.category = self.category
@@ -235,7 +235,7 @@ class PetApiTests(unittest.TestCase):
 
         self.assertIn(
             self.pet.id,
-            list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_tags(tags=[self.tag.name])))
+            list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_tags(tags=[self.tag.name, "here is another tag"])))
         )
 
     def test_update_pet_with_form(self):

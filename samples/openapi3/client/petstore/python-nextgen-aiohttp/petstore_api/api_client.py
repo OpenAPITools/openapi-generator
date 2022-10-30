@@ -148,12 +148,6 @@ class ApiClient(object):
                     quote(str(v), safe=config.safe_chars_for_path_param)
                 )
 
-        # query parameters
-        if query_params:
-            query_params = self.sanitize_for_serialization(query_params)
-            query_params = self.parameters_to_tuples(query_params,
-                                                     collection_formats)
-
         # post parameters
         if post_params or files:
             post_params = post_params if post_params else []
@@ -178,15 +172,25 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
+        # query parameters
+        if query_params:
+            query_params = self.sanitize_for_serialization(query_params)
+            url_query = self.parameters_to_url_query(query_params,
+                                                     collection_formats)
+            url += "?" + url_query
+
         try:
             # perform request and return response
             response_data = await self.request(
-                method, url, query_params=query_params, headers=header_params,
+                method, url,
+                query_params=query_params,
+                headers=header_params,
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
-            e.body = e.body.decode('utf-8')
+            if e.body:
+                e.body = e.body.decode('utf-8')
             raise e
 
         self.last_response = response_data
@@ -478,6 +482,37 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
+    def parameters_to_url_query(self, params, collection_formats):
+        """Get parameters as list of tuples, formatting collections.
+
+        :param params: Parameters as dict or list of two-tuples
+        :param dict collection_formats: Parameter collection formats
+        :return: URL query string (e.g. a=Hello%20World&b=123)
+        """
+        new_params = []
+        if collection_formats is None:
+            collection_formats = {}
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if k in collection_formats:
+                collection_format = collection_formats[k]
+                if collection_format == 'multi':
+                    new_params.extend((k, value) for value in v)
+                else:
+                    if collection_format == 'ssv':
+                        delimiter = ' '
+                    elif collection_format == 'tsv':
+                        delimiter = '\t'
+                    elif collection_format == 'pipes':
+                        delimiter = '|'
+                    else:  # csv is the default
+                        delimiter = ','
+                    new_params.append(
+                        (k, delimiter.join(quote(str(value)) for value in v)))
+            else:
+                new_params.append((k, v))
+
+        return "&".join(["=".join(item) for item in new_params])
+
     def files_parameters(self, files=None):
         """Builds form parameters.
 
@@ -511,35 +546,26 @@ class ApiClient(object):
         if not accepts:
             return
 
-        accepts = [x.lower() for x in accepts]
+        for accept in accepts:
+            if re.search('json', accept, re.IGNORECASE):
+                return accept
 
-        if 'application/json' in accepts:
-            return 'application/json'
-        else:
-            return ', '.join(accepts)
+        return accepts[0]
 
-    def select_header_content_type(self, content_types, method=None, body=None):
+    def select_header_content_type(self, content_types):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
-        :param method: http method (e.g. POST, PATCH).
-        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
             return None
 
-        content_types = [x.lower() for x in content_types]
+        for content_type in content_types:
+            if re.search('json', content_type, re.IGNORECASE):
+                return content_type
 
-        if (method == 'PATCH' and
-                'application/json-patch+json' in content_types and
-                isinstance(body, list)):
-            return 'application/json-patch+json'
-
-        if 'application/json' in content_types or '*/*' in content_types:
-            return 'application/json'
-        else:
-            return content_types[0]
+        return content_types[0]
 
     def update_params_for_auth(self, headers, queries, auth_settings,
                                request_auth=None):

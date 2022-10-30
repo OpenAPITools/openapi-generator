@@ -157,12 +157,6 @@ class ApiClient(object):
                     quote(str(v), safe=config.safe_chars_for_path_param)
                 )
 
-        # query parameters
-        if query_params:
-            query_params = self.sanitize_for_serialization(query_params)
-            query_params = self.parameters_to_tuples(query_params,
-                                                     collection_formats)
-
         # post parameters
         if post_params or files:
             post_params = post_params if post_params else []
@@ -187,10 +181,19 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
+        # query parameters
+        if query_params:
+            query_params = self.sanitize_for_serialization(query_params)
+            url_query = self.parameters_to_url_query(query_params,
+                                                     collection_formats)
+            url += "?" + url_query
+
         try:
             # perform request and return response
             response_data = {{#asyncio}}await {{/asyncio}}{{#tornado}}yield {{/tornado}}self.request(
-                method, url, query_params=query_params, headers=header_params,
+                method, url,
+                query_params=query_params,
+                headers=header_params,
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
@@ -501,6 +504,37 @@ class ApiClient(object):
             else:
                 new_params.append((k, v))
         return new_params
+
+    def parameters_to_url_query(self, params, collection_formats):
+        """Get parameters as list of tuples, formatting collections.
+
+        :param params: Parameters as dict or list of two-tuples
+        :param dict collection_formats: Parameter collection formats
+        :return: URL query string (e.g. a=Hello%20World&b=123)
+        """
+        new_params = []
+        if collection_formats is None:
+            collection_formats = {}
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if k in collection_formats:
+                collection_format = collection_formats[k]
+                if collection_format == 'multi':
+                    new_params.extend((k, value) for value in v)
+                else:
+                    if collection_format == 'ssv':
+                        delimiter = ' '
+                    elif collection_format == 'tsv':
+                        delimiter = '\t'
+                    elif collection_format == 'pipes':
+                        delimiter = '|'
+                    else:  # csv is the default
+                        delimiter = ','
+                    new_params.append(
+                        (k, delimiter.join(quote(str(value)) for value in v)))
+            else:
+                new_params.append((k, v))
+
+        return "&".join(["=".join(item) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.
