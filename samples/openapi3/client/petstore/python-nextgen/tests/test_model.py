@@ -68,3 +68,95 @@ class ModelTests(unittest.TestCase):
         # reset pet1 tags to empty array so that object comparison returns false
         self.pet1.tags = []
         self.assertFalse(self.pet1 == self.pet2)
+
+    def test_oneOf(self):
+        # test new Pig
+        new_pig = petstore_api.Pig()
+        self.assertEqual("null", new_pig.to_json())
+        self.assertEqual(None, new_pig.actual_instance)
+
+        # test from_json
+        json_str = '{"className": "BasquePig", "color": "red"}'
+        p = petstore_api.Pig.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
+        # test init
+        basque_pig = p.actual_instance
+        pig2 = petstore_api.Pig(actual_instance=basque_pig)
+        self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
+
+        # test failed init
+        try:
+            pig3 = petstore_api.Pig(actual_instance="123")
+            self.assertTrue(False)  # this line shouldn't execute
+        except ValueError as e:
+            self.assertTrue(
+                "No match found when deserializing the JSON string into Pig with oneOf schemas: "
+                "BasquePig, DanishPig" in str(e))
+
+        # failure
+        try:
+            p2 = petstore_api.Pig.from_json("1")
+            self.assertTrue(False)  # this line shouldn't execute
+        except ValueError as e:
+            error_message = (
+                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
+                "Details: 1 validation error for BasquePig\n"
+                "__root__\n"
+                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
+                "__root__\n"
+                "  DanishPig expected dict not int (type=type_error)")
+            self.assertEqual(str(e), error_message)
+
+        # test to_json
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+
+        # test nested property
+        nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
+
+        nested_json = nested.to_json()
+        nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
+        self.assertEqual(nested2.to_json(), nested_json)
+
+    def test_anyOf(self):
+        # test new AnyOfPig
+        new_anypig = petstore_api.AnyOfPig()
+        self.assertEqual("null", new_anypig.to_json())
+        self.assertEqual(None, new_anypig.actual_instance)
+
+        # test from_json
+        json_str = '{"className": "BasquePig", "color": "red"}'
+        p = petstore_api.AnyOfPig.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
+        # test init
+        basque_pig = p.actual_instance
+        pig2 = petstore_api.Pig(actual_instance=basque_pig)
+        self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
+
+        # test failed init
+        try:
+            pig3 = petstore_api.AnyOfPig(actual_instance="123")
+            self.assertTrue(False)  # this line shouldn't execute
+        except ValueError as e:
+            self.assertTrue(
+                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "DanishPig" in str(e))
+
+        # failure
+        try:
+            p2 = petstore_api.AnyOfPig.from_json("1")
+            self.assertTrue(False)  # this line shouldn't execute
+        except ValueError as e:
+            error_message = (
+                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "DanishPig. Details: 1 validation error for BasquePig\n"
+                "__root__\n"
+                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
+                "__root__\n"
+                "  DanishPig expected dict not int (type=type_error)")
+            self.assertEqual(str(e), error_message)
+
+        # test to_json
+        self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
