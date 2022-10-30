@@ -59,7 +59,7 @@ class ApiClientTests(unittest.TestCase):
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'application/json')
+        self.assertEqual(accept, 'APPLICATION/JSON')
 
         accepts = ['application/json', 'application/xml']
         accept = self.api_client.select_header_accept(accepts)
@@ -69,9 +69,21 @@ class ApiClientTests(unittest.TestCase):
         accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, 'application/json')
 
+        accepts = ['application/xml', 'application/json-patch+json']
+        accept = self.api_client.select_header_accept(accepts)
+        self.assertEqual(accept, 'application/json-patch+json')
+
+        accepts = ['application/xml', 'application/json; charset=utf-8']
+        accept = self.api_client.select_header_accept(accepts)
+        self.assertEqual(accept, 'application/json; charset=utf-8')
+
+        accepts = ['application/xml', 'application/json;format=flowed']
+        accept = self.api_client.select_header_accept(accepts)
+        self.assertEqual(accept, 'application/json;format=flowed')
+
         accepts = ['text/plain', 'application/xml']
         accept = self.api_client.select_header_accept(accepts)
-        self.assertEqual(accept, 'text/plain, application/xml')
+        self.assertEqual(accept, 'text/plain')
 
         accepts = []
         accept = self.api_client.select_header_accept(accepts)
@@ -80,7 +92,7 @@ class ApiClientTests(unittest.TestCase):
     def test_select_header_content_type(self):
         content_types = ['APPLICATION/JSON', 'APPLICATION/XML']
         content_type = self.api_client.select_header_content_type(content_types)
-        self.assertEqual(content_type, 'application/json')
+        self.assertEqual(content_type, 'APPLICATION/JSON')
 
         content_types = ['application/json', 'application/xml']
         content_type = self.api_client.select_header_content_type(content_types)
@@ -89,6 +101,18 @@ class ApiClientTests(unittest.TestCase):
         content_types = ['application/xml', 'application/json']
         content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
+
+        content_types = ['application/xml', 'application/json-patch+json']
+        content_type = self.api_client.select_header_content_type(content_types)
+        self.assertEqual(content_type, 'application/json-patch+json')
+
+        content_types = ['application/xml', 'application/json; charset=utf-8']
+        content_type = self.api_client.select_header_content_type(content_types)
+        self.assertEqual(content_type, 'application/json; charset=utf-8')
+
+        content_types = ['application/xml', 'application/json;format=flowed']
+        content_type = self.api_client.select_header_content_type(content_types)
+        self.assertEqual(content_type, 'application/json;format=flowed')
 
         content_types = ['text/plain', 'application/xml']
         content_type = self.api_client.select_header_content_type(content_types)

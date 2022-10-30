@@ -185,7 +185,8 @@ class ApiClient(object):
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
-            e.body = e.body.decode('utf-8')
+            if e.body:
+                e.body = e.body.decode('utf-8')
             raise e
 
         self.last_response = response_data
@@ -510,35 +511,26 @@ class ApiClient(object):
         if not accepts:
             return
 
-        accepts = [x.lower() for x in accepts]
+        for accept in accepts:
+            if re.search('json', accept, re.IGNORECASE):
+                return accept
 
-        if 'application/json' in accepts:
-            return 'application/json'
-        else:
-            return ', '.join(accepts)
+        return accepts[0]
 
-    def select_header_content_type(self, content_types, method=None, body=None):
+    def select_header_content_type(self, content_types):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
-        :param method: http method (e.g. POST, PATCH).
-        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
             return None
 
-        content_types = [x.lower() for x in content_types]
+        for content_type in content_types:
+            if re.search('json', content_type, re.IGNORECASE):
+                return content_type
 
-        if (method == 'PATCH' and
-                'application/json-patch+json' in content_types and
-                isinstance(body, list)):
-            return 'application/json-patch+json'
-
-        if 'application/json' in content_types or '*/*' in content_types:
-            return 'application/json'
-        else:
-            return content_types[0]
+        return content_types[0]
 
     def update_params_for_auth(self, headers, queries, auth_settings,
                                request_auth=None):
