@@ -160,3 +160,14 @@ class ModelTests(unittest.TestCase):
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+    def test_inheritance(self):
+        dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
+        self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
+        self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
+            'dog', 'color': 'white'})
+        dog2 = petstore_api.Dog.from_json(dog.to_json())
+        self.assertEqual(dog2.breed, 'bulldog')
+        self.assertEqual(dog2.class_name, "dog")
+        self.assertEqual(dog2.color, 'white')
+
+        self.assertTrue(isinstance(dog2, petstore_api.Animal))
