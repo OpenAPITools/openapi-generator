@@ -14,7 +14,7 @@ build:
     - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 23E7166788B63E1E 6A030B21BA07F4FB 4B8EC3BAABDC4346 EB3E94ADBE1229CF 960B2B2623A0BD5D 6B05F25D762E3157
     #- rm /etc/apt/sources.list.d/jonathonf-ubuntu-backports-xenial.list 
     - rm /etc/apt/sources.list.d/basho_riak.list
-    # install gradle 7.5.1
+    # install Gradle 7.5.1
     - wget https://services.gradle.org/distributions/gradle-7.5.1-bin.zip
     - sudo mkdir /opt/gradle
     - unzip -d /opt/gradle gradle-7.5.1-bin.zip
