@@ -103,7 +103,7 @@ nexusPublishing {
             username = project.properties["ossrhUsername"]
             password = project.properties["ossrhPassword"]
 
-            // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile --no-daemon
+            // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile
             stagingProfileId = "456297f829bbbe"
         }
     }
@@ -119,7 +119,8 @@ signing {
     sign(publishing.publications)
 }
 
-
+// afterEvaluate is necessary because java-gradle-plugin
+// creates its publications in an afterEvaluate callback
 afterEvaluate {
     tasks.named("publishToSonatype").configure {
         dependsOn("check")
