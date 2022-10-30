@@ -16,7 +16,7 @@ version = "$openApiGeneratorVersion"
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 description = """
-This plugin supports common functionality found in OpenAPI Generator CLI as a Gradle plugin.
+This plugin supports common functionality found in Open API Generator CLI as a Gradle plugin.
 
 This gives you the ability to generate client SDKs, documentation, new generators, and to validate Open API 2.0 and 3.x
 specifications as part of your build. Other tasks are available as command line tasks.
