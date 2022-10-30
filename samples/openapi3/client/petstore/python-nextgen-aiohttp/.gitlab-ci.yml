@@ -1,0 +1,21 @@
+# ref: https://docs.gitlab.com/ee/ci/README.html
+
+stages:
+  - test
+
+.pytest:
+  stage: test
+  script:
+   - pip install -r requirements.txt
+   - pip install -r test-requirements.txt
+   - pytest --cov=petstore_api
+
+pytest-3.7:
+  extends: .pytest
+  image: python:3.7-alpine
+pytest-3.8:
+  extends: .pytest
+  image: python:3.8-alpine
+pytest-3.9:
+  extends: .pytest
+  image: python:3.9-alpine
