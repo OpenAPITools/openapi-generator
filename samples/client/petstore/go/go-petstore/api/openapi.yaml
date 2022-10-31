@@ -1976,6 +1976,7 @@ components:
         status:
           description: Updated status of the pet
           type: string
+      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -1985,6 +1986,7 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
     testEnumParameters_request:
       properties:
         enum_form_string_array:
@@ -2004,6 +2006,7 @@ components:
           - -efg
           - (xyz)
           type: string
+      type: object
     testEndpointParameters_request:
       properties:
         integer:
@@ -2076,6 +2079,7 @@ components:
       - double
       - number
       - pattern_without_delimiter
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2087,6 +2091,7 @@ components:
       required:
       - param
       - param2
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2098,6 +2103,7 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
     Dog_allOf:
       properties:
         breed:
