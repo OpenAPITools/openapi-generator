@@ -41,7 +41,7 @@ func NewNullableAllOfWithDefaults() *NullableAllOf {
 
 // GetChild returns the Child field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableAllOf) GetChild() NullableAllOfChild {
-	if o == nil || o.Child.Get() == nil {
+	if o == nil || isNil(o.Child.Get()) {
 		var ret NullableAllOfChild
 		return ret
 	}
@@ -53,7 +53,7 @@ func (o *NullableAllOf) GetChild() NullableAllOfChild {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableAllOf) GetChildOk() (*NullableAllOfChild, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return o.Child.Get(), o.Child.IsSet()
 }

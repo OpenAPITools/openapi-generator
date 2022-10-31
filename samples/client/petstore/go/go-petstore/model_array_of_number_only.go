@@ -38,7 +38,7 @@ func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
 
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
-	if o == nil || o.ArrayNumber == nil {
+	if o == nil || isNil(o.ArrayNumber) {
 		var ret []float32
 		return ret
 	}
@@ -48,15 +48,15 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
-	if o == nil || o.ArrayNumber == nil {
-		return nil, false
+	if o == nil || isNil(o.ArrayNumber) {
+    return nil, false
 	}
 	return o.ArrayNumber, true
 }
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-	if o != nil && o.ArrayNumber != nil {
+	if o != nil && !isNil(o.ArrayNumber) {
 		return true
 	}
 
@@ -70,7 +70,7 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ArrayNumber != nil {
+	if !isNil(o.ArrayNumber) {
 		toSerialize["ArrayNumber"] = o.ArrayNumber
 	}
 	return json.Marshal(toSerialize)

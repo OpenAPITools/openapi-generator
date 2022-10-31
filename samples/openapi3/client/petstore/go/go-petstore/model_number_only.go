@@ -41,7 +41,7 @@ func NewNumberOnlyWithDefaults() *NumberOnly {
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
-	if o == nil || o.JustNumber == nil {
+	if o == nil || isNil(o.JustNumber) {
 		var ret float32
 		return ret
 	}
@@ -51,15 +51,15 @@ func (o *NumberOnly) GetJustNumber() float32 {
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
-	if o == nil || o.JustNumber == nil {
-		return nil, false
+	if o == nil || isNil(o.JustNumber) {
+    return nil, false
 	}
 	return o.JustNumber, true
 }
 
 // HasJustNumber returns a boolean if a field has been set.
 func (o *NumberOnly) HasJustNumber() bool {
-	if o != nil && o.JustNumber != nil {
+	if o != nil && !isNil(o.JustNumber) {
 		return true
 	}
 
@@ -73,7 +73,7 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.JustNumber != nil {
+	if !isNil(o.JustNumber) {
 		toSerialize["JustNumber"] = o.JustNumber
 	}
 
