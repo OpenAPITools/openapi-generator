@@ -43,7 +43,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -112,7 +111,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
 
     public enum RequestMappingMode {
-        iface("Generate the @RequestMapping annotation on the generated Api Interface."),
+        api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
@@ -619,7 +618,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         switch (getRequestMappingMode()) {
-            case iface:
+            case api_interface:
                 additionalProperties.put(USE_REQUEST_MAPPING_ON_INTERFACE, true);
                 break;
             case controller:

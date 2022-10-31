@@ -46,7 +46,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -662,7 +661,7 @@ public class SpringCodegenTest {
     public void testRequestMappingAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
-        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.iface);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface);
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
 
