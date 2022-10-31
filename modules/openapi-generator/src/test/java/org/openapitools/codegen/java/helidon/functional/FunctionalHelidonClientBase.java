@@ -16,6 +16,7 @@
  */
 package org.openapitools.codegen.java.helidon.functional;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.nio.file.Files;
@@ -26,6 +27,12 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FunctionalHelidonClientBase extends FunctionalBase {
+
+    @BeforeClass
+    public void setup() {
+        generatorName("java-helidon-client");
+    }
+
     @Test
     void buildPetstore() {
         generate("src/test/resources/3_0/petstore.yaml");

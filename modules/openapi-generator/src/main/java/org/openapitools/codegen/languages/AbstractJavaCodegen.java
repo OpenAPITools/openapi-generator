@@ -40,6 +40,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
@@ -80,6 +82,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+
+    public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
@@ -129,6 +133,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+
+    protected boolean camelCaseDollarSign = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -262,6 +268,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
+        cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -549,6 +556,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
         }
 
+        if (additionalProperties.containsKey(CAMEL_CASE_DOLLAR_SIGN)) {
+            this.setCamelCaseDollarSign(Boolean.parseBoolean(additionalProperties.get(CAMEL_CASE_DOLLAR_SIGN).toString()));
+        }
+
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
         }
@@ -795,7 +806,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        if (camelCaseDollarSign) {
+            name = camelize(name, LOWERCASE_FIRST_CHAR);
+        } else {
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
+        }
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -1261,11 +1276,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
@@ -1273,7 +1288,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -1902,6 +1917,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.implicitHeadersRegex = implicitHeadersRegex;
     }
 
+    public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
+        this.camelCaseDollarSign = camelCaseDollarSign;
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -1984,7 +2003,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     @Override
     public String getterAndSetterCapitalize(String name) {
-        boolean lowercaseFirstLetter = false;
+        CamelizeOption camelizeOption = UPPERCASE_FIRST_CHAR;
         if (name == null || name.length() == 0) {
             return name;
         }
@@ -1996,9 +2015,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // http://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf)
         //
         if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
-            lowercaseFirstLetter = true;
+            camelizeOption = LOWERCASE_FIRST_LETTER;
         }
-        return camelize(name, lowercaseFirstLetter);
+        return camelize(name, camelizeOption);
     }
 
     @Override

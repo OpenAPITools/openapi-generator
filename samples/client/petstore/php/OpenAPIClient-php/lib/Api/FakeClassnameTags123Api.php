@@ -69,7 +69,14 @@ class FakeClassnameTags123Api
      */
     protected $hostIndex;
 
-    /**
+    /** @var string[] $contentTypes **/
+    public const contentTypes = [
+        'testClassname' => [
+            'application/json',
+        ],
+    ];
+
+/**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
@@ -121,14 +128,15 @@ class FakeClassnameTags123Api
      * To test class name in snake case
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testClassname($client)
+    public function testClassname($client, string $contentType = self::contentTypes['testClassname'][0])
     {
-        list($response) = $this->testClassnameWithHttpInfo($client);
+        list($response) = $this->testClassnameWithHttpInfo($client, $contentType);
         return $response;
     }
 
@@ -138,14 +146,15 @@ class FakeClassnameTags123Api
      * To test class name in snake case
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testClassnameWithHttpInfo($client)
+    public function testClassnameWithHttpInfo($client, string $contentType = self::contentTypes['testClassname'][0])
     {
-        $request = $this->testClassnameRequest($client);
+        $request = $this->testClassnameRequest($client, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -237,13 +246,14 @@ class FakeClassnameTags123Api
      * To test class name in snake case
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClassnameAsync($client)
+    public function testClassnameAsync($client, string $contentType = self::contentTypes['testClassname'][0])
     {
-        return $this->testClassnameAsyncWithHttpInfo($client)
+        return $this->testClassnameAsyncWithHttpInfo($client, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -257,14 +267,15 @@ class FakeClassnameTags123Api
      * To test class name in snake case
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClassnameAsyncWithHttpInfo($client)
+    public function testClassnameAsyncWithHttpInfo($client, string $contentType = self::contentTypes['testClassname'][0])
     {
         $returnType = '\OpenAPI\Client\Model\Client';
-        $request = $this->testClassnameRequest($client);
+        $request = $this->testClassnameRequest($client, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -306,11 +317,12 @@ class FakeClassnameTags123Api
      * Create request for operation 'testClassname'
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClassname'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testClassnameRequest($client)
+    public function testClassnameRequest($client, string $contentType = self::contentTypes['testClassname'][0])
     {
 
         // verify the required parameter 'client' is set
@@ -319,6 +331,7 @@ class FakeClassnameTags123Api
                 'Missing the required parameter $client when calling testClassname'
             );
         }
+
 
         $resourcePath = '/fake_classname_test';
         $formParams = [];
@@ -331,20 +344,16 @@ class FakeClassnameTags123Api
 
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                ['application/json']
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($client)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
@@ -364,9 +373,9 @@ class FakeClassnameTags123Api
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);

@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |camelDataformatProperties|list of dataformat properties separated by comma (propertyName1=propertyValue2,...| ||
 |camelRestBindingMode|binding mode to be used by the REST consumer| |auto|
 |camelRestClientRequestValidation|enable validation of the client request to check whether the Content-Type and Accept headers from the client is supported by the Rest-DSL configuration| |false|

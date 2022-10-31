@@ -18,14 +18,17 @@
 package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +43,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -533,6 +538,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put(USE_FEIGN_CLIENT, "true");
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
+                if (containsEnums()) {
+                    supportingFiles.add(new SupportingFile("converter.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
+                }
                 supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
                 supportingFiles.add(new SupportingFile("homeController.mustache",
@@ -643,6 +652,20 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    private boolean containsEnums() {
+        if (openAPI == null) {
+            return false;
+        }
+
+        Components components = this.openAPI.getComponents();
+        if (components == null || components.getSchemas() == null) {
+            return  false;
+        }
+
+        return components.getSchemas().values().stream()
+                .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
+    }
+
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
             Map<String, List<CodegenOperation>> operations) {
@@ -688,7 +711,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -816,7 +839,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (final CodegenSecurity authMethod : authMethods) {
-                    authMethod.name = camelize(sanitizeName(authMethod.name), true);
+                    authMethod.name = camelize(sanitizeName(authMethod.name), LOWERCASE_FIRST_LETTER);
                 }
             }
         }

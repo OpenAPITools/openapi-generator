@@ -69,7 +69,14 @@ class DefaultApi
      */
     protected $hostIndex;
 
-    /**
+    /** @var string[] $contentTypes **/
+    public const contentTypes = [
+        'fooGet' => [
+            'application/json',
+        ],
+    ];
+
+/**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
@@ -118,28 +125,30 @@ class DefaultApi
     /**
      * Operation fooGet
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\FooGetDefaultResponse
      */
-    public function fooGet()
+    public function fooGet(string $contentType = self::contentTypes['fooGet'][0])
     {
-        list($response) = $this->fooGetWithHttpInfo();
+        list($response) = $this->fooGetWithHttpInfo($contentType);
         return $response;
     }
 
     /**
      * Operation fooGetWithHttpInfo
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\FooGetDefaultResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fooGetWithHttpInfo()
+    public function fooGetWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
     {
-        $request = $this->fooGetRequest();
+        $request = $this->fooGetRequest($contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -228,13 +237,14 @@ class DefaultApi
     /**
      * Operation fooGetAsync
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fooGetAsync()
+    public function fooGetAsync(string $contentType = self::contentTypes['fooGet'][0])
     {
-        return $this->fooGetAsyncWithHttpInfo()
+        return $this->fooGetAsyncWithHttpInfo($contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -245,14 +255,15 @@ class DefaultApi
     /**
      * Operation fooGetAsyncWithHttpInfo
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fooGetAsyncWithHttpInfo()
+    public function fooGetAsyncWithHttpInfo(string $contentType = self::contentTypes['fooGet'][0])
     {
         $returnType = '\OpenAPI\Client\Model\FooGetDefaultResponse';
-        $request = $this->fooGetRequest();
+        $request = $this->fooGetRequest($contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -293,12 +304,14 @@ class DefaultApi
     /**
      * Create request for operation 'fooGet'
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fooGet'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fooGetRequest()
+    public function fooGetRequest(string $contentType = self::contentTypes['fooGet'][0])
     {
+
 
         $resourcePath = '/foo';
         $formParams = [];
@@ -311,16 +324,11 @@ class DefaultApi
 
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -338,9 +346,9 @@ class DefaultApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);

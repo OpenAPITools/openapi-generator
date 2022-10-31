@@ -42,6 +42,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
@@ -643,7 +644,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (title.toUpperCase(Locale.ROOT).endsWith("API"))
                     title = title.substring(0, title.length() - 3);
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
