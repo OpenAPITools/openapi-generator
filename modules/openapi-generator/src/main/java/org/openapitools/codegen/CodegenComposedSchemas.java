@@ -47,6 +47,22 @@ public class CodegenComposedSchemas {
         return not;
     }
 
+    public void setAllOf(List<CodegenProperty> allOf) {
+        this.allOf = allOf;
+    }
+
+    public void setOneOf(List<CodegenProperty> oneOf) {
+        this.oneOf = oneOf;
+    }
+
+    public void setAnyOf(List<CodegenProperty> anyOf) {
+        this.anyOf = anyOf;
+    }
+
+    public void setNot(CodegenProperty not) {
+        this.not = not;
+    }
+
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenComposedSchemas{");
         sb.append("oneOf=").append(oneOf);

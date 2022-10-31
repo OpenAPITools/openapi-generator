@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1099,12 +1100,32 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     // if oneOf contains "null" type
                     cm.isNullable = true;
                     cm.oneOf.remove("ModelNull");
+                    
+                    CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
+                    if(composedSchemas != null && composedSchemas.getOneOf() != null) {
+                        List<CodegenProperty> oneOf = composedSchemas.getOneOf();
+                        Predicate<CodegenProperty> isNullType = (CodegenProperty property) -> (property.openApiType.contains("null"));
+
+                        oneOf.removeIf(isNullType);
+                        composedSchemas.setOneOf(oneOf);
+                        cm.setComposedSchemas(composedSchemas);
+                    }
                 }
 
                 if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
                     // if anyOf contains "null" type
                     cm.isNullable = true;
                     cm.anyOf.remove("ModelNull");
+
+                    CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
+                    if(composedSchemas != null && composedSchemas.getAnyOf() != null) {
+                        List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
+                        Predicate<CodegenProperty> isNullType = (CodegenProperty property) -> (property.openApiType.contains("null"));
+
+                        anyOf.removeIf(isNullType);
+                        composedSchemas.setAnyOf(anyOf);
+                        cm.setComposedSchemas(composedSchemas);
+                    }
                 }
             }
             if (this.parcelableModel) {
