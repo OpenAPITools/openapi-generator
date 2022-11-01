@@ -354,9 +354,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-           <groupId>com.atlassian.commonmark</groupId>
+           <groupId>org.commonmark</groupId>
            <artifactId>commonmark</artifactId>
-           <version>0.11.0</version>
+           <version>0.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
