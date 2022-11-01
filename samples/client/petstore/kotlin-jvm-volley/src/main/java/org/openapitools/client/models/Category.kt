@@ -27,6 +27,7 @@ import org.openapitools.client.infrastructure.ITransformForStorage
  * @param name 
  */
 
+
 data class Category (
 
     @SerializedName("id")

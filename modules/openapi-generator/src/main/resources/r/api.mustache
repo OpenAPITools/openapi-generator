@@ -86,7 +86,7 @@
 #'
 #' library({{{packageName}}})
 {{#allParams}}
-#' var_{{{paramName}}} <- {{{example}}} # {{{dataType}}} | {{{description}}}
+#' var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 #'
 {{#summary}}

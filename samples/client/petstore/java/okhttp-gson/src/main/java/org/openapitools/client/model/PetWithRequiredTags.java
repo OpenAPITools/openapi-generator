@@ -42,6 +42,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -286,6 +287,10 @@ public class PetWithRequiredTags {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the PetWithRequiredTags instance itself
    */
   public PetWithRequiredTags putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -297,6 +302,8 @@ public class PetWithRequiredTags {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -304,6 +311,9 @@ public class PetWithRequiredTags {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -409,8 +419,10 @@ public class PetWithRequiredTags {
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonNull()) && !jsonObj.get("photoUrls").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("photoUrls") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       // ensure the json data is an array
@@ -480,8 +492,10 @@ public class PetWithRequiredTags {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

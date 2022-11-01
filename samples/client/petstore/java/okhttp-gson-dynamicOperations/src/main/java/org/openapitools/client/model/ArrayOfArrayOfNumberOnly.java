@@ -41,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -161,8 +162,8 @@ public class ArrayOfArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
       }
   }

@@ -41,7 +41,7 @@ func NewHealthCheckResultWithDefaults() *HealthCheckResult {
 
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *HealthCheckResult) GetNullableMessage() string {
-	if o == nil || o.NullableMessage.Get() == nil {
+	if o == nil || isNil(o.NullableMessage.Get()) {
 		var ret string
 		return ret
 	}
@@ -53,7 +53,7 @@ func (o *HealthCheckResult) GetNullableMessage() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return o.NullableMessage.Get(), o.NullableMessage.IsSet()
 }

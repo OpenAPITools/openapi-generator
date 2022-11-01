@@ -47,7 +47,7 @@ func NewCatWithDefaults() *Cat {
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
-	if o == nil || o.Declawed == nil {
+	if o == nil || isNil(o.Declawed) {
 		var ret bool
 		return ret
 	}
@@ -57,15 +57,15 @@ func (o *Cat) GetDeclawed() bool {
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Cat) GetDeclawedOk() (*bool, bool) {
-	if o == nil || o.Declawed == nil {
-		return nil, false
+	if o == nil || isNil(o.Declawed) {
+    return nil, false
 	}
 	return o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *Cat) HasDeclawed() bool {
-	if o != nil && o.Declawed != nil {
+	if o != nil && !isNil(o.Declawed) {
 		return true
 	}
 
@@ -87,7 +87,7 @@ func (o Cat) MarshalJSON() ([]byte, error) {
 	if errAnimal != nil {
 		return []byte{}, errAnimal
 	}
-	if o.Declawed != nil {
+	if !isNil(o.Declawed) {
 		toSerialize["declawed"] = o.Declawed
 	}
 

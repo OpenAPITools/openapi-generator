@@ -1008,7 +1008,8 @@
             "description" : "Updated status of the pet",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "uploadFile_request" : {
         "properties" : {
@@ -1021,7 +1022,8 @@
             "format" : "binary",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       }
     },
     "securitySchemes" : {

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
@@ -49,6 +50,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
+    public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -60,12 +62,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String sourceFolder = "src/main/kotlin";
     protected String testFolder = "src/test/kotlin";
+    protected String resourcesFolder = "src/main/resources";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
-    protected boolean needsDataClassBody = false;
 
     protected boolean nonPublicApi = false;
 
@@ -76,7 +78,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
-    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractKotlinCodegen() {
         super();
@@ -262,6 +265,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.add(new CliOption(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC));
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
+        cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
     }
 
     @Override
@@ -399,6 +403,21 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        objs = super.updateAllModels(objs);
+
+        if (!additionalModelTypeAnnotations.isEmpty()) {
+            for (String modelName : objs.keySet()) {
+                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                models.put(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, additionalModelTypeAnnotations);
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
         for (ModelMap mo : objs.getModels()) {
@@ -506,6 +525,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
 
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
+            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
+            this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
+        }
+
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
         additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
 
@@ -578,14 +602,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.nonPublicApi = nonPublicApi;
     }
 
-    public boolean isNeedsDataClassBody() {
-        return needsDataClassBody;
-    }
-
-    public void setNeedsDataClassBody(boolean needsDataClassBody) {
-        this.needsDataClassBody = needsDataClassBody;
-    }
-
     /**
      * Return the sanitized variable name for enum
      *
@@ -610,7 +626,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = camelize(modified, true);
+                modified = camelize(modified, LOWERCASE_FIRST_LETTER);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
@@ -673,9 +689,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toModelName(final String name) {
         // memoization
-        String origName = name;
-        if (schemaKeyToModelNameCache.containsKey(origName)) {
-            return schemaKeyToModelNameCache.get(origName);
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
         }
 
         // Allow for explicitly configured kotlin.* and java.* types
@@ -695,9 +710,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String modifiedName = name.replaceAll("\\.", "");
-        String sanitizedName = sanitizeKotlinSpecificNames(modifiedName);
 
-        String nameWithPrefixSuffix = sanitizedName;
+        String nameWithPrefixSuffix = sanitizeKotlinSpecificNames(modifiedName);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             // add '_' so that model name can be camelized correctly
             nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
@@ -726,8 +740,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelName;
         }
 
-        schemaKeyToModelNameCache.put(origName, titleCase(modifiedName));
-        return schemaKeyToModelNameCache.get(origName);
+        schemaKeyToModelNameCache.put(name, titleCase(modifiedName));
+        return schemaKeyToModelNameCache.get(name);
     }
 
     /**
@@ -742,19 +756,19 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(operationId))
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), LOWERCASE_FIRST_LETTER);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -843,10 +857,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
-        boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") &&
+        return !type.startsWith("kotlin.") && !type.startsWith("java.") &&
                 !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type) &&
                 !type.contains(".");
-        return imports;
     }
 
     @Override
@@ -909,7 +922,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toVarName(String name) {
         name = toVariableName(name);
         if (propertyAdditionalKeywords.contains(name)) {
-            return camelize("property_" + name, true);
+            return camelize("property_" + name, LOWERCASE_FIRST_LETTER);
         } else {
             return name;
         }
@@ -938,7 +951,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // If name contains special chars -> replace them.
-        if ((name.chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character))))) {
+        if ((name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character))))) {
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
@@ -947,7 +960,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
         if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {
@@ -1017,15 +1030,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toDefaultValue(Schema schema) {
-        Schema p = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        Schema<?> p = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
+            return null;
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
+            return null;
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return fixNumberValue(p.getDefault().toString(), p);
@@ -1071,7 +1086,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
             return null;
         }
-
         return null;
     }
 
@@ -1082,7 +1096,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
+        /*
          * we have a custom version of this function so we only set isMap to true if
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
@@ -1104,5 +1118,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+    }
+
+    public List<String> getAdditionalModelTypeAnnotations() {
+        return additionalModelTypeAnnotations;
+    }
+
+    public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
+        this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
     }
 }

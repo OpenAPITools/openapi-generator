@@ -41,7 +41,7 @@ func NewAppleWithDefaults() *Apple {
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
 func (o *Apple) GetCultivar() string {
-	if o == nil || o.Cultivar == nil {
+	if o == nil || isNil(o.Cultivar) {
 		var ret string
 		return ret
 	}
@@ -51,15 +51,15 @@ func (o *Apple) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Apple) GetCultivarOk() (*string, bool) {
-	if o == nil || o.Cultivar == nil {
-		return nil, false
+	if o == nil || isNil(o.Cultivar) {
+    return nil, false
 	}
 	return o.Cultivar, true
 }
 
 // HasCultivar returns a boolean if a field has been set.
 func (o *Apple) HasCultivar() bool {
-	if o != nil && o.Cultivar != nil {
+	if o != nil && !isNil(o.Cultivar) {
 		return true
 	}
 
@@ -73,7 +73,7 @@ func (o *Apple) SetCultivar(v string) {
 
 func (o Apple) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Cultivar != nil {
+	if !isNil(o.Cultivar) {
 		toSerialize["cultivar"] = o.Cultivar
 	}
 

@@ -33,7 +33,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "foo", description = "the foo API")
-@RequestMapping("${openapi.byRefOrValue.base-path:}")
 public interface FooApi {
 
     default Optional<NativeWebRequest> getRequest() {

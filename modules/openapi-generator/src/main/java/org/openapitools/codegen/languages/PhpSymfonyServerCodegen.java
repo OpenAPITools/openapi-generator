@@ -613,14 +613,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (name.isEmpty()) {
             return "DefaultApiInterface";
         }
-        return camelize(name, false) + "ApiInterface";
+        return camelize(name) + "ApiInterface";
     }
 
     protected String toControllerName(String name) {
         if (name.isEmpty()) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     protected String toSymfonyService(String name) {

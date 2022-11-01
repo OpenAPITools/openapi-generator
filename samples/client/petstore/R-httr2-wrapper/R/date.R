@@ -36,19 +36,25 @@ Date <- R6::R6Class(
     #' @export
     initialize = function(`className`, `url_property`, `percent_description` = NULL, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!missing(`url_property`)) {
-        stopifnot(is.character(`url_property`), length(`url_property`) == 1)
+        if (!(is.character(`url_property`) && length(`url_property`) == 1)) {
+          stop(paste("Error! Invalid data for `url_property`. Must be a string:", `url_property`))
+        }
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", `url_property`))
+          stop(paste("Error! Invalid data for `url_property`. Must be a URL:", `url_property`))
         }
         self$`url_property` <- `url_property`
       }
       if (!is.null(`percent_description`)) {
-        stopifnot(is.character(`percent_description`), length(`percent_description`) == 1)
+        if (!(is.character(`percent_description`) && length(`percent_description`) == 1)) {
+          stop(paste("Error! Invalid data for `percent_description`. Must be a string:", `percent_description`))
+        }
         self$`percent_description` <- `percent_description`
       }
       if (!is.null(additional_properties)) {
@@ -103,7 +109,7 @@ Date <- R6::R6Class(
       if (!is.null(this_object$`url_property`)) {
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", this_object$`url_property`))
+          stop(paste("Error! Invalid data for `url_property`. Must be a URL:", this_object$`url_property`))
         }
         self$`url_property` <- this_object$`url_property`
       }
@@ -172,7 +178,7 @@ Date <- R6::R6Class(
       self$`percent_description` <- this_object$`percent_description`
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-        stop(paste("Error! Invalid URL:", this_object$`url_property`))
+        stop(paste("Error! Invalid data for `url_property`. Must be a URL:", this_object$`url_property`))
       }
       self$`url_property` <- this_object$`url_property`
       # process additional properties/fields in the payload
@@ -195,16 +201,20 @@ Date <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Date: the required field `className` is missing."))
       }
       # check the required field `url_property`
       if (!is.null(input_json$`url_property`)) {
-        stopifnot(is.character(input_json$`url_property`), length(input_json$`url_property`) == 1)
+        if (!(is.character(input_json$`url_property`) && length(input_json$`url_property`) == 1)) {
+          stop(paste("Error! Invalid data for `url_property`. Must be a string:", input_json$`url_property`))
+        }
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(input_json$`url_property`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", input_json$`url_property`))
+          stop(paste("Error! Invalid data for `url_property`. Must be a URL:", input_json$`url_property`))
         }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Date: the required field `url_property` is missing."))

@@ -56,27 +56,39 @@ Special <- R6::R6Class(
         self$`set_test` <- `set_test`
       }
       if (!is.null(`item_self`)) {
-        stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
+        if (!(is.numeric(`item_self`) && length(`item_self`) == 1)) {
+          stop(paste("Error! Invalid data for `item_self`. Must be an integer:", `item_self`))
+        }
         self$`item_self` <- `item_self`
       }
       if (!is.null(`item_private`)) {
-        stopifnot(is.character(`item_private`), length(`item_private`) == 1)
+        if (!(is.character(`item_private`) && length(`item_private`) == 1)) {
+          stop(paste("Error! Invalid data for `item_private`. Must be a string:", `item_private`))
+        }
         self$`item_private` <- `item_private`
       }
       if (!is.null(`item_super`)) {
-        stopifnot(is.character(`item_super`), length(`item_super`) == 1)
+        if (!(is.character(`item_super`) && length(`item_super`) == 1)) {
+          stop(paste("Error! Invalid data for `item_super`. Must be a string:", `item_super`))
+        }
         self$`item_super` <- `item_super`
       }
       if (!is.null(`123_number`)) {
-        stopifnot(is.character(`123_number`), length(`123_number`) == 1)
+        if (!(is.character(`123_number`) && length(`123_number`) == 1)) {
+          stop(paste("Error! Invalid data for `123_number`. Must be a string:", `123_number`))
+        }
         self$`123_number` <- `123_number`
       }
       if (!is.null(`array[test]`)) {
-        stopifnot(is.character(`array[test]`), length(`array[test]`) == 1)
+        if (!(is.character(`array[test]`) && length(`array[test]`) == 1)) {
+          stop(paste("Error! Invalid data for `array[test]`. Must be a string:", `array[test]`))
+        }
         self$`array[test]` <- `array[test]`
       }
       if (!is.null(`empty_string`)) {
-        stopifnot(is.character(`empty_string`), length(`empty_string`) == 1)
+        if (!(is.character(`empty_string`) && length(`empty_string`) == 1)) {
+          stop(paste("Error! Invalid data for `empty_string`. Must be a string:", `empty_string`))
+        }
         self$`empty_string` <- `empty_string`
       }
       if (!is.null(additional_properties)) {

@@ -33,7 +33,9 @@ NestedOneOf <- R6::R6Class(
     #' @export
     initialize = function(`size` = NULL, `nested_pig` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`size`)) {
-        stopifnot(is.numeric(`size`), length(`size`) == 1)
+        if (!(is.numeric(`size`) && length(`size`) == 1)) {
+          stop(paste("Error! Invalid data for `size`. Must be an integer:", `size`))
+        }
         self$`size` <- `size`
       }
       if (!is.null(`nested_pig`)) {

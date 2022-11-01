@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
@@ -521,6 +522,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isMap = composedProperty.isMap;
             property.isContainer = composedProperty.isContainer;
         }
+
+        // fix incorrect data types for maps of maps
+        if (property.datatypeWithEnum.contains("List>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("List>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
+        if (property.datatypeWithEnum.contains("Dictionary>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
+            property.dataType = property.datatypeWithEnum;
+        }
     }
 
     @Override
@@ -964,7 +975,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {

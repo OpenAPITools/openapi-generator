@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
  * @param userStatus User Status
  */
 @JsonClass(generateAdapter = true)
+
 data class User (
 
     @Json(name = "id")

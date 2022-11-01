@@ -50,7 +50,7 @@ func NewPetWithDefaults() *Pet {
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Pet) GetId() int64 {
-	if o == nil || o.Id == nil {
+	if o == nil || isNil(o.Id) {
 		var ret int64
 		return ret
 	}
@@ -60,15 +60,15 @@ func (o *Pet) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetIdOk() (*int64, bool) {
-	if o == nil || o.Id == nil {
-		return nil, false
+	if o == nil || isNil(o.Id) {
+    return nil, false
 	}
 	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Pet) HasId() bool {
-	if o != nil && o.Id != nil {
+	if o != nil && !isNil(o.Id) {
 		return true
 	}
 
@@ -82,7 +82,7 @@ func (o *Pet) SetId(v int64) {
 
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *Pet) GetCategory() Category {
-	if o == nil || o.Category == nil {
+	if o == nil || isNil(o.Category) {
 		var ret Category
 		return ret
 	}
@@ -92,15 +92,15 @@ func (o *Pet) GetCategory() Category {
 // GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetCategoryOk() (*Category, bool) {
-	if o == nil || o.Category == nil {
-		return nil, false
+	if o == nil || isNil(o.Category) {
+    return nil, false
 	}
 	return o.Category, true
 }
 
 // HasCategory returns a boolean if a field has been set.
 func (o *Pet) HasCategory() bool {
-	if o != nil && o.Category != nil {
+	if o != nil && !isNil(o.Category) {
 		return true
 	}
 
@@ -126,7 +126,7 @@ func (o *Pet) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.Name, true
 }
@@ -150,7 +150,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return o.PhotoUrls, true
 }
@@ -162,7 +162,7 @@ func (o *Pet) SetPhotoUrls(v []string) {
 
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *Pet) GetTags() []Tag {
-	if o == nil || o.Tags == nil {
+	if o == nil || isNil(o.Tags) {
 		var ret []Tag
 		return ret
 	}
@@ -172,15 +172,15 @@ func (o *Pet) GetTags() []Tag {
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Pet) GetTagsOk() ([]Tag, bool) {
-	if o == nil || o.Tags == nil {
-		return nil, false
+	if o == nil || isNil(o.Tags) {
+    return nil, false
 	}
 	return o.Tags, true
 }
 
 // HasTags returns a boolean if a field has been set.
 func (o *Pet) HasTags() bool {
-	if o != nil && o.Tags != nil {
+	if o != nil && !isNil(o.Tags) {
 		return true
 	}
 
@@ -195,7 +195,7 @@ func (o *Pet) SetTags(v []Tag) {
 // GetStatus returns the Status field value if set, zero value otherwise.
 // Deprecated
 func (o *Pet) GetStatus() string {
-	if o == nil || o.Status == nil {
+	if o == nil || isNil(o.Status) {
 		var ret string
 		return ret
 	}
@@ -206,15 +206,15 @@ func (o *Pet) GetStatus() string {
 // and a boolean to check if the value has been set.
 // Deprecated
 func (o *Pet) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
-		return nil, false
+	if o == nil || isNil(o.Status) {
+    return nil, false
 	}
 	return o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
 func (o *Pet) HasStatus() bool {
-	if o != nil && o.Status != nil {
+	if o != nil && !isNil(o.Status) {
 		return true
 	}
 
@@ -229,10 +229,10 @@ func (o *Pet) SetStatus(v string) {
 
 func (o Pet) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
+	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
-	if o.Category != nil {
+	if !isNil(o.Category) {
 		toSerialize["category"] = o.Category
 	}
 	if true {
@@ -241,10 +241,10 @@ func (o Pet) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["photoUrls"] = o.PhotoUrls
 	}
-	if o.Tags != nil {
+	if !isNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
-	if o.Status != nil {
+	if !isNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
 

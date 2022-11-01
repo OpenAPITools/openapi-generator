@@ -211,7 +211,7 @@
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var_order <- Order$new() # Order | order placed for purchasing the pet
+#' var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
 #' api_instance <- StoreApi$new()

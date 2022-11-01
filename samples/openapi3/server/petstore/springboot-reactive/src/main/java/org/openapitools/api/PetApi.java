@@ -34,7 +34,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "pet", description = "Everything about your Pets")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface PetApi {
 
     default PetApiDelegate getDelegate() {

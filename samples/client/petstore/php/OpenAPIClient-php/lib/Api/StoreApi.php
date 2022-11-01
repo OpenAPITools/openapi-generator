@@ -69,7 +69,23 @@ class StoreApi
      */
     protected $hostIndex;
 
-    /**
+    /** @var string[] $contentTypes **/
+    public const contentTypes = [
+        'deleteOrder' => [
+            'application/json',
+        ],
+        'getInventory' => [
+            'application/json',
+        ],
+        'getOrderById' => [
+            'application/json',
+        ],
+        'placeOrder' => [
+            'application/json',
+        ],
+    ];
+
+/**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
@@ -121,14 +137,15 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function deleteOrder($order_id)
+    public function deleteOrder($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
     {
-        $this->deleteOrderWithHttpInfo($order_id);
+        $this->deleteOrderWithHttpInfo($order_id, $contentType);
     }
 
     /**
@@ -137,14 +154,15 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteOrderWithHttpInfo($order_id)
+    public function deleteOrderWithHttpInfo($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
     {
-        $request = $this->deleteOrderRequest($order_id);
+        $request = $this->deleteOrderRequest($order_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -185,8 +203,6 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
-            
             }
             throw $e;
         }
@@ -198,13 +214,14 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteOrderAsync($order_id)
+    public function deleteOrderAsync($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
     {
-        return $this->deleteOrderAsyncWithHttpInfo($order_id)
+        return $this->deleteOrderAsyncWithHttpInfo($order_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -218,14 +235,15 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteOrderAsyncWithHttpInfo($order_id)
+    public function deleteOrderAsyncWithHttpInfo($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
     {
         $returnType = '';
-        $request = $this->deleteOrderRequest($order_id);
+        $request = $this->deleteOrderRequest($order_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -254,11 +272,12 @@ class StoreApi
      * Create request for operation 'deleteOrder'
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteOrderRequest($order_id)
+    public function deleteOrderRequest($order_id, string $contentType = self::contentTypes['deleteOrder'][0])
     {
 
         // verify the required parameter 'order_id' is set
@@ -267,6 +286,7 @@ class StoreApi
                 'Missing the required parameter $order_id when calling deleteOrder'
             );
         }
+
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -287,16 +307,11 @@ class StoreApi
         }
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                []
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                [],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            [],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -314,9 +329,9 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);
@@ -350,14 +365,15 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array<string,int>
      */
-    public function getInventory()
+    public function getInventory(string $contentType = self::contentTypes['getInventory'][0])
     {
-        list($response) = $this->getInventoryWithHttpInfo();
+        list($response) = $this->getInventoryWithHttpInfo($contentType);
         return $response;
     }
 
@@ -366,14 +382,15 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of array<string,int>, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInventoryWithHttpInfo()
+    public function getInventoryWithHttpInfo(string $contentType = self::contentTypes['getInventory'][0])
     {
-        $request = $this->getInventoryRequest();
+        $request = $this->getInventoryRequest($contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -411,7 +428,6 @@ class StoreApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('array<string,int>' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -427,7 +443,6 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
             }
 
             $returnType = 'array<string,int>';
@@ -448,7 +463,6 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -457,7 +471,6 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
             }
             throw $e;
         }
@@ -468,13 +481,14 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getInventoryAsync()
+    public function getInventoryAsync(string $contentType = self::contentTypes['getInventory'][0])
     {
-        return $this->getInventoryAsyncWithHttpInfo()
+        return $this->getInventoryAsyncWithHttpInfo($contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -487,14 +501,15 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getInventoryAsyncWithHttpInfo()
+    public function getInventoryAsyncWithHttpInfo(string $contentType = self::contentTypes['getInventory'][0])
     {
         $returnType = 'array<string,int>';
-        $request = $this->getInventoryRequest();
+        $request = $this->getInventoryRequest($contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -535,12 +550,14 @@ class StoreApi
     /**
      * Create request for operation 'getInventory'
      *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getInventory'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getInventoryRequest()
+    public function getInventoryRequest(string $contentType = self::contentTypes['getInventory'][0])
     {
+
 
         $resourcePath = '/store/inventory';
         $formParams = [];
@@ -553,16 +570,11 @@ class StoreApi
 
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -580,9 +592,9 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);
@@ -622,14 +634,15 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
-    public function getOrderById($order_id)
+    public function getOrderById($order_id, string $contentType = self::contentTypes['getOrderById'][0])
     {
-        list($response) = $this->getOrderByIdWithHttpInfo($order_id);
+        list($response) = $this->getOrderByIdWithHttpInfo($order_id, $contentType);
         return $response;
     }
 
@@ -639,14 +652,15 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getOrderByIdWithHttpInfo($order_id)
+    public function getOrderByIdWithHttpInfo($order_id, string $contentType = self::contentTypes['getOrderById'][0])
     {
-        $request = $this->getOrderByIdRequest($order_id);
+        $request = $this->getOrderByIdRequest($order_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -684,7 +698,6 @@ class StoreApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -700,9 +713,6 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
-            
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -723,7 +733,6 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -732,9 +741,6 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
-            
-            
             }
             throw $e;
         }
@@ -746,13 +752,14 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getOrderByIdAsync($order_id)
+    public function getOrderByIdAsync($order_id, string $contentType = self::contentTypes['getOrderById'][0])
     {
-        return $this->getOrderByIdAsyncWithHttpInfo($order_id)
+        return $this->getOrderByIdAsyncWithHttpInfo($order_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -766,14 +773,15 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getOrderByIdAsyncWithHttpInfo($order_id)
+    public function getOrderByIdAsyncWithHttpInfo($order_id, string $contentType = self::contentTypes['getOrderById'][0])
     {
         $returnType = '\OpenAPI\Client\Model\Order';
-        $request = $this->getOrderByIdRequest($order_id);
+        $request = $this->getOrderByIdRequest($order_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -815,11 +823,12 @@ class StoreApi
      * Create request for operation 'getOrderById'
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getOrderById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getOrderByIdRequest($order_id)
+    public function getOrderByIdRequest($order_id, string $contentType = self::contentTypes['getOrderById'][0])
     {
 
         // verify the required parameter 'order_id' is set
@@ -834,7 +843,7 @@ class StoreApi
         if ($order_id < 1) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
-
+        
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -855,16 +864,11 @@ class StoreApi
         }
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/xml', 'application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/xml', 'application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/xml', 'application/json', ],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -882,9 +886,9 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);
@@ -919,14 +923,15 @@ class StoreApi
      * Place an order for a pet
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
-    public function placeOrder($order)
+    public function placeOrder($order, string $contentType = self::contentTypes['placeOrder'][0])
     {
-        list($response) = $this->placeOrderWithHttpInfo($order);
+        list($response) = $this->placeOrderWithHttpInfo($order, $contentType);
         return $response;
     }
 
@@ -936,14 +941,15 @@ class StoreApi
      * Place an order for a pet
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
-    public function placeOrderWithHttpInfo($order)
+    public function placeOrderWithHttpInfo($order, string $contentType = self::contentTypes['placeOrder'][0])
     {
-        $request = $this->placeOrderRequest($order);
+        $request = $this->placeOrderRequest($order, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -981,7 +987,6 @@ class StoreApi
             }
 
             switch($statusCode) {
-            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -997,8 +1002,6 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-            
-            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -1019,7 +1022,6 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1028,8 +1030,6 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
-            
-            
             }
             throw $e;
         }
@@ -1041,13 +1041,14 @@ class StoreApi
      * Place an order for a pet
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function placeOrderAsync($order)
+    public function placeOrderAsync($order, string $contentType = self::contentTypes['placeOrder'][0])
     {
-        return $this->placeOrderAsyncWithHttpInfo($order)
+        return $this->placeOrderAsyncWithHttpInfo($order, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1061,14 +1062,15 @@ class StoreApi
      * Place an order for a pet
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function placeOrderAsyncWithHttpInfo($order)
+    public function placeOrderAsyncWithHttpInfo($order, string $contentType = self::contentTypes['placeOrder'][0])
     {
         $returnType = '\OpenAPI\Client\Model\Order';
-        $request = $this->placeOrderRequest($order);
+        $request = $this->placeOrderRequest($order, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1110,11 +1112,12 @@ class StoreApi
      * Create request for operation 'placeOrder'
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['placeOrder'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function placeOrderRequest($order)
+    public function placeOrderRequest($order, string $contentType = self::contentTypes['placeOrder'][0])
     {
 
         // verify the required parameter 'order' is set
@@ -1123,6 +1126,7 @@ class StoreApi
                 'Missing the required parameter $order when calling placeOrder'
             );
         }
+
 
         $resourcePath = '/store/order';
         $formParams = [];
@@ -1135,20 +1139,16 @@ class StoreApi
 
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/xml', 'application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/xml', 'application/json'],
-                ['application/json']
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/xml', 'application/json', ],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($order)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($order));
             } else {
                 $httpBody = $order;
@@ -1168,9 +1168,9 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);

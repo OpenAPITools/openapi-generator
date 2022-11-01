@@ -60,33 +60,49 @@
         }
         {{/isEnum}}
         {{#isInteger}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
         {{/isInteger}}
         {{#isLong}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
         {{/isLong}}
         {{#isFloat}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
         {{/isFloat}}
         {{#isDouble}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
         {{/isDouble}}
         {{#isString}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isString}}
         {{#isBoolean}}
-        stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.logical(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", `{{name}}`))
+        }
         {{/isBoolean}}
         {{#isDate}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isDate}}
         {{#isDateTime}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isDateTime}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", `{{name}}`))
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", `{{name}}`))
         }
         {{/isUri}}
         {{^isPrimitiveType}}
@@ -116,33 +132,49 @@
         }
         {{/isEnum}}
         {{#isInteger}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
         {{/isInteger}}
         {{#isLong}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
         {{/isLong}}
         {{#isFloat}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
         {{/isFloat}}
         {{#isDouble}}
-        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
         {{/isDouble}}
         {{#isString}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isString}}
         {{#isBoolean}}
-        stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
+        if (!(is.logical(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", `{{name}}`))
+        }
         {{/isBoolean}}
         {{#isDate}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isDate}}
         {{#isDateTime}}
-        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
         {{/isDateTime}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", `{{name}}`))
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", `{{name}}`))
         }
         {{/isUri}}
         {{^isPrimitiveType}}
@@ -251,7 +283,7 @@
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`{{baseName}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", this_object$`{{baseName}}`))
+          stop(paste("Error! Invalid data for `{{baseName}}`. Must be a URL:", this_object$`{{baseName}}`))
         }
         {{/isUri}}
         self$`{{name}}` <- this_object$`{{baseName}}`
@@ -383,7 +415,7 @@
       {{#isUri}}
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-        stop(paste("Error! Invalid URL:", this_object$`{{name}}`))
+        stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", this_object$`{{name}}`))
       }
       {{/isUri}}
       self$`{{name}}` <- this_object$`{{name}}`
@@ -418,33 +450,49 @@
       if (!is.null(input_json$`{{name}}`)) {
         {{^isContainer}}
         {{#isInteger}}
-        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
         {{/isInteger}}
         {{#isLong}}
-        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
         {{/isLong}}
         {{#isFloat}}
-        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
         {{/isFloat}}
         {{#isDouble}}
-        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
         {{/isDouble}}
         {{#isString}}
-        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
         {{/isString}}
         {{#isBoolean}}
-        stopifnot(is.logical(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.logical(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", input_json$`{{name}}`))
+        }
         {{/isBoolean}}
         {{#isDate}}
-        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
         {{/isDate}}
         {{#isDateTime}}
-        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
         {{/isDateTime}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(input_json$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
-          stop(paste("Error! Invalid URL:", input_json$`{{name}}`))
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", input_json$`{{name}}`))
         }
         {{/isUri}}
         {{^isPrimitiveType}}

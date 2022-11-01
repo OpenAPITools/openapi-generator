@@ -24,6 +24,7 @@ import com.squareup.moshi.Json
  * @param id 
  */
 
+
 interface Animal {
 
     @Json(name = "id")

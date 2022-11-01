@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -125,7 +126,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                 "requestOptions", "from",
                 // Typescript reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "constructor", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -588,10 +589,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), true));
+            return escapeReservedWord(camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -614,7 +615,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:

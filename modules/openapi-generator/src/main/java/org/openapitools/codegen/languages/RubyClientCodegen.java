@@ -170,7 +170,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
                 defaultValue(Boolean.FALSE.toString()));
 
-        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
+        supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");

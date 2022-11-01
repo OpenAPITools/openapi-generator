@@ -44,6 +44,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -384,8 +385,10 @@ public class Pet {
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonNull()) && !jsonObj.get("photoUrls").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("photoUrls") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {

@@ -197,7 +197,7 @@
 #' ####################  create_user  ####################
 #'
 #' library(petstore)
-#' var_user <- User$new() # User | Created user object
+#' var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 #'
 #' #Create user
 #' api_instance <- petstore_api$new()
@@ -225,7 +225,7 @@
 #' ####################  create_users_with_array_input  ####################
 #'
 #' library(petstore)
-#' var_user <- [User$new()] # array[User] | List of user object
+#' var_user <- c(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
 #' api_instance <- petstore_api$new()
@@ -253,7 +253,7 @@
 #' ####################  create_users_with_list_input  ####################
 #'
 #' library(petstore)
-#' var_user <- [User$new()] # array[User] | List of user object
+#' var_user <- c(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
 #' api_instance <- petstore_api$new()
@@ -404,7 +404,7 @@
 #'
 #' library(petstore)
 #' var_username <- "username_example" # character | name that need to be deleted
-#' var_user <- User$new() # User | Updated user object
+#' var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 #'
 #' #Updated user
 #' api_instance <- petstore_api$new()
