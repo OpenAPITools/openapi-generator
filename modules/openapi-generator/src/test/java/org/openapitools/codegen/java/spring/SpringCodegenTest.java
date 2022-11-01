@@ -1302,6 +1302,17 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldOperationsWithCustomResponseWrapper() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.CUSTOM_RESPONSE_WRAPPER, "com.company.MyResponseWrapper");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_8535.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
+            .assertMethod("headersTest")
+            .hasReturnType("ResponseEntity<com.company.MyResponseWrapper<TestResponse>>");
+    }
+
+    @Test
     public void testExtraAnnotations() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

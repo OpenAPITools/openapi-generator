@@ -1573,6 +1573,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void shouldAddCustomJavaWrapperToResponse() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.CUSTOM_RESPONSE_WRAPPER, "com.company.MyWrapper");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setAdditionalProperties(properties)
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.FEIGN)
+            .setInputSpec("src/test/resources/bugs/issue_12622.json")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+            .assertMethod("getFoo")
+            .hasReturnType("com.company.MyWrapper<Foo>")
+            .toFileAssert()
+            .assertMethod("getFooWithHttpInfo")
+            .hasReturnType("ApiResponse<com.company.MyWrapper<Foo>>");
+        JavaFileAssert.assertThat(files.get("DefaultApiTest.java"))
+            .assertMethod("getFooTest")
+            .bodyContainsLines("com.company.MyWrapper<Foo> response");
+    }
+
+    @Test
     public void testRestTemplateResponseTypeWithUseAbstractionForFiles() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();

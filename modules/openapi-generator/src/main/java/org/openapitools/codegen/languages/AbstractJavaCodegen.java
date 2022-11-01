@@ -82,6 +82,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+    public static final String CUSTOM_RESPONSE_WRAPPER = "customResponseWrapper";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
@@ -133,6 +134,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+    protected String customResponseWrapper = null;
 
     protected boolean camelCaseDollarSign = false;
 
@@ -269,6 +271,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
+        cliOptions.add(CliOption.newString(CUSTOM_RESPONSE_WRAPPER, "Custom wrapper class that will be used to wrap all responses. Ex: specify option as 'com.company.MyCustomWrapper', then all responses would be wrapper with this object(ie. com.company.MyCustomWrapper<String>)'"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -558,6 +561,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(CAMEL_CASE_DOLLAR_SIGN)) {
             this.setCamelCaseDollarSign(Boolean.parseBoolean(additionalProperties.get(CAMEL_CASE_DOLLAR_SIGN).toString()));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_RESPONSE_WRAPPER)) {
+            this.setCustomResponseWrapper(additionalProperties.get(CUSTOM_RESPONSE_WRAPPER).toString());
         }
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
@@ -1919,6 +1926,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
         this.camelCaseDollarSign = camelCaseDollarSign;
+    }
+
+    public void setCustomResponseWrapper(String customResponseWrapper) {
+        this.customResponseWrapper = customResponseWrapper;
     }
 
     @Override

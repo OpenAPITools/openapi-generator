@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelUseDefaultValidationtErrorProcessor|generate default validation error processor| |true|
 |camelValidationErrorProcessor|validation error processor bean name| |validationErrorProcessor|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
+|customResponseWrapper|Custom wrapper class that will be used to wrap all responses. Ex: specify option as 'com.company.MyCustomWrapper', then all responses would be wrapper with this object(ie. com.company.MyCustomWrapper&lt;String&gt;)'| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
