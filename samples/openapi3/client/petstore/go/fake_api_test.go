@@ -69,6 +69,6 @@ func TestQueryDeepObject(t *testing.T) {
 	r, _ := req.Execute()
 
 	assert.Equal(t,
-		"https://petstore.swagger.io:443/v2/fake/deep_object_test?inputOptions[F1]=1&inputOptions[F2]=teststring&inputOptions[id]=1&inputOptions[name]=TestCat&test_pet[F1]=1&test_pet[F2]=teststring&test_pet[id]=1&test_pet[name]=Test&test_pet[photoUrls][0]=http%3A%2F%2Flocalhost&test_pet[tags][0][F1]=1&test_pet[tags][0][F2]=teststring&test_pet[tags][0][id]=2&test_pet[tags][0][name]=tag1",
+		"https://petstore.swagger.io:443/v2/fake/deep_object_test?inputOptions[F1]=1&inputOptions[F2]=teststring&inputOptions[F3]=null&inputOptions[id]=1&inputOptions[name]=TestCat&test_pet[F1]=1&test_pet[F2]=teststring&test_pet[F3]=null&test_pet[id]=1&test_pet[name]=Test&test_pet[photoUrls]=http%3A%2F%2Flocalhost&test_pet[tags][F1]=1&test_pet[tags][F2]=teststring&test_pet[tags][F3]=null&test_pet[tags][id]=2&test_pet[tags][name]=tag1",
 		r.Request.URL.String() )
 }

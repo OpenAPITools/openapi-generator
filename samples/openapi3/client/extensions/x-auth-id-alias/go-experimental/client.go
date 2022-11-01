@@ -142,32 +142,59 @@ func parameterValueToString( obj interface{}, key string ) string {
     return fmt.Sprintf("%v", dataMap[key])
 }
 
-
-func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interface{}) {
+// parameterAddToQuery adds the provided object to the url query supporting deep object syntax
+func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interface{}, collectionType string) {
     var v = reflect.ValueOf(obj)
     var value = ""
     if v == reflect.ValueOf(nil) {
-        value = "nil"
+        value = "null"
     } else {
         switch v.Kind() {
 			case reflect.Invalid:
 				value = "invalid"
 
 			case reflect.Struct:
-				var param,ok = obj.(MappedNullable)
-				if ok {
-					dataMap,err := param.ToMap()
+				if t,ok := obj.(MappedNullable); ok {
+					dataMap,err := t.ToMap()
 					if err != nil {
 						return
 					}
-					parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
+					parameterAddToQuery(queryParams, keyPrefix, dataMap, collectionType)
+					return
+				}
+				if t, ok := obj.(time.Time); ok {
+					parameterAddToQuery(queryParams, keyPrefix, t.Format(time.RFC3339), collectionType)
 					return
 				}
 				value = v.Type().String() + " value"
+			case reflect.Slice:
+				var indValue = reflect.ValueOf(obj)
+				if indValue == reflect.ValueOf(nil) {
+					return
+				}
+				var lenIndValue = indValue.Len()
+				for i:=0;i<lenIndValue;i++ {
+					var arrayValue = indValue.Index(i)
+					parameterAddToQuery(queryParams, keyPrefix, arrayValue.Interface(), collectionType)
+				}
+				return
+
+			case reflect.Map:
+				var indValue = reflect.ValueOf(obj)
+				if indValue == reflect.ValueOf(nil) {
+					return
+				}
+				iter := indValue.MapRange()
+				for iter.Next() {
+					k,v := iter.Key(), iter.Value()
+					parameterAddToQuery(queryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), collectionType)
+				}
+				return
+
 			case reflect.Interface:
 				fallthrough
             case reflect.Ptr:
-                parameterAddToHolder(queryParams, keyPrefix, v.Elem().Interface())
+				parameterAddToQuery(queryParams, keyPrefix, v.Elem().Interface(), collectionType)
                 return
 
             case reflect.Int, reflect.Int8, reflect.Int16,
@@ -195,91 +222,6 @@ func parameterAddToHolder(queryParams interface{}, keyPrefix string, obj interfa
             valuesMap[keyPrefix] = value
             break
     }
-}
-
-// parameterAddToQuery adds the provided object to the url query supporting deep object specification
-// the del delimiter is used to the split the value as list
-func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interface{}, collectionFormat string) {
-    if reflect.TypeOf(obj).Kind() == reflect.Slice {
-        var indValue = reflect.ValueOf(obj)
-        if indValue == reflect.ValueOf(nil) {
-            return
-        }
-        var lenIndValue = indValue.Len()
-        for i:=0;i<lenIndValue;i++ {
-            var arrayValue = indValue.Index(i)
-            parameterAddDataToQuery(queryParams, keyPrefix, arrayValue.Interface())
-        }
-        return
-
-    } else if reflect.TypeOf(obj).Kind() == reflect.Ptr {
-        var param,ok = obj.(MappedNullable)
-        if ok {
-            dataMap,err := param.ToMap()
-            if err != nil {
-                return
-            }
-            parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
-            return
-        }
-        // scenario of pointer indirect value
-        var pointed = reflect.ValueOf(obj).Elem()
-        var pointedValue = pointed.Interface()
-        parameterAddToQuery(queryParams, keyPrefix, pointedValue, collectionFormat)
-        return
-
-    } else if t, ok := obj.(time.Time); ok {
-        parameterAddToHolder(queryParams, keyPrefix, t.Format(time.RFC3339))
-        return
-    }
-
-    // other value
-    parameterAddToHolder(queryParams, keyPrefix, obj)
-}
-
-// parameterAddMapToQuery adds the provided map to the url parameters list supporting deep object specification
-func parameterAddDataToQuery(queryParams interface{}, keyPrefix string, param interface{}) {
-    if param == nil {
-        return
-    }
-    var kind = reflect.TypeOf(param).Kind()
-    if kind == reflect.Slice {
-        var indValue = reflect.ValueOf(param)
-        if indValue == reflect.ValueOf(nil) {
-            return
-        }
-        var lenIndValue = indValue.Len()
-        for i:=0;i<lenIndValue;i++ {
-            var arrayValue = indValue.Index(i)
-            parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%d]", keyPrefix, i), arrayValue.Interface())
-        }
-        return
-
-    } else if kind == reflect.Map {
-        var indValue = reflect.ValueOf(param)
-        if indValue == reflect.ValueOf(nil) {
-            return
-        }
-        iter := indValue.MapRange()
-        for iter.Next() {
-            k,v := iter.Key(), iter.Value()
-            parameterAddDataToQuery(queryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface())
-        }
-        return
-    } else if kind == reflect.Ptr {
-        var paramNullable,ok = param.(MappedNullable)
-        if ok {
-            dataMap,err := paramNullable.ToMap()
-            if err != nil {
-                return
-            }
-            parameterAddDataToQuery( queryParams, keyPrefix, dataMap )
-            return
-        }
-    }
-
-    // primitive value
-    parameterAddToHolder(queryParams, keyPrefix, param)
 }
 
 // helper for converting interface{} parameters to json strings
