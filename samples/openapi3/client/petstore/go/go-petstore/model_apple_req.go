@@ -55,7 +55,7 @@ func (o *AppleReq) GetCultivar() string {
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.Cultivar, true
 }
@@ -67,7 +67,7 @@ func (o *AppleReq) SetCultivar(v string) {
 
 // GetMealy returns the Mealy field value if set, zero value otherwise.
 func (o *AppleReq) GetMealy() bool {
-	if o == nil || o.Mealy == nil {
+	if o == nil || isNil(o.Mealy) {
 		var ret bool
 		return ret
 	}
@@ -77,15 +77,15 @@ func (o *AppleReq) GetMealy() bool {
 // GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetMealyOk() (*bool, bool) {
-	if o == nil || o.Mealy == nil {
-		return nil, false
+	if o == nil || isNil(o.Mealy) {
+    return nil, false
 	}
 	return o.Mealy, true
 }
 
 // HasMealy returns a boolean if a field has been set.
 func (o *AppleReq) HasMealy() bool {
-	if o != nil && o.Mealy != nil {
+	if o != nil && !isNil(o.Mealy) {
 		return true
 	}
 
@@ -102,7 +102,7 @@ func (o AppleReq) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["cultivar"] = o.Cultivar
 	}
-	if o.Mealy != nil {
+	if !isNil(o.Mealy) {
 		toSerialize["mealy"] = o.Mealy
 	}
 

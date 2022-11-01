@@ -32,7 +32,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "nullable", description = "the nullable API")
-@RequestMapping("${openapi.apiDocumentation.base-path:}")
 public interface NullableApi {
 
     default Optional<NativeWebRequest> getRequest() {

@@ -2,6 +2,8 @@
 Org.OpenAPITools.sln
 README.md
 appveyor.yml
+docs/Activity.md
+docs/ActivityOutputElementRepresentation.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -115,6 +117,8 @@ src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
+src/Org.OpenAPITools/Model/Activity.cs
+src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs

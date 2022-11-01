@@ -37,15 +37,21 @@ Dog <- R6::R6Class(
     #' @export
     initialize = function(`className`, `color` = "red", `breed` = NULL, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!is.null(`color`)) {
-        stopifnot(is.character(`color`), length(`color`) == 1)
+        if (!(is.character(`color`) && length(`color`) == 1)) {
+          stop(paste("Error! Invalid data for `color`. Must be a string:", `color`))
+        }
         self$`color` <- `color`
       }
       if (!is.null(`breed`)) {
-        stopifnot(is.character(`breed`), length(`breed`) == 1)
+        if (!(is.character(`breed`) && length(`breed`) == 1)) {
+          stop(paste("Error! Invalid data for `breed`. Must be a string:", `breed`))
+        }
         self$`breed` <- `breed`
       }
       if (!is.null(additional_properties)) {
@@ -184,7 +190,9 @@ Dog <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Dog: the required field `className` is missing."))
       }

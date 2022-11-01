@@ -56,6 +56,7 @@ Class | Method | HTTP request | Description
  - [ApiResponse](docs/ApiResponse.md)
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
+ - [OptionalTesting](docs/OptionalTesting.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [PropertyTest](docs/PropertyTest.md)

@@ -25,7 +25,9 @@ CatAllOf <- R6::R6Class(
     #' @export
     initialize = function(`declawed` = NULL, ...) {
       if (!is.null(`declawed`)) {
-        stopifnot(is.logical(`declawed`), length(`declawed`) == 1)
+        if (!(is.logical(`declawed`) && length(`declawed`) == 1)) {
+          stop(paste("Error! Invalid data for `declawed`. Must be a boolean:", `declawed`))
+        }
         self$`declawed` <- `declawed`
       }
     },

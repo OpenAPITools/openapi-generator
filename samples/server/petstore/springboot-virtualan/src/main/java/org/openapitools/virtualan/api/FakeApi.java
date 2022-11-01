@@ -45,7 +45,6 @@ import javax.annotation.Generated;
 @Validated
 @Tag(name = "fake", description = "the fake API")
 @VirtualService
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeApi {
 
     default Optional<NativeWebRequest> getRequest() {

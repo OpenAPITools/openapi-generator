@@ -42,6 +42,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -84,10 +85,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Org.OpenAPITools.Client";
+    protected String clientPackage = "Client";
     protected String authFolder = "Auth";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = defaultFramework.name;
@@ -490,7 +491,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -547,6 +548,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
 
+        // remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
         if (GENERICHOST.equals(getLibrary())) {
             // all c# libraries should want this, but avoid breaking changes for now
             // a class cannot contain a property with the same name
@@ -664,8 +666,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setModelPackage("Model");
         }
 
-        clientPackage = "Client";
-
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
@@ -679,7 +679,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
         String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
@@ -742,7 +742,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
         syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
-        syncStringProperty(additionalProperties, "clientPackage", (s) -> { }, clientPackage);
+        syncStringProperty(additionalProperties, "clientPackage", this::setClientPackage, clientPackage);
 
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
@@ -807,6 +807,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         addTestInstructions();
+    }
+
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
     }
 
     @Override

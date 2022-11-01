@@ -859,3 +859,22 @@ components:
           type: boolean
         super:
           type: boolean
+    OptionalTesting:
+      description: Test handling of optional and nullable fields
+      type: object
+      required:
+        - required_nonnull
+        - required_nullable
+      properties:
+        optional_nonnull:
+          type: string
+          nullable: false
+        required_nonnull:
+          type: string
+          nullable: false
+        optional_nullable:
+          type: string
+          nullable: true
+        required_nullable:
+          type: string
+          nullable: true

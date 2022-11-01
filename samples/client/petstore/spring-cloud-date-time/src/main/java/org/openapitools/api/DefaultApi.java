@@ -27,7 +27,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "Default", description = "the Default API")
-@RequestMapping("${openapi.apiDocumentation.base-path:}")
 public interface DefaultApi {
 
     /**
