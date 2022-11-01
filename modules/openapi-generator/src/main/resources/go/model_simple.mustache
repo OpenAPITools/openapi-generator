@@ -295,9 +295,14 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
+	{{^isReadOnly}}
 	if {{#required}}true{{/required}}{{^required}}!isNil(o.{{name}}){{/required}} {
 		toSerialize["{{baseName}}"] = o.{{name}}
 	}
+	{{/isReadOnly}}
+	{{#isReadOnly}}
+    // skip: {{baseName}} is readOnly
+	{{/isReadOnly}}
 	{{/isNullable}}
 	{{/vars}}
 	{{#isAdditionalPropertiesTrue}}
