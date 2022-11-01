@@ -106,9 +106,7 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 
 func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
-	}
+    // skip: bar is readOnly
 	if !isNil(o.Baz) {
 		toSerialize["baz"] = o.Baz
 	}

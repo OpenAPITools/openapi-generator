@@ -106,12 +106,8 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 
 func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
-	}
-	if !isNil(o.Foo) {
-		toSerialize["foo"] = o.Foo
-	}
+    // skip: bar is readOnly
+    // skip: foo is readOnly
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
