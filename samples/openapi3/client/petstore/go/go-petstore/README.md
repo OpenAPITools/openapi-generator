@@ -169,6 +169,7 @@ Class | Method | HTTP request | Description
  - [NumberOnly](docs/NumberOnly.md)
  - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
  - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
+ - [OneOfPrimitiveTypes](docs/OneOfPrimitiveTypes.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

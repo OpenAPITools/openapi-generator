@@ -106,15 +106,20 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask{{#useAsyncAwait}}: @unchecked Sendable{{/useAsyncAwait}} {
+    private var lock = NSRecursiveLock()
 {{#useAlamofire}}
     private var request: Request?
 
     internal func set(request: Request) {
+        lock.lock()
+        defer { lock.unlock() }
         self.request = request
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
         request?.cancel()
         request = nil
     }
@@ -123,10 +128,14 @@ extension NullEncodable: Codable where Wrapped: Codable {
     private var task: URLSessionTask?
 
     internal func set(task: URLSessionTask) {
+        lock.lock()
+        defer { lock.unlock() }
         self.task = task
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
         task?.cancel()
         task = nil
     }

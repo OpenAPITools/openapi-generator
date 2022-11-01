@@ -47,7 +47,7 @@ func NewWhaleWithDefaults() *Whale {
 
 // GetHasBaleen returns the HasBaleen field value if set, zero value otherwise.
 func (o *Whale) GetHasBaleen() bool {
-	if o == nil || o.HasBaleen == nil {
+	if o == nil || isNil(o.HasBaleen) {
 		var ret bool
 		return ret
 	}
@@ -57,15 +57,15 @@ func (o *Whale) GetHasBaleen() bool {
 // GetHasBaleenOk returns a tuple with the HasBaleen field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasBaleenOk() (*bool, bool) {
-	if o == nil || o.HasBaleen == nil {
-		return nil, false
+	if o == nil || isNil(o.HasBaleen) {
+    return nil, false
 	}
 	return o.HasBaleen, true
 }
 
 // HasHasBaleen returns a boolean if a field has been set.
 func (o *Whale) HasHasBaleen() bool {
-	if o != nil && o.HasBaleen != nil {
+	if o != nil && !isNil(o.HasBaleen) {
 		return true
 	}
 
@@ -79,7 +79,7 @@ func (o *Whale) SetHasBaleen(v bool) {
 
 // GetHasTeeth returns the HasTeeth field value if set, zero value otherwise.
 func (o *Whale) GetHasTeeth() bool {
-	if o == nil || o.HasTeeth == nil {
+	if o == nil || isNil(o.HasTeeth) {
 		var ret bool
 		return ret
 	}
@@ -89,15 +89,15 @@ func (o *Whale) GetHasTeeth() bool {
 // GetHasTeethOk returns a tuple with the HasTeeth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasTeethOk() (*bool, bool) {
-	if o == nil || o.HasTeeth == nil {
-		return nil, false
+	if o == nil || isNil(o.HasTeeth) {
+    return nil, false
 	}
 	return o.HasTeeth, true
 }
 
 // HasHasTeeth returns a boolean if a field has been set.
 func (o *Whale) HasHasTeeth() bool {
-	if o != nil && o.HasTeeth != nil {
+	if o != nil && !isNil(o.HasTeeth) {
 		return true
 	}
 
@@ -123,7 +123,7 @@ func (o *Whale) GetClassName() string {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetClassNameOk() (*string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.ClassName, true
 }
@@ -143,10 +143,10 @@ func (o Whale) MarshalJSON() ([]byte, error) {
 
 func (o Whale) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.HasBaleen != nil {
+	if !isNil(o.HasBaleen) {
 		toSerialize["hasBaleen"] = o.HasBaleen
 	}
-	if o.HasTeeth != nil {
+	if !isNil(o.HasTeeth) {
 		toSerialize["hasTeeth"] = o.HasTeeth
 	}
 	toSerialize["className"] = o.ClassName

@@ -41,7 +41,7 @@ func NewBigCatAllOfWithDefaults() *BigCatAllOf {
 
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCatAllOf) GetKind() string {
-	if o == nil || o.Kind == nil {
+	if o == nil || isNil(o.Kind) {
 		var ret string
 		return ret
 	}
@@ -51,15 +51,15 @@ func (o *BigCatAllOf) GetKind() string {
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BigCatAllOf) GetKindOk() (*string, bool) {
-	if o == nil || o.Kind == nil {
-		return nil, false
+	if o == nil || isNil(o.Kind) {
+    return nil, false
 	}
 	return o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCatAllOf) HasKind() bool {
-	if o != nil && o.Kind != nil {
+	if o != nil && !isNil(o.Kind) {
 		return true
 	}
 
@@ -81,7 +81,7 @@ func (o BigCatAllOf) MarshalJSON() ([]byte, error) {
 
 func (o BigCatAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Kind != nil {
+	if !isNil(o.Kind) {
 		toSerialize["kind"] = o.Kind
 	}
 	return toSerialize, nil

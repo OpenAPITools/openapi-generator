@@ -64,7 +64,7 @@ func (o *TypeHolderExample) GetStringItem() string {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetStringItemOk() (*string, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.StringItem, true
 }
@@ -88,7 +88,7 @@ func (o *TypeHolderExample) GetNumberItem() float32 {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetNumberItemOk() (*float32, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.NumberItem, true
 }
@@ -112,7 +112,7 @@ func (o *TypeHolderExample) GetFloatItem() float32 {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetFloatItemOk() (*float32, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.FloatItem, true
 }
@@ -136,7 +136,7 @@ func (o *TypeHolderExample) GetIntegerItem() int32 {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetIntegerItemOk() (*int32, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.IntegerItem, true
 }
@@ -160,7 +160,7 @@ func (o *TypeHolderExample) GetBoolItem() bool {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetBoolItemOk() (*bool, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return &o.BoolItem, true
 }
@@ -184,7 +184,7 @@ func (o *TypeHolderExample) GetArrayItem() []int32 {
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
 	if o == nil {
-		return nil, false
+    return nil, false
 	}
 	return o.ArrayItem, true
 }

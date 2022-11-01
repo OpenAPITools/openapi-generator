@@ -42,7 +42,7 @@ public interface UserApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -57,7 +57,7 @@ public interface UserApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.thenMany(body).then(Mono.empty());
 
     }
 
@@ -72,7 +72,7 @@ public interface UserApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.thenMany(body).then(Mono.empty());
 
     }
 
@@ -168,7 +168,7 @@ public interface UserApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 

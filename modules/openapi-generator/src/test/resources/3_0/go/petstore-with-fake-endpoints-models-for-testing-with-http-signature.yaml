@@ -2046,3 +2046,8 @@ components:
           additionalProperties:
             type: string
             format: binary
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string

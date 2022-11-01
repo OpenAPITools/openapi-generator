@@ -48,7 +48,7 @@ func NewFooWithDefaults() *Foo {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *Foo) GetBar() string {
-	if o == nil || o.Bar == nil {
+	if o == nil || isNil(o.Bar) {
 		var ret string
 		return ret
 	}
@@ -58,15 +58,15 @@ func (o *Foo) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Foo) GetBarOk() (*string, bool) {
-	if o == nil || o.Bar == nil {
-		return nil, false
+	if o == nil || isNil(o.Bar) {
+    return nil, false
 	}
 	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *Foo) HasBar() bool {
-	if o != nil && o.Bar != nil {
+	if o != nil && !isNil(o.Bar) {
 		return true
 	}
 
@@ -88,7 +88,7 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 
 func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
+	if !isNil(o.Bar) {
 		toSerialize["bar"] = o.Bar
 	}
 
