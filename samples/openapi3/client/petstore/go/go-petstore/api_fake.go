@@ -200,6 +200,17 @@ type FakeApi interface {
 	TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (*http.Response, error)
 
 	/*
+	TestQueryDeepObject Method for TestQueryDeepObject
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestQueryDeepObjectRequest
+	*/
+	TestQueryDeepObject(ctx context.Context) ApiTestQueryDeepObjectRequest
+
+	// TestQueryDeepObjectExecute executes the request
+	TestQueryDeepObjectExecute(r ApiTestQueryDeepObjectRequest) (*http.Response, error)
+
+	/*
 	TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
 
 	To test the collection format in query parameters
@@ -1626,7 +1637,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"applicatino/json"}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1857,6 +1868,110 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	}
 	parameterAddToQuery(localVarFormParams, "param", r.param, "")
 	parameterAddToQuery(localVarFormParams, "param2", r.param2, "")
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiTestQueryDeepObjectRequest struct {
+	ctx context.Context
+	ApiService FakeApi
+	testPet *Pet
+	inputOptions *Category
+}
+
+func (r ApiTestQueryDeepObjectRequest) TestPet(testPet Pet) ApiTestQueryDeepObjectRequest {
+	r.testPet = &testPet
+	return r
+}
+
+func (r ApiTestQueryDeepObjectRequest) InputOptions(inputOptions Category) ApiTestQueryDeepObjectRequest {
+	r.inputOptions = &inputOptions
+	return r
+}
+
+func (r ApiTestQueryDeepObjectRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestQueryDeepObjectExecute(r)
+}
+
+/*
+TestQueryDeepObject Method for TestQueryDeepObject
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestQueryDeepObjectRequest
+*/
+func (a *FakeApiService) TestQueryDeepObject(ctx context.Context) ApiTestQueryDeepObjectRequest {
+	return ApiTestQueryDeepObjectRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeApiService) TestQueryDeepObjectExecute(r ApiTestQueryDeepObjectRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestQueryDeepObject")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/deep_object_test"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.testPet != nil {
+	parameterAddToQuery(localVarQueryParams, "test_pet", r.testPet, "")
+	}
+	if r.inputOptions != nil {
+	parameterAddToQuery(localVarQueryParams, "inputOptions", r.inputOptions, "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
