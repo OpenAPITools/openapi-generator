@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -44,7 +46,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -107,10 +108,9 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .assertTypeAnnotations()
-                .hasSize(4)
+                .hasSize(3)
                 .containsWithName("Validated")
                 .containsWithName("Generated")
-                .containsWithName("RequestMapping")
                 .containsWithNameAndAttributes("Generated", ImmutableMap.of(
                         "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
                 ))
@@ -661,6 +661,7 @@ public class SpringCodegenTest {
     public void testRequestMappingAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.api_interface);
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
 
@@ -674,7 +675,7 @@ public class SpringCodegenTest {
     }
 
    @Test
-   public void testNoRequestMappingAnnotation() throws IOException {
+   public void testNoRequestMappingAnnotation_spring_cloud_default() throws IOException {
       final SpringCodegen codegen = new SpringCodegen();
       codegen.setLibrary( "spring-cloud" );
 
@@ -686,6 +687,21 @@ public class SpringCodegenTest {
             .containsWithName( "Generated" ).containsWithName( "Tag" );
 
    }
+
+    @Test
+    public void testNoRequestMappingAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary( "spring-cloud" );
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, SpringCodegen.RequestMappingMode.none);
+
+        final Map<String, File> files = generateFiles( codegen, "src/test/resources/2_0/petstore.yaml" );
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        final File petApiFile = files.get( "PetApi.java" );
+        JavaFileAssert.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
+            .containsWithName( "Generated" ).containsWithName( "Tag" );
+    }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
