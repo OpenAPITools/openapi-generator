@@ -128,7 +128,6 @@ CodegenSecurity{name='noSpam', type='apiKey', scheme='null', isBasic=false, isOA
 
 {{#each authMethods}}
 # Authentication method `{{name}}`.
-{{#if description
 {{#if isBasicBearer }}
 # Basic Bearer Authentication `{{bearerFormat}}`
 func set_security_{{name}}(value: String):
