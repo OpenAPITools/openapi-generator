@@ -368,7 +368,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#formParams}}
             {{#required}}
             {{#isFile}}
-            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
             {{/isFile}}
             {{^isFile}}
             localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -378,7 +377,6 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
                 {{/isFile}}
                 {{^isFile}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -567,7 +565,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#formParams}}
             {{#required}}
             {{#isFile}}
-            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
             {{/isFile}}
             {{^isFile}}
             localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -577,7 +574,6 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
                 {{/isFile}}
                 {{^isFile}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter

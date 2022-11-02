@@ -100,6 +100,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
+    protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
     protected boolean validatable = Boolean.TRUE;
@@ -805,8 +806,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         } else if (UNITY.equals(getLibrary())) {
             setSupportsRetry(false);
             setSupportsAsync(true);
+            setSupportsFileParameters(false);
 
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+
+            supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
+            supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
         } else { //restsharp
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
@@ -1034,6 +1039,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;
+    }
+
+    public void setSupportsFileParameters(Boolean supportsFileParameters) {
+        this.supportsFileParameters = supportsFileParameters;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

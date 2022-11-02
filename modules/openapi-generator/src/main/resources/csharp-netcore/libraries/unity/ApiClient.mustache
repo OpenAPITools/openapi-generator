@@ -14,9 +14,6 @@ using System.Text;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-{{^netStandard}}
-using System.Web;
-{{/netStandard}}
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
@@ -24,9 +21,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using UnityEngine.Networking;
 using UnityEngine;
-{{#supportsRetry}}
-using Polly;
-{{/supportsRetry}}
 
 namespace {{packageName}}.Client
 {
@@ -81,20 +75,18 @@ namespace {{packageName}}.Client
 
         public T Deserialize<T>(UnityWebRequest request)
         {
-            var result = (T) Deserialize(response, typeof(T));
+            var result = (T) Deserialize(request, typeof(T));
             return result;
         }
 
         /// <summary>
         /// Deserialize the JSON string into a proper object.
         /// </summary>
-        /// <param name="response">The HTTP response.</param>
+        /// <param name="response">The UnityWebRequest after it has a response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
         internal object Deserialize(UnityWebRequest request, Type type)
         {
-            IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
-
             if (type == typeof(byte[])) // return byte array
             {
                 return request.downloadHandler.data;
@@ -103,7 +95,6 @@ namespace {{packageName}}.Client
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = await response.Content.ReadAsByteArrayAsync();
                 // NOTE: Ignoring Content-Disposition filename support, since not all platforms
                 // have a location on disk to write arbitrary data (tvOS, consoles).
                 return new MemoryStream(request.downloadHandler.data);
@@ -119,15 +110,36 @@ namespace {{packageName}}.Client
                 return Convert.ChangeType(request.downloadHandler.text, type);
             }
 
-            // at this point, it must be a model (json)
-            try
+            var contentType = request.GetResponseHeader("Content-Type");
+
+            if (!string.IsNullOrEmpty(contentType) && contentType.Contains("application/json"))
             {
-                return JsonConvert.DeserializeObject(request.downloadHandler.text, type, _serializerSettings);
+                var text = request.downloadHandler?.text;
+
+                // Generated APIs that don't expect a return value provide System.Object as the type
+                if (type == typeof(System.Object) && (string.IsNullOrEmpty(text) || text.Trim() == "null"))
+                {
+                    return null;
+                }
+
+                // Deserialize as a model
+                try
+                {
+                    return JsonConvert.DeserializeObject(text, type, _serializerSettings);
+                }
+                catch (Exception e)
+                {
+                    throw new UnexpectedResponseException(request, type, e.ToString());
+                }
             }
-            catch (Exception e)
+
+            if (type != typeof(System.Object) && request.responseCode >= 200 && request.responseCode < 300)
             {
-                throw new ApiException(500, e.Message);
+                throw new UnexpectedResponseException(request, type);
             }
+
+            return null;
+
         }
 
         public string RootElement { get; set; }
@@ -200,18 +212,18 @@ namespace {{packageName}}.Client
         }
 
         /// <summary>
-        /// Provides all logic for constructing a new HttpRequestMessage.
+        /// Provides all logic for constructing a new UnityWebRequest.
         /// At this point, all information for querying the service is known. Here, it is simply
-        /// mapped into the a HttpRequestMessage.
+        /// mapped into the UnityWebRequest.
         /// </summary>
         /// <param name="method">The http verb.</param>
         /// <param name="path">The target path (or resource).</param>
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <returns>[private] A new HttpRequestMessage instance.</returns>
+        /// <returns>[private] A new UnityWebRequest instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        private UnityWebRequest NewRequest(
+        private UnityWebRequest NewRequest<T>(
             string method,
             string path,
             RequestOptions options,
@@ -234,8 +246,9 @@ namespace {{packageName}}.Client
                 contentType = contentTypes.FirstOrDefault();
             }
 
-            UnityWebRequest request = new UnityWebRequest(builder.GetFullUri(), method);
-            var setContentTypeHeader = false;
+            var uri = builder.GetFullUri();
+            UploadHandler uploadHandler = null;
+            UnityWebRequest request = null;
 
             if (contentType == "multipart/form-data")
             {
@@ -245,68 +258,51 @@ namespace {{packageName}}.Client
                     formData.Add(new MultipartFormDataSection(formParameter.Key, formParameter.Value));
                 }
 
-                var boundary = UnityWebRequest.GenerateBoundary();
-                var data = UnityWebRequest.SerializeFormSections(formData, boundary);
-                request.uploadHandler = new UploadHandlerRaw(data);
-                request.uploadHandler.contentType = "multipart/form-data; boundary=" + System.Text.Encoding.UTF8.GetString(boundary, 0, boundary.Length);
-
-                setContentTypeHeader = true;
+                request = UnityWebRequest.Post(uri, formData);
+                request.method = method;
             }
-            /*
             else if (contentType == "application/x-www-form-urlencoded")
             {
-                request.Content = new FormUrlEncodedContent(options.FormParameters);
+                var form = new WWWForm();
+                foreach (var kvp in options.FormParameters)
+                {
+                    form.AddField(kvp.Key, kvp.Value);
+                }
+
+                request = UnityWebRequest.Post(uri, form);
+                request.method = method;
+            }
+            else if (options.Data != null)
+            {
+                var serializer = new CustomJsonCodec(SerializerSettings, configuration);
+                var jsonData = serializer.Serialize(options.Data);
+
+                // Making a post body application/json encoded is whack with UnityWebRequest.
+                // See: https://stackoverflow.com/questions/68156230/unitywebrequest-post-not-sending-body
+                request = UnityWebRequest.Put(uri, jsonData);
+                request.method = method;
+                request.SetRequestHeader("Content-Type", "application/json");
             }
             else
             {
-                if (options.Data != null)
-                {
-                    var serializer = new CustomJsonCodec(SerializerSettings, configuration);
-                    request.Content = new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(),
-                        "application/json");
-                }
+                request = new UnityWebRequest(builder.GetFullUri(), method);
             }
 
-            if (!string.IsNullOrEmpty(contentType) && !setContentTypeHeader)
+            if (request.downloadHandler == null && typeof(T) != typeof(System.Object))
             {
-                request.SetRequestHeader("Content-Type", contentType);
-            }
-            
-
-            switch (method) {
-                case "GET":
-                {
-                    request = UnityWebRequest.Get(uri);
-                    break;
-                }
-
-                case "POST":
-                {
-                    if (contentType == "application/json") {
-                        // Making a post body application/json encoded is whack with UnityWebRequest.
-                        // See: https://stackoverflow.com/questions/68156230/unitywebrequest-post-not-sending-body
-                        request = UnityWebRequest.Put(uri, serializedJsonData);
-                        request.method = "POST";
-                    }
-                    else
-                    {
-                        request = UnityWeb
-                    }
-                    break;
-                }
-
+                request.downloadHandler = new DownloadHandlerBuffer();
             }
 
             if (configuration.UserAgent != null)
             {
-                request.Headers.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
+                request.SetRequestHeader("User-Agent", configuration.UserAgent);
             }
 
             if (configuration.DefaultHeaders != null)
             {
                 foreach (var headerParam in configuration.DefaultHeaders)
                 {
-                    request.Headers.Add(headerParam.Key, headerParam.Value);
+                    request.SetRequestHeader(headerParam.Key, headerParam.Value);
                 }
             }
 
@@ -317,85 +313,66 @@ namespace {{packageName}}.Client
                     foreach (var value in headerParam.Value)
                     {
                         // Todo make content headers actually content headers
-                        request.Headers.TryAddWithoutValidation(headerParam.Key, value);
+                        request.SetRequestHeader(headerParam.Key, value);
                     }
                 }
             }
 
-            // TODO provide an alternative that allows cookies per request instead of per API client
             if (options.Cookies != null && options.Cookies.Count > 0)
             {
-                request.Properties["CookieContainer"] = options.Cookies;
+                #if UNITY_WEBGL
+                throw new System.InvalidOperationException("UnityWebRequest does not support setting cookies in WebGL");
+                #else
+                if (options.Cookies.Count != 1)
+                {
+                    UnityEngine.Debug.LogError("Only one cookie supported, ignoring others");
+                }
+
+                request.SetRequestHeader("Cookie", options.Cookies[0].ToString());
+                #endif
             }
-            */
 
             return request;
+
         }
 
-        partial void InterceptRequest(HttpRequestMessage req);
-        partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
+        partial void InterceptRequest(UnityWebRequest req);
+        partial void InterceptResponse(UnityWebRequest req);
 
-        /*
-        private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private ApiResponse<T> ToApiResponse<T>(UnityWebRequest request, object responseData)
         {
             T result = (T) responseData;
-            string rawContent = await response.Content.ReadAsStringAsync();
 
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
+            var transformed = new ApiResponse<T>((HttpStatusCode)request.responseCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, request.downloadHandler?.text ?? "")
             {
-                ErrorText = response.ReasonPhrase,
+                ErrorText = request.error,
                 Cookies = new List<Cookie>()
             };
 
             // process response headers, e.g. Access-Control-Allow-Methods
-            if (response.Headers != null)
+            var responseHeaders = request.GetResponseHeaders();
+            if (responseHeaders != null)
             {
-                foreach (var responseHeader in response.Headers)
+                foreach (var responseHeader in request.GetResponseHeaders())
                 {
                     transformed.Headers.Add(responseHeader.Key, ClientUtils.ParameterToString(responseHeader.Value));
                 }
-            }
-
-            // process response content headers, e.g. Content-Type
-            if (response.Content.Headers != null)
-            {
-                foreach (var responseHeader in response.Content.Headers)
-                {
-                    transformed.Headers.Add(responseHeader.Key, ClientUtils.ParameterToString(responseHeader.Value));
-                }
-            }
-
-            if (_httpClientHandler != null && response != null)
-            {
-                try {
-                    foreach (Cookie cookie in _httpClientHandler.CookieContainer.GetCookies(uri))
-                    {
-                        transformed.Cookies.Add(cookie);
-                    }
-                }
-                catch (PlatformNotSupportedException) {}
             }
 
             return transformed;
         }
-        */
 
-        private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
-        {
-            return ExecAsync<T>(req, configuration).GetAwaiter().GetResult();
-        }
-
-        private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
+        private async Task<ApiResponse<T>> ExecAsync<T>(
+            UnityWebRequest request,
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await Task.Delay(1000);
-            /*
             CancellationTokenSource timeoutTokenSource = null;
             CancellationTokenSource finalTokenSource = null;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
             var finalToken = cancellationToken;
 
+            using (request)
             try
             {
                 if (configuration.Timeout > 0)
@@ -407,72 +384,63 @@ namespace {{packageName}}.Client
 
                 if (configuration.Proxy != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    _httpClientHandler.Proxy = configuration.Proxy;
+                    throw new InvalidOperationException("Configuration `Proxy` not supported by UnityWebRequest");
                 }
 
                 if (configuration.ClientCertificates != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
+                    // Only Android/iOS/tvOS/Standalone players can support certificates, and this
+                    // implementation is intended to work on all platforms.
+                    //
+                    // TODO: Could optionally allow support for this on these platforms.
+                    //
+                    // See: https://docs.unity3d.com/ScriptReference/Networking.CertificateHandler.html
+                    throw new InvalidOperationException("Configuration `ClientCertificates` not supported by UnityWebRequest on all platforms");
                 }
 
-                var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
+                InterceptRequest(request);
 
-                if (cookieContainer != null)
+                var asyncOp = request.SendWebRequest();
+
+                TaskCompletionSource<UnityWebRequest.Result> tsc = new TaskCompletionSource<UnityWebRequest.Result>();
+                asyncOp.completed += (_) => tsc.TrySetResult(request.result);
+
+                if (asyncOp.isDone)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    foreach (var cookie in cookieContainer)
-                    {
-                        _httpClientHandler.CookieContainer.Add(cookie);
-                    }
+                    tsc.TrySetResult(asyncOp.webRequest.result);
                 }
 
-                InterceptRequest(req);
-
-                HttpResponseMessage response;
-                {{#supportsRetry}}
-                if (RetryConfiguration.AsyncRetryPolicy != null)
+                try
                 {
-                    var policy = RetryConfiguration.AsyncRetryPolicy;
-                    var policyResult = await policy
-                        .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, finalToken))
-                        .ConfigureAwait(false);
-                    response = (policyResult.Outcome == OutcomeType.Successful) ?
-                        policyResult.Result : new HttpResponseMessage()
-                        {
-                            ReasonPhrase = policyResult.FinalException.ToString(),
-                            RequestMessage = req
-                        };
+                    await Task.WhenAny(tsc.Task, Task.Delay(Timeout.Infinite, finalToken)).ConfigureAwait(false);
                 }
-                else
+                catch (OperationCanceledException)
                 {
-                {{/supportsRetry}}
-                    response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
-                {{#supportsRetry}}
-                }
-                {{/supportsRetry}}
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    return await ToApiResponse<T>(response, default(T), req.RequestUri);
+                    request.Abort();
+                    throw;
                 }
 
-                object responseData = await deserializer.Deserialize<T>(response);
+                if (request.result == UnityWebRequest.Result.ConnectionError ||
+                    request.result == UnityWebRequest.Result.DataProcessingError)
+                {
+                    throw new ConnectionException(request);
+                }
+
+                object responseData = deserializer.Deserialize<T>(request);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { new ByteArrayContent(request.downloadHandler.data) });
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
-                    responseData = (T) (object) await response.Content.ReadAsStreamAsync();
+                    responseData = (T) (object) new MemoryStream(request.downloadHandler.data);
                 }
 
-                InterceptResponse(req, response);
+                InterceptResponse(request);
 
-                return await ToApiResponse<T>(response, responseData, req.RequestUri);
+                return ToApiResponse<T>(request, responseData);
             }
             finally
             {
@@ -486,7 +454,6 @@ namespace {{packageName}}.Client
                     finalTokenSource.Dispose();
                 }
             }
-            */
         }
 
         {{#supportsAsync}}
@@ -503,7 +470,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("GET", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("GET", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -518,7 +485,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("POST", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("POST", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -533,7 +500,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("PUT", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("PUT", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -548,7 +515,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("DELETE", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("DELETE", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -563,7 +530,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("HEAD", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("HEAD", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -578,7 +545,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("OPTIONS", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("OPTIONS", path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -593,7 +560,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest("PATCH", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("PATCH", path, options, config), config, cancellationToken);
         }
         #endregion IAsynchronousClient
         {{/supportsAsync}}
@@ -609,8 +576,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("GET", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -623,8 +589,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("POST", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -637,8 +602,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("PUT", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -651,8 +615,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("DELETE", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -665,8 +628,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("HEAD", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -679,8 +641,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("OPTIONS", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
 
         /// <summary>
@@ -693,8 +654,7 @@ namespace {{packageName}}.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest("PATCH", path, options, config), config);
+            throw new System.NotImplementedException("UnityWebRequest does not support synchronous operation");
         }
         #endregion ISynchronousClient
     }
