@@ -52,6 +52,7 @@ var cfg := DemoApiConfig.new()
 
 func run_all_tests(on_done := Callable()):
 	cfg.port = 8081
+	cfg.headers_base['api_key'] = "special-key"
 	log_text_edit.text = ""
 	
 	var started_at := Time.get_ticks_msec()

@@ -75,8 +75,6 @@ var bee_client: HTTPClient:
 	# For my mental health's sake, only JSON is supported for now
 	"Accept": "application/json",
 	"Content-Type": "application/json",
-	# FIXME: Remove petstore demo cheat code
-	"api_key": "special-key",
 }
 
 
@@ -117,14 +115,6 @@ func log_debug(message: String):
 	if self.log_level >= LogLevel.DEBUG:
 		print(message)
 
-
-{{!--
-SAMPLE
-authMethods=[
-CodegenSecurity{name='JWT', type='http', scheme='bearer', isBasic=true, isOAuth=false, isApiKey=false, isBasicBasic=false, isHttpSignature=false, isBasicBearer=true, bearerFormat='JWT', vendorExtensions={}, keyParamName='null', isKeyInQuery=false, isKeyInHeader=false, isKeyInCookie=false, flow='null', authorizationUrl='null', tokenUrl='null', refreshUrl='null', scopes=null, isCode=false, isPassword=false, isApplication=false, isImplicit=false},
-CodegenSecurity{name='noSpam', type='apiKey', scheme='null', isBasic=false, isOAuth=false, isApiKey=true, isBasicBasic=false, isHttpSignature=false, isBasicBearer=false, bearerFormat='null', vendorExtensions={}, keyParamName='GodotGame', isKeyInQuery=false, isKeyInHeader=true, isKeyInCookie=false, flow='null', authorizationUrl='null', tokenUrl='null', refreshUrl='null', scopes=null, isCode=false, isPassword=false, isApplication=false, isImplicit=false}
-],
---}}
 
 {{#each authMethods}}
 # Authentication method `{{name}}`.
