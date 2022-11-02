@@ -3798,6 +3798,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property.isEnumRef = true;
+
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
@@ -3868,7 +3870,6 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForAnyType(property, p);
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
-            ;
         }
         if (p.get$ref() != null) {
             property.setRef(p.get$ref());
@@ -5626,7 +5627,7 @@ public class DefaultCodegen implements CodegenConfig {
                     continue;
                 }
                 cm.hasOptional = cm.hasOptional || !cp.required;
-                if (cp.isEnum) {
+                if (cp.getIsEnumOrRef()) { // isEnum or isEnumRef set to true
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     cm.hasEnums = true;

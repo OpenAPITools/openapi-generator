@@ -4253,4 +4253,50 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         assertEquals(openAPI, codegen.openAPI);
     }
+
+    @Test
+    public void testReferencedEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithReferencedEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty referencedEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(referencedEnumSchemaProperty.getName(), "enumType");
+        Assert.assertFalse(referencedEnumSchemaProperty.isEnum);
+        Assert.assertTrue(referencedEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(referencedEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(referencedEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(referencedEnumSchemaProperty.isString);
+        Assert.assertFalse(referencedEnumSchemaProperty.isContainer);
+        Assert.assertFalse(referencedEnumSchemaProperty.isPrimitiveType);
+    }
+
+    @Test
+    public void testInlineEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithInlineEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty inlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(inlineEnumSchemaProperty.getName(), "enumType");
+        Assert.assertTrue(inlineEnumSchemaProperty.isEnum);
+        Assert.assertTrue(inlineEnumSchemaProperty.isInnerEnum);
+        Assert.assertTrue(inlineEnumSchemaProperty.isEnumRef);
+        Assert.assertTrue(inlineEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(inlineEnumSchemaProperty.isString);
+        Assert.assertFalse(inlineEnumSchemaProperty.isContainer);
+        Assert.assertFalse(inlineEnumSchemaProperty.isPrimitiveType);
+    }
 }
