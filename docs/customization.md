@@ -438,7 +438,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
 ```
---inline-schema-name-defaults arrayItemSuffix=_array_item
+--inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
+Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
