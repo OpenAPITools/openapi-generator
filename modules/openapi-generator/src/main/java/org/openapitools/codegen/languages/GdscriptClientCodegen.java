@@ -2,15 +2,13 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-//import io.swagger.models.properties.ArrayProperty;
-//import io.swagger.models.properties.Property;
-//import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,10 +66,113 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public GdscriptClientCodegen() {
         super();
 
+        modifyFeatureSet(features -> features
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Simple,
+                        SchemaSupportFeature.Composite
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.not
+                )
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Readme
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.Custom,
+                        WireFormatFeature.XML,
+                        WireFormatFeature.PROTOBUF
+                )
+                .includeSecurityFeatures(
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit // untested
+                )
+                .excludeSecurityFeatures(
+                        SecurityFeature.BasicAuth // desired
+                )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Array,
+                        DataTypeFeature.ArrayOfModel,
+                        DataTypeFeature.Binary,
+                        DataTypeFeature.Boolean,
+                        DataTypeFeature.Byte,
+                        DataTypeFeature.Custom,  // help (?)
+                        DataTypeFeature.Date,
+                        DataTypeFeature.DateTime,
+                        DataTypeFeature.Decimal,
+                        DataTypeFeature.Double,
+                        DataTypeFeature.Enum,
+                        DataTypeFeature.File,  // untested
+                        DataTypeFeature.Float,
+                        DataTypeFeature.Int32,
+                        DataTypeFeature.Int64,
+                        DataTypeFeature.Null,
+                        DataTypeFeature.Object,
+                        DataTypeFeature.Password,
+                        DataTypeFeature.String,
+                        DataTypeFeature.Uuid
+                )
+                .excludeDataTypeFeatures(
+                        DataTypeFeature.AnyType, // Variant will be there eventually
+                        DataTypeFeature.ArrayOfCollectionOfEnum,
+                        DataTypeFeature.ArrayOfCollectionOfModel,
+                        DataTypeFeature.ArrayOfCollectionOfPrimitives,
+                        DataTypeFeature.ArrayOfEnum,
+                        DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.CollectionFormatMulti,
+                        DataTypeFeature.MapOfCollectionOfEnum,
+                        DataTypeFeature.MapOfCollectionOfModel,
+                        DataTypeFeature.MapOfCollectionOfPrimitives,
+                        DataTypeFeature.MapOfEnum,
+                        DataTypeFeature.MapOfModel,
+                        DataTypeFeature.Maps
+                )
+                .includeGlobalFeatures(
+                        GlobalFeature.BasePath,
+                        GlobalFeature.Examples,
+                        GlobalFeature.ExternalDocumentation,
+                        GlobalFeature.Host,
+                        GlobalFeature.Info,
+                        GlobalFeature.Produces,
+                        GlobalFeature.Consumes,
+                        GlobalFeature.Schemes,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.MultiServer,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.XMLStructureDefinitions
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Body,
+                        ParameterFeature.Path,
+                        ParameterFeature.Header,
+                        ParameterFeature.FormUnencoded,
+                        ParameterFeature.Query
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.FormMultipart,
+                        ParameterFeature.Cookie
+                )
+        );
+
         // It makes sense to package the generated code like a Godot addon, for ease of installation.
-        // Since most users will set the output dir, we need to document that fact.
-        String addonName = "oas." + "petstore"; // TODO: replace "petstore" from CLI or YAML or both  (how?)
-        outputFolder = "generated-code" + File.separator + "gdscript" + File.separator + "addons" + File.separator + addonName;
+        // Since most users will set the output dir, we perhaps ought to to document that fact.
+        String addonName = "goas.client";
+        outputFolder = "generated-code"
+                + File.separator + "gdscript"
+                + File.separator + "addons"
+                + File.separator + addonName;
         embeddedTemplateDir = templateDir = "gdscript";
         apiPackage = "apis";
         modelPackage = "models";
@@ -79,7 +180,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.put("model.handlebars", ".gd");
         apiTemplateFiles.put("api.handlebars", ".gd");
         apiDocTemplateFiles.put("api_doc.handlebars", ".md");
-        // more supported files are defined in processOpts() (for coreNamePrefix)
+        // more supported files are defined in processOpts() (they use coreNamePrefix)
 
         setReservedWordsLowerCase(getReservedWords());
 
@@ -100,21 +201,24 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Array");
         // No timezone support in Godot so I'm skipping Datetimes for now
+        // We might at some point enable datetime support for UTC (non-timezoned)
         typeMapping.put("date", "String");
         typeMapping.put("datetime", "String");
+        typeMapping.put("DateTime", "String");  // case matters (format: date-time)
+        typeMapping.put("date-time", "String");  // possibly useless
         //typeMapping.put("binary", "any");
-        typeMapping.put("file", "String"); // untested-
+        typeMapping.put("file", "String");  // untested
         typeMapping.put("ByteArray", "Array");
         typeMapping.put("UUID", "String");
         //typeMapping.put("Error", "Error");
         //typeMapping.put("AnyType", "Variant");
 
-
-        //cliOptions.add(new CliOption(PROJECT_NAME, "The name of the project !!"));
         cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all core classes"));
         cliOptions.add(new CliOption(CORE_NAME_SUFFIX, "PascalCase suffix added to all core classes"));
 
         // This constructor is ran twice, because … reasons.
+        // Also, I have not taken care of escaping things properly in the templates.
+        // I'm not sure how to handle the different escaping strategies required.
         LOGGER.warn("---- THIS GENERATOR IS UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
         LOGGER.warn("PLEASE READ *CAREFULLY* THE OAS FILE YOU ARE USING BEFORE YOU TRUST IT.");
         LOGGER.info("This generation itself should be safe but maybe not the generated code.");
@@ -131,6 +235,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        additionalProperties.put("modelNameSuffix", modelNameSuffix);
 
         if (additionalProperties.containsKey(CORE_NAME_PREFIX)) {
             setCoreNamePrefix((String) additionalProperties.get(CORE_NAME_PREFIX));
@@ -161,7 +267,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         if (templatingEngine instanceof HandlebarsEngineAdapter) {
             HandlebarsEngineAdapter handlebars = (HandlebarsEngineAdapter) templatingEngine;
             //handlebars.infiniteLoops(true); // will we want this eventually?
-            handlebars.setPrettyPrint(true);  // removes blank lines from flow tags
+            handlebars.setPrettyPrint(true);  // removes blank lines left by flow control tags
         } else {
             throw new RuntimeException("Only the HandlebarsEngineAdapter is supported for this generator");
         }
@@ -170,7 +276,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String escapeUnsafeCharacters(String input) {
         // There might be ways to inject code in Gdscript, but I don't see any for now.  (no /* */ comments)
-        // TODO: review this with someone else
+        // TODO: review this with someone knowledgeable
         return input;
     }
 
@@ -178,7 +284,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public String escapeQuotationMark(String input) {
         // I've seen some other targets REMOVE the quotation marks altogether.
         // We might need to do that as well ?
-        // TODO: review this with someone else
+        // TODO: review this with someone knowledgeable
         return input
                 .replace("\"", "\\\"")
                 .replace("'", "\\'")
@@ -208,16 +314,21 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
 
-
     // When example is "null" (with quotes), mustache's {{#example}} triggers
     // Not sure why this happens on {{#example}} but not {{#description}}
     // Perhaps I'm just using mustache wrong…  Anyway, it's voodoo.
     // Also, even with this fix, {{#example}} still triggers.
     // → That just because of how mustache works. (false or [] only)
     // → I'll switch to handlebars.
-    // → Pebble would perhaps help reduce injections, with custom filters
+    // → Pebble would perhaps help reduce injections, with custom escaping filters for each context:
+    //   → Comments
+    //   → Variable names
+    //   → Function names
+    //   → Quoted
+    //   → Typed values (int, etc.)
     // → Handlebars also has a discrepancy between description and example, both 'null'
     // → We need this (hot?)fix in the end.
+    // → Or not, there's a {{#hasExamples}} we could perhaps use
     @Override
     public String toExampleValue(Schema schema) {
         if (schema.getExample() != null) {
@@ -237,20 +348,46 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "";
     }
 
-    // We are generous with the keywords, but what is actually accepted by GDScript ir more lenient
-    // than what is properly highlighted in the editor.  Readability matters ?
+    // ApiPlatform for example generates `SomeModel.jsonld` models.
+    // We do not support jsonld for now, so we are skipping them.
+    @Override
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
+        objs = super.updateAllModels(objs);
+
+        String[] names = objs.keySet().toArray(new String[0]);
+        for (String modelName : names) {
+            // Skip models with underscores, responses and @context in jsonld
+            // eg: api_somemodel_get_collection_200_response, SomeModel_jsonld__context
+            if (modelName.contains("_")) {
+                objs.remove(modelName);
+                LOGGER.warn("Skipped model " + modelName + " (underscore not supported)");
+            }
+            // Skip models with jsonld, we don't support them atm
+            // eg: Announcement.jsonld
+            if (modelName.contains("jsonld")) {
+                objs.remove(modelName);
+                LOGGER.warn("Skipped model " + modelName + " (jsonld not supported)");
+            }
+            // Also skip Hydra models, we're not supporting them atm
+            if (modelName.contains("Hydra")) {
+                objs.remove(modelName);
+                LOGGER.warn("Skipped model " + modelName + " (hydra not supported)");
+            }
+        }
+
+        return objs;
+    }
+
     protected List<String> getReservedWords() {
-        // FIXME: Missing Nodes and other Objects globally available (RefCounted, Sprite2D, etc.)
-        // FIXME: Missing primitive types (Rect…)
         return Arrays.asList(
                 // Local properties used in Model classes
                 "bee_class_name",
                 // Local method names used in base API class
                 "bee_connect_client_if_needed", "bee_request", "bee_request_text", "bee_do_request_text",
                 "bee_convert_http_method", "bee_urlize_path_param", "bee_escape_path_param",
-                "bee_next_loop_iteration", "bee_enable_ssl", "bee_disable_ssl",
+                "bee_next_loop_iteration", "bee_get_content_type", "bee_format_error_response",
                 // Local properties used in base API class
-                "bee_client", "bee_host", "bee_port", "bee_name",
+                "bee_config", "bee_client", "bee_name",
                 // Local variable names used in API methods (endpoints)
                 "bzz_method", "bzz_path", "bzz_query",
                 "bzz_result", "bzz_code", "bzz_headers",
@@ -431,9 +568,800 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 // Constants
                 "PI", "TAU", "INF", "NaN",
 
-                // Types TODO: extract all types from somewhere ; we're going to need all the Nodes, as well ?!
-                "float", "int", "String", "bool", "Dictionary", "Array", "Color",
-                "Quat", "Vector2", "Vector3", "Transform"
+                "float", "int", "bool",
+
+                "AABB",
+                "AcceptDialog",
+                "AESContext",
+                "AnimatableBody2D",
+                "AnimatableBody3D",
+                "AnimatedSprite2D",
+                "AnimatedSprite3D",
+                "AnimatedTexture",
+                "AnimationLibrary",
+                "AnimationNodeAdd2",
+                "AnimationNodeAdd3",
+                "AnimationNodeAnimation",
+                "AnimationNodeBlend2",
+                "AnimationNodeBlend3",
+                "AnimationNodeBlendSpace1D",
+                "AnimationNodeBlendSpace2D",
+                "AnimationNodeBlendTree",
+                "AnimationNodeOneShot",
+                "AnimationNodeOutput",
+                "AnimationNodeStateMachinePlayback",
+                "AnimationNodeStateMachineTransition",
+                "AnimationNodeStateMachine",
+                "AnimationNodeSync",
+                "AnimationNodeTimeScale",
+                "AnimationNodeTimeSeek",
+                "AnimationNodeTransition",
+                "AnimationNode",
+                "AnimationPlayer",
+                "AnimationRootNode",
+                "AnimationTrackEditPlugin",
+                "AnimationTree",
+                "Animation",
+                "Area2D",
+                "Area3D",
+                "ArrayMesh",
+                "ArrayOccluder3D",
+                "AspectRatioContainer",
+                "AStar2D",
+                "AStar3D",
+                "AStarGrid2D",
+                "AtlasTexture",
+                "AudioBusLayout",
+                "AudioEffectAmplify",
+                "AudioEffectBandLimitFilter",
+                "AudioEffectBandPassFilter",
+                "AudioEffectCapture",
+                "AudioEffectChorus",
+                "AudioEffectCompressor",
+                "AudioEffectDelay",
+                "AudioEffectDistortion",
+                "AudioEffectEQ10",
+                "AudioEffectEQ21",
+                "AudioEffectEQ6",
+                "AudioEffectEQ",
+                "AudioEffectFilter",
+                "AudioEffectHighPassFilter",
+                "AudioEffectHighShelfFilter",
+                "AudioEffectInstance",
+                "AudioEffectLimiter",
+                "AudioEffectLowPassFilter",
+                "AudioEffectLowShelfFilter",
+                "AudioEffectNotchFilter",
+                "AudioEffectPanner",
+                "AudioEffectPhaser",
+                "AudioEffectPitchShift",
+                "AudioEffectRecord",
+                "AudioEffectReverb",
+                "AudioEffectSpectrumAnalyzerInstance",
+                "AudioEffectSpectrumAnalyzer",
+                "AudioEffectStereoEnhance",
+                "AudioEffect",
+                "AudioListener2D",
+                "AudioListener3D",
+                "AudioServer",
+                "AudioStreamGeneratorPlayback",
+                "AudioStreamGenerator",
+                "AudioStreamMicrophone",
+                "AudioStreamPlaybackResampled",
+                "AudioStreamPlayback",
+                "AudioStreamPlayer2D",
+                "AudioStreamPlayer3D",
+                "AudioStreamPlayer",
+                "AudioStreamRandomizer",
+                "AudioStreamWAV",
+                "AudioStream",
+                "BackBufferCopy",
+                "BaseButton",
+                "BaseMaterial3D",
+                "Basis",
+                "BitMap",
+                "Bone2D",
+                "BoneAttachment3D",
+                "BoneMap",
+                "BoxContainer",
+                "BoxMesh",
+                "BoxOccluder3D",
+                "BoxShape3D",
+                "ButtonGroup",
+                "Button",
+                "Callable",
+                "CallbackTweener",
+                "Camera2D",
+                "Camera3D",
+                "CameraAttributesPhysical",
+                "CameraAttributesPractical",
+                "CameraAttributes",
+                "CameraFeed",
+                "CameraServer",
+                "CameraTexture",
+                "CanvasGroup",
+                "CanvasItemMaterial",
+                "CanvasItem",
+                "CanvasLayer",
+                "CanvasModulate",
+                "CanvasTexture",
+                "CapsuleMesh",
+                "CapsuleShape2D",
+                "CapsuleShape3D",
+                "CenterContainer",
+                "CharacterBody2D",
+                "CharacterBody3D",
+                "CharFXTransform",
+                "CheckBox",
+                "CheckButton",
+                "CircleShape2D",
+                "ClassDB",
+                "CodeEdit",
+                "CodeHighlighter",
+                "CollisionObject2D",
+                "CollisionObject3D",
+                "CollisionPolygon2D",
+                "CollisionPolygon3D",
+                "CollisionShape2D",
+                "CollisionShape3D",
+                "ColorPickerButton",
+                "ColorPicker",
+                "ColorRect",
+                "Color",
+                "CompressedCubemapArray",
+                "CompressedCubemap",
+                "CompressedTexture2DArray",
+                "CompressedTexture2D",
+                "CompressedTexture3D",
+                "CompressedTextureLayered",
+                "ConcavePolygonShape2D",
+                "ConcavePolygonShape3D",
+                "ConeTwistJoint3D",
+                "ConfigFile",
+                "ConfirmationDialog",
+                "Container",
+                "Control",
+                "ConvexPolygonShape2D",
+                "ConvexPolygonShape3D",
+                "CPUParticles2D",
+                "CPUParticles3D",
+                "CryptoKey",
+                "Crypto",
+                "CubemapArray",
+                "Cubemap",
+                "Curve2D",
+                "Curve3D",
+                "CurveTexture",
+                "Curve",
+                "CurveXYZTexture",
+                "CylinderMesh",
+                "CylinderShape3D",
+                "DampedSpringJoint2D",
+                "Decal",
+                "Dictionary",
+                "DirAccess",
+                "DirectionalLight2D",
+                "DirectionalLight3D",
+                "DisplayServer",
+                "DTLSServer",
+                "EditorCommandPalette",
+                "EditorDebuggerPlugin",
+                "EditorExportPlatform",
+                "EditorExportPlugin",
+                "EditorFeatureProfile",
+                "EditorFileDialog",
+                "EditorFileSystemDirectory",
+                "EditorFileSystemImportFormatSupportQuery",
+                "EditorFileSystem",
+                "EditorImportPlugin",
+                "EditorInspectorPlugin",
+                "EditorInspector",
+                "EditorInterface",
+                "EditorNode3DGizmoPlugin",
+                "EditorNode3DGizmo",
+                "EditorPaths",
+                "EditorPlugin",
+                "EditorProperty",
+                "EditorResourceConversionPlugin",
+                "EditorResourcePicker",
+                "EditorResourcePreviewGenerator",
+                "EditorResourcePreview",
+                "EditorSceneFormatImporter",
+                "EditorScenePostImportPlugin",
+                "EditorScenePostImport",
+                "EditorScriptPicker",
+                "EditorScript",
+                "EditorSelection",
+                "EditorSettings",
+                "EditorSpinSlider",
+                "EditorSyntaxHighlighter",
+                "EditorTranslationParserPlugin",
+                "EditorUndoRedoManager",
+                "EditorVCSInterface",
+                "EncodedObjectAsID",
+                "EngineDebugger",
+                "EngineProfiler",
+                "Engine",
+                "Environment",
+                "Expression",
+                "FileAccess",
+                "FileDialog",
+                "FileSystemDock",
+                "FlowContainer",
+                "FogMaterial",
+                "FogVolume",
+                "FontFile",
+                "FontVariation",
+                "Font",
+                "Generic6DOFJoint3D",
+                "Geometry2D",
+                "Geometry3D",
+                "GeometryInstance3D",
+                "GPUParticles2D",
+                "GPUParticles3D",
+                "GPUParticlesAttractor3D",
+                "GPUParticlesAttractorBox3D",
+                "GPUParticlesAttractorSphere3D",
+                "GPUParticlesAttractorVectorField3D",
+                "GPUParticlesCollision3D",
+                "GPUParticlesCollisionBox3D",
+                "GPUParticlesCollisionHeightField3D",
+                "GPUParticlesCollisionSDF3D",
+                "GPUParticlesCollisionSphere3D",
+                "GradientTexture1D",
+                "GradientTexture2D",
+                "Gradient",
+                "GraphEdit",
+                "GraphNode",
+                "GridContainer",
+                "GrooveJoint2D",
+                "HashingContext",
+                "HBoxContainer",
+                "HeightMapShape3D",
+                "HFlowContainer",
+                "HingeJoint3D",
+                "HMACContext",
+                "HScrollBar",
+                "HSeparator",
+                "HSlider",
+                "HSplitContainer",
+                "HTTPClient",
+                "HTTPRequest",
+                "ImageFormatLoaderExtension",
+                "ImageFormatLoader",
+                "ImageTexture3D",
+                "ImageTextureLayered",
+                "ImageTexture",
+                "Image",
+                "ImmediateMesh",
+                "ImporterMeshInstance3D",
+                "ImporterMesh",
+                "InputEventAction",
+                "InputEventFromWindow",
+                "InputEventGesture",
+                "InputEventJoypadButton",
+                "InputEventJoypadMotion",
+                "InputEventKey",
+                "InputEventMagnifyGesture",
+                "InputEventMIDI",
+                "InputEventMouseButton",
+                "InputEventMouseMotion",
+                "InputEventMouse",
+                "InputEventPanGesture",
+                "InputEventScreenDrag",
+                "InputEventScreenTouch",
+                "InputEventShortcut",
+                "InputEventWithModifiers",
+                "InputEvent",
+                "InputMap",
+                "Input",
+                "InstancePlaceholder",
+                "IntervalTweener",
+                "IP",
+                "ItemList",
+                "JavaClassWrapper",
+                "JavaClass",
+                "JavaScriptBridge",
+                "JavaScriptObject",
+                "JNISingleton",
+                "Joint2D",
+                "Joint3D",
+                "JSONRPC",
+                "JSON",
+                "KinematicCollision2D",
+                "KinematicCollision3D",
+                "Label3D",
+                "LabelSettings",
+                "Label",
+                "Light2D",
+                "Light3D",
+                "LightmapGIData",
+                "LightmapGI",
+                "LightmapperRD",
+                "Lightmapper",
+                "LightmapProbe",
+                "LightOccluder2D",
+                "Line2D",
+                "LineEdit",
+                "LinkButton",
+                "MainLoop",
+                "MarginContainer",
+                "Marker2D",
+                "Marker3D",
+                "Marshalls",
+                "Material",
+                "MenuBar",
+                "MenuButton",
+                "MeshDataTool",
+                "MeshInstance2D",
+                "MeshInstance3D",
+                "MeshLibrary",
+                "MeshTexture",
+                "Mesh",
+                "MethodTweener",
+                "MissingNode",
+                "MissingResource",
+                "MovieWriter",
+                "MultiMeshInstance2D",
+                "MultiMeshInstance3D",
+                "MultiMesh",
+                "MultiplayerAPIExtension",
+                "MultiplayerAPI",
+                "MultiplayerPeerExtension",
+                "MultiplayerPeer",
+                "Mutex",
+                "NativeExtensionManager",
+                "NativeExtension",
+                "NavigationAgent2D",
+                "NavigationAgent3D",
+                "NavigationLink2D",
+                "NavigationLink3D",
+                "NavigationMeshGenerator",
+                "NavigationMesh",
+                "NavigationObstacle2D",
+                "NavigationObstacle3D",
+                "NavigationPathQueryParameters2D",
+                "NavigationPathQueryParameters3D",
+                "NavigationPathQueryResult2D",
+                "NavigationPathQueryResult3D",
+                "NavigationPolygon",
+                "NavigationRegion2D",
+                "NavigationRegion3D",
+                "NavigationServer2D",
+                "NavigationServer3D",
+                "NinePatchRect",
+                "Node2D",
+                "Node3DGizmo",
+                "Node3D",
+                "NodePath",
+                "Node",
+                "Object",
+                "Occluder3D",
+                "OccluderInstance3D",
+                "OccluderPolygon2D",
+                "OmniLight3D",
+                "OptimizedTranslation",
+                "OptionButton",
+                "ORMMaterial3D",
+                "OS",
+                "PackedByteArray",
+                "PackedColorArray",
+                "PackedDataContainerRef",
+                "PackedDataContainer",
+                "PackedFloat32Array",
+                "PackedFloat64Array",
+                "PackedInt32Array",
+                "PackedInt64Array",
+                "PackedScene",
+                "PackedStringArray",
+                "PackedVector2Array",
+                "PackedVector3Array",
+                "PacketPeerDTLS",
+                "PacketPeerExtension",
+                "PacketPeerStream",
+                "PacketPeerUDP",
+                "PacketPeer",
+                "PanelContainer",
+                "Panel",
+                "PanoramaSkyMaterial",
+                "ParallaxBackground",
+                "ParallaxLayer",
+                "ParticleProcessMaterial",
+                "Path2D",
+                "Path3D",
+                "PathFollow2D",
+                "PathFollow3D",
+                "PCKPacker",
+                "Performance",
+                "PhysicalBone2D",
+                "PhysicalBone3D",
+                "PhysicalSkyMaterial",
+                "PhysicsBody2D",
+                "PhysicsBody3D",
+                "PhysicsDirectBodyState2DExtension",
+                "PhysicsDirectBodyState2D",
+                "PhysicsDirectBodyState3DExtension",
+                "PhysicsDirectBodyState3D",
+                "PhysicsDirectSpaceState2DExtension",
+                "PhysicsDirectSpaceState2D",
+                "PhysicsDirectSpaceState3DExtension",
+                "PhysicsDirectSpaceState3D",
+                "PhysicsMaterial",
+                "PhysicsPointQueryParameters2D",
+                "PhysicsPointQueryParameters3D",
+                "PhysicsRayQueryParameters2D",
+                "PhysicsRayQueryParameters3D",
+                "PhysicsServer2DExtension",
+                "PhysicsServer2DManager",
+                "PhysicsServer2D",
+                "PhysicsServer3DExtension",
+                "PhysicsServer3DManager",
+                "PhysicsServer3DRenderingServerHandler",
+                "PhysicsServer3D",
+                "PhysicsShapeQueryParameters2D",
+                "PhysicsShapeQueryParameters3D",
+                "PhysicsTestMotionParameters2D",
+                "PhysicsTestMotionParameters3D",
+                "PhysicsTestMotionResult2D",
+                "PhysicsTestMotionResult3D",
+                "PinJoint2D",
+                "PinJoint3D",
+                "PlaceholderCubemapArray",
+                "PlaceholderCubemap",
+                "PlaceholderMaterial",
+                "PlaceholderMesh",
+                "PlaceholderTexture2DArray",
+                "PlaceholderTexture2D",
+                "PlaceholderTexture3D",
+                "PlaceholderTextureLayered",
+                "PlaneMesh",
+                "Plane",
+                "PointLight2D",
+                "PointMesh",
+                "Polygon2D",
+                "PolygonOccluder3D",
+                "PolygonPathFinder",
+                "PopupMenu",
+                "PopupPanel",
+                "Popup",
+                "PortableCompressedTexture2D",
+                "PrimitiveMesh",
+                "PrismMesh",
+                "ProceduralSkyMaterial",
+                "ProgressBar",
+                "Projection",
+                "ProjectSettings",
+                "PropertyTweener",
+                "QuadMesh",
+                "QuadOccluder3D",
+                "Quaternion",
+                "RandomNumberGenerator",
+                "Range",
+                "RayCast2D",
+                "RayCast3D",
+                "RDAttachmentFormat",
+                "RDFramebufferPass",
+                "RDPipelineColorBlendStateAttachment",
+                "RDPipelineColorBlendState",
+                "RDPipelineDepthStencilState",
+                "RDPipelineMultisampleState",
+                "RDPipelineRasterizationState",
+                "RDPipelineSpecializationConstant",
+                "RDSamplerState",
+                "RDShaderFile",
+                "RDShaderSource",
+                "RDShaderSPIRV",
+                "RDTextureFormat",
+                "RDTextureView",
+                "RDUniform",
+                "RDVertexAttribute",
+                "Rect2i",
+                "Rect2",
+                "RectangleShape2D",
+                "RefCounted",
+                "ReferenceRect",
+                "ReflectionProbe",
+                "RemoteTransform2D",
+                "RemoteTransform3D",
+                "RenderingDevice",
+                "RenderingServer",
+                "ResourceFormatLoader",
+                "ResourceFormatSaver",
+                "ResourceImporter",
+                "ResourceLoader",
+                "ResourcePreloader",
+                "ResourceSaver",
+                "ResourceUID",
+                "Resource",
+                "RibbonTrailMesh",
+                "RichTextEffect",
+                "RichTextLabel",
+                "RID",
+                "RigidBody2D",
+                "RigidBody3D",
+                "RootMotionView",
+                "SceneState",
+                "SceneTreeTimer",
+                "SceneTree",
+                "ScriptCreateDialog",
+                "ScriptEditorBase",
+                "ScriptEditor",
+                "ScriptExtension",
+                "ScriptLanguageExtension",
+                "ScriptLanguage",
+                "Script",
+                "ScrollBar",
+                "ScrollContainer",
+                "SegmentShape2D",
+                "Semaphore",
+                "SeparationRayShape2D",
+                "SeparationRayShape3D",
+                "Separator",
+                "ShaderGlobalsOverride",
+                "ShaderInclude",
+                "ShaderMaterial",
+                "Shader",
+                "Shape2D",
+                "Shape3D",
+                "ShapeCast2D",
+                "ShapeCast3D",
+                "Shortcut",
+                "Signal",
+                "Skeleton2D",
+                "Skeleton3D",
+                "SkeletonIK3D",
+                "SkeletonModification2DCCDIK",
+                "SkeletonModification2DFABRIK",
+                "SkeletonModification2DJiggle",
+                "SkeletonModification2DLookAt",
+                "SkeletonModification2DPhysicalBones",
+                "SkeletonModification2DStackHolder",
+                "SkeletonModification2DTwoBoneIK",
+                "SkeletonModification2D",
+                "SkeletonModification3DCCDIK",
+                "SkeletonModification3DFABRIK",
+                "SkeletonModification3DJiggle",
+                "SkeletonModification3DLookAt",
+                "SkeletonModification3DStackHolder",
+                "SkeletonModification3DTwoBoneIK",
+                "SkeletonModification3D",
+                "SkeletonModificationStack2D",
+                "SkeletonModificationStack3D",
+                "SkeletonProfileHumanoid",
+                "SkeletonProfile",
+                "SkinReference",
+                "Skin",
+                "Sky",
+                "SliderJoint3D",
+                "Slider",
+                "SoftBody3D",
+                "SphereMesh",
+                "SphereOccluder3D",
+                "SphereShape3D",
+                "SpinBox",
+                "SplitContainer",
+                "SpotLight3D",
+                "SpringArm3D",
+                "Sprite2D",
+                "Sprite3D",
+                "SpriteBase3D",
+                "SpriteFrames",
+                "StandardMaterial3D",
+                "StaticBody2D",
+                "StaticBody3D",
+                "StreamPeerBuffer",
+                "StreamPeerExtension",
+                "StreamPeerGZIP",
+                "StreamPeerTCP",
+                "StreamPeerTLS",
+                "StreamPeer",
+                "StringName",
+                "String",
+                "StyleBoxEmpty",
+                "StyleBoxFlat",
+                "StyleBoxLine",
+                "StyleBoxTexture",
+                "StyleBox",
+                "SubViewportContainer",
+                "SubViewport",
+                "SurfaceTool",
+                "SyntaxHighlighter",
+                "SystemFont",
+                "TabBar",
+                "TabContainer",
+                "TCPServer",
+                "TextEdit",
+                "TextLine",
+                "TextMesh",
+                "TextParagraph",
+                "TextServerDummy",
+                "TextServerExtension",
+                "TextServerManager",
+                "TextServer",
+                "Texture2DArray",
+                "Texture2D",
+                "Texture3D",
+                "TextureButton",
+                "TextureLayered",
+                "TextureProgressBar",
+                "TextureRect",
+                "Texture",
+                "ThemeDB",
+                "Theme",
+                "Thread",
+                "TileData",
+                "TileMapPattern",
+                "TileMap",
+                "TileSetAtlasSource",
+                "TileSetScenesCollectionSource",
+                "TileSetSource",
+                "TileSet",
+                "Timer",
+                "Time",
+                "TorusMesh",
+                "TouchScreenButton",
+                "Transform2D",
+                "Transform3D",
+                "TranslationServer",
+                "Translation",
+                "TreeItem",
+                "Tree",
+                "TriangleMesh",
+                "TubeTrailMesh",
+                "Tweener",
+                "Tween",
+                "UDPServer",
+                "UndoRedo",
+                "Variant",
+                "VBoxContainer",
+                "Vector2i",
+                "Vector2",
+                "Vector3i",
+                "Vector3",
+                "Vector4i",
+                "Vector4",
+                "VehicleBody3D",
+                "VehicleWheel3D",
+                "VFlowContainer",
+                "VideoStreamPlayer",
+                "VideoStream",
+                "ViewportTexture",
+                "Viewport",
+                "VisibleOnScreenEnabler2D",
+                "VisibleOnScreenEnabler3D",
+                "VisibleOnScreenNotifier2D",
+                "VisibleOnScreenNotifier3D",
+                "VisualInstance3D",
+                "VisualShaderNodeBillboard",
+                "VisualShaderNodeBooleanConstant",
+                "VisualShaderNodeBooleanParameter",
+                "VisualShaderNodeClamp",
+                "VisualShaderNodeColorConstant",
+                "VisualShaderNodeColorFunc",
+                "VisualShaderNodeColorOp",
+                "VisualShaderNodeColorParameter",
+                "VisualShaderNodeComment",
+                "VisualShaderNodeCompare",
+                "VisualShaderNodeConstant",
+                "VisualShaderNodeCubemapParameter",
+                "VisualShaderNodeCubemap",
+                "VisualShaderNodeCurveTexture",
+                "VisualShaderNodeCurveXYZTexture",
+                "VisualShaderNodeCustom",
+                "VisualShaderNodeDerivativeFunc",
+                "VisualShaderNodeDeterminant",
+                "VisualShaderNodeDistanceFade",
+                "VisualShaderNodeDotProduct",
+                "VisualShaderNodeExpression",
+                "VisualShaderNodeFaceForward",
+                "VisualShaderNodeFloatConstant",
+                "VisualShaderNodeFloatFunc",
+                "VisualShaderNodeFloatOp",
+                "VisualShaderNodeFloatParameter",
+                "VisualShaderNodeFresnel",
+                "VisualShaderNodeGlobalExpression",
+                "VisualShaderNodeGroupBase",
+                "VisualShaderNodeIf",
+                "VisualShaderNodeInput",
+                "VisualShaderNodeIntConstant",
+                "VisualShaderNodeIntFunc",
+                "VisualShaderNodeIntOp",
+                "VisualShaderNodeIntParameter",
+                "VisualShaderNodeIs",
+                "VisualShaderNodeLinearSceneDepth",
+                "VisualShaderNodeMix",
+                "VisualShaderNodeMultiplyAdd",
+                "VisualShaderNodeOuterProduct",
+                "VisualShaderNodeOutput",
+                "VisualShaderNodeParameterRef",
+                "VisualShaderNodeParameter",
+                "VisualShaderNodeParticleAccelerator",
+                "VisualShaderNodeParticleBoxEmitter",
+                "VisualShaderNodeParticleConeVelocity",
+                "VisualShaderNodeParticleEmitter",
+                "VisualShaderNodeParticleEmit",
+                "VisualShaderNodeParticleMeshEmitter",
+                "VisualShaderNodeParticleMultiplyByAxisAngle",
+                "VisualShaderNodeParticleOutput",
+                "VisualShaderNodeParticleRandomness",
+                "VisualShaderNodeParticleRingEmitter",
+                "VisualShaderNodeParticleSphereEmitter",
+                "VisualShaderNodeProximityFade",
+                "VisualShaderNodeRandomRange",
+                "VisualShaderNodeRemap",
+                "VisualShaderNodeResizableBase",
+                "VisualShaderNodeSample3D",
+                "VisualShaderNodeScreenUVToSDF",
+                "VisualShaderNodeSDFRaymarch",
+                "VisualShaderNodeSDFToScreenUV",
+                "VisualShaderNodeSmoothStep",
+                "VisualShaderNodeStep",
+                "VisualShaderNodeSwitch",
+                "VisualShaderNodeTexture2DArrayParameter",
+                "VisualShaderNodeTexture2DArray",
+                "VisualShaderNodeTexture2DParameter",
+                "VisualShaderNodeTexture3DParameter",
+                "VisualShaderNodeTexture3D",
+                "VisualShaderNodeTextureParameterTriplanar",
+                "VisualShaderNodeTextureParameter",
+                "VisualShaderNodeTextureSDFNormal",
+                "VisualShaderNodeTextureSDF",
+                "VisualShaderNodeTexture",
+                "VisualShaderNodeTransformCompose",
+                "VisualShaderNodeTransformConstant",
+                "VisualShaderNodeTransformDecompose",
+                "VisualShaderNodeTransformFunc",
+                "VisualShaderNodeTransformOp",
+                "VisualShaderNodeTransformParameter",
+                "VisualShaderNodeTransformVecMult",
+                "VisualShaderNodeUVFunc",
+                "VisualShaderNodeUVPolarCoord",
+                "VisualShaderNodeVaryingGetter",
+                "VisualShaderNodeVaryingSetter",
+                "VisualShaderNodeVarying",
+                "VisualShaderNodeVec2Constant",
+                "VisualShaderNodeVec2Parameter",
+                "VisualShaderNodeVec3Constant",
+                "VisualShaderNodeVec3Parameter",
+                "VisualShaderNodeVec4Constant",
+                "VisualShaderNodeVec4Parameter",
+                "VisualShaderNodeVectorBase",
+                "VisualShaderNodeVectorCompose",
+                "VisualShaderNodeVectorDecompose",
+                "VisualShaderNodeVectorDistance",
+                "VisualShaderNodeVectorFunc",
+                "VisualShaderNodeVectorLen",
+                "VisualShaderNodeVectorOp",
+                "VisualShaderNodeVectorRefract",
+                "VisualShaderNode",
+                "VisualShader",
+                "VoxelGIData",
+                "VoxelGI",
+                "VScrollBar",
+                "VSeparator",
+                "VSlider",
+                "VSplitContainer",
+                "WeakRef",
+                "Window",
+                "WorkerThreadPool",
+                "World2D",
+                "World3D",
+                "WorldBoundaryShape2D",
+                "WorldBoundaryShape3D",
+                "WorldEnvironment",
+                "X509Certificate",
+                "XMLParser",
+                "XRAnchor3D",
+                "XRCamera3D",
+                "XRController3D",
+                "XRInterfaceExtension",
+                "XRInterface",
+                "XRNode3D",
+                "XROrigin3D",
+                "XRPose",
+                "XRPositionalTracker",
+                "XRServer"
         );
     }
 }
+
