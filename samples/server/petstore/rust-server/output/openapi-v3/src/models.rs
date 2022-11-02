@@ -1805,7 +1805,7 @@ pub struct ObjectHeader {
 
     #[serde(rename = "optionalObjectHeader")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_object_header: Option<isize>,
+    pub optional_object_header: Option<i32>,
 
 }
 
@@ -1855,7 +1855,7 @@ impl std::str::FromStr for ObjectHeader {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_object_header: Vec<bool>,
-            pub optional_object_header: Vec<isize>,
+            pub optional_object_header: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1876,7 +1876,7 @@ impl std::str::FromStr for ObjectHeader {
                     #[allow(clippy::redundant_clone)]
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
@@ -1949,7 +1949,7 @@ pub struct ObjectParam {
 
     #[serde(rename = "optionalParam")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_param: Option<isize>,
+    pub optional_param: Option<i32>,
 
 }
 
@@ -1999,7 +1999,7 @@ impl std::str::FromStr for ObjectParam {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
-            pub optional_param: Vec<isize>,
+            pub optional_param: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2020,7 +2020,7 @@ impl std::str::FromStr for ObjectParam {
                     #[allow(clippy::redundant_clone)]
                     "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "optionalParam" => intermediate_rep.optional_param.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "optionalParam" => intermediate_rep.optional_param.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
@@ -3017,7 +3017,7 @@ pub struct XmlObject {
 
     #[serde(rename = "other_inner_rename")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub other_inner_rename: Option<isize>,
+    pub other_inner_rename: Option<i32>,
 
 }
 
@@ -3071,7 +3071,7 @@ impl std::str::FromStr for XmlObject {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub inner_string: Vec<String>,
-            pub other_inner_rename: Vec<isize>,
+            pub other_inner_rename: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3092,7 +3092,7 @@ impl std::str::FromStr for XmlObject {
                     #[allow(clippy::redundant_clone)]
                     "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }

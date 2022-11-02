@@ -140,7 +140,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import unit_test_api
 from pprint import pprint
-from unit_test_api.apis import ref_api
+from unit_test_api.apis.tags import ref_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from unit_test_api.model.ref_in_allof import RefInAllof

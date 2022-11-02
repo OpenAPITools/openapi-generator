@@ -49,7 +49,7 @@ async def test_get_order_by_id(client):
     }
     response = await client.request(
         method='GET',
-        path='/v2/store/order/{order_id}'.format(order_id=5),
+        path='/v2/store/order/{order_id}'.format(order_id=1),
         headers=headers,
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
@@ -61,7 +61,7 @@ async def test_place_order(client):
 
     Place an order for a pet
     """
-    body = {}
+    body = openapi_server.Order()
     headers = { 
         'Accept': 'application/json',
         'Content-Type': 'application/json',

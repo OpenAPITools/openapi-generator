@@ -371,7 +371,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
 		{{/is4xx}}
 		{{#is5xx}}
-		if localVarHTTPResponse.StatusCode >= 500
+		if localVarHTTPResponse.StatusCode >= 500 {
 		{{/is5xx}}
 		{{/range}}
 		{{^range}}
@@ -385,7 +385,8 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+            		newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+            		newErr.model = v
 			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			{{/-last}}

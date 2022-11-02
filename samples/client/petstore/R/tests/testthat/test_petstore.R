@@ -18,6 +18,15 @@ pet <- Pet$new("name_test",
 #pet_api$api_client$password <- ""
 result <- pet_api$AddPet(pet)
 
+test_that("Test discriminator and mapping", {
+  d <- '{"breed": "bulldog","color":"white","className":"Dog"}'
+  dog <- ApiClient$new()$deserialize(d, "Animal", loadNamespace("petstore"))
+  expect_equal(class(dog)[1], "Dog")
+  expect_equal(dog$breed, "bulldog")
+  expect_equal(dog$color, "white")
+  expect_equal(dog$className, "Dog")
+})
+
 test_that("Test toJSONString", {
   expect_equal(pet_id, 123321)
   expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')

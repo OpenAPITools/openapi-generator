@@ -39,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -117,6 +118,10 @@ public class InlineSchemaDiscriminatorAllOf {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the InlineSchemaDiscriminatorAllOf instance itself
    */
   public InlineSchemaDiscriminatorAllOf putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -128,6 +133,8 @@ public class InlineSchemaDiscriminatorAllOf {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -135,6 +142,9 @@ public class InlineSchemaDiscriminatorAllOf {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -208,9 +218,7 @@ public class InlineSchemaDiscriminatorAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (InlineSchemaDiscriminatorAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!InlineSchemaDiscriminatorAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in InlineSchemaDiscriminatorAllOf is not found in the empty JSON string", InlineSchemaDiscriminatorAllOf.openapiRequiredFields.toString()));
         }
       }

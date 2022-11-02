@@ -43,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -302,9 +303,7 @@ public class TypeHolderDefault implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (TypeHolderDefault.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!TypeHolderDefault.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderDefault is not found in the empty JSON string", TypeHolderDefault.openapiRequiredFields.toString()));
         }
       }
@@ -323,11 +322,13 @@ public class TypeHolderDefault implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("string_item") != null && !jsonObj.get("string_item").isJsonNull()) && !jsonObj.get("string_item").isJsonPrimitive()) {
+      if (!jsonObj.get("string_item").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonNull()) && !jsonObj.get("array_item").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("array_item") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("array_item").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }

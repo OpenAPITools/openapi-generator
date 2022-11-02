@@ -285,9 +285,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <spring-web-version>5.3.18</spring-web-version>
-        <jackson-version>2.10.5</jackson-version>
-        <jackson-databind-version>2.11.4</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.3</jackson-databind-nullable-version>
+        <jackson-version>2.12.7</jackson-version>
+        <jackson-databind-version>2.12.7</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.4</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13.2</junit-version>

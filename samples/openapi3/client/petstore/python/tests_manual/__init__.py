@@ -1,3 +1,4 @@
+import collections
 import json
 import typing
 import unittest
@@ -6,6 +7,8 @@ import urllib3
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client
+
+ParamTestCase = collections.namedtuple('ParamTestCase', 'payload expected_serialization explode', defaults=[False])
 
 
 class ApiTestMixin(unittest.TestCase):
@@ -55,10 +58,11 @@ class ApiTestMixin(unittest.TestCase):
         content_type: typing.Optional[str] = 'application/json',
         accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
+        headers: typing.Optional[typing.Dict] = None
     ):
-        headers = {
-            'User-Agent': cls.user_agent
-        }
+        if headers is None:
+            headers = {}
+        headers['User-Agent'] = cls.user_agent
         if accept_content_type:
             headers['Accept'] = accept_content_type
         if content_type:

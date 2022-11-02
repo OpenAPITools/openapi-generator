@@ -42,7 +42,7 @@ func NewDuplicatedPropChildAllOfWithDefaults() *DuplicatedPropChildAllOf {
 
 // GetDupProp returns the DupProp field value if set, zero value otherwise.
 func (o *DuplicatedPropChildAllOf) GetDupProp() string {
-	if o == nil || o.DupProp == nil {
+	if o == nil || isNil(o.DupProp) {
 		var ret string
 		return ret
 	}
@@ -52,15 +52,15 @@ func (o *DuplicatedPropChildAllOf) GetDupProp() string {
 // GetDupPropOk returns a tuple with the DupProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropChildAllOf) GetDupPropOk() (*string, bool) {
-	if o == nil || o.DupProp == nil {
-		return nil, false
+	if o == nil || isNil(o.DupProp) {
+    return nil, false
 	}
 	return o.DupProp, true
 }
 
 // HasDupProp returns a boolean if a field has been set.
 func (o *DuplicatedPropChildAllOf) HasDupProp() bool {
-	if o != nil && o.DupProp != nil {
+	if o != nil && !isNil(o.DupProp) {
 		return true
 	}
 
@@ -74,7 +74,7 @@ func (o *DuplicatedPropChildAllOf) SetDupProp(v string) {
 
 func (o DuplicatedPropChildAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.DupProp != nil {
+	if !isNil(o.DupProp) {
 		toSerialize["dup-prop"] = o.DupProp
 	}
 

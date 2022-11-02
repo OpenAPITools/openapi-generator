@@ -25,24 +25,111 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-# header params
+# Header params
 ApiKeySchema = schemas.StrSchema
-# path params
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+    }
+)
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+        'api_key': typing.Union[ApiKeySchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+request_header_api_key = api_client.HeaderParameter(
+    name="api_key",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ApiKeySchema,
+)
+# Path params
 PetIdSchema = schemas.Int64Schema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_pet_id = api_client.PathParameter(
+    name="petId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=PetIdSchema,
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _delete_pet_oapg(
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+    @typing.overload
+    def _delete_pet_oapg(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def _delete_pet_oapg(
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _delete_pet_oapg(
-        self: api_client.Api,
+        self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         Deletes a pet
         :param skip_deserialization: If true then api_response.response will be set but
@@ -104,16 +191,45 @@ class BaseApi(api_client.Api):
 class DeletePet(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def delete_pet(
-        self: BaseApi,
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+    @typing.overload
+    def delete_pet(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def delete_pet(
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def delete_pet(
+        self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._delete_pet_oapg(
             header_params=header_params,
             path_params=path_params,
@@ -126,16 +242,45 @@ class DeletePet(BaseApi):
 class ApiFordelete(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def delete(
-        self: BaseApi,
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+    @typing.overload
+    def delete(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def delete(
+        self,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def delete(
+        self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._delete_pet_oapg(
             header_params=header_params,
             path_params=path_params,

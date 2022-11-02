@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justSymbol">justSymbol</param>
         /// <param name="arrayEnum">arrayEnum</param>
-        public EnumArrays(JustSymbolEnum justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
+        public EnumArrays(JustSymbolEnum justSymbol = default, List<EnumArrays.ArrayEnumEnum> arrayEnum = default)
         {
             JustSymbol = justSymbol;
             ArrayEnum = arrayEnum;
@@ -84,12 +84,11 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<ArrayEnumEnum> ArrayEnum { get; set; }
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -142,7 +141,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                if (this.ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

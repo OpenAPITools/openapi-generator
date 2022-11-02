@@ -41,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -169,6 +170,10 @@ public class ArrayTest {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the ArrayTest instance itself
    */
   public ArrayTest putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -180,6 +185,8 @@ public class ArrayTest {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -187,6 +194,9 @@ public class ArrayTest {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -262,22 +272,20 @@ public class ArrayTest {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayTest is not found in the empty JSON string", ArrayTest.openapiRequiredFields.toString()));
         }
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_of_string") != null && !jsonObj.get("array_of_string").isJsonNull()) && !jsonObj.get("array_of_string").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_of_string") != null && !jsonObj.get("array_of_string").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_of_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_of_string").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_array_of_integer") != null && !jsonObj.get("array_array_of_integer").isJsonNull()) && !jsonObj.get("array_array_of_integer").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_array_of_integer") != null && !jsonObj.get("array_array_of_integer").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_integer` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_integer").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_array_of_model") != null && !jsonObj.get("array_array_of_model").isJsonNull()) && !jsonObj.get("array_array_of_model").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_array_of_model") != null && !jsonObj.get("array_array_of_model").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_model` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_model").toString()));
       }
   }
@@ -334,8 +342,10 @@ public class ArrayTest {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

@@ -31,15 +31,17 @@ DanishPig <- R6::R6Class(
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `size`, additional_properties = NULL, ...
-    ) {
+    initialize = function(`className`, `size`, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!missing(`size`)) {
-        stopifnot(is.numeric(`size`), length(`size`) == 1)
+        if (!(is.numeric(`size`) && length(`size`) == 1)) {
+          stop(paste("Error! Invalid data for `size`. Must be an integer:", `size`))
+        }
         self$`size` <- `size`
       }
       if (!is.null(additional_properties)) {
@@ -162,13 +164,17 @@ DanishPig <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for DanishPig: the required field `className` is missing."))
       }
       # check the required field `size`
       if (!is.null(input_json$`size`)) {
-        stopifnot(is.numeric(input_json$`size`), length(input_json$`size`) == 1)
+        if (!(is.numeric(input_json$`size`) && length(input_json$`size`) == 1)) {
+          stop(paste("Error! Invalid data for `size`. Must be an integer:", input_json$`size`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for DanishPig: the required field `size` is missing."))
       }
@@ -233,18 +239,19 @@ DanishPig <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#DanishPig$unlock()
+# DanishPig$unlock()
 #
 ## Below is an example to define the print fnuction
-#DanishPig$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# DanishPig$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#DanishPig$lock()
+# DanishPig$lock()
 

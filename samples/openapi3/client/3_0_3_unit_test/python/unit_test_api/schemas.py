@@ -1883,6 +1883,7 @@ class ComposedBase(Discriminable):
                 "Invalid inputs given to generate an instance of {}. Multiple "
                 "oneOf schemas {} matched the inputs, but a max of one is allowed.".format(cls, oneof_classes)
             )
+        # exactly one class matches
         return path_to_schemas
 
     @classmethod
@@ -1947,7 +1948,9 @@ class ComposedBase(Discriminable):
         )
 
         # process composed schema
-        discriminator = getattr(cls, 'discriminator', None)
+        discriminator = None
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'discriminator'):
+            discriminator = cls.MetaOapg.discriminator()
         discriminated_cls = None
         if discriminator and arg and isinstance(arg, frozendict.frozendict):
             disc_property_name = list(discriminator.keys())[0]

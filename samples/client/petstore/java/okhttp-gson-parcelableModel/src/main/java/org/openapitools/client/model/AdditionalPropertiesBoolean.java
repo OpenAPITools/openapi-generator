@@ -40,6 +40,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -161,9 +162,7 @@ public class AdditionalPropertiesBoolean implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AdditionalPropertiesBoolean.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AdditionalPropertiesBoolean.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesBoolean is not found in the empty JSON string", AdditionalPropertiesBoolean.openapiRequiredFields.toString()));
         }
       }

@@ -2699,7 +2699,8 @@
             "description" : "Updated status of the pet",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "uploadFile_request" : {
         "properties" : {
@@ -2712,7 +2713,8 @@
             "format" : "binary",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "testEnumParameters_request" : {
         "properties" : {
@@ -2731,7 +2733,8 @@
             "enum" : [ "_abc", "-efg", "(xyz)" ],
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "testEndpointParameters_request" : {
         "properties" : {
@@ -2815,7 +2818,8 @@
             "type" : "string"
           }
         },
-        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ]
+        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ],
+        "type" : "object"
       },
       "testJsonFormData_request" : {
         "properties" : {
@@ -2828,7 +2832,8 @@
             "type" : "string"
           }
         },
-        "required" : [ "param", "param2" ]
+        "required" : [ "param", "param2" ],
+        "type" : "object"
       },
       "uploadFileWithRequiredFile_request" : {
         "properties" : {
@@ -2842,7 +2847,8 @@
             "type" : "string"
           }
         },
-        "required" : [ "requiredFile" ]
+        "required" : [ "requiredFile" ],
+        "type" : "object"
       },
       "Dog_allOf" : {
         "properties" : {

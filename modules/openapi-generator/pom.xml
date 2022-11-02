@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.2.1-SNAPSHOT</version>
+        <version>6.3.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -354,9 +354,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-           <groupId>com.atlassian.commonmark</groupId>
+           <groupId>org.commonmark</groupId>
            <artifactId>commonmark</artifactId>
-           <version>0.11.0</version>
+           <version>0.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -377,7 +377,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

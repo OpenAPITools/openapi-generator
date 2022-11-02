@@ -21,13 +21,21 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class PythonClientTest {
@@ -78,8 +86,8 @@ public class PythonClientTest {
     public void testRecursiveGeoJsonExampleWhenTypeIsGeoJsonGeometry() throws IOException {
 
         testEndpointExampleValue("/geojson",
-                                 "src/test/resources/3_0/issue_13043_recursive_model.yaml",
-                                 "3_0/issue_13043_recursive_model_expected_value.txt");
+                "src/test/resources/3_0/issue_13043_recursive_model.yaml",
+                "3_0/issue_13043_recursive_model_expected_value.txt");
 
 
     }
@@ -88,8 +96,8 @@ public class PythonClientTest {
     public void testRecursiveGeoJsonExampleWhenTypeIsGeometryCollection() throws IOException {
 
         testEndpointExampleValue("/geojson_geometry_collection",
-                                 "src/test/resources/3_0/issue_13043_recursive_model.yaml",
-                                 "3_0/issue_13043_geometry_collection_expected_value.txt");
+                "src/test/resources/3_0/issue_13043_recursive_model.yaml",
+                "3_0/issue_13043_geometry_collection_expected_value.txt");
 
     }
 
@@ -116,4 +124,77 @@ public class PythonClientTest {
 
     }
 
+    @Test
+    public void testApiTestsNotGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        Map<String, String> globalProperties = Collections.singletonMap("apiTests", "false");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGlobalProperties(globalProperties)
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        Assert.assertTrue(files.size() > 0);
+
+        Path pathThatShouldNotExist = output.toPath().resolve("openapi_client/test/test_paths");
+        Assert.assertFalse(Files.isDirectory(pathThatShouldNotExist));
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testApisNotGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        Map<String, String> globalProperties = Collections.singletonMap("models", "");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGlobalProperties(globalProperties)
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        Assert.assertTrue(files.size() > 0);
+
+        Path pathThatShouldNotExist = output.toPath().resolve("openapi_client/paths");
+        Assert.assertFalse(Files.isDirectory(pathThatShouldNotExist));
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testRegexWithoutTrailingSlashWorks() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/11_regex.yaml");
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "UUID";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+
+        CodegenModel cm = codegen.fromModel(modelName, schema);
+        String expectedRegexPattern = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
+        Assert.assertEquals(cm.getPattern(), expectedRegexPattern);
+        Assert.assertEquals(cm.vendorExtensions.get("x-regex"), expectedRegexPattern);
+        Assert.assertFalse(cm.vendorExtensions.containsKey("x-modifiers"));
+    }
+
+    @Test
+    public void testRegexWithMultipleFlagsWorks() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/11_regex.yaml");
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "StringWithRegexWithThreeFlags";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+
+        CodegenModel cm = codegen.fromModel(modelName, schema);
+        String expectedRegexPattern = "a.";
+        Assert.assertEquals(cm.getPattern(), expectedRegexPattern);
+        Assert.assertEquals(cm.vendorExtensions.get("x-regex"), expectedRegexPattern);
+        Assert.assertEquals(cm.vendorExtensions.get("x-modifiers"), Arrays.asList("DOTALL", "IGNORECASE", "MULTILINE"));
+    }
 }

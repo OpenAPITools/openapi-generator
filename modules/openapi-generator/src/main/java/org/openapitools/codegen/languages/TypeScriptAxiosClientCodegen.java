@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -266,6 +267,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
+        if (supportsES6) {
+            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        }
     }
 
     @Override
@@ -282,5 +287,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             // even though it should allow in any type and have map constraints for properties
             updatePropertyForMap(property, p);
         }
+    }
+
+    @Override
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+        // import everything (including child schema of a composed schema)
+        addImport(model, modelName);
     }
 }

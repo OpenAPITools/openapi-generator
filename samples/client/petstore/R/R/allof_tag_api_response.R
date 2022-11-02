@@ -40,27 +40,35 @@ AllofTagApiResponse <- R6::R6Class(
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `id` = NULL, `name` = NULL, `code` = NULL, `type` = NULL, `message` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`id` = NULL, `name` = NULL, `code` = NULL, `type` = NULL, `message` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        if (!(is.numeric(`id`) && length(`id`) == 1)) {
+          stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
+        }
         self$`id` <- `id`
       }
       if (!is.null(`name`)) {
-        stopifnot(is.character(`name`), length(`name`) == 1)
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
         self$`name` <- `name`
       }
       if (!is.null(`code`)) {
-        stopifnot(is.numeric(`code`), length(`code`) == 1)
+        if (!(is.numeric(`code`) && length(`code`) == 1)) {
+          stop(paste("Error! Invalid data for `code`. Must be an integer:", `code`))
+        }
         self$`code` <- `code`
       }
       if (!is.null(`type`)) {
-        stopifnot(is.character(`type`), length(`type`) == 1)
+        if (!(is.character(`type`) && length(`type`) == 1)) {
+          stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
+        }
         self$`type` <- `type`
       }
       if (!is.null(`message`)) {
-        stopifnot(is.character(`message`), length(`message`) == 1)
+        if (!(is.character(`message`) && length(`message`) == 1)) {
+          stop(paste("Error! Invalid data for `message`. Must be a string:", `message`))
+        }
         self$`message` <- `message`
       }
       if (!is.null(additional_properties)) {
@@ -270,18 +278,19 @@ AllofTagApiResponse <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#AllofTagApiResponse$unlock()
+# AllofTagApiResponse$unlock()
 #
 ## Below is an example to define the print fnuction
-#AllofTagApiResponse$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# AllofTagApiResponse$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#AllofTagApiResponse$lock()
+# AllofTagApiResponse$lock()
 

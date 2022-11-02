@@ -26,11 +26,11 @@ NestedOneOf <- R6::R6Class(
     #' @param nested_pig nested_pig
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `size` = NULL, `nested_pig` = NULL, ...
-    ) {
+    initialize = function(`size` = NULL, `nested_pig` = NULL, ...) {
       if (!is.null(`size`)) {
-        stopifnot(is.numeric(`size`), length(`size`) == 1)
+        if (!(is.numeric(`size`) && length(`size`) == 1)) {
+          stop(paste("Error! Invalid data for `size`. Must be an integer:", `size`))
+        }
         self$`size` <- `size`
       }
       if (!is.null(`nested_pig`)) {
@@ -170,18 +170,19 @@ NestedOneOf <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#NestedOneOf$unlock()
+# NestedOneOf$unlock()
 #
 ## Below is an example to define the print fnuction
-#NestedOneOf$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# NestedOneOf$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#NestedOneOf$lock()
+# NestedOneOf$lock()
 

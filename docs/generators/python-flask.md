@@ -10,7 +10,7 @@ title: Documentation for the python-flask Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Python | |
-| generator language version | 2.7 and 3.5.2+ | |
+| generator language version | 3.5.2+ | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
@@ -34,7 +34,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |serverPort|TCP port to listen to in app.run| |8080|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|supportPython2|support python2. This option has been deprecated and will be removed in the 5.x release.| |false|
 |testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
 |useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|

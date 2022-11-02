@@ -21,6 +21,8 @@ Animal <- R6::R6Class(
     `color` = NULL,
     `_field_list` = c("className", "color"),
     `additional_properties` = list(),
+    `_discriminator_property_name` = 'className',
+    `_discriminator_mapping_name` = c('Cat' = 'Cat', 'Dog' = 'Dog'),
     #' Initialize a new Animal class.
     #'
     #' @description
@@ -31,15 +33,17 @@ Animal <- R6::R6Class(
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `color` = "red", additional_properties = NULL, ...
-    ) {
+    initialize = function(`className`, `color` = "red", additional_properties = NULL, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!is.null(`color`)) {
-        stopifnot(is.character(`color`), length(`color`) == 1)
+        if (!(is.character(`color`) && length(`color`) == 1)) {
+          stop(paste("Error! Invalid data for `color`. Must be a string:", `color`))
+        }
         self$`color` <- `color`
       }
       if (!is.null(additional_properties)) {
@@ -162,7 +166,9 @@ Animal <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Animal: the required field `className` is missing."))
       }
@@ -217,18 +223,19 @@ Animal <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Animal$unlock()
+# Animal$unlock()
 #
 ## Below is an example to define the print fnuction
-#Animal$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# Animal$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Animal$lock()
+# Animal$lock()
 

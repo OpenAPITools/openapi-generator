@@ -107,13 +107,18 @@ open class Response<T> {
 }
 
 public final class RequestTask {
+    private var lock = NSRecursiveLock()
     private var request: Request?
 
     internal func set(request: Request) {
+        lock.lock()
+        defer { lock.unlock() }
         self.request = request
     }
 
     public func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
         request?.cancel()
         request = nil
     }

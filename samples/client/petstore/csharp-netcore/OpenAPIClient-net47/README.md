@@ -159,6 +159,8 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [Model.Activity](docs/Activity.md)
+ - [Model.ActivityOutputElementRepresentation](docs/ActivityOutputElementRepresentation.md)
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)

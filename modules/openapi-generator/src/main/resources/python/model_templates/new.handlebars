@@ -17,7 +17,15 @@ def __new__(
 {{#if complexType}}
     {{baseName}}: '{{complexType}}',
 {{else}}
+    {{#if getSchemaIsFromAdditionalProperties}}
+        {{#if addPropsUnset}}
+    {{baseName}}: typing.Union[schemas.AnyTypeSchema, {{> model_templates/schema_python_types }}],
+        {{else}}
+    {{baseName}}: typing.Union[MetaOapg.additional_properties, {{> model_templates/schema_python_types }}],
+        {{/if}}
+    {{else}}
     {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, {{> model_templates/schema_python_types }}],
+    {{/if}}
 {{/if}}
 {{/unless}}
 {{/with}}
