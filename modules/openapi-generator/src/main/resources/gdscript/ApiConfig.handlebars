@@ -116,3 +116,43 @@ func log_info(message: String):
 func log_debug(message: String):
 	if self.log_level >= LogLevel.DEBUG:
 		print(message)
+
+
+{{!--
+SAMPLE
+authMethods=[
+CodegenSecurity{name='JWT', type='http', scheme='bearer', isBasic=true, isOAuth=false, isApiKey=false, isBasicBasic=false, isHttpSignature=false, isBasicBearer=true, bearerFormat='JWT', vendorExtensions={}, keyParamName='null', isKeyInQuery=false, isKeyInHeader=false, isKeyInCookie=false, flow='null', authorizationUrl='null', tokenUrl='null', refreshUrl='null', scopes=null, isCode=false, isPassword=false, isApplication=false, isImplicit=false},
+CodegenSecurity{name='noSpam', type='apiKey', scheme='null', isBasic=false, isOAuth=false, isApiKey=true, isBasicBasic=false, isHttpSignature=false, isBasicBearer=false, bearerFormat='null', vendorExtensions={}, keyParamName='GodotGame', isKeyInQuery=false, isKeyInHeader=true, isKeyInCookie=false, flow='null', authorizationUrl='null', tokenUrl='null', refreshUrl='null', scopes=null, isCode=false, isPassword=false, isApplication=false, isImplicit=false}
+],
+--}}
+
+{{#each authMethods}}
+# Authentication method `{{name}}`.
+{{#if description
+{{#if isBasicBearer }}
+# Basic Bearer Authentication `{{bearerFormat}}`
+func set_security_{{name}}(value: String):
+	self.headers_base["Authorization"] = "Bearer %s" % value
+
+
+{{else if isApiKey }}
+# Api Key Authentication `{{keyParamName}}`
+func set_security_{{name}}(value: String):
+	{{#if isKeyInHeader }}
+	self.headers_base[{{keyParamName}}] = value
+	{{else if isKeyInQuery }}
+	# Implementing this should be straightforward
+	log_error("Api Key in Query is not supported at the moment.  (contribs welcome)")
+	{{else if isKeyInCookie }}
+	log_error("Api Key in Cookie is not supported at the moment.  (contribs welcome)")
+	{{else }}
+	log_error("Unrecognized Api Key format (contribs welcome).")
+	{{/if}}
+
+
+{{else}}
+# → Skipped because it's not implemented in the gdscript templates.  (contribs welcome)
+
+
+{{/if}}
+{{/each}}
