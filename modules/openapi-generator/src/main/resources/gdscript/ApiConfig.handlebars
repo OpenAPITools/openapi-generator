@@ -138,7 +138,7 @@ func set_security_{{name}}(value: String):
 # Api Key Authentication `{{keyParamName}}`
 func set_security_{{name}}(value: String):
 	{{#if isKeyInHeader }}
-	self.headers_base[{{keyParamName}}] = value
+	self.headers_base["{{keyParamName}}"] = value
 	{{else if isKeyInQuery }}
 	# Implementing this should be straightforward
 	log_error("Api Key in Query is not supported at the moment.  (contribs welcome)")
