@@ -104,7 +104,7 @@ func bee_connect_client_if_needed(
 		self.bee_client.get_status() == HTTPClient.STATUS_RESOLVING
 	):
 		self.bee_client.poll()
-		print("Connecting...")
+		self.bee_config.log_debug("Connecting…")
 		if self.bee_config.polling_interval_ms:
 			OS.delay_msec(self.bee_config.polling_interval_ms)
 		await bee_next_loop_iteration()
@@ -261,7 +261,7 @@ func bee_do_request_text(
 	while self.bee_client.get_status() == HTTPClient.STATUS_REQUESTING:
 		# Keep polling for as long as the request is being processed.
 		self.bee_client.poll()
-		print("Requesting...")
+		self.bee_config.log_debug("Requesting…")
 		if self.bee_config.polling_interval_ms:
 			OS.delay_msec(self.bee_config.polling_interval_ms)
 		await bee_next_loop_iteration()
@@ -298,13 +298,17 @@ func bee_do_request_text(
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
 
-	print("REQUEST %s %s" % [method, path_queried])
-	print("Headers: %s" % [str(headers)])
-	prints(body_serialized)
+	self.bee_config.log_info("%s: REQUEST %s %s" % [self.bee_name, method, path_queried])
+	if not headers.is_empty():
+		self.bee_config.log_debug("→ HEADERS: %s" % [str(headers)])
+	if body_serialized:
+		self.bee_config.log_debug("→ BODY: \n%s" % [body_serialized])
 
-	prints("RESPONSE CODE:", response_code)
-	prints("RESPONSE HEADERS:", response_headers)
-	print("RESPONSE SIZE: %d bytes " % response_bytes.size())
+	self.bee_config.log_info("%s: RESPONSE %d (%d bytes)" % [
+		self.bee_name, response_code, response_bytes.size()
+	])
+	if not response_headers.is_empty():
+		self.bee_config.log_debug("→ HEADERS: %s" % str(response_headers))
 
 	var response_text: String
 	if encoding == "utf-8":
@@ -315,6 +319,9 @@ func bee_do_request_text(
 		response_text = response_bytes.get_string_from_utf32()
 	else:
 		response_text = response_bytes.get_string_from_ascii()
+
+	if response_text:
+		self.bee_config.log_debug("→ BODY: \n%s" % response_text)
 
 	if response_code >= 500:
 		var error := {{>partials/api_error_class_name}}.new()
@@ -367,7 +374,7 @@ func bee_convert_http_method(method: String) -> int:
 		'OPTIONS': return HTTPClient.METHOD_OPTIONS
 		'TRACE': return HTTPClient.METHOD_TRACE
 		_:
-			printerr("%s: unknown http method `%s`, assuming GET." % [
+			push_error("%s: unknown http method `%s`, assuming GET." % [
 				self.bee_name, method
 			])
 			return HTTPClient.METHOD_GET
