@@ -42,3 +42,6 @@ src/main/java/org/openapitools/client/model/ChildSchemaAllOf.java
 src/main/java/org/openapitools/client/model/MySchemaNameCharacters.java
 src/main/java/org/openapitools/client/model/MySchemaNameCharactersAllOf.java
 src/main/java/org/openapitools/client/model/Parent.java
+src/test/java/org/openapitools/client/model/ChildSchemaAllOfTest.java
+src/test/java/org/openapitools/client/model/MySchemaNameCharactersAllOfTest.java
+src/test/java/org/openapitools/client/model/ParentTest.java
