@@ -154,6 +154,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |The Open API 2.0/3.x specification location.
 
+|remoteInputSpec
+|String
+|None
+|The remote Open API 2.0/3.x specification URL location.
+
 |templateDir
 |String
 |None

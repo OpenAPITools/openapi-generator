@@ -52,6 +52,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val inputSpec = project.objects.property<String>()
 
+    /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
     val remoteInputSpec = project.objects.property<String>()
 
     /**

@@ -31,8 +31,7 @@ class GenerateTaskDslTest : TestBase() {
 
     @Test
     fun `openApiGenerate should create an expected file structure from URL config`() {
-        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master" +
-                "/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
         // Arrange
         val buildContents = """
          plugins {

@@ -95,6 +95,9 @@ open class GenerateTask : DefaultTask() {
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
+    /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
     @Input
     @Optional
     val remoteInputSpec = project.objects.property<String>()
@@ -557,6 +560,10 @@ open class GenerateTask : DefaultTask() {
                 GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
+            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
+                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
+            }
+
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -574,7 +581,7 @@ open class GenerateTask : DefaultTask() {
                 configurator.setInputSpec(value)
             }
 
-            remoteInputSpec.ifNotEmpty {value ->
+            remoteInputSpec.ifNotEmpty { value ->
                 configurator.setInputSpec(value)
             }
 
