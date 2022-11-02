@@ -61,6 +61,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String RESTSHARP = "restsharp";
     protected static final String HTTPCLIENT = "httpclient";
     protected static final String GENERICHOST = "generichost";
+    protected static final String UNITY = "unity";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
@@ -324,6 +325,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                + "(Experimental. Subject to breaking changes without notice.)");
+        supportedLibraries.put(UNITY, "UnityWebRequest (...) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
 
@@ -678,6 +681,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setLibrary(HTTPCLIENT);
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
+        } else if (UNITY.equals(getLibrary())) {
+            setLibrary(UNITY);
+            additionalProperties.put("useUnityClient", true);
+            needsUriBuilder = true;
+
         } else {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
@@ -794,6 +802,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
+        } else if (UNITY.equals(getLibrary())) {
+            setSupportsRetry(false);
+            setSupportsAsync(true);
+
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
         } else { //restsharp
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
