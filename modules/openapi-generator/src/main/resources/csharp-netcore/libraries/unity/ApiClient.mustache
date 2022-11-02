@@ -412,7 +412,7 @@ namespace {{packageName}}.Client
 
                 try
                 {
-                    await Task.WhenAny(tsc.Task, Task.Delay(Timeout.Infinite, finalToken)).ConfigureAwait(false);
+                    await Task.WhenAny(tsc.Task, Task.Delay(Timeout.Infinite, finalToken));
                 }
                 catch (OperationCanceledException)
                 {
