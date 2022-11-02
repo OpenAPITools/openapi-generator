@@ -3380,8 +3380,8 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
-        String discPropName = sourceDiscriminator.getPropertyName();
-        discriminator.setPropertyName(toVarName(discPropName));
+        String discriminatorPropertyName = sourceDiscriminator.getPropertyName();
+        discriminator.setPropertyName(toVarName(discriminatorPropertyName));
         discriminator.setPropertyBaseName(sourceDiscriminator.getPropertyName());
         discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
 
@@ -3390,7 +3390,7 @@ public class DefaultCodegen implements CodegenConfig {
         //  the future..
         String propertyType =
             Optional.ofNullable(schema.getProperties())
-                .map(p -> (Schema) p.get(discPropName))
+                .map(p -> (Schema) p.get(discriminatorPropertyName))
                 .map(Schema::get$ref)
                 .map(ModelUtils::getSimpleRef)
                 .orElseGet(() -> typeMapping.get("string"));
@@ -3398,8 +3398,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         // check to see if the discriminator property is an enum string
         if (schema.getProperties() != null &&
-                schema.getProperties().get(discPropName) instanceof StringSchema) {
-            StringSchema s = (StringSchema) schema.getProperties().get(discPropName);
+                schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
+            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
             if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
                 discriminator.setIsEnum(true);
             }
@@ -3443,7 +3443,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
+            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, (ComposedSchema) schema, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
                     uniqueDescendants.add(otherDescendant);
