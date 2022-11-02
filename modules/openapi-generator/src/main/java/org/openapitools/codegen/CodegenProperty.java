@@ -226,10 +226,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public void setFormat(String format) { this.format = format; }
+    public void setFormat(String format) {
+        this.format = format;
+    }
 
     @Override
-    public String getFormat() { return format; }
+    public String getFormat() {
+        return format;
+    }
 
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -501,7 +505,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return required;
     }
 
-    public boolean compulsory(){
+    public boolean compulsory() {
         return getRequired() && !isNullable;
     }
 
@@ -964,15 +968,23 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
-    public boolean getIsUuid() { return isUuid; }
+    public boolean getIsUuid() {
+        return isUuid;
+    }
 
-    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
+    }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
 
     /**
      * Return true if it's an enum (inline or ref)
