@@ -71,6 +71,8 @@ module Petstore
         end
       rescue Faraday::TimeoutError
         fail ApiError.new('Connection timed out')
+      rescue Faraday::ConnectionFailed
+        fail ApiError.new('Connection failed')
       end
 
       if opts[:return_type]
