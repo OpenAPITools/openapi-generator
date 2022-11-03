@@ -1,4 +1,5 @@
 {{#isBodyParam}}
-        RequestParameter body = requestParameters.body();
-        {{{dataType}}} {{paramName}} = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<{{{dataType}}}>(){}) : null;
+  {{! Don't use body or requestBody as name, to avoid a name clash with the paramName }}
+  RequestParameter requestParameterBody = requestParameters.body();
+  {{{dataType}}} {{paramName}} = requestParameterBody != null ? DatabindCodec.mapper().convertValue(requestParameterBody.get(), new TypeReference<{{{dataType}}}>(){}) : null;
 {{/isBodyParam}}
