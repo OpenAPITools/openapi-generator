@@ -43,9 +43,9 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   */
-  @JsonProperty("ArrayNumber")
   @Valid 
   @Schema(name = "ArrayNumber", required = false)
+  @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

@@ -36,9 +36,9 @@ public class Extensible {
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
   */
-  @JsonProperty("@schemaLocation")
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
+  @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -56,9 +56,9 @@ public class Extensible {
    * When sub-classing, this defines the super-class
    * @return atBaseType
   */
-  @JsonProperty("@baseType")
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
+  @JsonProperty("@baseType")
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -76,9 +76,9 @@ public class Extensible {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
   */
-  @JsonProperty("@type")
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }

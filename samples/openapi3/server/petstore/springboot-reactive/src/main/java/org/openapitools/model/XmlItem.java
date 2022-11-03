@@ -100,9 +100,9 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   */
-  @JsonProperty("attribute_string")
   
   @Schema(name = "attribute_string", example = "string", required = false)
+  @JsonProperty("attribute_string")
   public String getAttributeString() {
     return attributeString;
   }
@@ -120,9 +120,9 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
   */
-  @JsonProperty("attribute_number")
   @Valid 
   @Schema(name = "attribute_number", example = "1.234", required = false)
+  @JsonProperty("attribute_number")
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -140,9 +140,9 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
   */
-  @JsonProperty("attribute_integer")
   
   @Schema(name = "attribute_integer", example = "-2", required = false)
+  @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -160,9 +160,9 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
   */
-  @JsonProperty("attribute_boolean")
   
   @Schema(name = "attribute_boolean", example = "true", required = false)
+  @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -188,9 +188,9 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
   */
-  @JsonProperty("wrapped_array")
   
   @Schema(name = "wrapped_array", required = false)
+  @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -208,9 +208,9 @@ public class XmlItem {
    * Get nameString
    * @return nameString
   */
-  @JsonProperty("name_string")
   
   @Schema(name = "name_string", example = "string", required = false)
+  @JsonProperty("name_string")
   public String getNameString() {
     return nameString;
   }
@@ -228,9 +228,9 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
   */
-  @JsonProperty("name_number")
   @Valid 
   @Schema(name = "name_number", example = "1.234", required = false)
+  @JsonProperty("name_number")
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -248,9 +248,9 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
   */
-  @JsonProperty("name_integer")
   
   @Schema(name = "name_integer", example = "-2", required = false)
+  @JsonProperty("name_integer")
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -268,9 +268,9 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
   */
-  @JsonProperty("name_boolean")
   
   @Schema(name = "name_boolean", example = "true", required = false)
+  @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -296,9 +296,9 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
   */
-  @JsonProperty("name_array")
   
   @Schema(name = "name_array", required = false)
+  @JsonProperty("name_array")
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -324,9 +324,9 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
   */
-  @JsonProperty("name_wrapped_array")
   
   @Schema(name = "name_wrapped_array", required = false)
+  @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -344,9 +344,9 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
   */
-  @JsonProperty("prefix_string")
   
   @Schema(name = "prefix_string", example = "string", required = false)
+  @JsonProperty("prefix_string")
   public String getPrefixString() {
     return prefixString;
   }
@@ -364,9 +364,9 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
   */
-  @JsonProperty("prefix_number")
   @Valid 
   @Schema(name = "prefix_number", example = "1.234", required = false)
+  @JsonProperty("prefix_number")
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -384,9 +384,9 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
   */
-  @JsonProperty("prefix_integer")
   
   @Schema(name = "prefix_integer", example = "-2", required = false)
+  @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -404,9 +404,9 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
   */
-  @JsonProperty("prefix_boolean")
   
   @Schema(name = "prefix_boolean", example = "true", required = false)
+  @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -432,9 +432,9 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
   */
-  @JsonProperty("prefix_array")
   
   @Schema(name = "prefix_array", required = false)
+  @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -460,9 +460,9 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   */
-  @JsonProperty("prefix_wrapped_array")
   
   @Schema(name = "prefix_wrapped_array", required = false)
+  @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -480,9 +480,9 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
   */
-  @JsonProperty("namespace_string")
   
   @Schema(name = "namespace_string", example = "string", required = false)
+  @JsonProperty("namespace_string")
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -500,9 +500,9 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
   */
-  @JsonProperty("namespace_number")
   @Valid 
   @Schema(name = "namespace_number", example = "1.234", required = false)
+  @JsonProperty("namespace_number")
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -520,9 +520,9 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
   */
-  @JsonProperty("namespace_integer")
   
   @Schema(name = "namespace_integer", example = "-2", required = false)
+  @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -540,9 +540,9 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
   */
-  @JsonProperty("namespace_boolean")
   
   @Schema(name = "namespace_boolean", example = "true", required = false)
+  @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -568,9 +568,9 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
   */
-  @JsonProperty("namespace_array")
   
   @Schema(name = "namespace_array", required = false)
+  @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -596,9 +596,9 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   */
-  @JsonProperty("namespace_wrapped_array")
   
   @Schema(name = "namespace_wrapped_array", required = false)
+  @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -616,9 +616,9 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
   */
-  @JsonProperty("prefix_ns_string")
   
   @Schema(name = "prefix_ns_string", example = "string", required = false)
+  @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -636,9 +636,9 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
   */
-  @JsonProperty("prefix_ns_number")
   @Valid 
   @Schema(name = "prefix_ns_number", example = "1.234", required = false)
+  @JsonProperty("prefix_ns_number")
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -656,9 +656,9 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
   */
-  @JsonProperty("prefix_ns_integer")
   
   @Schema(name = "prefix_ns_integer", example = "-2", required = false)
+  @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -676,9 +676,9 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   */
-  @JsonProperty("prefix_ns_boolean")
   
   @Schema(name = "prefix_ns_boolean", example = "true", required = false)
+  @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -704,9 +704,9 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
   */
-  @JsonProperty("prefix_ns_array")
   
   @Schema(name = "prefix_ns_array", required = false)
+  @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -732,9 +732,9 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   */
-  @JsonProperty("prefix_ns_wrapped_array")
   
   @Schema(name = "prefix_ns_wrapped_array", required = false)
+  @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }

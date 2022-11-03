@@ -37,9 +37,9 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * Get foorefPropA
    * @return foorefPropA
   */
-  @JsonProperty("foorefPropA")
   
   @Schema(name = "foorefPropA", required = false)
+  @JsonProperty("foorefPropA")
   public String getFoorefPropA() {
     return foorefPropA;
   }

@@ -34,9 +34,9 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   
   @Schema(name = "name", required = false)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

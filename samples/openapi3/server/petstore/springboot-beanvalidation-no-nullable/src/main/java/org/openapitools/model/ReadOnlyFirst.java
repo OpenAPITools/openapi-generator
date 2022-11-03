@@ -33,9 +33,9 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
   */
-  @JsonProperty("bar")
   
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
+  @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
@@ -53,9 +53,9 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
   */
-  @JsonProperty("baz")
   
   @Schema(name = "baz", required = false)
+  @JsonProperty("baz")
   public String getBaz() {
     return baz;
   }

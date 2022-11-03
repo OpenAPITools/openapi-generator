@@ -35,9 +35,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   
   @Schema(name = "name", required = false)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

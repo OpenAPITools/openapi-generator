@@ -35,9 +35,9 @@ public class Category {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -55,9 +55,9 @@ public class Category {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

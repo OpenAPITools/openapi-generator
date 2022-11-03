@@ -84,9 +84,9 @@ public class Order {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -104,9 +104,9 @@ public class Order {
    * Get petId
    * @return petId
   */
-  @JsonProperty("petId")
   
   @Schema(name = "petId", required = false)
+  @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
@@ -124,9 +124,9 @@ public class Order {
    * Get quantity
    * @return quantity
   */
-  @JsonProperty("quantity")
   
   @Schema(name = "quantity", required = false)
+  @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -144,9 +144,9 @@ public class Order {
    * Get shipDate
    * @return shipDate
   */
-  @JsonProperty("shipDate")
   @Valid 
   @Schema(name = "shipDate", required = false)
+  @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -164,9 +164,9 @@ public class Order {
    * Order Status
    * @return status
   */
-  @JsonProperty("status")
   
   @Schema(name = "status", description = "Order Status", required = false)
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -184,9 +184,9 @@ public class Order {
    * Get complete
    * @return complete
   */
-  @JsonProperty("complete")
   
   @Schema(name = "complete", required = false)
+  @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }

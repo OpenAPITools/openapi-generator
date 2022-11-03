@@ -49,9 +49,9 @@ public class Pet {
    * Get atType
    * @return atType
   */
-  @JsonProperty("@type")
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
@@ -69,9 +69,9 @@ public class Pet {
    * Get age
    * @return age
   */
-  @JsonProperty("age")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("age")
   public Integer getAge() {
     return age;
   }
@@ -89,9 +89,9 @@ public class Pet {
    * Get happy
    * @return happy
   */
-  @JsonProperty("happy")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
   }
@@ -109,9 +109,9 @@ public class Pet {
    * Get price
    * @return price
   */
-  @JsonProperty("price")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
   }
@@ -129,9 +129,9 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
   */
-  @JsonProperty("lastFeed")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -149,9 +149,9 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
   */
-  @JsonProperty("dateOfBirth")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }

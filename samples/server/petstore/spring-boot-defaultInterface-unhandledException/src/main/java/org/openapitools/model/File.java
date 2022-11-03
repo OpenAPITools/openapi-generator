@@ -33,9 +33,9 @@ public class File {
    * Test capitalization
    * @return sourceURI
   */
-  @JsonProperty("sourceURI")
   
   @Schema(name = "sourceURI", description = "Test capitalization", required = false)
+  @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
   }

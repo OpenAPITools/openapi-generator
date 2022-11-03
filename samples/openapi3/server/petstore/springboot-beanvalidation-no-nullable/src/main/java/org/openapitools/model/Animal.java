@@ -50,9 +50,9 @@ public class Animal {
    * Get className
    * @return className
   */
-  @JsonProperty("className")
   @NotNull 
   @Schema(name = "className", required = true)
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -70,9 +70,9 @@ public class Animal {
    * Get color
    * @return color
   */
-  @JsonProperty("color")
   
   @Schema(name = "color", required = false)
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

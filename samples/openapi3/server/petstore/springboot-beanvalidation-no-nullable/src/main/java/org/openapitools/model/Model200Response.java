@@ -36,9 +36,9 @@ public class Model200Response {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   
   @Schema(name = "name", required = false)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -56,9 +56,9 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
   */
-  @JsonProperty("class")
   
   @Schema(name = "class", required = false)
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }

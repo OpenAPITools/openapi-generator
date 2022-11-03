@@ -188,9 +188,9 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   */
-  @JsonProperty("enum_string")
   
   @Schema(name = "enum_string", required = false)
+  @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -208,9 +208,9 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   */
-  @JsonProperty("enum_string_required")
   @NotNull 
   @Schema(name = "enum_string_required", required = true)
+  @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -228,9 +228,9 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   */
-  @JsonProperty("enum_integer")
   
   @Schema(name = "enum_integer", required = false)
+  @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -248,9 +248,9 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   */
-  @JsonProperty("enum_number")
   
   @Schema(name = "enum_number", required = false)
+  @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -268,9 +268,9 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   */
-  @JsonProperty("outerEnum")
   @Valid 
   @Schema(name = "outerEnum", required = false)
+  @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

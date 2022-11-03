@@ -34,9 +34,9 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   */
-  @JsonProperty("JustNumber")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

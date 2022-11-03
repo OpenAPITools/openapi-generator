@@ -38,9 +38,9 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   */
-  @JsonProperty("my_number")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -58,9 +58,9 @@ public class OuterComposite {
    * Get myString
    * @return myString
   */
-  @JsonProperty("my_string")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
@@ -78,9 +78,9 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   */
-  @JsonProperty("my_boolean")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }

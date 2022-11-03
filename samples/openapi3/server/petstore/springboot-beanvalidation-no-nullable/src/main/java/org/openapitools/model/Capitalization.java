@@ -41,9 +41,9 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   */
-  @JsonProperty("smallCamel")
   
   @Schema(name = "smallCamel", required = false)
+  @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -61,9 +61,9 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   */
-  @JsonProperty("CapitalCamel")
   
   @Schema(name = "CapitalCamel", required = false)
+  @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -81,9 +81,9 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   */
-  @JsonProperty("small_Snake")
   
   @Schema(name = "small_Snake", required = false)
+  @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -101,9 +101,9 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   */
-  @JsonProperty("Capital_Snake")
   
   @Schema(name = "Capital_Snake", required = false)
+  @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -121,9 +121,9 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
-  @JsonProperty("SCA_ETH_Flow_Points")
   
   @Schema(name = "SCA_ETH_Flow_Points", required = false)
+  @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -141,9 +141,9 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   */
-  @JsonProperty("ATT_NAME")
   
   @Schema(name = "ATT_NAME", description = "Name of the pet ", required = false)
+  @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }

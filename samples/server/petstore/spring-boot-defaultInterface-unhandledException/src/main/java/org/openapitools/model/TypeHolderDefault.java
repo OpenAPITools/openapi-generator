@@ -44,9 +44,9 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   */
-  @JsonProperty("string_item")
   @NotNull 
   @Schema(name = "string_item", required = true)
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -64,9 +64,9 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   */
-  @JsonProperty("number_item")
   @NotNull @Valid 
   @Schema(name = "number_item", required = true)
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -84,9 +84,9 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   */
-  @JsonProperty("integer_item")
   @NotNull 
   @Schema(name = "integer_item", required = true)
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -104,9 +104,9 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   */
-  @JsonProperty("bool_item")
   @NotNull 
   @Schema(name = "bool_item", required = true)
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -129,9 +129,9 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   */
-  @JsonProperty("array_item")
   @NotNull 
   @Schema(name = "array_item", required = true)
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

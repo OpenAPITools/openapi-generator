@@ -60,9 +60,9 @@ public class EntityRef {
    * Name of the related entity.
    * @return name
   */
-  @JsonProperty("name")
   
   @Schema(name = "name", description = "Name of the related entity.", required = false)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -80,9 +80,9 @@ public class EntityRef {
    * The actual type of the target instance when needed for disambiguation.
    * @return atReferredType
   */
-  @JsonProperty("@referredType")
   
   @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", required = false)
+  @JsonProperty("@referredType")
   public String getAtReferredType() {
     return atReferredType;
   }
@@ -100,9 +100,9 @@ public class EntityRef {
    * Hyperlink reference
    * @return href
   */
-  @JsonProperty("href")
   
   @Schema(name = "href", description = "Hyperlink reference", required = false)
+  @JsonProperty("href")
   public String getHref() {
     return href;
   }
@@ -120,9 +120,9 @@ public class EntityRef {
    * unique identifier
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", description = "unique identifier", required = false)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }
@@ -140,9 +140,9 @@ public class EntityRef {
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
   */
-  @JsonProperty("@schemaLocation")
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
+  @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -160,9 +160,9 @@ public class EntityRef {
    * When sub-classing, this defines the super-class
    * @return atBaseType
   */
-  @JsonProperty("@baseType")
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
+  @JsonProperty("@baseType")
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -180,9 +180,9 @@ public class EntityRef {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
   */
-  @JsonProperty("@type")
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }

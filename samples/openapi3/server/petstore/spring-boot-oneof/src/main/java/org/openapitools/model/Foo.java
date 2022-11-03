@@ -39,9 +39,9 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropA
    * @return fooPropA
   */
-  @JsonProperty("fooPropA")
   
   @Schema(name = "fooPropA", required = false)
+  @JsonProperty("fooPropA")
   public String getFooPropA() {
     return fooPropA;
   }
@@ -59,9 +59,9 @@ public class Foo extends Entity implements FooRefOrValue {
    * Get fooPropB
    * @return fooPropB
   */
-  @JsonProperty("fooPropB")
   
   @Schema(name = "fooPropB", required = false)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }

@@ -34,9 +34,9 @@ public class File {
    * Test capitalization
    * @return sourceURI
   */
-  @JsonProperty("sourceURI")
   
   @ApiModelProperty(value = "Test capitalization")
+  @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
   }

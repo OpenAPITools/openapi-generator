@@ -35,9 +35,9 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

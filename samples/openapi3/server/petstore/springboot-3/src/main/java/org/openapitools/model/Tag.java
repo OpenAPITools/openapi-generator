@@ -35,9 +35,9 @@ public class Tag {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -55,9 +55,9 @@ public class Tag {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   
   @Schema(name = "name", required = false)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

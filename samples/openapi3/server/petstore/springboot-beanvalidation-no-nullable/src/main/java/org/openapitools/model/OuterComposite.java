@@ -36,9 +36,9 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   */
-  @JsonProperty("my_number")
   @Valid 
   @Schema(name = "my_number", required = false)
+  @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -56,9 +56,9 @@ public class OuterComposite {
    * Get myString
    * @return myString
   */
-  @JsonProperty("my_string")
   
   @Schema(name = "my_string", required = false)
+  @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
@@ -76,9 +76,9 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   */
-  @JsonProperty("my_boolean")
   
   @Schema(name = "my_boolean", required = false)
+  @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }

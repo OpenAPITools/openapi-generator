@@ -77,9 +77,9 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
   */
-  @JsonProperty("kind")
   
   @Schema(name = "kind", required = false)
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }

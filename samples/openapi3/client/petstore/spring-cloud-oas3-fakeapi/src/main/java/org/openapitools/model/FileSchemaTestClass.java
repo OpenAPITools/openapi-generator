@@ -38,9 +38,9 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   */
-  @JsonProperty("file")
   @Valid 
   @Schema(name = "file", required = false)
+  @JsonProperty("file")
   public File getFile() {
     return file;
   }
@@ -66,9 +66,9 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   */
-  @JsonProperty("files")
   @Valid 
   @Schema(name = "files", required = false)
+  @JsonProperty("files")
   public List<File> getFiles() {
     return files;
   }

@@ -33,9 +33,9 @@ public class CatAllOf {
    * Get declawed
    * @return declawed
   */
-  @JsonProperty("declawed")
   
   @Schema(name = "declawed", required = false)
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

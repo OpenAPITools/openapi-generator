@@ -85,8 +85,8 @@ public class Pet {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -104,8 +104,8 @@ public class Pet {
    * Get category
    * @return category
   */
-  @JsonProperty("category")
   @Valid 
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -123,8 +123,8 @@ public class Pet {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   @NotNull 
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -147,8 +147,8 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   */
-  @JsonProperty("photoUrls")
   @NotNull 
+  @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -174,8 +174,8 @@ public class Pet {
    * Get tags
    * @return tags
   */
-  @JsonProperty("tags")
   @Valid 
+  @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
@@ -193,8 +193,8 @@ public class Pet {
    * pet status in the store
    * @return status
   */
-  @JsonProperty("status")
   
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

@@ -38,9 +38,9 @@ public class Name {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   @NotNull 
   @Schema(name = "name", required = true)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -58,9 +58,9 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   */
-  @JsonProperty("snake_case")
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -78,9 +78,9 @@ public class Name {
    * Get property
    * @return property
   */
-  @JsonProperty("property")
   
   @Schema(name = "property", required = false)
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -98,9 +98,9 @@ public class Name {
    * Get _123number
    * @return _123number
   */
-  @JsonProperty("123Number")
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }

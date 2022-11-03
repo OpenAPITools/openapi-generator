@@ -32,9 +32,9 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   */
-  @JsonProperty("JustNumber")
   @Valid 
   @Schema(name = "JustNumber", required = false)
+  @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

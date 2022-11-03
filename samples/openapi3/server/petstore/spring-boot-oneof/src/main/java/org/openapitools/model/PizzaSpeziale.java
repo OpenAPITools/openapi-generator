@@ -38,9 +38,9 @@ public class PizzaSpeziale extends Pizza {
    * Get toppings
    * @return toppings
   */
-  @JsonProperty("toppings")
   
   @Schema(name = "toppings", required = false)
+  @JsonProperty("toppings")
   public String getToppings() {
     return toppings;
   }

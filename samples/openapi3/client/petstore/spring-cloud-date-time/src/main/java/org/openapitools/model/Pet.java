@@ -48,9 +48,9 @@ public class Pet {
    * Get atType
    * @return atType
   */
-  @JsonProperty("@type")
   @NotNull 
   @Schema(name = "@type", required = true)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
@@ -68,9 +68,9 @@ public class Pet {
    * Get age
    * @return age
   */
-  @JsonProperty("age")
   
   @Schema(name = "age", required = false)
+  @JsonProperty("age")
   public Integer getAge() {
     return age;
   }
@@ -88,9 +88,9 @@ public class Pet {
    * Get happy
    * @return happy
   */
-  @JsonProperty("happy")
   
   @Schema(name = "happy", required = false)
+  @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
   }
@@ -108,9 +108,9 @@ public class Pet {
    * Get price
    * @return price
   */
-  @JsonProperty("price")
   @Valid 
   @Schema(name = "price", required = false)
+  @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
   }
@@ -128,9 +128,9 @@ public class Pet {
    * Get lastFeed
    * @return lastFeed
   */
-  @JsonProperty("lastFeed")
   @Valid 
   @Schema(name = "lastFeed", required = false)
+  @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -148,9 +148,9 @@ public class Pet {
    * Get dateOfBirth
    * @return dateOfBirth
   */
-  @JsonProperty("dateOfBirth")
   @Valid 
   @Schema(name = "dateOfBirth", required = false)
+  @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }

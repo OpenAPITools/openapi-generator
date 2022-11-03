@@ -35,9 +35,9 @@ public class Addressable {
    * Hyperlink reference
    * @return href
   */
-  @JsonProperty("href")
   
   @Schema(name = "href", description = "Hyperlink reference", required = false)
+  @JsonProperty("href")
   public String getHref() {
     return href;
   }
@@ -55,9 +55,9 @@ public class Addressable {
    * unique identifier
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", description = "unique identifier", required = false)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }

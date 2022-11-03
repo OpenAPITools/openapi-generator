@@ -34,9 +34,9 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
   */
-  @JsonProperty("_class")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }

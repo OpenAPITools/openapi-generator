@@ -36,9 +36,9 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   */
-  @JsonProperty("breed")
   
   @Schema(name = "breed", required = false)
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

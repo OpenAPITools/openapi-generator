@@ -45,9 +45,9 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   */
-  @JsonProperty("string_item")
   @NotNull 
   @Schema(name = "string_item", example = "what", required = true)
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -65,9 +65,9 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   */
-  @JsonProperty("number_item")
   @NotNull @Valid 
   @Schema(name = "number_item", example = "1.234", required = true)
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -85,9 +85,9 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   */
-  @JsonProperty("float_item")
   @NotNull 
   @Schema(name = "float_item", example = "1.234", required = true)
+  @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
   }
@@ -105,9 +105,9 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   */
-  @JsonProperty("integer_item")
   @NotNull 
   @Schema(name = "integer_item", example = "-2", required = true)
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -125,9 +125,9 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   */
-  @JsonProperty("bool_item")
   @NotNull 
   @Schema(name = "bool_item", example = "true", required = true)
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -153,9 +153,9 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   */
-  @JsonProperty("array_item")
   @NotNull 
   @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

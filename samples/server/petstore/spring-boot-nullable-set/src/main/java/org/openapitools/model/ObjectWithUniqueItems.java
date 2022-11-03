@@ -66,9 +66,9 @@ public class ObjectWithUniqueItems {
    * Get nullSet
    * @return nullSet
   */
-  @JsonProperty("nullSet")
   
   @Schema(name = "nullSet", required = false)
+  @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
   }
@@ -94,9 +94,9 @@ public class ObjectWithUniqueItems {
    * Get notNullSet
    * @return notNullSet
   */
-  @JsonProperty("notNullSet")
   
   @Schema(name = "notNullSet", required = false)
+  @JsonProperty("notNullSet")
   public Set<String> getNotNullSet() {
     return notNullSet;
   }
@@ -123,9 +123,9 @@ public class ObjectWithUniqueItems {
    * Get nullList
    * @return nullList
   */
-  @JsonProperty("nullList")
   
   @Schema(name = "nullList", required = false)
+  @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
     return nullList;
   }
@@ -151,9 +151,9 @@ public class ObjectWithUniqueItems {
    * Get notNullList
    * @return notNullList
   */
-  @JsonProperty("notNullList")
   
   @Schema(name = "notNullList", required = false)
+  @JsonProperty("notNullList")
   public List<String> getNotNullList() {
     return notNullList;
   }
@@ -171,9 +171,9 @@ public class ObjectWithUniqueItems {
    * Get notNullDateField
    * @return notNullDateField
   */
-  @JsonProperty("notNullDateField")
   @Valid 
   @Schema(name = "notNullDateField", required = false)
+  @JsonProperty("notNullDateField")
   public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
@@ -191,9 +191,9 @@ public class ObjectWithUniqueItems {
    * Get nullDateField
    * @return nullDateField
   */
-  @JsonProperty("nullDateField")
   @Valid 
   @Schema(name = "nullDateField", required = false)
+  @JsonProperty("nullDateField")
   public OffsetDateTime getNullDateField() {
     return nullDateField;
   }

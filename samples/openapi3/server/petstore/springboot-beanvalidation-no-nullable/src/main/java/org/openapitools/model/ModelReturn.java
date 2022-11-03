@@ -34,9 +34,9 @@ public class ModelReturn {
    * Get _return
    * @return _return
   */
-  @JsonProperty("return")
   
   @Schema(name = "return", required = false)
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

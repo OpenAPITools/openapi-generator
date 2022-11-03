@@ -38,9 +38,9 @@ public class ModelApiResponse {
    * Get code
    * @return code
   */
-  @JsonProperty("code")
   
   @Schema(name = "code", required = false)
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -58,9 +58,9 @@ public class ModelApiResponse {
    * Get type
    * @return type
   */
-  @JsonProperty("type")
   
   @Schema(name = "type", required = false)
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -78,9 +78,9 @@ public class ModelApiResponse {
    * Get message
    * @return message
   */
-  @JsonProperty("message")
   
   @Schema(name = "message", required = false)
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }

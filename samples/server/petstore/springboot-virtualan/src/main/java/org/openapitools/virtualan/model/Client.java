@@ -32,9 +32,9 @@ public class Client {
    * Get client
    * @return client
   */
-  @JsonProperty("client")
   
   @Schema(name = "client", required = false)
+  @JsonProperty("client")
   public String getClient() {
     return client;
   }

@@ -33,9 +33,9 @@ public class ModelList {
    * Get _123list
    * @return _123list
   */
-  @JsonProperty("123-list")
   
   @Schema(name = "123-list", required = false)
+  @JsonProperty("123-list")
   public String get123list() {
     return _123list;
   }

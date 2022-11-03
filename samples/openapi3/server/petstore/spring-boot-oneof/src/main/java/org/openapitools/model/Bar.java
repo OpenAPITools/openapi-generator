@@ -44,9 +44,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   @NotNull 
   @Schema(name = "id", required = true)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }
@@ -64,9 +64,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get barPropA
    * @return barPropA
   */
-  @JsonProperty("barPropA")
   
   @Schema(name = "barPropA", required = false)
+  @JsonProperty("barPropA")
   public String getBarPropA() {
     return barPropA;
   }
@@ -84,9 +84,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get fooPropB
    * @return fooPropB
   */
-  @JsonProperty("fooPropB")
   
   @Schema(name = "fooPropB", required = false)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }
@@ -104,9 +104,9 @@ public class Bar extends Entity implements BarRefOrValue {
    * Get foo
    * @return foo
   */
-  @JsonProperty("foo")
   @Valid 
   @Schema(name = "foo", required = false)
+  @JsonProperty("foo")
   public FooRefOrValue getFoo() {
     return foo;
   }

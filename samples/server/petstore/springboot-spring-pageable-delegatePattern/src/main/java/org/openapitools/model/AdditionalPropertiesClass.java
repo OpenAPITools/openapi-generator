@@ -73,9 +73,9 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   */
-  @JsonProperty("map_string")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_string")
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -101,9 +101,9 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   */
-  @JsonProperty("map_number")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -129,9 +129,9 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   */
-  @JsonProperty("map_integer")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -157,9 +157,9 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   */
-  @JsonProperty("map_boolean")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -185,9 +185,9 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   */
-  @JsonProperty("map_array_integer")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -213,9 +213,9 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   */
-  @JsonProperty("map_array_anytype")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -241,9 +241,9 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   */
-  @JsonProperty("map_map_string")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -269,9 +269,9 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   */
-  @JsonProperty("map_map_anytype")
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -289,9 +289,9 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   */
-  @JsonProperty("anytype_1")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("anytype_1")
   public Object getAnytype1() {
     return anytype1;
   }
@@ -309,9 +309,9 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   */
-  @JsonProperty("anytype_2")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("anytype_2")
   public Object getAnytype2() {
     return anytype2;
   }
@@ -329,9 +329,9 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   */
-  @JsonProperty("anytype_3")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("anytype_3")
   public Object getAnytype3() {
     return anytype3;
   }

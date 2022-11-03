@@ -33,8 +33,8 @@ public class Category {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -52,8 +52,8 @@ public class Category {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

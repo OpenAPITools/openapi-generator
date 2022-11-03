@@ -36,9 +36,9 @@ public class ModelReturn {
    * Get _return
    * @return _return
   */
-  @JsonProperty("return")
   
   @ApiModelProperty(value = "")
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

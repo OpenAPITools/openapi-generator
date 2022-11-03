@@ -46,9 +46,9 @@ public class User {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -66,9 +66,9 @@ public class User {
    * Get username
    * @return username
   */
-  @JsonProperty("username")
   
   @Schema(name = "username", required = false)
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -86,9 +86,9 @@ public class User {
    * Get firstName
    * @return firstName
   */
-  @JsonProperty("firstName")
   
   @Schema(name = "firstName", required = false)
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -106,9 +106,9 @@ public class User {
    * Get lastName
    * @return lastName
   */
-  @JsonProperty("lastName")
   
   @Schema(name = "lastName", required = false)
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -126,9 +126,9 @@ public class User {
    * Get email
    * @return email
   */
-  @JsonProperty("email")
   
   @Schema(name = "email", required = false)
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -146,9 +146,9 @@ public class User {
    * Get password
    * @return password
   */
-  @JsonProperty("password")
   
   @Schema(name = "password", required = false)
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -166,9 +166,9 @@ public class User {
    * Get phone
    * @return phone
   */
-  @JsonProperty("phone")
   
   @Schema(name = "phone", required = false)
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -186,9 +186,9 @@ public class User {
    * User Status
    * @return userStatus
   */
-  @JsonProperty("userStatus")
   
   @Schema(name = "userStatus", description = "User Status", required = false)
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

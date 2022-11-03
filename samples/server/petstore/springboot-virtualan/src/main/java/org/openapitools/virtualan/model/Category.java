@@ -34,9 +34,9 @@ public class Category {
    * Get id
    * @return id
   */
-  @JsonProperty("id")
   
   @Schema(name = "id", required = false)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -54,9 +54,9 @@ public class Category {
    * Get name
    * @return name
   */
-  @JsonProperty("name")
   @NotNull 
   @Schema(name = "name", required = true)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
