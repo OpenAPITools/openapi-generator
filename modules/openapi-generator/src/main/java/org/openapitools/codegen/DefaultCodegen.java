@@ -4365,9 +4365,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (!isGenerateFormAsModel() && contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
-                            contentType.startsWith("multipart"))) {
+            if (contentType != null
+                && (!isGenerateFormAsModel() && contentType.startsWith("application/x-www-form-urlencoded") ||
+                    contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 op.isMultipart = contentType.startsWith("multipart");
