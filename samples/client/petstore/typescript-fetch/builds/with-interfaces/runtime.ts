@@ -159,7 +159,8 @@ export class BaseAPI {
             body:
                 isFormData(overridedInit.body) ||
                 overridedInit.body instanceof URLSearchParams ||
-                isBlob(overridedInit.body)
+                isBlob(overridedInit.body) ||
+                !isJsonMime(context.headers['Content-Type'])
                     ? overridedInit.body
                     : JSON.stringify(overridedInit.body),
         };
@@ -231,6 +232,11 @@ function isBlob(value: any): value is Blob {
 
 function isFormData(value: any): value is FormData {
     return typeof FormData !== "undefined" && value instanceof FormData;
+}
+
+function isJsonMime(mime?: string): boolean {
+    const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
+    return mime === undefined || jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json';
 }
 
 export class ResponseError extends Error {
