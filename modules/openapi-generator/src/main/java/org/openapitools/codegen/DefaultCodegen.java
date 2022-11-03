@@ -262,7 +262,7 @@ public class DefaultCodegen implements CodegenConfig {
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
 
-    // flag to indicate whether to generate model for request form body
+    // flag to indicate whether to generate model for request with url encoded form body
     protected boolean generateFormAsModel = false;
 
     // flag to indicate whether enum value prefixes are removed
@@ -7605,7 +7605,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Get the boolean value indicating whether to generate model for request form body
+     * Get the boolean value indicating whether to generate model for request with url encoded form body
      */
     @Override
     public boolean isGenerateFormAsModel() {
@@ -7613,9 +7613,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Set the boolean value indicating whether to generate model for request form body
+     * Set the boolean value indicating whether to generate model for request with url encoded form body
      *
-     * @param generateFormAsModel true to generate model for request form bobies
+     * @param generateFormAsModel true to generate model for request with url encoded form body
      */
     @Override
     public void setGenerateFormAsModel(final boolean generateFormAsModel) {
