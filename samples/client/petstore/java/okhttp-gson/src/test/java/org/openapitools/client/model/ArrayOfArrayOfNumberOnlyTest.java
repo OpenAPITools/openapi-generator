@@ -21,30 +21,33 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
 /**
- * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1
+ * Model tests for ArrayOfArrayOfNumberOnly
  */
-public class ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1Test {
-    private final ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1 model = new ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1();
+public class ArrayOfArrayOfNumberOnlyTest {
+    private final ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly();
 
     /**
-     * Model tests for ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1
+     * Model tests for ArrayOfArrayOfNumberOnly
      */
     @Test
-    public void testArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1() {
-        // TODO: test ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf1
+    public void testArrayOfArrayOfNumberOnly() {
+        // TODO: test ArrayOfArrayOfNumberOnly
     }
 
     /**
-     * Test the property 'color'
+     * Test the property 'arrayArrayNumber'
      */
     @Test
-    public void colorTest() {
-        // TODO: test color
+    public void arrayArrayNumberTest() {
+        // TODO: test arrayArrayNumber
     }
 
 }

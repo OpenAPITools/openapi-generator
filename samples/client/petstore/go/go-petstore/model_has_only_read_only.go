@@ -39,7 +39,7 @@ func NewHasOnlyReadOnlyWithDefaults() *HasOnlyReadOnly {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetBar() string {
-	if o == nil || o.Bar == nil {
+	if o == nil || isNil(o.Bar) {
 		var ret string
 		return ret
 	}
@@ -49,15 +49,15 @@ func (o *HasOnlyReadOnly) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetBarOk() (*string, bool) {
-	if o == nil || o.Bar == nil {
-		return nil, false
+	if o == nil || isNil(o.Bar) {
+    return nil, false
 	}
 	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasBar() bool {
-	if o != nil && o.Bar != nil {
+	if o != nil && !isNil(o.Bar) {
 		return true
 	}
 
@@ -71,7 +71,7 @@ func (o *HasOnlyReadOnly) SetBar(v string) {
 
 // GetFoo returns the Foo field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetFoo() string {
-	if o == nil || o.Foo == nil {
+	if o == nil || isNil(o.Foo) {
 		var ret string
 		return ret
 	}
@@ -81,15 +81,15 @@ func (o *HasOnlyReadOnly) GetFoo() string {
 // GetFooOk returns a tuple with the Foo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetFooOk() (*string, bool) {
-	if o == nil || o.Foo == nil {
-		return nil, false
+	if o == nil || isNil(o.Foo) {
+    return nil, false
 	}
 	return o.Foo, true
 }
 
 // HasFoo returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasFoo() bool {
-	if o != nil && o.Foo != nil {
+	if o != nil && !isNil(o.Foo) {
 		return true
 	}
 
@@ -103,10 +103,10 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 
 func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
+	if !isNil(o.Bar) {
 		toSerialize["bar"] = o.Bar
 	}
-	if o.Foo != nil {
+	if !isNil(o.Foo) {
 		toSerialize["foo"] = o.Foo
 	}
 	return json.Marshal(toSerialize)

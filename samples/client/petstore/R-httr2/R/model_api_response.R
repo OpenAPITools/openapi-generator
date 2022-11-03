@@ -31,15 +31,21 @@ ModelApiResponse <- R6::R6Class(
     #' @export
     initialize = function(`code` = NULL, `type` = NULL, `message` = NULL, ...) {
       if (!is.null(`code`)) {
-        stopifnot(is.numeric(`code`), length(`code`) == 1)
+        if (!(is.numeric(`code`) && length(`code`) == 1)) {
+          stop(paste("Error! Invalid data for `code`. Must be an integer:", `code`))
+        }
         self$`code` <- `code`
       }
       if (!is.null(`type`)) {
-        stopifnot(is.character(`type`), length(`type`) == 1)
+        if (!(is.character(`type`) && length(`type`) == 1)) {
+          stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
+        }
         self$`type` <- `type`
       }
       if (!is.null(`message`)) {
-        stopifnot(is.character(`message`), length(`message`) == 1)
+        if (!(is.character(`message`) && length(`message`) == 1)) {
+          stop(paste("Error! Invalid data for `message`. Must be a string:", `message`))
+        }
         self$`message` <- `message`
       }
     },

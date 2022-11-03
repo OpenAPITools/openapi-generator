@@ -42,7 +42,7 @@ func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
-	if o == nil || o.Bar == nil {
+	if o == nil || isNil(o.Bar) {
 		var ret string
 		return ret
 	}
@@ -52,15 +52,15 @@ func (o *ReadOnlyFirst) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
-	if o == nil || o.Bar == nil {
-		return nil, false
+	if o == nil || isNil(o.Bar) {
+    return nil, false
 	}
 	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBar() bool {
-	if o != nil && o.Bar != nil {
+	if o != nil && !isNil(o.Bar) {
 		return true
 	}
 
@@ -74,7 +74,7 @@ func (o *ReadOnlyFirst) SetBar(v string) {
 
 // GetBaz returns the Baz field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
-	if o == nil || o.Baz == nil {
+	if o == nil || isNil(o.Baz) {
 		var ret string
 		return ret
 	}
@@ -84,15 +84,15 @@ func (o *ReadOnlyFirst) GetBaz() string {
 // GetBazOk returns a tuple with the Baz field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
-	if o == nil || o.Baz == nil {
-		return nil, false
+	if o == nil || isNil(o.Baz) {
+    return nil, false
 	}
 	return o.Baz, true
 }
 
 // HasBaz returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBaz() bool {
-	if o != nil && o.Baz != nil {
+	if o != nil && !isNil(o.Baz) {
 		return true
 	}
 
@@ -106,10 +106,10 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 
 func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
+	if !isNil(o.Bar) {
 		toSerialize["bar"] = o.Bar
 	}
-	if o.Baz != nil {
+	if !isNil(o.Baz) {
 		toSerialize["baz"] = o.Baz
 	}
 

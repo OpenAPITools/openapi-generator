@@ -41,7 +41,7 @@ func NewClientWithDefaults() *Client {
 
 // GetClient returns the Client field value if set, zero value otherwise.
 func (o *Client) GetClient() string {
-	if o == nil || o.Client == nil {
+	if o == nil || isNil(o.Client) {
 		var ret string
 		return ret
 	}
@@ -51,15 +51,15 @@ func (o *Client) GetClient() string {
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Client) GetClientOk() (*string, bool) {
-	if o == nil || o.Client == nil {
-		return nil, false
+	if o == nil || isNil(o.Client) {
+    return nil, false
 	}
 	return o.Client, true
 }
 
 // HasClient returns a boolean if a field has been set.
 func (o *Client) HasClient() bool {
-	if o != nil && o.Client != nil {
+	if o != nil && !isNil(o.Client) {
 		return true
 	}
 
@@ -73,7 +73,7 @@ func (o *Client) SetClient(v string) {
 
 func (o Client) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Client != nil {
+	if !isNil(o.Client) {
 		toSerialize["client"] = o.Client
 	}
 

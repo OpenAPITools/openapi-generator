@@ -36,13 +36,13 @@ paths:
         - name: header1
           in: header
           schema:
-            $ref: '#/components/requestBodies/Pet'
+            $ref: '#/components/schemas/Pet'
         - name: header2
           in: header
           schema:
             type: array
             items:
-              $ref: '#/components/requestBodies/Pet'
+              $ref: '#/components/schemas/Pet'
         - name: Accept
           in: header
           schema:

@@ -158,6 +158,19 @@ public class OAuth implements Authentication {
         return this;
     }
 
+    public OAuth setCredentialsForPublicClient(String clientId, Boolean debug) {
+        if (Boolean.TRUE.equals(debug)) {
+            service = new ServiceBuilder(clientId)
+                .apiSecretIsEmptyStringUnsafe().debug()
+                .build(authApi);
+        } else {
+            service = new ServiceBuilder(clientId)
+                .apiSecretIsEmptyStringUnsafe()
+                .build(authApi);
+        }
+        return this;
+    }
+
     public OAuth usePasswordFlow(String username, String password) {
         this.flow = OAuthFlow.PASSWORD;
         this.username = username;

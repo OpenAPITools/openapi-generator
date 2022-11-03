@@ -43,6 +43,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -566,7 +567,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("PascalCase".equals(operationIdNaming)) {
             return camelize(sanitizedOperationId);
         } else if ("camelCase".equals(operationIdNaming)) {
-            return camelize(sanitizedOperationId, true);
+            return camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         } else if ("snake_case".equals(operationIdNaming)) {
             return underscore(sanitizedOperationId);
         } else {

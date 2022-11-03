@@ -41,7 +41,7 @@ func NewReturnWithDefaults() *Return {
 
 // GetReturn returns the Return field value if set, zero value otherwise.
 func (o *Return) GetReturn() int32 {
-	if o == nil || o.Return == nil {
+	if o == nil || isNil(o.Return) {
 		var ret int32
 		return ret
 	}
@@ -51,15 +51,15 @@ func (o *Return) GetReturn() int32 {
 // GetReturnOk returns a tuple with the Return field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Return) GetReturnOk() (*int32, bool) {
-	if o == nil || o.Return == nil {
-		return nil, false
+	if o == nil || isNil(o.Return) {
+    return nil, false
 	}
 	return o.Return, true
 }
 
 // HasReturn returns a boolean if a field has been set.
 func (o *Return) HasReturn() bool {
-	if o != nil && o.Return != nil {
+	if o != nil && !isNil(o.Return) {
 		return true
 	}
 
@@ -73,7 +73,7 @@ func (o *Return) SetReturn(v int32) {
 
 func (o Return) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Return != nil {
+	if !isNil(o.Return) {
 		toSerialize["return"] = o.Return
 	}
 

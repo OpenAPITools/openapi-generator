@@ -166,7 +166,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("float", "Float32");
         typeMapping.put("double", "Float64");
         typeMapping.put("number", "Float64");
-        typeMapping.put("decimal", "Float64");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date", "Time");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
