@@ -9,7 +9,7 @@ import Combine
 import OpenAPITransport
 
 {{#description}}
-/** {{{.}}} */{{/description}}
+/// {{{.}}} {{/description}}
 open class {{classname}} {
     private let transport: OpenAPITransport
     public var encoder: JSONEncoder = {
@@ -31,9 +31,9 @@ open class {{classname}} {
 
     {{#allParams}}
     {{#isEnum}}
-    /**
-     * enum for parameter {{paramName}}
-     */
+    ///
+    /// Enum for parameter {{paramName}}
+    ///
     public enum {{{vendorExtensions.x-swift-nested-enum-type}}}: {{{baseType}}}, Codable, CaseIterable {
         {{#allowableValues}}
         {{#enumVars}}
