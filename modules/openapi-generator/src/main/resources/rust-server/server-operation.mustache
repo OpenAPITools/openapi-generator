@@ -221,7 +221,7 @@
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 {{/x-consumes-xml}}
 {{#x-consumes-json}}
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
 {{/x-consumes-json}}
 {{^x-consumes-plain-text}}
                                     match serde_ignored::deserialize(deserializer, |path| {
