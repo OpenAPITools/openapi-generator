@@ -53,7 +53,7 @@ func (o *FileSchemaTestClass) GetFile() File {
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
 	if o == nil || isNil(o.File) {
-    return nil, false
+		return nil, false
 	}
 	return o.File, true
 }
@@ -85,7 +85,7 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 	if o == nil || isNil(o.Files) {
-    return nil, false
+		return nil, false
 	}
 	return o.Files, true
 }

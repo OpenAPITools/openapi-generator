@@ -53,7 +53,7 @@ func (o *Category) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Category) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }

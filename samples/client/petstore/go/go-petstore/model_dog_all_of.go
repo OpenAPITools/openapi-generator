@@ -49,7 +49,7 @@ func (o *DogAllOf) GetBreed() string {
 // and a boolean to check if the value has been set.
 func (o *DogAllOf) GetBreedOk() (*string, bool) {
 	if o == nil || isNil(o.Breed) {
-    return nil, false
+		return nil, false
 	}
 	return o.Breed, true
 }

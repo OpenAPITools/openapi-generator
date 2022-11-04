@@ -53,7 +53,7 @@ func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool) {
 	if o == nil || isNil(o.MapProperty) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapProperty, true
 }
@@ -85,7 +85,7 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool) {
 	if o == nil || isNil(o.MapOfMapProperty) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapOfMapProperty, true
 }

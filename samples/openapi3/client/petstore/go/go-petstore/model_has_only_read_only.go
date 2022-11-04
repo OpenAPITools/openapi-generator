@@ -53,7 +53,7 @@ func (o *HasOnlyReadOnly) GetBar() string {
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetBarOk() (*string, bool) {
 	if o == nil || isNil(o.Bar) {
-    return nil, false
+		return nil, false
 	}
 	return o.Bar, true
 }
@@ -85,7 +85,7 @@ func (o *HasOnlyReadOnly) GetFoo() string {
 // and a boolean to check if the value has been set.
 func (o *HasOnlyReadOnly) GetFooOk() (*string, bool) {
 	if o == nil || isNil(o.Foo) {
-    return nil, false
+		return nil, false
 	}
 	return o.Foo, true
 }

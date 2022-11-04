@@ -49,7 +49,7 @@ func (o *AdditionalPropertiesNumber) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesNumber) GetNameOk() (*string, bool) {
 	if o == nil || isNil(o.Name) {
-    return nil, false
+		return nil, false
 	}
 	return o.Name, true
 }
