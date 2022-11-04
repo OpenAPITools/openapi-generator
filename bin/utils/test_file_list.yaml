@@ -6,3 +6,6 @@
   sha256: dae985015ba461297927d544a78267f2def35e07c3f14ca66468fd61e1fd1c26
 - filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png"
   sha256: 0a67c32728197e942b13bdda064b73793f12f5c795f1e5cf35a3adf69c973230
+# java okhttp gson test files
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ClientTest.java"
+  sha256: db505f7801fef62c13a08a8e9ca1fc4c5c947ab46b46f12943139d353feacf17
