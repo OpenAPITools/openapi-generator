@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -76,7 +74,6 @@ public class Whale {
    * @return hasBaleen
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getHasBaleen() {
     return hasBaleen;
@@ -99,7 +96,6 @@ public class Whale {
    * @return hasTeeth
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getHasTeeth() {
     return hasTeeth;
@@ -122,7 +118,6 @@ public class Whale {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;

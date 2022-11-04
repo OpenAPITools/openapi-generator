@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -72,7 +70,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBreed() {
     return breed;
@@ -95,7 +92,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getColor() {
     return color;

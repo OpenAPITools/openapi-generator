@@ -137,6 +137,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
     }
 
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SOURCE;
+    }
+
+    @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        List<DocumentationProvider> documentationProviders = new ArrayList<>();
+        documentationProviders.add(DocumentationProvider.NONE);
+        documentationProviders.add(DocumentationProvider.SOURCE);
+        return documentationProviders;
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        List<AnnotationLibrary> annotationLibraries = new ArrayList<>();
+        annotationLibraries.add(AnnotationLibrary.NONE);
+        annotationLibraries.add(AnnotationLibrary.SWAGGER1);
+        return annotationLibraries;
+    }
+
     public JavaClientCodegen() {
         super();
 
@@ -886,6 +907,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 codegenModel.imports.remove("ApiModel");
             }
         }
+
+        // TODO: inverse logic. Do not add the imports unconditionally in the first place.
+        if (! AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+            // Remove io.swagger.annotations.* imports
+            codegenModel.imports.remove("ApiModel");
+            codegenModel.imports.remove("ApiModelProperty");
+        }
+
         return codegenModel;
     }
 

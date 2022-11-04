@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +139,6 @@ public class PetWithRequiredTags {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -164,7 +161,6 @@ public class PetWithRequiredTags {
    * @return category
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Category getCategory() {
     return category;
@@ -187,7 +183,6 @@ public class PetWithRequiredTags {
    * @return name
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
     return name;
@@ -215,7 +210,6 @@ public class PetWithRequiredTags {
    * @return photoUrls
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -243,7 +237,6 @@ public class PetWithRequiredTags {
    * @return tags
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public List<Tag> getTags() {
     return tags;
@@ -266,7 +259,6 @@ public class PetWithRequiredTags {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
 
   public StatusEnum getStatus() {
     return status;

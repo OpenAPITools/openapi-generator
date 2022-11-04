@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,6 @@ import org.openapitools.client.JSON;
 /**
  * Describes the result of uploading an image resource
  */
-@ApiModel(description = "Describes the result of uploading an image resource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
@@ -77,7 +74,6 @@ public class ModelApiResponse {
    * @return code
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getCode() {
     return code;
@@ -100,7 +96,6 @@ public class ModelApiResponse {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getType() {
     return type;
@@ -123,7 +118,6 @@ public class ModelApiResponse {
    * @return message
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getMessage() {
     return message;

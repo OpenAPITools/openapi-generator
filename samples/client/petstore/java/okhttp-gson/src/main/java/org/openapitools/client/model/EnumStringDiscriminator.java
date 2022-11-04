@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,6 @@ import org.openapitools.client.JSON;
 /**
  * An object to test discriminator of enum string
  */
-@ApiModel(description = "An object to test discriminator of enum string")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumStringDiscriminator {
   /**
@@ -116,7 +113,6 @@ public class EnumStringDiscriminator {
    * @return enumStrType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "enum string type")
 
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;

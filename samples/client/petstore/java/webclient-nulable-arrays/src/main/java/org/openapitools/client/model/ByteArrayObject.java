@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -71,7 +69,6 @@ public class ByteArrayObject {
    * @return nullableArray
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "byte array.")
   @JsonIgnore
 
   public byte[] getNullableArray() {
@@ -106,7 +103,6 @@ public class ByteArrayObject {
    * @return normalArray
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "byte array.")
   @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -133,7 +129,6 @@ public class ByteArrayObject {
    * @return nullableString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public String getNullableString() {
@@ -168,7 +163,6 @@ public class ByteArrayObject {
    * @return stringField
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -195,7 +189,6 @@ public class ByteArrayObject {
    * @return intField
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
