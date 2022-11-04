@@ -4209,7 +4209,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(openAPI.getComponents().getSchemas().get(ModelUtils.getSimpleRef(requestBodySchema.get$ref())));
 
         Schema requestBodySchema2 = ModelUtils.unaliasSchema(openAPI, requestBodySchema);
-        // get$ref is not null as unaliasSchem returns the schema with the last $ref to the actual schema
+        // get$ref is not null as unaliasSchema returns the schema with the last $ref to the actual schema
         Assert.assertNotNull(requestBodySchema2.get$ref());
         Assert.assertEquals(requestBodySchema2.get$ref(), "#/components/schemas/updatePetWithForm_request");
 

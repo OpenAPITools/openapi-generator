@@ -422,7 +422,7 @@ public interface FakeApi {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      */
     @ApiVirtual
     @Operation(
@@ -430,7 +430,7 @@ public interface FakeApi {
         summary = "Fake endpoint to test group parameters (optional)",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Someting wrong")
+            @ApiResponse(responseCode = "400", description = "Something wrong")
         }
     )
     @RequestMapping(

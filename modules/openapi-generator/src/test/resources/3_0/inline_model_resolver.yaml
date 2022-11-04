@@ -293,7 +293,7 @@ paths:
                   type: object
   /empty_example_on_string_models:
     get:
-      operationId: emptyExampleoOnStringTypeModels
+      operationId: emptyExampleOnStringTypeModels
       responses:
         '200':
           description: OK

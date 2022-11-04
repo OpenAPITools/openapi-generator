@@ -1250,9 +1250,9 @@ class ApiClient:
                     # The HTTP signature scheme requires multiple HTTP headers
                     # that are calculated dynamically.
                     signing_info = self.configuration.signing_info
-                    querys = tuple()
+                    queries = tuple()
                     auth_headers = signing_info.get_http_signature_headers(
-                                        resource_path, method, headers, body, querys)
+                                        resource_path, method, headers, body, queries)
                     for key, value in auth_headers.items():
                         headers.add(key, value)
 {{/if}}

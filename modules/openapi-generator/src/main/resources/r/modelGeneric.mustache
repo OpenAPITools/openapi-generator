@@ -46,7 +46,7 @@
     #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
     {{/optionalVars}}
     {{#isAdditionalPropertiesTrue}}
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
     #' @export
@@ -673,7 +673,7 @@
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # {{classname}}$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # {{classname}}$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

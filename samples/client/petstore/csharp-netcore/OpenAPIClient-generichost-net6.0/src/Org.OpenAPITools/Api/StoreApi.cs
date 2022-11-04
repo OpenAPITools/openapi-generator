@@ -271,7 +271,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -286,7 +286,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -362,7 +362,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -380,7 +380,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -477,7 +477,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -492,7 +492,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -604,7 +604,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -619,7 +619,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }    }

@@ -28,7 +28,7 @@ NestedOneOf <- R6::R6Class(
     #'
     #' @param size size
     #' @param nested_pig nested_pig
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`size` = NULL, `nested_pig` = NULL, additional_properties = NULL, ...) {
@@ -211,7 +211,7 @@ NestedOneOf <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # NestedOneOf$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # NestedOneOf$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

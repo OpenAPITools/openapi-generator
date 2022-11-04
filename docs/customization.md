@@ -397,7 +397,7 @@ or
 
 ## Schema Mapping
 
-One can map the schema to someting else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
+One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
 ```

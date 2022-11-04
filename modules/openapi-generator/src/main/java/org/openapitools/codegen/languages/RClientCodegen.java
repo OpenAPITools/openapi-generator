@@ -177,7 +177,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
-        // no need for import mapping as R doesn't reqiure api,model import
+        // no need for import mapping as R doesn't require api,model import
         // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
 

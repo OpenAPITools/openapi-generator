@@ -12,15 +12,15 @@ from unittest.mock import patch
 import urllib3
 
 import petstore_api
-from petstore_api.paths.fake_test_query_paramters import put  # noqa: E501
+from petstore_api.paths.fake_test_query_parameters import put  # noqa: E501
 from petstore_api import configuration, schemas, api_client
 
 from .. import ApiTestMixin
 
 
-class TestFakeTestQueryParamters(ApiTestMixin, unittest.TestCase):
+class TestFakeTestQueryParameters(ApiTestMixin, unittest.TestCase):
     """
-    FakeTestQueryParamters unit test stubs
+    FakeTestQueryParameters unit test stubs
     """
     _configuration = configuration.Configuration()
 

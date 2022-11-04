@@ -82,7 +82,7 @@ import AnyCodable
      - GET /store/inventory
      - Returns a map of status codes to quantities
      - API Key:
-       - type: apiKey api_key 
+       - type: apiKey api_key (HEADER)
        - name: api_key
      - returns: RequestBuilder<[String: Int]> 
      */

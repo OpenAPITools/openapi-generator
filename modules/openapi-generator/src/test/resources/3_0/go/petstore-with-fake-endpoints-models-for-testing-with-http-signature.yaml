@@ -838,9 +838,9 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
         '5XX':
-          description: Someting wrong
+          description: Something wrong
           content:
             'applicatino/json':
               schema:

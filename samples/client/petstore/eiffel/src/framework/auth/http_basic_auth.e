@@ -55,7 +55,7 @@ feature -- Access
 				attached user_name as l_username and then
 				attached password as l_password
 			then
-					-- TODO check if this convertion it's ok.
+					-- TODO check if this conversion it's ok.
 				a_header_params.force ("Basic " + (create {BASE64}).encoded_string (l_username.to_string_8 + ":" + l_password.to_string_8) , "Authorization")
 			end
    		end

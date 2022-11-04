@@ -278,7 +278,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
            public void write(JsonWriter out, MixedPropertiesAndAdditionalPropertiesClass value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
