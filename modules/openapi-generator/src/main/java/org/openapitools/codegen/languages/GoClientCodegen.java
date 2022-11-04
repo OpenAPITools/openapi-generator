@@ -269,7 +269,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go", true));
     }
 
     public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
