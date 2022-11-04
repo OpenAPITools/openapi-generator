@@ -189,8 +189,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 cleanupRequest()
 
                 switch dataResponse.result {
-                case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
+                case .success(let data):
+                    completion(.success(Response(response: dataResponse.response!, body: data as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }
@@ -359,8 +359,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 cleanupRequest()
 
                 switch dataResponse.result {
-                case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
+                case .success(let data):
+                    completion(.success(Response(response: dataResponse.response!, body: data as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }
