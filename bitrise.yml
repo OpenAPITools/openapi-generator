@@ -1,11 +1,11 @@
 ---
 format_version: '8'
-default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
 project_type: other
 trigger_map:
-- push_branch: "*"
+- push_branch: '*'
   workflow: primary
-- pull_request_source_branch: "*"
+- pull_request_source_branch: '*'
   workflow: primary
 workflows:
   primary:
@@ -23,7 +23,7 @@ workflows:
             sudo gem install cocoapods
     - script@1.1.6:
         inputs:
-        - content: |
+        - content: >
             #!/usr/bin/env bash
 
             set -e
@@ -40,3 +40,6 @@ workflows:
 
             ./samples/client/petstore/swift5/swift5_test_all.sh
 
+meta:
+  bitrise.io:
+    stack: osx-xcode-14.1.x
