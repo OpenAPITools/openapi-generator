@@ -32,13 +32,26 @@ import java.util.StringJoiner;
  */
 public class SupportingFile extends TemplateDefinition {
     private boolean canOverwrite = true;
+    /**
+     * Whether the {@link SupportingFile} is required for all generated code.
+     */
+    private boolean required = false;
 
     public SupportingFile(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
     }
 
+    public SupportingFile(String templateFile, String destinationFilename, boolean required) {
+        this(templateFile, "", destinationFilename, required);
+    }
+
     public SupportingFile(String templateFile, String folder, String destinationFilename) {
         super(templateFile, folder, destinationFilename);
+    }
+
+    public SupportingFile(String templateFile, String folder, String destinationFilename, boolean required) {
+        super(templateFile, folder, destinationFilename);
+        this.required = required;
     }
 
     /**
@@ -82,6 +95,13 @@ public class SupportingFile extends TemplateDefinition {
 
     public boolean isCanOverwrite() {
         return canOverwrite;
+    }
+
+    /**
+     * @return whether the {@link SupportingFile} is required for all generated code.
+     */
+    public boolean isRequired() {
+        return required;
     }
 
     @Override

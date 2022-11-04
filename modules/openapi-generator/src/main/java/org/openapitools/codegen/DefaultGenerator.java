@@ -703,11 +703,6 @@ public class DefaultGenerator implements Generator {
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
-        if (!generateSupportingFiles) {
-            // TODO: process these anyway and report via dryRun?
-            LOGGER.info("Skipping generation of supporting files.");
-            return;
-        }
         Set<String> supportingFilesToGenerate = null;
         String supportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
@@ -715,6 +710,9 @@ public class DefaultGenerator implements Generator {
         }
 
         for (SupportingFile support : config.supportingFiles()) {
+            if (!generateSupportingFiles && !support.isRequired()) {
+                continue;
+            }
             try {
                 String outputFolder = config.outputFolder();
                 if (StringUtils.isNotEmpty(support.getFolder())) {
@@ -745,6 +743,12 @@ public class DefaultGenerator implements Generator {
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
             }
+        }
+
+        if (!generateSupportingFiles) {
+            // TODO: process these anyway and report via dryRun?
+            LOGGER.info("Skipping generation of not required supporting files.");
+            return;
         }
 
         // Consider .openapi-generator-ignore a supporting file
