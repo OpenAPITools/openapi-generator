@@ -336,6 +336,97 @@ class ObjectSerializerTest extends TestCase
             'form null DateTime object, explode on, required false' => [
                 null, 'dateTime', '\DateTime', 'form', true, false, '',
             ],
+            'form 1 int, explode on, required false' => [
+                1, 'field', 'int', 'form', true, false, 'field=1',
+            ],
+            'form 0 int, explode on, required false' => [
+                0, 'field', 'int', 'form', true, false, 'field=0',
+            ],
+            'form 0 int, explode on, required true' => [
+                0, 'field', 'int', 'form', true, true, 'field=0',
+            ],
+            'form null int, explode on, required false' => [
+                null, 'field', 'int', 'form', true, false, '',
+            ],
+            'form null int, explode on, required true' => [
+                null, 'field', 'int', 'form', true, true, 'field=',
+            ],
+            'form 1 integer, explode on, required false' => [
+                1, 'field', 'integer', 'form', true, false, 'field=1',
+            ],
+            'form 0 integer, explode on, required false' => [
+                0, 'field', 'integer', 'form', true, false, 'field=0',
+            ],
+            'form 0 integer, explode on, required true' => [
+                0, 'field', 'integer', 'form', true, true, 'field=0',
+            ],
+            'form null integer, explode on, required false' => [
+                null, 'field', 'integer', 'form', true, false, '',
+            ],
+            'form null integer, explode on, required true' => [
+                null, 'field', 'integer', 'form', true, true, 'field=',
+            ],
+            'form 1.1 float, explode on, required false' => [
+                1.1, 'field', 'float', 'form', true, false, 'field=1.1',
+            ],
+            'form 0 float, explode on, required false' => [
+                0, 'field', 'float', 'form', true, false, 'field=0',
+            ],
+            'form 0.0 float, explode on, required false' => [
+                0.0, 'field', 'float', 'form', true, false, 'field=0',
+            ],
+            'form 0 float, explode on, required true' => [
+                0, 'field', 'float', 'form', true, true, 'field=0',
+            ],
+            'form 0.0 float, explode on, required true' => [
+                0.0, 'field', 'float', 'form', true, true, 'field=0',
+            ],
+            'form null float, explode on, required false' => [
+                null, 'field', 'float', 'form', true, false, '',
+            ],
+            'form null float, explode on, required true' => [
+                null, 'field', 'float', 'form', true, true, 'field=',
+            ],
+            'form 1.1 number, explode on, required false' => [
+                1.1, 'field', 'number', 'form', true, false, 'field=1.1',
+            ],
+            'form 0 number, explode on, required false' => [
+                0, 'field', 'number', 'form', true, false, 'field=0',
+            ],
+            'form 0.0 number, explode on, required false' => [
+                0.0, 'field', 'number', 'form', true, false, 'field=0',
+            ],
+            'form 0 number, explode on, required true' => [
+                0, 'field', 'number', 'form', true, true, 'field=0',
+            ],
+            'form 0.0 number, explode on, required true' => [
+                0.0, 'field', 'number', 'form', true, true, 'field=0',
+            ],
+            'form null number, explode on, required false' => [
+                null, 'field', 'number', 'form', true, false, '',
+            ],
+            'form null number, explode on, required true' => [
+                null, 'field', 'number', 'form', true, true, 'field=',
+            ],
+            'form true bool, explode on, required false' => [
+                true, 'field', 'bool', 'form', true, false, 'field=1',
+            ],
+            'form false bool, explode on, required false' => [
+                false, 'field', 'bool', 'form', true, false, 'field=0',
+            ],
+            'form empty bool, explode on, required false' => [
+                null, 'field', 'bool', 'form', true, false, '',
+            ],
+            'form empty bool, explode on, required true' => [
+                null, 'field', 'bool', 'form', true, true, 'field=',
+            ],
+            # Entries for "boolean" type are already covered in the beginning of this provider
+            'form 1 bool, explode on, required false' => [
+                1, 'field', 'bool', 'form', true, false, 'field=1',
+            ],
+            'form 0 bool, explode on, required false' => [
+                0, 'field', 'bool', 'form', true, false, 'field=0',
+            ],
         ];
     }
 

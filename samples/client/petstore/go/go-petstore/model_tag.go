@@ -39,7 +39,7 @@ func NewTagWithDefaults() *Tag {
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Tag) GetId() int64 {
-	if o == nil || o.Id == nil {
+	if o == nil || isNil(o.Id) {
 		var ret int64
 		return ret
 	}
@@ -49,15 +49,15 @@ func (o *Tag) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (*int64, bool) {
-	if o == nil || o.Id == nil {
-		return nil, false
+	if o == nil || isNil(o.Id) {
+    return nil, false
 	}
 	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Tag) HasId() bool {
-	if o != nil && o.Id != nil {
+	if o != nil && !isNil(o.Id) {
 		return true
 	}
 
@@ -71,7 +71,7 @@ func (o *Tag) SetId(v int64) {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Tag) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil || isNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -81,15 +81,15 @@ func (o *Tag) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
-		return nil, false
+	if o == nil || isNil(o.Name) {
+    return nil, false
 	}
 	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *Tag) HasName() bool {
-	if o != nil && o.Name != nil {
+	if o != nil && !isNil(o.Name) {
 		return true
 	}
 
@@ -103,10 +103,10 @@ func (o *Tag) SetName(v string) {
 
 func (o Tag) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
+	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
-	if o.Name != nil {
+	if !isNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
 	return json.Marshal(toSerialize)
