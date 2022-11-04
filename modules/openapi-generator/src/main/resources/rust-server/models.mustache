@@ -189,7 +189,7 @@ impl<'a> std::iter::IntoIterator for &'a {{{classname}}} {
     type IntoIter = std::slice::Iter<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -198,7 +198,7 @@ impl<'a> std::iter::IntoIterator for &'a mut {{{classname}}} {
     type IntoIter = std::slice::IterMut<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
