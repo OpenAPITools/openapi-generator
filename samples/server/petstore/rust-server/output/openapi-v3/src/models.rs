@@ -111,7 +111,7 @@ impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -120,7 +120,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -1499,7 +1499,7 @@ impl<'a> std::iter::IntoIterator for &'a MyIdList {
     type IntoIter = std::slice::Iter<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -1508,7 +1508,7 @@ impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
     type IntoIter = std::slice::IterMut<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -2853,7 +2853,7 @@ impl<'a> std::iter::IntoIterator for &'a XmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -2862,7 +2862,7 @@ impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 

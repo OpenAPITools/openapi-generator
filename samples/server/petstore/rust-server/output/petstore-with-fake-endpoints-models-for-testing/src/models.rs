@@ -322,7 +322,7 @@ impl<'a> std::iter::IntoIterator for &'a AnimalFarm {
     type IntoIter = std::slice::Iter<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -331,7 +331,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnimalFarm {
     type IntoIter = std::slice::IterMut<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
