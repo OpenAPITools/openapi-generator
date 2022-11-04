@@ -7,7 +7,9 @@ import java.util.*;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.*;
 import org.openapitools.client.auth.*;
+
 import java.math.BigDecimal;
+
 import org.openapitools.client.model.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +24,9 @@ public class ClientTest {
         json = apiClient.getJSON();
     }
 
-    /** Test the property 'arrayArrayNumber' */
+    /**
+     * Test the property 'arrayArrayNumber'
+     */
     @Test
     public void arrayArrayNumberTest() {
         ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly();
@@ -47,7 +51,9 @@ public class ClientTest {
         Assert.assertTrue(model2.equals(model));
     }
 
-    /** Model tests for Pet */
+    /**
+     * Model tests for Pet
+     */
     @Test
     public void testPet() {
         Pet model = new Pet();
