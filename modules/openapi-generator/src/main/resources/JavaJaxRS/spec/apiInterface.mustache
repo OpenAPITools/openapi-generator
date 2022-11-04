@@ -17,4 +17,4 @@
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}
-    {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});
+    {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});
