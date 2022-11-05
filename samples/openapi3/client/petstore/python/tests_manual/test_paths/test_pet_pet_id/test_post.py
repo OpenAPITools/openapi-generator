@@ -41,6 +41,7 @@ class TestPetPetId(ApiTestMixin, unittest.TestCase):
                 'POST',
                 'http://petstore.swagger.io:80/v2/pet/2345',
                 body='name=mister%20furball%20award&status=happy%2C%20fuzzy%2C%20and%20bouncy',
+                fields={},
                 encode_multipart=False,
                 preload_content=True,
                 timeout=None,
