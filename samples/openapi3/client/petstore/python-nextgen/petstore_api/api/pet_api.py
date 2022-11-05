@@ -335,7 +335,7 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def find_pets_by_status(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs) -> list[Pet]:  # noqa: E501
+    def find_pets_by_status(self, status : Annotated[List[Literal['available', 'pending', 'sold']], Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -346,7 +346,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: list[str]
+        :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -360,7 +360,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: list[Pet]
+        :rtype: List[Pet]
         """
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
@@ -377,7 +377,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: list[str]
+        :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -399,7 +399,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -452,7 +452,7 @@ class PetApi(object):
         auth_settings = ['petstore_auth']  # noqa: E501
 
         response_types_map = {
-            200: "list[Pet]",
+            200: "List[Pet]",
             400: None,
         }
 
@@ -474,7 +474,7 @@ class PetApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs) -> list[Pet]:  # noqa: E501
+    def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -485,7 +485,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param tags: Tags to filter by (required)
-        :type tags: list[str]
+        :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -499,7 +499,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: list[Pet]
+        :rtype: List[Pet]
         """
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
@@ -516,7 +516,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param tags: Tags to filter by (required)
-        :type tags: list[str]
+        :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -538,7 +538,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -591,7 +591,7 @@ class PetApi(object):
         auth_settings = ['petstore_auth']  # noqa: E501
 
         response_types_map = {
-            200: "list[Pet]",
+            200: "List[Pet]",
             400: None,
         }
 

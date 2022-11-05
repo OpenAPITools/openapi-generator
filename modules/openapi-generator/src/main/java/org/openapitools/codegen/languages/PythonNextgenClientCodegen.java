@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -28,6 +29,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,6 +92,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         // at the moment
         importMapping.clear();
 
+        // override type mapping in abstract python codegen
+        typeMapping.put("array", "List");
+        typeMapping.put("set", "List");
+        typeMapping.put("map", "Dict");
+
         supportsInheritance = true;
         modelPackage = "models";
         apiPackage = "api";
@@ -149,7 +156,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
-        supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
+        supportedLibraries.put("asyncio", "Asyncio-based client");
         supportedLibraries.put("tornado", "tornado-based client");
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
@@ -295,6 +302,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             modelImport += toModelFilename(name) + " import " + name;
         }
         return modelImport;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = getAdditionalProperties(p);
+
+            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+        }
+        return super.getTypeDeclaration(p);
     }
 
     /*

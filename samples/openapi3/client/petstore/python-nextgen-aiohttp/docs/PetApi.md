@@ -164,7 +164,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> list[Pet] find_pets_by_status(status)
+> List[Pet] find_pets_by_status(status)
 
 Finds Pets by status
 
@@ -200,7 +200,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    status = ['status_example'] # list[str] | Status values that need to be considered for filter
+    status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
     try:
         # Finds Pets by status
@@ -214,11 +214,11 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**list[str]**](str.md)| Status values that need to be considered for filter | 
+ **status** | [**List[str]**](str.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**list[Pet]**](Pet.md)
+[**List[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -238,7 +238,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> list[Pet] find_pets_by_tags(tags)
+> List[Pet] find_pets_by_tags(tags)
 
 Finds Pets by tags
 
@@ -274,7 +274,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    tags = ['tags_example'] # list[str] | Tags to filter by
+    tags = ['tags_example'] # List[str] | Tags to filter by
 
     try:
         # Finds Pets by tags
@@ -288,11 +288,11 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**list[str]**](str.md)| Tags to filter by | 
+ **tags** | [**List[str]**](str.md)| Tags to filter by | 
 
 ### Return type
 
-[**list[Pet]**](Pet.md)
+[**List[Pet]**](Pet.md)
 
 ### Authorization
 

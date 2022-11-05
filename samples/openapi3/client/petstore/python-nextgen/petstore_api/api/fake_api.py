@@ -2296,15 +2296,15 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: list[str]
+        :type pipe: List[str]
         :param ioutil: (required)
-        :type ioutil: list[str]
+        :type ioutil: List[str]
         :param http: (required)
-        :type http: list[str]
+        :type http: List[str]
         :param url: (required)
-        :type url: list[str]
+        :type url: List[str]
         :param context: (required)
-        :type context: list[str]
+        :type context: List[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
@@ -2339,15 +2339,15 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: list[str]
+        :type pipe: List[str]
         :param ioutil: (required)
-        :type ioutil: list[str]
+        :type ioutil: List[str]
         :param http: (required)
-        :type http: list[str]
+        :type http: List[str]
         :param url: (required)
-        :type url: list[str]
+        :type url: List[str]
         :param context: (required)
-        :type context: list[str]
+        :type context: List[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:

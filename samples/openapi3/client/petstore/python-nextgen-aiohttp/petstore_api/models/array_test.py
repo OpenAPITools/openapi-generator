@@ -71,7 +71,7 @@ class ArrayTest(BaseModel):
         return ArrayTest.parse_obj({
             "array_of_string": obj.get("array_of_string"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
-            "array_array_of_model": [list[ReadOnlyFirst].from_dict(_item) for _item in obj.get("array_array_of_model")]
+            "array_array_of_model": [List[ReadOnlyFirst].from_dict(_item) for _item in obj.get("array_array_of_model")]
         })
 
 

@@ -1082,11 +1082,11 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    pipe = ['pipe_example'] # list[str] | 
-ioutil = ['ioutil_example'] # list[str] | 
-http = ['http_example'] # list[str] | 
-url = ['url_example'] # list[str] | 
-context = ['context_example'] # list[str] | 
+    pipe = ['pipe_example'] # List[str] | 
+ioutil = ['ioutil_example'] # List[str] | 
+http = ['http_example'] # List[str] | 
+url = ['url_example'] # List[str] | 
+context = ['context_example'] # List[str] | 
 allow_empty = 'allow_empty_example' # str | 
 language = {'key': 'language_example'} # Dict[str, str] |  (optional)
 
@@ -1100,11 +1100,11 @@ language = {'key': 'language_example'} # Dict[str, str] |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**list[str]**](str.md)|  | 
- **ioutil** | [**list[str]**](str.md)|  | 
- **http** | [**list[str]**](str.md)|  | 
- **url** | [**list[str]**](str.md)|  | 
- **context** | [**list[str]**](str.md)|  | 
+ **pipe** | [**List[str]**](str.md)|  | 
+ **ioutil** | [**List[str]**](str.md)|  | 
+ **http** | [**List[str]**](str.md)|  | 
+ **url** | [**List[str]**](str.md)|  | 
+ **context** | [**List[str]**](str.md)|  | 
  **allow_empty** | **str**|  | 
  **language** | [**Dict[str, str]**](str.md)|  | [optional] 
 

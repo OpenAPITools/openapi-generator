@@ -68,6 +68,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("dict");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -85,7 +87,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
         typeMapping.put("set", "list");
-        typeMapping.put("map", "Dict");
+        typeMapping.put("map", "dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
@@ -121,19 +123,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return "_" + name;
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
 
-            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
-    }
 
     /**
      * Return the default value of the property

@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_map_of_string** | [**Dict[str, Dict[str, str]]**](Dict.md) |  | [optional] 
+**map_map_of_string** | **Dict[str, Dict[str, str]]** |  | [optional] 
 **map_of_enum_string** | **Dict[str, str]** |  | [optional] 
 **direct_map** | **Dict[str, bool]** |  | [optional] 
 **indirect_map** | **Dict[str, bool]** |  | [optional] 
