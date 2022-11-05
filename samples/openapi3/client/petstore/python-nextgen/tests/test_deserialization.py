@@ -204,7 +204,7 @@ class DeserializationTests(unittest.TestCase):
             }]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "list[Pet]")
+        deserialized = self.deserialize(response, "List[Pet]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], petstore_api.Pet))
         self.assertEqual(deserialized[0].id, 0)
@@ -231,7 +231,7 @@ class DeserializationTests(unittest.TestCase):
         data = [["foo"]]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "list[list[str]]")
+        deserialized = self.deserialize(response, "List[List[str]]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], list))
         self.assertTrue(isinstance(deserialized[0][0], str))

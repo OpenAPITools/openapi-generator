@@ -1607,14 +1607,14 @@ class FakeApi(object):
             _request_auth=local_var_params.get('_request_auth'))
 
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, async_req=True)
+        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, async_req=True)
         >>> result = thread.get()
 
         :param number: None (required)
@@ -1637,8 +1637,8 @@ class FakeApi(object):
         :type string: str
         :param binary: None
         :type binary: file
-        :param _date: None
-        :type _date: date
+        :param var_date: None
+        :type var_date: date
         :param date_time: None
         :type date_time: datetime
         :param password: None
@@ -1661,17 +1661,17 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, **kwargs)  # noqa: E501
+        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, _date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
+    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True, regex=r'/[a-z]/i')], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, _date, date_time, password, param_callback, async_req=True)
+        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, async_req=True)
         >>> result = thread.get()
 
         :param number: None (required)
@@ -1694,8 +1694,8 @@ class FakeApi(object):
         :type string: str
         :param binary: None
         :type binary: file
-        :param _date: None
-        :type _date: date
+        :param var_date: None
+        :type var_date: date
         :param date_time: None
         :type date_time: datetime
         :param password: None
@@ -1739,7 +1739,7 @@ class FakeApi(object):
             'float',
             'string',
             'binary',
-            '_date',
+            'var_date',
             'date_time',
             'password',
             'param_callback'
@@ -1795,8 +1795,8 @@ class FakeApi(object):
             form_params.append(('byte', local_var_params['byte']))
         if local_var_params['binary']:
             local_var_files['binary'] = local_var_params['binary']
-        if local_var_params['_date']:
-            form_params.append(('date', local_var_params['_date']))
+        if local_var_params['var_date']:
+            form_params.append(('date', local_var_params['var_date']))
         if local_var_params['date_time']:
             form_params.append(('dateTime', local_var_params['date_time']))
         if local_var_params['password']:

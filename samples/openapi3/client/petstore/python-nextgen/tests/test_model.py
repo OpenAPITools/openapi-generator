@@ -160,6 +160,7 @@ class ModelTests(unittest.TestCase):
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
+
     def test_inheritance(self):
         dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
         self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
@@ -170,4 +171,22 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
 
-        self.assertTrue(isinstance(dog2, petstore_api.Animal))
+    def test_list(self):
+        # should throw exception as var_123_list should be string
+        try:
+            l3 = petstore_api.List(var_123_list=123)
+            self.assertTrue(False)  # this line shouldn't execute
+        except ValueError as e:
+            #error_message = (
+            #    "1 validation error for List\n"
+            #    "123-list\n"
+            #    "  str type expected (type=type_error.str)\n")
+            self.assertTrue("str type expected" in str(e))
+
+        l = petstore_api.List(var_123_list="bulldog")
+        self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
+        self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
+        l2 = petstore_api.List.from_json(l.to_json())
+        self.assertEqual(l2.var_123_list, 'bulldog')
+
+        self.assertTrue(isinstance(l2, petstore_api.List))

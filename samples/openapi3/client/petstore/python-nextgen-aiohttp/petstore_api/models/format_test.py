@@ -37,7 +37,7 @@ class FormatTest(BaseModel):
     string: Optional[constr(strict=True, regex=r'/[a-z]/i')] = None
     byte: StrictBytes = ...
     binary: Optional[StrictBytes] = None
-    _date: date = Field(..., alias="date")
+    var_date: date = Field(..., alias="date")
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     uuid: Optional[StrictStr] = None
     password: constr(strict=True, max_length=64, min_length=10) = ...
@@ -83,7 +83,7 @@ class FormatTest(BaseModel):
             "string": obj.get("string"),
             "byte": obj.get("byte"),
             "binary": obj.get("binary"),
-            "_date": obj.get("date"),
+            "var_date": obj.get("date"),
             "date_time": obj.get("dateTime"),
             "uuid": obj.get("uuid"),
             "password": obj.get("password"),

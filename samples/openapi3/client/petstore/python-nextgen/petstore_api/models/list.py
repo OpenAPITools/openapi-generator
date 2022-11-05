@@ -28,7 +28,7 @@ class List(BaseModel):
 
     Do not edit the class manually.
     """
-    _123_list: Optional[StrictStr] = Field(None, alias="123-list")
+    var_123_list: Optional[StrictStr] = Field(None, alias="123-list")
 
     class Config:
         allow_population_by_field_name = True
@@ -60,7 +60,7 @@ class List(BaseModel):
             return List.parse_obj(obj)
 
         return List.parse_obj({
-            "_123_list": obj.get("123-list")
+            "var_123_list": obj.get("123-list")
         })
 
 

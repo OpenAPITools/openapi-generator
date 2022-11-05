@@ -47,8 +47,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
 
     protected String packageUrl;
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
 
     protected Map<Character, String> regexModifiers;
@@ -156,9 +156,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
-        supportedLibraries.put("asyncio", "Asyncio-based client");
-        supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
+        supportedLibraries.put("asyncio", "asyncio-based client");
+        supportedLibraries.put("tornado", "tornado-based client (deprecated)");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -1156,5 +1156,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     @Override
     public boolean isDataTypeString(String dataType) {
         return "str".equals(dataType);
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "var_" + name;
     }
 }

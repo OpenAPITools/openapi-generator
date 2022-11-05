@@ -30,8 +30,8 @@ class Name(BaseModel):
     """
     name: StrictInt = ...
     snake_case: Optional[StrictInt] = None
-    _property: Optional[StrictStr] = Field(None, alias="property")
-    _123_number: Optional[StrictInt] = Field(None, alias="123Number")
+    var_property: Optional[StrictStr] = Field(None, alias="property")
+    var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
 
     class Config:
         allow_population_by_field_name = True
@@ -65,8 +65,8 @@ class Name(BaseModel):
         return Name.parse_obj({
             "name": obj.get("name"),
             "snake_case": obj.get("snake_case"),
-            "_property": obj.get("property"),
-            "_123_number": obj.get("123Number")
+            "var_property": obj.get("property"),
+            "var_123_number": obj.get("123Number")
         })
 
 

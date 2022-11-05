@@ -28,7 +28,7 @@ class ModelReturn(BaseModel):
 
     Do not edit the class manually.
     """
-    _return: Optional[StrictInt] = Field(None, alias="return")
+    var_return: Optional[StrictInt] = Field(None, alias="return")
 
     class Config:
         allow_population_by_field_name = True
@@ -60,7 +60,7 @@ class ModelReturn(BaseModel):
             return ModelReturn.parse_obj(obj)
 
         return ModelReturn.parse_obj({
-            "_return": obj.get("return")
+            "var_return": obj.get("return")
         })
 
 

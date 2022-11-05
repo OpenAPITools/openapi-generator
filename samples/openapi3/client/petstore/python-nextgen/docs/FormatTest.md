@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **string** | **str** |  | [optional] 
 **byte** | **str** |  | 
 **binary** | **file** |  | [optional] 
-**_date** | **date** |  | 
+**var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
 **password** | **str** |  | 

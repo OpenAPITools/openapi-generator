@@ -18,7 +18,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, Field, StrictStr
 
 from pydantic import ValidationError
 
@@ -28,7 +28,7 @@ class ClassModel(BaseModel):
 
     Do not edit the class manually.
     """
-    _class: Optional[StrictStr] = None
+    var_class: Optional[StrictStr] = Field(None, alias="_class")
 
     class Config:
         allow_population_by_field_name = True
@@ -60,7 +60,7 @@ class ClassModel(BaseModel):
             return ClassModel.parse_obj(obj)
 
         return ClassModel.parse_obj({
-            "_class": obj.get("_class")
+            "var_class": obj.get("_class")
         })
 
 

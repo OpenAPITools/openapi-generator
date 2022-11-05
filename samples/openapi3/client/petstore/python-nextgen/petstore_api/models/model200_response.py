@@ -29,7 +29,7 @@ class Model200Response(BaseModel):
     Do not edit the class manually.
     """
     name: Optional[StrictInt] = None
-    _class: Optional[StrictStr] = Field(None, alias="class")
+    var_class: Optional[StrictStr] = Field(None, alias="class")
 
     class Config:
         allow_population_by_field_name = True
@@ -62,7 +62,7 @@ class Model200Response(BaseModel):
 
         return Model200Response.parse_obj({
             "name": obj.get("name"),
-            "_class": obj.get("class")
+            "var_class": obj.get("class")
         })
 
 
