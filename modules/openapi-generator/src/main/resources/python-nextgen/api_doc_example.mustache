@@ -14,30 +14,6 @@ with {{{packageName}}}.ApiClient(configuration) as api_client:
 with {{{packageName}}}.ApiClient() as api_client:
 {{/hasAuthMethods}}
     # Create an instance of the API class
-    {{#hasAuthMethods}}
-    # Setup authentication
-    {{#authMethods}}
-    {{#isBasic}}
-    {{#isBasicBasic}}
-    # Configure HTTP basic authorization: {{{name}}}
-    {{^-first}}# {{/-first}}api_client.configuration.username <- os.environ["USERNAME"]
-    {{^-first}}# {{/-first}}api_client.configuration.password <- os.environ["PASSWORD"]
-    {{/isBasicBasic}}
-    {{#isBasicBearer}}
-    # Configure HTTP bearer authorization: {{{name}}}
-    {{^-first}}# {{/-first}}api_client.configuration.bearer_token <- os.environ["BEARER_TOKEN"]
-    {{/isBasicBearer}}
-    {{/isBasic}}
-    {{#isApiKey}}
-    # Configure API key authorization: {{{name}}}
-    {{^-first}}# {{/-first}}api_client.configuration.api_keys["{{{keyParamName}}}"] <- os.environ["API_KEY"]
-    {{/isApiKey}}
-    {{#isOAuth}}
-    # Configure OAuth2 access token for authorization: {{{name}}}
-    {{^-first}}# {{/-first}}api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
-    {{/isOAuth}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
     api_instance = {{{packageName}}}.{{{classname}}}(api_client)
     {{#allParams}}
     {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}

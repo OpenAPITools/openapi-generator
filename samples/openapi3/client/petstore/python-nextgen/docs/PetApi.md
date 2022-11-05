@@ -43,18 +43,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
@@ -120,18 +113,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | Pet id to delete
     api_key = 'api_key_example' # str |  (optional)
@@ -199,18 +185,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
@@ -278,18 +257,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
 
@@ -358,7 +330,7 @@ configuration = petstore_api.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: api_key
-configuration.api_key['api_key'] = 'YOUR_API_KEY'
+configuration.api_key['api_key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
@@ -366,9 +338,6 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure API key authorization: api_key
-    api_client.configuration.api_keys["api_key"] <- os.environ["API_KEY"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to return
 
@@ -437,18 +406,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
@@ -516,18 +478,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet that needs to be updated
     name = 'name_example' # str | Updated name of the pet (optional)
@@ -597,18 +552,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
@@ -679,18 +627,11 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure OAuth2 access token for authorization: petstore_auth
-    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
     required_file = '/path/to/file' # file | file to upload

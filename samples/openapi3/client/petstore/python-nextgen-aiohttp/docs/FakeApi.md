@@ -168,7 +168,6 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
     api_instance = petstore_api.FakeApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
     query_1 = 'query_1_example' # str | query parameter (optional)
@@ -801,17 +800,13 @@ configuration = petstore_api.Configuration(
 
 # Configure HTTP basic authorization: http_basic_test
 configuration = petstore_api.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
 )
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure HTTP basic authorization: http_basic_test
-    api_client.configuration.username <- os.environ["USERNAME"]
-    api_client.configuration.password <- os.environ["PASSWORD"]
     api_instance = petstore_api.FakeApi(api_client)
     number = 3.4 # float | None
     double = 3.4 # float | None
@@ -905,15 +900,12 @@ configuration = petstore_api.Configuration(
 
 # Configure Bearer authorization (JWT): bearer_test
 configuration = petstore_api.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    # Setup authentication
-    # Configure HTTP bearer authorization: bearer_test
-    api_client.configuration.bearer_token <- os.environ["BEARER_TOKEN"]
     api_instance = petstore_api.FakeApi(api_client)
     required_string_group = 56 # int | Required String in group parameters
     required_boolean_group = True # bool | Required Boolean in group parameters
