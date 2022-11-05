@@ -32,6 +32,7 @@ Health check endpoint
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -46,12 +47,13 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    
+
     try:
         # Health check endpoint
         api_response = api_instance.fake_health_get()
+        print("The response of FakeApi->fake_health_get:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
 ```
 
@@ -88,6 +90,7 @@ test http signature authentication
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -165,15 +168,16 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
     api_instance = petstore_api.FakeApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
-query_1 = 'query_1_example' # str | query parameter (optional)
-header_1 = 'header_1_example' # str | header parameter (optional)
+    query_1 = 'query_1_example' # str | query parameter (optional)
+    header_1 = 'header_1_example' # str | header parameter (optional)
 
     try:
         # test http signature authentication
         api_instance.fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_http_signature_test: %s\n" % e)
 ```
 
@@ -217,6 +221,7 @@ Test serialization of outer boolean types
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -235,8 +240,9 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_response = api_instance.fake_outer_boolean_serialize(body=body)
+        print("The response of FakeApi->fake_outer_boolean_serialize:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
 ```
 
@@ -278,6 +284,7 @@ Test serialization of object with outer number type
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -296,8 +303,9 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
+        print("The response of FakeApi->fake_outer_composite_serialize:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
 ```
 
@@ -339,6 +347,7 @@ Test serialization of outer number types
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -357,8 +366,9 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_response = api_instance.fake_outer_number_serialize(body=body)
+        print("The response of FakeApi->fake_outer_number_serialize:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
 ```
 
@@ -400,6 +410,7 @@ Test serialization of outer string types
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -418,8 +429,9 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_response = api_instance.fake_outer_string_serialize(body=body)
+        print("The response of FakeApi->fake_outer_string_serialize:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
 ```
 
@@ -461,6 +473,7 @@ Test serialization of enum (int) properties with examples
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -479,8 +492,9 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
+        print("The response of FakeApi->fake_property_enum_integer_serialize:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->fake_property_enum_integer_serialize: %s\n" % e)
 ```
 
@@ -522,6 +536,7 @@ For this test, the body has to be a binary file.
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -540,7 +555,7 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_instance.test_body_with_binary(body)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_body_with_binary: %s\n" % e)
 ```
 
@@ -582,6 +597,7 @@ For this test, the body for this request must reference a schema named `File`.
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -600,7 +616,7 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         api_instance.test_body_with_file_schema(file_schema_test_class)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
 
@@ -640,6 +656,7 @@ No authorization required
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -655,11 +672,11 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
-user = petstore_api.User() # User | 
+    user = petstore_api.User() # User | 
 
     try:
         api_instance.test_body_with_query_params(query, user)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
 
@@ -702,6 +719,7 @@ To test \"client\" model
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -721,8 +739,9 @@ with petstore_api.ApiClient() as api_client:
     try:
         # To test \"client\" model
         api_response = api_instance.test_client_model(client)
+        print("The response of FakeApi->test_client_model:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
 
@@ -765,6 +784,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -788,26 +808,30 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure HTTP basic authorization: http_basic_test
+    api_client.configuration.username <- os.environ["USERNAME"]
+    api_client.configuration.password <- os.environ["PASSWORD"]
     api_instance = petstore_api.FakeApi(api_client)
     number = 3.4 # float | None
-double = 3.4 # float | None
-pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-byte = 'byte_example' # str | None
-integer = 56 # int | None (optional)
-int32 = 56 # int | None (optional)
-int64 = 56 # int | None (optional)
-float = 3.4 # float | None (optional)
-string = 'string_example' # str | None (optional)
-binary = '/path/to/file' # file | None (optional)
-_date = '2013-10-20' # date | None (optional)
-date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
-password = 'password_example' # str | None (optional)
-param_callback = 'param_callback_example' # str | None (optional)
+    double = 3.4 # float | None
+    pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
+    byte = 'byte_example' # str | None
+    integer = 56 # int | None (optional)
+    int32 = 56 # int | None (optional)
+    int64 = 56 # int | None (optional)
+    float = 3.4 # float | None (optional)
+    string = 'string_example' # str | None (optional)
+    binary = '/path/to/file' # file | None (optional)
+    _date = '2013-10-20' # date | None (optional)
+    date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
+    password = 'password_example' # str | None (optional)
+    param_callback = 'param_callback_example' # str | None (optional)
 
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, _date=_date, date_time=date_time, password=password, param_callback=param_callback)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
 
@@ -864,6 +888,7 @@ Fake endpoint to test group parameters (optional)
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -886,18 +911,21 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure HTTP bearer authorization: bearer_test
+    api_client.configuration.bearer_token <- os.environ["BEARER_TOKEN"]
     api_instance = petstore_api.FakeApi(api_client)
     required_string_group = 56 # int | Required String in group parameters
-required_boolean_group = True # bool | Required Boolean in group parameters
-required_int64_group = 56 # int | Required Integer in group parameters
-string_group = 56 # int | String in group parameters (optional)
-boolean_group = True # bool | Boolean in group parameters (optional)
-int64_group = 56 # int | Integer in group parameters (optional)
+    required_boolean_group = True # bool | Required Boolean in group parameters
+    required_int64_group = 56 # int | Required Integer in group parameters
+    string_group = 56 # int | String in group parameters (optional)
+    boolean_group = True # bool | Boolean in group parameters (optional)
+    int64_group = 56 # int | Integer in group parameters (optional)
 
     try:
         # Fake endpoint to test group parameters (optional)
         api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
 
@@ -944,6 +972,7 @@ test inline additionalProperties
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -963,7 +992,7 @@ with petstore_api.ApiClient() as api_client:
     try:
         # test inline additionalProperties
         api_instance.test_inline_additional_properties(request_body)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
 
@@ -1005,6 +1034,7 @@ test json serialization of form data
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1020,12 +1050,12 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1
-param2 = 'param2_example' # str | field2
+    param2 = 'param2_example' # str | field2
 
     try:
         # test json serialization of form data
         api_instance.test_json_form_data(param, param2)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
 
@@ -1068,6 +1098,7 @@ To test the collection format in query parameters
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1083,16 +1114,16 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     pipe = ['pipe_example'] # List[str] | 
-ioutil = ['ioutil_example'] # List[str] | 
-http = ['http_example'] # List[str] | 
-url = ['url_example'] # List[str] | 
-context = ['context_example'] # List[str] | 
-allow_empty = 'allow_empty_example' # str | 
-language = {'key': 'language_example'} # Dict[str, str] |  (optional)
+    ioutil = ['ioutil_example'] # List[str] | 
+    http = ['http_example'] # List[str] | 
+    url = ['url_example'] # List[str] | 
+    context = ['context_example'] # List[str] | 
+    allow_empty = 'allow_empty_example' # str | 
+    language = {'key': 'language_example'} # Dict[str, str] |  (optional)
 
     try:
         api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
 

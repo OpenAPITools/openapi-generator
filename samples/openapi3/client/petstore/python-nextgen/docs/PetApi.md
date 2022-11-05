@@ -28,6 +28,7 @@ Add a new pet to the store
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -51,13 +52,16 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Add a new pet to the store
         api_instance.add_pet(pet)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
@@ -101,6 +105,7 @@ Deletes a pet
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -124,14 +129,17 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | Pet id to delete
-api_key = 'api_key_example' # str |  (optional)
+    api_key = 'api_key_example' # str |  (optional)
 
     try:
         # Deletes a pet
         api_instance.delete_pet(pet_id, api_key=api_key)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
@@ -176,6 +184,7 @@ Multiple status values can be provided with comma separated strings
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -199,14 +208,18 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
     try:
         # Finds Pets by status
         api_response = api_instance.find_pets_by_status(status)
+        print("The response of PetApi->find_pets_by_status:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
@@ -250,6 +263,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -273,14 +287,18 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
 
     try:
         # Finds Pets by tags
         api_response = api_instance.find_pets_by_tags(tags)
+        print("The response of PetApi->find_pets_by_tags:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
@@ -324,6 +342,7 @@ Returns a single pet
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -347,14 +366,18 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure API key authorization: api_key
+    api_client.configuration.api_keys["api_key"] <- os.environ["API_KEY"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to return
 
     try:
         # Find pet by ID
         api_response = api_instance.get_pet_by_id(pet_id)
+        print("The response of PetApi->get_pet_by_id:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
@@ -399,6 +422,7 @@ Update an existing pet
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -422,13 +446,16 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Update an existing pet
         api_instance.update_pet(pet)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
@@ -474,6 +501,7 @@ Updates a pet in the store with form data
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -497,15 +525,18 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet that needs to be updated
-name = 'name_example' # str | Updated name of the pet (optional)
-status = 'status_example' # str | Updated status of the pet (optional)
+    name = 'name_example' # str | Updated name of the pet (optional)
+    status = 'status_example' # str | Updated status of the pet (optional)
 
     try:
         # Updates a pet in the store with form data
         api_instance.update_pet_with_form(pet_id, name=name, status=status)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
@@ -551,6 +582,7 @@ uploads an image
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -574,16 +606,20 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
-additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
-file = '/path/to/file' # file | file to upload (optional)
+    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+    file = '/path/to/file' # file | file to upload (optional)
 
     try:
         # uploads an image
         api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+        print("The response of PetApi->upload_file:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->upload_file: %s\n" % e)
 ```
 
@@ -628,6 +664,7 @@ uploads an image (required)
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -651,16 +688,20 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure OAuth2 access token for authorization: petstore_auth
+    api_client.configuration.access_token <- os.environ["ACCESS_TOKEN"]
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
-required_file = '/path/to/file' # file | file to upload
-additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+    required_file = '/path/to/file' # file | file to upload
+    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
     try:
         # uploads an image (required)
         api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+        print("The response of PetApi->upload_file_with_required_file:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
 

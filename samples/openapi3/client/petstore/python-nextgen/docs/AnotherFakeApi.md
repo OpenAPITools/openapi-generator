@@ -19,6 +19,7 @@ To test special tags and operation ID starting with number
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -38,8 +39,9 @@ with petstore_api.ApiClient() as api_client:
     try:
         # To test special tags
         api_response = api_instance.call_123_test_special_tags(client)
+        print("The response of AnotherFakeApi->call_123_test_special_tags:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 

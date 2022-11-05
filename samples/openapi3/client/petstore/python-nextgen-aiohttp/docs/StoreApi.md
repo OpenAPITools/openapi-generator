@@ -22,6 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -41,7 +42,7 @@ with petstore_api.ApiClient() as api_client:
     try:
         # Delete purchase order by ID
         api_instance.delete_order(order_id)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
@@ -85,6 +86,7 @@ Returns a map of status codes to quantities
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -108,13 +110,17 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure API key authorization: api_key
+    api_client.configuration.api_keys["api_key"] <- os.environ["API_KEY"]
     api_instance = petstore_api.StoreApi(api_client)
-    
+
     try:
         # Returns pet inventories by status
         api_response = api_instance.get_inventory()
+        print("The response of StoreApi->get_inventory:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
@@ -153,6 +159,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -172,8 +179,9 @@ with petstore_api.ApiClient() as api_client:
     try:
         # Find purchase order by ID
         api_response = api_instance.get_order_by_id(order_id)
+        print("The response of StoreApi->get_order_by_id:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
@@ -217,6 +225,7 @@ Place an order for a pet
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -236,8 +245,9 @@ with petstore_api.ApiClient() as api_client:
     try:
         # Place an order for a pet
         api_response = api_instance.place_order(order)
+        print("The response of StoreApi->place_order:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 

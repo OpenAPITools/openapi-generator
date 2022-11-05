@@ -20,6 +20,7 @@ To test class name in snake case
 ```python
 from __future__ import print_function
 import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -43,14 +44,18 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
+    # Setup authentication
+    # Configure API key authorization: api_key_query
+    api_client.configuration.api_keys["api_key_query"] <- os.environ["API_KEY"]
     api_instance = petstore_api.FakeClassnameTags123Api(api_client)
     client = petstore_api.Client() # Client | client model
 
     try:
         # To test class name in snake case
         api_response = api_instance.test_classname(client)
+        print("The response of FakeClassnameTags123Api->test_classname:\n")
         pprint(api_response)
-    except ApiException as e:
+    except Exception as e:
         print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
 
