@@ -54,7 +54,7 @@ func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
 // and a boolean to check if the value has been set.
 func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
 	if o == nil || isNil(o.PropTest) {
-    return nil, false
+		return nil, false
 	}
 	return o.PropTest, true
 }

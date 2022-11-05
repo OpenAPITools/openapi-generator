@@ -54,7 +54,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || isNil(o.ArrayOfString) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayOfString, true
 }
@@ -86,7 +86,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || isNil(o.ArrayArrayOfInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayArrayOfInteger, true
 }
@@ -118,7 +118,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || isNil(o.ArrayArrayOfModel) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayArrayOfModel, true
 }

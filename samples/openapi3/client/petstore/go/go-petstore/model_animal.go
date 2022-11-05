@@ -82,7 +82,7 @@ func (o *Animal) GetColor() string {
 // and a boolean to check if the value has been set.
 func (o *Animal) GetColorOk() (*string, bool) {
 	if o == nil || isNil(o.Color) {
-    return nil, false
+		return nil, false
 	}
 	return o.Color, true
 }

@@ -66,7 +66,7 @@ func (o *NullableClass) GetIntegerProp() int32 {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetIntegerPropOk() (*int32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.IntegerProp.Get(), o.IntegerProp.IsSet()
 }
@@ -108,7 +108,7 @@ func (o *NullableClass) GetNumberProp() float32 {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetNumberPropOk() (*float32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.NumberProp.Get(), o.NumberProp.IsSet()
 }
@@ -150,7 +150,7 @@ func (o *NullableClass) GetBooleanProp() bool {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetBooleanPropOk() (*bool, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.BooleanProp.Get(), o.BooleanProp.IsSet()
 }
@@ -192,7 +192,7 @@ func (o *NullableClass) GetStringProp() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetStringPropOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.StringProp.Get(), o.StringProp.IsSet()
 }
@@ -234,7 +234,7 @@ func (o *NullableClass) GetDateProp() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatePropOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.DateProp.Get(), o.DateProp.IsSet()
 }
@@ -276,7 +276,7 @@ func (o *NullableClass) GetDatetimeProp() time.Time {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatetimePropOk() (*time.Time, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.DatetimeProp.Get(), o.DatetimeProp.IsSet()
 }
@@ -318,7 +318,7 @@ func (o *NullableClass) GetArrayNullableProp() []map[string]interface{} {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool) {
 	if o == nil || isNil(o.ArrayNullableProp) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayNullableProp, true
 }
@@ -351,7 +351,7 @@ func (o *NullableClass) GetArrayAndItemsNullableProp() []*map[string]interface{}
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]*map[string]interface{}, bool) {
 	if o == nil || isNil(o.ArrayAndItemsNullableProp) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayAndItemsNullableProp, true
 }
@@ -383,7 +383,7 @@ func (o *NullableClass) GetArrayItemsNullable() []*map[string]interface{} {
 // and a boolean to check if the value has been set.
 func (o *NullableClass) GetArrayItemsNullableOk() ([]*map[string]interface{}, bool) {
 	if o == nil || isNil(o.ArrayItemsNullable) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayItemsNullable, true
 }
@@ -416,7 +416,7 @@ func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || isNil(o.ObjectNullableProp) {
-    return map[string]map[string]interface{}{}, false
+		return map[string]map[string]interface{}{}, false
 	}
 	return o.ObjectNullableProp, true
 }
@@ -449,7 +449,7 @@ func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]in
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || isNil(o.ObjectAndItemsNullableProp) {
-    return map[string]map[string]interface{}{}, false
+		return map[string]map[string]interface{}{}, false
 	}
 	return o.ObjectAndItemsNullableProp, true
 }
@@ -481,7 +481,7 @@ func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface
 // and a boolean to check if the value has been set.
 func (o *NullableClass) GetObjectItemsNullableOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || isNil(o.ObjectItemsNullable) {
-    return map[string]map[string]interface{}{}, false
+		return map[string]map[string]interface{}{}, false
 	}
 	return o.ObjectItemsNullable, true
 }

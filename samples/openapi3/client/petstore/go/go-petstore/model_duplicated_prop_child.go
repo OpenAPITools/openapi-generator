@@ -56,7 +56,7 @@ func (o *DuplicatedPropChild) GetDupProp() string {
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropChild) GetDupPropOk() (*string, bool) {
 	if o == nil || isNil(o.DupProp) {
-    return nil, false
+		return nil, false
 	}
 	return o.DupProp, true
 }

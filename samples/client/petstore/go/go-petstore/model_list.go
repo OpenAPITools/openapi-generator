@@ -49,7 +49,7 @@ func (o *List) GetVar123List() string {
 // and a boolean to check if the value has been set.
 func (o *List) GetVar123ListOk() (*string, bool) {
 	if o == nil || isNil(o.Var123List) {
-    return nil, false
+		return nil, false
 	}
 	return o.Var123List, true
 }

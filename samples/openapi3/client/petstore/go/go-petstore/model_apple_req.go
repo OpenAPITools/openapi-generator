@@ -78,7 +78,7 @@ func (o *AppleReq) GetMealy() bool {
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetMealyOk() (*bool, bool) {
 	if o == nil || isNil(o.Mealy) {
-    return nil, false
+		return nil, false
 	}
 	return o.Mealy, true
 }

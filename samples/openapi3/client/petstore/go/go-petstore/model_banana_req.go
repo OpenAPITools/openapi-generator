@@ -78,7 +78,7 @@ func (o *BananaReq) GetSweet() bool {
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetSweetOk() (*bool, bool) {
 	if o == nil || isNil(o.Sweet) {
-    return nil, false
+		return nil, false
 	}
 	return o.Sweet, true
 }

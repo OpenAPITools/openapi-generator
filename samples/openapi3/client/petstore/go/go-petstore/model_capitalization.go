@@ -58,7 +58,7 @@ func (o *Capitalization) GetSmallCamel() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSmallCamelOk() (*string, bool) {
 	if o == nil || isNil(o.SmallCamel) {
-    return nil, false
+		return nil, false
 	}
 	return o.SmallCamel, true
 }
@@ -90,7 +90,7 @@ func (o *Capitalization) GetCapitalCamel() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetCapitalCamelOk() (*string, bool) {
 	if o == nil || isNil(o.CapitalCamel) {
-    return nil, false
+		return nil, false
 	}
 	return o.CapitalCamel, true
 }
@@ -122,7 +122,7 @@ func (o *Capitalization) GetSmallSnake() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSmallSnakeOk() (*string, bool) {
 	if o == nil || isNil(o.SmallSnake) {
-    return nil, false
+		return nil, false
 	}
 	return o.SmallSnake, true
 }
@@ -154,7 +154,7 @@ func (o *Capitalization) GetCapitalSnake() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetCapitalSnakeOk() (*string, bool) {
 	if o == nil || isNil(o.CapitalSnake) {
-    return nil, false
+		return nil, false
 	}
 	return o.CapitalSnake, true
 }
@@ -186,7 +186,7 @@ func (o *Capitalization) GetSCAETHFlowPoints() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetSCAETHFlowPointsOk() (*string, bool) {
 	if o == nil || isNil(o.SCAETHFlowPoints) {
-    return nil, false
+		return nil, false
 	}
 	return o.SCAETHFlowPoints, true
 }
@@ -218,7 +218,7 @@ func (o *Capitalization) GetATT_NAME() string {
 // and a boolean to check if the value has been set.
 func (o *Capitalization) GetATT_NAMEOk() (*string, bool) {
 	if o == nil || isNil(o.ATT_NAME) {
-    return nil, false
+		return nil, false
 	}
 	return o.ATT_NAME, true
 }

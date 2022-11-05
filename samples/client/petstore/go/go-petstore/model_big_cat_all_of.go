@@ -49,7 +49,7 @@ func (o *BigCatAllOf) GetKind() string {
 // and a boolean to check if the value has been set.
 func (o *BigCatAllOf) GetKindOk() (*string, bool) {
 	if o == nil || isNil(o.Kind) {
-    return nil, false
+		return nil, false
 	}
 	return o.Kind, true
 }

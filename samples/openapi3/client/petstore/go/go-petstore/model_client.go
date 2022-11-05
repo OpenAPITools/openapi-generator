@@ -52,7 +52,7 @@ func (o *Client) GetClient() string {
 // and a boolean to check if the value has been set.
 func (o *Client) GetClientOk() (*string, bool) {
 	if o == nil || isNil(o.Client) {
-    return nil, false
+		return nil, false
 	}
 	return o.Client, true
 }
