@@ -692,6 +692,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             hasModelsToImport = true;
             modelImports.add(cp.dataType);
             return cp.dataType;
+        } else if (cp.isModel) {
+            // add model prefix
+            hasModelsToImport = true;
+            modelImports.add(cp.dataType);
+            return cp.dataType;
         } else {
             throw new RuntimeException("Error! CodegenParameter not yet supported in getPydanticType: " + cp);
         }
