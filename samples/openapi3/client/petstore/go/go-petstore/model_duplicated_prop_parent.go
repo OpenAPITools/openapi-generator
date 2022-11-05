@@ -57,9 +57,9 @@ func (o *DuplicatedPropParent) GetDupProp() string {
 // GetDupPropOk returns a tuple with the DupProp field value
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropParent) GetDupPropOk() (*string, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.DupProp, true
 }
 

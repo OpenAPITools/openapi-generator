@@ -57,9 +57,9 @@ func (o *BananaReq) GetLengthCm() float32 {
 // GetLengthCmOk returns a tuple with the LengthCm field value
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
-	if o == nil {
-		return nil, false
-	}
+    if o == nil {
+    return nil, false
+    }
 	return &o.LengthCm, true
 }
 
@@ -70,7 +70,7 @@ func (o *BananaReq) SetLengthCm(v float32) {
 
 // GetSweet returns the Sweet field value if set, zero value otherwise.
 func (o *BananaReq) GetSweet() bool {
-	if o == nil || o.Sweet == nil {
+	if o == nil || isNil(o.Sweet) {
 		var ret bool
 		return ret
 	}
@@ -80,15 +80,15 @@ func (o *BananaReq) GetSweet() bool {
 // GetSweetOk returns a tuple with the Sweet field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetSweetOk() (*bool, bool) {
-	if o == nil || o.Sweet == nil {
-		return nil, false
+	if o == nil || isNil(o.Sweet) {
+    return nil, false
 	}
 	return o.Sweet, true
 }
 
 // HasSweet returns a boolean if a field has been set.
 func (o *BananaReq) HasSweet() bool {
-	if o != nil && o.Sweet != nil {
+	if o != nil && !isNil(o.Sweet) {
 		return true
 	}
 
@@ -111,7 +111,7 @@ func (o BananaReq) MarshalJSON() ([]byte, error) {
 func (o BananaReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["lengthCm"] = o.LengthCm
-	if o.Sweet != nil {
+	if !isNil(o.Sweet) {
 		toSerialize["sweet"] = o.Sweet
 	}
 

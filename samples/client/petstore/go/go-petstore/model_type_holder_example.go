@@ -63,9 +63,9 @@ func (o *TypeHolderExample) GetStringItem() string {
 // GetStringItemOk returns a tuple with the StringItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetStringItemOk() (*string, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.StringItem, true
 }
 
@@ -87,9 +87,9 @@ func (o *TypeHolderExample) GetNumberItem() float32 {
 // GetNumberItemOk returns a tuple with the NumberItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetNumberItemOk() (*float32, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.NumberItem, true
 }
 
@@ -111,9 +111,9 @@ func (o *TypeHolderExample) GetFloatItem() float32 {
 // GetFloatItemOk returns a tuple with the FloatItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetFloatItemOk() (*float32, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.FloatItem, true
 }
 
@@ -135,9 +135,9 @@ func (o *TypeHolderExample) GetIntegerItem() int32 {
 // GetIntegerItemOk returns a tuple with the IntegerItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetIntegerItemOk() (*int32, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.IntegerItem, true
 }
 
@@ -159,9 +159,9 @@ func (o *TypeHolderExample) GetBoolItem() bool {
 // GetBoolItemOk returns a tuple with the BoolItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetBoolItemOk() (*bool, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return &o.BoolItem, true
 }
 
@@ -183,9 +183,9 @@ func (o *TypeHolderExample) GetArrayItem() []int32 {
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
-	if o == nil {
+    if o == nil {
     return nil, false
-	}
+    }
 	return o.ArrayItem, true
 }
 
