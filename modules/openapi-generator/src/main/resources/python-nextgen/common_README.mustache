@@ -12,21 +12,27 @@ from pprint import pprint
 with {{{packageName}}}.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = {{{packageName}}}.{{{classname}}}(api_client)
-    {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{#allParams}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
     {{/allParams}}
 
     try:
-    {{#summary}}    # {{{.}}}
-    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
-        pprint(api_response){{/returnType}}
+        {{#summary}}
+        # {{{.}}}
+        {{/summary}}
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#returnType}}
+        print("The response of {{classname}}->{{operationId}}:\n")
+        pprint(api_response)
+        {{/returnType}}
     except ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-    {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *{{basePath}}*
+All URIs are relative to *{{{basePath}}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

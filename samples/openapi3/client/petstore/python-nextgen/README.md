@@ -69,10 +69,11 @@ with petstore_api.ApiClient(configuration) as api_client:
     try:
         # To test special tags
         api_response = api_instance.call_123_test_special_tags(client)
+        print("The response of AnotherFakeApi->call_123_test_special_tags:\n")
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-    
+
 ```
 
 ## Documentation for API Endpoints
