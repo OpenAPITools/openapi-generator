@@ -986,30 +986,30 @@ public class XmlItem implements Parcelable {
 
   XmlItem(Parcel in) {
     attributeString = (String)in.readValue(null);
-    attributeNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    attributeNumber = (BigDecimal)in.readValue(null);
     attributeInteger = (Integer)in.readValue(null);
     attributeBoolean = (Boolean)in.readValue(null);
     wrappedArray = (List<Integer>)in.readValue(null);
     nameString = (String)in.readValue(null);
-    nameNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    nameNumber = (BigDecimal)in.readValue(null);
     nameInteger = (Integer)in.readValue(null);
     nameBoolean = (Boolean)in.readValue(null);
     nameArray = (List<Integer>)in.readValue(null);
     nameWrappedArray = (List<Integer>)in.readValue(null);
     prefixString = (String)in.readValue(null);
-    prefixNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    prefixNumber = (BigDecimal)in.readValue(null);
     prefixInteger = (Integer)in.readValue(null);
     prefixBoolean = (Boolean)in.readValue(null);
     prefixArray = (List<Integer>)in.readValue(null);
     prefixWrappedArray = (List<Integer>)in.readValue(null);
     namespaceString = (String)in.readValue(null);
-    namespaceNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    namespaceNumber = (BigDecimal)in.readValue(null);
     namespaceInteger = (Integer)in.readValue(null);
     namespaceBoolean = (Boolean)in.readValue(null);
     namespaceArray = (List<Integer>)in.readValue(null);
     namespaceWrappedArray = (List<Integer>)in.readValue(null);
     prefixNsString = (String)in.readValue(null);
-    prefixNsNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    prefixNsNumber = (BigDecimal)in.readValue(null);
     prefixNsInteger = (Integer)in.readValue(null);
     prefixNsBoolean = (Boolean)in.readValue(null);
     prefixNsArray = (List<Integer>)in.readValue(null);

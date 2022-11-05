@@ -57,7 +57,6 @@ public class OuterComposite {
    * @return myNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getMyNumber() {

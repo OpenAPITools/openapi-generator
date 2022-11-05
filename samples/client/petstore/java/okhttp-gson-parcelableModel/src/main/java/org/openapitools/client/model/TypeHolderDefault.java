@@ -250,7 +250,7 @@ public class TypeHolderDefault implements Parcelable {
 
   TypeHolderDefault(Parcel in) {
     stringItem = (String)in.readValue(null);
-    numberItem = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    numberItem = (BigDecimal)in.readValue(null);
     integerItem = (Integer)in.readValue(null);
     boolItem = (Boolean)in.readValue(null);
     arrayItem = (List<Integer>)in.readValue(null);

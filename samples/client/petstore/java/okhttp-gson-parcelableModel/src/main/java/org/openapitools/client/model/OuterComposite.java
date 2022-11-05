@@ -183,7 +183,7 @@ public class OuterComposite implements Parcelable {
   }
 
   OuterComposite(Parcel in) {
-    myNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    myNumber = (BigDecimal)in.readValue(null);
     myString = (String)in.readValue(null);
     myBoolean = (Boolean)in.readValue(null);
   }

@@ -2261,7 +2261,6 @@ components:
         - type: string
           maxLength: 1089
         - type: number
-          format: float
         - type: boolean
     Array:
       description: Values of array type

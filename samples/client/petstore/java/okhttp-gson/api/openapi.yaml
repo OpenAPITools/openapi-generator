@@ -2257,8 +2257,7 @@ components:
       oneOf:
       - maxLength: 1089
         type: string
-      - format: float
-        type: number
+      - type: number
       - type: boolean
     Array:
       description: Values of array type

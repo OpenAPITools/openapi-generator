@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.math.BigDecimal;
 
 import javax.ws.rs.core.GenericType;
 
@@ -64,7 +65,7 @@ public class Scalar extends AbstractOpenApiSchema {
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
-            final TypeAdapter<Float> adapterFloat = gson.getDelegateAdapter(this, TypeToken.get(Float.class));
+            final TypeAdapter<BigDecimal> adapterBigDecimal = gson.getDelegateAdapter(this, TypeToken.get(BigDecimal.class));
             final TypeAdapter<Boolean> adapterBoolean = gson.getDelegateAdapter(this, TypeToken.get(Boolean.class));
 
             return (TypeAdapter<T>) new TypeAdapter<Scalar>() {
@@ -81,9 +82,9 @@ public class Scalar extends AbstractOpenApiSchema {
                       elementAdapter.write(out, primitive);
                       return;
                     }
-                    // check if the actual instance is of the type `Float`
-                    if (value.getActualInstance() instanceof Float) {
-                      JsonPrimitive primitive = adapterFloat.toJsonTree((Float)value.getActualInstance()).getAsJsonPrimitive();
+                    // check if the actual instance is of the type `BigDecimal`
+                    if (value.getActualInstance() instanceof BigDecimal) {
+                      JsonPrimitive primitive = adapterBigDecimal.toJsonTree((BigDecimal)value.getActualInstance()).getAsJsonPrimitive();
                       elementAdapter.write(out, primitive);
                       return;
                     }
@@ -93,7 +94,7 @@ public class Scalar extends AbstractOpenApiSchema {
                       elementAdapter.write(out, primitive);
                       return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Boolean, Float, String");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: BigDecimal, Boolean, String");
                 }
 
                 @Override
@@ -119,19 +120,19 @@ public class Scalar extends AbstractOpenApiSchema {
                       errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
                       log.log(Level.FINER, "Input data does not match schema 'String'", e);
                     }
-                    // deserialize Float
+                    // deserialize BigDecimal
                     try {
                       // validate the JSON object to see if any exception is thrown
                       if(!jsonElement.getAsJsonPrimitive().isNumber()) {
                         throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                       }
-                      actualAdapter = adapterFloat;
+                      actualAdapter = adapterBigDecimal;
                       match++;
-                      log.log(Level.FINER, "Input data matches schema 'Float'");
+                      log.log(Level.FINER, "Input data matches schema 'BigDecimal'");
                     } catch (Exception e) {
                       // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Float failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Float'", e);
+                      errorMessages.add(String.format("Deserialization for BigDecimal failed with `%s`.", e.getMessage()));
+                      log.log(Level.FINER, "Input data does not match schema 'BigDecimal'", e);
                     }
                     // deserialize Boolean
                     try {
@@ -167,12 +168,12 @@ public class Scalar extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Scalar(Boolean o) {
+    public Scalar(BigDecimal o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public Scalar(Float o) {
+    public Scalar(Boolean o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -183,9 +184,9 @@ public class Scalar extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Boolean", new GenericType<Boolean>() {
+        schemas.put("BigDecimal", new GenericType<BigDecimal>() {
         });
-        schemas.put("Float", new GenericType<Float>() {
+        schemas.put("Boolean", new GenericType<Boolean>() {
         });
         schemas.put("String", new GenericType<String>() {
         });
@@ -199,7 +200,7 @@ public class Scalar extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Boolean, Float, String
+     * BigDecimal, Boolean, String
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -211,7 +212,7 @@ public class Scalar extends AbstractOpenApiSchema {
             return;
         }
 
-        if (instance instanceof Float) {
+        if (instance instanceof BigDecimal) {
             super.setActualInstance(instance);
             return;
         }
@@ -221,14 +222,14 @@ public class Scalar extends AbstractOpenApiSchema {
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be Boolean, Float, String");
+        throw new RuntimeException("Invalid instance type. Must be BigDecimal, Boolean, String");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * Boolean, Float, String
+     * BigDecimal, Boolean, String
      *
-     * @return The actual instance (Boolean, Float, String)
+     * @return The actual instance (BigDecimal, Boolean, String)
      */
     @Override
     public Object getActualInstance() {
@@ -246,14 +247,14 @@ public class Scalar extends AbstractOpenApiSchema {
         return (String)super.getActualInstance();
     }
     /**
-     * Get the actual instance of `Float`. If the actual instance is not `Float`,
+     * Get the actual instance of `BigDecimal`. If the actual instance is not `BigDecimal`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `Float`
-     * @throws ClassCastException if the instance is not `Float`
+     * @return The actual instance of `BigDecimal`
+     * @throws ClassCastException if the instance is not `BigDecimal`
      */
-    public Float getFloat() throws ClassCastException {
-        return (Float)super.getActualInstance();
+    public BigDecimal getBigDecimal() throws ClassCastException {
+        return (BigDecimal)super.getActualInstance();
     }
     /**
      * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
@@ -286,14 +287,14 @@ public class Scalar extends AbstractOpenApiSchema {
       errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
-    // validate the json string with Float
+    // validate the json string with BigDecimal
     try {
       if(!jsonElement.getAsJsonPrimitive().isNumber()) {
         throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
       }
       validCount++;
     } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Float failed with `%s`.", e.getMessage()));
+      errorMessages.add(String.format("Deserialization for BigDecimal failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Boolean
@@ -307,7 +308,7 @@ public class Scalar extends AbstractOpenApiSchema {
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Scalar with oneOf schemas: Boolean, Float, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Scalar with oneOf schemas: BigDecimal, Boolean, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
     }
   }
 
