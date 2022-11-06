@@ -27,7 +27,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class FunctionalHelidonSeServerTest extends FunctionalBase {
+public class FunctionalHelidonSeServerTest extends AbstractFunctionalHelidonTest {
 
     @BeforeClass
     public void setup() {
@@ -44,7 +44,7 @@ public class FunctionalHelidonSeServerTest extends FunctionalBase {
     @Test
     void buildPetstoreWithAbstractClasses() {
         inputSpec("src/test/resources/3_0/petstore.yaml");
-        generate(createConfigurator().addAdditionalProperty(FunctionalBase.USE_ABSTRACT_CLASS, "true"));
+        generate(createConfigurator().addAdditionalProperty(AbstractFunctionalHelidonTest.USE_ABSTRACT_CLASS, "true"));
         buildAndVerify("target/openapi-java-server.jar");
     }
 

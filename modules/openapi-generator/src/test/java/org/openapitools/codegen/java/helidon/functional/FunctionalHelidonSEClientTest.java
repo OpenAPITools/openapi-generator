@@ -20,7 +20,7 @@ package org.openapitools.codegen.java.helidon.functional;
 
 import org.testng.annotations.BeforeClass;
 
-public class FunctionalHelidonSEClientTest extends FunctionalHelidonClientBase {
+public class FunctionalHelidonSEClientTest extends AbstractFunctionalHelidonClientTest {
 
     @BeforeClass
     public void setup() {

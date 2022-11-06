@@ -54,7 +54,7 @@ public abstract class AbstractOptionsTest {
 
     @Test(description = "check if all options described in documentation are presented in test case")
     public void checkOptionsHelp() {
-        final List<String> cliOptions = getCodegenConfig().cliOptions().stream().map(getCliOptionTransformer()).collect(Collectors.toList());
+        final List<String> cliOptions = getCodegenConfig().cliOptions().stream().map(CliOption::getOpt).collect(Collectors.toList());
         final Set<String> testOptions = optionsProvider.createOptions().keySet();
         final Set<String> skipped = new HashSet<String>(cliOptions);
         skipped.removeAll(testOptions);
@@ -66,15 +66,6 @@ public abstract class AbstractOptionsTest {
         if (!undocumented.isEmpty()) {
             Assert.fail(String.format(Locale.ROOT,"These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?", StringUtils.join(undocumented, ", ")));
         }
-    }
-
-    private static Function<CliOption, String> getCliOptionTransformer() {
-        return new Function<CliOption, String>() {
-            @Override
-            public String apply(CliOption option) {
-                return option.getOpt();
-            }
-        };
     }
 
     protected abstract CodegenConfig getCodegenConfig();

@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
-public class FunctionalHelidonMPServerTest extends FunctionalBase {
+public class FunctionalHelidonMPServerTest extends AbstractFunctionalHelidonTest {
 
     @BeforeClass
     public void setup() {

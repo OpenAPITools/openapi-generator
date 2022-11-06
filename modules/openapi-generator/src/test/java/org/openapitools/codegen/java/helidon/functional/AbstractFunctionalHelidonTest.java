@@ -50,9 +50,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-abstract class FunctionalBase {
+abstract class AbstractFunctionalHelidonTest {
 
-    private static final Logger LOGGER = Logger.getLogger(FunctionalBase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractFunctionalHelidonTest.class.getName());
 
     private static final String MAVEN_SHIM_TARGET = "libexec/bin/mvn";
     private static final String MAVEN_HOME_VAR = "MAVEN_HOME";
@@ -280,7 +280,7 @@ abstract class FunctionalBase {
     private Optional<Path> findExecutableInPath() {
         return Arrays.stream(requireNonNull(System.getenv(PATH_VAR)).split(File.pathSeparator))
                 .map(Paths::get)
-                .map(path -> path.resolve(FunctionalBase.MAVEN_BINARY_NAME))
+                .map(path -> path.resolve(AbstractFunctionalHelidonTest.MAVEN_BINARY_NAME))
                 .filter(Files::isExecutable)
                 .findFirst();
     }
