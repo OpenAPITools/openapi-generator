@@ -206,7 +206,7 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test GetPetById on an not existent Id
+        /// Test GetPetById on a non-existent Id
         /// </summary>
         [Fact]
         public void TestGetPetById_TestException()

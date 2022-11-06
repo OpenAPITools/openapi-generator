@@ -1204,7 +1204,7 @@ class NumberBase(ValidatorBase):
             return self._as_float
         except AttributeError:
             if self.as_tuple().exponent >= 0:
-                raise ApiValueError(f'{self} is not an float')
+                raise ApiValueError(f'{self} is not a float')
             self._as_float = float(self)
             return self._as_float
 

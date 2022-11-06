@@ -126,7 +126,7 @@ export function getInventory<T>( requestConfig?: runtime.TypedQueryConfig<T, { [
 }
 
 /**
- * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+ * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
  * Find purchase order by ID
  */
 function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfig: runtime.TypedQueryConfig<T, Order> = {}): QueryConfig<T> {
@@ -166,7 +166,7 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
 }
 
 /**
-* For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+* For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 * Find purchase order by ID
 */
 export function getOrderById<T>(requestParameters: GetOrderByIdRequest, requestConfig?: runtime.TypedQueryConfig<T, Order>): QueryConfig<T> {

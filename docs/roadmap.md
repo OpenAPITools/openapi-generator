@@ -27,7 +27,7 @@ Short term are focused on improving contributor and user productivity (part of t
 * Automated release stability
 * General
 * OAS3.0 features support: anyOf, oneOf, callbacks, etc
-* Consider opt-in telemetry about generators being used, limited to a counter of invocations by generator name). This would allow us to make prioritization decisions based on statistics.
+* Consider opt-in telemetry about generators being used, limited to a counter of invocations by generator name. This would allow us to make prioritization decisions based on statistics.
 * Code clean up
   * centralize build scripts
   * organize samples/bin scripts according to new generator names
