@@ -67,7 +67,7 @@ Mammal <- R6::R6Class(
       oneof_lookup_result <- tryCatch({
           discriminatorValue <- (jsonlite::fromJSON(input, simplifyVector = FALSE))$`className`
           if (is.null(discriminatorValue)) { # throw error if it's null
-            stop("Error! The value of discriminator property `className` is null")
+            stop("Error! The value of the discriminator property `className`, which should be the class type, is null")
           }
           switch(discriminatorValue,
           whale={
@@ -126,11 +126,12 @@ Mammal <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the input into Mammal with oneOf schemas Whale, Zebra.")
+        stop(paste("Multiple matches found when deserializing the input into Mammal with oneOf schemas Whale, Zebra. Matched schemas: ",
+                   paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the input into Mammal with oneOf schemas Whale, Zebra. Details: ",
-                   paste(error_messages, collapse = ", ")))
+        stop(paste("No match found when deserializing the input into Mammal with oneOf schemas Whale, Zebra. Details: >>",
+                   paste(error_messages, collapse = " >> ")))
       }
 
       self
