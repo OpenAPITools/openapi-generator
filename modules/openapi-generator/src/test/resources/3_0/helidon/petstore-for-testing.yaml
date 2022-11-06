@@ -341,7 +341,7 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/PetsForm'
-        description: Object that that contains info about pets
+        description: Object that contains info about pets
         required: true
       responses:
         '200':

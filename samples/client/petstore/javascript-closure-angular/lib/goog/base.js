@@ -324,7 +324,7 @@ goog.ENABLE_DEBUG_LOADER = true;
  */
 goog.require = function(name) {
 
-  // if the object already exists we do not need do do anything
+  // if the object already exists we do not need do anything
   // TODO(arv): If we start to support require based on file name this has
   //            to change
   // TODO(arv): If we allow goog.foo.* this has to change
