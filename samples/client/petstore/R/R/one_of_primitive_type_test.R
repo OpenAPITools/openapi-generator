@@ -102,11 +102,12 @@ OneOfPrimitiveTypeTest <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into OneOfPrimitiveTypeTest with oneOf schemas character, integer.")
+        stop(paste("Multiple matches found when deserializing the input into OneOfPrimitiveTypeTest with oneOf schemas character, integer. Matched schemas: ",
+                   paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into OneOfPrimitiveTypeTest with oneOf schemas character, integer. Details: ",
-                   paste(error_messages, collapse = ", ")))
+        stop(paste("No match found when deserializing the input into OneOfPrimitiveTypeTest with oneOf schemas character, integer. Details: >>",
+                   paste(error_messages, collapse = " >> ")))
       }
 
       self

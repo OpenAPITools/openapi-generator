@@ -100,11 +100,12 @@ Pig <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig.")
+        stop(paste("Multiple matches found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Matched schemas: ",
+                   paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ",
-                   paste(error_messages, collapse = ", ")))
+        stop(paste("No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >>",
+                   paste(error_messages, collapse = " >> ")))
       }
 
       self

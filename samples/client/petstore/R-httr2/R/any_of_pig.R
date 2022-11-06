@@ -90,8 +90,8 @@ AnyOfPig <- R6::R6Class(
       }
 
       # no match
-      stop(paste("No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: ",
-                 paste(error_messages, collapse = ", ")))
+      stop(paste("No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >>",
+                 paste(error_messages, collapse = " >> ")))
     },
     #' Serialize AnyOfPig to JSON string.
     #'
