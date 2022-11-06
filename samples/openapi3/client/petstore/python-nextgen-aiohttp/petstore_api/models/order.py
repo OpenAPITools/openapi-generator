@@ -17,8 +17,8 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Literal, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
+from typing import Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
 from pydantic import ValidationError
 
@@ -32,7 +32,7 @@ class Order(BaseModel):
     pet_id: Optional[StrictInt] = Field(None, alias="petId")
     quantity: Optional[StrictInt] = None
     ship_date: Optional[datetime] = Field(None, alias="shipDate")
-    status: Optional[Literal['placed', 'approved', 'delivered']] = Field(None, description="Order Status")
+    status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
 
     class Config:

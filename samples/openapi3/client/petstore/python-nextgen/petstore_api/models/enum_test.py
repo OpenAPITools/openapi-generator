@@ -17,8 +17,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Literal, Optional
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr
 
 from pydantic import ValidationError
 
@@ -28,10 +28,10 @@ class EnumTest(BaseModel):
 
     Do not edit the class manually.
     """
-    enum_string: Optional[Literal['UPPER', 'lower', '']] = None
-    enum_string_required: Literal['UPPER', 'lower', ''] = ...
-    enum_integer: Optional[Literal[1, -1]] = None
-    enum_number: Optional[Literal[1.1, -1.2]] = None
+    enum_string: Optional[StrictStr] = None
+    enum_string_required: StrictStr = ...
+    enum_integer: Optional[StrictInt] = None
+    enum_number: Optional[StrictFloat] = None
 
     class Config:
         allow_population_by_field_name = True

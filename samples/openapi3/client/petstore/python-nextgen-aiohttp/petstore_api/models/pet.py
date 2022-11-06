@@ -17,7 +17,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Literal, Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 from petstore_api.models import Category, Tag
 from pydantic import ValidationError
@@ -33,7 +33,7 @@ class Pet(BaseModel):
     name: StrictStr = ...
     photo_urls: List[StrictStr] = Field(..., alias="photoUrls", unique_items=True)
     tags: Optional[List[Tag]] = None
-    status: Optional[Literal['available', 'pending', 'sold']] = Field(None, description="pet status in the store")
+    status: Optional[StrictStr] = Field(None, description="pet status in the store")
 
     class Config:
         allow_population_by_field_name = True

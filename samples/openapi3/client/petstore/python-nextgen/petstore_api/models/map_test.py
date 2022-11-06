@@ -17,7 +17,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Literal, Optional
+from typing import Dict, Optional
 from pydantic import BaseModel, StrictBool, StrictStr
 
 from pydantic import ValidationError
@@ -29,7 +29,7 @@ class MapTest(BaseModel):
     Do not edit the class manually.
     """
     map_map_of_string: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_enum_string: Optional[Literal['UPPER', 'lower']] = None
+    map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
 

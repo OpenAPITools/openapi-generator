@@ -17,8 +17,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Literal, Optional
-from pydantic import BaseModel
+from typing import List, Optional
+from pydantic import BaseModel, StrictStr
 
 from pydantic import ValidationError
 
@@ -28,8 +28,8 @@ class EnumArrays(BaseModel):
 
     Do not edit the class manually.
     """
-    just_symbol: Optional[Literal['>=', '$']] = None
-    array_enum: Optional[Literal['fish', 'crab']] = None
+    just_symbol: Optional[StrictStr] = None
+    array_enum: Optional[List[StrictStr]] = None
 
     class Config:
         allow_population_by_field_name = True

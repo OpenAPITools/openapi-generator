@@ -518,6 +518,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
                                    Set<String> modelImports) {
+        /* comment out the following since Literal requires python 3.8
         if (cp.isEnum) {
             // use Literal for inline enum
             typingImports.add("Literal");
@@ -528,8 +529,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     values.add((String) enumVar.get("value"));
                 }
             }
-            return String.format("Literal[%s]", StringUtils.join(values, ", "));
-        } else if (cp.isArray) {
+            return String.format("%sEnum", cp.nameInCamelCase);
+        } else*/
+        if (cp.isArray) {
             typingImports.add("List");
             return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
         } else if (cp.isMap) {
