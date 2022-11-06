@@ -1,6 +1,6 @@
 me: Python package
 
-on: [push, pull]
+on: [push, pull_request]
 
 jobs:
   build:
