@@ -100,10 +100,10 @@ Mammal <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Mammal with oneOf schemas Whale, Zebra.")
+        stop("Multiple matches found when deserializing the input into Mammal with oneOf schemas Whale, Zebra.")
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Mammal with oneOf schemas Whale, Zebra. Details: ",
+        stop(paste("No match found when deserializing the input into Mammal with oneOf schemas Whale, Zebra. Details: ",
                    paste(error_messages, collapse = ", ")))
       }
 
