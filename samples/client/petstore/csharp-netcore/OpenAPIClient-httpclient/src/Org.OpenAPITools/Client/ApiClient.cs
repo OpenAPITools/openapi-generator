@@ -530,11 +530,12 @@ namespace Org.OpenAPITools.Client
 
                 return await ToApiResponse<T>(response, responseData, req.RequestUri);
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException original)
             {
-                if(timeoutTokenSource != null && timeoutTokenSource.IsCancellationRequested)
+                if (timeoutTokenSource != null && timeoutTokenSource.IsCancellationRequested)
                 {
-                    throw new TimeoutException($"[{req.Method}] {req.RequestUri} is timeout.");
+                    throw new TaskCanceledException($"[{req.Method}] {req.RequestUri} was timeout.",
+                        new TimeoutException(original.Message, original), original.CancellationToken);
                 }
                 throw;
             }
