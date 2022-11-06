@@ -32,6 +32,9 @@ packages/
 **/.vs
 .factorypath
 .metals/*
+nbproject/
+nbactions.xml
+nb-configuration.xml
 
 .settings
 

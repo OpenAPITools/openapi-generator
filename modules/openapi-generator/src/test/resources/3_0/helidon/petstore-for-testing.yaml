@@ -72,7 +72,10 @@ paths:
             - 'write:pets'
             - 'read:pets'
       requestBody:
-        $ref: '#/components/schemas/Pet'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
   /pet/findByStatus:
     get:
       tags:

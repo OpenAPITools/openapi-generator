@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -111,7 +109,6 @@ public class NullableClass {
    * @return integerProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -145,7 +142,6 @@ public class NullableClass {
    * @return numberProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -179,7 +175,6 @@ public class NullableClass {
    * @return booleanProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -213,7 +208,6 @@ public class NullableClass {
    * @return stringProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public String getStringProp() {
@@ -247,7 +241,6 @@ public class NullableClass {
    * @return dateProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -281,7 +274,6 @@ public class NullableClass {
    * @return datetimeProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -327,7 +319,6 @@ public class NullableClass {
    * @return arrayNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -373,7 +364,6 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -415,7 +405,6 @@ public class NullableClass {
    * @return arrayItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -453,7 +442,6 @@ public class NullableClass {
    * @return objectNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -499,7 +487,6 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -541,7 +528,6 @@ public class NullableClass {
    * @return objectItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 

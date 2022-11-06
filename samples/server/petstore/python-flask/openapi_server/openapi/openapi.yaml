@@ -788,6 +788,7 @@ components:
         status:
           description: Updated status of the pet
           type: string
+      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -797,6 +798,7 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

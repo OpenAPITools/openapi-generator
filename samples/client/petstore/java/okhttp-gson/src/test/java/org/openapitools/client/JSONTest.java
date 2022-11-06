@@ -553,8 +553,8 @@ public class JSONTest {
     public void testValidateJsonObject() throws Exception {
         JsonObject jsonObject = new JsonObject();
         Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
-                Pet.validateJsonObject(jsonObject);
-                });
+            Pet.validateJsonObject(jsonObject);
+        });
         assertEquals(exception.getMessage(), "The required field `photoUrls` is not found in the JSON string: {}");
     }
 

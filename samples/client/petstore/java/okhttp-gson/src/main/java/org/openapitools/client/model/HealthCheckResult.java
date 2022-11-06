@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -49,7 +47,6 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
@@ -70,7 +67,6 @@ public class HealthCheckResult {
    * @return nullableMessage
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getNullableMessage() {
     return nullableMessage;

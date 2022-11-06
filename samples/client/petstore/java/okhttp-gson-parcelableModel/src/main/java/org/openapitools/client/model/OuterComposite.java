@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import android.os.Parcelable;
@@ -79,7 +77,6 @@ public class OuterComposite implements Parcelable {
    * @return myNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -102,7 +99,6 @@ public class OuterComposite implements Parcelable {
    * @return myString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getMyString() {
     return myString;
@@ -125,7 +121,6 @@ public class OuterComposite implements Parcelable {
    * @return myBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getMyBoolean() {
     return myBoolean;

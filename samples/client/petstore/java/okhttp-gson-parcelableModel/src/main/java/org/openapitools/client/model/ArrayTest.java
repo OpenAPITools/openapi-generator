@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -120,7 +117,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -151,7 +147,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

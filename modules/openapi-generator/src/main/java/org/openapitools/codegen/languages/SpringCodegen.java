@@ -43,7 +43,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -107,6 +106,25 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
+    public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
+    public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
+
+    public enum RequestMappingMode {
+        api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
+        controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
+        none("Do not add a class level @RequestMapping annotation.");
+
+        public String getDescription() {
+            return description;
+        }
+
+        private String description;
+
+        RequestMappingMode(String description) {
+            this.description = description;
+        }
+    }
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -116,7 +134,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String basePackage = "org.openapitools";
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
-    protected boolean useFeignClient = false;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
@@ -136,6 +153,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     protected boolean useSpringBoot3 = false;
+    protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
 
     public SpringCodegen() {
         super();
@@ -208,6 +226,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
+
+        CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
+            "Where to generate the class level @RequestMapping annotation.")
+            .defaultValue(requestMappingMode.name());
+        for (RequestMappingMode mode: RequestMappingMode.values()) {
+            requestMappingOpt.addEnum(mode.name(), mode.getDescription());
+        }
+        cliOptions.add(requestMappingOpt);
+
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
@@ -302,6 +329,13 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
             LOGGER.info("Set base package to invoker package ({})", basePackage);
+        }
+
+        if (additionalProperties.containsKey(REQUEST_MAPPING_OPTION)) {
+            RequestMappingMode optValue = RequestMappingMode.valueOf(
+                String.valueOf(additionalProperties.get(REQUEST_MAPPING_OPTION)));
+            setRequestMappingMode(optValue);
+            additionalProperties.remove(REQUEST_MAPPING_OPTION);
         }
 
         useOneOfInterfaces = true;
@@ -498,8 +532,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
                     this.setSingleContentTypes(true);
                 }
+                // @RequestMapping not supported with spring cloud openfeign.
+                setRequestMappingMode(RequestMappingMode.none);
                 additionalProperties.put(USE_FEIGN_CLIENT, "true");
-                this.setUseFeignClient(true);
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 if (containsEnums()) {
@@ -580,6 +615,19 @@ public class SpringCodegen extends AbstractJavaCodegen
             default:
                 break;
             }
+        }
+
+        switch (getRequestMappingMode()) {
+            case api_interface:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_INTERFACE, true);
+                break;
+            case controller:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_CONTROLLER, true);
+                break;
+            case none:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_INTERFACE, false);
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_CONTROLLER, false);
+                break;
         }
 
         // add lambda for mustache templates
@@ -873,10 +921,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.singleContentTypes = singleContentTypes;
     }
 
-    public void setUseFeignClient( boolean useFeignClient ) {
-        this.useFeignClient = useFeignClient;
-    }
-
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {
         this.skipDefaultInterface = skipDefaultInterface;
     }
@@ -1120,5 +1164,13 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseSpringBoot3(boolean useSpringBoot3) {
         this.useSpringBoot3 = useSpringBoot3;
+    }
+
+    public RequestMappingMode getRequestMappingMode() {
+        return requestMappingMode;
+    }
+
+    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
+        this.requestMappingMode = requestMappingMode;
     }
 }
