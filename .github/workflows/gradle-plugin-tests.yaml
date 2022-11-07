@@ -15,7 +15,7 @@ jobs:
           distribution: temurin
       - name: Run tests
         working-directory: modules/openapi-generator-gradle-plugin/samples/local-spec
-        run:
+        run: |
           ./gradlew buildGoSdk
           ./gradlew openApiGenerate
           ./gradlew buildDotnetSdk
