@@ -76,7 +76,7 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 		w.WriteHeader(http.StatusOK)
 	}
 
-    if (i) != nil {
+    if i != nil {
         return json.NewEncoder(w).Encode(i)
     }
 
