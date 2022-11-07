@@ -16,7 +16,7 @@ import (
     "github.com/stretchr/testify/assert"
     "github.com/stretchr/testify/require"
     "testing"
-    {{goImportAlias}} "./openapi"
+    {{goImportAlias}} "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}"
 )
 
 func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
