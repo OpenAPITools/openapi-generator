@@ -78,6 +78,7 @@
                 <artifactId>gradle-maven-plugin</artifactId>
                 <version>1.0.8</version>
                 <configuration>
+                    <gradleProjectDirectory>${project.basedir}</gradleProjectDirectory>
                     <gradleVersion>${gradleVersion}</gradleVersion>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
@@ -93,9 +94,9 @@
                         <configuration>
                             <tasks>
                                 <!-- calls "clean assemble install" -->
-                                <task>clean</task>
-                                <task>build</task>
-                                <task>publishToMavenLocal</task>
+                                <task>:openapi-generator-gradle-plugin:clean</task>
+                                <task>:openapi-generator-gradle-plugin:build</task>
+                                <task>:openapi-generator-gradle-plugin:publishToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>

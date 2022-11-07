@@ -1,20 +1,11 @@
-import io.github.gradlenexus.publishplugin.CloseNexusStagingRepository
-import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("com.gradle.plugin-publish") version "1.0.0"
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
     id("java-gradle-plugin")
     id("maven-publish")
     id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("org.openapitools.kotlin")
     id("signing")
 }
-
-group = "org.openapitools"
-version = "$openApiGeneratorVersion"
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 description = """
 This plugin supports common functionality found in Open API Generator CLI as a Gradle plugin.
@@ -23,60 +14,18 @@ This gives you the ability to generate client SDKs, documentation, new generator
 specifications as part of your build. Other tasks are available as command line tasks.
 """
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "Sonatype Snapshots"
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-}
-
 dependencies {
-    implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
+    ntation("com.samskivert:jmustache:1.14")
+    implementation("io.swagger.parser.v3:swagger-parser:2.1.1")
+    implementation(project(":openapi-generator"))
+    implementation(project(":openapi-generator-core"))
 }
 
-tasks.named("test", Test).configure {
-    useTestNG()
-    testLogging.showStandardStreams = false
-
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
-    }
-
-    onOutput { descriptor, event ->
-        // SLF4J may complain about multiple bindings depending on how this is run.
-        // This is just a warning, but can make test output less readable. So we ignore it specifically.
-        if (!event.message.contains("SLF4J:")) {
-            logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
-        }
-    }
-}
-
-tasks.withType(KotlinCompile).configureEach {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-tasks.withType(Javadoc).configureEach {
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption("html5", true)
-    }
-}
-
-tasks.withType(CloseNexusStagingRepository).configureEach {
+tasks.withType(io.github.gradlenexus.publishplugin.CloseNexusStagingRepository).configureEach {
     onlyIf { nexusPublishing.useStaging.get() }
 }
 
-tasks.withType(ReleaseNexusStagingRepository).configureEach {
+tasks.withType(io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository).configureEach {
     onlyIf { nexusPublishing.useStaging.get() }
 }
 
@@ -90,18 +39,6 @@ gradlePlugin {
             displayName = "OpenAPI Generator Gradle Plugin"
             implementationClass = "org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin"
             tags.addAll("openapi-3.0", "openapi-2.0", "openapi", "swagger", "codegen", "sdk")
-        }
-    }
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            username = project.properties["ossrhUsername"]
-            password = project.properties["ossrhPassword"]
-
-            // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile
-            stagingProfileId = "456297f829bbbe"
         }
     }
 }
