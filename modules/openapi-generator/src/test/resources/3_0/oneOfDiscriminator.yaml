@@ -178,7 +178,8 @@ components:
       properties:
         fruitType:
           $ref: "#/components/schemas/FruitTypeEnum"
-      required: fruitType
+      required:
+        - fruitType
       oneOf:
         - $ref: '#/components/schemas/AppleOneOfEnumMappingDisc'
         - $ref: '#/components/schemas/BananaOneOfEnumMappingDisc'
