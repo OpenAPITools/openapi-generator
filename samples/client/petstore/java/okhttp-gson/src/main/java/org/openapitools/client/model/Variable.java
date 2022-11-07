@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Value;
 
@@ -49,7 +47,6 @@ import org.openapitools.client.JSON;
 /**
  * Value object
  */
-@ApiModel(description = "Value object")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -74,7 +71,6 @@ public class Variable {
    * @return name
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "variable_1", required = true, value = "")
 
   public String getName() {
     return name;
@@ -97,7 +93,6 @@ public class Variable {
    * @return value
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Value getValue() {
     return value;
