@@ -1,0 +1,15 @@
+pluginManagement {
+    includeBuild("../../../openapi-generator-gradle-plugin")
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Sonatype Snapshots"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    plugins {
+        id("org.openapi.generator") version "$openApiGeneratorVersion"
+    }
+}
+
+rootProject.name = "sample"
