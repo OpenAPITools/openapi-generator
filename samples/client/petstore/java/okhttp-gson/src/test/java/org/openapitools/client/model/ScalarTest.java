@@ -13,7 +13,6 @@
 
 package org.openapitools.client.model;
 
-import io.swagger.annotations.ApiModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
