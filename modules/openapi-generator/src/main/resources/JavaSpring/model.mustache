@@ -50,6 +50,11 @@ import jakarta.annotation.Generated;
 {{^useJakartaEe}}
 import javax.annotation.Generated;
 {{/useJakartaEe}}
+{{#useBeanValidation}}
+{{#customValidationAnnotationsPackages}}
+import {{{.}}};
+{{/customValidationAnnotationsPackages}}
+{{/useBeanValidation}}
 
 {{#models}}
 {{#model}}

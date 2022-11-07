@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  description: Specification to show applicability of x-java-constraint vendor extension
+  title: XSpringConstraintTest Api
+paths:
+  /smth/add:
+    get:
+      parameters:
+        - in: query
+          name: quantity
+          schema:
+            type: integer
+          x-java-constraint: "@Positive"
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /smth/remove:
+    get:
+      parameters:
+        - in: query
+          name: quantity
+          schema:
+            type: integer
+          x-java-constraint: "@NotZero(message = \"custom\")"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+components:
+  schemas:
+    TestObject:
+      type: object
+      properties:
+        picture:
+          type: string
+          format: byte
+          nullable: false

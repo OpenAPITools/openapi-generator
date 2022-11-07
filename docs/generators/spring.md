@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
+|customValidationAnnotationsPackages|Additional imports for custom Bean Validation Annotations. Array of strings, separated by semicolon(;)| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
@@ -106,6 +107,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
+|x-java-constraint|Add custom BeanValidation Annotation to parameters. Can be used with customValidationAnnotationsPackage configOption|MODEL|null
 
 
 ## IMPORT MAPPING
