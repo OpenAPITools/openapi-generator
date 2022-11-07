@@ -25,9 +25,11 @@ import 'package:openapi/src/model/extensible.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_ref.dart';
 import 'package:openapi/src/model/foo_ref_or_value.dart';
+import 'package:openapi/src/model/foo_ref_or_value_enum_mapping.dart';
 import 'package:openapi/src/model/pasta.dart';
 import 'package:openapi/src/model/pizza.dart';
 import 'package:openapi/src/model/pizza_speziale.dart';
+import 'package:openapi/src/model/ref_or_value_enum.dart';
 
 part 'serializers.g.dart';
 
@@ -43,9 +45,11 @@ part 'serializers.g.dart';
   Foo,
   FooRef,
   FooRefOrValue,
+  FooRefOrValueEnumMapping,
   Pasta,
   Pizza,$Pizza,
   PizzaSpeziale,
+  RefOrValueEnum,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

@@ -14,9 +14,11 @@ doc/Foo.md
 doc/FooApi.md
 doc/FooRef.md
 doc/FooRefOrValue.md
+doc/FooRefOrValueEnumMapping.md
 doc/Pasta.md
 doc/Pizza.md
 doc/PizzaSpeziale.md
+doc/RefOrValueEnum.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/bar_api.dart
@@ -40,8 +42,12 @@ lib/src/model/extensible.dart
 lib/src/model/foo.dart
 lib/src/model/foo_ref.dart
 lib/src/model/foo_ref_or_value.dart
+lib/src/model/foo_ref_or_value_enum_mapping.dart
 lib/src/model/pasta.dart
 lib/src/model/pizza.dart
 lib/src/model/pizza_speziale.dart
+lib/src/model/ref_or_value_enum.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/foo_ref_or_value_enum_mapping_test.dart
+test/ref_or_value_enum_test.dart

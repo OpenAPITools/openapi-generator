@@ -24,10 +24,13 @@ import javax.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class FooRef extends EntityRef implements FooRefOrValue {
+public class FooRef extends EntityRef implements FooRefOrValue, FooRefOrValueEnumMapping {
 
   @JsonProperty("foorefPropA")
   private String foorefPropA;
+
+  @JsonProperty("objectType")
+  private RefOrValueEnum objectType;
 
   public FooRef foorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
@@ -46,6 +49,25 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   public void setFoorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
+  }
+
+  public FooRef objectType(RefOrValueEnum objectType) {
+    this.objectType = objectType;
+    return this;
+  }
+
+  /**
+   * Get objectType
+   * @return objectType
+  */
+  @NotNull @Valid 
+  @Schema(name = "objectType", required = true)
+  public RefOrValueEnum getObjectType() {
+    return objectType;
+  }
+
+  public void setObjectType(RefOrValueEnum objectType) {
+    this.objectType = objectType;
   }
 
   public FooRef name(String name) {
@@ -93,12 +115,13 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
     FooRef fooRef = (FooRef) o;
     return Objects.equals(this.foorefPropA, fooRef.foorefPropA) &&
+        Objects.equals(this.objectType, fooRef.objectType) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(foorefPropA, super.hashCode());
+    return Objects.hash(foorefPropA, objectType, super.hashCode());
   }
 
   @Override
@@ -107,6 +130,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     sb.append("class FooRef {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    foorefPropA: ").append(toIndentedString(foorefPropA)).append("\n");
+    sb.append("    objectType: ").append(toIndentedString(objectType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

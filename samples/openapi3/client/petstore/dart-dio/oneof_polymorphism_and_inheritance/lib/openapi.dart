@@ -23,6 +23,8 @@ export 'package:openapi/src/model/extensible.dart';
 export 'package:openapi/src/model/foo.dart';
 export 'package:openapi/src/model/foo_ref.dart';
 export 'package:openapi/src/model/foo_ref_or_value.dart';
+export 'package:openapi/src/model/foo_ref_or_value_enum_mapping.dart';
 export 'package:openapi/src/model/pasta.dart';
 export 'package:openapi/src/model/pizza.dart';
 export 'package:openapi/src/model/pizza_speziale.dart';
+export 'package:openapi/src/model/ref_or_value_enum.dart';

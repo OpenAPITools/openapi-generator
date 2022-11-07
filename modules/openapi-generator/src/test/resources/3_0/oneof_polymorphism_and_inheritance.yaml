@@ -105,6 +105,24 @@ components:
         - $ref: "#/components/schemas/FooRef"
       discriminator:
         propertyName: "@type"
+    RefOrValueEnum:
+      type: string
+      enum: [REF, VALUE]
+    FooRefOrValueEnumMapping:
+      type: object
+      properties:
+        objectType:
+          $ref: "#/components/schemas/RefOrValueEnum"
+      required:
+        - objectType
+      oneOf:
+        - $ref: "#/components/schemas/Foo"
+        - $ref: "#/components/schemas/FooRef"
+      discriminator:
+        propertyName: "objectType"
+        mapping:
+          VALUE: "#/components/schemas/Foo"
+          REF: "#/components/schemas/FooRef"
     Foo:
       type: object
       properties:

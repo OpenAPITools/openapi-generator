@@ -151,6 +151,27 @@ components:
       - $ref: '#/components/schemas/FooRef'
       type: object
       x-one-of-name: FooRefOrValue
+    RefOrValueEnum:
+      enum:
+      - REF
+      - VALUE
+      type: string
+    FooRefOrValueEnumMapping:
+      discriminator:
+        mapping:
+          VALUE: '#/components/schemas/Foo'
+          REF: '#/components/schemas/FooRef'
+        propertyName: objectType
+      oneOf:
+      - $ref: '#/components/schemas/Foo'
+      - $ref: '#/components/schemas/FooRef'
+      properties:
+        objectType:
+          $ref: '#/components/schemas/RefOrValueEnum'
+      required:
+      - objectType
+      type: object
+      x-one-of-name: FooRefOrValueEnumMapping
     Foo:
       allOf:
       - $ref: '#/components/schemas/Entity'
