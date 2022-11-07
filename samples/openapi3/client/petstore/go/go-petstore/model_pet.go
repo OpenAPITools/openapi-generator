@@ -126,7 +126,7 @@ func (o *Pet) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Name, true
 }
@@ -150,7 +150,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.PhotoUrls, true
 }

@@ -165,7 +165,7 @@ func (o *FormatTest) GetNumber() float32 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetNumberOk() (*float32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Number, true
 }
@@ -285,7 +285,7 @@ func (o *FormatTest) GetByte() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetByteOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Byte, true
 }
@@ -341,7 +341,7 @@ func (o *FormatTest) GetDate() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDateOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Date, true
 }
@@ -429,7 +429,7 @@ func (o *FormatTest) GetPassword() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetPasswordOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Password, true
 }
