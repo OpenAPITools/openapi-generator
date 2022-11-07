@@ -1,4 +1,4 @@
-name: Samples Kotlin cilent
+name: Samples Kotlin client
 
 on:
   push:

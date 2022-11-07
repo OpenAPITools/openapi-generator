@@ -338,7 +338,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -1130,7 +1130,7 @@ paths:
     put:
       tags:
         - fake
-      description: Ensures that original naming is used in endpoint params, that way we on't have collisions
+      description: Ensures that original naming is used in endpoint params, that way we won't have collisions
       operationId: CaseSensitiveParams
       parameters:
         - name: someVar
@@ -1151,7 +1151,7 @@ paths:
       responses:
         "200":
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake

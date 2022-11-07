@@ -982,7 +982,7 @@ if (booleanGroup != null)
      * @http.response.details
        <table summary="Response Details" border="1">
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-         <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
        </table>
      
      */
@@ -998,7 +998,7 @@ if (booleanGroup != null)
      * @http.response.details
        <table summary="Response Details" border="1">
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-         <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+         <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
        </table>
 
      */

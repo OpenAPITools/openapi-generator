@@ -1127,7 +1127,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1226,7 +1226,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1277,7 +1277,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1372,7 +1372,7 @@ export class StoreApi extends BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param {StoreApiGetOrderByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.

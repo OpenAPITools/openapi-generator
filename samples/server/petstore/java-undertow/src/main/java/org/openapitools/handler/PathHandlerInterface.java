@@ -342,7 +342,7 @@ public interface PathHandlerInterface {
     /**
      * <p>Find purchase order by ID</p>
      *
-     * <p>For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions</p>
+     * <p>For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions</p>
      *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/store/order/{orderId}" (<i>privileged: false</i>)</p>
      *

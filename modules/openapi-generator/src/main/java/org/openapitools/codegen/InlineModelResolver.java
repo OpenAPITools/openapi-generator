@@ -340,7 +340,7 @@ public class InlineModelResolver {
                 } else {
                     // allOf is just one or more types only so do not generate the inline allOf model
                     if (m.getAllOf().size() == 1) {
-                        // handle earlier in this function when looping through properites
+                        // handle earlier in this function when looping through properties
                     } else if (m.getAllOf().size() > 1) {
                         LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
                     } else {
@@ -892,7 +892,7 @@ public class InlineModelResolver {
      *
      * @param name   name of the inline schema
      * @param schema inilne schema
-     * @return the actual model name (based on inlineSchemaNameMapping if provied)
+     * @return the actual model name (based on inlineSchemaNameMapping if provided)
      */
     private String addSchemas(String name, Schema schema) {
         //check inlineSchemaNameMapping

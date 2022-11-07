@@ -66,7 +66,7 @@ public:
     /// Find purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
     /// </remarks>
     /// <param name="orderId">ID of pet that needs to be fetched</param>
     pplx::task<std::shared_ptr<Order>> getOrderById(

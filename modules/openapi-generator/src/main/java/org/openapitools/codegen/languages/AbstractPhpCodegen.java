@@ -476,7 +476,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         name = toGenericName(name);
 
-        // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
+        // add prefix and/or suffix only if name does not start with \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
                 name = modelNamePrefix + "_" + name;

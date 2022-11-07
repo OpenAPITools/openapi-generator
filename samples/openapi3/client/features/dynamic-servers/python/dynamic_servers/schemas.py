@@ -385,7 +385,7 @@ class Schema:
             _validate_oapg returns a key value pair
             where the key is the path to the item, and the value will be the required manufactured class
             made out of the matching schemas
-        2. value is an instance of the the correct schema type
+        2. value is an instance of the correct schema type
             the value is NOT validated by _validate_oapg, _validate_oapg only checks that the instance is of the correct schema type
             for this value, _validate_oapg does NOT return an entry for it in _path_to_schemas
             and in list/dict _get_items_oapg,_get_properties_oapg the value will be directly assigned
@@ -868,7 +868,7 @@ class ValidatorBase:
             schema_keyword not in configuration._disabled_client_side_validations)
 
     @staticmethod
-    def _raise_validation_errror_message_oapg(value, constraint_msg, constraint_value, path_to_item, additional_txt=""):
+    def _raise_validation_error_message_oapg(value, constraint_msg, constraint_value, path_to_item, additional_txt=""):
         raise ApiValueError(
             "Invalid value `{value}`, {constraint_msg} `{constraint_value}`{additional_txt} at {path_to_item}".format(
                 value=value,
@@ -963,7 +963,7 @@ class StrBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('maxLength', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'max_length') and
                 len(arg) > cls.MetaOapg.max_length):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="length must be less than or equal to",
                 constraint_value=cls.MetaOapg.max_length,
@@ -973,7 +973,7 @@ class StrBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('minLength', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'min_length') and
                 len(arg) < cls.MetaOapg.min_length):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="length must be greater than or equal to",
                 constraint_value=cls.MetaOapg.min_length,
@@ -988,14 +988,14 @@ class StrBase(ValidatorBase):
                     if flags != 0:
                         # Don't print the regex flags if the flags are not
                         # specified in the OAS document.
-                        cls._raise_validation_errror_message_oapg(
+                        cls._raise_validation_error_message_oapg(
                             value=arg,
                             constraint_msg="must match regular expression",
                             constraint_value=regex_dict['pattern'],
                             path_to_item=validation_metadata.path_to_item,
                             additional_txt=" with flags=`{}`".format(flags)
                         )
-                    cls._raise_validation_errror_message_oapg(
+                    cls._raise_validation_error_message_oapg(
                         value=arg,
                         constraint_msg="must match regular expression",
                         constraint_value=regex_dict['pattern'],
@@ -1211,7 +1211,7 @@ class NumberBase(ValidatorBase):
             return self._as_float
         except AttributeError:
             if self.as_tuple().exponent >= 0:
-                raise ApiValueError(f'{self} is not an float')
+                raise ApiValueError(f'{self} is not a float')
             self._as_float = float(self)
             return self._as_float
 
@@ -1228,7 +1228,7 @@ class NumberBase(ValidatorBase):
             multiple_of_value = cls.MetaOapg.multiple_of
             if (not (float(arg) / multiple_of_value).is_integer()):
                 # Note 'multipleOf' will be as good as the floating point arithmetic.
-                cls._raise_validation_errror_message_oapg(
+                cls._raise_validation_error_message_oapg(
                     value=arg,
                     constraint_msg="value must be a multiple of",
                     constraint_value=multiple_of_value,
@@ -1249,7 +1249,7 @@ class NumberBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('exclusiveMaximum', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'exclusive_maximum') and
                 arg >= cls.MetaOapg.exclusive_maximum):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value less than",
                 constraint_value=cls.MetaOapg.exclusive_maximum,
@@ -1259,7 +1259,7 @@ class NumberBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('maximum', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'inclusive_maximum') and
                 arg > cls.MetaOapg.inclusive_maximum):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value less than or equal to",
                 constraint_value=cls.MetaOapg.inclusive_maximum,
@@ -1269,7 +1269,7 @@ class NumberBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('exclusiveMinimum', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'exclusive_minimum') and
                 arg <= cls.MetaOapg.exclusive_minimum):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value greater than",
                 constraint_value=cls.MetaOapg.exclusive_maximum,
@@ -1279,7 +1279,7 @@ class NumberBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('minimum', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'inclusive_minimum') and
                 arg < cls.MetaOapg.inclusive_minimum):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value greater than or equal to",
                 constraint_value=cls.MetaOapg.inclusive_minimum,
@@ -1347,7 +1347,7 @@ class ListBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('maxItems', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'max_items') and
                 len(arg) > cls.MetaOapg.max_items):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of items must be less than or equal to",
                 constraint_value=cls.MetaOapg.max_items,
@@ -1357,7 +1357,7 @@ class ListBase(ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('minItems', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'min_items') and
                 len(arg) < cls.MetaOapg.min_items):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of items must be greater than or equal to",
                 constraint_value=cls.MetaOapg.min_items,
@@ -1368,7 +1368,7 @@ class ListBase(ValidatorBase):
                 hasattr(cls.MetaOapg, 'unique_items') and cls.MetaOapg.unique_items and arg):
             unique_items = set(arg)
             if len(arg) > len(unique_items):
-                cls._raise_validation_errror_message_oapg(
+                cls._raise_validation_error_message_oapg(
                     value=arg,
                     constraint_msg="duplicate items were found, and the tuple must not contain duplicates because",
                     constraint_value='unique_items==True',
@@ -1611,7 +1611,7 @@ class DictBase(Discriminable, ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('maxProperties', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'max_properties') and
                 len(arg) > cls.MetaOapg.max_properties):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of properties must be less than or equal to",
                 constraint_value=cls.MetaOapg.max_properties,
@@ -1621,7 +1621,7 @@ class DictBase(Discriminable, ValidatorBase):
         if (cls._is_json_validation_enabled_oapg('minProperties', validation_metadata.configuration) and
                 hasattr(cls.MetaOapg, 'min_properties') and
                 len(arg) < cls.MetaOapg.min_properties):
-            cls._raise_validation_errror_message_oapg(
+            cls._raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of properties must be greater than or equal to",
                 constraint_value=cls.MetaOapg.min_properties,
