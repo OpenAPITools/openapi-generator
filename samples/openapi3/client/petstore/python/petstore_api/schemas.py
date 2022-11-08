@@ -84,7 +84,7 @@ class ValidationMetadata(frozendict.frozendict):
     """
     def __new__(
         cls,
-        path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['_args[0]']),
+        path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
         from_server: bool = False,
         configuration: typing.Optional[Configuration] = None,
         seen_classes: typing.FrozenSet[typing.Type] = frozenset(),
@@ -515,7 +515,7 @@ class Schema:
         __kwargs = cls.__remove_unsets(kwargs)
         if not _args and not __kwargs:
             raise TypeError(
-                'No input given. _args or kwargs must be given.'
+                'No input given. args or kwargs must be given.'
             )
         if not __kwargs and _args and not isinstance(_args[0], dict):
             __arg = _args[0]
@@ -1756,7 +1756,7 @@ def cast_to_allowed_types(
     _arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema, io.FileIO, io.BufferedReader],
     from_server: bool,
     validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]],
-    path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['_args[0]']),
+    path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
 ) -> typing.Union[frozendict.frozendict, tuple, decimal.Decimal, str, bytes, BoolClass, NoneClass, FileIO]:
     """
     Casts the input payload _arg into the allowed types
@@ -2031,7 +2031,7 @@ class ComposedSchema(
     def from_openapi_data_oapg(cls, *_args: typing.Any, _configuration: typing.Optional[Configuration] = None, **kwargs):
         if not _args:
             if not kwargs:
-                raise ApiTypeError('{} is missing required input data in _args or kwargs'.format(cls.__name__))
+                raise ApiTypeError('{} is missing required input data in args or kwargs'.format(cls.__name__))
             _args = (kwargs, )
         return super().from_openapi_data_oapg(_args[0], _configuration=_configuration)
 
