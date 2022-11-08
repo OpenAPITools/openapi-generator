@@ -184,7 +184,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                         "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await",
+                        "False", "async", "await", "args",
                         // types
                         "float", "int", "str", "bool", "none_type", "dict", "frozendict", "list", "tuple", "file_type"));
 
