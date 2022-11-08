@@ -67,7 +67,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>all_params</li>
 <li>and</li>
-<li>args</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>

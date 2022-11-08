@@ -41,12 +41,12 @@ class RefInItems(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple['PropertyNamedRefThatIsNotAReference'], typing.List['PropertyNamedRefThatIsNotAReference']],
+        _arg: typing.Union[typing.Tuple['PropertyNamedRefThatIsNotAReference'], typing.List['PropertyNamedRefThatIsNotAReference']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'RefInItems':
         return super().__new__(
             cls,
-            arg,
+            _arg,
             _configuration=_configuration,
         )
 
