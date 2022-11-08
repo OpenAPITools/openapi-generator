@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +166,6 @@ public class EnumArrays {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -199,7 +196,6 @@ public class EnumArrays {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -288,8 +284,8 @@ public class EnumArrays {
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_enum").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }
   }

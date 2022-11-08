@@ -518,13 +518,13 @@ test_that("Tests oneOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >> Failed to lookup discriminator value for Pig. Error message: Error! The value of the discriminator property `className`, which should be the class type, is null. JSON input: \\{\\} >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >> Failed to lookup discriminator value for Pig. Error message: Error! The value of the discriminator property `className`, which should be the class type, is null. JSON input: \\{\\} >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
   # class name test
   expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")
 
-  # test contructors
+  # test constructors
   pig2 <- Pig$new(instance = basque_pig$actual_instance)
   expect_equal(pig2$actual_type, "BasquePig")
   expect_equal(pig2$actual_instance$color, "red")
@@ -587,8 +587,8 @@ test_that("Tests anyOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
 
@@ -600,7 +600,7 @@ test_that("Tests URL validation", {
   Date$public_methods$validateJSON(valid_json) # shouldn't throw exception
 
   invalid_json <- '{"className":"date","percent_description":"abc","url_property":"invalid_url"}'
-  expect_error(Date$public_methods$validateJSON(invalid_json), 'Error! Invalid URL: invalid_url') # should throw exception
+  expect_error(Date$public_methods$validateJSON(invalid_json), 'Error! Invalid data for `url_property`. Must be a URL: invalid_url') # should throw exception
 
   # test fromJSONString with valid data
   d <- Date$new()
@@ -611,7 +611,7 @@ test_that("Tests URL validation", {
 
   # test fromJSONString with invalid data
   d <- Date$new()
-  expect_error(d$fromJSONString(invalid_json), 'Error! Invalid URL: invalid_url') # should throw exception
+  expect_error(d$fromJSONString(invalid_json), 'Error! Invalid data for `url_property`. Must be a URL: invalid_url') # should throw exception
 })
 
 
@@ -621,5 +621,5 @@ test_that("Order and datetime test", {
 
   expect_equal(t$toJSONString(), "{\"id\":393,\"petId\":12930,\"quantity\":12,\"shipDate\":\"2019-09-29T19:39:29Z\",\"status\":\"approved\",\"complete\":false}")
 
-  expect_error(Order$new(id = 393, petId = 12930, quantity = 12, shipDate = TRUE, status = "approved"), "Error! Invalid DateTime. Must be a string: TRUE")
+  expect_error(Order$new(id = 393, petId = 12930, quantity = 12, shipDate = TRUE, status = "approved"), "Error! Invalid data for `shipDate`. Must be a string: TRUE")
 })

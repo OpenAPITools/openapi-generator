@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -76,7 +74,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -96,7 +93,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return baz
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBaz() {
     return baz;

@@ -1389,24 +1389,24 @@ class RequestBody(StyleFormSerializer, JSONDetector):
 
     def __multipart_json_item(self, key: str, value: Schema) -> RequestField:
         json_value = self.__json_encoder.default(value)
-        return RequestField(name=key, data=json.dumps(json_value), headers={'Content-Type': 'application/json'})
+        request_field = RequestField(name=key, data=json.dumps(json_value))
+        request_field.make_multipart(content_type='application/json')
+        return request_field
 
     def __multipart_form_item(self, key: str, value: Schema) -> RequestField:
         if isinstance(value, str):
-            return RequestField(name=key, data=str(value), headers={'Content-Type': 'text/plain'})
+            request_field = RequestField(name=key, data=str(value))
+            request_field.make_multipart(content_type='text/plain')
         elif isinstance(value, bytes):
-            return RequestField(name=key, data=value, headers={'Content-Type': 'application/octet-stream'})
+            request_field = RequestField(name=key, data=value)
+            request_field.make_multipart(content_type='application/octet-stream')
         elif isinstance(value, FileIO):
-            request_field = RequestField(
-                name=key,
-                data=value.read(),
-                filename=os.path.basename(value.name),
-                headers={'Content-Type': 'application/octet-stream'}
-            )
+            # TODO use content.encoding to limit allowed content types if they are present
+            request_field = RequestField.from_tuples(key, (os.path.basename(value.name), value.read()))
             value.close()
-            return request_field
         else:
-            return self.__multipart_json_item(key=key, value=value)
+            request_field = self.__multipart_json_item(key=key, value=value)
+        return request_field
 
     def __serialize_multipart_form_data(
         self, in_data: Schema

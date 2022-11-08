@@ -137,7 +137,7 @@ public class {{classname}} {
         // create path and map variables
         {{^dynamicOperations}}
         String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll("\\{" + "{{baseName}}" + "\\}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
+            .replace("{" + "{{baseName}}" + "}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
         {{/dynamicOperations}}
         {{#dynamicOperations}}
         ApiOperation apiOperation = localVarApiClient.getOperationLookupMap().get("{{{operationId}}}");
@@ -193,7 +193,9 @@ public class {{classname}} {
 
         {{/dynamicOperations}}
         final String[] localVarAccepts = {
-            {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
+            {{#produces}}
+            "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/produces}}
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -201,7 +203,9 @@ public class {{classname}} {
         }
 
         final String[] localVarContentTypes = {
-            {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
+            {{#consumes}}
+            "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/consumes}}
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -218,15 +222,16 @@ public class {{classname}} {
     @SuppressWarnings("rawtypes")
     private okhttp3.Call {{operationId}}ValidateBeforeCall({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback _callback) throws ApiException {
         {{^performBeanValidation}}
-        {{#allParams}}{{#required}}
+        {{#allParams}}
+        {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new ApiException("Missing the required parameter '{{paramName}}' when calling {{operationId}}(Async)");
         }
-        {{/required}}{{/allParams}}
 
-        okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
-        return localVarCall;
+        {{/required}}
+        {{/allParams}}
+        return {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
 
         {{/performBeanValidation}}
         {{#performBeanValidation}}
@@ -240,9 +245,7 @@ public class {{classname}} {
                     parameterValues);
 
             if (violations.size() == 0) {
-                okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
-                return localVarCall;
-
+                return {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
             } else {
                 throw new BeanValidationException((Set) violations);
             }
@@ -253,7 +256,6 @@ public class {{classname}} {
             e.printStackTrace();
             throw new ApiException(e.getMessage());
         }
-
         {{/performBeanValidation}}
     }
 

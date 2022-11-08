@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -271,7 +271,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -286,7 +286,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -362,7 +362,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -380,13 +380,13 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -403,7 +403,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -426,7 +426,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -477,7 +477,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -492,7 +492,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -604,7 +604,7 @@ namespace Org.OpenAPITools.Api
                             }
                             catch(Exception e)
                             {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
                             }
                         }
 
@@ -619,7 +619,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }    }

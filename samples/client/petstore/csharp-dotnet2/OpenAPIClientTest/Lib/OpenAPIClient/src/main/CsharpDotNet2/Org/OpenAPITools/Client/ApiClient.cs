@@ -14,7 +14,7 @@ using RestSharp.Extensions;
 namespace Org.OpenAPITools.Client
 {
     /// <summary>
-    /// API client is mainly responible for making the HTTP call to the API backend.
+    /// API client is mainly responsible for making the HTTP call to the API backend.
     /// </summary>
     public class ApiClient
     {

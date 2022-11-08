@@ -87,6 +87,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _post_date_time_format_response_body_for_content_types_oapg(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -164,6 +165,7 @@ class PostDateTimeFormatResponseBodyForContentTypes(BaseApi):
     @typing.overload
     def post_date_time_format_response_body_for_content_types(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -213,6 +215,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
+        skip_deserialization: typing_extensions.Literal[True],
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

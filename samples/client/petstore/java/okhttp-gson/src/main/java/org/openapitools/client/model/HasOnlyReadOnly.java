@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -76,7 +74,6 @@ public class HasOnlyReadOnly {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -90,7 +87,6 @@ public class HasOnlyReadOnly {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getFoo() {
     return foo;
@@ -108,6 +104,10 @@ public class HasOnlyReadOnly {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the HasOnlyReadOnly instance itself
    */
   public HasOnlyReadOnly putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -119,6 +119,8 @@ public class HasOnlyReadOnly {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -126,6 +128,9 @@ public class HasOnlyReadOnly {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -226,7 +231,7 @@ public class HasOnlyReadOnly {
            public void write(JsonWriter out, HasOnlyReadOnly value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

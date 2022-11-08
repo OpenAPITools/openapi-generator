@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
@@ -78,7 +76,6 @@ public class Animal implements Parcelable {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;
@@ -101,7 +98,6 @@ public class Animal implements Parcelable {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getColor() {
     return color;

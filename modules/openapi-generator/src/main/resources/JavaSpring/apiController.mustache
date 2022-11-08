@@ -58,6 +58,11 @@ import javax.annotation.Generated;
 
 {{>generatedAnnotation}}
 @Controller
+{{#useRequestMappingOnController}}
+{{=<% %>=}}
+@RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+<%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
 {{#isDelegate}}

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
@@ -75,7 +73,6 @@ public class Animal {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;
@@ -98,7 +95,6 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getColor() {
     return color;
@@ -119,6 +115,10 @@ public class Animal {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Animal instance itself
    */
   public Animal putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -130,6 +130,8 @@ public class Animal {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -137,6 +139,9 @@ public class Animal {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {

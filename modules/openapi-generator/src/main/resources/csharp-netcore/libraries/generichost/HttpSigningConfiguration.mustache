@@ -190,7 +190,7 @@ namespace {{packageName}}.Client
             foreach (var keyVal in httpSignatureHeader)
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string{{nrt?}} headerSignatureStr = null;
@@ -318,7 +318,7 @@ namespace {{packageName}}.Client
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
-            byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
+            byte derLength = 68; //default length for ECDSA code signing bit 0x44
             byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
@@ -353,7 +353,7 @@ namespace {{packageName}}.Client
             }
 
             derBytes.Add(48);  //start of the sequence 0x30
-            derBytes.Add(derLength);  //total length r lenth, type and r bytes
+            derBytes.Add(derLength);  //total length r length, type and r bytes
 
             derBytes.Add(2); //tag for integer
             derBytes.Add(rbytesLength); //length of r
@@ -365,7 +365,7 @@ namespace {{packageName}}.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider{{nrt?}} GetRSAProviderFromPemFile(String pemfile, SecureString{{nrt?}} keyPassPharse = null)
+        private  RSACryptoServiceProvider{{nrt?}} GetRSAProviderFromPemFile(String pemfile, SecureString{{nrt?}} keyPassPhrase = null)
         {
             const String pempubheader = "-----BEGIN PUBLIC KEY-----";
             const String pempubfooter = "-----END PUBLIC KEY-----";
@@ -382,7 +382,7 @@ namespace {{packageName}}.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
 
                 if (pemkey == null)
                     return null;
@@ -392,7 +392,7 @@ namespace {{packageName}}.Client
             return null;
         }
 
-        private byte[]{{nrt?}} ConvertPrivateKeyToBytes(String instr, SecureString{{nrt?}} keyPassPharse = null)
+        private byte[]{{nrt?}} ConvertPrivateKeyToBytes(String instr, SecureString{{nrt?}} keyPassPhrase = null)
         {
             const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -440,12 +440,12 @@ namespace {{packageName}}.Client
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
-                // TODO: what do we do here if keyPassPharse is null?
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse{{nrt!}}, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                // TODO: what do we do here if keyPassPhrase is null?
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase{{nrt!}}, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 

@@ -313,7 +313,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (name == null || name.length() == 0) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
 

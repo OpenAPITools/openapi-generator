@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Client
         #endregion Properties
 
         /// <summary>
-        /// Construct the reponse using an HttpResponseMessage
+        /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="response"></param>
         /// <param name="rawContent"></param>

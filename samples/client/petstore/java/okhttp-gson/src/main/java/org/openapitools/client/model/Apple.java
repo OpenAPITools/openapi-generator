@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -72,7 +70,6 @@ public class Apple {
    * @return cultivar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getCultivar() {
     return cultivar;
@@ -95,7 +92,6 @@ public class Apple {
    * @return origin
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getOrigin() {
     return origin;
@@ -116,6 +112,10 @@ public class Apple {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Apple instance itself
    */
   public Apple putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -127,6 +127,8 @@ public class Apple {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -134,6 +136,9 @@ public class Apple {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -234,7 +239,7 @@ public class Apple {
            public void write(JsonWriter out, Apple value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

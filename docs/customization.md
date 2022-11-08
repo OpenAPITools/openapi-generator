@@ -56,7 +56,7 @@ The above configuration will do the following:
 * Compile a user-provided `my_custom_templates/api_interfaces.mustache` following our usual API template compilation logic. That is, one file will be created per API; APIs are generated defined according to tags in your spec documentation. The destination filename of `Interface.kt` will act as a suffix for the filename. So, a tag of `Equipment` will output a corresponding `EquipmentInterface.kt`.
 * Because `api.mustache` is the same mustache filename as used in your target generator (`kotlin` in this example), we support the following:
   - The destination filename provides a suffix for the generated output. APIs generate per tag in your specification. So, a tag of `Equipment` will output a corresponding `EquipmentImpl.kt`. This option will be used whether `api.mustache` targets a user customized template or a built-in template.
-  - The built-in template will be used if you haven't provided an customized template. The kotlin generator defines the suffix as simply `.kt`, so this scenario would modify only the generated file suffixes according to the previous bullet point.
+  - The built-in template will be used if you haven't provided a customized template. The kotlin generator defines the suffix as simply `.kt`, so this scenario would modify only the generated file suffixes according to the previous bullet point.
   - Your `api.mustache` will be used if it exists in your custom template directory. For generators with library options, such as `jvm-okhttp3` in the kotlin generator, your file must exist in the same relative location as the embedded template. For kotlin using the `jvm-okhttp3` library option, this file would need to be located at `my_custom_templates/libraries/jvm-okhttp/api.mustache`. See [templating](./templating.md) for more details.
 * Compile `my_custom_templates/other/check.mustache` with the supporting files bundle, and output to `scripts/check.sh` in your output directory. Note that we don't currently support setting file flags on output, so scripts such as these will either have to be sourced rather than executed, or have file flags set separately after generation (external to our tooling).
 
@@ -169,7 +169,7 @@ If you publish your artifact to a distant maven repository, do not forget to add
 
 You may not want to generate *all* models in your project. Likewise, you may want just one or two apis to be written.  If that's the case, you can use system properties or [global properties](./global-properties.md) to control the output.
 
-The default is generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
+The default is to generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
 
 ```sh
 # generate only models
@@ -397,7 +397,7 @@ or
 
 ## Schema Mapping
 
-One can map the schema to someting else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
+One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
 ```
@@ -438,7 +438,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
 ```
---inline-schema-name-defaults arrayItemSuffix=_array_item
+--inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
+Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
