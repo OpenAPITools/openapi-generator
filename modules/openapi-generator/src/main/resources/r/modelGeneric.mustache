@@ -54,11 +54,11 @@
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
         {{^isContainer}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
         }
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         {{#isInteger}}
         if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
           stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
@@ -126,11 +126,11 @@
       {{#optionalVars}}
       if (!is.null(`{{name}}`)) {
         {{^isContainer}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
         }
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         {{#isInteger}}
         if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
           stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
@@ -275,11 +275,11 @@
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
         }
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         {{#isUri}}
         # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
         if (!stringr::str_detect(this_object$`{{baseName}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
@@ -407,11 +407,11 @@
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
-      {{#isEnum}}
+      {{#isEnumOrRef}}
       if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
         stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
       }
-      {{/isEnum}}
+      {{/isEnumOrRef}}
       {{#isUri}}
       # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
       if (!stringr::str_detect(this_object$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
