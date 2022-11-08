@@ -12,7 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
-    "reflect"
+	"reflect"
 	"time"
 )
 
@@ -330,14 +330,14 @@ func (v *NullableTime) UnmarshalJSON(src []byte) error {
 
 // isNil checks if an input is nil
 func isNil(i interface{}) bool {
-    if i == nil {
-        return true
-    }
-    switch reflect.TypeOf(i).Kind() {
-    case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.UnsafePointer, reflect.Interface, reflect.Slice:
-        return reflect.ValueOf(i).IsNil()
-    case reflect.Array:
-        return reflect.ValueOf(i).IsZero()
-    }
-    return false
+	if i == nil {
+		return true
+	}
+	switch reflect.TypeOf(i).Kind() {
+	case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.UnsafePointer, reflect.Interface, reflect.Slice:
+		return reflect.ValueOf(i).IsNil()
+	case reflect.Array:
+		return reflect.ValueOf(i).IsZero()
+	}
+	return false
 }

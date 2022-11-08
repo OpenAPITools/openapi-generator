@@ -55,7 +55,7 @@ func (o *AppleReq) GetCultivar() string {
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Cultivar, true
 }

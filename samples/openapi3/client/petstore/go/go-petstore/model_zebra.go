@@ -87,7 +87,7 @@ func (o *Zebra) GetClassName() string {
 // and a boolean to check if the value has been set.
 func (o *Zebra) GetClassNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.ClassName, true
 }
