@@ -45,6 +45,7 @@ public class InlineModelResolver {
     private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
+    public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
@@ -73,6 +74,11 @@ public class InlineModelResolver {
 
     public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
         this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
+
+        if ("true".equalsIgnoreCase(
+                this.inlineSchemaNameDefaults.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
+            this.skipSchemaReuse = true;
+        }
     }
 
     void flatten(OpenAPI openAPI) {
@@ -638,6 +644,10 @@ public class InlineModelResolver {
     }
 
     private String matchGenerated(Schema model) {
+        if (skipSchemaReuse) { // skip reusing schema
+            return null;
+        }
+
         try {
             String json = structureMapper.writeValueAsString(model);
             if (generatedSignature.containsKey(json)) {
