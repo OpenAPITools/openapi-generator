@@ -4,6 +4,11 @@
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
+{{^discriminator}}
+{{#oneOf}}
+use super::{{{.}}};
+{{/oneOf}}
+{{/discriminator}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
@@ -59,11 +64,22 @@ pub enum {{{classname}}} {
 {{/vendorExtensions}}
 }
 
+impl Default for {{classname}} {
+    fn default() -> Self {
+        {{#vendorExtensions}}{{#x-mapped-models}}{{#-first}}Self::{{modelName}} {
+        {{#vars}}
+            {{{name}}}: Default::default(),
+        {{/vars}}
+        }{{/-first}}{{/x-mapped-models}}{{/vendorExtensions}}
+    }
+}
+
 {{/discriminator}}
 
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
+{{#oneOf.isEmpty}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
@@ -87,6 +103,26 @@ impl {{{classname}}} {
         }
     }
 }
+{{/oneOf.isEmpty}}
+{{^oneOf.isEmpty}}
+{{! TODO: add other vars that are not part of the oneOf}}
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{classname}} {
+    {{#oneOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{.}}}(Box<{{{.}}}>),
+    {{/oneOf}}
+}
+
+impl Default for {{classname}} {
+    fn default() -> Self {
+        {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::new({{{.}}}::default())){{/-first}}{{/oneOf}}
+    }
+}
+{{/oneOf.isEmpty}}
 {{/discriminator}}
 {{/isEnum}}
 

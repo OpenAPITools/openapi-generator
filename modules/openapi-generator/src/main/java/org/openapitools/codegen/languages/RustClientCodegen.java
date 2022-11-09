@@ -108,6 +108,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf
+                )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
@@ -237,9 +240,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         // TODO: deleting the variable from the array was
                         // problematic; I don't know what this is supposed to do
                         // so I'm just cloning it for the moment
-                        List<CodegenProperty> vars = new ArrayList<>(model.getVars());
-                        vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
-                        mas.put("vars", vars);
+                        if (model != null) {
+                            List<CodegenProperty> vars = new ArrayList<>(model.getVars());
+                            vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
+                            mas.put("vars", vars);
+                        } else {
+                            mas.put("vars", new ArrayList<>());
+                        }
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
