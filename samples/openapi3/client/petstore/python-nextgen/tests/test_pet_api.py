@@ -140,11 +140,8 @@ class PetApiTests(unittest.TestCase):
     def test_separate_default_config_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
-        self.assertNotEqual(pet_api.api_client.configuration, pet_api2.api_client.configuration)
-
-        pet_api.api_client.configuration.host = 'somehost'
-        pet_api2.api_client.configuration.host = 'someotherhost'
-        self.assertNotEqual(pet_api.api_client.configuration.host, pet_api2.api_client.configuration.host)
+        #self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
+        self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
     def test_async_request(self):
         thread = self.pet_api.add_pet(self.pet, async_req=True)

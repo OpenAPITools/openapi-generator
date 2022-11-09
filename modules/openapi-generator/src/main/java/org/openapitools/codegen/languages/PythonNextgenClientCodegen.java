@@ -519,6 +519,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> datetimeImports,
                                    Set<String> modelImports) {
         /* comment out the following since Literal requires python 3.8
+           also need to put cp.isEnum check after isArray, isMap check
         if (cp.isEnum) {
             // use Literal for inline enum
             typingImports.add("Literal");

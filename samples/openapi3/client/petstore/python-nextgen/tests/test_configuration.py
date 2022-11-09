@@ -29,6 +29,7 @@ class TestConfiguration(unittest.TestCase):
         # check that different instances use different dictionaries
         c1 = petstore_api.Configuration()
         c2 = petstore_api.Configuration()
+        self.assertNotEqual(id(c1), id(c2))
         self.assertNotEqual(id(c1.api_key), id(c2.api_key))
         self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
 
@@ -43,9 +44,15 @@ class TestConfiguration(unittest.TestCase):
         self.assertEqual(c2.host, "example.com")
         self.assertTrue(c2.debug)
 
-        self.assertNotEqual(id(c1.api_key), id(c2.api_key))
-        self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
+        self.assertEqual(id(c1), id(c2))
+        self.assertEqual(id(c1.api_key), id(c2.api_key))
+        self.assertEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
 
+    def testApiClientDefaultConfiguration(self):
+        # ensure the default configuration is the same
+        p1 = petstore_api.PetApi()
+        p2 = petstore_api.PetApi()
+        self.assertEqual(id(p1.api_client.configuration), id(p2.api_client.configuration))
 
 if __name__ == '__main__':
     unittest.main()
