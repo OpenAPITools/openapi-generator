@@ -1904,6 +1904,8 @@ components:
       required:
         - value
       properties:
+        str_value:
+          $ref: '#/components/schemas/OuterEnum'
         value:
           $ref: '#/components/schemas/OuterEnumInteger'
     DeprecatedObject:

@@ -190,3 +190,16 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(l2.var_123_list, 'bulldog')
 
         self.assertTrue(isinstance(l2, petstore_api.List))
+
+    def test_enum_ref_property(self):
+        # test enum ref property
+        # test to_json
+        d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
+        self.assertEqual(d.to_json(), '{"value": 1}')
+        d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
+        self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
+        # test from_json (round trip)
+        d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
+        self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
+        self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
+        self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')

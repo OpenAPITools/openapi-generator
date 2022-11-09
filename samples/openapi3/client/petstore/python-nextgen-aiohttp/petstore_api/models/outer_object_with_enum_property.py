@@ -17,9 +17,9 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Optional
 from pydantic import BaseModel
-from petstore_api.models import OuterEnumInteger
+from petstore_api.models import OuterEnum, OuterEnumInteger
 from pydantic import ValidationError
 
 class OuterObjectWithEnumProperty(BaseModel):
@@ -28,6 +28,7 @@ class OuterObjectWithEnumProperty(BaseModel):
 
     Do not edit the class manually.
     """
+    str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger = ...
 
     class Config:
@@ -60,6 +61,7 @@ class OuterObjectWithEnumProperty(BaseModel):
             return OuterObjectWithEnumProperty.parse_obj(obj)
 
         return OuterObjectWithEnumProperty.parse_obj({
+            "str_value": obj.get("str_value"),
             "value": obj.get("value")
         })
 

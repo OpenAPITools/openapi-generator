@@ -930,6 +930,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 modelImports.add(model.parent);
             }
 
+            // set enum type in extensions
+            if (model.isEnum) {
+                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
+                    if ((Boolean)enumVars.get("isString")) {
+                        model.vendorExtensions.put("x-py-enum-type", "str");
+                    } else {
+                        model.vendorExtensions.put("x-py-enum-type", "int");
+                    }
+                    break;
+                }
+            }
+
             // set the extensions if the key is absent
             model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
