@@ -36,12 +36,6 @@ class TestObjectModelWithArgAndArgsProperties(unittest.TestCase):
         self.assertTrue(isinstance(model["arg"], schemas.StrSchema))
         self.assertTrue(isinstance(model["args"], schemas.StrSchema))
 
-        # error thrown on length < 1
-        with self.assertRaises(exceptions.ApiValueError):
-            ObjectModelWithArgAndArgsProperties(arg='a', args='')
-        with self.assertRaises(exceptions.ApiValueError):
-            ObjectModelWithArgAndArgsProperties(arg='', args='as')
-
 
 if __name__ == '__main__':
     unittest.main()
