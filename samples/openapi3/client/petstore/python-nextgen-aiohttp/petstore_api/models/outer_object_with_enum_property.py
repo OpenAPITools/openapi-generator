@@ -50,9 +50,6 @@ class OuterObjectWithEnumProperty(BaseModel):
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of value
-        if self.value:
-            _dict['value'] = self.value.to_dict()
 
         return _dict
 
@@ -63,7 +60,7 @@ class OuterObjectWithEnumProperty(BaseModel):
             return OuterObjectWithEnumProperty.parse_obj(obj)
 
         return OuterObjectWithEnumProperty.parse_obj({
-            "value": OuterEnumInteger.from_dict(obj.get("value"))
+            "value": obj.get("value")
         })
 
 

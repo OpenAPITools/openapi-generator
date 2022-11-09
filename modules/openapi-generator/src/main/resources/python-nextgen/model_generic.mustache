@@ -68,6 +68,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isContainer}}
         {{#isArray}}
         {{^items.isPrimitiveType}}
+        {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
         _items = []
         if self.{{{name}}}:
@@ -75,10 +76,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                 if _item:
                     _items.append(_item.to_dict())
             _dict['{{{baseName}}}'] = _items
+        {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/isArray}}
         {{#isMap}}
         {{^items.isPrimitiveType}}
+        {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
         _field_dict = {}
         if self.{{{name}}}:
@@ -86,14 +89,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                 if self.{{{name}}}[_key]:
                     _field_dict[_key] = self.{{{name}}}[_key].to_dict()
             _dict['{{{baseName}}}'] = _field_dict
+        {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
         {{^isPrimitiveType}}
+        {{^isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of {{{name}}}
         if self.{{{name}}}:
             _dict['{{{baseName}}}'] = self.{{{name}}}.to_dict()
+        {{/isEnumOrRef}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{/allVars}}
@@ -123,12 +129,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#isContainer}}
             {{#isArray}}
             {{^items.isPrimitiveType}}
-            {{#items.isEnum}}
+            {{#items.isEnumOrRef}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.isEnum}}
-            {{^items.isEnum}}
+            {{/items.isEnumOrRef}}
+            {{^items.isEnumOrRef}}
             "{{{name}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj.get("{{{baseName}}}")]{{^-last}},{{/-last}}
-            {{/items.isEnum}}
+            {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -136,12 +142,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/isArray}}
             {{#isMap}}
             {{^items.isPrimitiveType}}
-            {{^items.isEnum}}
+            {{^items.isEnumOrRef}}
             "{{{name}}}": dict((_k, {{{dataType}}}.from_dict(_v)) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
-            {{/items.isEnum}}
-            {{#items.isEnum}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.isEnum}}
+            {{/items.isEnumOrRef}}
+            {{#items.isEnumOrRef}}
+            "{{{name}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -150,12 +156,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
-            {{^isEnum}}
+            {{^isEnumOrRef}}
             "{{{name}}}": {{{dataType}}}.from_dict(obj.get("{{{baseName}}}")){{^-last}},{{/-last}}
-            {{/isEnum}}
-            {{#isEnum}}
+            {{/isEnumOrRef}}
+            {{#isEnumOrRef}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/isEnum}}
+            {{/isEnumOrRef}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
             {{#defaultValue}}

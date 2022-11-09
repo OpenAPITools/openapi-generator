@@ -18,8 +18,8 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr
-
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from petstore_api.models import OuterEnum, OuterEnumDefaultValue, OuterEnumInteger, OuterEnumIntegerDefaultValue
 from pydantic import ValidationError
 
 class EnumTest(BaseModel):
@@ -32,6 +32,10 @@ class EnumTest(BaseModel):
     enum_string_required: StrictStr = ...
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[StrictFloat] = None
+    outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
+    outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
 
     class Config:
         allow_population_by_field_name = True
@@ -66,7 +70,11 @@ class EnumTest(BaseModel):
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),
             "enum_integer": obj.get("enum_integer"),
-            "enum_number": obj.get("enum_number")
+            "enum_number": obj.get("enum_number"),
+            "outer_enum": obj.get("outerEnum"),
+            "outer_enum_integer": obj.get("outerEnumInteger"),
+            "outer_enum_default_value": obj.get("outerEnumDefaultValue"),
+            "outer_enum_integer_default_value": obj.get("outerEnumIntegerDefaultValue")
         })
 
 
