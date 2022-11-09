@@ -18,7 +18,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from petstore_api.models import Category, Tag
 from pydantic import ValidationError
 
@@ -34,6 +34,11 @@ class Pet(BaseModel):
     photo_urls: List[StrictStr] = Field(..., alias="photoUrls", unique_items=True)
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")
+    @validator('status')
+    def status_validate_enum(cls, v):
+        if v not in ('available', 'pending', 'sold'):
+            raise ValueError("must validate the enum values ('available', 'pending', 'sold')")
+        return v
 
     class Config:
         allow_population_by_field_name = True

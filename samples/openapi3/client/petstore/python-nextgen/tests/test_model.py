@@ -217,3 +217,12 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
         a.pattern_with_digits_and_delimiter = "image_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
+
+    def test_inline_enum_validator(self):
+        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet.id = 1
+        try:
+            self.pet.status = "error"
+            self.assertTrue(False) # this line shouldn't execute
+        except ValueError as e:
+            self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))

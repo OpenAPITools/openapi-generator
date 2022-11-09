@@ -18,7 +18,7 @@ import json
 
 
 from typing import Dict, Optional
-from pydantic import BaseModel, StrictBool, StrictStr
+from pydantic import BaseModel, StrictBool, StrictStr, validator
 
 from pydantic import ValidationError
 
@@ -32,6 +32,11 @@ class MapTest(BaseModel):
     map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
+    @validator('map_of_enum_string')
+    def map_of_enum_string_validate_enum(cls, v):
+        if v not in ('UPPER', 'lower'):
+            raise ValueError("must validate the enum values ('UPPER', 'lower')")
+        return v
 
     class Config:
         allow_population_by_field_name = True

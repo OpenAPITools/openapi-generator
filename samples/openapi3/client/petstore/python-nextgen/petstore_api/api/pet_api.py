@@ -17,7 +17,7 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictInt, StrictStr, validator
 
 from typing import List, Optional
 

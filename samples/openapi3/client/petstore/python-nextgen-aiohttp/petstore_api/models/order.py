@@ -18,7 +18,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
 
 from pydantic import ValidationError
 
@@ -34,6 +34,11 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(None, alias="shipDate")
     status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
+    @validator('status')
+    def status_validate_enum(cls, v):
+        if v not in ('placed', 'approved', 'delivered'):
+            raise ValueError("must validate the enum values ('placed', 'approved', 'delivered')")
+        return v
 
     class Config:
         allow_population_by_field_name = True

@@ -18,7 +18,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, validator
 
 from pydantic import ValidationError
 
@@ -30,6 +30,16 @@ class EnumArrays(BaseModel):
     """
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[List[StrictStr]] = None
+    @validator('just_symbol')
+    def just_symbol_validate_enum(cls, v):
+        if v not in ('>=', '$'):
+            raise ValueError("must validate the enum values ('>=', '$')")
+        return v
+    @validator('array_enum')
+    def array_enum_validate_enum(cls, v):
+        if v not in ('fish', 'crab'):
+            raise ValueError("must validate the enum values ('fish', 'crab')")
+        return v
 
     class Config:
         allow_population_by_field_name = True
