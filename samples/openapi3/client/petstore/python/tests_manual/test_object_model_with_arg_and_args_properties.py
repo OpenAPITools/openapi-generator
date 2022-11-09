@@ -15,22 +15,22 @@ from petstore_api import schemas, exceptions
 from petstore_api.model.object_model_with_arg_and_args_properties import ObjectModelWithArgAndArgsProperties
 
 
-class TestObjectWithInlineCompositionProperty(unittest.TestCase):
-    """ObjectWithInlineCompositionProperty unit test stubs"""
+class TestObjectModelWithArgAndArgsProperties(unittest.TestCase):
+    """ObjectModelWithArgAndArgsProperties unit test stubs"""
 
     def test_ObjectModelWithArgAndArgsProperties(self):
-        """Test ObjectWithInlineCompositionProperty"""
+        """Test ObjectModelWithArgAndArgsProperties"""
         model = ObjectModelWithArgAndArgsProperties(arg='a', args='as')
         self.assertTrue(
             isinstance(
                 model["arg"],
-                ObjectModelWithArgAndArgsProperties.MetaOapg.properties.arg
+                ObjectModelWithArgAndArgsProperties.MetaOapg.additional_properties
             )
         )
         self.assertTrue(
             isinstance(
                 model["args"],
-                ObjectModelWithArgAndArgsProperties.MetaOapg.properties.args
+                ObjectModelWithArgAndArgsProperties.MetaOapg.additional_properties
             )
         )
         self.assertTrue(isinstance(model["arg"], schemas.StrSchema))
