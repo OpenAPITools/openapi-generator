@@ -1,3 +1,4 @@
+.github/workflows/python.yml
 .gitignore
 .gitlab-ci.yml
 .travis.yml
