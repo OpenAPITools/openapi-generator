@@ -83,7 +83,7 @@ class ObjectWithDecimalProperties(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         length: typing.Union[MetaOapg.properties.length, str, schemas.Unset] = schemas.unset,
         width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
@@ -92,7 +92,7 @@ class ObjectWithDecimalProperties(
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             length=length,
             width=width,
             cost=cost,

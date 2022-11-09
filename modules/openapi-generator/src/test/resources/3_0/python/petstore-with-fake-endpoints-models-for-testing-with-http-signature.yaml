@@ -2032,6 +2032,16 @@ components:
         - (xyz)
         - COUNT_1M
         - COUNT_50M
+    ObjectModelWithArgAndArgsProperties:
+      type: object
+      properties:
+        arg:
+          type: string
+        args:
+          type: string
+      required:
+      - arg
+      - args
     Enum_Test:
       type: object
       required:
