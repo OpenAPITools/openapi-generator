@@ -59,12 +59,7 @@ class TestPetApiTests(unittest.TestCase):
     def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
-        self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
-
-        pet_api.api_client.user_agent = 'api client 3'
-        pet_api2.api_client.user_agent = 'api client 4'
-
-        self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
+        self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
 
     def test_separate_default_config_instances(self):
         pet_api = petstore_api.PetApi()

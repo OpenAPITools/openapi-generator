@@ -127,20 +127,12 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=5)
         self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
-    def test_separate_default_client_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
-        self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
-
-        pet_api.api_client.user_agent = 'api client 3'
-        pet_api2.api_client.user_agent = 'api client 4'
-
-        self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
-
     def test_separate_default_config_instances(self):
+        # ensure the default api client is used
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
-        #self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
+        self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
+        # ensure the default configuration is used
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
     def test_async_request(self):
