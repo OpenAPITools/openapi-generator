@@ -86,7 +86,7 @@
 #'
 #' library({{{packageName}}})
 {{#allParams}}
-#' var_{{{paramName}}} <- {{{example}}} # {{{dataType}}} | {{{description}}}
+#' var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 #'
 {{#summary}}
@@ -386,7 +386,7 @@
       # check if items are unique
       if (!identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
         {{#useDefaultExceptionHandling}}
-        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unqiue.")
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unique.")
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
         rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique.",
@@ -621,11 +621,11 @@
         {{#returnType}}
         {{#isPrimitiveType}}
         local_var_content <- local_var_resp$response
-            local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+          local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE
         )
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_content, data_file)
+          write(local_var_content, data_file)
         }
 
         ApiResponse$new(content,resp)
@@ -633,20 +633,20 @@
         {{^isPrimitiveType}}
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e) {
-           {{#useDefaultExceptionHandling}}
-             stop("Failed to deserialize response")
-           {{/useDefaultExceptionHandling}}
-           {{#useRlangExceptionHandling}}
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
-           {{/useRlangExceptionHandling}}
+            {{#useDefaultExceptionHandling}}
+            stop("Failed to deserialize response")
+            {{/useDefaultExceptionHandling}}
+            {{#useRlangExceptionHandling}}
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
+            {{/useRlangExceptionHandling}}
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -671,12 +671,12 @@
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
-      {{/returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-      {{#returnExceptionOnFailure}}
+        {{#returnExceptionOnFailure}}
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
@@ -689,12 +689,12 @@
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
         ApiResponse$new("API client error", local_var_resp)
-      {{/returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-      {{#returnExceptionOnFailure}}
+        {{#returnExceptionOnFailure}}
         local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
@@ -707,13 +707,13 @@
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
         local_var_resp
-      {{/returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
       }
     }{{^-last}},{{/-last}}
     {{/operation}}

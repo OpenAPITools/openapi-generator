@@ -17,8 +17,12 @@
   "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+{{#supportsES6}}
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+{{/supportsES6}}
   "scripts": {
-    "build": "tsc --outDir dist/",
+    "build": "tsc {{#supportsES6}}&& tsc -p tsconfig.esm.json{{/supportsES6}}",
     "prepare": "npm run build"
   },
   "dependencies": {

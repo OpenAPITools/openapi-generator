@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -38,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -128,7 +127,6 @@ public class SomeObj {
    * @return $type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public TypeEnum get$Type() {
     return $type;
@@ -151,7 +149,6 @@ public class SomeObj {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -174,7 +171,6 @@ public class SomeObj {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;
@@ -197,7 +193,6 @@ public class SomeObj {
    * @return active
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getActive() {
     return active;
@@ -220,7 +215,6 @@ public class SomeObj {
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getType() {
     return type;
@@ -303,9 +297,7 @@ public class SomeObj {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (SomeObj.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!SomeObj.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in SomeObj is not found in the empty JSON string", SomeObj.openapiRequiredFields.toString()));
         }
       }

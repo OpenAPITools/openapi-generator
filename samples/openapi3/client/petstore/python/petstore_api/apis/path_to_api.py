@@ -34,7 +34,7 @@ from petstore_api.apis.paths.fake_body_with_query_params import FakeBodyWithQuer
 from petstore_api.apis.paths.another_fake_dummy import AnotherFakeDummy
 from petstore_api.apis.paths.fake_body_with_file_schema import FakeBodyWithFileSchema
 from petstore_api.apis.paths.fake_case_sensitive_params import FakeCaseSensitiveParams
-from petstore_api.apis.paths.fake_test_query_paramters import FakeTestQueryParamters
+from petstore_api.apis.paths.fake_test_query_parameters import FakeTestQueryParameters
 from petstore_api.apis.paths.fake_pet_id_upload_image_with_required_file import FakePetIdUploadImageWithRequiredFile
 from petstore_api.apis.paths.fake_parameter_collisions_1_a_b_ab_self_a_b_ import FakeParameterCollisions1ABAbSelfAB
 from petstore_api.apis.paths.fake_upload_file import FakeUploadFile
@@ -48,6 +48,7 @@ from petstore_api.apis.paths.fake_json_with_charset import FakeJsonWithCharset
 from petstore_api.apis.paths.fake_response_without_schema import FakeResponseWithoutSchema
 from petstore_api.apis.paths.fake_json_patch import FakeJsonPatch
 from petstore_api.apis.paths.fake_delete_coffee_id import FakeDeleteCoffeeId
+from petstore_api.apis.paths.fake_query_param_with_json_content_type import FakeQueryParamWithJsonContentType
 
 PathToApi = typing_extensions.TypedDict(
     'PathToApi',
@@ -85,7 +86,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.ANOTHERFAKE_DUMMY: AnotherFakeDummy,
         PathValues.FAKE_BODYWITHFILESCHEMA: FakeBodyWithFileSchema,
         PathValues.FAKE_CASESENSITIVEPARAMS: FakeCaseSensitiveParams,
-        PathValues.FAKE_TESTQUERYPARAMTERS: FakeTestQueryParamters,
+        PathValues.FAKE_TESTQUERYPARAMETERS: FakeTestQueryParameters,
         PathValues.FAKE_PET_ID_UPLOAD_IMAGE_WITH_REQUIRED_FILE: FakePetIdUploadImageWithRequiredFile,
         PathValues.FAKE_PARAMETER_COLLISIONS_1_A_B_AB_SELF_AB_: FakeParameterCollisions1ABAbSelfAB,
         PathValues.FAKE_UPLOAD_FILE: FakeUploadFile,
@@ -99,6 +100,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
         PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
+        PathValues.FAKE_QUERY_PARAM_WITH_JSON_CONTENT_TYPE: FakeQueryParamWithJsonContentType,
     }
 )
 
@@ -137,7 +139,7 @@ path_to_api = PathToApi(
         PathValues.ANOTHERFAKE_DUMMY: AnotherFakeDummy,
         PathValues.FAKE_BODYWITHFILESCHEMA: FakeBodyWithFileSchema,
         PathValues.FAKE_CASESENSITIVEPARAMS: FakeCaseSensitiveParams,
-        PathValues.FAKE_TESTQUERYPARAMTERS: FakeTestQueryParamters,
+        PathValues.FAKE_TESTQUERYPARAMETERS: FakeTestQueryParameters,
         PathValues.FAKE_PET_ID_UPLOAD_IMAGE_WITH_REQUIRED_FILE: FakePetIdUploadImageWithRequiredFile,
         PathValues.FAKE_PARAMETER_COLLISIONS_1_A_B_AB_SELF_AB_: FakeParameterCollisions1ABAbSelfAB,
         PathValues.FAKE_UPLOAD_FILE: FakeUploadFile,
@@ -151,5 +153,6 @@ path_to_api = PathToApi(
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
         PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
+        PathValues.FAKE_QUERY_PARAM_WITH_JSON_CONTENT_TYPE: FakeQueryParamWithJsonContentType,
     }
 )

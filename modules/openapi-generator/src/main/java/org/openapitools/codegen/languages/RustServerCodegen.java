@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import joptsimple.internal.Strings;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -46,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -60,8 +62,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private Map<String, String> modelXmlNames = new HashMap<String, String>();
-
-    private static final String NO_FORMAT = "%%NO_FORMAT";
 
     protected String apiVersion = "1.0.0";
     protected String serverHost = "localhost";
@@ -389,17 +389,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String toApiDocFilename(String name) {
         return toApiName(name) + "_api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     private boolean isMimetypeXml(String mimetype) {
@@ -1286,53 +1275,49 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 int position = property.dataType.lastIndexOf(":");
                 property.dataType = property.dataType.substring(0, position) + camelize(property.dataType.substring(position));
             } else {
-                property.dataType = camelize(property.dataType, false);
+                property.dataType = camelize(property.dataType);
             }
             property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
         } else {
             property.isPrimitiveType = true;
         }
 
-        if ("integer".equals(property.baseType)) {
-            // custom integer formats (legacy)
-            if ("uint32".equals(property.dataFormat)) {
-                property.dataType = "u32";
-            } else if ("uint64".equals(property.dataFormat)) {
-                property.dataType = "u64";
+        // Integer type fitting
+        if (Objects.equals(property.baseType, "integer")) {
 
+            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
+            BigInteger maximum =  Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+
+            boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
+
+            if (Strings.isNullOrEmpty(property.dataFormat)) {
+                property.dataType = bestFittingIntegerType(minimum,
+                        property.getExclusiveMinimum(),
+                        maximum,
+                        property.getExclusiveMaximum(),
+                        true);
             } else {
-                // match int type to schema constraints
-                Long inclusiveMinimum = property.minimum != null ? Long.parseLong(property.minimum) : null;
-                if (inclusiveMinimum != null && property.exclusiveMinimum) {
-                    inclusiveMinimum++;
-                }
-
-                // a signed int is required unless a minimum greater than zero is set
-                boolean unsigned = inclusiveMinimum != null && inclusiveMinimum >= 0;
-
-                Long inclusiveMaximum = property.maximum != null ? Long.parseLong(property.maximum) : null;
-                if (inclusiveMaximum != null && property.exclusiveMaximum) {
-                    inclusiveMaximum--;
-                }
-
-                switch (property.dataFormat == null ? NO_FORMAT : property.dataFormat) {
-                    // standard swagger formats
+                switch (property.dataFormat) {
+                    // custom integer formats (legacy)
+                    case "uint32":
+                        property.dataType = "u32";
+                        break;
+                    case "uint64":
+                        property.dataType = "u64";
+                        break;
                     case "int32":
                         property.dataType = unsigned ? "u32" : "i32";
                         break;
-
                     case "int64":
                         property.dataType = unsigned ? "u64" : "i64";
                         break;
-
-                    case NO_FORMAT:
-                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
-                        break;
-
                     default:
-                        // unknown format
                         LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                        property.dataType = bestFittingIntegerType(minimum,
+                                property.getExclusiveMinimum(),
+                                maximum,
+                                property.getExclusiveMaximum(),
+                                true);
                 }
             }
         }
@@ -1353,46 +1338,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             property.dataType = "serde_json::Value";
             property.isNullable = false;
         }
-    }
-
-    private long requiredBits(Long bound, boolean unsigned) {
-        if (bound == null) return 0;
-
-        if (unsigned) {
-            if (bound < 0) {
-                throw new RuntimeException("Unsigned bound is negative: " + bound);
-            }
-            return 65L - Long.numberOfLeadingZeros(bound >> 1);
-        }
-
-        return 65L - Long.numberOfLeadingZeros(
-                // signed bounds go from (-n) to (n - 1), i.e. i8 goes from -128 to 127
-                bound < 0 ? Math.abs(bound) - 1 : bound);
-    }
-
-    private String matchingIntType(boolean unsigned, Long inclusiveMin, Long inclusiveMax) {
-        long requiredMinBits = requiredBits(inclusiveMin, unsigned);
-        long requiredMaxBits = requiredBits(inclusiveMax, unsigned);
-        long requiredBits = Math.max(requiredMinBits, requiredMaxBits);
-
-        if (requiredMaxBits == 0 && requiredMinBits <= 16) {
-            // rust 'size' types are arch-specific and thus somewhat loose
-            // so they are used when no format or maximum are specified
-            // and as long as minimum stays within plausible smallest ptr size (16 bits)
-            // this way all rust types are obtainable without defining custom formats
-            // this behavior (default int size) could also follow a generator flag
-            return unsigned ? "usize" : "isize";
-
-        } else if (requiredBits <= 8) {
-            return unsigned ? "u8" : "i8";
-
-        } else if (requiredBits <= 16) {
-            return unsigned ? "u16" : "i16";
-
-        } else if (requiredBits <= 32) {
-            return unsigned ? "u32" : "i32";
-        }
-        return unsigned ? "u64" : "i64";
     }
 
     @Override
@@ -1577,9 +1522,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             updatePropertyForMap(property, p);
         }
     }
-
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 
     @Override
     protected String getParameterDataType(Parameter parameter, Schema schema) {

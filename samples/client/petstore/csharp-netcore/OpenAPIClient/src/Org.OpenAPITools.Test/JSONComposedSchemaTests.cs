@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test additonal properties
+        /// Test additional properties
         /// </summary>
         [Fact]
         public void TestAdditionalProperties()

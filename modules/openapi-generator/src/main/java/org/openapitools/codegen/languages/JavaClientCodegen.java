@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -134,6 +135,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.rootPackage = rootPackage;
             this.pomTemplate = pomTemplate;
         }
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SOURCE;
+    }
+
+    @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        List<DocumentationProvider> documentationProviders = new ArrayList<>();
+        documentationProviders.add(DocumentationProvider.NONE);
+        documentationProviders.add(DocumentationProvider.SOURCE);
+        return documentationProviders;
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        List<AnnotationLibrary> annotationLibraries = new ArrayList<>();
+        annotationLibraries.add(AnnotationLibrary.NONE);
+        annotationLibraries.add(AnnotationLibrary.SWAGGER1);
+        return annotationLibraries;
     }
 
     public JavaClientCodegen() {
@@ -693,7 +715,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         super.postProcessOperationsWithModels(objs, allModels);
 
         if (useSingleRequestParameter && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
-            // loop through operations to set x-group-parameters extenion to true if useSingleRequestParameter option is enabled
+            // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
@@ -762,7 +784,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 for (int i = 0; i < items.length; ++i) {
                     if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                         // camelize path variable
-                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), LOWERCASE_FIRST_LETTER) + "}";
                     }
                 }
                 op.path = StringUtils.join(items, "/");
@@ -885,6 +907,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 codegenModel.imports.remove("ApiModel");
             }
         }
+
+        // TODO: inverse logic. Do not add the imports unconditionally in the first place.
+        if (! AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+            // Remove io.swagger.annotations.* imports
+            codegenModel.imports.remove("ApiModel");
+            codegenModel.imports.remove("ApiModelProperty");
+        }
+
         return codegenModel;
     }
 
@@ -918,18 +948,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             List<Map<String, String>> imports = objs.getImports();
             for (ModelMap mo : models) {
                 CodegenModel cm = mo.getModel();
-                boolean addImports = false;
+                boolean addNullableImports = false;
 
                 for (CodegenProperty var : cm.vars) {
-                    if (this.openApiNullable) {
-                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                        // only add JsonNullable and related imports to optional and nullable values
-                        addImports |= isOptionalNullable;
-                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
-                        findByName(var.name, cm.readOnlyVars)
-                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
-                    }
-
+                    addNullableImports = isAddNullableImports(cm, addNullableImports, var);
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
                         var.datatypeWithEnum = var.dataType;
@@ -956,17 +978,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                 }
 
-                if (addImports) {
+                if (addNullableImports) {
                     Map<String, String> imports2Classnames = new HashMap<>();
                     imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
                     imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-                    for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
-                        cm.imports.add(entry.getKey());
-                        Map<String, String> importsItem = new HashMap<>();
-                        importsItem.put("import", entry.getValue());
-                        imports.add(importsItem);
-                    }
+                    addImports(imports, cm, imports2Classnames);
                 }
             }
         }

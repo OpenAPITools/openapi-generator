@@ -90,7 +90,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
     protected static Schema falseSchema;
@@ -161,9 +161,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
-    // a map to store the mappping between a schema and the new one
+    // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
-    // a map to store the mappping between inline schema and the name provided by the user
+    // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
@@ -2761,7 +2761,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * A method that allows generators to pre-process test example payloads
-     * This can be useful if one needs to change how values like null in string are represnted
+     * This can be useful if one needs to change how values like null in string are represented
      * @param data the test data payload
      * @return the updated test data payload
      */
@@ -3715,7 +3715,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.openApiType = p.getType();
         }
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = camelize(property.name);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -3798,6 +3798,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property.isEnumRef = true;
+
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
@@ -3868,7 +3870,6 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForAnyType(property, p);
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
-            ;
         }
         if (p.get$ref() != null) {
             property.setRef(p.get$ref());
@@ -5626,7 +5627,7 @@ public class DefaultCodegen implements CodegenConfig {
                     continue;
                 }
                 cm.hasOptional = cm.hasOptional || !cp.required;
-                if (cp.isEnum) {
+                if (cp.getIsEnumOrRef()) { // isEnum or isEnumRef set to true
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     cm.hasEnums = true;

@@ -43,6 +43,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -176,7 +177,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
-        // no need for import mapping as R doesn't reqiure api,model import
+        // no need for import mapping as R doesn't require api,model import
         // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
 
@@ -566,7 +567,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("PascalCase".equals(operationIdNaming)) {
             return camelize(sanitizedOperationId);
         } else if ("camelCase".equals(operationIdNaming)) {
-            return camelize(sanitizedOperationId, true);
+            return camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         } else if ("snake_case".equals(operationIdNaming)) {
             return underscore(sanitizedOperationId);
         } else {
@@ -829,15 +830,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                if (!Boolean.valueOf(p.getDefault().toString()))
                     return "FALSE";
                 else
                     return "TRUE";
             }
         } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -848,10 +853,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
+                if (Pattern.compile("\r\n|\r|\n").matcher((String.valueOf(p.getDefault()))).find())
+                    return "'''" + p.getDefault().toString() + "'''";
                 else
-                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
+                    return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -922,9 +927,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
-            return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (codegenParameter.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -943,9 +948,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         depth++;
 
         if (codegenProperty.isArray) { // array
-            return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+            return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+            return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {

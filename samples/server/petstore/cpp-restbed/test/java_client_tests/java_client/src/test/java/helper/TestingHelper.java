@@ -32,7 +32,7 @@ public class TestingHelper {
         Approvals.verify(message, removeTrailingSpaces);
     }
 
-    public static void approveResponseAsJson(Object reponseObject) {
+    public static void approveResponseAsJson(Object responseObject) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.setDateFormat(new StdDateFormat());
@@ -43,7 +43,7 @@ public class TestingHelper {
         String json = "";
 
         try {
-            json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reponseObject);
+            json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseObject);
         } catch (JsonProcessingException e) {
             json = e.toString();
         }

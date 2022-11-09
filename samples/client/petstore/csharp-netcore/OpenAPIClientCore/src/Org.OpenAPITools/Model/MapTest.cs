@@ -52,13 +52,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -79,6 +72,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets DirectMap
@@ -150,7 +149,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
                 if (this.DirectMap != null)
                 {
                     hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();

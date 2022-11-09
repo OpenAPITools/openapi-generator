@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
+  camelCaseDollarSign: "true"
