@@ -1,3 +1,6 @@
+{{#isDeprecated}}
+@available(*, deprecated, message: "Deprecated API parameter")
+{{/isDeprecated}}
 public enum {{classname}}: Codable {
     {{#oneOf}}
     case type{{.}}({{.}})

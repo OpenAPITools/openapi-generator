@@ -87,6 +87,9 @@ open class {{classname}} {
     /// - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     /// - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "Deprecated API operation")
+    {{/isDeprecated}}
     open func {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
         Deferred {
             Result<URLRequest, Error> {
