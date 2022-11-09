@@ -12,6 +12,8 @@ cmake_minimum_required (VERSION 3.1)
 
 project(CppRestPetstoreClient)
 
+option(SHARED "Compile as shared libraries" ON)
+# Force -fPIC even if the project is configured for building a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CXX_STANDARD_REQUIRED ON)
 
@@ -32,7 +34,12 @@ include(CMakePackageConfigHelpers)
 file(GLOB_RECURSE HEADER_FILES "include/*.h")
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+if (SHARED)
+    add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+else()
+    add_library(${PROJECT_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES})
+endif()
+
 
 target_compile_options(${PROJECT_NAME}
     PRIVATE
@@ -46,19 +53,20 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_directories(${PROJECT_NAME}
-    PRIVATE
-        ${Boost_LIBRARY_DIRS}
-)
-
 if (UNIX)
     message(STATUS "Building client library for Linux/Unix")
-
-    target_link_libraries(${PROJECT_NAME} PUBLIC cpprest ${Boost_LIBRARIES} crypto)
+    if (SHARED)
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
+    else()
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest crypto)
+    endif()
 else()
     message(STATUS "Building client library for Windows")
-
-    target_link_libraries(${PROJECT_NAME} PUBLIC cpprestsdk::cpprest ${Boost_LIBRARIES} bcrypt)
+    if (SHARED)
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
+    else()
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest bcrypt)
+    endif()
 endif()
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
