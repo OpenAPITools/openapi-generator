@@ -38,45 +38,58 @@ class ObjectModelWithArgAndArgsProperties(
             "args",
             "arg",
         }
-        additional_properties = schemas.StrSchema
+        
+        class properties:
+            arg = schemas.StrSchema
+            args = schemas.StrSchema
+            __annotations__ = {
+                "arg": arg,
+                "args": args,
+            }
     
-    args: MetaOapg.additional_properties
-    arg: MetaOapg.additional_properties
+    args: MetaOapg.properties.args
+    arg: MetaOapg.properties.arg
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["args"]) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: typing_extensions.Literal["arg"]) -> MetaOapg.properties.arg: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["arg"]) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: typing_extensions.Literal["args"]) -> MetaOapg.properties.args: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["args"], typing_extensions.Literal["arg"], str, ]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["arg", "args", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["args"]) -> MetaOapg.additional_properties: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["arg"]) -> MetaOapg.additional_properties: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["arg"]) -> MetaOapg.properties.arg: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["args"]) -> MetaOapg.properties.args: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["args"], typing_extensions.Literal["arg"], str, ]):
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["arg", "args", ], str]):
         return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        args: typing.Union[MetaOapg.properties.args, str, ],
+        arg: typing.Union[MetaOapg.properties.arg, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectModelWithArgAndArgsProperties':
         return super().__new__(
             cls,
             *_args,
+            args=args,
+            arg=arg,
             _configuration=_configuration,
             **kwargs,
         )

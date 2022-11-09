@@ -2034,8 +2034,11 @@ components:
         - COUNT_50M
     ObjectModelWithArgAndArgsProperties:
       type: object
-      additionalProperties:
-        type: string
+      properties:
+        arg:
+          type: string
+        args:
+          type: string
       required:
       - arg
       - args
