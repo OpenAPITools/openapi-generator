@@ -39,9 +39,6 @@ Zebra <- R6::R6Class(
         self$`className` <- `className`
       }
       if (!is.null(`type`)) {
-        if (!(`type` %in% c("plains", "mountain", "grevys"))) {
-          stop(paste("Error! \"", `type`, "\" cannot be assigned to `type`. Must be \"plains\", \"mountain\", \"grevys\".", sep = ""))
-        }
         if (!(is.character(`type`) && length(`type`) == 1)) {
           stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
         }
@@ -87,9 +84,6 @@ Zebra <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`type`)) {
-        if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("plains", "mountain", "grevys"))) {
-          stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"plains\", \"mountain\", \"grevys\".", sep = ""))
-        }
         self$`type` <- this_object$`type`
       }
       if (!is.null(this_object$`className`)) {
@@ -148,9 +142,6 @@ Zebra <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("plains", "mountain", "grevys"))) {
-        stop(paste("Error! \"", this_object$`type`, "\" cannot be assigned to `type`. Must be \"plains\", \"mountain\", \"grevys\".", sep = ""))
-      }
       self$`type` <- this_object$`type`
       self$`className` <- this_object$`className`
       # process additional properties/fields in the payload

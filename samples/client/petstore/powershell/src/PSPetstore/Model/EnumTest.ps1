@@ -35,27 +35,21 @@ function Initialize-PSEnumTest {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("UPPER", "lower", "")]
         [String]
         ${EnumString},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("UPPER", "lower", "")]
         [String]
         ${EnumStringRequired},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("1", "-1")]
         [System.Nullable[Int32]]
         ${EnumInteger},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("2", "-2")]
         [System.Nullable[Int32]]
         ${EnumIntegerOnly},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("1.1", "-1.2")]
         [System.Nullable[Double]]
         ${EnumNumber},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("placed", "approved", "delivered")]
         [PSCustomObject]
         ${OuterEnum}
     )

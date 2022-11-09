@@ -24,7 +24,6 @@
 #include "OuterEnumInteger.h"
 #include <memory>
 #include <vector>
-#include <array>
 #include <boost/property_tree/ptree.hpp>
 #include "helpers.h"
 

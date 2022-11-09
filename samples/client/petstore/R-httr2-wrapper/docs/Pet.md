@@ -10,6 +10,6 @@ Name | Type | Description | Notes
 **name** | **character** |  | 
 **photoUrls** | **array[character]** |  | 
 **tags** | [**array[Tag]**](Tag.md) |  | [optional] 
-**status** | **character** | pet status in the store | [optional] [Enum: [available, pending, sold]] 
+**status** | **character** | pet status in the store | [optional] 
 
 

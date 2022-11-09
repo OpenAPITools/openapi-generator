@@ -64,9 +64,6 @@ Order <- R6::R6Class(
         self$`shipDate` <- `shipDate`
       }
       if (!is.null(`status`)) {
-        if (!(`status` %in% c("placed", "approved", "delivered"))) {
-          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"placed\", \"approved\", \"delivered\".", sep = ""))
-        }
         if (!(is.character(`status`) && length(`status`) == 1)) {
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
         }
@@ -137,9 +134,6 @@ Order <- R6::R6Class(
         self$`shipDate` <- this_object$`shipDate`
       }
       if (!is.null(this_object$`status`)) {
-        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
-          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"placed\", \"approved\", \"delivered\".", sep = ""))
-        }
         self$`status` <- this_object$`status`
       }
       if (!is.null(this_object$`complete`)) {
@@ -222,9 +216,6 @@ Order <- R6::R6Class(
       self$`petId` <- this_object$`petId`
       self$`quantity` <- this_object$`quantity`
       self$`shipDate` <- this_object$`shipDate`
-      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
-        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"placed\", \"approved\", \"delivered\".", sep = ""))
-      }
       self$`status` <- this_object$`status`
       self$`complete` <- this_object$`complete`
       self
