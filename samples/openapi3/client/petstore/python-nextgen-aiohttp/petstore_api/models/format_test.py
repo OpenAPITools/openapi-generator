@@ -18,7 +18,7 @@ import json
 
 from datetime import date, datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, confloat, conint, constr
+from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, confloat, conint, constr, validator
 
 from pydantic import ValidationError
 
@@ -34,15 +34,33 @@ class FormatTest(BaseModel):
     number: confloat(strict=True, le=543.2, ge=32.1) = ...
     float: Optional[confloat(strict=True, le=987.6, ge=54.3)] = None
     double: Optional[confloat(strict=True, le=123.4, ge=67.8)] = None
-    string: Optional[constr(strict=True, regex=r'/[a-z]/i')] = None
+    string: Optional[constr(strict=True)] = None
     byte: StrictBytes = ...
     binary: Optional[StrictBytes] = None
     var_date: date = Field(..., alias="date")
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     uuid: Optional[StrictStr] = None
     password: constr(strict=True, max_length=64, min_length=10) = ...
-    pattern_with_digits: Optional[constr(strict=True, regex=r'/^\d{10}$/')] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
-    pattern_with_digits_and_delimiter: Optional[constr(strict=True, regex=r'/^image_\d{1,3}$/i')] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+    pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
+    pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+
+    @validator('string')
+    def string_validate_regular_expression(cls, v):
+        if not re.match("[a-z]", v ,re.IGNORECASE):
+            raise ValueError("must validate the regular expression /[a-z]/i")
+        return v
+
+    @validator('pattern_with_digits')
+    def pattern_with_digits_validate_regular_expression(cls, v):
+        if not re.match("^\d{10}$", v):
+            raise ValueError("must validate the regular expression /^\d{10}$/")
+        return v
+
+    @validator('pattern_with_digits_and_delimiter')
+    def pattern_with_digits_and_delimiter_validate_regular_expression(cls, v):
+        if not re.match("^image_\d{1,3}$", v ,re.IGNORECASE):
+            raise ValueError("must validate the regular expression /^image_\d{1,3}$/i")
+        return v
 
     class Config:
         allow_population_by_field_name = True

@@ -203,3 +203,17 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
+
+    def test_valdiator(self):
+        # test regular expression
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        try:
+            a.pattern_with_digits_and_delimiter = "123"
+            self.assertTrue(False) # this line shouldn't execute
+        except ValueError as e:
+            self.assertTrue("must validate the regular expression /^image_\d{1,3}$/i" in str(e))
+
+        a.pattern_with_digits_and_delimiter = "IMAGE_123"
+        self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
+        a.pattern_with_digits_and_delimiter = "image_123"
+        self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")

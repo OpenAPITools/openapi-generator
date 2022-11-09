@@ -352,7 +352,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("min_length=" + cp.getMinLength());
                 }
                 if (cp.getPattern() != null) {
-                    fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                    pydanticImports.add("validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
                 }
                 pydanticImports.add("constr");
                 return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));
@@ -551,7 +553,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("min_length=" + cp.getMinLength());
                 }
                 if (cp.getPattern() != null) {
-                    fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                    pydanticImports.add("validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
                 }
                 pydanticImports.add("constr");
                 return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));

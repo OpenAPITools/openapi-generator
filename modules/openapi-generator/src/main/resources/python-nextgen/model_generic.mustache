@@ -22,6 +22,16 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
+{{#vars}}
+    {{#vendorExtensions.x-regex}}
+
+    @validator('{{{name}}}')
+    def {{{name}}}_validate_regular_expression(cls, v):
+        if not re.match("{{{.}}}", v{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
+            raise ValueError("must validate the regular expression {{{pattern}}}")
+        return v
+    {{/vendorExtensions.x-regex}}
+{{/vars}}
 
     class Config:
         allow_population_by_field_name = True
