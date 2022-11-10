@@ -2473,6 +2473,10 @@ public class DefaultCodegenTest {
         assertTrue(names.contains("password"));
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
+        
+        Optional<CodegenParameter> passwordParameter = operation.formParams.stream().filter(p -> "password".equals(p.paramName)).findFirst();
+        assertTrue(passwordParameter.isPresent());
+        assertTrue(passwordParameter.get().isPassword);
     }
 
     @Test
