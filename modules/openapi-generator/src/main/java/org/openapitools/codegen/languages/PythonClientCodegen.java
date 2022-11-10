@@ -1273,7 +1273,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         // Replace " " with _
         String usedValue = value.replaceAll("\\s+", "_");
         // strip first character if it is invalid
+        int lengthBeforeFirstCharStrip = usedValue.length();
+        Character firstChar = usedValue.charAt(0);
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        boolean firstCharStripped = usedValue.length() == lengthBeforeFirstCharStrip - 1;
         // Replace / with _ for path enums
         usedValue = usedValue.replaceAll("/", "_");
         // Replace . with _ for tag enums
@@ -1296,6 +1299,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
             // remove trailing _
             usedValue = usedValue.replaceAll("[_]$", "");
         }
+        // check first character to see if it is valid
+        // if not then add a valid prefix
+        boolean validFirstChar = Pattern.matches("^[_a-zA-Z]", usedValue.substring(0,1));
+        if (!validFirstChar && firstCharStripped) {
+            String charName = Character.getName(firstChar.hashCode());
+            usedValue = charNameToVarName(charName) + "_" + usedValue;
+        }
+
         return usedValue;
     }
 
