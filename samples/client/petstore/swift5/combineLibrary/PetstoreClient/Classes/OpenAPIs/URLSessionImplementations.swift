@@ -122,11 +122,11 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType == "application/json" {
+            if contentType.hasPrefix("application/json") {
                 encoding = JSONDataEncoding()
-            } else if contentType == "multipart/form-data" {
+            } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-            } else if contentType == "application/x-www-form-urlencoded" {
+            } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
