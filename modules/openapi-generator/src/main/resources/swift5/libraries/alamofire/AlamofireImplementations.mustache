@@ -96,9 +96,9 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType == "application/json" {
+            if contentType.hasPrefix("application/json") {
                 encoding = JSONDataEncoding()
-            } else if contentType == "multipart/form-data" {
+            } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = nil
 
                 let upload = manager.upload(multipartFormData: { mpForm in
@@ -134,7 +134,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
-            } else if contentType == "application/x-www-form-urlencoded" {
+            } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
