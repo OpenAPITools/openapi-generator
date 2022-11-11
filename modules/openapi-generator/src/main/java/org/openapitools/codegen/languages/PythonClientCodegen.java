@@ -2759,14 +2759,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     public void preprocessOpenAPI(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
-        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsKey(xOriginalSwaggerVersion)) {
             originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
         } else {
             originalSpecVersion = openAPI.getOpenapi();
         }
         Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
         if (specMajorVersion < 3) {
-            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
+            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. " + getName() + " only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
         }
     }
 
