@@ -48,6 +48,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
+    private boolean supportMiddleware = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     private boolean preferUnsignedInt = false;
@@ -58,6 +59,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
@@ -175,6 +177,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
@@ -282,6 +286,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
 
+        if (additionalProperties.containsKey(SUPPORT_MIDDLEWARE)) {
+            this.setSupportMiddleware(convertPropertyToBoolean(SUPPORT_MIDDLEWARE));
+        }
+        writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
+
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
         }
@@ -351,6 +360,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     private void setSupportAsync(boolean supportAsync) {
         this.supportAsync = supportAsync;
+    }
+
+    private boolean getSupportMiddleware() {
+        return supportMiddleware;
+    }
+
+    private void setSupportMiddleware(boolean supportMiddleware) {
+        this.supportMiddleware = supportMiddleware;
     }
 
     public boolean getSupportMultipleReturns() {
