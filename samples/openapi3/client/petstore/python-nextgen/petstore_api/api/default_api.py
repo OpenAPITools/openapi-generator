@@ -17,8 +17,7 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from petstore_api import models
-from petstore_api.models import FooGetDefaultResponse
+from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

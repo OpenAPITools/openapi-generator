@@ -19,7 +19,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictStr
-from petstore_api.models import DeprecatedObject
+from petstore_api.models.deprecated_object import DeprecatedObject
 from pydantic import ValidationError
 
 class ObjectWithDeprecatedFields(BaseModel):

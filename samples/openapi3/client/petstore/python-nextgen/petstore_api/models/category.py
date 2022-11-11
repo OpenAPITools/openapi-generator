@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr
-
 from pydantic import ValidationError
 
 class Category(BaseModel):

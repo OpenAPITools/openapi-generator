@@ -19,7 +19,6 @@ import json
 
 from typing import Dict, Optional
 from pydantic import BaseModel, StrictStr
-
 from pydantic import ValidationError
 
 class AdditionalPropertiesClass(BaseModel):

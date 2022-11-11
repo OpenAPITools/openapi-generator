@@ -19,7 +19,8 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel
-from petstore_api.models import OuterEnum, OuterEnumInteger
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from pydantic import ValidationError
 
 class OuterObjectWithEnumProperty(BaseModel):

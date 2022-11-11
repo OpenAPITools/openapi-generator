@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictStr
-
 from pydantic import ValidationError
 
 class OuterComposite(BaseModel):

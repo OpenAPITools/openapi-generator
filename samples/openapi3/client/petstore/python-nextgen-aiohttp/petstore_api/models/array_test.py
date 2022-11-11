@@ -19,7 +19,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr
-from petstore_api.models import ReadOnlyFirst
+from petstore_api.models.read_only_first import ReadOnlyFirst
 from pydantic import ValidationError
 
 class ArrayTest(BaseModel):

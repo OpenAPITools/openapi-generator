@@ -21,8 +21,7 @@ from pydantic import Field, StrictStr
 
 from typing import List
 
-from petstore_api import models
-from petstore_api.models import User
+from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

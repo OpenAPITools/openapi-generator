@@ -19,7 +19,6 @@ import json
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr
-
 from pydantic import ValidationError
 
 class NullableClass(BaseModel):

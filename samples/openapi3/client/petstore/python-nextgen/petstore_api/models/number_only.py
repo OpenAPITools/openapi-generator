@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictFloat
-
 from pydantic import ValidationError
 
 class NumberOnly(BaseModel):

@@ -19,7 +19,6 @@ import json
 
 
 from pydantic import BaseModel, Field, StrictStr
-
 from pydantic import ValidationError
 
 class BasquePig(BaseModel):

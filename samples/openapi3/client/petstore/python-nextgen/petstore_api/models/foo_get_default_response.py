@@ -19,7 +19,7 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel
-from petstore_api.models import Foo
+from petstore_api.models.foo import Foo
 from pydantic import ValidationError
 
 class FooGetDefaultResponse(BaseModel):

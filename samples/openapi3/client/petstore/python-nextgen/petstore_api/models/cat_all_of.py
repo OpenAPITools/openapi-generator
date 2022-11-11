@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictBool
-
 from pydantic import ValidationError
 
 class CatAllOf(BaseModel):

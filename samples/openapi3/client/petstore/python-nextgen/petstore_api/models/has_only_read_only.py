@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictStr
-
 from pydantic import ValidationError
 
 class HasOnlyReadOnly(BaseModel):

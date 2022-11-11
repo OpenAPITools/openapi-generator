@@ -19,7 +19,6 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt
-
 from pydantic import ValidationError
 
 class ModelReturn(BaseModel):

@@ -19,7 +19,7 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictStr
-from petstore_api.models import Animal
+from petstore_api.models.animal import Animal
 from pydantic import ValidationError
 
 class Dog(Animal):

@@ -811,6 +811,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             newImports.add(item);
         }
 
+        // import models one by one
+        if (!modelImports.isEmpty()) {
+            for (String modelImport : modelImports) {
+                Map<String, String> item = new HashMap<>();
+                item.put("import", "from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                newImports.add(item);
+            }
+        }
+
+        /* TODO
         // need models import
         if (hasModelsToImport) {
             Map<String, String> item = new HashMap<>();
@@ -823,7 +833,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             Map<String, String> item = new HashMap<>();
             item.put("import", String.format("from %s import %s", modelPackage, StringUtils.join(modelImports, ", ")));
             newImports.add(item);
-        }
+        }*/
 
         // reset imports with newImports
         objs.setImports(newImports);
@@ -897,7 +907,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add("unique_items=True");
                 }
 
-                /* TODO
+                /* TODO review as example may break the build
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format("example=%s", cp.getExample()));
                 }*/
@@ -954,7 +964,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
-            model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelImports);
+
+            // import models one by one
+            if (!modelImports.isEmpty()) {
+                Set<String> modelsToImport = new TreeSet<>();
+                for (String modelImport : modelImports) {
+                    modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                }
+
+                model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
+            }
 
             if (hasModelsToImport || !StringUtils.isEmpty(model.parent)) {
                 model.vendorExtensions.put("x-py-import-models", true);

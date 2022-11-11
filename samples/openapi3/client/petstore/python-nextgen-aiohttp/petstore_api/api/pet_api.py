@@ -21,8 +21,8 @@ from pydantic import Field, StrictInt, StrictStr, validator
 
 from typing import List, Optional
 
-from petstore_api import models
-from petstore_api.models import ApiResponse, Pet
+from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.pet import Pet
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

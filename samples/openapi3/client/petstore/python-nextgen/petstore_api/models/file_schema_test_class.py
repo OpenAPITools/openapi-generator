@@ -19,7 +19,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel
-from petstore_api.models import File
+from petstore_api.models.file import File
 from pydantic import ValidationError
 
 class FileSchemaTestClass(BaseModel):

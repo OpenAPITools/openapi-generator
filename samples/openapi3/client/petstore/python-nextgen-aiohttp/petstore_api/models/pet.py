@@ -19,7 +19,8 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
-from petstore_api.models import Category, Tag
+from petstore_api.models.category import Category
+from petstore_api.models.tag import Tag
 from pydantic import ValidationError
 
 class Pet(BaseModel):

@@ -17,7 +17,8 @@ import re  # noqa: F401
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
-from petstore_api.models import BasquePig, DanishPig
+from petstore_api.models.basque_pig import BasquePig
+from petstore_api.models.danish_pig import DanishPig
 from typing import Any, List
 from pydantic import StrictStr, Field
 

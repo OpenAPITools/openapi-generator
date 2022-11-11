@@ -19,7 +19,10 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
-from petstore_api.models import OuterEnum, OuterEnumDefaultValue, OuterEnumInteger, OuterEnumIntegerDefaultValue
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
+from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from pydantic import ValidationError
 
 class EnumTest(BaseModel):

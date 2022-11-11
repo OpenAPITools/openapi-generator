@@ -20,7 +20,6 @@ import petstore_api.models
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
-
 from pydantic import ValidationError
 
 class Animal(BaseModel):

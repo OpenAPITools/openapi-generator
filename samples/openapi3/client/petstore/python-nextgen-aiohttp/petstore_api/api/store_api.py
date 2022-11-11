@@ -21,8 +21,7 @@ from pydantic import Field, StrictStr, conint
 
 from typing import Dict
 
-from petstore_api import models
-from petstore_api.models import Order
+from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

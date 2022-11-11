@@ -19,7 +19,7 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt
-from petstore_api.models import Pig
+from petstore_api.models.pig import Pig
 from pydantic import ValidationError
 
 class WithNestedOneOf(BaseModel):

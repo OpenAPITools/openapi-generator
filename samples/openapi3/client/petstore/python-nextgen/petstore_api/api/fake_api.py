@@ -23,8 +23,13 @@ from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, confl
 
 from typing import Dict, List, Optional
 
-from petstore_api import models
-from petstore_api.models import Client, FileSchemaTestClass, HealthCheckResult, OuterComposite, OuterObjectWithEnumProperty, Pet, User
+from petstore_api.models.client import Client
+from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.pet import Pet
+from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401

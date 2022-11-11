@@ -19,7 +19,6 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictFloat
-
 from pydantic import ValidationError
 
 class ArrayOfNumberOnly(BaseModel):

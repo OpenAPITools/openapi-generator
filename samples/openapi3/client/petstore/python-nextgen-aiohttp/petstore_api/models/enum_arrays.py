@@ -19,7 +19,6 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, StrictStr, validator
-
 from pydantic import ValidationError
 
 class EnumArrays(BaseModel):

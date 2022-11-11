@@ -19,7 +19,6 @@ import json
 
 from typing import Dict, Optional
 from pydantic import BaseModel, StrictBool, StrictStr, validator
-
 from pydantic import ValidationError
 
 class MapTest(BaseModel):

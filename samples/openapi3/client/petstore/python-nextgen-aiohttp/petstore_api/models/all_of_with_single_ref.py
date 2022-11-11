@@ -19,7 +19,6 @@ import json
 
 from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr
-
 from pydantic import ValidationError
 
 class AllOfWithSingleRef(BaseModel):

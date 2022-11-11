@@ -19,7 +19,6 @@ import json
 
 
 from pydantic import BaseModel, Field, StrictInt, StrictStr
-
 from pydantic import ValidationError
 
 class DanishPig(BaseModel):
