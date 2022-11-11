@@ -1,0 +1,42 @@
+name: Samples Rust
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/rust/**'
+      - 'samples/server/petstore/rust-server/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/rust/**'
+      - 'samples/server/petstore/rust-server/**'
+
+jobs:
+  build:
+    name: Build Rust
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/rust/hyper/petstore
+          - samples/client/petstore/rust/reqwest/petstore-async-middleware
+          - samples/client/petstore/rust/reqwest/petstore-async
+          - samples/client/petstore/rust/reqwest/petstore-awsv4signature
+          - samples/client/petstore/rust/reqwest/petstore
+          - samples/server/petstore/rust-server/output/multipart-v3
+          - samples/server/petstore/rust-server/output/no-example-v3
+          - samples/server/petstore/rust-server/output/openapi-v3
+          - samples/server/petstore/rust-server/output/ops-v3
+          - samples/server/petstore/rust-server/output/petstore-with-fake-endpoints-models-for-testing
+          - samples/server/petstore/rust-server/output/ping-bearer-auth
+          - samples/server/petstore/rust-server/output/rust-server-test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        working-directory: ${{ matrix.sample }}
+        with:
+          command: build
+          args: --release --all-features
