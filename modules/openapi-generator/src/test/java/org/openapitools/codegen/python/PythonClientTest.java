@@ -59,8 +59,8 @@ public class PythonClientTest {
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
 
-    @Test
-    public void testSpecWithTooLowVersionThrowsException() throws RuntimeException {
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testSpecWithTooLowVersionThrowsException() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml");
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.preprocessOpenAPI(openAPI);
