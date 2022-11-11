@@ -1,4 +1,3 @@
-dslkfjakls;dfjak
 /*
  * OpenAPI Petstore
  *
