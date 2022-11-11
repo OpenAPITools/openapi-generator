@@ -67,7 +67,7 @@ open class FakeAPI {
         return fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -109,7 +109,7 @@ open class FakeAPI {
         return fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -151,7 +151,7 @@ open class FakeAPI {
         return fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -193,7 +193,7 @@ open class FakeAPI {
         return fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -324,7 +324,7 @@ open class FakeAPI {
         return testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }

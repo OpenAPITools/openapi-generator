@@ -70,7 +70,7 @@ open class StoreAPI {
         getInventoryWithRequestBuilder().execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -116,7 +116,7 @@ open class StoreAPI {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -163,7 +163,7 @@ open class StoreAPI {
         placeOrderWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }

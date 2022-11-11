@@ -24,7 +24,7 @@ open class FakeClassnameTags123API {
         testClassnameWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }

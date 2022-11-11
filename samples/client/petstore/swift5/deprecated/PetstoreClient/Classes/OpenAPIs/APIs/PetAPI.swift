@@ -132,7 +132,7 @@ open class PetAPI {
         return findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -183,7 +183,7 @@ open class PetAPI {
         return findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -234,7 +234,7 @@ open class PetAPI {
         return getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -393,7 +393,7 @@ open class PetAPI {
         return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }

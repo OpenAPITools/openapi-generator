@@ -262,7 +262,7 @@ open class UserAPI {
                 requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
-                        continuation.resume(returning: response.body)
+                        continuation.resume(returning: response.decodedResponse)
                     case let .failure(error):
                         continuation.resume(throwing: error)
                     }
@@ -322,7 +322,7 @@ open class UserAPI {
                 requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
-                        continuation.resume(returning: response.body)
+                        continuation.resume(returning: response.decodedResponse)
                     case let .failure(error):
                         continuation.resume(throwing: error)
                     }

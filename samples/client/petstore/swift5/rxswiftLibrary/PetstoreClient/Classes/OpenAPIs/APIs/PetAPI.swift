@@ -146,7 +146,7 @@ open class PetAPI {
             let requestTask = findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -203,7 +203,7 @@ open class PetAPI {
             let requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -260,7 +260,7 @@ open class PetAPI {
             let requestTask = getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -435,7 +435,7 @@ open class PetAPI {
             let requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -500,7 +500,7 @@ open class PetAPI {
             let requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }

@@ -77,7 +77,7 @@ open class StoreAPI {
             let requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -129,7 +129,7 @@ open class StoreAPI {
             let requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -182,7 +182,7 @@ open class StoreAPI {
             let requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }

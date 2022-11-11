@@ -28,7 +28,7 @@ open class FakeAPI {
             requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -78,7 +78,7 @@ open class FakeAPI {
             requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -128,7 +128,7 @@ open class FakeAPI {
             requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -178,7 +178,7 @@ open class FakeAPI {
             requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -333,7 +333,7 @@ open class FakeAPI {
             requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }

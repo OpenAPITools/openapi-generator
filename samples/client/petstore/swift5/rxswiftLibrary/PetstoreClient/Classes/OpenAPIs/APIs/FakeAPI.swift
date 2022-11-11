@@ -24,7 +24,7 @@ open class FakeAPI {
             let requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -72,7 +72,7 @@ open class FakeAPI {
             let requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -120,7 +120,7 @@ open class FakeAPI {
             let requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -168,7 +168,7 @@ open class FakeAPI {
             let requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -317,7 +317,7 @@ open class FakeAPI {
             let requestTask = testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 case let .failure(error):
                     observer.onError(error)
                 }

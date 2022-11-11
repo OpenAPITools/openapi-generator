@@ -238,7 +238,7 @@ open class UserAPI {
             requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -293,7 +293,7 @@ open class UserAPI {
             requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }

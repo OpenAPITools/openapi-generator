@@ -201,7 +201,7 @@ internal class UserAPI {
         return getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -248,7 +248,7 @@ internal class UserAPI {
         return loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }

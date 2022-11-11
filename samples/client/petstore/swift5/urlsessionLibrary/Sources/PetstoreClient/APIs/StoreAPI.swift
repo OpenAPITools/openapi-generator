@@ -73,7 +73,7 @@ open class StoreAPI {
         return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -119,7 +119,7 @@ open class StoreAPI {
         return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -166,7 +166,7 @@ open class StoreAPI {
         return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }

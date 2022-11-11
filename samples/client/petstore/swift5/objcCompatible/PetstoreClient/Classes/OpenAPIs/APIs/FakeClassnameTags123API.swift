@@ -24,7 +24,7 @@ import AnyCodable
         return testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             case let .failure(error):
                 completion(nil, error)
             }

@@ -85,15 +85,17 @@ public enum DecodableRequestBuilderError: Error {
 open class Response<T> {
     public let statusCode: Int
     public let header: [String: String]
-    public let body: T
+    public let decodedResponse: T
+    public let body: Data?
 
-    public init(statusCode: Int, header: [String: String], body: T) {
+    public init(statusCode: Int, header: [String: String], decodedResponse: T, body: Data?) {
         self.statusCode = statusCode
         self.header = header
+        self.decodedResponse = decodedResponse
         self.body = body
     }
 
-    public convenience init(response: HTTPURLResponse, body: T) {
+    public convenience init(response: HTTPURLResponse, decodedResponse: T, body: Data?) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
@@ -101,7 +103,7 @@ open class Response<T> {
                 header[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, body: body)
+        self.init(statusCode: response.statusCode, header: header, decodedResponse: decodedResponse, body: body)
     }
 }
 

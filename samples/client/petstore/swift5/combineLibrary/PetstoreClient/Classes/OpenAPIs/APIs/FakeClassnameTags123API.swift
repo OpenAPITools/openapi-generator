@@ -29,7 +29,7 @@ open class FakeClassnameTags123API {
             requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }

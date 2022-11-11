@@ -154,7 +154,7 @@ open class PetAPI {
             requestTask = findPetsByStatusWithRequestBuilder(status: status).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -213,7 +213,7 @@ open class PetAPI {
             requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -272,7 +272,7 @@ open class PetAPI {
             requestTask = getPetByIdWithRequestBuilder(petId: petId).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -453,7 +453,7 @@ open class PetAPI {
             requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }
@@ -520,7 +520,7 @@ open class PetAPI {
             requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 case let .failure(error):
                     promise(.failure(error))
                 }

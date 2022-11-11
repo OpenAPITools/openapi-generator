@@ -133,7 +133,7 @@ open class PetAPI {
         return findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -184,7 +184,7 @@ open class PetAPI {
         return findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -235,7 +235,7 @@ open class PetAPI {
         return getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -392,7 +392,7 @@ open class PetAPI {
         return uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -451,7 +451,7 @@ open class PetAPI {
         return uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             case let .failure(error):
                 completion(.failure(error))
             }

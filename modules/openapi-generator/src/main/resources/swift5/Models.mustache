@@ -87,14 +87,16 @@ extension NullEncodable: Codable where Wrapped: Codable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let statusCode: Int
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let header: [String: String]
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let decodedResponse: T
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let body: Data?
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(statusCode: Int, header: [String: String], decodedResponse: T) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(statusCode: Int, header: [String: String], decodedResponse: T, body: Data?) {
         self.statusCode = statusCode
         self.header = header
         self.decodedResponse = decodedResponse
+        self.body = body
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} convenience init(response: HTTPURLResponse, decodedResponse: T) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} convenience init(response: HTTPURLResponse, decodedResponse: T, body: Data?) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
@@ -102,7 +104,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
                 header[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, decodedResponse: decodedResponse)
+        self.init(statusCode: response.statusCode, header: header, decodedResponse: decodedResponse, body: body)
     }
 }
 

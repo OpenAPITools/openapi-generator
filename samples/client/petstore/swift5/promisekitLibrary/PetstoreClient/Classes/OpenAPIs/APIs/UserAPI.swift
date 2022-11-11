@@ -201,7 +201,7 @@ open class UserAPI {
         getUserByNameWithRequestBuilder(username: username).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -248,7 +248,7 @@ open class UserAPI {
         loginUserWithRequestBuilder(username: username, password: password).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
