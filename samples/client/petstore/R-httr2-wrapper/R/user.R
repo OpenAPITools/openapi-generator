@@ -46,7 +46,7 @@ User <- R6::R6Class(
     #' @param password password
     #' @param phone phone
     #' @param userStatus User Status
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, additional_properties = NULL, ...) {
@@ -361,7 +361,7 @@ User <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # User$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # User$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -137,7 +135,6 @@ public class MapTest {
    * @return mapMapOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -168,7 +165,6 @@ public class MapTest {
    * @return mapOfEnumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -199,7 +195,6 @@ public class MapTest {
    * @return directMap
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -230,7 +225,6 @@ public class MapTest {
    * @return indirectMap
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

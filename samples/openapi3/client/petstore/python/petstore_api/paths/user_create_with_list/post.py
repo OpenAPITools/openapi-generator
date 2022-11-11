@@ -45,12 +45,12 @@ class SchemaForRequestBodyApplicationJson(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple['User'], typing.List['User']],
+        _arg: typing.Union[typing.Tuple['User'], typing.List['User']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
-            arg,
+            _arg,
             _configuration=_configuration,
         )
 

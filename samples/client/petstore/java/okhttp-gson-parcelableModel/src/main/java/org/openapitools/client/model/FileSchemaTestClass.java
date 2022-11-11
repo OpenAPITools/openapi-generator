@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +75,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return _file
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ModelFile getFile() {
     return _file;
@@ -108,7 +105,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return files
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ModelFile> getFiles() {
     return files;

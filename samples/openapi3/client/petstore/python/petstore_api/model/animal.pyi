@@ -86,7 +86,7 @@ class Animal(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         className: typing.Union[MetaOapg.properties.className, str, ],
         color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -94,7 +94,7 @@ class Animal(
     ) -> 'Animal':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             className=className,
             color=color,
             _configuration=_configuration,

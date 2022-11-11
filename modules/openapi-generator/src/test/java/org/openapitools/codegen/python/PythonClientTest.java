@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -196,5 +199,29 @@ public class PythonClientTest {
         Assert.assertEquals(cm.getPattern(), expectedRegexPattern);
         Assert.assertEquals(cm.vendorExtensions.get("x-regex"), expectedRegexPattern);
         Assert.assertEquals(cm.vendorExtensions.get("x-modifiers"), Arrays.asList("DOTALL", "IGNORECASE", "MULTILINE"));
+    }
+
+    @Test
+    public void testEnumNames() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/13942_schema_enum_names.yaml");
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "StringEnum";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+
+        CodegenModel cm = codegen.fromModel(modelName, schema);
+
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(cm);
+
+        ModelsMap modelsMap = new ModelsMap();
+        modelsMap.setModels(Collections.singletonList(modelMap));
+        codegen.postProcessModels(modelsMap);
+
+        ArrayList<Map<String, Object>> enumVars = (ArrayList<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertEquals(enumVars.size(), 2);
+        Assert.assertEquals(enumVars.get(0).get("name"), "DIGIT_THREE_67B9C");
+        Assert.assertEquals(enumVars.get(1).get("name"), "FFA5A4");
     }
 }

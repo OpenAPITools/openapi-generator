@@ -113,7 +113,7 @@ public class JSONTest {
             // OK
         }
         try {
-            // unexpected miliseconds
+            // unexpected milliseconds
             json.deserialize("\"2015-11-07T03:49:09.000Z\"", Date.class);
             fail("json parsing should fail");
         } catch (RuntimeException e) {
@@ -553,8 +553,8 @@ public class JSONTest {
     public void testValidateJsonObject() throws Exception {
         JsonObject jsonObject = new JsonObject();
         Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
-                Pet.validateJsonObject(jsonObject);
-                });
+            Pet.validateJsonObject(jsonObject);
+        });
         assertEquals(exception.getMessage(), "The required field `photoUrls` is not found in the JSON string: {}");
     }
 

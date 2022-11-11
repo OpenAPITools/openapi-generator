@@ -129,7 +129,7 @@ class Order(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         petId: typing.Union[MetaOapg.properties.petId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         quantity: typing.Union[MetaOapg.properties.quantity, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -141,7 +141,7 @@ class Order(
     ) -> 'Order':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             id=id,
             petId=petId,
             quantity=quantity,

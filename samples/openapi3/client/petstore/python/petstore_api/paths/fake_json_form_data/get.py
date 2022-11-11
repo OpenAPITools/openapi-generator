@@ -81,7 +81,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         param: typing.Union[MetaOapg.properties.param, str, ],
         param2: typing.Union[MetaOapg.properties.param2, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -89,7 +89,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             param=param,
             param2=param2,
             _configuration=_configuration,
