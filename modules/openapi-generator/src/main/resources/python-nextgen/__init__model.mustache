@@ -8,16 +8,6 @@ from __future__ import absolute_import
 # import models into model package
 {{#models}}
 {{#model}}
-{{^vendorExtensions.x-py-import-models}}
 from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/vendorExtensions.x-py-import-models}}
-{{/model}}
-{{/models}}
-
-{{#models}}
-{{#model}}
-{{#vendorExtensions.x-py-import-models}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/vendorExtensions.x-py-import-models}}
 {{/model}}
 {{/models}}

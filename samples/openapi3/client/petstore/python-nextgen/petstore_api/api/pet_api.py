@@ -1072,7 +1072,7 @@ class PetApi(object):
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: file
+        :type file: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1107,7 +1107,7 @@ class PetApi(object):
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: file
+        :type file: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -1228,7 +1228,7 @@ class PetApi(object):
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: file
+        :type required_file: str
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1263,7 +1263,7 @@ class PetApi(object):
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: file
+        :type required_file: str
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.

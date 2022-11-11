@@ -96,6 +96,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         typeMapping.put("array", "List");
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
+        typeMapping.put("file", "str");
+
+        languageSpecificPrimitives.remove("file");
 
         supportsInheritance = true;
         modelPackage = "models";
@@ -973,10 +976,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
-            }
-
-            if (hasModelsToImport || !StringUtils.isEmpty(model.parent)) {
-                model.vendorExtensions.put("x-py-import-models", true);
             }
         }
 

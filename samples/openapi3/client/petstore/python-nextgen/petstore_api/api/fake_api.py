@@ -1060,7 +1060,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param body: image to upload (required)
-        :type body: file
+        :type body: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1091,7 +1091,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param body: image to upload (required)
-        :type body: file
+        :type body: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -1641,7 +1641,7 @@ class FakeApi(object):
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: file
+        :type binary: str
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -1698,7 +1698,7 @@ class FakeApi(object):
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: file
+        :type binary: str
         :param var_date: None
         :type var_date: date
         :param date_time: None

@@ -23,17 +23,7 @@ from {{packageName}}.exceptions import ApiException
 # import models into sdk package
 {{#models}}
 {{#model}}
-{{^vendorExtensions.x-py-import-models}}
 from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/vendorExtensions.x-py-import-models}}
-{{/model}}
-{{/models}}
-
-{{#models}}
-{{#model}}
-{{#vendorExtensions.x-py-import-models}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/vendorExtensions.x-py-import-models}}
 {{/model}}
 {{/models}}
 {{#recursionLimit}}
