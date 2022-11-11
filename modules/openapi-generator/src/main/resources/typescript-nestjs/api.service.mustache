@@ -96,7 +96,7 @@ export class {{classname}} {
             queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters.append('{{baseName}}',{{paramName}}.toString());
+            queryParameters.append('{{baseName}}', String({{paramName}}));
         {{/isDateTime}}
         }
         {{/isArray}}
