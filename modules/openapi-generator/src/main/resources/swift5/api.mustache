@@ -73,7 +73,7 @@ extension {{projectName}}API {
             switch result {
             {{#returnType}}
             case let .success(response):
-                completion(response.body, nil)
+                completion(response.decodedResponse, nil)
             {{/returnType}}
             {{^returnType}}
             case .success:
@@ -108,7 +108,7 @@ extension {{projectName}}API {
             switch result {
             {{#returnType}}
             case let .success(response):
-                deferred.resolver.fulfill(response.body)
+                deferred.resolver.fulfill(response.decodedResponse)
             {{/returnType}}
             {{^returnType}}
             case .success:
@@ -140,7 +140,7 @@ extension {{projectName}}API {
                 switch result {
                 {{#returnType}}
                 case let .success(response):
-                    observer.onNext(response.body)
+                    observer.onNext(response.decodedResponse)
                 {{/returnType}}
                 {{^returnType}}
                 case .success:
@@ -179,7 +179,7 @@ extension {{projectName}}API {
                 switch result {
                 {{#returnType}}
                 case let .success(response):
-                    promise(.success(response.body))
+                    promise(.success(response.decodedResponse))
                 {{/returnType}}
                 {{^returnType}}
                 case .success:
@@ -225,7 +225,7 @@ extension {{projectName}}API {
                     switch result {
                     {{#returnType}}
                     case let .success(response):
-                        continuation.resume(returning: response.body)
+                        continuation.resume(returning: response.decodedResponse)
                     {{/returnType}}
                     {{^returnType}}
                     case .success:
@@ -260,7 +260,7 @@ extension {{projectName}}API {
             switch result {
             {{#returnType}}
             case let .success(response):
-                completion(.success(response.body))
+                completion(.success(response.decodedResponse))
             {{/returnType}}
             {{^returnType}}
             case .success:
@@ -386,7 +386,7 @@ extension {{projectName}}API {
             switch response.status.code {
             {{#responses}}
             {{#isDefault}}default{{/isDefault}}{{^isDefault}}case {{code}}{{/isDefault}}:
-                return .http{{code}}({{#dataType}}value: {{#isBinary}}Data(buffer: response.body ?? ByteBuffer()){{/isBinary}}{{^isBinary}}{{#isFile}}Data(buffer: response.body ?? ByteBuffer()){{/isFile}}{{^isFile}}try response.content.decode({{{dataType}}}.self, using: Configuration.contentConfiguration.requireDecoder(for: {{{dataType}}}.defaultContentType)){{/isFile}}{{/isBinary}}, {{/dataType}}raw: response)
+                return .http{{code}}({{#dataType}}value: {{#isBinary}}Data(buffer: response.decodedResponse ?? ByteBuffer()){{/isBinary}}{{^isBinary}}{{#isFile}}Data(buffer: response.decodedResponse ?? ByteBuffer()){{/isFile}}{{^isFile}}try response.content.decode({{{dataType}}}.self, using: Configuration.contentConfiguration.requireDecoder(for: {{{dataType}}}.defaultContentType)){{/isFile}}{{/isBinary}}, {{/dataType}}raw: response)
             {{/responses}}
             {{^hasDefaultResponse}}
             default:
