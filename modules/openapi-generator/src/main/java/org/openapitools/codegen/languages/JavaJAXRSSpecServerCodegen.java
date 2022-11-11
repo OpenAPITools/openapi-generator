@@ -235,7 +235,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
-            System.out.println("!!!GZIP!!!");
             useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
             if (!useGzipFeature) {
                 additionalProperties.remove(USE_GZIP_FEATURE);
