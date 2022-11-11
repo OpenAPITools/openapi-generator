@@ -73,6 +73,7 @@ public interface DefaultApi {
      */
     @Operation(
         operationId = "updatePetWithForm",
+        description = "update with form data",
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
         }
