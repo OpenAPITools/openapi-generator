@@ -1,4 +1,4 @@
-# Org.OpenAPITools.BaseApi.FakeApi
+# Org.OpenAPITools.Api.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -30,7 +30,7 @@ Health check endpoint
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -116,7 +116,7 @@ Test serialization of outer boolean types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -205,7 +205,7 @@ Test serialization of object with outer number type
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -294,7 +294,7 @@ Test serialization of outer number types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -383,7 +383,7 @@ Test serialization of outer string types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -470,7 +470,7 @@ Array of Enums
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -556,7 +556,7 @@ For this test, the body for this request much reference a schema named `File`.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -639,7 +639,7 @@ No authorization required
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -726,7 +726,7 @@ To test \"client\" model
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -817,7 +817,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -935,7 +935,7 @@ To test enum parameters
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -1037,7 +1037,7 @@ Fake endpoint to test group parameters (optional)
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -1135,7 +1135,7 @@ test inline additionalProperties
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -1220,7 +1220,7 @@ test json serialization of form data
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -1309,7 +1309,7 @@ To test the collection format in query parameters
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using Org.OpenAPITools.BaseApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 

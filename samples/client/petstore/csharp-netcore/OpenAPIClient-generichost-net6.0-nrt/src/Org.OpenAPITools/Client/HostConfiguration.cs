@@ -24,13 +24,13 @@ namespace Org.OpenAPITools.Client
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
     public class HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>
-        where TAnotherFakeApi : class, IDefaultApi.IAnotherFakeApi
-        where TDefaultApi : class, IDefaultApi.IDefaultApi
-        where TFakeApi : class, IDefaultApi.IFakeApi
-        where TFakeClassnameTags123Api : class, IDefaultApi.IFakeClassnameTags123Api
-        where TPetApi : class, IDefaultApi.IPetApi
-        where TStoreApi : class, IDefaultApi.IStoreApi
-        where TUserApi : class, IDefaultApi.IUserApi
+        where TAnotherFakeApi : class, I.IAnotherFakeApi
+        where TDefaultApi : class, I.IDefaultApi
+        where TFakeApi : class, I.IFakeApi
+        where TFakeClassnameTags123Api : class, I.IFakeClassnameTags123Api
+        where TPetApi : class, I.IPetApi
+        where TStoreApi : class, I.IStoreApi
+        where TUserApi : class, I.IUserApi
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -157,13 +157,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IDefaultApi.IAnotherFakeApi, TAnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IDefaultApi, TDefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IFakeApi, TFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IPetApi, TPetApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IStoreApi, TStoreApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi.IUserApi, TUserApi>(client));
+            builders.Add(_services.AddHttpClient<I.IAnotherFakeApi, TAnotherFakeApi>(client));
+            builders.Add(_services.AddHttpClient<I.IDefaultApi, TDefaultApi>(client));
+            builders.Add(_services.AddHttpClient<I.IFakeApi, TFakeApi>(client));
+            builders.Add(_services.AddHttpClient<I.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
+            builders.Add(_services.AddHttpClient<I.IPetApi, TPetApi>(client));
+            builders.Add(_services.AddHttpClient<I.IStoreApi, TStoreApi>(client));
+            builders.Add(_services.AddHttpClient<I.IUserApi, TUserApi>(client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

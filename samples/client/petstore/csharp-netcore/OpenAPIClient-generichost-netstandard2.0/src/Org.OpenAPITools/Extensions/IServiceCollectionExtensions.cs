@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 
 namespace Org.OpenAPITools.Extensions
 {
@@ -25,13 +26,13 @@ namespace Org.OpenAPITools.Extensions
         /// <param name="services"></param>
         /// <param name="options"></param>
         public static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IServiceCollection services, Action<HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
-            where TAnotherFakeApi : class, IDefaultApi.IAnotherFakeApi
-            where TDefaultApi : class, IDefaultApi.IDefaultApi
-            where TFakeApi : class, IDefaultApi.IFakeApi
-            where TFakeClassnameTags123Api : class, IDefaultApi.IFakeClassnameTags123Api
-            where TPetApi : class, IDefaultApi.IPetApi
-            where TStoreApi : class, IDefaultApi.IStoreApi
-            where TUserApi : class, IDefaultApi.IUserApi
+            where TAnotherFakeApi : class, I.IAnotherFakeApi
+            where TDefaultApi : class, I.IDefaultApi
+            where TFakeApi : class, I.IFakeApi
+            where TFakeClassnameTags123Api : class, I.IFakeClassnameTags123Api
+            where TPetApi : class, I.IPetApi
+            where TStoreApi : class, I.IStoreApi
+            where TUserApi : class, I.IUserApi
         {
             HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
             options(config);
@@ -43,21 +44,21 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi>> options)
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi>> options)
         {
-            HostConfiguration<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi> config = new HostConfiguration<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi>(services);
+            HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi> config = new HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi>(services);
             options(config);
             AddApi(services, config);
         }
 
         internal static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(IServiceCollection services, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> host)
-            where TAnotherFakeApi : class, IDefaultApi.IAnotherFakeApi
-            where TDefaultApi : class, IDefaultApi.IDefaultApi
-            where TFakeApi : class, IDefaultApi.IFakeApi
-            where TFakeClassnameTags123Api : class, IDefaultApi.IFakeClassnameTags123Api
-            where TPetApi : class, IDefaultApi.IPetApi
-            where TStoreApi : class, IDefaultApi.IStoreApi
-            where TUserApi : class, IDefaultApi.IUserApi
+            where TAnotherFakeApi : class, I.IAnotherFakeApi
+            where TDefaultApi : class, I.IDefaultApi
+            where TFakeApi : class, I.IFakeApi
+            where TFakeClassnameTags123Api : class, I.IFakeClassnameTags123Api
+            where TPetApi : class, I.IPetApi
+            where TStoreApi : class, I.IStoreApi
+            where TUserApi : class, I.IUserApi
         {
             if (!host.HttpClientsAdded)
                 host.AddApiHttpClients();

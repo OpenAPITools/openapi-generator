@@ -87,7 +87,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
     protected String authFolder = "Auth";
-    protected String derivedApiPackage = "DefaultApi";
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
 
@@ -768,10 +767,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncStringProperty(additionalProperties, "clientPackage", this::setClientPackage, clientPackage);
 
-        if (GENERICHOST.equals(getLibrary())) {
-            apiPackage = "BaseApi";
-            syncStringProperty(additionalProperties, "derivedApiPackage", this::setDerivedApiPackage, derivedApiPackage);
-        }
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
@@ -833,10 +828,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
             }
         }
-    }
-
-    public void setDerivedApiPackage(String derivedApiPackage) {
-        this.derivedApiPackage = derivedApiPackage;
     }
 
     public void setClientPackage(String clientPackage) {
@@ -971,15 +962,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
         supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
         supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
-
-        // derived Apis
-        String derivedApiFolder = sourceFolder + File.separator + packageName + File.separator + derivedApiPackage;
-        String derivedApiPath = outputFolder + File.separator + derivedApiFolder + File.separator + derivedApiPackage + ".cs";
-        File derivedApisFile = new File(derivedApiPath);
-        if (!derivedApisFile.exists()) {
-            // TODO: we should have a file per API
-             supportingFiles.add(new SupportingFile("DerivedApi.mustache", derivedApiFolder, derivedApiPackage + ".cs"));
-        }
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
         if (Boolean.FALSE.equals(excludeTests.get())) {

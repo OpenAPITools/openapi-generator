@@ -14,7 +14,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        IResult Create<IResult>() where IResult : IDefaultApi.IApi;
+        IResult Create<IResult>() where IResult : I.IApi;
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <typeparam name="IResult"></typeparam>
         /// <returns></returns>
-        public IResult Create<IResult>() where IResult : IDefaultApi.IApi
+        public IResult Create<IResult>() where IResult : I.IApi
         {
             return Services.GetRequiredService<IResult>();
         }
