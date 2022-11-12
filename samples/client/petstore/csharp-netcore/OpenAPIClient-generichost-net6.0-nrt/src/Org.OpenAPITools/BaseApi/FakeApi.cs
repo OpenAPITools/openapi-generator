@@ -827,18 +827,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/health"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<HealthCheckResult?> apiResponse = new ApiResponse<HealthCheckResult?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -986,18 +974,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/boolean"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<bool?> apiResponse = new ApiResponse<bool?>(responseMessage, responseContent);
 
@@ -1147,18 +1123,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/composite"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<OuterComposite?> apiResponse = new ApiResponse<OuterComposite?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1306,18 +1270,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/number"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<decimal?> apiResponse = new ApiResponse<decimal?>(responseMessage, responseContent);
 
@@ -1467,18 +1419,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/outer/string"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1607,18 +1547,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/array-of-enums"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<List<OuterEnum>?> apiResponse = new ApiResponse<List<OuterEnum>?>(responseMessage, responseContent);
 
@@ -1767,18 +1695,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-file-schema"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1945,18 +1861,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/body-with-query-params"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -2113,18 +2017,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
@@ -2431,18 +2323,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -2664,18 +2544,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -2879,18 +2747,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -3041,18 +2897,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/inline-additionalProperties"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -3222,18 +3066,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/jsonFormData"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -3420,18 +3252,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/test-query-parameters"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 

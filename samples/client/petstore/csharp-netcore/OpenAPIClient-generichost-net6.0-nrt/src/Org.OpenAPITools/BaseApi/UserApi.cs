@@ -517,18 +517,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -676,18 +664,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -837,18 +813,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -983,18 +947,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1140,18 +1092,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<User?> apiResponse = new ApiResponse<User?>(responseMessage, responseContent);
 
@@ -1316,18 +1256,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1447,18 +1375,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
@@ -1618,18 +1534,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 

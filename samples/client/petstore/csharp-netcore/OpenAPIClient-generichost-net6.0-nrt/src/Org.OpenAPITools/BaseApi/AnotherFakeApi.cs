@@ -278,18 +278,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/another-fake/dummy"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)

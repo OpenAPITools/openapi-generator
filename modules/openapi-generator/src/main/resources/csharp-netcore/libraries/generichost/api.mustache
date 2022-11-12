@@ -438,18 +438,6 @@ namespace {{packageName}}.{{apiPackage}}
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)

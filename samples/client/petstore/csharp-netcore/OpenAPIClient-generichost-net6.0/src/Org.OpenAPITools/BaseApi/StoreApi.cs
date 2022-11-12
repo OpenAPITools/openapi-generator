@@ -313,18 +313,6 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
-
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -439,18 +427,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Dictionary<string, int>> apiResponse = new ApiResponse<Dictionary<string, int>>(responseMessage, responseContent);
 
@@ -599,18 +575,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
@@ -769,18 +733,6 @@ namespace Org.OpenAPITools.BaseApi
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
