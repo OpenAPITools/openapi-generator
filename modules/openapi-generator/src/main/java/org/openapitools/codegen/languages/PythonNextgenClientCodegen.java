@@ -974,6 +974,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (!modelImports.isEmpty()) {
                 Set<String> modelsToImport = new TreeSet<>();
                 for (String modelImport : modelImports) {
+                    if (modelImport.equals(model.classname)) {
+                        // skip self import
+                        continue;
+                    }
                     modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
                 }
 
