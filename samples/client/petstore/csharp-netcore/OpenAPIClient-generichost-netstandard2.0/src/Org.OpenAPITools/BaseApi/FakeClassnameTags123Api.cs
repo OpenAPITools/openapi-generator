@@ -204,7 +204,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="modelClient"></param>
         protected virtual void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestClassname(e, "/fake_classname_test", uriBuilder.Path, modelClient);
                 throw;
             }
         }

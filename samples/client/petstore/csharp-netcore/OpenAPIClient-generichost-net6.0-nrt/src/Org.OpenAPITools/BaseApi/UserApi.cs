@@ -465,7 +465,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="user"></param>
         protected virtual void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -543,7 +543,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorCreateUser(e, "/user", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -625,7 +625,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="user"></param>
         protected virtual void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -703,7 +703,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorCreateUsersWithArrayInput(e, "/user/createWithArray", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -785,7 +785,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="user"></param>
         protected virtual void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -863,7 +863,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorCreateUsersWithListInput(e, "/user/createWithList", uriBuilder.Path, user);
                 throw;
             }
         }
@@ -945,7 +945,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="username"></param>
         protected virtual void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1010,7 +1010,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorDeleteUser(e, "/user/{username}", uriBuilder.Path, username);
                 throw;
             }
         }
@@ -1092,7 +1092,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="username"></param>
         protected virtual void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1167,7 +1167,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetUserByName(e, "/user/{username}", uriBuilder.Path, username);
                 throw;
             }
         }
@@ -1257,7 +1257,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="password"></param>
         protected virtual void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1342,7 +1342,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorLoginUser(e, "/user/login", uriBuilder.Path, username, password);
                 throw;
             }
         }
@@ -1410,7 +1410,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="path"></param>
         protected virtual void OnErrorLogoutUser(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1474,7 +1474,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorLogoutUser(e, "/user/logout", uriBuilder.Path);
                 throw;
             }
         }
@@ -1564,7 +1564,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="username"></param>
         protected virtual void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1645,7 +1645,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorUpdateUser(e, "/user/{username}", uriBuilder.Path, user, username);
                 throw;
             }
         }

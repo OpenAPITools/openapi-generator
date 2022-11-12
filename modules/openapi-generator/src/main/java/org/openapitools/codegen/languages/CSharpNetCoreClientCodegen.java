@@ -1546,7 +1546,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // TODO: remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
         if (property.name.equalsIgnoreCase(model.classname) ||
                     reservedWords().contains(property.name) ||
-                    reservedWords().contains(camelize(sanitizeName(property.name), true))) {
+                    reservedWords().contains(camelize(sanitizeName(property.name), LOWERCASE_FIRST_LETTER))) {
             property.name = property.name + "Property";
         }
     }

@@ -319,7 +319,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="orderId"></param>
         protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -452,7 +452,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="path"></param>
         protected virtual void OnErrorGetInventory(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
                 throw;
             }
         }
@@ -577,6 +577,46 @@ namespace Org.OpenAPITools.BaseApi
             return result != null && result.IsSuccessStatusCode
                 ? result.Content
                 : null;
+        }
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        protected virtual long OnGetOrderById(long orderId)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (orderId == null)
+                throw new ArgumentNullException(nameof(orderId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return orderId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="orderId"></param>
+        protected virtual void AfterGetOrderById(ApiResponse<Order?> apiResponse, long orderId)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="orderId"></param>
+        protected virtual void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -651,7 +691,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -733,7 +773,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="order"></param>
         protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -821,7 +861,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
                 throw;
             }
         }

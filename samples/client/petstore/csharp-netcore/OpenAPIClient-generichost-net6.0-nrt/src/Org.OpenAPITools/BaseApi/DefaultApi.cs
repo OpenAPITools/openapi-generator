@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="path"></param>
         protected virtual void OnErrorFooGet(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFooGet(e, "/foo", uriBuilder.Path);
                 throw;
             }
         }

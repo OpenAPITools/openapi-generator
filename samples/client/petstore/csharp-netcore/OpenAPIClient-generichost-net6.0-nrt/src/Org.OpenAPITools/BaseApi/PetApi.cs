@@ -518,7 +518,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="pet"></param>
         protected virtual void OnErrorAddPet(Exception exception, string pathFormat, string path, Pet pet)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -619,7 +619,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorAddPet(e, "/pet", uriBuilder.Path, pet);
                 throw;
             }
         }
@@ -706,7 +706,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="apiKey"></param>
         protected virtual void OnErrorDeletePet(Exception exception, string pathFormat, string path, long petId, string? apiKey)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -788,7 +788,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorDeletePet(e, "/pet/{petId}", uriBuilder.Path, petId, apiKey);
                 throw;
             }
         }
@@ -870,7 +870,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="status"></param>
         protected virtual void OnErrorFindPetsByStatus(Exception exception, string pathFormat, string path, List<string> status)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -973,7 +973,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFindPetsByStatus(e, "/pet/findByStatus", uriBuilder.Path, status);
                 throw;
             }
         }
@@ -1055,7 +1055,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="tags"></param>
         protected virtual void OnErrorFindPetsByTags(Exception exception, string pathFormat, string path, List<string> tags)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1158,7 +1158,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFindPetsByTags(e, "/pet/findByTags", uriBuilder.Path, tags);
                 throw;
             }
         }
@@ -1240,7 +1240,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="petId"></param>
         protected virtual void OnErrorGetPetById(Exception exception, string pathFormat, string path, long petId)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1324,7 +1324,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetPetById(e, "/pet/{petId}", uriBuilder.Path, petId);
                 throw;
             }
         }
@@ -1406,7 +1406,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="pet"></param>
         protected virtual void OnErrorUpdatePet(Exception exception, string pathFormat, string path, Pet pet)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1507,7 +1507,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorUpdatePet(e, "/pet", uriBuilder.Path, pet);
                 throw;
             }
         }
@@ -1599,7 +1599,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="status"></param>
         protected virtual void OnErrorUpdatePetWithForm(Exception exception, string pathFormat, string path, long petId, string? name, string? status)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1701,7 +1701,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorUpdatePetWithForm(e, "/pet/{petId}", uriBuilder.Path, petId, name, status);
                 throw;
             }
         }
@@ -1793,7 +1793,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="additionalMetadata"></param>
         protected virtual void OnErrorUploadFile(Exception exception, string pathFormat, string path, long petId, System.IO.Stream? file, string? additionalMetadata)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1904,7 +1904,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorUploadFile(e, "/pet/{petId}/uploadImage", uriBuilder.Path, petId, file, additionalMetadata);
                 throw;
             }
         }
@@ -1999,7 +1999,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="additionalMetadata"></param>
         protected virtual void OnErrorUploadFileWithRequiredFile(Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2110,7 +2110,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorUploadFileWithRequiredFile(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilder.Path, requiredFile, petId, additionalMetadata);
                 throw;
             }
         }

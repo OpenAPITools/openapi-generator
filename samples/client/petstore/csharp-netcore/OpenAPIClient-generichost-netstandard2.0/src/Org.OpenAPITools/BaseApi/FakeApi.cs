@@ -584,7 +584,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="path"></param>
         protected virtual void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -657,7 +657,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFakeHealthGet(e, "/fake/health", uriBuilder.Path);
                 throw;
             }
         }
@@ -709,7 +709,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="body"></param>
         protected virtual void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -796,7 +796,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFakeOuterBooleanSerialize(e, "/fake/outer/boolean", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -869,7 +869,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="outerComposite"></param>
         protected virtual void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite outerComposite)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -956,7 +956,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFakeOuterCompositeSerialize(e, "/fake/outer/composite", uriBuilder.Path, outerComposite);
                 throw;
             }
         }
@@ -1008,7 +1008,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="body"></param>
         protected virtual void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1095,7 +1095,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFakeOuterNumberSerialize(e, "/fake/outer/number", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -1147,7 +1147,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="body"></param>
         protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, string body)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1234,7 +1234,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, body);
                 throw;
             }
         }
@@ -1302,7 +1302,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="path"></param>
         protected virtual void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1375,7 +1375,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetArrayOfEnums(e, "/fake/array-of-enums", uriBuilder.Path);
                 throw;
             }
         }
@@ -1457,7 +1457,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="fileSchemaTestClass"></param>
         protected virtual void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1535,7 +1535,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestBodyWithFileSchema(e, "/fake/body-with-file-schema", uriBuilder.Path, fileSchemaTestClass);
                 throw;
             }
         }
@@ -1625,7 +1625,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="query"></param>
         protected virtual void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1712,7 +1712,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestBodyWithQueryParams(e, "/fake/body-with-query-params", uriBuilder.Path, user, query);
                 throw;
             }
         }
@@ -1794,7 +1794,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="modelClient"></param>
         protected virtual void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1881,7 +1881,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestClientModel(e, "/fake", uriBuilder.Path, modelClient);
                 throw;
             }
         }
@@ -2037,7 +2037,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="dateTime"></param>
         protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2201,7 +2201,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestEndpointParameters(e, "/fake", uriBuilder.Path, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
                 throw;
             }
         }
@@ -2309,7 +2309,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="enumFormString"></param>
         protected virtual void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2431,7 +2431,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestEnumParameters(e, "/fake", uriBuilder.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
                 throw;
             }
         }
@@ -2544,7 +2544,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="int64Group"></param>
         protected virtual void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2649,7 +2649,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestGroupParameters(e, "/fake", uriBuilder.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
                 throw;
             }
         }
@@ -2731,7 +2731,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="requestBody"></param>
         protected virtual void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2809,7 +2809,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestInlineAdditionalProperties(e, "/fake/inline-additionalProperties", uriBuilder.Path, requestBody);
                 throw;
             }
         }
@@ -2899,7 +2899,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="param2"></param>
         protected virtual void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2990,7 +2990,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestJsonFormData(e, "/fake/jsonFormData", uriBuilder.Path, param, param2);
                 throw;
             }
         }
@@ -3104,7 +3104,7 @@ namespace Org.OpenAPITools.BaseApi
         /// <param name="context"></param>
         protected virtual void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -3188,7 +3188,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorTestQueryParameterCollectionFormat(e, "/fake/test-query-parameters", uriBuilder.Path, pipe, ioutil, http, url, context);
                 throw;
             }
         }
