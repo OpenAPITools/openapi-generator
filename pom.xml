@@ -1170,6 +1170,7 @@
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust/hyper/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async-middleware</module>
