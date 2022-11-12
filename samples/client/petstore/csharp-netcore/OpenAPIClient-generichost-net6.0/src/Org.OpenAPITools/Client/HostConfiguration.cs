@@ -22,13 +22,13 @@ namespace Org.OpenAPITools.Client
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
     public class HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>
-        where TAnotherFakeApi : class, I.IAnotherFakeApi
-        where TDefaultApi : class, I.IDefaultApi
-        where TFakeApi : class, I.IFakeApi
-        where TFakeClassnameTags123Api : class, I.IFakeClassnameTags123Api
-        where TPetApi : class, I.IPetApi
-        where TStoreApi : class, I.IStoreApi
-        where TUserApi : class, I.IUserApi
+        where TAnotherFakeApi : class, IApi.IAnotherFakeApi
+        where TDefaultApi : class, IApi.IDefaultApi
+        where TFakeApi : class, IApi.IFakeApi
+        where TFakeClassnameTags123Api : class, IApi.IFakeClassnameTags123Api
+        where TPetApi : class, IApi.IPetApi
+        where TStoreApi : class, IApi.IStoreApi
+        where TUserApi : class, IApi.IUserApi
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -155,13 +155,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<I.IAnotherFakeApi, TAnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<I.IDefaultApi, TDefaultApi>(client));
-            builders.Add(_services.AddHttpClient<I.IFakeApi, TFakeApi>(client));
-            builders.Add(_services.AddHttpClient<I.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<I.IPetApi, TPetApi>(client));
-            builders.Add(_services.AddHttpClient<I.IStoreApi, TStoreApi>(client));
-            builders.Add(_services.AddHttpClient<I.IUserApi, TUserApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IAnotherFakeApi, TAnotherFakeApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IDefaultApi, TDefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IFakeApi, TFakeApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
+            builders.Add(_services.AddHttpClient<IApi.IPetApi, TPetApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IStoreApi, TStoreApi>(client));
+            builders.Add(_services.AddHttpClient<IApi.IUserApi, TUserApi>(client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

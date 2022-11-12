@@ -17,7 +17,7 @@ using {{packageName}}.{{clientPackage}};
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.{{interfacePrefix}}{{derivedApiPackage}}
+namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
 {
     {{#operations}}
     /// <summary>
@@ -79,7 +79,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

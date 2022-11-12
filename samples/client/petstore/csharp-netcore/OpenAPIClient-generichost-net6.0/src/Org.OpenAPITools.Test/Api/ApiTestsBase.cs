@@ -35,7 +35,7 @@ using Org.OpenAPITools.Extensions;
 */
 
 
-namespace Org.OpenAPITools.Test.
+namespace Org.OpenAPITools.Test.Api
 {
     /// <summary>
     ///  Base class for API tests

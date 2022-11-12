@@ -19,7 +19,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.I
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class StoreApi : I.IStoreApi
+    public partial class StoreApi : IApi.IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

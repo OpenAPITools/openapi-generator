@@ -25,7 +25,7 @@ namespace {{packageName}}.Extensions
         public static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IServiceCollection services)
             {{#apiInfo}}
             {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
             {{/apis}}
             {{/apiInfo}}
         {
@@ -53,7 +53,7 @@ namespace {{packageName}}.Extensions
         public static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IServiceCollection services, Action<HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
             {{#apiInfo}}
             {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
             {{/apis}}
             {{/apiInfo}}
         {
@@ -77,7 +77,7 @@ namespace {{packageName}}.Extensions
         internal static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(IServiceCollection services, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> host)
             {{#apiInfo}}
             {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
             {{/apis}}
             {{/apiInfo}}
         {

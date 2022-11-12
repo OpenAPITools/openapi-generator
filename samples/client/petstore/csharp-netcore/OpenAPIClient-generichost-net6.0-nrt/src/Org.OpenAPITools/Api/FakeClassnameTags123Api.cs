@@ -21,7 +21,7 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.I
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class FakeClassnameTags123Api : I.IFakeClassnameTags123Api
+    public partial class FakeClassnameTags123Api : IApi.IFakeClassnameTags123Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

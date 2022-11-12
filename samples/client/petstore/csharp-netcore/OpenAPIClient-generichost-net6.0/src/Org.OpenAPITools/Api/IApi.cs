@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace Org.OpenAPITools.I
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Any Api client

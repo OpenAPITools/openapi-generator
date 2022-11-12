@@ -26,13 +26,13 @@ namespace Org.OpenAPITools.Extensions
         /// <param name="builder"></param>
         /// <param name="options"></param>
         public static IHostBuilder ConfigureApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
-            where TAnotherFakeApi : class, I.IAnotherFakeApi
-            where TDefaultApi : class, I.IDefaultApi
-            where TFakeApi : class, I.IFakeApi
-            where TFakeClassnameTags123Api : class, I.IFakeClassnameTags123Api
-            where TPetApi : class, I.IPetApi
-            where TStoreApi : class, I.IStoreApi
-            where TUserApi : class, I.IUserApi
+            where TAnotherFakeApi : class, IApi.IAnotherFakeApi
+            where TDefaultApi : class, IApi.IDefaultApi
+            where TFakeApi : class, IApi.IFakeApi
+            where TFakeClassnameTags123Api : class, IApi.IFakeClassnameTags123Api
+            where TPetApi : class, IApi.IPetApi
+            where TStoreApi : class, IApi.IStoreApi
+            where TUserApi : class, IApi.IUserApi
         {
             builder.ConfigureServices((context, services) => 
             {

@@ -20,7 +20,7 @@ namespace {{packageName}}.{{clientPackage}}
     {{>visibility}} class HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>
         {{#apiInfo}}
         {{#apis}}
-        where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+        where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
         {{/apis}}
         {{/apiInfo}}
     {
@@ -70,7 +70,7 @@ namespace {{packageName}}.{{clientPackage}}
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

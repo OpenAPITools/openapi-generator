@@ -24,7 +24,7 @@ namespace {{packageName}}.Extensions
         public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder)
             {{#apiInfo}}
             {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
             {{/apis}}
             {{/apiInfo}}
         {
@@ -54,7 +54,7 @@ namespace {{packageName}}.Extensions
         public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
             {{#apiInfo}}
             {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{derivedApiPackage}}.{{interfacePrefix}}{{classname}}
+            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
             {{/apis}}
             {{/apiInfo}}
         {
