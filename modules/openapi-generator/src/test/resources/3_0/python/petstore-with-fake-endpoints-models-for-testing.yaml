@@ -1413,6 +1413,21 @@ components:
             - sold
       xml:
         name: Pet
+    special_name:
+      type: object
+      properties:
+        property:
+          type: integer
+          format: int64
+        async:
+          $ref: '#/components/schemas/Category'
+        schema:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
     ApiResponse:
       type: object
       properties:

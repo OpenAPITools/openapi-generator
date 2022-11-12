@@ -33,6 +33,7 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(None, alias="shipDate")
     status: Optional[StrictStr] = Field(None, description="Order Status")
     complete: Optional[StrictBool] = False
+
     @validator('status')
     def status_validate_enum(cls, v):
         if v not in ('placed', 'approved', 'delivered'):

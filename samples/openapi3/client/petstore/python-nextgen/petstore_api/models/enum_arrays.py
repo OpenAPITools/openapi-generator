@@ -29,11 +29,13 @@ class EnumArrays(BaseModel):
     """
     just_symbol: Optional[StrictStr] = None
     array_enum: Optional[List[StrictStr]] = None
+
     @validator('just_symbol')
     def just_symbol_validate_enum(cls, v):
         if v not in ('>=', '$'):
             raise ValueError("must validate the enum values ('>=', '$')")
         return v
+
     @validator('array_enum')
     def array_enum_validate_enum(cls, v):
         if v not in ('fish', 'crab'):

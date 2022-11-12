@@ -39,21 +39,25 @@ class EnumTest(BaseModel):
     outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
+
     @validator('enum_string')
     def enum_string_validate_enum(cls, v):
         if v not in ('UPPER', 'lower', ''):
             raise ValueError("must validate the enum values ('UPPER', 'lower', '')")
         return v
+
     @validator('enum_string_required')
     def enum_string_required_validate_enum(cls, v):
         if v not in ('UPPER', 'lower', ''):
             raise ValueError("must validate the enum values ('UPPER', 'lower', '')")
         return v
+
     @validator('enum_integer')
     def enum_integer_validate_enum(cls, v):
         if v not in (1, -1):
             raise ValueError("must validate the enum values (1, -1)")
         return v
+
     @validator('enum_number')
     def enum_number_validate_enum(cls, v):
         if v not in (1.1, -1.2):

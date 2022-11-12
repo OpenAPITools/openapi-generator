@@ -30,10 +30,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @validator('{{{name}}}')
     def {{{name}}}_validate_regular_expression(cls, v):
         if not re.match(r"{{{.}}}", v{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
-            raise ValueError("must validate the regular expression {{{pattern}}}")
+            raise ValueError(r"must validate the regular expression {{{pattern}}}")
         return v
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
+
     @validator('{{{name}}}')
     def {{{name}}}_validate_enum(cls, v):
         if v not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):

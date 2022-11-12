@@ -76,8 +76,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
@@ -124,6 +127,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // pydantic keyword
+                        "schema",
                         "date",
                         // @property
                         "property",

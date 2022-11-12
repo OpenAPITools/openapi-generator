@@ -35,6 +35,7 @@ class Pet(BaseModel):
     photo_urls: List[StrictStr] = Field(..., alias="photoUrls", unique_items=True)
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")
+
     @validator('status')
     def status_validate_enum(cls, v):
         if v not in ('available', 'pending', 'sold'):

@@ -176,6 +176,7 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SingleRefType](docs/SingleRefType.md)
  - [SpecialModelName](docs/SpecialModelName.md)
+ - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)

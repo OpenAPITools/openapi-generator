@@ -31,6 +31,7 @@ class MapTest(BaseModel):
     map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
+
     @validator('map_of_enum_string')
     def map_of_enum_string_validate_enum(cls, v):
         if v not in ('UPPER', 'lower'):
