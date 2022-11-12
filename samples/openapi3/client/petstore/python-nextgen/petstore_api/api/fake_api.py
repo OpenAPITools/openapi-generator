@@ -128,6 +128,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -139,22 +140,27 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -271,6 +277,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -282,31 +289,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('query_1') is not None:  # noqa: E501
             _query_params.append(('query_1', _params['query_1']))
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['header_1']:
             _header_params['header_1'] = _params['header_1']
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['pet']:
             _body_params = _params['pet']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['http_signature_test']  # noqa: E501
 
         _response_types_map = {}
@@ -413,6 +425,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -424,31 +437,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['body']:
             _body_params = _params['body']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -557,6 +575,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -568,31 +587,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['outer_composite']:
             _body_params = _params['outer_composite']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -701,6 +725,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -712,31 +737,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['body']:
             _body_params = _params['body']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -845,6 +875,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -856,31 +887,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['body']:
             _body_params = _params['body']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -989,6 +1025,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1000,31 +1037,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['outer_object_with_enum_property']:
             _body_params = _params['outer_object_with_enum_property']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -1133,6 +1175,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1144,27 +1187,32 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['body']:
             _body_params = _params['body']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['image/png']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}
@@ -1271,6 +1319,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1282,27 +1331,32 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['file_schema_test_class']:
             _body_params = _params['file_schema_test_class']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}
@@ -1412,6 +1466,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1423,29 +1478,34 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('query') is not None:  # noqa: E501
             _query_params.append(('query', _params['query']))
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['user']:
             _body_params = _params['user']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}
@@ -1552,6 +1612,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1563,31 +1624,36 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['client']:
             _body_params = _params['client']
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
@@ -1761,6 +1827,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1772,12 +1839,16 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
         if _params['integer']:
@@ -1809,16 +1880,17 @@ class FakeApi(object):
         if _params['param_callback']:
             _form_params.append(('callback', _params['param_callback']))
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['http_basic_test']  # noqa: E501
 
         _response_types_map = {}
@@ -1950,6 +2022,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1961,8 +2034,10 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('required_string_group') is not None:  # noqa: E501
             _query_params.append(('required_string_group', _params['required_string_group']))
@@ -1973,18 +2048,21 @@ class FakeApi(object):
         if _params.get('int64_group') is not None:  # noqa: E501
             _query_params.append(('int64_group', _params['int64_group']))
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['required_boolean_group']:
             _header_params['required_boolean_group'] = _params['required_boolean_group']
         if _params['boolean_group']:
             _header_params['boolean_group'] = _params['boolean_group']
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['bearer_test']  # noqa: E501
 
         _response_types_map = {}
@@ -2091,6 +2169,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -2102,27 +2181,32 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['request_body']:
             _body_params = _params['request_body']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}
@@ -2234,6 +2318,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -2245,12 +2330,16 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
         if _params['param']:
@@ -2258,16 +2347,17 @@ class FakeApi(object):
         if _params['param2']:
             _form_params.append(('param2', _params['param2']))
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}
@@ -2404,6 +2494,7 @@ class FakeApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -2415,8 +2506,10 @@ class FakeApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('pipe') is not None:  # noqa: E501
             _query_params.append(('pipe', _params['pipe']))
@@ -2438,14 +2531,17 @@ class FakeApi(object):
         if _params.get('allow_empty') is not None:  # noqa: E501
             _query_params.append(('allowEmpty', _params['allow_empty']))
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {}

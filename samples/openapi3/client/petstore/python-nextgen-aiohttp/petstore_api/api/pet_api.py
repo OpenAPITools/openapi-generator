@@ -142,6 +142,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params and _key != "_host_index":
                 raise ApiTypeError(
@@ -153,27 +154,32 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['pet']:
             _body_params = _params['pet']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {}
@@ -286,6 +292,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -297,22 +304,27 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['api_key']:
             _header_params['api_key'] = _params['api_key']
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {}
@@ -419,6 +431,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -430,25 +443,30 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('status') is not None:  # noqa: E501
             _query_params.append(('status', _params['status']))
             _collection_formats['status'] = 'csv'
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {
@@ -558,6 +576,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -569,25 +588,30 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
         if _params.get('tags') is not None:  # noqa: E501
             _query_params.append(('tags', _params['tags']))
             _collection_formats['tags'] = 'csv'
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {
@@ -697,6 +721,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -708,24 +733,29 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['api_key']  # noqa: E501
 
         _response_types_map = {
@@ -850,6 +880,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params and _key != "_host_index":
                 raise ApiTypeError(
@@ -861,27 +892,32 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
 
+        # process the body parameter
         _body_params = None
         if _params['pet']:
             _body_params = _params['pet']
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {}
@@ -999,6 +1035,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1010,14 +1047,18 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
         if _params['name']:
@@ -1025,16 +1066,17 @@ class PetApi(object):
         if _params['status']:
             _form_params.append(('status', _params['status']))
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {}
@@ -1151,6 +1193,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1162,14 +1205,18 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
         if _params['additional_metadata']:
@@ -1177,20 +1224,21 @@ class PetApi(object):
         if _params['file']:
             _files['file'] = _params['file']
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {
@@ -1309,6 +1357,7 @@ class PetApi(object):
             ]
         )
 
+        # validate the arguments
         for _key, _val in _params['kwargs'].items():
             if _key not in _all_params:
                 raise ApiTypeError(
@@ -1320,14 +1369,18 @@ class PetApi(object):
 
         _collection_formats = {}
 
+        # process the path parameters
         _path_params = {}
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+        # process the query parameters
         _query_params = []
 
+        # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 
+        # process the form parameters
         _form_params = []
         _files = {}
         if _params['additional_metadata']:
@@ -1335,20 +1388,21 @@ class PetApi(object):
         if _params['required_file']:
             _files['requiredFile'] = _params['required_file']
 
+        # process the body parameter
         _body_params = None
 
-        # HTTP header `Accept`
+        # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
-        # HTTP header `Content-Type`
+        # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data']))
         if _content_types_list:
                 _header_params['Content-Type'] = _content_types_list
 
-        # Authentication setting
+        # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {

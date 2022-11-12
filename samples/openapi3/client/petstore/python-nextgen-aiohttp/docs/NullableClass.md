@@ -18,6 +18,23 @@ Name | Type | Description | Notes
 **object_and_items_nullable_prop** | **Dict[str, object]** |  | [optional] 
 **object_items_nullable** | **Dict[str, object]** |  | [optional] 
 
+## Example
+
+```python
+from petstore_api.models.nullable_class import NullableClass
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of NullableClass from a JSON string
+nullable_class_instance = NullableClass.from_json(json)
+# print the JSON string representation of the object
+print NullableClass.to_json()
+
+# convert the object into a dict
+nullable_class_dict = nullable_class_instance.to_dict()
+# create an instance of NullableClass from a dict
+nullable_class_form_dict = nullable_class.from_dict(nullable_class_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
