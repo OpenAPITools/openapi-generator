@@ -112,11 +112,11 @@ class FakeApi(object):
         :rtype: tuple(HealthCheckResult, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -128,55 +128,55 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_health_get" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "HealthCheckResult",
         }
 
         return self.api_client.call_api(
             '/fake/health', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> None:  # noqa: E501
@@ -252,14 +252,14 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet',
             'query_1',
             'header_1'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -271,62 +271,62 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_http_signature_test" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('query_1') is not None:  # noqa: E501
-            query_params.append(('query_1', local_var_params['query_1']))
+        _query_params = []
+        if _params.get('query_1') is not None:  # noqa: E501
+            _query_params.append(('query_1', _params['query_1']))
 
-        header_params = dict(local_var_params.get('_headers', {}))
-        if local_var_params['header_1']:
-            header_params['header_1'] = local_var_params['header_1']
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['header_1']:
+            _header_params['header_1'] = _params['header_1']
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['pet']:
-            body_params = local_var_params['pet']
+        _body_params = None
+        if _params['pet']:
+            _body_params = _params['pet']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['http_signature_test']  # noqa: E501
+        _auth_settings = ['http_signature_test']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/http-signature-test', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> bool:  # noqa: E501
@@ -396,12 +396,12 @@ class FakeApi(object):
         :rtype: tuple(bool, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'body'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -413,64 +413,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_boolean_serialize" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['body']:
-            body_params = local_var_params['body']
+        _body_params = None
+        if _params['body']:
+            _body_params = _params['body']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "bool",
         }
 
         return self.api_client.call_api(
             '/fake/outer/boolean', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> OuterComposite:  # noqa: E501
@@ -540,12 +540,12 @@ class FakeApi(object):
         :rtype: tuple(OuterComposite, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'outer_composite'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -557,64 +557,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_composite_serialize" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['outer_composite']:
-            body_params = local_var_params['outer_composite']
+        _body_params = None
+        if _params['outer_composite']:
+            _body_params = _params['outer_composite']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "OuterComposite",
         }
 
         return self.api_client.call_api(
             '/fake/outer/composite', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_outer_number_serialize(self, body : Annotated[Optional[StrictFloat], Field(description="Input number as post body")] = None, **kwargs) -> float:  # noqa: E501
@@ -684,12 +684,12 @@ class FakeApi(object):
         :rtype: tuple(float, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'body'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -701,64 +701,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_number_serialize" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['body']:
-            body_params = local_var_params['body']
+        _body_params = None
+        if _params['body']:
+            _body_params = _params['body']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "float",
         }
 
         return self.api_client.call_api(
             '/fake/outer/number', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
@@ -828,12 +828,12 @@ class FakeApi(object):
         :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'body'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -845,64 +845,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_string_serialize" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['body']:
-            body_params = local_var_params['body']
+        _body_params = None
+        if _params['body']:
+            _body_params = _params['body']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "str",
         }
 
         return self.api_client.call_api(
             '/fake/outer/string', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
@@ -972,12 +972,12 @@ class FakeApi(object):
         :rtype: tuple(OuterObjectWithEnumProperty, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'outer_object_with_enum_property'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -989,64 +989,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_property_enum_integer_serialize" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['outer_object_with_enum_property']:
-            body_params = local_var_params['outer_object_with_enum_property']
+        _body_params = None
+        if _params['outer_object_with_enum_property']:
+            _body_params = _params['outer_object_with_enum_property']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "OuterObjectWithEnumProperty",
         }
 
         return self.api_client.call_api(
             '/fake/property/enum-int', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
@@ -1116,12 +1116,12 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'body'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1133,58 +1133,58 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_binary" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['body']:
-            body_params = local_var_params['body']
+        _body_params = None
+        if _params['body']:
+            _body_params = _params['body']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['image/png']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-binary', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs) -> None:  # noqa: E501
@@ -1254,12 +1254,12 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'file_schema_test_class'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1271,58 +1271,58 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_file_schema" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['file_schema_test_class']:
-            body_params = local_var_params['file_schema_test_class']
+        _body_params = None
+        if _params['file_schema_test_class']:
+            _body_params = _params['file_schema_test_class']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-file-schema', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs) -> None:  # noqa: E501
@@ -1394,13 +1394,13 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'query',
             'user'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1412,60 +1412,60 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_query_params" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('query') is not None:  # noqa: E501
-            query_params.append(('query', local_var_params['query']))
+        _query_params = []
+        if _params.get('query') is not None:  # noqa: E501
+            _query_params.append(('query', _params['query']))
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['user']:
-            body_params = local_var_params['user']
+        _body_params = None
+        if _params['user']:
+            _body_params = _params['user']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-query-params', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
@@ -1535,12 +1535,12 @@ class FakeApi(object):
         :rtype: tuple(Client, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'client'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1552,64 +1552,64 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_client_model" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['client']:
-            body_params = local_var_params['client']
+        _body_params = None
+        if _params['client']:
+            _body_params = _params['client']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "Client",
         }
 
         return self.api_client.call_api(
             '/fake', 'PATCH',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
@@ -1731,9 +1731,9 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'number',
             'double',
             'pattern_without_delimiter',
@@ -1749,7 +1749,7 @@ class FakeApi(object):
             'password',
             'param_callback'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1761,84 +1761,84 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_endpoint_parameters" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
-        if local_var_params['integer']:
-            form_params.append(('integer', local_var_params['integer']))
-        if local_var_params['int32']:
-            form_params.append(('int32', local_var_params['int32']))
-        if local_var_params['int64']:
-            form_params.append(('int64', local_var_params['int64']))
-        if local_var_params['number']:
-            form_params.append(('number', local_var_params['number']))
-        if local_var_params['float']:
-            form_params.append(('float', local_var_params['float']))
-        if local_var_params['double']:
-            form_params.append(('double', local_var_params['double']))
-        if local_var_params['string']:
-            form_params.append(('string', local_var_params['string']))
-        if local_var_params['pattern_without_delimiter']:
-            form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))
-        if local_var_params['byte']:
-            form_params.append(('byte', local_var_params['byte']))
-        if local_var_params['binary']:
-            local_var_files['binary'] = local_var_params['binary']
-        if local_var_params['var_date']:
-            form_params.append(('date', local_var_params['var_date']))
-        if local_var_params['date_time']:
-            form_params.append(('dateTime', local_var_params['date_time']))
-        if local_var_params['password']:
-            form_params.append(('password', local_var_params['password']))
-        if local_var_params['param_callback']:
-            form_params.append(('callback', local_var_params['param_callback']))
+        _form_params = []
+        _files = {}
+        if _params['integer']:
+            _form_params.append(('integer', _params['integer']))
+        if _params['int32']:
+            _form_params.append(('int32', _params['int32']))
+        if _params['int64']:
+            _form_params.append(('int64', _params['int64']))
+        if _params['number']:
+            _form_params.append(('number', _params['number']))
+        if _params['float']:
+            _form_params.append(('float', _params['float']))
+        if _params['double']:
+            _form_params.append(('double', _params['double']))
+        if _params['string']:
+            _form_params.append(('string', _params['string']))
+        if _params['pattern_without_delimiter']:
+            _form_params.append(('pattern_without_delimiter', _params['pattern_without_delimiter']))
+        if _params['byte']:
+            _form_params.append(('byte', _params['byte']))
+        if _params['binary']:
+            _files['binary'] = _params['binary']
+        if _params['var_date']:
+            _form_params.append(('date', _params['var_date']))
+        if _params['date_time']:
+            _form_params.append(('dateTime', _params['date_time']))
+        if _params['password']:
+            _form_params.append(('password', _params['password']))
+        if _params['param_callback']:
+            _form_params.append(('callback', _params['param_callback']))
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['http_basic_test']  # noqa: E501
+        _auth_settings = ['http_basic_test']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> None:  # noqa: E501
@@ -1928,9 +1928,9 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'required_string_group',
             'required_boolean_group',
             'required_int64_group',
@@ -1938,7 +1938,7 @@ class FakeApi(object):
             'boolean_group',
             'int64_group'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1950,61 +1950,61 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_group_parameters" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('required_string_group') is not None:  # noqa: E501
-            query_params.append(('required_string_group', local_var_params['required_string_group']))
-        if local_var_params.get('required_int64_group') is not None:  # noqa: E501
-            query_params.append(('required_int64_group', local_var_params['required_int64_group']))
-        if local_var_params.get('string_group') is not None:  # noqa: E501
-            query_params.append(('string_group', local_var_params['string_group']))
-        if local_var_params.get('int64_group') is not None:  # noqa: E501
-            query_params.append(('int64_group', local_var_params['int64_group']))
+        _query_params = []
+        if _params.get('required_string_group') is not None:  # noqa: E501
+            _query_params.append(('required_string_group', _params['required_string_group']))
+        if _params.get('required_int64_group') is not None:  # noqa: E501
+            _query_params.append(('required_int64_group', _params['required_int64_group']))
+        if _params.get('string_group') is not None:  # noqa: E501
+            _query_params.append(('string_group', _params['string_group']))
+        if _params.get('int64_group') is not None:  # noqa: E501
+            _query_params.append(('int64_group', _params['int64_group']))
 
-        header_params = dict(local_var_params.get('_headers', {}))
-        if local_var_params['required_boolean_group']:
-            header_params['required_boolean_group'] = local_var_params['required_boolean_group']
-        if local_var_params['boolean_group']:
-            header_params['boolean_group'] = local_var_params['boolean_group']
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['required_boolean_group']:
+            _header_params['required_boolean_group'] = _params['required_boolean_group']
+        if _params['boolean_group']:
+            _header_params['boolean_group'] = _params['boolean_group']
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = ['bearer_test']  # noqa: E501
+        _auth_settings = ['bearer_test']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
@@ -2074,12 +2074,12 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'request_body'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -2091,58 +2091,58 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_inline_additional_properties" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['request_body']:
-            body_params = local_var_params['request_body']
+        _body_params = None
+        if _params['request_body']:
+            _body_params = _params['request_body']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/inline-additionalProperties', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs) -> None:  # noqa: E501
@@ -2216,13 +2216,13 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'param',
             'param2'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -2234,60 +2234,60 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_json_form_data" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
-        if local_var_params['param']:
-            form_params.append(('param', local_var_params['param']))
-        if local_var_params['param2']:
-            form_params.append(('param2', local_var_params['param2']))
+        _form_params = []
+        _files = {}
+        if _params['param']:
+            _form_params.append(('param', _params['param']))
+        if _params['param2']:
+            _form_params.append(('param2', _params['param2']))
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/jsonFormData', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def test_query_parameter_collection_format(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
@@ -2381,9 +2381,9 @@ class FakeApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pipe',
             'ioutil',
             'http',
@@ -2392,7 +2392,7 @@ class FakeApi(object):
             'allow_empty',
             'language'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -2404,65 +2404,65 @@ class FakeApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_query_parameter_collection_format" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('pipe') is not None:  # noqa: E501
-            query_params.append(('pipe', local_var_params['pipe']))
-            collection_formats['pipe'] = 'pipes'
-        if local_var_params.get('ioutil') is not None:  # noqa: E501
-            query_params.append(('ioutil', local_var_params['ioutil']))
-            collection_formats['ioutil'] = 'csv'
-        if local_var_params.get('http') is not None:  # noqa: E501
-            query_params.append(('http', local_var_params['http']))
-            collection_formats['http'] = 'ssv'
-        if local_var_params.get('url') is not None:  # noqa: E501
-            query_params.append(('url', local_var_params['url']))
-            collection_formats['url'] = 'csv'
-        if local_var_params.get('context') is not None:  # noqa: E501
-            query_params.append(('context', local_var_params['context']))
-            collection_formats['context'] = 'multi'
-        if local_var_params.get('language') is not None:  # noqa: E501
-            query_params.append(('language', local_var_params['language']))
-        if local_var_params.get('allow_empty') is not None:  # noqa: E501
-            query_params.append(('allowEmpty', local_var_params['allow_empty']))
+        _query_params = []
+        if _params.get('pipe') is not None:  # noqa: E501
+            _query_params.append(('pipe', _params['pipe']))
+            _collection_formats['pipe'] = 'pipes'
+        if _params.get('ioutil') is not None:  # noqa: E501
+            _query_params.append(('ioutil', _params['ioutil']))
+            _collection_formats['ioutil'] = 'csv'
+        if _params.get('http') is not None:  # noqa: E501
+            _query_params.append(('http', _params['http']))
+            _collection_formats['http'] = 'ssv'
+        if _params.get('url') is not None:  # noqa: E501
+            _query_params.append(('url', _params['url']))
+            _collection_formats['url'] = 'csv'
+        if _params.get('context') is not None:  # noqa: E501
+            _query_params.append(('context', _params['context']))
+            _collection_formats['context'] = 'multi'
+        if _params.get('language') is not None:  # noqa: E501
+            _query_params.append(('language', _params['language']))
+        if _params.get('allow_empty') is not None:  # noqa: E501
+            _query_params.append(('allowEmpty', _params['allow_empty']))
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/test-query-parameters', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))

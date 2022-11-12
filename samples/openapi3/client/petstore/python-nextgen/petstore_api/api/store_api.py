@@ -110,12 +110,12 @@ class StoreApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'order_id'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -127,51 +127,51 @@ class StoreApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_order" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['order_id']:
-            path_params['order_id'] = local_var_params['order_id']
+        _path_params = {}
+        if _params['order_id']:
+            _path_params['order_id'] = _params['order_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/store/order/{order_id}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def get_inventory(self, **kwargs) -> Dict[str, int]:  # noqa: E501
@@ -237,11 +237,11 @@ class StoreApi(object):
         :rtype: tuple(Dict[str, int], status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -253,55 +253,55 @@ class StoreApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_inventory" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['api_key']  # noqa: E501
+        _auth_settings = ['api_key']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "Dict[str, int]",
         }
 
         return self.api_client.call_api(
             '/store/inventory', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def get_order_by_id(self, order_id : Annotated[conint(strict=True, ge=5, le=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> Order:  # noqa: E501
@@ -371,12 +371,12 @@ class StoreApi(object):
         :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'order_id'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -388,38 +388,38 @@ class StoreApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_order_by_id" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['order_id']:
-            path_params['order_id'] = local_var_params['order_id']
+        _path_params = {}
+        if _params['order_id']:
+            _path_params['order_id'] = _params['order_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "Order",
             400: None,
             404: None,
@@ -427,20 +427,20 @@ class StoreApi(object):
 
         return self.api_client.call_api(
             '/store/order/{order_id}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def place_order(self, order : Annotated[Order, Field(..., description="order placed for purchasing the pet")], **kwargs) -> Order:  # noqa: E501
@@ -510,12 +510,12 @@ class StoreApi(object):
         :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'order'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -527,62 +527,62 @@ class StoreApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method place_order" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['order']:
-            body_params = local_var_params['order']
+        _body_params = None
+        if _params['order']:
+            _body_params = _params['order']
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "Order",
             400: None,
         }
 
         return self.api_client.call_api(
             '/store/order', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))

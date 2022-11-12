@@ -125,9 +125,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         setReservedWordsLowerCase(
                 Arrays.asList(
                         "date",
-                        // local variable name used in API methods (endpoints)
-                        "all_params", "resource_path", "path_params", "query_params",
-                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
                         // @property
                         "property",
                         // python reserved words
@@ -954,7 +951,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             // set enum type in extensions
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean)enumVars.get("isString")) {
+                    if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.put("x-py-enum-type", "str");
                     } else {
                         model.vendorExtensions.put("x-py-enum-type", "int");

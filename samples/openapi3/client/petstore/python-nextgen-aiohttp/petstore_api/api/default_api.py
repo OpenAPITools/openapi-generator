@@ -100,11 +100,11 @@ class DefaultApi(object):
         :rtype: tuple(FooGetDefaultResponse, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -116,51 +116,51 @@ class DefaultApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method foo_get" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
         }
 
         return self.api_client.call_api(
             '/foo', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))

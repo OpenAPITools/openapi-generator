@@ -111,26 +111,26 @@ class PetApi(object):
         :rtype: None
         """
 
-        local_var_hosts = [
+        _hosts = [
             'http://petstore.swagger.io/v2',
             'http://path-server-test.petstore.local/v2',
             'http://{server}.swagger.io:{port}/v2'
         ]
-        local_var_host = local_var_hosts[0]
+        _host = _hosts[0]
         if kwargs.get('_host_index'):
             _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(local_var_hosts):
+            if _host_index < 0 or _host_index >= len(_hosts):
                 raise ApiValueError(
                     "Invalid host index. Must be 0 <= index < %s"
-                    % len(local_var_host)
+                    % len(_host)
                 )
-            local_var_host = local_var_hosts[_host_index]
-        local_var_params = locals()
+            _host = _hosts[_host_index]
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -142,59 +142,59 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params and key != "_host_index":
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params and _key != "_host_index":
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method add_pet" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['pet']:
-            body_params = local_var_params['pet']
+        _body_params = None
+        if _params['pet']:
+            _body_params = _params['pet']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            _host=local_var_host,
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            _host=_host,
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def delete_pet(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
@@ -268,13 +268,13 @@ class PetApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet_id',
             'api_key'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -286,53 +286,53 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_pet" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['pet_id']:
-            path_params['petId'] = local_var_params['pet_id']
+        _path_params = {}
+        if _params['pet_id']:
+            _path_params['petId'] = _params['pet_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
-        if local_var_params['api_key']:
-            header_params['api_key'] = local_var_params['api_key']
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['api_key']:
+            _header_params['api_key'] = _params['api_key']
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def find_pets_by_status(self, status : Annotated[List[StrictStr], Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
@@ -402,12 +402,12 @@ class PetApi(object):
         :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'status'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -419,59 +419,59 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_status" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('status') is not None:  # noqa: E501
-            query_params.append(('status', local_var_params['status']))
-            collection_formats['status'] = 'csv'
+        _query_params = []
+        if _params.get('status') is not None:  # noqa: E501
+            _query_params.append(('status', _params['status']))
+            _collection_formats['status'] = 'csv'
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "List[Pet]",
             400: None,
         }
 
         return self.api_client.call_api(
             '/pet/findByStatus', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs) -> List[Pet]:  # noqa: E501
@@ -541,12 +541,12 @@ class PetApi(object):
         :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'tags'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -558,59 +558,59 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_tags" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('tags') is not None:  # noqa: E501
-            query_params.append(('tags', local_var_params['tags']))
-            collection_formats['tags'] = 'csv'
+        _query_params = []
+        if _params.get('tags') is not None:  # noqa: E501
+            _query_params.append(('tags', _params['tags']))
+            _collection_formats['tags'] = 'csv'
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "List[Pet]",
             400: None,
         }
 
         return self.api_client.call_api(
             '/pet/findByTags', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def get_pet_by_id(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs) -> Pet:  # noqa: E501
@@ -680,12 +680,12 @@ class PetApi(object):
         :rtype: tuple(Pet, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet_id'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -697,38 +697,38 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_pet_by_id" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['pet_id']:
-            path_params['petId'] = local_var_params['pet_id']
+        _path_params = {}
+        if _params['pet_id']:
+            _path_params['petId'] = _params['pet_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['api_key']  # noqa: E501
+        _auth_settings = ['api_key']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "Pet",
             400: None,
             404: None,
@@ -736,20 +736,20 @@ class PetApi(object):
 
         return self.api_client.call_api(
             '/pet/{petId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def update_pet(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> None:  # noqa: E501
@@ -819,26 +819,26 @@ class PetApi(object):
         :rtype: None
         """
 
-        local_var_hosts = [
+        _hosts = [
             'http://petstore.swagger.io/v2',
             'http://path-server-test.petstore.local/v2',
             'http://{server}.swagger.io:{port}/v2'
         ]
-        local_var_host = local_var_hosts[0]
+        _host = _hosts[0]
         if kwargs.get('_host_index'):
             _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(local_var_hosts):
+            if _host_index < 0 or _host_index >= len(_hosts):
                 raise ApiValueError(
                     "Invalid host index. Must be 0 <= index < %s"
-                    % len(local_var_host)
+                    % len(_host)
                 )
-            local_var_host = local_var_hosts[_host_index]
-        local_var_params = locals()
+            _host = _hosts[_host_index]
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -850,59 +850,59 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params and key != "_host_index":
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params and _key != "_host_index":
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['pet']:
-            body_params = local_var_params['pet']
+        _body_params = None
+        if _params['pet']:
+            _body_params = _params['pet']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            _host=local_var_host,
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            _host=_host,
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def update_pet_with_form(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> None:  # noqa: E501
@@ -980,14 +980,14 @@ class PetApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet_id',
             'name',
             'status'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -999,62 +999,62 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet_with_form" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['pet_id']:
-            path_params['petId'] = local_var_params['pet_id']
+        _path_params = {}
+        if _params['pet_id']:
+            _path_params['petId'] = _params['pet_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
-        if local_var_params['name']:
-            form_params.append(('name', local_var_params['name']))
-        if local_var_params['status']:
-            form_params.append(('status', local_var_params['status']))
+        _form_params = []
+        _files = {}
+        if _params['name']:
+            _form_params.append(('name', _params['name']))
+        if _params['status']:
+            _form_params.append(('status', _params['status']))
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -1072,7 +1072,7 @@ class PetApi(object):
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: file
+        :type file: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1107,7 +1107,7 @@ class PetApi(object):
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: file
+        :type file: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -1132,14 +1132,14 @@ class PetApi(object):
         :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet_id',
             'additional_metadata',
             'file'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1151,68 +1151,68 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['pet_id']:
-            path_params['petId'] = local_var_params['pet_id']
+        _path_params = {}
+        if _params['pet_id']:
+            _path_params['petId'] = _params['pet_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
-        if local_var_params['additional_metadata']:
-            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))
-        if local_var_params['file']:
-            local_var_files['file'] = local_var_params['file']
+        _form_params = []
+        _files = {}
+        if _params['additional_metadata']:
+            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+        if _params['file']:
+            _files['file'] = _params['file']
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "ApiResponse",
         }
 
         return self.api_client.call_api(
             '/pet/{petId}/uploadImage', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -1228,7 +1228,7 @@ class PetApi(object):
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: file
+        :type required_file: str
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1263,7 +1263,7 @@ class PetApi(object):
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: file
+        :type required_file: str
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1290,14 +1290,14 @@ class PetApi(object):
         :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'pet_id',
             'required_file',
             'additional_metadata'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1309,65 +1309,65 @@ class PetApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file_with_required_file" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['pet_id']:
-            path_params['petId'] = local_var_params['pet_id']
+        _path_params = {}
+        if _params['pet_id']:
+            _path_params['petId'] = _params['pet_id']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
-        if local_var_params['additional_metadata']:
-            form_params.append(('additionalMetadata', local_var_params['additional_metadata']))
-        if local_var_params['required_file']:
-            local_var_files['requiredFile'] = local_var_params['required_file']
+        _form_params = []
+        _files = {}
+        if _params['additional_metadata']:
+            _form_params.append(('additionalMetadata', _params['additional_metadata']))
+        if _params['required_file']:
+            _files['requiredFile'] = _params['required_file']
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['petstore_auth']  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "ApiResponse",
         }
 
         return self.api_client.call_api(
             '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))

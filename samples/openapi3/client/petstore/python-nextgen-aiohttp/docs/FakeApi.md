@@ -550,7 +550,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = '/path/to/file' # file | image to upload
+    body = 'body_example' # str | image to upload
 
     try:
         api_instance.test_body_with_binary(body)
@@ -562,7 +562,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **file**| image to upload | 
+ **body** | **str**| image to upload | 
 
 ### Return type
 
@@ -817,7 +817,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     int64 = 56 # int | None (optional)
     float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
-    binary = '/path/to/file' # file | None (optional)
+    binary = 'binary_example' # str | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
@@ -843,7 +843,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional] 
  **float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
- **binary** | **file**| None | [optional] 
+ **binary** | **str**| None | [optional] 
  **var_date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 

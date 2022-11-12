@@ -110,12 +110,12 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'user'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -127,58 +127,58 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_user" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['user']:
-            body_params = local_var_params['user']
+        _body_params = None
+        if _params['user']:
+            _body_params = _params['user']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def create_users_with_array_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
@@ -248,12 +248,12 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'user'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -265,58 +265,58 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_users_with_array_input" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['user']:
-            body_params = local_var_params['user']
+        _body_params = None
+        if _params['user']:
+            _body_params = _params['user']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user/createWithArray', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def create_users_with_list_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
@@ -386,12 +386,12 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'user'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -403,58 +403,58 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_users_with_list_input" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['user']:
-            body_params = local_var_params['user']
+        _body_params = None
+        if _params['user']:
+            _body_params = _params['user']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user/createWithList', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def delete_user(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs) -> None:  # noqa: E501
@@ -524,12 +524,12 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'username'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -541,51 +541,51 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_user" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['username']:
-            path_params['username'] = local_var_params['username']
+        _path_params = {}
+        if _params['username']:
+            _path_params['username'] = _params['username']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user/{username}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def get_user_by_name(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> User:  # noqa: E501
@@ -655,12 +655,12 @@ class UserApi(object):
         :rtype: tuple(User, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'username'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -672,38 +672,38 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_user_by_name" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['username']:
-            path_params['username'] = local_var_params['username']
+        _path_params = {}
+        if _params['username']:
+            _path_params['username'] = _params['username']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "User",
             400: None,
             404: None,
@@ -711,20 +711,20 @@ class UserApi(object):
 
         return self.api_client.call_api(
             '/user/{username}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def login_user(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs) -> str:  # noqa: E501
@@ -798,13 +798,13 @@ class UserApi(object):
         :rtype: tuple(str, status_code(int), headers(HTTPHeaderDict))
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'username',
             'password'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -816,60 +816,60 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method login_user" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
-        if local_var_params.get('username') is not None:  # noqa: E501
-            query_params.append(('username', local_var_params['username']))
-        if local_var_params.get('password') is not None:  # noqa: E501
-            query_params.append(('password', local_var_params['password']))
+        _query_params = []
+        if _params.get('username') is not None:  # noqa: E501
+            _query_params.append(('username', _params['username']))
+        if _params.get('password') is not None:  # noqa: E501
+            _query_params.append(('password', _params['password']))
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
+        _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {
+        _response_types_map = {
             200: "str",
             400: None,
         }
 
         return self.api_client.call_api(
             '/user/login', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def logout_user(self, **kwargs) -> None:  # noqa: E501
@@ -935,11 +935,11 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -951,49 +951,49 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method logout_user" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
+        _path_params = {}
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
+        _body_params = None
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user/logout', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def update_user(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs) -> None:  # noqa: E501
@@ -1067,13 +1067,13 @@ class UserApi(object):
         :rtype: None
         """
 
-        local_var_params = locals()
+        _params = locals()
 
-        all_params = [
+        _all_params = [
             'username',
             'user'
         ]
-        all_params.extend(
+        _all_params.extend(
             [
                 'async_req',
                 '_return_http_data_only',
@@ -1085,57 +1085,57 @@ class UserApi(object):
             ]
         )
 
-        for key, val in local_var_params['kwargs'].items():
-            if key not in all_params:
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_user" % key
                 )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+            _params[_key] = _val
+        del _params['kwargs']
 
-        collection_formats = {}
+        _collection_formats = {}
 
-        path_params = {}
-        if local_var_params['username']:
-            path_params['username'] = local_var_params['username']
+        _path_params = {}
+        if _params['username']:
+            _path_params['username'] = _params['username']
 
-        query_params = []
+        _query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        _header_params = dict(_params.get('_headers', {}))
 
-        form_params = []
-        local_var_files = {}
+        _form_params = []
+        _files = {}
 
-        body_params = None
-        if local_var_params['user']:
-            body_params = local_var_params['user']
+        _body_params = None
+        if _params['user']:
+            _body_params = _params['user']
 
         # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
+        _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json']))
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
 
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        _auth_settings = []  # noqa: E501
 
-        response_types_map = {}
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/user/{username}', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
