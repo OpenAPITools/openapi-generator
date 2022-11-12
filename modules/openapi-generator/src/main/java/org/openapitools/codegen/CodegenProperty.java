@@ -148,8 +148,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isAnyType;
     public boolean isArray;
     public boolean isMap;
-    public boolean isEnum;
+    public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
+    public boolean isEnumRef; // true if it's a reference to an enum
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -225,10 +226,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public void setFormat(String format) { this.format = format; }
+    public void setFormat(String format) {
+        this.format = format;
+    }
 
     @Override
-    public String getFormat() { return format; }
+    public String getFormat() {
+        return format;
+    }
 
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -959,15 +964,32 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
-    public boolean getIsUuid() { return isUuid; }
+    public boolean getIsUuid() {
+        return isUuid;
+    }
 
-    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
+    }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
+
+    /**
+     * Return true if it's an enum (inline or ref)
+     *
+     * @return true if it's an enum (inline or ref)
+     */
+    public boolean getIsEnumOrRef() {
+        return isEnum || isEnumRef;
+    }
 
     @Override
     public String toString() {
@@ -1029,6 +1051,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isInnerEnum=").append(isInnerEnum);
+        sb.append(", isEnumRef=").append(isEnumRef);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -1118,6 +1141,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
                 isInnerEnum == that.isInnerEnum &&
+                isEnumRef == that.isEnumRef &&
                 isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -1201,7 +1225,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isInnerEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,

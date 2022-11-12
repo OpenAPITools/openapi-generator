@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -79,7 +77,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
@@ -100,6 +97,10 @@ public class ArrayOfArrayOfNumberOnly {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the ArrayOfArrayOfNumberOnly instance itself
    */
   public ArrayOfArrayOfNumberOnly putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -111,6 +112,8 @@ public class ArrayOfArrayOfNumberOnly {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -118,6 +121,9 @@ public class ArrayOfArrayOfNumberOnly {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -191,8 +197,8 @@ public class ArrayOfArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfArrayOfNumberOnly is not found in the empty JSON string", ArrayOfArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
       }
   }
@@ -213,7 +219,7 @@ public class ArrayOfArrayOfNumberOnly {
            public void write(JsonWriter out, ArrayOfArrayOfNumberOnly value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

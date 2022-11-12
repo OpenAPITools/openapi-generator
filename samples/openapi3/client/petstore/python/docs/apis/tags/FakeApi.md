@@ -30,7 +30,7 @@ Method | HTTP request | Description
 [**object_model_with_ref_props**](#object_model_with_ref_props) | **post** /fake/refs/object_model_with_ref_props | 
 [**parameter_collisions**](#parameter_collisions) | **post** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 [**query_param_with_json_content_type**](#query_param_with_json_content_type) | **get** /fake/queryParamWithJsonContentType | query param with json content-type
-[**query_parameter_collection_format**](#query_parameter_collection_format) | **put** /fake/test-query-paramters | 
+[**query_parameter_collection_format**](#query_parameter_collection_format) | **put** /fake/test-query-parameters | 
 [**ref_object_in_query**](#ref_object_in_query) | **get** /fake/refObjInQuery | user list
 [**response_without_schema**](#response_without_schema) | **get** /fake/responseWithoutSchema | receives a response without schema
 [**string**](#string) | **post** /fake/refs/string | 
@@ -561,7 +561,7 @@ No authorization required
 
 
 
-Ensures that original naming is used in endpoint params, that way we on't have collisions
+Ensures that original naming is used in endpoint params, that way we won't have collisions
 
 ### Example
 

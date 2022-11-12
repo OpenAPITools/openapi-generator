@@ -25,12 +25,14 @@ DogAllOf <- R6::R6Class(
     #' Initialize a new DogAllOf class.
     #'
     #' @param breed breed
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`breed` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`breed`)) {
-        stopifnot(is.character(`breed`), length(`breed`) == 1)
+        if (!(is.character(`breed`) && length(`breed`) == 1)) {
+          stop(paste("Error! Invalid data for `breed`. Must be a string:", `breed`))
+        }
         self$`breed` <- `breed`
       }
       if (!is.null(additional_properties)) {
@@ -184,7 +186,7 @@ DogAllOf <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # DogAllOf$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # DogAllOf$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

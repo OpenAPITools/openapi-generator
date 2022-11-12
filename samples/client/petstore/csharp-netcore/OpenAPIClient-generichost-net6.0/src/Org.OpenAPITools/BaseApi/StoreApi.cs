@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.IDefaultApi
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.IDefaultApi
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -313,6 +313,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -327,7 +339,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -428,6 +440,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<Dictionary<string, int>> apiResponse = new ApiResponse<Dictionary<string, int>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -445,13 +469,13 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -468,7 +492,7 @@ namespace Org.OpenAPITools.BaseApi
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -491,47 +515,7 @@ namespace Org.OpenAPITools.BaseApi
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
-        protected virtual long OnGetOrderById(long orderId)
-        {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (orderId == null)
-                throw new ArgumentNullException(nameof(orderId));
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return orderId;
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponse"></param>
-        /// <param name="orderId"></param>
-        protected virtual void AfterGetOrderById(ApiResponse<Order> apiResponse, long orderId)
-        {
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        /// <param name="orderId"></param>
-        protected virtual void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId)
-        {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -576,6 +560,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -590,7 +586,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -734,6 +730,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -748,7 +756,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }

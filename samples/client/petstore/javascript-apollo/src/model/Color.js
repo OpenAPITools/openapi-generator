@@ -124,7 +124,7 @@ class Color {
     }
 
     /**
-     * Gets the actaul instance, which can be <code>String</code>, <code>[Number]</code>.
+     * Gets the actual instance, which can be <code>String</code>, <code>[Number]</code>.
      * @return {(module:model/String|module:model/[Number])} The actual instance.
      */
     getActualInstance() {
@@ -132,7 +132,7 @@ class Color {
     }
 
     /**
-     * Sets the actaul instance, which can be <code>String</code>, <code>[Number]</code>.
+     * Sets the actual instance, which can be <code>String</code>, <code>[Number]</code>.
      * @param {(module:model/String|module:model/[Number])} obj The actual instance.
      */
     setActualInstance(obj) {
@@ -140,7 +140,7 @@ class Color {
     }
 
     /**
-     * Returns the JSON representation of the actual intance.
+     * Returns the JSON representation of the actual instance.
      * @return {string}
      */
     toJSON = function(){

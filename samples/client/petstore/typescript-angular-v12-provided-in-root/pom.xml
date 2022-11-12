@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>TypeScriptAngular12PestoreClientTests</artifactId>
+    <artifactId>TypeScriptAngular12PetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>TS Angular 12 Petstore Client Tests</name>

@@ -90,7 +90,7 @@ public class JSONComposedSchemaTest {
             assertTrue(o.getActualInstance() instanceof AppleReq);
             BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
         });
-        // comment out below as the erorr message can be different due to JDK versions
+        // comment out below as the error message can be different due to JDK versions
         // org.opentest4j.AssertionFailedError: expected: <class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')> but was: <org.openapitools.client.model.AppleReq cannot be cast to org.openapitools.client.model.BananaReq>
         //Assertions.assertEquals("class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')", thrown.getMessage());
        Assertions.assertNotNull(thrown);
@@ -141,7 +141,7 @@ public class JSONComposedSchemaTest {
             });
             assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 2 classes match result"));
             // TODO: add a similar unit test where the oneOf child schemas have required properties.
-            // If the implementation is correct, the unmarshaling should take the "required" keyword
+            // If the implementation is correct, the unmarshalling should take the "required" keyword
             // into consideration, which it is not doing currently.
         }
         {
@@ -232,7 +232,7 @@ public class JSONComposedSchemaTest {
     @Test
     public void testOneOfMultipleDiscriminators() throws Exception {
         // 'shapeType' is a discriminator for the 'Shape' model and
-        // 'triangleType' is a discriminator forr the 'Triangle' model.
+        // 'triangleType' is a discriminator for the 'Triangle' model.
         String str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
 
         // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.

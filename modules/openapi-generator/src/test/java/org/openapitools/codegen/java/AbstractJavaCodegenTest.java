@@ -103,7 +103,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void convertVarName() throws Exception {
+    public void convertVarName() {
         Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
@@ -119,10 +119,15 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
+
+        AbstractJavaCodegen withCaml = new P_AbstractJavaCodegen();
+        withCaml.setCamelCaseDollarSign(true);
+        Assert.assertEquals(withCaml.toVarName("$name"), "$Name");
+        Assert.assertEquals(withCaml.toVarName("1AAaa"), "_1AAaa");
     }
 
     @Test
-    public void convertModelName() throws Exception {
+    public void convertModelName() {
         Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");

@@ -42,6 +42,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -514,7 +515,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -1453,8 +1454,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
-    private void ensureInheritedPropertiesArePresent(CodegenModel derivedModel) {
-        // every c# generator should definetly want this, or we should fix the issue
+    private void EnsureInheritedPropertiesArePresent(CodegenModel derivedModel) {
+        // every c# generator should definitely want this, or we should fix the issue
         // still, lets avoid breaking changes :(
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
             return;

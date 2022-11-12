@@ -64,7 +64,7 @@ internal struct APIHelper {
 
     /// maps all values from source to query parameters
     ///
-    /// explode attribute is respected: collection values might be either joined or split up into seperate key value pairs
+    /// explode attribute is respected: collection values might be either joined or split up into separate key value pairs
     internal static func mapValuesToQueryItems(_ source: [String: (wrappedValue: Any?, isExplode: Bool)]) -> [URLQueryItem]? {
         let destination = source.filter { $0.value.wrappedValue != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value.wrappedValue as? [Any?] {

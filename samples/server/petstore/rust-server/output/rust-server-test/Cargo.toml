@@ -1,8 +1,9 @@
 [package]
 name = "rust-server-test"
 version = "2.3.4"
-authors = []
+authors = ["OpenAPI Generator team and contributors"]
 description = "This spec is for testing rust-server-specific things"
+# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
 edition = "2018"
 

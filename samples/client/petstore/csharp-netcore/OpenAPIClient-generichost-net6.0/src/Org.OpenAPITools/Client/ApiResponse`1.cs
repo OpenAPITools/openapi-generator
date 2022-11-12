@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Client
         public DateTime DownloadedAt { get; } = DateTime.UtcNow;
 
         /// <summary>
-        /// Construct the reponse using an HttpResponseMessage
+        /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="response"></param>
         /// <param name="rawContent"></param>

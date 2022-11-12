@@ -479,6 +479,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -499,7 +511,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorAddPet(e, "/pet", uriBuilder.Path, pet);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -639,6 +651,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -656,7 +680,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeletePet(e, "/pet/{petId}", uriBuilder.Path, petId, apiKey);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -809,6 +833,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByStatus"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -829,7 +865,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFindPetsByStatus(e, "/pet/findByStatus", uriBuilder.Path, status);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -982,6 +1018,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/findByTags"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1002,7 +1050,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFindPetsByTags(e, "/pet/findByTags", uriBuilder.Path, tags);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1139,6 +1187,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<Pet> apiResponse = new ApiResponse<Pet>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1156,7 +1216,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetPetById(e, "/pet/{petId}", uriBuilder.Path, petId);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1307,6 +1367,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1327,7 +1399,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdatePet(e, "/pet", uriBuilder.Path, pet);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1492,6 +1564,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1509,7 +1593,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdatePetWithForm(e, "/pet/{petId}", uriBuilder.Path, petId, name, status);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1683,6 +1767,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/pet/{petId}/uploadImage"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1700,7 +1796,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUploadFile(e, "/pet/{petId}/uploadImage", uriBuilder.Path, petId, file, additionalMetadata);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1877,6 +1973,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1894,7 +2002,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUploadFileWithRequiredFile(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilder.Path, requiredFile, petId, additionalMetadata);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }

@@ -104,7 +104,7 @@ class Capitalization(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         smallCamel: typing.Union[MetaOapg.properties.smallCamel, str, schemas.Unset] = schemas.unset,
         CapitalCamel: typing.Union[MetaOapg.properties.CapitalCamel, str, schemas.Unset] = schemas.unset,
         small_Snake: typing.Union[MetaOapg.properties.small_Snake, str, schemas.Unset] = schemas.unset,
@@ -116,7 +116,7 @@ class Capitalization(
     ) -> 'Capitalization':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             smallCamel=smallCamel,
             CapitalCamel=CapitalCamel,
             small_Snake=small_Snake,

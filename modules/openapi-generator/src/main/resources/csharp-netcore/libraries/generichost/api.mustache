@@ -238,7 +238,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         protected virtual void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
-            Logger.LogError(exception, "An error occured while sending the request to the server.");
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -437,6 +437,18 @@ namespace {{packageName}}.{{apiPackage}}
                         OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
+
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
 
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
 

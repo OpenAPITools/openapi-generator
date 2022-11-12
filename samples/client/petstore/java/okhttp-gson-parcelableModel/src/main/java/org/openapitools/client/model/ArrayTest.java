@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -120,7 +117,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -151,7 +147,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
@@ -265,16 +260,16 @@ public class ArrayTest implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayTest` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_of_string").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_of_string") != null && !jsonObj.get("array_of_string").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_of_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_of_string").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_array_of_integer").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_array_of_integer") != null && !jsonObj.get("array_array_of_integer").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_integer` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_integer").toString()));
       }
-      // ensure the json data is an array
-      if (!jsonObj.get("array_array_of_model").isJsonArray()) {
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_array_of_model") != null && !jsonObj.get("array_array_of_model").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_array_of_model` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_model").toString()));
       }
   }

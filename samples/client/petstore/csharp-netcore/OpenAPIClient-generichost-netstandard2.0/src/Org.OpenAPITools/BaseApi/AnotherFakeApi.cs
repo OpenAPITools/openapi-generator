@@ -265,6 +265,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/another-fake/dummy"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -279,7 +291,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCall123TestSpecialTags(e, "/another-fake/dummy", uriBuilder.Path, modelClient);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }

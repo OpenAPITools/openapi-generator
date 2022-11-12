@@ -66,6 +66,9 @@ Pig <- R6::R6Class(
 
       oneof_lookup_result <- tryCatch({
           discriminatorValue <- (jsonlite::fromJSON(input, simplifyVector = FALSE))$`className`
+          if (is.null(discriminatorValue)) { # throw error if it's null
+            stop("Error! The value of the discriminator property `className`, which should be the class type, is null")
+          }
           switch(discriminatorValue,
           BasquePig={
             BasquePig$public_methods$validateJSON(input)
@@ -84,7 +87,7 @@ Pig <- R6::R6Class(
           error = function(err) err
       )
       if (!is.null(oneof_lookup_result["error"])) {
-        error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for Pig. Error message: %s. Input: %s", oneof_lookup_result["message"], input))
+        error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for Pig. Error message: %s. JSON input: %s", oneof_lookup_result["message"], input))
       }
 
       BasquePig_result <- tryCatch({
@@ -123,11 +126,12 @@ Pig <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig.")
+        stop(paste("Multiple matches found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Matched schemas: ",
+                   paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ",
-                   paste(error_messages, collapse = ", ")))
+        stop(paste("No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >>",
+                   paste(error_messages, collapse = " >> ")))
       }
 
       self
@@ -213,7 +217,7 @@ Pig <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 #Pig$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 #Pig$set("public", "print", function(...) {
 #  print(jsonlite::prettify(self$toJSONString()))
 #  invisible(self)

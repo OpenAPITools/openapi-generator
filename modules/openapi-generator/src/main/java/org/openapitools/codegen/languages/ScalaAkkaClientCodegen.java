@@ -302,16 +302,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            final StringWriter tempWriter = new StringWriter();
-            frag.execute(tempWriter);
-            out.write(formatFragment(tempWriter.toString()));
-        }
-
-        public abstract String formatFragment(String fragment);
-    }
 
     private static class JavadocLambda extends CustomLambda {
         @Override
@@ -331,19 +321,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public String formatFragment(String fragment) {
             return StringUtils.capitalize(fragment);
-        }
-    }
-
-    private static class CamelizeLambda extends CustomLambda {
-        private final boolean capitalizeFirst;
-
-        public CamelizeLambda(boolean capitalizeFirst) {
-            this.capitalizeFirst = capitalizeFirst;
-        }
-
-        @Override
-        public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
         }
     }
 

@@ -517,6 +517,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -531,7 +543,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUser(e, "/user", uriBuilder.Path, user);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -665,6 +677,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -679,7 +703,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithArrayInput(e, "/user/createWithArray", uriBuilder.Path, user);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -813,6 +837,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -827,7 +863,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithListInput(e, "/user/createWithList", uriBuilder.Path, user);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -948,6 +984,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -962,7 +1010,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorDeleteUser(e, "/user/{username}", uriBuilder.Path, username);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1093,6 +1141,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<User?> apiResponse = new ApiResponse<User?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1107,7 +1167,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorGetUserByName(e, "/user/{username}", uriBuilder.Path, username);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1256,6 +1316,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1270,7 +1342,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorLoginUser(e, "/user/login", uriBuilder.Path, username, password);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1376,6 +1448,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1390,7 +1474,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorLogoutUser(e, "/user/logout", uriBuilder.Path);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }
@@ -1535,6 +1619,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -1549,7 +1645,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorUpdateUser(e, "/user/{username}", uriBuilder.Path, user, username);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }

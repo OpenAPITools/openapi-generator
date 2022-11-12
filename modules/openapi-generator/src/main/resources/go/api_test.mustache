@@ -12,40 +12,40 @@ Testing {{classname}}Service
 package {{packageName}}
 
 import (
-    "context"
-    "github.com/stretchr/testify/assert"
-    "github.com/stretchr/testify/require"
-    "testing"
-    {{goImportAlias}} "./openapi"
+	"context"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"testing"
+	{{goImportAlias}} "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}"
 )
 
 func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 
-    configuration := {{goImportAlias}}.NewConfiguration()
-    apiClient := {{goImportAlias}}.NewAPIClient(configuration)
+	configuration := {{goImportAlias}}.NewConfiguration()
+	apiClient := {{goImportAlias}}.NewAPIClient(configuration)
 
 {{#operations}}
 {{#operation}}
-    t.Run("Test {{classname}}Service {{{nickname}}}", func(t *testing.T) {
+	t.Run("Test {{classname}}Service {{{nickname}}}", func(t *testing.T) {
 
-        {{^pathParams}}
-        t.Skip("skip test")  // remove to run test
-        {{/pathParams}}
-        {{#pathParams}}
-        {{#-first}}
-        t.Skip("skip test")  // remove to run test
+		{{^pathParams}}
+		t.Skip("skip test")  // remove to run test
+		{{/pathParams}}
+		{{#pathParams}}
+		{{#-first}}
+		t.Skip("skip test")  // remove to run test
 
-        {{/-first}}
-        var {{paramName}} {{{dataType}}}
-        {{/pathParams}}
+		{{/-first}}
+		var {{paramName}} {{{dataType}}}
+		{{/pathParams}}
 
-        resp, httpRes, err := apiClient.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
+		resp, httpRes, err := apiClient.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
 {{/operation}}
 {{/operations}}

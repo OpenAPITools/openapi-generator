@@ -235,6 +235,18 @@ namespace Org.OpenAPITools.BaseApi
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                        if (ApiResponded != null)
+                        {
+                            try
+                            {
+                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/foo"));
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
+                            }
+                        }
+
                         ApiResponse<FooGetDefaultResponse> apiResponse = new ApiResponse<FooGetDefaultResponse>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
@@ -249,7 +261,7 @@ namespace Org.OpenAPITools.BaseApi
             }
             catch(Exception e)
             {
-                OnErrorFooGet(e, "/foo", uriBuilder.Path);
+                Logger.LogError(e, "An error occurred while sending the request to the server.");
                 throw;
             }
         }

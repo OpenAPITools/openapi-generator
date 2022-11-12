@@ -34,7 +34,7 @@ from petstore_api.paths.fake_obj_in_query.get import ObjectInQuery
 from petstore_api.paths.fake_refs_object_model_with_ref_props.post import ObjectModelWithRefProps
 from petstore_api.paths.fake_parameter_collisions_1_a_b_ab_self_a_b_.post import ParameterCollisions
 from petstore_api.paths.fake_query_param_with_json_content_type.get import QueryParamWithJsonContentType
-from petstore_api.paths.fake_test_query_paramters.put import QueryParameterCollectionFormat
+from petstore_api.paths.fake_test_query_parameters.put import QueryParameterCollectionFormat
 from petstore_api.paths.fake_ref_obj_in_query.get import RefObjectInQuery
 from petstore_api.paths.fake_response_without_schema.get import ResponseWithoutSchema
 from petstore_api.paths.fake_refs_string.post import String

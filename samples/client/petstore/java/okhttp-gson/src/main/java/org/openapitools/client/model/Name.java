@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -91,7 +88,6 @@ public class Name {
    * @return name
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
     return name;
@@ -108,7 +104,6 @@ public class Name {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -128,7 +123,6 @@ public class Name {
    * @return property
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getProperty() {
     return property;
@@ -145,7 +139,6 @@ public class Name {
    * @return _123number
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer get123number() {
     return _123number;
@@ -163,6 +156,10 @@ public class Name {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Name instance itself
    */
   public Name putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -174,6 +171,8 @@ public class Name {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -181,6 +180,9 @@ public class Name {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -292,7 +294,7 @@ public class Name {
            public void write(JsonWriter out, Name value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
