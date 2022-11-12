@@ -18,18 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/rust/hyper/petstore
-          - samples/client/petstore/rust/reqwest/petstore-async-middleware
-          - samples/client/petstore/rust/reqwest/petstore-async
-          - samples/client/petstore/rust/reqwest/petstore-awsv4signature
-          - samples/client/petstore/rust/reqwest/petstore
-          - samples/server/petstore/rust-server/output/multipart-v3
-          - samples/server/petstore/rust-server/output/no-example-v3
-          - samples/server/petstore/rust-server/output/openapi-v3
-          - samples/server/petstore/rust-server/output/ops-v3
-          - samples/server/petstore/rust-server/output/petstore-with-fake-endpoints-models-for-testing
-          - samples/server/petstore/rust-server/output/ping-bearer-auth
-          - samples/server/petstore/rust-server/output/rust-server-test
+          # these folders contain sub-projects of rust clients, servers
+          - samples/client/petstore/rust/
+          - samples/server/petstore/rust-server/
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
