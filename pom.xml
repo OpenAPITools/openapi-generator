@@ -1163,9 +1163,6 @@
                 <!-- clients -->
                 <module>samples/client/petstore/perl</module>
                 <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/client/petstore/ruby-faraday</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/ruby-autoload</module>
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
@@ -1275,6 +1272,9 @@
                 <!-- python clients which don't need the server running -->
                 <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-prior</module>
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
