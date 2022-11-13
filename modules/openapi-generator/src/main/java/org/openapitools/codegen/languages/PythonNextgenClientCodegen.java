@@ -128,7 +128,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // pydantic keyword
-                        "schema",
+                        "schema", "base64", "json",
                         "date",
                         // @property
                         "property",
