@@ -526,9 +526,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
                                    Set<String> modelImports) {
+        if (cp == null) {
+            // if codegen property (e.g. map/dict of undefined type), default to string
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string");
+            pydanticImports.add("constr");
+            return String.format("constr()");
+        }
+
         if (cp.isEnum) {
             pydanticImports.add("validator");
         }
+
         /* comment out the following since Literal requires python 3.8
            also need to put cp.isEnum check after isArray, isMap check
         if (cp.isEnum) {
@@ -646,6 +654,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
                 if (cp.getMaxLength() != null) {
                     fieldCustomization.add("max_length=" + cp.getMaxLength());
+                }
+                if (cp.getPattern() != null) {
+                    pydanticImports.add("validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
                 }
 
                 pydanticImports.add("conbytes");
