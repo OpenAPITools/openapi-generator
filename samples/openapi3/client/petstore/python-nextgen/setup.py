@@ -21,7 +21,14 @@ from setuptools import setup, find_packages  # noqa: H301
 NAME = "petstore-api"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">=3.7"
-REQUIRES = ["urllib3 >= 1.25.3", "python-dateutil", "pydantic", "aenum"]
+REQUIRES = [
+    "urllib3 >= 1.25.3",
+    "python-dateutil",
+    "pem>=19.3.0",
+    "pycryptodome>=3.9.0",
+    "pydantic",
+    "aenum"
+]
 
 setup(
     name=NAME,

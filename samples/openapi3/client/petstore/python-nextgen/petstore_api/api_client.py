@@ -186,6 +186,7 @@ class ApiClient(object):
         # auth setting
         self.update_params_for_auth(
             header_params, query_params, auth_settings,
+            resource_path, method, body,
             request_auth=_request_auth)
 
         # body
@@ -595,12 +596,17 @@ class ApiClient(object):
         return content_types[0]
 
     def update_params_for_auth(self, headers, queries, auth_settings,
+                               resource_path, method, body,
                                request_auth=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A object representing the body of the HTTP request.
+        The object type is the return value of sanitize_for_serialization().
         :param request_auth: if set, the provided settings will
                              override the token in the configuration.
         """
@@ -608,25 +614,43 @@ class ApiClient(object):
             return
 
         if request_auth:
-            self._apply_auth_params(headers, queries, request_auth)
+            self._apply_auth_params(headers, queries,
+                                    resource_path, method, body,
+                                    request_auth)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                self._apply_auth_params(headers, queries, auth_setting)
+                self._apply_auth_params(headers, queries,
+                                        resource_path, method, body,
+                                        auth_setting)
 
-    def _apply_auth_params(self, headers, queries, auth_setting):
+    def _apply_auth_params(self, headers, queries,
+                           resource_path, method, body,
+                           auth_setting):
         """Updates the request parameters based on a single auth_setting
 
         :param headers: Header parameters dict to be updated.
         :param queries: Query parameters tuple list to be updated.
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A object representing the body of the HTTP request.
+        The object type is the return value of sanitize_for_serialization().
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
             headers['Cookie'] = auth_setting['value']
         elif auth_setting['in'] == 'header':
-            headers[auth_setting['key']] = auth_setting['value']
+            if auth_setting['type'] != 'http-signature':
+                headers[auth_setting['key']] = auth_setting['value']
+            else:
+                # The HTTP signature scheme requires multiple HTTP headers
+                # that are calculated dynamically.
+                signing_info = self.configuration.signing_info
+                auth_headers = signing_info.get_http_signature_headers(
+                resource_path, method, headers, body, querys)
+                headers.update(auth_headers)
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
         else:

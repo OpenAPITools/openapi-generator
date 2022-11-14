@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -30,6 +31,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -261,6 +263,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPath, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPath, "__init__.py"));
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+            supportingFiles.add(new SupportingFile("signing.mustache", packagePath(), "signing.py"));
+        }
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");

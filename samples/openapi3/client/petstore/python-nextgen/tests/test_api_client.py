@@ -45,7 +45,9 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params,
+                                      auth_settings,
+                                      None, None, None)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')

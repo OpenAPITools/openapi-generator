@@ -16,13 +16,22 @@ PYTHON_REQUIRES = ">=3.7"
 {{#apiInfo}}
 {{#apis}}
 {{#-last}}
-REQUIRES = ["urllib3 >= 1.25.3", "python-dateutil", "pydantic", "aenum"]
+REQUIRES = [
+    "urllib3 >= 1.25.3",
+    "python-dateutil",
 {{#asyncio}}
-REQUIRES.append("aiohttp >= 3.0.0")
+    "aiohttp >= 3.0.0",
 {{/asyncio}}
 {{#tornado}}
-REQUIRES.append("tornado>=4.2,<5")
+    "tornado>=4.2,<5",
 {{/tornado}}
+{{#hasHttpSignatureMethods}}
+    "pem>=19.3.0",
+    "pycryptodome>=3.9.0",
+{{/hasHttpSignatureMethods}}
+    "pydantic",
+    "aenum"
+]
 
 setup(
     name=NAME,
