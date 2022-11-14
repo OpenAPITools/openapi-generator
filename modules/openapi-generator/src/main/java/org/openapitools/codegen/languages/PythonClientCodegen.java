@@ -889,7 +889,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     @Override
     public String toModelImport(String name) {
         // name looks like Cat
-        return "from " + packagePath() + "." +  modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
+        return "from " + packageName + "." +  modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
     }
 
     @Override

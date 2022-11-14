@@ -224,4 +224,13 @@ public class PythonClientTest {
         Assert.assertEquals(enumVars.get(0).get("name"), "DIGIT_THREE_67B9C");
         Assert.assertEquals(enumVars.get(1).get("name"), "FFA5A4");
     }
+
+    @Test(description = "format imports of models using a package containing dots")
+    public void testImportWithQualifiedPackageName() throws Exception {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setPackageName("openapi.client");
+
+        String importValue = codegen.toModelImport("model_name");
+        Assert.assertEquals(importValue, "from openapi.client.model.model_name import ModelName");
+    }
 }
