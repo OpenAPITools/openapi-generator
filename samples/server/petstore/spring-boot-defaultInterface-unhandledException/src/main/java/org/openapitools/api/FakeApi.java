@@ -16,6 +16,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -43,6 +45,7 @@ import javax.annotation.Generated;
 @Validated
 @Tag(name = "fake", description = "the fake API")
 public interface FakeApi {
+
 
     /**
      * POST /fake/create_xml_item : creates an XmlItem
@@ -306,6 +309,292 @@ public interface FakeApi {
     ) throws Exception;
 
 
+  /**
+   * Gets or Sets enumHeaderStringArray
+   */
+  public enum EnumHeaderStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumHeaderStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumHeaderStringArrayEnum fromValue(String value) {
+      for (EnumHeaderStringArrayEnum b : EnumHeaderStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Header parameter enum test (string)
+   */
+  public enum EnumHeaderStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumHeaderStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumHeaderStringEnum fromValue(String value) {
+      for (EnumHeaderStringEnum b : EnumHeaderStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Gets or Sets enumQueryStringArray
+   */
+  public enum EnumQueryStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumQueryStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryStringArrayEnum fromValue(String value) {
+      for (EnumQueryStringArrayEnum b : EnumQueryStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (string)
+   */
+  public enum EnumQueryStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumQueryStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryStringEnum fromValue(String value) {
+      for (EnumQueryStringEnum b : EnumQueryStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (double)
+   */
+  public enum EnumQueryIntegerEnum {
+    NUMBER_1(1),
+    
+    NUMBER_MINUS_2(-2);
+
+    private Integer value;
+
+    EnumQueryIntegerEnum(Integer value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryIntegerEnum fromValue(Integer value) {
+      for (EnumQueryIntegerEnum b : EnumQueryIntegerEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (double)
+   */
+  public enum EnumQueryDoubleEnum {
+    NUMBER_1_DOT_1(1.1),
+    
+    NUMBER_MINUS_1_DOT_2(-1.2);
+
+    private Double value;
+
+    EnumQueryDoubleEnum(Double value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Double getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryDoubleEnum fromValue(Double value) {
+      for (EnumQueryDoubleEnum b : EnumQueryDoubleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Gets or Sets enumFormStringArray
+   */
+  public enum EnumFormStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumFormStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumFormStringArrayEnum fromValue(String value) {
+      for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Form parameter enum test (string)
+   */
+  public enum EnumFormStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumFormStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumFormStringEnum fromValue(String value) {
+      for (EnumFormStringEnum b : EnumFormStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -316,7 +605,7 @@ public interface FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
@@ -336,14 +625,14 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)") @RequestHeader(value = "enum_header_string_array", required = false) List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") EnumHeaderStringEnum enumHeaderString,
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
+        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
+        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<EnumFormStringArrayEnum> enumFormStringArray,
+        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) EnumFormStringEnum enumFormString
     ) throws Exception;
 
 

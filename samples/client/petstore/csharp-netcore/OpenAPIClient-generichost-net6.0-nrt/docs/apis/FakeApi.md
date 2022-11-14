@@ -954,7 +954,7 @@ namespace Example
             var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
             var enumHeaderString = "_abc";  // string? | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryString = "_abc";  // string? | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumFormStringArray = new List<string>?(); // List<string>? | Form parameter enum test (string array) (optional)  (default to $)
+            var enumFormStringArray = new List<string>?(); // List<string>? | Form parameter enum test (string array) (optional)  (default to InnerEnum.Dollar)
             var enumFormString = "_abc";  // string? | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -1000,7 +1000,7 @@ catch (ApiException e)
 | **enumQueryDouble** | **double?** | Query parameter enum test (double) | [optional]  |
 | **enumHeaderString** | **string?** | Header parameter enum test (string) | [optional] [default to -efg] |
 | **enumQueryString** | **string?** | Query parameter enum test (string) | [optional] [default to -efg] |
-| **enumFormStringArray** | [**List&lt;string&gt;?**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
+| **enumFormStringArray** | [**List&lt;string&gt;?**](string.md) | Form parameter enum test (string array) | [optional] [default to InnerEnum.Dollar] |
 | **enumFormString** | **string?** | Form parameter enum test (string) | [optional] [default to -efg] |
 
 ### Return type

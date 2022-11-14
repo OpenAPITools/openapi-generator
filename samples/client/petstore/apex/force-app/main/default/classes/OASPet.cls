@@ -71,7 +71,7 @@ public class OASPet {
           pet.name = 'doggie';
           pet.photoUrls = new List<String>{''};
           pet.tags = new List<OASTag>{OASTag.getExample()};
-          pet.status = StatusEnum.AVAILABLE;
+          pet.status = StatusEnum.STATUSENUM_AVAILABLE;
         return pet;
     }
 

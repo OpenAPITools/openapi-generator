@@ -39,6 +39,7 @@ import javax.annotation.Generated;
 @VirtualService
 public interface UserApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

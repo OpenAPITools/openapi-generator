@@ -28,6 +28,7 @@ import javax.annotation.Generated;
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
+
     default AnotherFakeApiDelegate getDelegate() {
         return new AnotherFakeApiDelegate() {};
     }

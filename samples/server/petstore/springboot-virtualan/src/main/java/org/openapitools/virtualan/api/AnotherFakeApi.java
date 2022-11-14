@@ -37,6 +37,7 @@ import javax.annotation.Generated;
 @VirtualService
 public interface AnotherFakeApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

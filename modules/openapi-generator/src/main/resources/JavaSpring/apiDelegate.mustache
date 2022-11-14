@@ -26,8 +26,21 @@ import jakarta.annotation.Generated;
 {{^useJakartaEe}}
 import javax.annotation.Generated;
 {{/useJakartaEe}}
-
 {{#operations}}
+    {{#operation}}
+        {{#allParams}}
+            {{#isEnum}}
+                {{^isContainer}}
+import static {{package}}.{{classname}}.{{datatypeWithEnum}};
+                {{/isContainer}}
+                {{#isContainer}}
+                    {{#mostInnerItems}}
+import static {{package}}.{{classname}}.{{datatypeWithEnum}};
+                    {{/mostInnerItems}}
+                {{/isContainer}}
+            {{/isEnum}}
+        {{/allParams}}
+    {{/operation}}
 /**
  * A delegate to be called by the {@link {{classname}}Controller}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.

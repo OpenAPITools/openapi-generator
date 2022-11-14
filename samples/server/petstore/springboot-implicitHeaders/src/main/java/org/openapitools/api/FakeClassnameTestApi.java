@@ -27,6 +27,7 @@ import javax.annotation.Generated;
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

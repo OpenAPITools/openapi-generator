@@ -34,6 +34,7 @@ import javax.annotation.Generated;
 @Tag(name = "nullable", description = "the nullable API")
 public interface NullableApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

@@ -34,6 +34,7 @@ import javax.annotation.Generated;
 @Tag(name = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
+
     default AnotherFakeApiDelegate getDelegate() {
         return new AnotherFakeApiDelegate() {};
     }

@@ -932,7 +932,7 @@ public class FakeApi {
      * @see #enumQueryStringQuery Query parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryIntegerQuery Query parameter enum test (double) (optional)
      * @see #enumQueryDoubleQuery Query parameter enum test (double) (optional)
-     * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional, default to $)
+     * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @see #enumFormStringForm Form parameter enum test (string) (optional, default to -efg)
      */
     public static class TestEnumParametersOper implements Oper {
@@ -1030,7 +1030,7 @@ public class FakeApi {
          public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
 
          /**
-         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
+         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {

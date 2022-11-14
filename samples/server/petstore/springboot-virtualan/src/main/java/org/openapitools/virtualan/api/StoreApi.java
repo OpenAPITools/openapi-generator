@@ -38,6 +38,7 @@ import javax.annotation.Generated;
 @VirtualService
 public interface StoreApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

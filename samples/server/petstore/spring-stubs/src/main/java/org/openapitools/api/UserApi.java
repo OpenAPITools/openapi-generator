@@ -29,6 +29,7 @@ import javax.annotation.Generated;
 @Api(value = "user", description = "Operations about user")
 public interface UserApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

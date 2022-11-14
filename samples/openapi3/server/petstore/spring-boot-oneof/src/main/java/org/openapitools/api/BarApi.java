@@ -35,6 +35,7 @@ import javax.annotation.Generated;
 @Tag(name = "bar", description = "the bar API")
 public interface BarApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

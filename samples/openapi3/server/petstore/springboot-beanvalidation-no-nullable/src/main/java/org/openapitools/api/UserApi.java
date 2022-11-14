@@ -36,6 +36,7 @@ import javax.annotation.Generated;
 @Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

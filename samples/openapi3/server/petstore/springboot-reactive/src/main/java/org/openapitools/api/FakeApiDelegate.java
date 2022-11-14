@@ -11,6 +11,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
-
+import static org.openapitools.api.FakeApi.EnumHeaderStringArrayEnum;
+import static org.openapitools.api.FakeApi.EnumHeaderStringEnum;
+import static org.openapitools.api.FakeApi.EnumQueryStringArrayEnum;
+import static org.openapitools.api.FakeApi.EnumQueryStringEnum;
+import static org.openapitools.api.FakeApi.EnumQueryIntegerEnum;
+import static org.openapitools.api.FakeApi.EnumQueryDoubleEnum;
+import static org.openapitools.api.FakeApi.EnumFormStringArrayEnum;
+import static org.openapitools.api.FakeApi.EnumFormStringEnum;
 /**
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
@@ -233,20 +242,20 @@ public interface FakeApiDelegate {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    default Mono<ResponseEntity<Void>> testEnumParameters(List<String> enumHeaderStringArray,
-        String enumHeaderString,
-        List<String> enumQueryStringArray,
-        String enumQueryString,
-        Integer enumQueryInteger,
-        Double enumQueryDouble,
-        List<String> enumFormStringArray,
-        String enumFormString,
+    default Mono<ResponseEntity<Void>> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        EnumHeaderStringEnum enumHeaderString,
+        List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        EnumQueryStringEnum enumQueryString,
+        EnumQueryIntegerEnum enumQueryInteger,
+        EnumQueryDoubleEnum enumQueryDouble,
+        List<EnumFormStringArrayEnum> enumFormStringArray,
+        EnumFormStringEnum enumFormString,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

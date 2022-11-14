@@ -30,6 +30,7 @@ import javax.annotation.Generated;
 @Tag(name = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
+
     default FakeClassnameTestApiDelegate getDelegate() {
         return new FakeClassnameTestApiDelegate() {};
     }

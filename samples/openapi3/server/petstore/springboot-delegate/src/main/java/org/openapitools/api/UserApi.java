@@ -32,6 +32,7 @@ import javax.annotation.Generated;
 @Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
+
     default UserApiDelegate getDelegate() {
         return new UserApiDelegate() {};
     }

@@ -30,6 +30,7 @@ import javax.annotation.Generated;
 @Api(value = "User", description = "Operations about user")
 public interface UserApi {
 
+
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.

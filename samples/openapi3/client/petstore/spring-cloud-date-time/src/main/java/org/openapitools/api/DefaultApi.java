@@ -36,6 +36,7 @@ import javax.annotation.Generated;
 @Tag(name = "Default", description = "the Default API")
 public interface DefaultApi {
 
+
     /**
      * GET /thingy/{date}
      *

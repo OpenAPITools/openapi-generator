@@ -1405,13 +1405,13 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
+        List<String> enumHeaderStringArray = Arrays.asList("EnumHeaderStringArrayEnum.DOLLAR"); // List<String> | Header parameter enum test (string array)
         String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
-        List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
+        List<String> enumQueryStringArray = Arrays.asList("EnumQueryStringArrayEnum.DOLLAR"); // List<String> | Query parameter enum test (string array)
         String enumQueryString = "_abc"; // String | Query parameter enum test (string)
         Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
         Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        List<String> enumFormStringArray = Arrays.asList("EnumFormStringArrayEnum.DOLLAR"); // List<String> | Form parameter enum test (string array)
         String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             CompletableFuture<Void> result = apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
@@ -1486,13 +1486,13 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
+        List<String> enumHeaderStringArray = Arrays.asList("EnumHeaderStringArrayEnum.DOLLAR"); // List<String> | Header parameter enum test (string array)
         String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
-        List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
+        List<String> enumQueryStringArray = Arrays.asList("EnumQueryStringArrayEnum.DOLLAR"); // List<String> | Query parameter enum test (string array)
         String enumQueryString = "_abc"; // String | Query parameter enum test (string)
         Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
         Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        List<String> enumFormStringArray = Arrays.asList("EnumFormStringArrayEnum.DOLLAR"); // List<String> | Form parameter enum test (string array)
         String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);

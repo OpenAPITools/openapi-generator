@@ -338,7 +338,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
+        List<String> status = Arrays.asList("StatusEnum.AVAILABLE"); // List<String> | Status values that need to be considered for filter
         try {
             List<Pet> result = apiInstance.findPetsByStatus(status);
             System.out.println(result);
@@ -410,7 +410,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
+        List<String> status = Arrays.asList("StatusEnum.AVAILABLE"); // List<String> | Status values that need to be considered for filter
         try {
             ApiResponse<List<Pet>> response = apiInstance.findPetsByStatusWithHttpInfo(status);
             System.out.println("Status code: " + response.getStatusCode());

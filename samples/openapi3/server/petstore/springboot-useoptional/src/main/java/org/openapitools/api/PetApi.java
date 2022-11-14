@@ -8,6 +8,8 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -35,6 +37,7 @@ import javax.annotation.Generated;
 @Validated
 @Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
+
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
@@ -104,6 +107,43 @@ public interface PetApi {
 
     }
 
+
+  /**
+   * Gets or Sets status
+   */
+  public enum StatusEnum {
+    AVAILABLE("available"),
+    
+    PENDING("pending"),
+    
+    SOLD("sold");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
 
     /**
      * GET /pet/findByStatus : Finds Pets by status

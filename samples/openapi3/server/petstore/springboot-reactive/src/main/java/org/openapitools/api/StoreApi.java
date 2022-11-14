@@ -35,6 +35,7 @@ import javax.annotation.Generated;
 @Tag(name = "store", description = "Access to Petstore orders")
 public interface StoreApi {
 
+
     default StoreApiDelegate getDelegate() {
         return new StoreApiDelegate() {};
     }

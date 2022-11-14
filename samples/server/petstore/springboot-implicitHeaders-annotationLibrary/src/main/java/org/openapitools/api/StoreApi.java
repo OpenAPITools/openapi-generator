@@ -26,6 +26,7 @@ import javax.annotation.Generated;
 @Validated
 public interface StoreApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

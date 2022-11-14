@@ -36,6 +36,7 @@ import javax.annotation.Generated;
 @Tag(name = "Store", description = "Access to Petstore orders")
 public interface StoreApi {
 
+
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors

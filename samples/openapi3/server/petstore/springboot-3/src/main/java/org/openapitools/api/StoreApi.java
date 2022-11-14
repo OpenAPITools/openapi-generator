@@ -35,6 +35,7 @@ import jakarta.annotation.Generated;
 @Tag(name = "store", description = "Access to Petstore orders")
 public interface StoreApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

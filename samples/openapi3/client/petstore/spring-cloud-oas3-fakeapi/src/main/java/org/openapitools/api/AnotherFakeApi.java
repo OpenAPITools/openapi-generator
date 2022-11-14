@@ -34,6 +34,7 @@ import javax.annotation.Generated;
 @Tag(name = "AnotherFake", description = "the AnotherFake API")
 public interface AnotherFakeApi {
 
+
     /**
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number

@@ -983,7 +983,7 @@ namespace Example
             var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
             var enumQueryModelArray = new List<EnumClass>(); // List<EnumClass> |  (optional) 
-            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to InnerEnum.Dollar)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -1014,7 +1014,7 @@ Name | Type | Description  | Notes
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
  **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] 
- **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
+ **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to InnerEnum.Dollar]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type
