@@ -372,8 +372,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -401,8 +399,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($pet_id)) {
             throw new \InvalidArgumentException('non-nullable pet_id cannot be null');
         }
-
-
         $this->container['pet_id'] = $pet_id;
 
         return $this;
@@ -430,8 +426,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($quantity)) {
             throw new \InvalidArgumentException('non-nullable quantity cannot be null');
         }
-
-
         $this->container['quantity'] = $quantity;
 
         return $this;
@@ -459,8 +453,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($ship_date)) {
             throw new \InvalidArgumentException('non-nullable ship_date cannot be null');
         }
-
-
         $this->container['ship_date'] = $ship_date;
 
         return $this;
@@ -488,7 +480,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($status)) {
             throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
-
         $allowedValues = $this->getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
             throw new \InvalidArgumentException(
@@ -499,7 +490,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
         $this->container['status'] = $status;
 
         return $this;
@@ -527,8 +517,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($complete)) {
             throw new \InvalidArgumentException('non-nullable complete cannot be null');
         }
-
-
         $this->container['complete'] = $complete;
 
         return $this;

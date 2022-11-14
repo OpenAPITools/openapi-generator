@@ -312,8 +312,6 @@ class ModelReturn implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($return)) {
             throw new \InvalidArgumentException('non-nullable return cannot be null');
         }
-
-
         $this->container['return'] = $return;
 
         return $this;

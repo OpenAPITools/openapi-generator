@@ -318,8 +318,6 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($bar)) {
             throw new \InvalidArgumentException('non-nullable bar cannot be null');
         }
-
-
         $this->container['bar'] = $bar;
 
         return $this;
@@ -347,8 +345,6 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($foo)) {
             throw new \InvalidArgumentException('non-nullable foo cannot be null');
         }
-
-
         $this->container['foo'] = $foo;
 
         return $this;

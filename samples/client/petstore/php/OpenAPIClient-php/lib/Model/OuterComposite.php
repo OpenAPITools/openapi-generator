@@ -325,8 +325,6 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($my_number)) {
             throw new \InvalidArgumentException('non-nullable my_number cannot be null');
         }
-
-
         $this->container['my_number'] = $my_number;
 
         return $this;
@@ -354,8 +352,6 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($my_string)) {
             throw new \InvalidArgumentException('non-nullable my_string cannot be null');
         }
-
-
         $this->container['my_string'] = $my_string;
 
         return $this;
@@ -383,8 +379,6 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($my_boolean)) {
             throw new \InvalidArgumentException('non-nullable my_boolean cannot be null');
         }
-
-
         $this->container['my_boolean'] = $my_boolean;
 
         return $this;

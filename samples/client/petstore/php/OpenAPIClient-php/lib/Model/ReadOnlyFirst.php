@@ -318,8 +318,6 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($bar)) {
             throw new \InvalidArgumentException('non-nullable bar cannot be null');
         }
-
-
         $this->container['bar'] = $bar;
 
         return $this;
@@ -347,8 +345,6 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($baz)) {
             throw new \InvalidArgumentException('non-nullable baz cannot be null');
         }
-
-
         $this->container['baz'] = $baz;
 
         return $this;

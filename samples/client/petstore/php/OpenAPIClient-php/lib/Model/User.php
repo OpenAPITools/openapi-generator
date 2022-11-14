@@ -360,8 +360,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -389,8 +387,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($username)) {
             throw new \InvalidArgumentException('non-nullable username cannot be null');
         }
-
-
         $this->container['username'] = $username;
 
         return $this;
@@ -418,8 +414,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($first_name)) {
             throw new \InvalidArgumentException('non-nullable first_name cannot be null');
         }
-
-
         $this->container['first_name'] = $first_name;
 
         return $this;
@@ -447,8 +441,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($last_name)) {
             throw new \InvalidArgumentException('non-nullable last_name cannot be null');
         }
-
-
         $this->container['last_name'] = $last_name;
 
         return $this;
@@ -476,8 +468,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($email)) {
             throw new \InvalidArgumentException('non-nullable email cannot be null');
         }
-
-
         $this->container['email'] = $email;
 
         return $this;
@@ -505,8 +495,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($password)) {
             throw new \InvalidArgumentException('non-nullable password cannot be null');
         }
-
-
         $this->container['password'] = $password;
 
         return $this;
@@ -534,8 +522,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($phone)) {
             throw new \InvalidArgumentException('non-nullable phone cannot be null');
         }
-
-
         $this->container['phone'] = $phone;
 
         return $this;
@@ -563,8 +549,6 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($user_status)) {
             throw new \InvalidArgumentException('non-nullable user_status cannot be null');
         }
-
-
         $this->container['user_status'] = $user_status;
 
         return $this;

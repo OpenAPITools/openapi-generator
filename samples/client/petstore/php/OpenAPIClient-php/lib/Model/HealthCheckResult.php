@@ -319,8 +319,6 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
-
         $this->container['nullable_message'] = $nullable_message;
 
         return $this;

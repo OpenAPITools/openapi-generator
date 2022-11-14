@@ -311,8 +311,6 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($_123_list)) {
             throw new \InvalidArgumentException('non-nullable _123_list cannot be null');
         }
-
-
         $this->container['_123_list'] = $_123_list;
 
         return $this;

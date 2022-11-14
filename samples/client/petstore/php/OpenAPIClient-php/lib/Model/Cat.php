@@ -305,8 +305,6 @@ class Cat extends Animal
         if (is_null($declawed)) {
             throw new \InvalidArgumentException('non-nullable declawed cannot be null');
         }
-
-
         $this->container['declawed'] = $declawed;
 
         return $this;

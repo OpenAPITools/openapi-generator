@@ -334,14 +334,12 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable array_of_string cannot be null');
         }
 
-
         if ((count($array_of_string) > 3)) {
             throw new \InvalidArgumentException('invalid value for $array_of_string when calling ArrayTest., number of items must be less than or equal to 3.');
         }
         if ((count($array_of_string) < 0)) {
             throw new \InvalidArgumentException('invalid length for $array_of_string when calling ArrayTest., number of items must be greater than or equal to 0.');
         }
-
         $this->container['array_of_string'] = $array_of_string;
 
         return $this;
@@ -369,8 +367,6 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($array_array_of_integer)) {
             throw new \InvalidArgumentException('non-nullable array_array_of_integer cannot be null');
         }
-
-
         $this->container['array_array_of_integer'] = $array_array_of_integer;
 
         return $this;
@@ -398,8 +394,6 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($array_array_of_model)) {
             throw new \InvalidArgumentException('non-nullable array_array_of_model cannot be null');
         }
-
-
         $this->container['array_array_of_model'] = $array_array_of_model;
 
         return $this;

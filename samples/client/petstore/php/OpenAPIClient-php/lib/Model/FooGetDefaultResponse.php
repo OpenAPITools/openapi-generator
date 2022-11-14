@@ -311,8 +311,6 @@ class FooGetDefaultResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         if (is_null($string)) {
             throw new \InvalidArgumentException('non-nullable string cannot be null');
         }
-
-
         $this->container['string'] = $string;
 
         return $this;

@@ -311,8 +311,6 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
         if (is_null($array_array_number)) {
             throw new \InvalidArgumentException('non-nullable array_array_number cannot be null');
         }
-
-
         $this->container['array_array_number'] = $array_array_number;
 
         return $this;

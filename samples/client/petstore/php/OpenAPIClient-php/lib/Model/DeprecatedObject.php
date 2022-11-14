@@ -311,8 +311,6 @@ class DeprecatedObject implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-
-
         $this->container['name'] = $name;
 
         return $this;

@@ -404,7 +404,6 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
             throw new \InvalidArgumentException('non-nullable {{name}} cannot be null');
         }
         {{/isNullable}}
-
         {{#isEnum}}
         $allowedValues = $this->{{getter}}AllowableValues();
         {{^isContainer}}
@@ -464,7 +463,6 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         }
         {{/minItems}}
         {{/hasValidation}}
-
         $this->container['{{name}}'] = ${{name}};
 
         return $this;

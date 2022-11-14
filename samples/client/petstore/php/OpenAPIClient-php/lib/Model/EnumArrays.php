@@ -357,7 +357,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($just_symbol)) {
             throw new \InvalidArgumentException('non-nullable just_symbol cannot be null');
         }
-
         $allowedValues = $this->getJustSymbolAllowableValues();
         if (!in_array($just_symbol, $allowedValues, true)) {
             throw new \InvalidArgumentException(
@@ -368,7 +367,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
         $this->container['just_symbol'] = $just_symbol;
 
         return $this;
@@ -396,7 +394,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($array_enum)) {
             throw new \InvalidArgumentException('non-nullable array_enum cannot be null');
         }
-
         $allowedValues = $this->getArrayEnumAllowableValues();
         if (array_diff($array_enum, $allowedValues)) {
             throw new \InvalidArgumentException(
@@ -406,7 +403,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
         $this->container['array_enum'] = $array_enum;
 
         return $this;

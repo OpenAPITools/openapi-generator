@@ -311,8 +311,6 @@ class SpecialModelName implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($special_property_name)) {
             throw new \InvalidArgumentException('non-nullable special_property_name cannot be null');
         }
-
-
         $this->container['special_property_name'] = $special_property_name;
 
         return $this;

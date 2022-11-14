@@ -319,8 +319,6 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-
-
         $this->container['name'] = $name;
 
         return $this;
@@ -348,8 +346,6 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($class)) {
             throw new \InvalidArgumentException('non-nullable class cannot be null');
         }
-
-
         $this->container['class'] = $class;
 
         return $this;
