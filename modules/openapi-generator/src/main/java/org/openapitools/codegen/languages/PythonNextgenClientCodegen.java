@@ -515,8 +515,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             hasModelsToImport = true;
             modelImports.add(cp.dataType);
             return cp.dataType;
+        } else if (cp.getContent() != null) {
+            LinkedHashMap<String, CodegenMediaType> contents = cp.getContent();
+            for (String key : contents.keySet()) {
+                CodegenMediaType cmt = contents.get(key);
+                // TODO process the first one only at the moment
+                if (cmt != null)
+                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports);
+            }
+            throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
         } else {
-            throw new RuntimeException("Error! CodegenProperty not yet supported in getPydanticType: " + cp);
+            throw new RuntimeException("Error! Codegen Parameter not yet supported in getPydanticType: " + cp);
         }
     }
 

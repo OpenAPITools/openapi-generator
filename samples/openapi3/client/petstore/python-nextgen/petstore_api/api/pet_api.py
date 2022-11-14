@@ -111,20 +111,6 @@ class PetApi(object):
         :rtype: None
         """
 
-        _hosts = [
-            'http://petstore.swagger.io/v2',
-            'http://path-server-test.petstore.local/v2',
-            'http://{server}.swagger.io:{port}/v2'
-        ]
-        _host = _hosts[0]
-        if kwargs.get('_host_index'):
-            _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(_hosts):
-                raise ApiValueError(
-                    "Invalid host index. Must be 0 <= index < %s"
-                    % len(_host)
-                )
-            _host = _hosts[_host_index]
         _params = locals()
 
         _all_params = [
@@ -144,7 +130,7 @@ class PetApi(object):
 
         # validate the arguments
         for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params and _key != "_host_index":
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method add_pet" % key
@@ -180,7 +166,7 @@ class PetApi(object):
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {}
 
@@ -198,7 +184,6 @@ class PetApi(object):
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
-            _host=_host,
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
@@ -467,7 +452,7 @@ class PetApi(object):
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {
             200: "List[Pet]",
@@ -612,7 +597,7 @@ class PetApi(object):
             ['application/xml', 'application/json'])  # noqa: E501
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {
             200: "List[Pet]",
@@ -849,20 +834,6 @@ class PetApi(object):
         :rtype: None
         """
 
-        _hosts = [
-            'http://petstore.swagger.io/v2',
-            'http://path-server-test.petstore.local/v2',
-            'http://{server}.swagger.io:{port}/v2'
-        ]
-        _host = _hosts[0]
-        if kwargs.get('_host_index'):
-            _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(_hosts):
-                raise ApiValueError(
-                    "Invalid host index. Must be 0 <= index < %s"
-                    % len(_host)
-                )
-            _host = _hosts[_host_index]
         _params = locals()
 
         _all_params = [
@@ -882,7 +853,7 @@ class PetApi(object):
 
         # validate the arguments
         for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params and _key != "_host_index":
+            if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet" % key
@@ -918,7 +889,7 @@ class PetApi(object):
                 _header_params['Content-Type'] = _content_types_list
 
         # authentication setting
-        _auth_settings = ['petstore_auth']  # noqa: E501
+        _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {}
 
@@ -936,7 +907,6 @@ class PetApi(object):
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
-            _host=_host,
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 

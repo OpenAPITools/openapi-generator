@@ -649,7 +649,7 @@ class ApiClient(object):
                 # that are calculated dynamically.
                 signing_info = self.configuration.signing_info
                 auth_headers = signing_info.get_http_signature_headers(
-                resource_path, method, headers, body, querys)
+                resource_path, method, headers, body, queries)
                 headers.update(auth_headers)
         elif auth_setting['in'] == 'query':
             queries.append((auth_setting['key'], auth_setting['value']))
