@@ -208,7 +208,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
         switch T.self {
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: () as! T)))
+            completion(.success(Response(response: httpResponse, body: () as! T, bodyData: data)))
 
         default:
             fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
@@ -303,7 +303,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
-            completion(.success(Response<T>(response: httpResponse, body: body as! T)))
+            completion(.success(Response<T>(response: httpResponse, body: body as! T, bodyData: data)))
 
         case is URL.Type:
             do {
@@ -334,7 +334,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                 try data.write(to: filePath, options: .atomic)
 
-                completion(.success(Response(response: httpResponse, body: filePath as! T)))
+                completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
@@ -344,30 +344,30 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: () as! T)))
+            completion(.success(Response(response: httpResponse, body: () as! T, bodyData: data)))
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: data as! T)))
+            completion(.success(Response(response: httpResponse, body: data as! T, bodyData: data)))
 
         default:
 
-            guard let data = data, !data.isEmpty else {
+            guard let unwrappedData = data, !unwrappedData.isEmpty else {
                 if let E = T.self as? ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T)))
+                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }
                 return
             }
 
-            let decodeResult = CodableHelper.decode(T.self, from: data)
+            let decodeResult = CodableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
-                completion(.success(Response(response: httpResponse, body: decodableObj)))
+                completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: unwrappedData)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, error)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, unwrappedData, response, error)))
             }
         }
     }
