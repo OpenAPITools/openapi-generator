@@ -309,10 +309,10 @@ class ModelReturn implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setReturn($return)
     {
-
         if (is_null($return)) {
             throw new \InvalidArgumentException('non-nullable return cannot be null');
         }
+
 
         $this->container['return'] = $return;
 

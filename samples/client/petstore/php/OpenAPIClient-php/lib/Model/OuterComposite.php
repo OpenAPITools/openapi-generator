@@ -322,10 +322,10 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMyNumber($my_number)
     {
-
         if (is_null($my_number)) {
             throw new \InvalidArgumentException('non-nullable my_number cannot be null');
         }
+
 
         $this->container['my_number'] = $my_number;
 
@@ -351,10 +351,10 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMyString($my_string)
     {
-
         if (is_null($my_string)) {
             throw new \InvalidArgumentException('non-nullable my_string cannot be null');
         }
+
 
         $this->container['my_string'] = $my_string;
 
@@ -380,10 +380,10 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMyBoolean($my_boolean)
     {
-
         if (is_null($my_boolean)) {
             throw new \InvalidArgumentException('non-nullable my_boolean cannot be null');
         }
+
 
         $this->container['my_boolean'] = $my_boolean;
 

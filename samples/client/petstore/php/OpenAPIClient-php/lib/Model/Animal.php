@@ -321,10 +321,10 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setClassName($class_name)
     {
-
         if (is_null($class_name)) {
             throw new \InvalidArgumentException('non-nullable class_name cannot be null');
         }
+
 
         $this->container['class_name'] = $class_name;
 
@@ -350,10 +350,10 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setColor($color)
     {
-
         if (is_null($color)) {
             throw new \InvalidArgumentException('non-nullable color cannot be null');
         }
+
 
         $this->container['color'] = $color;
 

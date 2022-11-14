@@ -375,10 +375,10 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setId($id)
     {
-
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
+
 
         $this->container['id'] = $id;
 
@@ -404,10 +404,10 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setCategory($category)
     {
-
         if (is_null($category)) {
             throw new \InvalidArgumentException('non-nullable category cannot be null');
         }
+
 
         $this->container['category'] = $category;
 
@@ -433,10 +433,10 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setName($name)
     {
-
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
+
 
         $this->container['name'] = $name;
 
@@ -462,12 +462,12 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setPhotoUrls($photo_urls)
     {
-
-
-
         if (is_null($photo_urls)) {
             throw new \InvalidArgumentException('non-nullable photo_urls cannot be null');
         }
+
+
+
 
         $this->container['photo_urls'] = $photo_urls;
 
@@ -493,10 +493,10 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setTags($tags)
     {
-
         if (is_null($tags)) {
             throw new \InvalidArgumentException('non-nullable tags cannot be null');
         }
+
 
         $this->container['tags'] = $tags;
 
@@ -522,8 +522,12 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setStatus($status)
     {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+
         $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($status) && !in_array($status, $allowedValues, true)) {
+        if (!in_array($status, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'status', must be one of '%s'",
@@ -531,10 +535,6 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
                     implode("', '", $allowedValues)
                 )
             );
-        }
-
-        if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
 
         $this->container['status'] = $status;

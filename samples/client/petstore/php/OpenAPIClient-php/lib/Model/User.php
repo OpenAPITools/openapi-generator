@@ -357,10 +357,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setId($id)
     {
-
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
+
 
         $this->container['id'] = $id;
 
@@ -386,10 +386,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setUsername($username)
     {
-
         if (is_null($username)) {
             throw new \InvalidArgumentException('non-nullable username cannot be null');
         }
+
 
         $this->container['username'] = $username;
 
@@ -415,10 +415,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setFirstName($first_name)
     {
-
         if (is_null($first_name)) {
             throw new \InvalidArgumentException('non-nullable first_name cannot be null');
         }
+
 
         $this->container['first_name'] = $first_name;
 
@@ -444,10 +444,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setLastName($last_name)
     {
-
         if (is_null($last_name)) {
             throw new \InvalidArgumentException('non-nullable last_name cannot be null');
         }
+
 
         $this->container['last_name'] = $last_name;
 
@@ -473,10 +473,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setEmail($email)
     {
-
         if (is_null($email)) {
             throw new \InvalidArgumentException('non-nullable email cannot be null');
         }
+
 
         $this->container['email'] = $email;
 
@@ -502,10 +502,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setPassword($password)
     {
-
         if (is_null($password)) {
             throw new \InvalidArgumentException('non-nullable password cannot be null');
         }
+
 
         $this->container['password'] = $password;
 
@@ -531,10 +531,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setPhone($phone)
     {
-
         if (is_null($phone)) {
             throw new \InvalidArgumentException('non-nullable phone cannot be null');
         }
+
 
         $this->container['phone'] = $phone;
 
@@ -560,10 +560,10 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setUserStatus($user_status)
     {
-
         if (is_null($user_status)) {
             throw new \InvalidArgumentException('non-nullable user_status cannot be null');
         }
+
 
         $this->container['user_status'] = $user_status;
 

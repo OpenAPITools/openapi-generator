@@ -308,10 +308,10 @@ class FooGetDefaultResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function setString($string)
     {
-
         if (is_null($string)) {
             throw new \InvalidArgumentException('non-nullable string cannot be null');
         }
+
 
         $this->container['string'] = $string;
 

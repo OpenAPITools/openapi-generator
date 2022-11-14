@@ -329,10 +329,10 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      */
     public function setUuid($uuid)
     {
-
         if (is_null($uuid)) {
             throw new \InvalidArgumentException('non-nullable uuid cannot be null');
         }
+
 
         $this->container['uuid'] = $uuid;
 
@@ -360,10 +360,10 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      */
     public function setId($id)
     {
-
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
+
 
         $this->container['id'] = $id;
 
@@ -391,10 +391,10 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      */
     public function setDeprecatedRef($deprecated_ref)
     {
-
         if (is_null($deprecated_ref)) {
             throw new \InvalidArgumentException('non-nullable deprecated_ref cannot be null');
         }
+
 
         $this->container['deprecated_ref'] = $deprecated_ref;
 
@@ -422,10 +422,10 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      */
     public function setBars($bars)
     {
-
         if (is_null($bars)) {
             throw new \InvalidArgumentException('non-nullable bars cannot be null');
         }
+
 
         $this->container['bars'] = $bars;
 

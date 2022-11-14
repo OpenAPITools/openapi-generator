@@ -311,10 +311,10 @@ class OuterObjectWithEnumProperty implements ModelInterface, ArrayAccess, \JsonS
      */
     public function setValue($value)
     {
-
         if (is_null($value)) {
             throw new \InvalidArgumentException('non-nullable value cannot be null');
         }
+
 
         $this->container['value'] = $value;
 

@@ -308,10 +308,10 @@ class Client implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setClient($client)
     {
-
         if (is_null($client)) {
             throw new \InvalidArgumentException('non-nullable client cannot be null');
         }
+
 
         $this->container['client'] = $client;
 

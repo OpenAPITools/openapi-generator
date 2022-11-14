@@ -316,10 +316,10 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setName($name)
     {
-
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
+
 
         $this->container['name'] = $name;
 
@@ -345,10 +345,10 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setClass($class)
     {
-
         if (is_null($class)) {
             throw new \InvalidArgumentException('non-nullable class cannot be null');
         }
+
 
         $this->container['class'] = $class;
 

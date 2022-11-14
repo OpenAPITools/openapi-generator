@@ -302,10 +302,10 @@ class Dog extends Animal
      */
     public function setBreed($breed)
     {
-
         if (is_null($breed)) {
             throw new \InvalidArgumentException('non-nullable breed cannot be null');
         }
+
 
         $this->container['breed'] = $breed;
 

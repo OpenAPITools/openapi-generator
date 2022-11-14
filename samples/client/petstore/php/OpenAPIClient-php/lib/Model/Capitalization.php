@@ -343,10 +343,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setSmallCamel($small_camel)
     {
-
         if (is_null($small_camel)) {
             throw new \InvalidArgumentException('non-nullable small_camel cannot be null');
         }
+
 
         $this->container['small_camel'] = $small_camel;
 
@@ -372,10 +372,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setCapitalCamel($capital_camel)
     {
-
         if (is_null($capital_camel)) {
             throw new \InvalidArgumentException('non-nullable capital_camel cannot be null');
         }
+
 
         $this->container['capital_camel'] = $capital_camel;
 
@@ -401,10 +401,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setSmallSnake($small_snake)
     {
-
         if (is_null($small_snake)) {
             throw new \InvalidArgumentException('non-nullable small_snake cannot be null');
         }
+
 
         $this->container['small_snake'] = $small_snake;
 
@@ -430,10 +430,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setCapitalSnake($capital_snake)
     {
-
         if (is_null($capital_snake)) {
             throw new \InvalidArgumentException('non-nullable capital_snake cannot be null');
         }
+
 
         $this->container['capital_snake'] = $capital_snake;
 
@@ -459,10 +459,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setScaEthFlowPoints($sca_eth_flow_points)
     {
-
         if (is_null($sca_eth_flow_points)) {
             throw new \InvalidArgumentException('non-nullable sca_eth_flow_points cannot be null');
         }
+
 
         $this->container['sca_eth_flow_points'] = $sca_eth_flow_points;
 
@@ -488,10 +488,10 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setAttName($att_name)
     {
-
         if (is_null($att_name)) {
             throw new \InvalidArgumentException('non-nullable att_name cannot be null');
         }
+
 
         $this->container['att_name'] = $att_name;
 

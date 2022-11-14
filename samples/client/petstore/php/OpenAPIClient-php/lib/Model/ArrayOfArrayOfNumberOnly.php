@@ -308,10 +308,10 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
      */
     public function setArrayArrayNumber($array_array_number)
     {
-
         if (is_null($array_array_number)) {
             throw new \InvalidArgumentException('non-nullable array_array_number cannot be null');
         }
+
 
         $this->container['array_array_number'] = $array_array_number;
 

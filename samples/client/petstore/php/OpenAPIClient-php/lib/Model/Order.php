@@ -369,10 +369,10 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setId($id)
     {
-
         if (is_null($id)) {
             throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
+
 
         $this->container['id'] = $id;
 
@@ -398,10 +398,10 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setPetId($pet_id)
     {
-
         if (is_null($pet_id)) {
             throw new \InvalidArgumentException('non-nullable pet_id cannot be null');
         }
+
 
         $this->container['pet_id'] = $pet_id;
 
@@ -427,10 +427,10 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setQuantity($quantity)
     {
-
         if (is_null($quantity)) {
             throw new \InvalidArgumentException('non-nullable quantity cannot be null');
         }
+
 
         $this->container['quantity'] = $quantity;
 
@@ -456,10 +456,10 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setShipDate($ship_date)
     {
-
         if (is_null($ship_date)) {
             throw new \InvalidArgumentException('non-nullable ship_date cannot be null');
         }
+
 
         $this->container['ship_date'] = $ship_date;
 
@@ -485,8 +485,12 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setStatus($status)
     {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+
         $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($status) && !in_array($status, $allowedValues, true)) {
+        if (!in_array($status, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'status', must be one of '%s'",
@@ -494,10 +498,6 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
                     implode("', '", $allowedValues)
                 )
             );
-        }
-
-        if (is_null($status)) {
-            throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
 
         $this->container['status'] = $status;
@@ -524,10 +524,10 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setComplete($complete)
     {
-
         if (is_null($complete)) {
             throw new \InvalidArgumentException('non-nullable complete cannot be null');
         }
+
 
         $this->container['complete'] = $complete;
 
