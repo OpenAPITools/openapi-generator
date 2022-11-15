@@ -558,6 +558,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                     param.vendorExtensions.put("x-export-param-name", sb.toString());
                 }
+
+                // set x-is-param-oneof
+                param.vendorExtensions.put("x-is-param-oneof", param.getComposedSchemas() != null && param.getComposedSchemas().getOneOf() != null);
+            }
+
+            for (CodegenParameter param : operation.pathParams) {
+                // set x-is-param-oneof
+                param.vendorExtensions.put("x-is-param-oneof", param.getComposedSchemas() != null && param.getComposedSchemas().getOneOf() != null);
             }
 
             setExportParameterName(operation.queryParams);
@@ -600,6 +608,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                 param.vendorExtensions.put("x-export-param-name", sb.toString());
             }
+
+            // set x-is-param-oneof
+            param.vendorExtensions.put("x-is-param-oneof", param.getComposedSchemas() != null && param.getComposedSchemas().getOneOf() != null);
         }
     }
 
