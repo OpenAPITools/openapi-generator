@@ -1292,7 +1292,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		binaryLocalVarFile = r.binary
 	}
 	if binaryLocalVarFile != nil {
-		fbs, _ := ioutil.ReadAll(&binaryLocalVarFile)
+		fbs, _ := ioutil.ReadAll(binaryLocalVarFile)
 		binaryLocalVarFileBytes = fbs
 		binaryLocalVarFileName = binaryLocalVarFile.Name()
 		binaryLocalVarFile.Close()
