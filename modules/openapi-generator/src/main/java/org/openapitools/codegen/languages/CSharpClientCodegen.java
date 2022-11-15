@@ -207,6 +207,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
+        
+        addSwitch(CodegenConstants.OPTIONAL_GENERATE_OPTIONAL_PROPERTIES_AS_NULLABLE,
+                CodegenConstants.OPTIONAL_GENERATE_OPTIONAL_PROPERTIES_AS_NULLABLE_DESC,
+                this.optionalGenerateOptionalPropertiesAsNullableFlag);
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -404,6 +408,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
         }
+        
+         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_GENERATE_OPTIONAL_PROPERTIES_AS_NULLABLE)) {
+            setOptionalGenerateOptionalPropertiesAsNullableFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_GENERATE_OPTIONAL_PROPERTIES_AS_NULLABLE));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_GENERATE_OPTIONAL_PROPERTIES_AS_NULLABLE, optionalGenerateOptionalPropertiesAsNullableFlag);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
             setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
@@ -559,6 +569,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setOptionalEmitDefaultValuesFlag(boolean flag) {
         this.optionalEmitDefaultValuesFlag = flag;
     }
+    
+    public void setOptionalGenerateOptionalPropertiesAsNullableFlag(boolean flag) {
+        this.optionalGenerateOptionalPropertiesAsNullableFlag = flag;
+    }
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
@@ -640,8 +654,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
         super.postProcessModelProperty(model, property);
-
-        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+        
+        if(nullableType.contains(property.dataType)) { //optional
+            property.dataType = property.dataType + "?";
+        } else if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }
     }
