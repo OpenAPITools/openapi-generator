@@ -267,10 +267,10 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		{{paramName}}LocalVarFile = r.{{paramName}}
 	}
 	if {{paramName}}LocalVarFile != nil {
-		fbs, _ := ioutil.ReadAll(&{{paramName}}LocalVarFile)
+		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
 		{{/required}}
         {{#required}}
-        		fbs, _ := ioutil.ReadAll(&{{paramName}}LocalVarFile)
+        		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
         {{/required}}
 		{{paramName}}LocalVarFileBytes = fbs
 		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
