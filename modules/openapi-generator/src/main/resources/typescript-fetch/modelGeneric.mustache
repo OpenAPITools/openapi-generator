@@ -1,4 +1,6 @@
+{{^withoutRuntimeChecks}}
 import { exists, mapValues } from '../runtime';
+{{/withoutRuntimeChecks}}
 {{#hasImports}}
 {{#imports}}
 import type { {{{.}}} } from './{{.}}';
