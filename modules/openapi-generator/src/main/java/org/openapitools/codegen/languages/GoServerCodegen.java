@@ -305,7 +305,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
+                if (!addedOSImport && ("os.File".equals(param.dataType) || ("[]os.File".equals(param.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
