@@ -632,39 +632,21 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             boolean addedOSImport = false;
             CodegenModel model = m.getModel();
 
-            List<CodegenProperty> inheritedProperties = new ArrayList<>();
             if (model.getComposedSchemas() != null) {
-                if (model.getComposedSchemas().getAllOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getAllOf());
-                }
                 if (model.getComposedSchemas().getAnyOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
+                    model.vars.removeAll(model.getComposedSchemas().getAnyOf());
                 }
                 if (model.getComposedSchemas().getOneOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
+                    model.vars.removeAll(model.getComposedSchemas().getOneOf());
                 }
             }
 
-            List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if(model.getIsModel() || model.getComposedSchemas() == null) {
-                // If the model is a model, use model.vars as it only
-                // contains properties the generated struct will own itself.
-                // If model is no model and it has no composed schemas use
-                // model.vars.
-                codegenProperties.addAll(model.vars);
-            } else {
-                // If the model is no model, but is a
-                // allOf, anyOf or oneOf, add all first level options
-                // from allOf, anyOf or oneOf.
-                codegenProperties.addAll(inheritedProperties);
-            }
-
-            for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
-                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+            for (CodegenProperty cp : model.vars) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
+
                 if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
                         (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
@@ -674,11 +656,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
-            }
-
-            // if oneOf contains "time.Time" type
-            if (!addedTimeImport && model.oneOf != null && model.oneOf.contains("time.Time")) {
-                imports.add(createMapping("import", "time"));
             }
 
             // if oneOf contains "null" type
