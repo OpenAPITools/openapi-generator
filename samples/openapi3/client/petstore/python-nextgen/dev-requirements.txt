@@ -1,3 +1,2 @@
 tox
 flake8
-pycryptodome
