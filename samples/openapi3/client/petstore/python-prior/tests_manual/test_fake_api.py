@@ -14,7 +14,10 @@ from collections import namedtuple
 import os
 import json
 import unittest
+from pathlib import Path
 from unittest.mock import patch
+
+from urllib3.request import RequestMethods
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
@@ -489,6 +492,48 @@ class TestFakeApi(unittest.TestCase):
                 self.api.upload_files(files=file)
         finally:
             file.close()
+
+    def test_upload_with_mime_type(self):
+        """Upload a file, while setting a MIME type for that file.
+
+        Verify that:
+
+        * ``post_params`` may contain a three-tuple in the form ``(file_name, file_handle,
+          file_mime_type)``
+        * This three-tuple is passed to urllib3 as a tuple, without being converted to a list.
+
+        See:
+
+        * https://github.com/OpenAPITools/openapi-generator/issues/14012
+        * https://urllib3.readthedocs.io/en/stable/reference/urllib3.request.html
+        """
+        file_path = Path(__file__, "..", "..", "testfiles", "1px_pic1.png").resolve()
+        file_mime_type = "image/png"
+        with patch.object(RequestMethods, 'request') as request:
+            with open(file_path, mode="rb") as file_handle:
+                request.return_value.status = 200
+                resp = self.api.api_client.call_api(
+                    resource_path="/fake/uploadFile",
+                    method="POST",
+                    header_params={"Content-Type": "multipart/form-data"},
+                    post_params={"file": (file_path.name, file_handle, file_mime_type)},
+                )
+
+        # a single multipart/form-data POST call was made, with a single form field
+        request.assert_called_once()
+        fields = request.call_args.kwargs['fields']
+        self.assertEqual(len(fields), 1, fields)
+        field = fields[0]
+
+        # it is in the form (form_field_name, (filename, filedata, mimetype))
+        self.assertEqual(field[0], "file")
+        self.assertEqual(field[1][0], file_path.name)
+        with open(file_path, mode="rb") as file_handle:
+            self.assertEqual(field[1][1], file_handle.read())
+        self.assertEqual(field[1][2], file_mime_type)
+
+        # the form field value wasn't cast to a list
+        self.assertIsInstance(fields[0][1], tuple)
 
     def test_download_attachment(self):
         """Ensures that file deserialization works"""
