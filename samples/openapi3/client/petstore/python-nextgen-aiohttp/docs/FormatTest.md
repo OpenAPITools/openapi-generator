@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **number** | **float** |  | 
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
+**decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
 **byte** | **str** |  | 
 **binary** | **str** |  | [optional] 

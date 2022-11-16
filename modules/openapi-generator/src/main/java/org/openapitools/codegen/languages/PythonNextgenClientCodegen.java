@@ -561,9 +561,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> modelImports) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type), default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string");
-            pydanticImports.add("constr");
-            return String.format("constr()");
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
+            pydanticImports.add("StrictStr");
+            return "StrictStr";
         }
 
         if (cp.isEnum) {
