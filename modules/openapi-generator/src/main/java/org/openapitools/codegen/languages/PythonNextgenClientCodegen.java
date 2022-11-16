@@ -102,8 +102,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
         typeMapping.put("file", "str");
+        typeMapping.put("decimal", "decimal.Decimal");
 
         languageSpecificPrimitives.remove("file");
+        languageSpecificPrimitives.add("decimal.Decimal");
 
         supportsInheritance = true;
         modelPackage = "models";
@@ -504,7 +506,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
-                return "condecimal";
+                return "condecimal()";
             }
         } else if (cp.getIsAnyType()) {
             typingImports.add("Any");
@@ -728,7 +730,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
-                return "condecimal";
+                return "condecimal()";
             }
         } else if (cp.getIsAnyType()) {
             typingImports.add("Any");
