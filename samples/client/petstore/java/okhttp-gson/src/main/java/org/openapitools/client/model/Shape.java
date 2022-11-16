@@ -183,8 +183,8 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Quadrilateral", Quadrilateral.class);
         schemas.put("Triangle", Triangle.class);
+        schemas.put("Quadrilateral", Quadrilateral.class);
     }
 
     @Override

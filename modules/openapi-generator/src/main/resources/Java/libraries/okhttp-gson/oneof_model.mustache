@@ -220,9 +220,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{/oneOf}}
     static {
+        {{#composedSchemas}}
         {{#oneOf}}
-        schemas.put("{{{.}}}", {{{.}}}.class);
+        schemas.put("{{{dataType}}}", {{{baseType}}}.class);
         {{/oneOf}}
+        {{/composedSchemas}}
     }
 
     @Override

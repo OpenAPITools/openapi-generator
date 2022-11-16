@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.math.BigDecimal;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -162,7 +162,7 @@ public class Scalar extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Scalar() {
         super("oneOf", Boolean.FALSE);
@@ -184,16 +184,13 @@ public class Scalar extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("BigDecimal", new GenericType<BigDecimal>() {
-        });
-        schemas.put("Boolean", new GenericType<Boolean>() {
-        });
-        schemas.put("String", new GenericType<String>() {
-        });
+        schemas.put("String", String.class);
+        schemas.put("BigDecimal", BigDecimal.class);
+        schemas.put("Boolean", Boolean.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Scalar.schemas;
     }
 

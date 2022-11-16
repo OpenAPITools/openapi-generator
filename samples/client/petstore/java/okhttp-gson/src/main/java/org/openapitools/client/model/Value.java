@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import org.openapitools.client.model.Scalar;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -150,7 +150,7 @@ public class Value extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Value() {
         super("oneOf", Boolean.FALSE);
@@ -167,14 +167,12 @@ public class Value extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("List<Scalar>", new GenericType<List<Scalar>>() {
-        });
-        schemas.put("Scalar", new GenericType<Scalar>() {
-        });
+        schemas.put("Scalar", Scalar.class);
+        schemas.put("List<Scalar>", List.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Value.schemas;
     }
 

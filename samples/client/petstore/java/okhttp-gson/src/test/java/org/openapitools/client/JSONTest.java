@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -482,17 +483,17 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(variable), str);
         }
         {
-            String str = "{\"name\":\"float_1\",\"value\":1.5}";
+            String str = "{\"name\":\"decimal_1\",\"value\":124567890.0987654321}";
 
             Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "float_1");
+            assertEquals(variable.getName(), "decimal_1");
             assertTrue(variable.getValue().getActualInstance() instanceof Scalar);
 
             Scalar scalar = (Scalar) variable.getValue().getActualInstance();
-            assertTrue(scalar.getActualInstance() instanceof Float);
+            assertTrue(scalar.getActualInstance() instanceof BigDecimal);
             
-            float value = (Float) scalar.getActualInstance();
-            assertEquals(value, 1.5f);
+            BigDecimal value = (BigDecimal) scalar.getActualInstance();
+            assertEquals(value, new BigDecimal("124567890.0987654321"));
 
             assertEquals(json.getGson().toJson(variable), str);
         }
@@ -555,10 +556,10 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(variable), str);
         }
         {
-            String str = "{\"name\":\"string_array_1\",\"value\":[1.5,2.5,3.5]}";
+            String str = "{\"name\":\"decimal_array_1\",\"value\":[124567890.0987654321,987654321.123456789,1112222210.2222222211]}";
 
             Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "string_array_1");
+            assertEquals(variable.getName(), "decimal_array_1");
             assertTrue(variable.getValue().getActualInstance() instanceof List<?>);
 
             List<Scalar> list = (List<Scalar>) variable.getValue().getActualInstance();
@@ -566,16 +567,16 @@ public class JSONTest {
             Scalar item_1 = list.get(1);
             Scalar item_2 = list.get(2);
 
-            assertTrue(item_0.getActualInstance() instanceof Float);
-            assertTrue(item_1.getActualInstance() instanceof Float);
-            assertTrue(item_2.getActualInstance() instanceof Float);
+            assertTrue(item_0.getActualInstance() instanceof BigDecimal);
+            assertTrue(item_1.getActualInstance() instanceof BigDecimal);
+            assertTrue(item_2.getActualInstance() instanceof BigDecimal);
 
-            float float_0 = (Float) item_0.getActualInstance();
-            float float_1 = (Float) item_1.getActualInstance();
-            float float_2 = (Float) item_2.getActualInstance();
-            assertEquals(float_0, 1.5f);
-            assertEquals(float_1, 2.5f);
-            assertEquals(float_2, 3.5f);
+            BigDecimal decimal_0 = (BigDecimal) item_0.getActualInstance();
+            BigDecimal decimal_1 = (BigDecimal) item_1.getActualInstance();
+            BigDecimal decimal_2 = (BigDecimal) item_2.getActualInstance();
+            assertEquals(decimal_0, new BigDecimal("124567890.0987654321"));
+            assertEquals(decimal_1, new BigDecimal("987654321.123456789"));
+            assertEquals(decimal_2, new BigDecimal("1112222210.2222222211"));
 
             assertEquals(json.getGson().toJson(variable), str);
         }

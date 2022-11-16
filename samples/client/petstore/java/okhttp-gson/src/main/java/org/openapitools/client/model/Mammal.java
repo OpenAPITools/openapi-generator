@@ -212,9 +212,9 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Pig", Pig.class);
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);
+        schemas.put("Pig", Pig.class);
     }
 
     @Override

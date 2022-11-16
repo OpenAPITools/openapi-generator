@@ -7,7 +7,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**getSomeValues**](ValuesApi.md#getSomeValues) | **GET** /values | Get some primitive variable values |
 
 
-<a name="getSomeValues"></a>
+<a id="getSomeValues"></a>
 # **getSomeValues**
 > Variable getSomeValues()
 
