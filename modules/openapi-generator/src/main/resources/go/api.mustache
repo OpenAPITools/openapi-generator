@@ -259,7 +259,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{paramName}}LocalVarFormFileName = "{{baseName}}"
 
 {{#required}}
-	{{paramName}}LocalVarFile := *r.{{paramName}}
+	{{paramName}}LocalVarFile := r.{{paramName}}
 {{/required}}
 {{^required}}
 	var {{paramName}}LocalVarFile *{{dataType}}

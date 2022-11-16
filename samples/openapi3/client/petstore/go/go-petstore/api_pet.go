@@ -1140,7 +1140,7 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 
 	requiredFileLocalVarFormFileName = "requiredFile"
 
-	requiredFileLocalVarFile := *r.requiredFile
+	requiredFileLocalVarFile := r.requiredFile
         		fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
