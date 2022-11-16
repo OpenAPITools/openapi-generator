@@ -1989,6 +1989,23 @@ components:
       - type: string
       - format: date-time
         type: string
+    PrimitiveAndPrimitiveTime:
+      properties:
+        id:
+          description: Unique identifier for the file.
+          example: 8cbb43fe-4cdf-4991-8352-c461779cec02
+          type: string
+        uploaded_on:
+          description: When the file was uploaded.
+          example: 2019-12-03T00:10:15Z
+          format: date-time
+          type: string
+      type: object
+    OneOfWithNestedPrimitiveTime:
+      properties:
+        avatar:
+          $ref: '#/components/schemas/OneOfWithNestedPrimitiveTime_avatar'
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2154,6 +2171,13 @@ components:
           description: A discriminator value
           type: string
       type: object
+      example: null
+    OneOfWithNestedPrimitiveTime_avatar:
+      description: The user's avatar.
+      nullable: true
+      oneOf:
+      - type: string
+      - $ref: '#/components/schemas/PrimitiveAndPrimitiveTime'
       example: null
   securitySchemes:
     petstore_auth:

@@ -2028,3 +2028,25 @@ components:
       - type: string
       - format: date-time
         type: string
+    PrimitiveAndPrimitiveTime:
+      type: object
+      properties:
+        id:
+          description: Unique identifier for the file.
+          example: 8cbb43fe-4cdf-4991-8352-c461779cec02
+          type: string
+        uploaded_on:
+          description: When the file was uploaded.
+          example: '2019-12-03T00:10:15+00:00'
+          type: string
+          format: date-time
+    OneOfWithNestedPrimitiveTime:
+      type: object
+      properties:
+        avatar:
+          description: The user's avatar.
+          example: null
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PrimitiveAndPrimitiveTime'
+          nullable: true

@@ -632,16 +632,33 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             boolean addedOSImport = false;
             CodegenModel model = m.getModel();
 
+            List<CodegenProperty> inheritedProperties = new ArrayList<>();
             if (model.getComposedSchemas() != null) {
                 if (model.getComposedSchemas().getAnyOf() != null) {
-                    model.vars.removeAll(model.getComposedSchemas().getAnyOf());
+                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
                 }
                 if (model.getComposedSchemas().getOneOf() != null) {
-                    model.vars.removeAll(model.getComposedSchemas().getOneOf());
+                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
                 }
             }
 
-            for (CodegenProperty cp : model.vars) {
+            List<CodegenProperty> codegenProperties = new ArrayList<>();
+            if(model.getIsModel() || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+                // If the model is a model or is an allOf, use model.vars as it only
+                // contains properties the generated struct will own itself.
+                // If model is no model and it has no composed schemas use
+                // model.vars.
+                codegenProperties.addAll(model.vars);
+            } else if (!model.getIsModel() && model.getComposedSchemas() == null) {
+                codegenProperties.addAll(model.vars);
+            }else {
+                // If the model is no model, but is a
+                // anyOf or oneOf, add all first level options
+                // from anyOf or oneOf.
+                codegenProperties.addAll(inheritedProperties);
+            }
+
+            for (CodegenProperty cp : codegenProperties) {
                 if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;

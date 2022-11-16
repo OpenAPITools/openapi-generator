@@ -63,6 +63,8 @@ docs/NumberOnly.md
 docs/OneOfPrimitiveType.md
 docs/OneOfPrimitiveTypeChild.md
 docs/OneOfPrimitiveTypes.md
+docs/OneOfWithNestedPrimitiveTime.md
+docs/OneOfWithNestedPrimitiveTimeAvatar.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -71,6 +73,7 @@ docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetApi.md
+docs/PrimitiveAndPrimitiveTime.md
 docs/ReadOnlyFirst.md
 docs/ReadOnlyWithDefault.md
 docs/Return.md
@@ -133,6 +136,8 @@ model_number_only.go
 model_one_of_primitive_type.go
 model_one_of_primitive_type_child.go
 model_one_of_primitive_types.go
+model_one_of_with_nested_primitive_time.go
+model_one_of_with_nested_primitive_time_avatar.go
 model_order.go
 model_outer_composite.go
 model_outer_enum.go
@@ -140,6 +145,7 @@ model_outer_enum_default_value.go
 model_outer_enum_integer.go
 model_outer_enum_integer_default_value.go
 model_pet.go
+model_primitive_and_primitive_time.go
 model_read_only_first.go
 model_read_only_with_default.go
 model_return.go
