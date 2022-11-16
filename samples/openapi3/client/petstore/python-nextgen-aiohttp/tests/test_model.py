@@ -211,7 +211,7 @@ class ModelTests(unittest.TestCase):
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
+            self.assertTrue("must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
@@ -226,47 +226,3 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
             self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))
-
-    def test_object_id(self):
-        pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
-        pet_ap2 = petstore_api.Pet(name="test name", photo_urls=["string"])
-        self.assertNotEqual(id(pet_ap), id(pet_ap2))
-
-        pet_ap3 = petstore_api.Pet.from_dict(pet_ap.to_dict())
-        pet_ap4 = petstore_api.Pet.from_dict(pet_ap.to_dict())
-        self.assertNotEqual(id(pet_ap3), id(pet_ap4))
-
-
-    def test_additional_properties(self):
-        pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
-        pet_ap.id = 1
-        pet_ap.status = "available"
-
-        pet_ap2 = petstore_api.Pet(name="test name", photo_urls=["string"])
-        pet_ap2.id = 1
-        pet_ap2.status = "available"
-
-        self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
-
-        pet_ap.additional_properties["something-new"] = "haha"
-        self.assertEqual(pet_ap.to_json(), '{"id": 1, "name": "test name", "photoUrls": ["string"], "status": "available", "something-new": "haha"}')
-        self.assertEqual(type(pet_ap2.additional_properties), dict)
-        self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
-        self.assertEqual(pet_ap.additional_properties["something-new"], "haha")
-
-        try:
-            _tmp = pet_ap2.additional_properties["something-new"]
-            self.assertTrue(False) # this line shouldn't execute
-        except KeyError as e:
-            self.assertEqual("'something-new'", str(e))
-
-        pet_ap_dict = pet_ap.to_dict()
-        pet_ap_dict["something-new"] = 123
-        pet_ap_dict["array"] = ["a", "b"]
-        pet_ap_dict["dict"] = {"key999": "value999"}
-
-        pet_ap2 = petstore_api.Pet.from_dict(pet_ap_dict)
-
-        self.assertEqual(pet_ap2.additional_properties["array"], ["a", "b"])
-        self.assertEqual(pet_ap2.additional_properties["something-new"], 123)
-        self.assertEqual(pet_ap2.additional_properties["dict"], {"key999": "value999"})

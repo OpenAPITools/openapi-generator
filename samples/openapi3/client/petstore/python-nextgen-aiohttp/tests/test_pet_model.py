@@ -41,7 +41,7 @@ class PetModelTests(unittest.TestCase):
         cate1 = petstore_api.Category(name="dog")
         cate1.id = 1
         # cate1.name = "dog"
-        self.pet1.category = cate1
+        self.pet.category = cate1
         tag1 = petstore_api.Tag()
         tag1.id = 1
         self.pet1.tags = [tag1]
@@ -52,7 +52,7 @@ class PetModelTests(unittest.TestCase):
         cate2 = petstore_api.Category(name="dog")
         cate2.id = 1
         # cate2.name = "dog"
-        self.pet2.category = cate2
+        self.pet.category = cate2
         tag2 = petstore_api.Tag()
         tag2.id = 1
         self.pet2.tags = [tag2]
@@ -104,11 +104,11 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(pet.to_dict(), {"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
 
     def test_optional_fields(self):
-        _pet = petstore_api.Pet(name="required name",
+        pet = petstore_api.Pet(name="required name",
                                photoUrls=["https://a.com",
                                           "https://b.com"])
-        self.assertEqual(_pet.to_json(), '{"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
-        self.assertEqual(_pet.to_dict(), {"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
+        self.assertEqual(pet.to_json(), '{"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
+        self.assertEqual(pet.to_dict(), {"name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
 
 
 

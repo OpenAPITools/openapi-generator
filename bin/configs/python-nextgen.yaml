@@ -4,3 +4,5 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/python-nextgen
 additionalProperties:
   packageName: petstore_api
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
