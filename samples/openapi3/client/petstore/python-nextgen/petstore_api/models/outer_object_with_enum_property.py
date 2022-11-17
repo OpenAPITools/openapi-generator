@@ -60,6 +60,10 @@ class OuterObjectWithEnumProperty(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if str_value (nullable) is None
+        if self.str_value is None:
+            _dict['str_value'] = None
+
         return _dict
 
     @classmethod

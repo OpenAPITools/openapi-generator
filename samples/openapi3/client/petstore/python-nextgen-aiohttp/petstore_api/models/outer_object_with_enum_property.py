@@ -53,6 +53,9 @@ class OuterObjectWithEnumProperty(BaseModel):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude_none=True)
+        # set to None if str_value (nullable) is None
+        if self.str_value is None:
+            _dict['str_value'] = None
 
         return _dict
 

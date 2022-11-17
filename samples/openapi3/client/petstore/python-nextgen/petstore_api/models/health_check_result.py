@@ -57,6 +57,10 @@ class HealthCheckResult(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if nullable_message (nullable) is None
+        if self.nullable_message is None:
+            _dict['NullableMessage'] = None
+
         return _dict
 
     @classmethod

@@ -76,7 +76,6 @@ class Pet(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['tags'] = _items
-
         return _dict
 
     @classmethod

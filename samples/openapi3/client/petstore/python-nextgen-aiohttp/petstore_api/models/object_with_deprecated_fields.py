@@ -57,7 +57,6 @@ class ObjectWithDeprecatedFields(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of deprecated_ref
         if self.deprecated_ref:
             _dict['deprecatedRef'] = self.deprecated_ref.to_dict()
-
         return _dict
 
     @classmethod

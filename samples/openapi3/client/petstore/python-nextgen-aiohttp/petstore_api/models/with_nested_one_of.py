@@ -55,7 +55,6 @@ class WithNestedOneOf(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of nested_pig
         if self.nested_pig:
             _dict['nested_pig'] = self.nested_pig.to_dict()
-
         return _dict
 
     @classmethod

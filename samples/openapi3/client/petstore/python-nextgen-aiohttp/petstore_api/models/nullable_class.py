@@ -62,6 +62,49 @@ class NullableClass(BaseModel):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude_none=True)
+        # set to None if required_integer_prop (nullable) is None
+        if self.required_integer_prop is None:
+            _dict['required_integer_prop'] = None
+
+        # set to None if integer_prop (nullable) is None
+        if self.integer_prop is None:
+            _dict['integer_prop'] = None
+
+        # set to None if number_prop (nullable) is None
+        if self.number_prop is None:
+            _dict['number_prop'] = None
+
+        # set to None if boolean_prop (nullable) is None
+        if self.boolean_prop is None:
+            _dict['boolean_prop'] = None
+
+        # set to None if string_prop (nullable) is None
+        if self.string_prop is None:
+            _dict['string_prop'] = None
+
+        # set to None if date_prop (nullable) is None
+        if self.date_prop is None:
+            _dict['date_prop'] = None
+
+        # set to None if datetime_prop (nullable) is None
+        if self.datetime_prop is None:
+            _dict['datetime_prop'] = None
+
+        # set to None if array_nullable_prop (nullable) is None
+        if self.array_nullable_prop is None:
+            _dict['array_nullable_prop'] = None
+
+        # set to None if array_and_items_nullable_prop (nullable) is None
+        if self.array_and_items_nullable_prop is None:
+            _dict['array_and_items_nullable_prop'] = None
+
+        # set to None if object_nullable_prop (nullable) is None
+        if self.object_nullable_prop is None:
+            _dict['object_nullable_prop'] = None
+
+        # set to None if object_and_items_nullable_prop (nullable) is None
+        if self.object_and_items_nullable_prop is None:
+            _dict['object_and_items_nullable_prop'] = None
 
         return _dict
 

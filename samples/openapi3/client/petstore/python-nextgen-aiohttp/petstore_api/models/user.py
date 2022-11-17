@@ -57,7 +57,6 @@ class User(BaseModel):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude_none=True)
-
         return _dict
 
     @classmethod

@@ -54,7 +54,6 @@ class AllOfWithSingleRef(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of single_ref_type
         if self.single_ref_type:
             _dict['SingleRefType'] = self.single_ref_type.to_dict()
-
         return _dict
 
     @classmethod

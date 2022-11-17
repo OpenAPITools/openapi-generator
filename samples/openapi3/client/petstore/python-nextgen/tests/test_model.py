@@ -195,7 +195,7 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value": 1}')
+        self.assertEqual(d.to_json(), '{"value": 1, "str_value": null}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
@@ -270,3 +270,21 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(pet_ap2.additional_properties["array"], ["a", "b"])
         self.assertEqual(pet_ap2.additional_properties["something-new"], 123)
         self.assertEqual(pet_ap2.additional_properties["dict"], {"key999": "value999"})
+
+    def test_nullable(self):
+        h = petstore_api.HealthCheckResult(nullable_message="Not none")
+        self.assertEqual(h.to_json(), '{"NullableMessage": "Not none"}')
+
+        h.nullable_message = None
+        self.assertEqual(h.to_json(), '{"NullableMessage": null}')
+
+        #import json
+        #dictionary ={ 
+        #  "id": "04", 
+        #  "name": "sunil", 
+        #  "department": None
+        #} 
+        #      
+        ## Serializing json  
+        #json_object = json.dumps(dictionary) 
+        #self.assertEqual(json_object, "")

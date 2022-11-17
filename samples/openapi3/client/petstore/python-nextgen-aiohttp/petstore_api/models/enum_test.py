@@ -94,6 +94,9 @@ class EnumTest(BaseModel):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude_none=True)
+        # set to None if outer_enum (nullable) is None
+        if self.outer_enum is None:
+            _dict['outerEnum'] = None
 
         return _dict
 

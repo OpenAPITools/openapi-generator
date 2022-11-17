@@ -101,6 +101,10 @@ class EnumTest(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if outer_enum (nullable) is None
+        if self.outer_enum is None:
+            _dict['outerEnum'] = None
+
         return _dict
 
     @classmethod

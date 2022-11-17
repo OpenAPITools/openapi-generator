@@ -62,7 +62,6 @@ class FileSchemaTestClass(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['files'] = _items
-
         return _dict
 
     @classmethod

@@ -65,7 +65,6 @@ class SpecialName(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of var_async
         if self.var_async:
             _dict['async'] = self.var_async.to_dict()
-
         return _dict
 
     @classmethod

@@ -60,7 +60,6 @@ class ArrayTest(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['array_array_of_model'] = _items
-
         return _dict
 
     @classmethod

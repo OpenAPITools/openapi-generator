@@ -50,6 +50,9 @@ class HealthCheckResult(BaseModel):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude_none=True)
+        # set to None if nullable_message (nullable) is None
+        if self.nullable_message is None:
+            _dict['NullableMessage'] = None
 
         return _dict
 

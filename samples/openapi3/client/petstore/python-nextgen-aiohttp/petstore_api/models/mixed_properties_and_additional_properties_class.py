@@ -60,7 +60,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
                 if self.map[_key]:
                     _field_dict[_key] = self.map[_key].to_dict()
             _dict['map'] = _field_dict
-
         return _dict
 
     @classmethod
