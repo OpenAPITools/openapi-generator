@@ -643,15 +643,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if(model.getIsModel() || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
-                // If the model is a model or is an allOf, use model.vars as it only
-                // contains properties the generated struct will own itself.
-                // If model is no model and it has no composed schemas use
-                // model.vars.
+            if(model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
                 codegenProperties.addAll(model.vars);
-            } else if (!model.getIsModel() && model.getComposedSchemas() == null) {
-                codegenProperties.addAll(model.vars);
-            }else {
+            } else {
                 // If the model is no model, but is a
                 // anyOf or oneOf, add all first level options
                 // from anyOf or oneOf.
