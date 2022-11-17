@@ -31,7 +31,7 @@ class PetModelTests(unittest.TestCase):
                 " 'name': 'test name',\n"
                 " 'photoUrls': ['string'],\n"
                 " 'status': 'available',\n"
-                " 'tags': [{'id': 1}]}")
+                " 'tags': [{'id': 1, 'name': None}]}")
         self.assertEqual(data, self.pet.to_str())
 
     def test_equal(self):

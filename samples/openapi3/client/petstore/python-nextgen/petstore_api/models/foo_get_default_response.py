@@ -37,7 +37,7 @@ class FooGetDefaultResponse(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.to_dict())
+        return pprint.pformat(self.dict(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -51,7 +51,9 @@ class FooGetDefaultResponse(BaseModel):
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
-                          exclude={"additional_properties"},
+                          exclude={
+                            "additional_properties"
+                          },
                           exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of string
         if self.string:

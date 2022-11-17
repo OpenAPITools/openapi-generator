@@ -26,12 +26,13 @@ class PetModelTests(unittest.TestCase):
         self.pet.tags = [tag]
 
     def test_to_str(self):
-        data = ("{'category': {'id': 1, 'name': 'dog'},\n"
+        data = ("{'additional_properties': {},\n"
+                " 'category': {'additional_properties': {}, 'id': 1, 'name': 'dog'},\n"
                 " 'id': 1,\n"
                 " 'name': 'test name',\n"
                 " 'photoUrls': ['string'],\n"
                 " 'status': 'available',\n"
-                " 'tags': [{'id': 1}]}")
+                " 'tags': [{'additional_properties': {}, 'id': 1, 'name': None}]}")
         self.assertEqual(data, self.pet.to_str())
 
     def test_equal(self):

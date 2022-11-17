@@ -363,6 +363,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
                                    Set<String> modelImports) {
+        if (cp == null) {
+            // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
+            pydanticImports.add("StrictStr");
+            return "StrictStr";
+        }
+
         if (cp.isArray) {
             typingImports.add("List");
             return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -560,7 +567,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> datetimeImports,
                                    Set<String> modelImports) {
         if (cp == null) {
-            // if codegen property (e.g. map/dict of undefined type), default to string
+            // if codegen property (e.g. map/dict of undefined type) is null, default to string
             LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
             pydanticImports.add("StrictStr");
             return "StrictStr";
@@ -902,6 +909,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         TreeSet<String> modelImports = new TreeSet<>();
 
         for (ModelMap m : objs.getModels()) {
+            List<String> readOnlyFields = new ArrayList<>();
             hasModelsToImport = false;
             int property_count = 1;
             typingImports.clear();
@@ -927,11 +935,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             } else { // typical model
                 codegenProperties = model.vars;
             }
+
             //loop through properties/schemas to setup typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
+
+                // is readOnly?
+                if (cp.isReadOnly) {
+                    readOnlyFields.add(cp.name);
+                }
 
                 if (!cp.required) { //optional
                     firstField = "None";
@@ -1015,6 +1029,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
+            model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
             // import models one by one
             if (!modelImports.isEmpty()) {

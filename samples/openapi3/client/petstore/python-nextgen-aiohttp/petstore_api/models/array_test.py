@@ -38,7 +38,7 @@ class ArrayTest(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.to_dict())
+        return pprint.pformat(self.dict(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
@@ -52,6 +52,8 @@ class ArrayTest(BaseModel):
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
+                          exclude={
+                          },
                           exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list)
         _items = []
