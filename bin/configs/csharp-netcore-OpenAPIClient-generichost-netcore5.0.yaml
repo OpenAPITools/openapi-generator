@@ -8,5 +8,5 @@ additionalProperties:
   packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
-  targetFramework: net6.0
+  targetFramework: net7.0
   nullableReferenceTypes: false
