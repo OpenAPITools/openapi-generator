@@ -378,16 +378,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
         return
     }
 	if f, ok := v.(**os.File); ok {
-		f := *f
-        f, err = ioutil.TempFile("", "HttpClientFile")
+        *f, err = ioutil.TempFile("", "HttpClientFile")
 		if err != nil {
 			return
 		}
-		_, err = f.Write(b)
+		_, err = (*f).Write(b)
 		if err != nil {
 			return
 		}
-		_, err = f.Seek(0, io.SeekStart)
+		_, err = (*f).Seek(0, io.SeekStart)
 		return
 	}
 	if xmlCheck.MatchString(contentType) {
@@ -591,5 +590,5 @@ func formatErrorMessage(status string, v interface{}) string {
 	}
 
 	// status title (detail)
-	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
+	return fmt.Sprintf("%s %s", status, str)
 }
