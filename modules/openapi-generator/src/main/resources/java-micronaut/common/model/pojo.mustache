@@ -9,6 +9,9 @@
 @Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
     {{/generateSwagger2Annotations}}
 {{/description}}
+{{#micronaut_serde_jackson}}
+@io.micronaut.serde.annotation.Serdeable
+{{/micronaut_serde_jackson}}
 {{#jackson}}
 @JsonPropertyOrder({
   {{#vars}}
