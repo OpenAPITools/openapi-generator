@@ -1075,6 +1075,8 @@ public class SpringCodegen extends AbstractJavaCodegen
      * Add dynamic imports based on the parameters and vendor extensions of an operation.
      * The imports are expanded by the mustache {{import}} tag available to model and api
      * templates.
+     *
+     * #8315 Also handles removing 'size', 'page' and 'sort' query parameters if using 'x-spring-paginated'.
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
@@ -1093,6 +1095,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ParameterObject");
             }
+
+            // #8315 Spring Data Web default query params recognized by Pageable
+            List<String> defaultPageableQueryParams = new ArrayList<>(
+                Arrays.asList("page", "size", "sort")
+            );
+
+            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+            codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
+            codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
         }
 
         if (reactive) {
