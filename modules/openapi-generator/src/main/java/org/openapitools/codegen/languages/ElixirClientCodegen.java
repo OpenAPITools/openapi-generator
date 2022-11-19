@@ -47,6 +47,7 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.GeneratorLanguage;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DataTypeFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
@@ -111,6 +112,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
+                )
+                .includeDataTypeFeatures(
+                    DataTypeFeature.AnyType
                 )
         );
 

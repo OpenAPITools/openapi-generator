@@ -1,8 +1,7 @@
 ---
 title: Documentation for the elixir Generator
 ---
-## Changes
-`2022-11-19` Added rump support for `AnyType`. `AnyType` fields just forward whatever the deserialization result was. See [#14070](https://github.com/OpenAPITools/openapi-generator/issues/14070).
+
 ## METADATA
 
 | Property | Value | Notes |
