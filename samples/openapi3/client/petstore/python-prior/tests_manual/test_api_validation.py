@@ -9,7 +9,6 @@ $ cd OpenAPIetstore-python
 $ nosetests -v
 """
 
-import os
 import time
 import atexit
 import datetime
