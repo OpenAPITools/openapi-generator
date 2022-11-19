@@ -14,7 +14,7 @@ defmodule OpenapiPetstore.Deserializer do
     model
     |> Map.update!(field, &(Poison.Decode.decode(&1, Keyword.merge(options, [as: [struct(mod)]]))))
   end
-
+  
   def deserialize(model, field, :struct, mod, options) do
     model
     |> Map.update!(field, &(Poison.Decode.decode(&1, Keyword.merge(options, [as: struct(mod)]))))

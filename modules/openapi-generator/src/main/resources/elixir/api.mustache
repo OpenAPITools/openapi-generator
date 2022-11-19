@@ -48,7 +48,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
       :body => :body
 {{/isBodyParam}}
 {{^isBodyParam}}
-      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
+      {{#atom}}{{&baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{#-last}}
     }
@@ -56,9 +56,10 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/-last}}
 {{/optionalParams}}
     request =
-      %{}
-      |> method({{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}})
-      |> url("{{replacedPathName}}")
+      %Tesla.Env{
+        method: {{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}},
+        url: "{{replacedPathName}}",
+      }
 {{#requiredParams}}
 {{^isPathParam}}
       |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
@@ -72,6 +73,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{#requiresHttpcWorkaround}}
       |> ensure_body()
 {{/requiresHttpcWorkaround}}
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection

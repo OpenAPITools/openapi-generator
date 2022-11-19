@@ -24,9 +24,11 @@ defmodule OpenapiPetstore.Api.Default do
   @spec foo_get(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t} | {:error, Tesla.Env.t}
   def foo_get(connection, _opts \\ []) do
     request =
-      %{}
-      |> method(:get)
-      |> url("/foo")
+      %Tesla.Env{
+        method: :get,
+        url: "/foo",
+      }
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection

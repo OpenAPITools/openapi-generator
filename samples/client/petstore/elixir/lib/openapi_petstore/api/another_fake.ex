@@ -27,10 +27,12 @@ defmodule OpenapiPetstore.Api.AnotherFake do
   @spec call_123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def call_123_test_special_tags(connection, client, _opts \\ []) do
     request =
-      %{}
-      |> method(:patch)
-      |> url("/another-fake/dummy")
+      %Tesla.Env{
+        method: :patch,
+        url: "/another-fake/dummy",
+      }
       |> add_param(:body, :body, client)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection

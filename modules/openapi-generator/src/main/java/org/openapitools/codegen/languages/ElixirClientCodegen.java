@@ -17,16 +17,41 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.responses.ApiResponse;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.GeneratorLanguage;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -34,15 +59,14 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
@@ -573,6 +597,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
         } else if (ModelUtils.isFileSchema(p)) {
             return "String.t";
+        } else if (ModelUtils.isAnyType(p)) {
+            return "any";
         } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
         }
@@ -634,6 +660,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isArray = o.isArray;
             this.isBinary = o.isBinary;
             this.isFile = o.isFile;
+            this.isAnyType = o.isAnyType;
             this.schema = o.schema;
             this.jsonSchema = o.jsonSchema;
             this.vendorExtensions = o.vendorExtensions;
@@ -830,6 +857,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append(param.dataType);
             } else if (param.isFile || param.isBinary) {
                 sb.append("String.t");
+            } else if (param.isAnyType) {
+                sb.append("any");
             } else if ("String.t".equals(param.dataType)) {
                 // uuid, password, etc
                 sb.append(param.dataType);

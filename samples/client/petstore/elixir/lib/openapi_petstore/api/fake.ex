@@ -25,9 +25,11 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_health_get(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.HealthCheckResult.t} | {:error, Tesla.Env.t}
   def fake_health_get(connection, _opts \\ []) do
     request =
-      %{}
-      |> method(:get)
-      |> url("/fake/health")
+      %Tesla.Env{
+        method: :get,
+        url: "/fake/health",
+      }
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -61,11 +63,13 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:get)
-      |> url("/fake/http-signature-test")
+      %Tesla.Env{
+        method: :get,
+        url: "/fake/http-signature-test",
+      }
       |> add_param(:body, :body, pet)
       |> add_optional_params(optional_params, opts)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -96,11 +100,13 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/outer/boolean")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/outer/boolean",
+      }
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -131,11 +137,13 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/outer/composite")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/outer/composite",
+      }
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -166,11 +174,13 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/outer/number")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/outer/number",
+      }
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -201,11 +211,13 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/outer/string")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/outer/string",
+      }
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -232,10 +244,12 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
   def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/property/enum-int")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/property/enum-int",
+      }
       |> add_param(:body, :body, outer_object_with_enum_property)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -262,10 +276,12 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_body_with_binary(connection, body, _opts \\ []) do
     request =
-      %{}
-      |> method(:put)
-      |> url("/fake/body-with-binary")
+      %Tesla.Env{
+        method: :put,
+        url: "/fake/body-with-binary",
+      }
       |> add_param(:body, :body, body)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -292,10 +308,12 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
     request =
-      %{}
-      |> method(:put)
-      |> url("/fake/body-with-file-schema")
+      %Tesla.Env{
+        method: :put,
+        url: "/fake/body-with-file-schema",
+      }
       |> add_param(:body, :body, file_schema_test_class)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -322,11 +340,13 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_body_with_query_params(connection, query, user, _opts \\ []) do
     request =
-      %{}
-      |> method(:put)
-      |> url("/fake/body-with-query-params")
+      %Tesla.Env{
+        method: :put,
+        url: "/fake/body-with-query-params",
+      }
       |> add_param(:query, :query, query)
       |> add_param(:body, :body, user)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -354,10 +374,12 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_client_model(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def test_client_model(connection, client, _opts \\ []) do
     request =
-      %{}
-      |> method(:patch)
-      |> url("/fake")
+      %Tesla.Env{
+        method: :patch,
+        url: "/fake",
+      }
       |> add_param(:body, :body, client)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -411,14 +433,16 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake",
+      }
       |> add_param(:form, :number, number)
       |> add_param(:form, :double, double)
       |> add_param(:form, :pattern_without_delimiter, pattern_without_delimiter)
       |> add_param(:form, :byte, byte)
       |> add_optional_params(optional_params, opts)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -467,10 +491,12 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:get)
-      |> url("/fake")
+      %Tesla.Env{
+        method: :get,
+        url: "/fake",
+      }
       |> add_optional_params(optional_params, opts)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -510,13 +536,15 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:delete)
-      |> url("/fake")
+      %Tesla.Env{
+        method: :delete,
+        url: "/fake",
+      }
       |> add_param(:query, :required_string_group, required_string_group)
       |> add_param(:headers, :required_boolean_group, required_boolean_group)
       |> add_param(:query, :required_int64_group, required_int64_group)
       |> add_optional_params(optional_params, opts)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -544,10 +572,12 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_inline_additional_properties(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_inline_additional_properties(connection, request_body, _opts \\ []) do
     request =
-      %{}
-      |> method(:post)
-      |> url("/fake/inline-additionalProperties")
+      %Tesla.Env{
+        method: :post,
+        url: "/fake/inline-additionalProperties",
+      }
       |> add_param(:body, :body, request_body)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -576,11 +606,13 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_json_form_data(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_json_form_data(connection, param, param2, _opts \\ []) do
     request =
-      %{}
-      |> method(:get)
-      |> url("/fake/jsonFormData")
+      %Tesla.Env{
+        method: :get,
+        url: "/fake/jsonFormData",
+      }
       |> add_param(:form, :param, param)
       |> add_param(:form, :param2, param2)
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
@@ -617,9 +649,10 @@ defmodule OpenapiPetstore.Api.Fake do
     }
 
     request =
-      %{}
-      |> method(:put)
-      |> url("/fake/test-query-parameters")
+      %Tesla.Env{
+        method: :put,
+        url: "/fake/test-query-parameters",
+      }
       |> add_param(:query, :pipe, pipe)
       |> add_param(:query, :ioutil, ioutil)
       |> add_param(:query, :http, http)
@@ -628,6 +661,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> add_param(:query, :allowEmpty, allow_empty)
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> Map.from_struct()
       |> Enum.into([])
 
     connection
