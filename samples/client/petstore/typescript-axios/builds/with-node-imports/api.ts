@@ -13,8 +13,9 @@
  */
 
 
-import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // URLSearchParams not necessarily used
 // @ts-ignore
 import { URL, URLSearchParams } from 'url';
@@ -22,8 +23,9 @@ import FormData from 'form-data'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import type { RequestArgs } from './base';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 
 /**
  * Describes the result of uploading an image resource
@@ -989,7 +991,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1088,7 +1090,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1139,7 +1141,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -1192,7 +1194,7 @@ export class StoreApi extends BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param {number} orderId ID of pet that needs to be fetched
      * @param {*} [options] Override http request option.

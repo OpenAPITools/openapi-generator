@@ -55,7 +55,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool) {
 	if o == nil || isNil(o.Uuid) {
-    return nil, false
+		return nil, false
 	}
 	return o.Uuid, true
 }
@@ -87,7 +87,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || isNil(o.DateTime) {
-    return nil, false
+		return nil, false
 	}
 	return o.DateTime, true
 }
@@ -119,7 +119,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
 	if o == nil || isNil(o.Map) {
-    return nil, false
+		return nil, false
 	}
 	return o.Map, true
 }

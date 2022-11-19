@@ -43,7 +43,7 @@ Special <- R6::R6Class(
     #' @param 123_number 123_number
     #' @param array[test] array[test]
     #' @param empty_string empty_string
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...) {
@@ -346,7 +346,7 @@ Special <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Special$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Special$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

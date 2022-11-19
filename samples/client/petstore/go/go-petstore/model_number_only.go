@@ -52,7 +52,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 	if o == nil || isNil(o.JustNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.JustNumber, true
 }

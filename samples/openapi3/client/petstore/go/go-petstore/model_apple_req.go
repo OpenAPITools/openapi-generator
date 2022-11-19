@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the AppleReq type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &AppleReq{}
-
 // AppleReq struct for AppleReq
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`
@@ -57,9 +54,9 @@ func (o *AppleReq) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
-    if o == nil {
-    return nil, false
-    }
+	if o == nil {
+		return nil, false
+	}
 	return &o.Cultivar, true
 }
 
@@ -81,7 +78,7 @@ func (o *AppleReq) GetMealy() bool {
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetMealyOk() (*bool, bool) {
 	if o == nil || isNil(o.Mealy) {
-    return nil, false
+		return nil, false
 	}
 	return o.Mealy, true
 }
@@ -101,16 +98,10 @@ func (o *AppleReq) SetMealy(v bool) {
 }
 
 func (o AppleReq) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o AppleReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["cultivar"] = o.Cultivar
+	if true {
+		toSerialize["cultivar"] = o.Cultivar
+	}
 	if !isNil(o.Mealy) {
 		toSerialize["mealy"] = o.Mealy
 	}
@@ -119,7 +110,7 @@ func (o AppleReq) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {

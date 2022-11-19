@@ -1515,7 +1515,7 @@ void FakeResource::handler_DELETE_internal(const std::shared_ptr<restbed::Sessio
     
     if (status_code == 400) {
         responseHeaders.insert(std::make_pair("Content-Type", "text/plain"));
-        result = "Someting wrong";
+        result = "Something wrong";
     
         returnResponse(session, 400, result.empty() ? "{}" : result, responseHeaders);
         return;

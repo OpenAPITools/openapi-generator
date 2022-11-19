@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the EnumTest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &EnumTest{}
-
 // EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString *string `json:"enum_string,omitempty"`
@@ -57,7 +54,7 @@ func (o *EnumTest) GetEnumString() string {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringOk() (*string, bool) {
 	if o == nil || isNil(o.EnumString) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumString, true
 }
@@ -89,9 +86,9 @@ func (o *EnumTest) GetEnumStringRequired() string {
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
-    if o == nil {
-    return nil, false
-    }
+	if o == nil {
+		return nil, false
+	}
 	return &o.EnumStringRequired, true
 }
 
@@ -113,7 +110,7 @@ func (o *EnumTest) GetEnumInteger() int32 {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
 	if o == nil || isNil(o.EnumInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumInteger, true
 }
@@ -145,7 +142,7 @@ func (o *EnumTest) GetEnumNumber() float64 {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
 	if o == nil || isNil(o.EnumNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumNumber, true
 }
@@ -177,7 +174,7 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 	if o == nil || isNil(o.OuterEnum) {
-    return nil, false
+		return nil, false
 	}
 	return o.OuterEnum, true
 }
@@ -197,19 +194,13 @@ func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 }
 
 func (o EnumTest) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o EnumTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.EnumString) {
 		toSerialize["enum_string"] = o.EnumString
 	}
-	toSerialize["enum_string_required"] = o.EnumStringRequired
+	if true {
+		toSerialize["enum_string_required"] = o.EnumStringRequired
+	}
 	if !isNil(o.EnumInteger) {
 		toSerialize["enum_integer"] = o.EnumInteger
 	}
@@ -219,7 +210,7 @@ func (o EnumTest) ToMap() (map[string]interface{}, error) {
 	if !isNil(o.OuterEnum) {
 		toSerialize["outerEnum"] = o.OuterEnum
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableEnumTest struct {

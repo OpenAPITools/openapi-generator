@@ -54,7 +54,7 @@ func (o *OuterComposite) GetMyNumber() float32 {
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
 	if o == nil || isNil(o.MyNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.MyNumber, true
 }
@@ -86,7 +86,7 @@ func (o *OuterComposite) GetMyString() string {
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyStringOk() (*string, bool) {
 	if o == nil || isNil(o.MyString) {
-    return nil, false
+		return nil, false
 	}
 	return o.MyString, true
 }
@@ -118,7 +118,7 @@ func (o *OuterComposite) GetMyBoolean() bool {
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
 	if o == nil || isNil(o.MyBoolean) {
-    return nil, false
+		return nil, false
 	}
 	return o.MyBoolean, true
 }

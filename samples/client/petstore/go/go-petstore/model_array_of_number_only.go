@@ -52,7 +52,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 	if o == nil || isNil(o.ArrayNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayNumber, true
 }

@@ -19,13 +19,18 @@ defmodule {{moduleName}}.Deserializer do
   end
 
   def deserialize(model, field, :map, mod, options) do
-    model
-    |> Map.update!(
-      field,
-      &Map.new(&1, fn {key, val} ->
-        {key, Poison.Decode.decode(val, Keyword.merge(options, [as: struct(mod)]))}
-      end)
-    )
+    maybe_transform_map = fn
+      nil ->
+        nil
+
+      existing_value ->
+        Map.new(existing_value, fn
+          {key, val} ->
+            {key, Poison.Decode.decode(val, Keyword.merge(options, as: struct(mod)))}
+        end)
+    end
+
+    Map.update!(model, field, maybe_transform_map)
   end
 
   def deserialize(model, field, :date, _, _options) do

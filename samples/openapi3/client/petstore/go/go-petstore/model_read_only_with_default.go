@@ -73,7 +73,7 @@ func (o *ReadOnlyWithDefault) GetProp1() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp1Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop1) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop1, true
 }
@@ -105,7 +105,7 @@ func (o *ReadOnlyWithDefault) GetProp2() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp2Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop2) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop2, true
 }
@@ -137,7 +137,7 @@ func (o *ReadOnlyWithDefault) GetProp3() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp3Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop3) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop3, true
 }
@@ -169,7 +169,7 @@ func (o *ReadOnlyWithDefault) GetBoolProp1() bool {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetBoolProp1Ok() (*bool, bool) {
 	if o == nil || isNil(o.BoolProp1) {
-    return nil, false
+		return nil, false
 	}
 	return o.BoolProp1, true
 }
@@ -201,7 +201,7 @@ func (o *ReadOnlyWithDefault) GetBoolProp2() bool {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetBoolProp2Ok() (*bool, bool) {
 	if o == nil || isNil(o.BoolProp2) {
-    return nil, false
+		return nil, false
 	}
 	return o.BoolProp2, true
 }
@@ -233,7 +233,7 @@ func (o *ReadOnlyWithDefault) GetIntProp1() float32 {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetIntProp1Ok() (*float32, bool) {
 	if o == nil || isNil(o.IntProp1) {
-    return nil, false
+		return nil, false
 	}
 	return o.IntProp1, true
 }
@@ -265,7 +265,7 @@ func (o *ReadOnlyWithDefault) GetIntProp2() float32 {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetIntProp2Ok() (*float32, bool) {
 	if o == nil || isNil(o.IntProp2) {
-    return nil, false
+		return nil, false
 	}
 	return o.IntProp2, true
 }

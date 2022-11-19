@@ -426,7 +426,7 @@ public class ModelUtils {
     /**
      * Return true if the specified schema is an object with a fixed number of properties.
      *
-     * A ObjectSchema differs from an MapSchema in the following way:
+     * A ObjectSchema differs from a MapSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
      *   The payload may include dynamic properties.
@@ -917,7 +917,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
+     * If a RequestBody contains a reference to another RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
      * @param openAPI     specification being checked
      * @param requestBody potentially containing a '$ref'
@@ -946,7 +946,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
+     * If a ApiResponse contains a reference to another ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
      *
      * @param openAPI     specification being checked
      * @param apiResponse potentially containing a '$ref'
@@ -975,7 +975,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
+     * If a Parameter contains a reference to another Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
      *
      * @param openAPI   specification being checked
      * @param parameter potentially containing a '$ref'
@@ -1004,7 +1004,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
+     * If a Callback contains a reference to another Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
      *
      * @param openAPI  specification being checked
      * @param callback potentially containing a '$ref'

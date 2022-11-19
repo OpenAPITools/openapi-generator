@@ -341,7 +341,7 @@ class HttpSigningConfiguration(object):
         :return: A tuple of (digest, prefix).
             The digest is a hashing object that contains the cryptographic digest of
             the HTTP request.
-            The prefix is a string that identifies the cryptographc hash. It is used
+            The prefix is a string that identifies the cryptographic hash. It is used
             to generate the 'Digest' header as specified in RFC 3230.
         """
         if self.hash_algorithm == HASH_SHA512:

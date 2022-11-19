@@ -53,7 +53,7 @@ func (o *Tag) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -85,7 +85,7 @@ func (o *Tag) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (*string, bool) {
 	if o == nil || isNil(o.Name) {
-    return nil, false
+		return nil, false
 	}
 	return o.Name, true
 }

@@ -60,7 +60,7 @@ func (o *User) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *User) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -92,7 +92,7 @@ func (o *User) GetUsername() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetUsernameOk() (*string, bool) {
 	if o == nil || isNil(o.Username) {
-    return nil, false
+		return nil, false
 	}
 	return o.Username, true
 }
@@ -124,7 +124,7 @@ func (o *User) GetFirstName() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetFirstNameOk() (*string, bool) {
 	if o == nil || isNil(o.FirstName) {
-    return nil, false
+		return nil, false
 	}
 	return o.FirstName, true
 }
@@ -156,7 +156,7 @@ func (o *User) GetLastName() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetLastNameOk() (*string, bool) {
 	if o == nil || isNil(o.LastName) {
-    return nil, false
+		return nil, false
 	}
 	return o.LastName, true
 }
@@ -188,7 +188,7 @@ func (o *User) GetEmail() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || isNil(o.Email) {
-    return nil, false
+		return nil, false
 	}
 	return o.Email, true
 }
@@ -220,7 +220,7 @@ func (o *User) GetPassword() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetPasswordOk() (*string, bool) {
 	if o == nil || isNil(o.Password) {
-    return nil, false
+		return nil, false
 	}
 	return o.Password, true
 }
@@ -252,7 +252,7 @@ func (o *User) GetPhone() string {
 // and a boolean to check if the value has been set.
 func (o *User) GetPhoneOk() (*string, bool) {
 	if o == nil || isNil(o.Phone) {
-    return nil, false
+		return nil, false
 	}
 	return o.Phone, true
 }
@@ -284,7 +284,7 @@ func (o *User) GetUserStatus() int32 {
 // and a boolean to check if the value has been set.
 func (o *User) GetUserStatusOk() (*int32, bool) {
 	if o == nil || isNil(o.UserStatus) {
-    return nil, false
+		return nil, false
 	}
 	return o.UserStatus, true
 }

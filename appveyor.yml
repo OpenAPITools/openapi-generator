@@ -1,5 +1,5 @@
 version: '{branch}-{build}'
-image: Visual Studio 2019
+image: Visual Studio 2022
 hosts:
   petstore.swagger.io: 127.0.0.1
 install:

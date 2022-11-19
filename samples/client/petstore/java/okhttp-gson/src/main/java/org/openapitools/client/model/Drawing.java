@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +85,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Shape getMainShape() {
     return mainShape;
@@ -110,7 +107,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
@@ -133,7 +129,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public NullableShape getNullableShape() {
     return nullableShape;
@@ -164,7 +159,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Shape> getShapes() {
     return shapes;

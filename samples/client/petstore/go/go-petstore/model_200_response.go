@@ -53,7 +53,7 @@ func (o *Model200Response) GetName() int32 {
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetNameOk() (*int32, bool) {
 	if o == nil || isNil(o.Name) {
-    return nil, false
+		return nil, false
 	}
 	return o.Name, true
 }
@@ -85,7 +85,7 @@ func (o *Model200Response) GetClass() string {
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetClassOk() (*string, bool) {
 	if o == nil || isNil(o.Class) {
-    return nil, false
+		return nil, false
 	}
 	return o.Class, true
 }

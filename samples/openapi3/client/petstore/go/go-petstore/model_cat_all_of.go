@@ -55,7 +55,7 @@ func (o *CatAllOf) GetDeclawed() bool {
 // and a boolean to check if the value has been set.
 func (o *CatAllOf) GetDeclawedOk() (*bool, bool) {
 	if o == nil || isNil(o.Declawed) {
-    return nil, false
+		return nil, false
 	}
 	return o.Declawed, true
 }

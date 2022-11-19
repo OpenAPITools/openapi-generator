@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Pet type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Pet{}
-
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
@@ -60,7 +57,7 @@ func (o *Pet) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -92,7 +89,7 @@ func (o *Pet) GetCategory() Category {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetCategoryOk() (*Category, bool) {
 	if o == nil || isNil(o.Category) {
-    return nil, false
+		return nil, false
 	}
 	return o.Category, true
 }
@@ -124,9 +121,9 @@ func (o *Pet) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
-    if o == nil {
-    return nil, false
-    }
+	if o == nil {
+		return nil, false
+	}
 	return &o.Name, true
 }
 
@@ -148,9 +145,9 @@ func (o *Pet) GetPhotoUrls() []string {
 // GetPhotoUrlsOk returns a tuple with the PhotoUrls field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
-    if o == nil {
-    return nil, false
-    }
+	if o == nil {
+		return nil, false
+	}
 	return o.PhotoUrls, true
 }
 
@@ -172,7 +169,7 @@ func (o *Pet) GetTags() []Tag {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetTagsOk() ([]Tag, bool) {
 	if o == nil || isNil(o.Tags) {
-    return nil, false
+		return nil, false
 	}
 	return o.Tags, true
 }
@@ -204,7 +201,7 @@ func (o *Pet) GetStatus() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetStatusOk() (*string, bool) {
 	if o == nil || isNil(o.Status) {
-    return nil, false
+		return nil, false
 	}
 	return o.Status, true
 }
@@ -224,14 +221,6 @@ func (o *Pet) SetStatus(v string) {
 }
 
 func (o Pet) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Pet) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -239,15 +228,19 @@ func (o Pet) ToMap() (map[string]interface{}, error) {
 	if !isNil(o.Category) {
 		toSerialize["category"] = o.Category
 	}
-	toSerialize["name"] = o.Name
-	toSerialize["photoUrls"] = o.PhotoUrls
+	if true {
+		toSerialize["name"] = o.Name
+	}
+	if true {
+		toSerialize["photoUrls"] = o.PhotoUrls
+	}
 	if !isNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
 	if !isNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullablePet struct {

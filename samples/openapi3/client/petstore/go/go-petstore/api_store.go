@@ -53,7 +53,7 @@ type StoreApi interface {
 	/*
 	GetOrderById Find purchase order by ID
 
-	For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+	For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param orderId ID of pet that needs to be fetched
@@ -301,7 +301,7 @@ func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 /*
 GetOrderById Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param orderId ID of pet that needs to be fetched

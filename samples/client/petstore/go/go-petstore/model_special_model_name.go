@@ -52,7 +52,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
 	if o == nil || isNil(o.SpecialPropertyName) {
-    return nil, false
+		return nil, false
 	}
 	return o.SpecialPropertyName, true
 }

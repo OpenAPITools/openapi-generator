@@ -52,7 +52,7 @@ func (o *ClassModel) GetClass() string {
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (*string, bool) {
 	if o == nil || isNil(o.Class) {
-    return nil, false
+		return nil, false
 	}
 	return o.Class, true
 }

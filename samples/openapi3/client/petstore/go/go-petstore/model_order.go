@@ -66,7 +66,7 @@ func (o *Order) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Order) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -98,7 +98,7 @@ func (o *Order) GetPetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Order) GetPetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.PetId) {
-    return nil, false
+		return nil, false
 	}
 	return o.PetId, true
 }
@@ -130,7 +130,7 @@ func (o *Order) GetQuantity() int32 {
 // and a boolean to check if the value has been set.
 func (o *Order) GetQuantityOk() (*int32, bool) {
 	if o == nil || isNil(o.Quantity) {
-    return nil, false
+		return nil, false
 	}
 	return o.Quantity, true
 }
@@ -162,7 +162,7 @@ func (o *Order) GetShipDate() time.Time {
 // and a boolean to check if the value has been set.
 func (o *Order) GetShipDateOk() (*time.Time, bool) {
 	if o == nil || isNil(o.ShipDate) {
-    return nil, false
+		return nil, false
 	}
 	return o.ShipDate, true
 }
@@ -194,7 +194,7 @@ func (o *Order) GetStatus() string {
 // and a boolean to check if the value has been set.
 func (o *Order) GetStatusOk() (*string, bool) {
 	if o == nil || isNil(o.Status) {
-    return nil, false
+		return nil, false
 	}
 	return o.Status, true
 }
@@ -226,7 +226,7 @@ func (o *Order) GetComplete() bool {
 // and a boolean to check if the value has been set.
 func (o *Order) GetCompleteOk() (*bool, bool) {
 	if o == nil || isNil(o.Complete) {
-    return nil, false
+		return nil, false
 	}
 	return o.Complete, true
 }

@@ -52,7 +52,7 @@ func (o *Return) GetReturn() int32 {
 // and a boolean to check if the value has been set.
 func (o *Return) GetReturnOk() (*int32, bool) {
 	if o == nil || isNil(o.Return) {
-    return nil, false
+		return nil, false
 	}
 	return o.Return, true
 }

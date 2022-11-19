@@ -57,7 +57,7 @@ func (o *ApiResponse) GetCode() int32 {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetCodeOk() (*int32, bool) {
 	if o == nil || isNil(o.Code) {
-    return nil, false
+		return nil, false
 	}
 	return o.Code, true
 }
@@ -89,7 +89,7 @@ func (o *ApiResponse) GetType() string {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetTypeOk() (*string, bool) {
 	if o == nil || isNil(o.Type) {
-    return nil, false
+		return nil, false
 	}
 	return o.Type, true
 }
@@ -121,7 +121,7 @@ func (o *ApiResponse) GetMessage() string {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetMessageOk() (*string, bool) {
 	if o == nil || isNil(o.Message) {
-    return nil, false
+		return nil, false
 	}
 	return o.Message, true
 }

@@ -146,7 +146,7 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const overridedInit: RequestInit = {
+        const overriddenInit: RequestInit = {
             ...initParams,
             ...(await initOverrideFn({
                 init: initParams,
@@ -155,13 +155,13 @@ export class BaseAPI {
         };
 
         const init: RequestInit = {
-            ...overridedInit,
+            ...overriddenInit,
             body:
-                isFormData(overridedInit.body) ||
-                overridedInit.body instanceof URLSearchParams ||
-                isBlob(overridedInit.body)
-                    ? overridedInit.body
-                    : JSON.stringify(overridedInit.body),
+                isFormData(overriddenInit.body) ||
+                overriddenInit.body instanceof URLSearchParams ||
+                isBlob(overriddenInit.body)
+                    ? overriddenInit.body
+                    : JSON.stringify(overriddenInit.body),
         };
 
         return { url, init };
