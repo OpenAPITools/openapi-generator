@@ -8,6 +8,10 @@ import (
 	sw "go-petstore"
 )
 
+const (
+	deepObjectURL = `/v2/fake/deep_object_test?inputOptions[F1]=1&inputOptions[F2]=teststring&inputOptions[F3]=null&inputOptions[id]=1&inputOptions[name]=TestCat&test_pet[F1]=1&test_pet[F2]=teststring&test_pet[F3]=null&test_pet[id]=1&test_pet[name]=Test&test_pet[photoUrls]=http%3A%2F%2Flocalhost&test_pet[tags][F1]=1&test_pet[tags][F2]=teststring&test_pet[tags][F3]=null&test_pet[tags][id]=2&test_pet[tags][name]=tag1`
+)
+
 // TestPutBodyWithFileSchema ensures a model with the name 'File'
 // gets converted properly to the petstore.File struct vs. *os.File
 // as specified in typeMapping for 'File'.
@@ -68,7 +72,9 @@ func TestQueryDeepObject(t *testing.T) {
 
 	r, _ := req.Execute()
 
+	var expectedDeepObjectURL = testScheme + "://" + testHost + deepObjectURL
+
 	assert.Equal(t,
-		"http://petstore.swagger.io:80/v2/fake/deep_object_test?inputOptions[F1]=1&inputOptions[F2]=teststring&inputOptions[F3]=null&inputOptions[id]=1&inputOptions[name]=TestCat&test_pet[F1]=1&test_pet[F2]=teststring&test_pet[F3]=null&test_pet[id]=1&test_pet[name]=Test&test_pet[photoUrls]=http%3A%2F%2Flocalhost&test_pet[tags][F1]=1&test_pet[tags][F2]=teststring&test_pet[tags][F3]=null&test_pet[tags][id]=2&test_pet[tags][name]=tag1",
+		expectedDeepObjectURL,
 		r.Request.URL.String() )
 }
