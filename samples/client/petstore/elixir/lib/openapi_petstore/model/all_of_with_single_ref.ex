@@ -14,7 +14,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
 
   @type t :: %__MODULE__{
     :username => String.t | nil,
-    :SingleRefType => any | nil
+    :SingleRefType => any() | nil
   }
 end
 
@@ -22,7 +22,7 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType, options)
+    |> deserialize(:SingleRefType, :any, :any, options)
   end
 end
 
