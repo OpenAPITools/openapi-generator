@@ -11,7 +11,6 @@
 
 import sys
 from collections import namedtuple
-import os
 import json
 import unittest
 from pathlib import Path
@@ -381,9 +380,7 @@ class TestFakeApi(unittest.TestCase):
 
     def test_upload_file(self):
         # uploads a file
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles",  "1px_pic1.png").resolve()
 
         headers = {}
         def get_headers():
@@ -439,10 +436,8 @@ class TestFakeApi(unittest.TestCase):
             self.api.upload_file(file=file)
 
     def test_upload_files(self):
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
-        file_path2 = os.path.join(test_file_dir, "1px_pic2.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles",  "1px_pic1.png").resolve()
+        file_path2 = Path(__file__, "..", "..", "testfiles",  "1px_pic2.png").resolve()
 
         headers = {}
         def get_headers():
@@ -579,12 +574,10 @@ class TestFakeApi(unittest.TestCase):
                     self.assertEqual(file_object.read(), file_data.encode('utf-8'))
                 finally:
                     file_object.close()
-                    os.unlink(file_object.name)
+                    Path(file_object.name).unlink()
 
     def test_upload_download_file(self):
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles", "1px_pic1.png").resolve()
 
         with open(file_path1, "rb") as f:
             expected_file_data = f.read()
@@ -623,7 +616,7 @@ class TestFakeApi(unittest.TestCase):
         finally:
             file1.close()
             downloaded_file.close()
-            os.unlink(downloaded_file.name)
+            Path(downloaded_file.name).unlink()
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
