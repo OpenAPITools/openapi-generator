@@ -176,7 +176,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -270,7 +270,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch stringResponse.result {
                 case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as! T)))
+                    completion(.success(Response(response: stringResponse.response!, body: value as! T, bodyData: stringResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
                 }
@@ -315,7 +315,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T)))
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T, bodyData: data)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
@@ -332,7 +332,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -346,7 +346,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch dataResponse.result {
                 case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T, bodyData: dataResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }
@@ -370,7 +370,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 guard let data = dataResponse.data, !data.isEmpty else {
                     if T.self is ExpressibleByNilLiteral.Type {
-                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T, bodyData: dataResponse.data)))
                     } else {
                         completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
                     }
@@ -381,7 +381,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch decodeResult {
                 case let .success(decodableObj):
-                    completion(.success(Response(response: httpResponse, body: decodableObj)))
+                    completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, httpResponse, error)))
                 }

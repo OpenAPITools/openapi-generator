@@ -169,8 +169,9 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -201,11 +202,12 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Map<String, Integer>>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -254,8 +256,9 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -287,11 +290,12 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Order>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -345,8 +349,9 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -378,11 +383,12 @@ public class StoreApi {
               return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Order>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));

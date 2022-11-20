@@ -10,7 +10,6 @@ $ nosetests -v
 """
 from collections import namedtuple
 import json
-import os
 import time
 import unittest
 import datetime
