@@ -121,7 +121,7 @@ open class {{classname}} {
                 {{/-last}}
                 {{/headerParams}}
                 {{#headerParams}}
-                    "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}
+                    "{{baseName}}": {{> toString}}{{^-last}}, {{/-last}}
                 {{/headerParams}}
                 {{#headerParams}}
                 {{#-last}}

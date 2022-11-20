@@ -756,6 +756,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenOperation operation : operations) {
             operation.allParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
             operation.queryParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            operation.headerParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
             operation.bodyParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
             operation.formParams.forEach(cp -> addFormVendorExtensions(cp, operation, modelMaps));
             if (notCodableTypes.contains(operation.returnType) || notCodableTypes.contains(operation.returnBaseType)) {
@@ -818,7 +819,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.18.0                                          #");
+        System.out.println("# swift alternative generator v0.19.0                                          #");
         System.out.println("################################################################################");
     }
 }
