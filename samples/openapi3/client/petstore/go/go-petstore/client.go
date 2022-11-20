@@ -685,5 +685,5 @@ func formatErrorMessage(status string, v interface{}) string {
 	}
 
 	// status title (detail)
-	return fmt.Sprintf("%s %s", status, str)
+	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
 }
