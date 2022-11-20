@@ -443,14 +443,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
-    public boolean requiredAndNotNullable() {
-        return required && !isNullable;
-    }
-
-    public boolean notRequiredOrIsNullable() {
-        return !required || isNullable;
-    }
-
     // use schema.getContains or content.mediaType.schema.getContains instead of this
     @Override
     public CodegenProperty getContains() {
@@ -773,6 +765,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     public boolean requiredAndNotNullable(){
         return required && !isNullable;
+    }
+
+    public boolean notRequiredOrIsNullable() {
+        return !required || isNullable;
     }
 
     @Override
