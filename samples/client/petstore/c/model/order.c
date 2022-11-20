@@ -150,7 +150,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     // order->ship_date
     cJSON *ship_date = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
     if (ship_date) { 
-    if(!cJSON_IsString(ship_date))
+    if(!cJSON_IsString(ship_date) && !cJSON_IsNull(ship_date))
     {
     goto end; //DateTime
     }
@@ -181,7 +181,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
         id ? id->valuedouble : 0,
         pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,
-        ship_date ? strdup(ship_date->valuestring) : NULL,
+        ship_date && !cJSON_IsNull(ship_date) ? strdup(ship_date->valuestring) : NULL,
         status ? statusVariable : -1,
         complete ? complete->valueint : 0
         );

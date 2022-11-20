@@ -53,7 +53,7 @@ func (o *HealthCheckResult) GetNullableMessage() string {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.NullableMessage.Get(), o.NullableMessage.IsSet()
 }

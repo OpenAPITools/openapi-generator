@@ -138,7 +138,7 @@ module Petstore
     end
 
     # Find purchase order by ID
-    # For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    # For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
     # @param order_id [Integer] ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Order]
@@ -148,7 +148,7 @@ module Petstore
     end
 
     # Find purchase order by ID
-    # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
     # @param order_id [Integer] ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers

@@ -309,12 +309,12 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             return false;
         }
         for (ModelsMap objs : enumModels.values()) {
-            List<ModelMap> modles = objs.getModels();
-            if (modles == null || modles.isEmpty()) {
+            List<ModelMap> models = objs.getModels();
+            if (models == null || models.isEmpty()) {
                 continue;
             }
-            for (final Map<String, Object> modle : modles) {
-                String enumImportPath = (String) modle.get("importPath");
+            for (final Map<String, Object> model : models) {
+                String enumImportPath = (String) model.get("importPath");
                 if (enumImportPath != null && enumImportPath.equals(importPath)) {
                     return true;
                 }

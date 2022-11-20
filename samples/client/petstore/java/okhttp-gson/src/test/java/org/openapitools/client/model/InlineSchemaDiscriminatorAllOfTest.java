@@ -18,8 +18,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.InlineSchemaDiscriminator;
 import org.junit.jupiter.api.Disabled;
@@ -49,11 +47,11 @@ public class InlineSchemaDiscriminatorAllOfTest {
     }
 
     /**
-     * Test the property 'color'
+     * Test the property 'breed'
      */
     @Test
-    public void colorTest() {
-        // TODO: test color
+    public void breedTest() {
+        // TODO: test breed
     }
 
 }

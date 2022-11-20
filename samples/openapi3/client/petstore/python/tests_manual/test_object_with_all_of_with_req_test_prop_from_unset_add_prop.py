@@ -23,7 +23,7 @@ class TestObjectWithAllOfWithReqTestPropFromUnsetAddProp(unittest.TestCase):
         )
         assert inst == {'test': 'a'}
 
-        # without the required test property an execption is thrown
+        # without the required test property an exception is thrown
         with self.assertRaises(petstore_api.exceptions.ApiTypeError):
             ObjectWithAllOfWithReqTestPropFromUnsetAddProp(
                 name='a'

@@ -55,7 +55,7 @@ func (o *Whale) GetHasBaleen() bool {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasBaleenOk() (*bool, bool) {
 	if o == nil || isNil(o.HasBaleen) {
-    return nil, false
+		return nil, false
 	}
 	return o.HasBaleen, true
 }
@@ -87,7 +87,7 @@ func (o *Whale) GetHasTeeth() bool {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasTeethOk() (*bool, bool) {
 	if o == nil || isNil(o.HasTeeth) {
-    return nil, false
+		return nil, false
 	}
 	return o.HasTeeth, true
 }
@@ -120,7 +120,7 @@ func (o *Whale) GetClassName() string {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetClassNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.ClassName, true
 }

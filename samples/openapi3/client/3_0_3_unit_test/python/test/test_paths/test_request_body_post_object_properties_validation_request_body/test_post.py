@@ -34,6 +34,40 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
     response_status = 200
     response_body = ''
 
+    def test_doesnt_invalidate_other_properties_passes(self):
+        content_type = 'application/json'
+        # doesn&#x27;t invalidate other properties
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            payload = (
+                {
+                    "quux":
+                        [
+                        ],
+                }
+            )
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
+                payload,
+                _configuration=self._configuration
+            )
+            mock_request.return_value = self.response(
+                self.json_bytes(self.response_body),
+                status=self.response_status
+            )
+            api_response = self.api.post(
+                body=body,
+                content_type=content_type
+            )
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
+                method='post'.upper(),
+                body=self.json_bytes(payload),
+                content_type=content_type,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+
     def test_ignores_arrays_passes(self):
         content_type = 'application/json'
         # ignores arrays
@@ -125,40 +159,6 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                         1,
                     "bar":
                         "baz",
-                }
-            )
-            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
-                payload,
-                _configuration=self._configuration
-            )
-            mock_request.return_value = self.response(
-                self.json_bytes(self.response_body),
-                status=self.response_status
-            )
-            api_response = self.api.post(
-                body=body,
-                content_type=content_type
-            )
-            self.assert_pool_manager_request_called_with(
-                mock_request,
-                self._configuration.host + '/requestBody/postObjectPropertiesValidationRequestBody',
-                method='post'.upper(),
-                body=self.json_bytes(payload),
-                content_type=content_type,
-            )
-
-            assert isinstance(api_response.response, urllib3.HTTPResponse)
-            assert isinstance(api_response.body, schemas.Unset)
-
-    def test_doesn_t_invalidate_other_properties_passes(self):
-        content_type = 'application/json'
-        # doesn&#x27;t invalidate other properties
-        with patch.object(urllib3.PoolManager, 'request') as mock_request:
-            payload = (
-                {
-                    "quux":
-                        [
-                        ],
                 }
             )
             body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(

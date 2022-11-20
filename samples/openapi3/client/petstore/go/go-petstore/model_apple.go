@@ -52,7 +52,7 @@ func (o *Apple) GetCultivar() string {
 // and a boolean to check if the value has been set.
 func (o *Apple) GetCultivarOk() (*string, bool) {
 	if o == nil || isNil(o.Cultivar) {
-    return nil, false
+		return nil, false
 	}
 	return o.Cultivar, true
 }

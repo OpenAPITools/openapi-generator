@@ -20,6 +20,17 @@ class TestObjectPropertiesValidation(unittest.TestCase):
     """ObjectPropertiesValidation unit test stubs"""
     _configuration = configuration.Configuration()
 
+    def test_doesnt_invalidate_other_properties_passes(self):
+        # doesn&#x27;t invalidate other properties
+        ObjectPropertiesValidation.from_openapi_data_oapg(
+            {
+                "quux":
+                    [
+                    ],
+            },
+            _configuration=self._configuration
+        )
+
     def test_ignores_arrays_passes(self):
         # ignores arrays
         ObjectPropertiesValidation.from_openapi_data_oapg(
@@ -57,17 +68,6 @@ class TestObjectPropertiesValidation(unittest.TestCase):
                     1,
                 "bar":
                     "baz",
-            },
-            _configuration=self._configuration
-        )
-
-    def test_doesn_t_invalidate_other_properties_passes(self):
-        # doesn&#x27;t invalidate other properties
-        ObjectPropertiesValidation.from_openapi_data_oapg(
-            {
-                "quux":
-                    [
-                    ],
             },
             _configuration=self._configuration
         )

@@ -71,26 +71,58 @@ class TestParameter(unittest.TestCase):
             dict(
                 fields=(
                     api_client.RequestField(
-                        name='some_null', data='null', headers={'Content-Type': 'application/json'}),
+                        name='some_null', data='null', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_null\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_bool', data='true', headers={'Content-Type': 'application/json'}),
+                        name='some_bool', data='true', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_bool\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_str', data='a', headers={'Content-Type': 'text/plain'}),
+                        name='some_str', data='a', headers={
+                            'Content-Type': 'text/plain',
+                            "Content-Disposition": "form-data; name=\"some_str\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_int', data='1', headers={'Content-Type': 'application/json'}),
+                        name='some_int', data='1', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_int\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_float', data='3.14', headers={'Content-Type': 'application/json'}),
+                        name='some_float', data='3.14', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_float\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_list', data='[]', headers={'Content-Type': 'application/json'}),
+                        name='some_list', data='[]', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_list\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_dict', data='{}', headers={'Content-Type': 'application/json'}),
+                        name='some_dict', data='{}', headers={
+                            'Content-Type': 'application/json',
+                            "Content-Disposition": "form-data; name=\"some_dict\"",
+                            "Content-Location": None
+                        }),
                     api_client.RequestField(
-                        name='some_bytes', data=b'abc', headers={'Content-Type': 'application/octet-stream'})
+                        name='some_bytes', data=b'abc', headers={
+                            'Content-Type': 'application/octet-stream',
+                            "Content-Disposition": "form-data; name=\"some_bytes\"",
+                            "Content-Location": None
+                        })
                 )
             )
         )
 
-    def test_throws_error_for_nonexistant_content_type(self):
+    def test_throws_error_for_nonexistent_content_type(self):
         request_body = api_client.RequestBody(
             content={'application/json': api_client.MediaType(schema=schemas.AnyTypeSchema)}
         )
@@ -110,7 +142,7 @@ class TestParameter(unittest.TestCase):
     def test_application_x_www_form_urlencoded_serialization(self):
         payload = dict(
             some_null=None,
-            some_str='hi, spacether!',
+            some_str='hi there',
             some_int=1,
             some_float=3.14,
             some_list=[],
@@ -123,7 +155,7 @@ class TestParameter(unittest.TestCase):
         serialization = request_body.serialize(payload, content_type)
         self.assertEqual(
             serialization,
-            dict(body='some_str=hi%2C%20spacether%21&some_int=1&some_float=3.14')
+            dict(body='some_str=hi%20there&some_int=1&some_float=3.14')
         )
 
         serialization = request_body.serialize({}, content_type)

@@ -237,7 +237,7 @@ public class FakeApi  {
         @io.swagger.annotations.Authorization(value = "bearer_test")
     }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class)
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Something wrong", response = Void.class)
     })
     public Response testGroupParameters(@ApiParam(value = "Required String in group parameters", required = true) @QueryParam("required_string_group") @NotNull  Integer requiredStringGroup,@ApiParam(value = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup,@ApiParam(value = "Required Integer in group parameters", required = true) @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group,@ApiParam(value = "String in group parameters") @QueryParam("string_group")  Integer stringGroup,@ApiParam(value = "Boolean in group parameters" )@HeaderParam("boolean_group") Boolean booleanGroup,@ApiParam(value = "Integer in group parameters") @QueryParam("int64_group")  Long int64Group,@Context SecurityContext securityContext)
     throws NotFoundException {

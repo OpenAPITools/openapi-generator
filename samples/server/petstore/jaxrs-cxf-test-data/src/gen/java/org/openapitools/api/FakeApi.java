@@ -161,7 +161,7 @@ public interface FakeApi  {
     
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Someting wrong") })
+        @ApiResponse(code = 400, message = "Something wrong") })
     public void testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group")  @NotNull Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
 
     /**

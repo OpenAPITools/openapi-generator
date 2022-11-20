@@ -50,7 +50,7 @@ get_inventory(Ctx, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Find purchase order by ID
-%% For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+%% For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 -spec get_order_by_id(ctx:ctx(), integer()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_order_by_id(Ctx, OrderId) ->
     get_order_by_id(Ctx, OrderId, #{}).

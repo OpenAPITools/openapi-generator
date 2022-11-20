@@ -48,12 +48,12 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_of_string':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -79,12 +79,12 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, ]]],
+                            _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, ]]],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'items':
                             return super().__new__(
                                 cls,
-                                arg,
+                                _arg,
                                 _configuration=_configuration,
                             )
                     
@@ -93,12 +93,12 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_integer':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -127,12 +127,12 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Union[typing.Tuple['ReadOnlyFirst'], typing.List['ReadOnlyFirst']],
+                            _arg: typing.Union[typing.Tuple['ReadOnlyFirst'], typing.List['ReadOnlyFirst']],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'items':
                             return super().__new__(
                                 cls,
-                                arg,
+                                _arg,
                                 _configuration=_configuration,
                             )
                     
@@ -141,12 +141,12 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_model':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -193,7 +193,7 @@ class ArrayTest(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         array_of_string: typing.Union[MetaOapg.properties.array_of_string, list, tuple, schemas.Unset] = schemas.unset,
         array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, list, tuple, schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, list, tuple, schemas.Unset] = schemas.unset,
@@ -202,7 +202,7 @@ class ArrayTest(
     ) -> 'ArrayTest':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             array_of_string=array_of_string,
             array_array_of_integer=array_array_of_integer,
             array_array_of_model=array_array_of_model,

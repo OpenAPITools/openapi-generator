@@ -54,7 +54,7 @@ func (o *EnumTest) GetEnumString() string {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringOk() (*string, bool) {
 	if o == nil || isNil(o.EnumString) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumString, true
 }
@@ -87,7 +87,7 @@ func (o *EnumTest) GetEnumStringRequired() string {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.EnumStringRequired, true
 }
@@ -110,7 +110,7 @@ func (o *EnumTest) GetEnumInteger() int32 {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
 	if o == nil || isNil(o.EnumInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumInteger, true
 }
@@ -142,7 +142,7 @@ func (o *EnumTest) GetEnumNumber() float64 {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
 	if o == nil || isNil(o.EnumNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.EnumNumber, true
 }
@@ -174,7 +174,7 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 	if o == nil || isNil(o.OuterEnum) {
-    return nil, false
+		return nil, false
 	}
 	return o.OuterEnum, true
 }

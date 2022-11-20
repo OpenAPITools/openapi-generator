@@ -53,7 +53,7 @@ func (o *NullableAllOf) GetChild() NullableAllOfChild {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableAllOf) GetChildOk() (*NullableAllOfChild, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.Child.Get(), o.Child.IsSet()
 }

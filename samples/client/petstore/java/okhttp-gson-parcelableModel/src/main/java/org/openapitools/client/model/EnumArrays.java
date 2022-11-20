@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +168,6 @@ public class EnumArrays implements Parcelable {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -201,7 +198,6 @@ public class EnumArrays implements Parcelable {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

@@ -57,7 +57,7 @@ func (o *Pet) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -89,7 +89,7 @@ func (o *Pet) GetCategory() Category {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetCategoryOk() (*Category, bool) {
 	if o == nil || isNil(o.Category) {
-    return nil, false
+		return nil, false
 	}
 	return o.Category, true
 }
@@ -122,7 +122,7 @@ func (o *Pet) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Name, true
 }
@@ -146,7 +146,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.PhotoUrls, true
 }
@@ -169,7 +169,7 @@ func (o *Pet) GetTags() []Tag {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetTagsOk() ([]Tag, bool) {
 	if o == nil || isNil(o.Tags) {
-    return nil, false
+		return nil, false
 	}
 	return o.Tags, true
 }
@@ -201,7 +201,7 @@ func (o *Pet) GetStatus() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetStatusOk() (*string, bool) {
 	if o == nil || isNil(o.Status) {
-    return nil, false
+		return nil, false
 	}
 	return o.Status, true
 }

@@ -56,7 +56,7 @@ func (o *Category) GetId() int64 {
 // and a boolean to check if the value has been set.
 func (o *Category) GetIdOk() (*int64, bool) {
 	if o == nil || isNil(o.Id) {
-    return nil, false
+		return nil, false
 	}
 	return o.Id, true
 }
@@ -89,7 +89,7 @@ func (o *Category) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Category) GetNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Name, true
 }

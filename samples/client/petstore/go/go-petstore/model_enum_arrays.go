@@ -50,7 +50,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
 	if o == nil || isNil(o.JustSymbol) {
-    return nil, false
+		return nil, false
 	}
 	return o.JustSymbol, true
 }
@@ -82,7 +82,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 	if o == nil || isNil(o.ArrayEnum) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayEnum, true
 }

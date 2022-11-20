@@ -70,14 +70,14 @@ class SchemaFor0ResponseBodyApplicationJson(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         string: typing.Union['Foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             string=string,
             _configuration=_configuration,
             **kwargs,

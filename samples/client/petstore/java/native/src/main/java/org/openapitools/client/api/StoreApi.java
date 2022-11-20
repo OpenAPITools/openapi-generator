@@ -180,10 +180,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getInventory", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
           
         );
       } finally {
@@ -218,7 +219,7 @@ public class StoreApi {
   }
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -230,7 +231,7 @@ public class StoreApi {
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
@@ -248,10 +249,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getOrderById", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
           
         );
       } finally {
@@ -321,10 +323,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("placeOrder", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
           
         );
       } finally {

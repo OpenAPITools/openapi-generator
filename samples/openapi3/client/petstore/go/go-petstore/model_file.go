@@ -53,7 +53,7 @@ func (o *File) GetSourceURI() string {
 // and a boolean to check if the value has been set.
 func (o *File) GetSourceURIOk() (*string, bool) {
 	if o == nil || isNil(o.SourceURI) {
-    return nil, false
+		return nil, false
 	}
 	return o.SourceURI, true
 }

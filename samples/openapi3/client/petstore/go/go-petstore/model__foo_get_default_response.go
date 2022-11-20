@@ -52,7 +52,7 @@ func (o *FooGetDefaultResponse) GetString() Foo {
 // and a boolean to check if the value has been set.
 func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
 	if o == nil || isNil(o.String) {
-    return nil, false
+		return nil, false
 	}
 	return o.String, true
 }
