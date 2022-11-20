@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the Order type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Order{}
+
 // Order struct for Order
 type Order struct {
 	Id *int64 `json:"id,omitempty"`
@@ -240,6 +243,14 @@ func (o *Order) SetComplete(v bool) {
 }
 
 func (o Order) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Order) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -259,7 +270,7 @@ func (o Order) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Complete) {
 		toSerialize["complete"] = o.Complete
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableOrder struct {
