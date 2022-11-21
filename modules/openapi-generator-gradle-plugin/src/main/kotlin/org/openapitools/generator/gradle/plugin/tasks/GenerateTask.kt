@@ -478,6 +478,14 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
+    /**
+     * Defines whether the output dir should be cleaned up before generating the output.
+     *
+     */
+    @Optional
+    @Input
+    val cleanupOutput = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -500,7 +508,11 @@ open class GenerateTask : DefaultTask() {
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        project.delete(outputDir)
+        cleanupOutput.ifNotEmpty { cleanup ->
+            if (cleanup) {
+                project.delete(outputDir)
+            }
+        }
 
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
