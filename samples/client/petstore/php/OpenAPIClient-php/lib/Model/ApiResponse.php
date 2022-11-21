@@ -322,11 +322,9 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setCode($code)
     {
-
         if (is_null($code)) {
             throw new \InvalidArgumentException('non-nullable code cannot be null');
         }
-
         $this->container['code'] = $code;
 
         return $this;
@@ -351,11 +349,9 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setType($type)
     {
-
         if (is_null($type)) {
             throw new \InvalidArgumentException('non-nullable type cannot be null');
         }
-
         $this->container['type'] = $type;
 
         return $this;
@@ -380,11 +376,9 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMessage($message)
     {
-
         if (is_null($message)) {
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
-
         $this->container['message'] = $message;
 
         return $this;

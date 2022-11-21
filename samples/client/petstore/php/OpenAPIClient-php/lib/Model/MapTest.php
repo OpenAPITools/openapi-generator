@@ -344,11 +344,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMapMapOfString($map_map_of_string)
     {
-
         if (is_null($map_map_of_string)) {
             throw new \InvalidArgumentException('non-nullable map_map_of_string cannot be null');
         }
-
         $this->container['map_map_of_string'] = $map_map_of_string;
 
         return $this;
@@ -373,8 +371,11 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setMapOfEnumString($map_of_enum_string)
     {
+        if (is_null($map_of_enum_string)) {
+            throw new \InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
+        }
         $allowedValues = $this->getMapOfEnumStringAllowableValues();
-        if (!is_null($map_of_enum_string) && array_diff($map_of_enum_string, $allowedValues)) {
+        if (array_diff($map_of_enum_string, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'map_of_enum_string', must be one of '%s'",
@@ -382,11 +383,6 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
-        if (is_null($map_of_enum_string)) {
-            throw new \InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
-        }
-
         $this->container['map_of_enum_string'] = $map_of_enum_string;
 
         return $this;
@@ -411,11 +407,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setDirectMap($direct_map)
     {
-
         if (is_null($direct_map)) {
             throw new \InvalidArgumentException('non-nullable direct_map cannot be null');
         }
-
         $this->container['direct_map'] = $direct_map;
 
         return $this;
@@ -440,11 +434,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setIndirectMap($indirect_map)
     {
-
         if (is_null($indirect_map)) {
             throw new \InvalidArgumentException('non-nullable indirect_map cannot be null');
         }
-
         $this->container['indirect_map'] = $indirect_map;
 
         return $this;
