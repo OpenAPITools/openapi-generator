@@ -3,9 +3,11 @@ from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
+{{#hasChildren}}
 {{#discriminator}}
 import {{{modelPackage}}}
 {{/discriminator}}
+{{/hasChildren}}
 
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
 {{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
@@ -55,15 +57,18 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         allow_population_by_field_name = True
         validate_assignment = True
 
+{{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
     __discriminator_property_name = '{{discriminator.propertyBaseName}}'
 
+    {{#mappedModels}}
+    {{#-first}}
     # discriminator mappings
     __discriminator_value_class_map = {
-{{#children}}
-        '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
-{{/children}}
+    {{/-first}}
+        '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
+    {{#-last}}
     }
 
     @classmethod
@@ -74,8 +79,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
             return None
+    {{/-last}}
+    {{/mappedModels}}
 
 {{/discriminator}}
+{{/hasChildren}}
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.dict(by_alias=True))
@@ -85,7 +93,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
+    def from_json(cls, json_str: str) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -158,8 +166,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^discriminator}}{{{classname}}}{{/discriminator}}{{#discriminator}}Union({{#children}}{{{classname}}}, {{/children}}{{{classname}}}){{/discriminator}}:
+    def from_dict(cls, obj: dict) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
+        {{#hasChildren}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -171,7 +180,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
         {{/discriminator}}
-        {{^discriminator}}
+        {{/hasChildren}}
+        {{^hasChildren}}
         if obj is None:
             return None
 
@@ -245,4 +255,4 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         return _obj
-        {{/discriminator}}
+        {{/hasChildren}}

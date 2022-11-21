@@ -79,6 +79,22 @@ class Pig(BaseModel):
         instance = cls()
         error_messages = []
         match = 0
+
+        # use oneOf discriminator to lookup the data type
+        _data_type = json.loads(json_str).get("className")
+        if not _data_type:
+            raise ValueError("Failed to lookup data type from the field `className` in the input.")
+
+        # check if data type is `BasquePig`
+        if _data_type == "BasquePig":
+            instance.actual_instance = BasquePig.from_json(json_str)
+            return instance
+
+        # check if data type is `DanishPig`
+        if _data_type == "DanishPig":
+            instance.actual_instance = DanishPig.from_json(json_str)
+            return instance
+
         # deserialize data into BasquePig
         try:
             instance.actual_instance = BasquePig.from_json(json_str)

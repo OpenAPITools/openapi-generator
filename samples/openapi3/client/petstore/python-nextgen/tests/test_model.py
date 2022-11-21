@@ -102,15 +102,18 @@ class ModelTests(unittest.TestCase):
         try:
             p2 = petstore_api.Pig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
-        except ValueError as e:
-            error_message = (
-                "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
-                "Details: 1 validation error for BasquePig\n"
-                "__root__\n"
-                "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
-                "__root__\n"
-                "  DanishPig expected dict not int (type=type_error)")
-            self.assertEqual(str(e), error_message)
+        except AttributeError as e:
+            self.assertEqual(str(e), "'int' object has no attribute 'get'")
+        # comment out below as the error message is different using oneOf discriminator looku option
+        #except ValueError as e:
+        #    error_message = (
+        #        "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
+        #        "Details: 1 validation error for BasquePig\n"
+        #        "__root__\n"
+        #        "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
+        #        "__root__\n"
+        #        "  DanishPig expected dict not int (type=type_error)")
+        #    self.assertEqual(str(e), error_message)
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')

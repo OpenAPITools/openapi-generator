@@ -52,6 +52,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     protected Map<Character, String> regexModifiers;
 
@@ -188,6 +189,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
@@ -248,6 +251,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             } catch (NumberFormatException | NullPointerException e) {
                 throw new IllegalArgumentException("recursionLimit must be an integer, e.g. 2000.");
             }
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -317,6 +326,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     @Override

@@ -69,6 +69,25 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         instance = cls()
         error_messages = []
         match = 0
+
+        {{#useOneOfDiscriminatorLookup}}
+        {{#discriminator}}
+        {{#mappedModels}}
+        {{#-first}}
+        # use oneOf discriminator to lookup the data type
+        _data_type = json.loads(json_str).get("{{{propertyBaseName}}}")
+        if not _data_type:
+            raise ValueError("Failed to lookup data type from the field `{{{propertyBaseName}}}` in the input.")
+
+        {{/-first}}
+        # check if data type is `{{{modelName}}}`
+        if _data_type == "{{{mappingName}}}":
+            instance.actual_instance = {{{modelName}}}.from_json(json_str)
+            return instance
+
+        {{/mappedModels}}
+        {{/discriminator}}
+        {{/useOneOfDiscriminatorLookup}}
         {{#composedSchemas.oneOf}}
         {{^isPrimitiveType}}
         # deserialize data into {{{dataType}}}
