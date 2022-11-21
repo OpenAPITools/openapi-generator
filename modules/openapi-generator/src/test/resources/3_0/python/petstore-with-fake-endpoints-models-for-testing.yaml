@@ -2002,3 +2002,17 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+    Self-Reference-Model:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/Dummy-Model'
+    Dummy-Model:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/Self-Reference-Model'

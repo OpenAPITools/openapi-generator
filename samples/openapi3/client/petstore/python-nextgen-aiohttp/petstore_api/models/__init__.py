@@ -33,6 +33,7 @@ from petstore_api.models.danish_pig import DanishPig
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog
 from petstore_api.models.dog_all_of import DogAllOf
+from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
@@ -62,6 +63,7 @@ from petstore_api.models.outer_object_with_enum_property import OuterObjectWithE
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.self_reference_model import SelfReferenceModel
 from petstore_api.models.single_ref_type import SingleRefType
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName

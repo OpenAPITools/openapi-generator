@@ -756,18 +756,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             typingImports.add("Dict");
             typingImports.add("Any");
             return "Dict[str, Any]";
-        } else if (!cp.isPrimitiveType) {
-            // add model prefix
-            hasModelsToImport = true;
-            modelImports.add(cp.dataType);
-            return cp.dataType;
-        } else if (cp.isModel) {
-            // add model prefix
-            hasModelsToImport = true;
-            modelImports.add(cp.dataType);
+        } else if (!cp.isPrimitiveType || cp.isModel) { // model
+            if (!cp.isCircularReference) {
+                // skip import if it's a circular reference
+                hasModelsToImport = true;
+                modelImports.add(cp.dataType);
+            }
             return cp.dataType;
         } else {
-            throw new RuntimeException("Error! CodegenParameter not yet supported in getPydanticType: " + cp);
+            throw new RuntimeException("Error! Codegen Property not yet supported in getPydanticType: " + cp);
         }
     }
 
@@ -899,7 +896,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     }
 
     @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            entry.setValue(postProcessModelsMap(entry.getValue()));
+        }
+
+        return processed;
+    }
+
+    private ModelsMap postProcessModelsMap(ModelsMap objs) {
         // process enum in models
         objs = postProcessModelsEnum(objs);
 
@@ -917,6 +923,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             datetimeImports.clear();
 
             CodegenModel model = m.getModel();
+
+            // handle null type in oneOf
+            if (model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null
+                    && !model.getComposedSchemas().getOneOf().isEmpty()) {
+                int index = 0;
+                List<CodegenProperty> oneOfs = model.getComposedSchemas().getOneOf();
+                for (CodegenProperty oneOf : oneOfs) {
+                    if ("none_type".equals(oneOf.dataType)) {
+                        oneOfs.remove(index);
+                        break; // return earlier assuming there's only 1 null type defined
+                    }
+                    index++;
+                }
+            }
+
             List<CodegenProperty> codegenProperties = null;
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
