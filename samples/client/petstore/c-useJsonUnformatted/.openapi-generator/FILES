@@ -13,7 +13,7 @@ docs/StoreAPI.md
 docs/UserAPI.md
 docs/api_response.md
 docs/category.md
-docs/model_with_set_propertes.md
+docs/model_with_set_properties.md
 docs/order.md
 docs/pet.md
 docs/tag.md
@@ -32,8 +32,8 @@ model/category.c
 model/category.h
 model/mapped_model.c
 model/mapped_model.h
-model/model_with_set_propertes.c
-model/model_with_set_propertes.h
+model/model_with_set_properties.c
+model/model_with_set_properties.h
 model/object.c
 model/object.h
 model/order.c

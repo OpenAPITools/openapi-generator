@@ -229,7 +229,7 @@ web::json::value ModelBase::toJson( const std::vector<T>& value )
 template<typename T>
 web::json::value ModelBase::toJson( const std::set<T>& value )
 {
-    // There's no protoype web::json::value::array(...) taking a std::set parameter. Converting to std::vector to get an array.
+    // There's no prototype web::json::value::array(...) taking a std::set parameter. Converting to std::vector to get an array.
     std::vector<web::json::value> ret;
     for ( const auto& x : value )
     {

@@ -57,7 +57,7 @@ set(SRCS
     model/mapped_model.c
     model/api_response.c
     model/category.c
-    model/model_with_set_propertes.c
+    model/model_with_set_properties.c
     model/order.c
     model/pet.c
     model/tag.c
@@ -78,7 +78,7 @@ set(HDRS
     model/mapped_model.h
     model/api_response.h
     model/category.h
-    model/model_with_set_propertes.h
+    model/model_with_set_properties.h
     model/order.h
     model/pet.h
     model/tag.h

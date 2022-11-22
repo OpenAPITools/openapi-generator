@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: Thic spec contains endpoints with dates in different formats
+  description: This spec contains endpoints with dates in different formats
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
