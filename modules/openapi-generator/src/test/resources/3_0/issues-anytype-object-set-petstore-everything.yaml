@@ -763,9 +763,9 @@ components:
             - pending
             - sold
 
-        # -----------------------------------------------------------------------
-        # Properties that dedicate this configuration to some issues or checkings
-        # -----------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # Properties that dedicate this configuration to some issues or checkins
+        # ----------------------------------------------------------------------
 
         # https://github.com/OpenAPITools/openapi-generator/issues/2769
         # object property (leading to Object.h)

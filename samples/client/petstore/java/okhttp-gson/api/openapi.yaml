@@ -2750,7 +2750,7 @@ components:
           type: string
       type: object
       x-internal: false
-    InteralOnly:
+    InternalOnly:
       properties:
         type:
           type: string

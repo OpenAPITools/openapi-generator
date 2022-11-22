@@ -57,7 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCustomDateWithoutTime|Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)| |false|
 |useJsonEncodable|Make models conform to JSONEncodable protocol (default: true)| |true|
 |useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: true).| |null|
-|validatable|Make validation rules and validator for model properies (default: true)| |true|
+|validatable|Make validation rules and validator for model properties (default: true)| |true|
 
 ## IMPORT MAPPING
 
