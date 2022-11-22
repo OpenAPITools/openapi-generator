@@ -255,6 +255,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+            // skip tests generation
+            apiTestTemplateFiles.remove("api_test.mustache");
+        }
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
