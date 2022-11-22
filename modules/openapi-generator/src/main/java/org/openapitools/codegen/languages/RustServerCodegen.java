@@ -1226,7 +1226,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        // Do we suppport doing ToString/FromStr conversions for query parameters?
+        // Do we support doing ToString/FromStr conversions for query parameters?
         boolean toStringSupport = true;
         boolean isString = "String".equals(mdl.dataType);
 

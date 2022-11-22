@@ -173,7 +173,7 @@ public class PetApiTest {
     @Test
     public void uploadFileTest() throws Exception {
         Long petId = 1L;
-        String additionalMetadata = "additoinal data";
+        String additionalMetadata = "additional data";
         File file = new File("test.txt");
         if(!file.exists()){
             file.createNewFile();

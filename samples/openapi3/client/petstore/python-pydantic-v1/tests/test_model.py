@@ -100,7 +100,7 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
 
-        # test from_josn
+        # test from_json
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
         self.assertEqual(p.actual_instance, [12, 34, 56])
@@ -387,7 +387,7 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
-        # test None with optional string (with regualr expression)
+        # test None with optional string (with regular expression)
         a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
         a.string = None # shouldn't throw an exception
 
