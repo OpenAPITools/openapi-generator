@@ -36,6 +36,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean GENERATE_INTERFACES_VALUE = true;
     public static final boolean DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = true;
     public static final boolean USE_ONE_OF_DISCRIMINATOR_LOOKUP_VALUE = true;
+    public static final boolean EXCLUDE_TESTS = false;
 
     @Override
     public String getLanguage() {
@@ -58,6 +59,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
+                .put(CodegenConstants.EXCLUDE_TESTS, "false")
                 .build();
     }
 

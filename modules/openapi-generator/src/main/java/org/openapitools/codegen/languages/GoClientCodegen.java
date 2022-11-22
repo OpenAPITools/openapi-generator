@@ -58,6 +58,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
+    protected boolean excludeTests = false;
+
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -134,6 +136,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        cliOptions.add(new CliOption(CodegenConstants.EXCLUDE_TESTS, CodegenConstants.EXCLUDE_TESTS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
     }
 
     /**
@@ -257,6 +263,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             // skip tests generation
+            setExcludeTests(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString()));
             apiTestTemplateFiles.remove("api_test.mustache");
         }
 
@@ -295,6 +302,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     public void setIsGoSubmodule(boolean isGoSubmodule) {
         this.isGoSubmodule = isGoSubmodule;
+    }
+
+    public void setExcludeTests(boolean excludeTests) {
+        this.excludeTests = excludeTests;
     }
 
     /**
