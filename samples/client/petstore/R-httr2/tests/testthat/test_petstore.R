@@ -303,7 +303,7 @@ test_that("Tests oneOf", {
   original_danish_pig <- DanishPig$new()$fromJSON(danish_pig_json)
   original_basque_pig <- BasquePig$new()$fromJSON(basque_pig_json)
 
-  # test fromJSON, actual_tpye, actual_instance
+  # test fromJSON, actual_type, actual_instance
   pig <- Pig$new()
   danish_pig <- pig$fromJSON(danish_pig_json)
   pig$validateJSON(basque_pig_json) # validate JSON to ensure its actual_instance, actual_type are not updated
@@ -373,7 +373,7 @@ test_that("Tests anyOf", {
   original_danish_pig <- DanishPig$new()$fromJSON(danish_pig_json)
   original_basque_pig <- BasquePig$new()$fromJSON(basque_pig_json)
 
-  # test fromJSON, actual_tpye, actual_instance
+  # test fromJSON, actual_type, actual_instance
   pig <- AnyOfPig$new()
   danish_pig <- pig$fromJSON(danish_pig_json)
   expect_equal(danish_pig$actual_type, "DanishPig")

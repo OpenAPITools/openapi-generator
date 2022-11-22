@@ -2,7 +2,7 @@ firstItem:
   stringConfig: 'Hello'
   numberConfig: 42
   objectConfig:
-    attribut: 'openapi'
+    attribute: 'openapi'
   arrayConfig:
     - 'one'
     - 'two'

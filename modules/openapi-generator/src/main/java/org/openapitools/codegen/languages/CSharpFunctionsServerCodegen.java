@@ -599,10 +599,10 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         //set .NET target version
         String targetFrameworkVersion = "net" + netCoreVersion.getOptValue();
         additionalProperties.put(TARGET_FRAMEWORK, targetFrameworkVersion);
-        setAddititonalPropertyForFramework();
+        setAdditionalPropertyForFramework();
     }
 
-    private void setAddititonalPropertyForFramework() {
+    private void setAdditionalPropertyForFramework() {
         if (((String)additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }

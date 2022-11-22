@@ -1,4 +1,4 @@
-# Petstore::MamalWithEnum
+# Petstore::MammalWithEnum
 
 ## Class instance methods
 
@@ -11,7 +11,7 @@ Returns the list of classes defined in oneOf.
 ```ruby
 require 'petstore'
 
-Petstore::MamalWithEnum.openapi_one_of
+Petstore::MammalWithEnum.openapi_one_of
 # =>
 # [
 #   :'Cow'
@@ -27,10 +27,10 @@ Find the appropriate object from the `openapi_one_of` list and casts the data in
 ```ruby
 require 'petstore'
 
-Petstore::MamalWithEnum.build(data)
+Petstore::MammalWithEnum.build(data)
 # => #<Cow:0x00007fdd4aab02a0>
 
-Petstore::MamalWithEnum.build(data_that_doesnt_match)
+Petstore::MammalWithEnum.build(data_that_doesnt_match)
 # => nil
 ```
 

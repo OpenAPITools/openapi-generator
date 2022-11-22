@@ -3046,7 +3046,7 @@ paths:
 
   '/api/v1/videos/{id}/stats/timeseries/{metric}':
     get:
-      summary: Get timeserie stats of a video
+      summary: Get timeseries stats of a video
       tags:
         - Video Stats
       security:
@@ -3081,7 +3081,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VideoStatsTimeserie'
+                $ref: '#/components/schemas/VideoStatsTimeseries'
 
   /api/v1/videos/upload:
     post:
@@ -5036,7 +5036,7 @@ paths:
         - $ref: '#/components/parameters/name'
         - name: withStats
           in: query
-          description: include daily view statistics for the last 30 days and total views (only if authentified as the account user)
+          description: include daily view statistics for the last 30 days and total views (only if authenticated as the account user)
           schema:
             type: boolean
         - $ref: '#/components/parameters/start'
@@ -8317,7 +8317,7 @@ components:
               retentionPercent:
                 type: number
 
-    VideoStatsTimeserie:
+    VideoStatsTimeseries:
       properties:
         data:
           type: array

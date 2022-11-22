@@ -14,7 +14,7 @@ const BLACKLIST = [
 	'_physics_process',
 	'_process',
 	'_set',
-	'_to_string', # nonexistant function super._to_string
+	'_to_string', # nonexistent function super._to_string
 	'_unhandled_input',
 	'_unhandled_key_input',
 	'draw_mesh', # issue with one parameter, value is `Null((..), (..), (..))``
@@ -29,7 +29,7 @@ const BLACKLIST = [
 
 
 # ------------------------------------------------------------------------------
-# Combins the meta for the method with additional information.
+# Combines the meta for the method with additional information.
 # * flag for whether the method is local
 # * adds a 'default' property to all parameters that can be easily checked per
 #   parameter

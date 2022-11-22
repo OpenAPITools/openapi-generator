@@ -7915,7 +7915,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getMinimum() != null) {
                 codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
             }
-            /* comment out below as we don't store `title` in the codegen parametera the moment
+            /* comment out below as we don't store `title` in the codegen parameter at the moment
             if (original.getTitle() != null) {
                 codegenParameter.setTitle(original.getTitle());
             }

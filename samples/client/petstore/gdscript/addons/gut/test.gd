@@ -184,7 +184,7 @@ func _fail_if_parameters_not_array(parameters):
 	var invalid = parameters != null and typeof(parameters) != TYPE_ARRAY
 	if(invalid):
 		_lgr.error('The "parameters" parameter must be an array of expected parameter values.')
-		_fail('Cannot compare paramter values because an array was not passed.')
+		_fail('Cannot compare parameter values because an array was not passed.')
 	return invalid
 
 
@@ -639,10 +639,10 @@ func assert_signal_emitted_with_parameters(object, signal_name, parameters, inde
 	var disp = str('Expected object ', _str(object), ' to emit signal [', signal_name, '] with parameters ', parameters, ', got ')
 	if(_can_make_signal_assertions(object, signal_name)):
 		if(_signal_watcher.did_emit(object, signal_name)):
-			var parms_got = _signal_watcher.get_signal_parameters(object, signal_name, index)
-			var diff_result = _compare.deep(parameters, parms_got)
+			var params_got = _signal_watcher.get_signal_parameters(object, signal_name, index)
+			var diff_result = _compare.deep(parameters, params_got)
 			if(diff_result.are_equal):
-				_pass(str(disp, parms_got))
+				_pass(str(disp, params_got))
 			else:
 				_fail(str('Expected object ', _str(object), ' to emit signal [', signal_name, '] with parameters ', diff_result.summarize()))
 		else:
@@ -683,10 +683,10 @@ func get_signal_emit_count(object, signal_name):
 	return _signal_watcher.get_emit_count(object, signal_name)
 
 # ------------------------------------------------------------------------------
-# Get the parmaters of a fired signal.  If the signal was not fired null is
+# Get the parameters of a fired signal.  If the signal was not fired null is
 # returned.  You can specify an optional index (use get_signal_emit_count to
 # determine the number of times it was emitted).  The default index is the
-# latest time the signal was fired (size() -1 insetead of 0).  The parameters
+# latest time the signal was fired (size() -1 instead of 0).  The parameters
 # returned are in an array.
 # ------------------------------------------------------------------------------
 func get_signal_parameters(object, signal_name, index=-1):
@@ -711,7 +711,7 @@ func get_call_parameters(object, method_name, index=-1):
 	return to_return
 
 # ------------------------------------------------------------------------------
-# Returns the call count for a method with optional paramter matching.
+# Returns the call count for a method with optional parameter matching.
 # ------------------------------------------------------------------------------
 func get_call_count(object, method_name, parameters=null):
 	return gut.get_spy().call_count(object, method_name, parameters)
@@ -947,7 +947,7 @@ func assert_not_freed(obj, title):
 
 # ------------------------------------------------------------------------------
 # Asserts that the current test has not introduced any new orphans.  This only
-# applies to the test code that preceedes a call to this method so it should be
+# applies to the test code that precedes a call to this method so it should be
 # the last thing your test does.
 # ------------------------------------------------------------------------------
 func assert_no_new_orphans(text=''):
@@ -974,7 +974,7 @@ func _validate_singleton_name(singleton_name):
 		_lgr.error("double_singleton requires a Godot singleton name, you passed " + _str(singleton_name))
 		is_valid = false
 	# Sometimes they have underscores in front of them, sometimes they do not.
-	# The doubler is smart enought of ind the right thing, so this has to be
+	# The doubler is smart enough of ind the right thing, so this has to be
 	# that smart as well.
 	elif(!ClassDB.class_exists(singleton_name) and !ClassDB.class_exists('_' + singleton_name)):
 		var txt = str("The singleton [", singleton_name, "] could not be found.  ",
@@ -1029,9 +1029,9 @@ func _warn_for_public_accessors(obj, property_name):
 		_lgr.warn (str('Public accessors ', public_accessors, ' found for property ', property_name))
 
 # ------------------------------------------------------------------------------
-# Assumes backing varible with be _<property_name>.  This will perform all the
+# Assumes backing variable with be _<property_name>.  This will perform all the
 # asserts of assert_property.  Then this will set the value through the setter
-# and check the backing variable value.  It will then reset throught the setter
+# and check the backing variable value.  It will then reset through the setter
 # and set the backing variable and check the getter.
 # ------------------------------------------------------------------------------
 func assert_property_with_backing_variable(obj, property_name, default_value, new_value, backed_by_name=null):
@@ -1140,7 +1140,7 @@ func yield_to(obj, signal_name, max_wait, msg=''):
 # ------------------------------------------------------------------------------
 func wait_frames(frames, msg=''):
 	if(frames <= 0):
-		var text = str('yeild_frames:  frames must be > 0, you passed  ', frames, '.  0 frames waited.')
+		var text = str('yield_frames:  frames must be > 0, you passed  ', frames, '.  0 frames waited.')
 		_lgr.error(text)
 		frames = 1
 
@@ -1225,7 +1225,7 @@ func _smart_double(thing, double_strat, partial):
 	return to_return
 
 # ------------------------------------------------------------------------------
-# This is here to aid in the transition to the new doubling sytnax.  Once this
+# This is here to aid in the transition to the new doubling syntax.  Once this
 # has been established it could be removed.  We must keep the is_instance check
 # going forward though.
 # ------------------------------------------------------------------------------
@@ -1493,8 +1493,8 @@ func fail_test(text):
 	_fail(text)
 
 # ------------------------------------------------------------------------------
-# Peforms a deep compare on both values, a CompareResult instnace is returned.
-# The optional max_differences paramter sets the max_differences to be displayed.
+# Performs a deep compare on both values, a CompareResult instance is returned.
+# The optional max_differences parameter sets the max_differences to be displayed.
 # ------------------------------------------------------------------------------
 func compare_deep(v1, v2, max_differences=null):
 	var result = _compare.deep(v1, v2)

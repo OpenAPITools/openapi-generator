@@ -18,7 +18,7 @@ public class YamlConfigUtilsTest {
         YamlConfig firstItem = yamlConfig.get("firstItem");
         assertThat(firstItem.getStringConfig()).isEqualTo("Hello");
         assertThat(firstItem.getNumberConfig()).isEqualTo(42);
-        assertThat(firstItem.getObjectConfig().getAttribut()).isEqualTo("openapi");
+        assertThat(firstItem.getObjectConfig().getAttribute()).isEqualTo("openapi");
         assertThat(firstItem.getArrayConfig()).hasSize(2);
         assertThat(firstItem.getArrayConfig().get(0)).isEqualTo("one");
         assertThat(firstItem.getArrayConfig().get(1)).isEqualTo("two");
@@ -40,6 +40,6 @@ public class YamlConfigUtilsTest {
 
     @Data
     static class ObjectConfig {
-        private String attribut;
+        private String attribute;
     }
 }

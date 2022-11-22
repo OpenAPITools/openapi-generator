@@ -123,7 +123,7 @@ runPet mgr config = do
         _ <- S.dispatchLbs mgr config updatePetRequest
 
         -- required parameters are included as function arguments, optional parameters are included with applyOptionalParam
-        -- inspect the UpdatePetWithForm type to see typeclasses indicating optional paramteters (:i S.UpdatePetWithForm)
+        -- inspect the UpdatePetWithForm type to see typeclasses indicating optional parameters (:i S.UpdatePetWithForm)
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Name
         --   -- Defined in ‘OpenAPIPetstore.API’
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status

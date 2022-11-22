@@ -16,7 +16,7 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 start(ID, Params) ->
     Transport = maps:get(transport, Params, tcp),
     TransportOpts = maps:get(transport_opts, Params, #{}),
-    ProtocolOpts = maps:get(procotol_opts, Params, #{}),
+    ProtocolOpts = maps:get(protocol_opts, Params, #{}),
     LogicHandler = maps:get(logic_handler, Params, ?DEFAULT_LOGIC_HANDLER),
     CowboyOpts = get_cowboy_config(LogicHandler, ProtocolOpts),
     case Transport of

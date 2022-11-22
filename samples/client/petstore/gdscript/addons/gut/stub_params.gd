@@ -11,17 +11,17 @@ var call_super = false
 # the script, and not an overridden default value.
 var is_script_default = false
 
-# -- Paramter Override --
+# -- Parameter Override --
 # Parmater overrides are stored in here along with all the other stub info
 # so that you can chain stubbing parameter overrides along with all the
 # other stubbing.  This adds some complexity to the logic that tries to
 # find the correct stub for a call by a double.  Since an instance of this
 # class could be just a parameter override, or it could have been chained
-# we have to have _paramter_override_only so that we know when to tell the
+# we have to have _parameter_override_only so that we know when to tell the
 # difference.
 var parameter_count = -1
 var parameter_defaults = null
-# Anything that would make this stub not just an override of paramters
+# Anything that would make this stub not just an override of parameters
 # must set this flag to false.  This must be private bc the actual logic
 # to determine if this stub is only an override is more complicated.
 var _parameter_override_only = true

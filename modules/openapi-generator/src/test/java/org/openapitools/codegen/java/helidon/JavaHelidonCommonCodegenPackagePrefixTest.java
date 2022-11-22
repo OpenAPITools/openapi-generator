@@ -192,7 +192,7 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
       return;
     }
 
-    // The SE server generates 'import {{rootJavaEEPackage}}.json.stream.JsonParser;' in POJOs for JSON-B seriolization.
+    // The SE server generates 'import {{rootJavaEEPackage}}.json.stream.JsonParser;' in POJOs for JSON-B serialization.
     TestUtils.ensureContainsFile(files, Paths.get(outputDir).toFile(), generatedFilePath(generatorName, libraryName));
     TestUtils.assertFileContains(Paths.get(outputDir + "/" + generatedFilePath(generatorName, libraryName)),
         "import " + expectedPrefix + ".json.stream.JsonParser;");

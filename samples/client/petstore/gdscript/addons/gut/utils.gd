@@ -28,7 +28,7 @@
 # ##############################################################################
 # Description
 # -----------
-# This class is a PSUEDO SINGLETON.  You should not make instances of it but use
+# This class is a PSEUDO SINGLETON.  You should not make instances of it but use
 # the get_instance static method.
 # ##############################################################################
 extends Node
@@ -243,7 +243,7 @@ func is_freed(obj):
 
 
 # ------------------------------------------------------------------------------
-# Pretty self explanitory.
+# Pretty self explanatory.
 # ------------------------------------------------------------------------------
 func is_not_freed(obj):
 	return !is_freed(obj)

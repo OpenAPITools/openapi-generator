@@ -2113,7 +2113,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
-    mamal_with_enum:
+    mammal_with_enum:
       oneOf:
         - $ref: '#/components/schemas/cow'
     mammal:

@@ -1,4 +1,4 @@
-# model_with_set_propertes_t
+# model_with_set_properties_t
 
 ## Properties
 Name | Type | Description | Notes

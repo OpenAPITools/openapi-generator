@@ -182,8 +182,8 @@ function Get-RSASignature {
             $ecKeyBase64String = $keyStr.Replace($ecKeyHeader, "").Replace($ecKeyFooter, "").Trim()
             $keyBytes = [System.Convert]::FromBase64String($ecKeyBase64String)
             $rsa = [System.Security.Cryptography.RSA]::Create()
-            [int]$bytCount = 0
-            $rsa.ImportRSAPrivateKey($keyBytes, [ref] $bytCount)
+            [int]$byteCount = 0
+            $rsa.ImportRSAPrivateKey($keyBytes, [ref] $byteCount)
 
             if ($SigningAlgorithm -eq "RSASSA-PSS") {
                 $signedBytes = $rsa.SignHash($DataToSign, $hashAlgo, [System.Security.Cryptography.RSASignaturePadding]::Pss)
@@ -254,11 +254,11 @@ function Get-ECDSASignature {
     $keyBytes = [System.Convert]::FromBase64String($ecKeyBase64String)
     $ecdsa = [System.Security.Cryptography.ECDsa]::Create()
 
-    [int]$bytCount =0
+    [int]$byteCount =0
     if (![string]::IsNullOrEmpty($KeyPassPhrase)) {
-        $ecdsa.ImportEncryptedPkcs8PrivateKey($KeyPassPhrase,$keyBytes,[ref]$bytCount)
+        $ecdsa.ImportEncryptedPkcs8PrivateKey($KeyPassPhrase,$keyBytes,[ref]$byteCount)
     } else {
-        $ecdsa.ImportPkcs8PrivateKey($keyBytes,[ref]$bytCount)
+        $ecdsa.ImportPkcs8PrivateKey($keyBytes,[ref]$byteCount)
     }
 
     $signedBytes = $ecdsa.SignHash($DataToSign)

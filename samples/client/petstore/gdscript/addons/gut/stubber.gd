@@ -1,5 +1,5 @@
 # -------------
-# returns{} and parameters {} have the followin structure
+# returns{} and parameters {} have the following structure
 # -------------
 # {
 # 	inst_id_or_path1:{
@@ -21,8 +21,8 @@ func _init():
 	_class_db_name_hash = _make_crazy_dynamic_over_engineered_class_db_hash()
 
 # So, I couldn't figure out how to get to a reference for a GDNative Class
-# using a string.  ClassDB has all thier names...so I made a hash using those
-# names and the classes.  Then I dynmaically make a script that has that as
+# using a string.  ClassDB has all their names...so I made a hash using those
+# names and the classes.  Then I dynamically make a script that has that as
 # the source and grab the hash out of it and return it.  Super Rube Golbergery,
 # but tons of fun.
 func _make_crazy_dynamic_over_engineered_class_db_hash():
@@ -104,7 +104,7 @@ func _find_stub(obj, method, parameters=null, find_overloads=false):
 		to_return = param_match
 	# We found a case where the parameters were not specified so return
 	# parameters for that.  Only do this if the null match is not *just*
-	# a paramerter override stub.
+	# a parameter override stub.
 	elif(null_match != null):
 		to_return = null_match
 

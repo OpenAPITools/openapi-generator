@@ -105,7 +105,7 @@ public class {{classname}}Impl implements {{classname}} {
                     {{#isExplode}}
                         {{#hasVars}}
                             {{#vars}}
-    queryParams.addAll(ApiClent.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+    queryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
                             {{/vars}}
                         {{/hasVars}}
                         {{^hasVars}}

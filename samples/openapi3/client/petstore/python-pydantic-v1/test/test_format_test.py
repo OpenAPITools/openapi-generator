@@ -45,7 +45,7 @@ class TestFormatTest(unittest.TestCase):
                 double = 67.8, 
                 decimal = 1, 
                 string = 'a', 
-                byte = bytes("someting", 'utf-8'), 
+                byte = bytes("something", 'utf-8'), 
                 binary = bytes(b'blah'), 
                 date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
                 date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
@@ -57,7 +57,7 @@ class TestFormatTest(unittest.TestCase):
         else :
             return FormatTest(
                 number = 122.1,
-                byte = bytes("someting", 'utf-8'),
+                byte = bytes("something", 'utf-8'),
                 date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
                 password = '0123456789',
         )

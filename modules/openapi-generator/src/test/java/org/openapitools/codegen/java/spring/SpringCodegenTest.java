@@ -4470,7 +4470,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("PingTagApi.java"))
-                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+                .fileContains("This is a multiline tag : * tag item 1 * tag item 2 ");
     }
 
     @Test
