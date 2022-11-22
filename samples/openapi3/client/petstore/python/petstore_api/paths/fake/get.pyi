@@ -370,17 +370,27 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
 )
+SchemaFor404ResponseBodyApplicationJson = schemas.DictSchema
 
 
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
+    body: typing.Union[
+        SchemaFor404ResponseBodyApplicationJson,
+    ]
     headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor404,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor404ResponseBodyApplicationJson),
+    },
+)
+_all_accept_content_types = (
+    'application/json',
 )
 
 
@@ -392,6 +402,7 @@ class BaseApi(api_client.Api):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -406,6 +417,7 @@ class BaseApi(api_client.Api):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -422,6 +434,7 @@ class BaseApi(api_client.Api):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
@@ -433,6 +446,7 @@ class BaseApi(api_client.Api):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -447,6 +461,7 @@ class BaseApi(api_client.Api):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -488,6 +503,9 @@ class BaseApi(api_client.Api):
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
         # TODO add cookie handling
+        if accept_content_types:
+            for accept_content_type in accept_content_types:
+                _headers.add('Accept', accept_content_type)
 
         _fields = None
         _body = None
@@ -533,6 +551,7 @@ class EnumParameters(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -547,6 +566,7 @@ class EnumParameters(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -563,6 +583,7 @@ class EnumParameters(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
@@ -574,6 +595,7 @@ class EnumParameters(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -588,6 +610,7 @@ class EnumParameters(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -597,6 +620,7 @@ class EnumParameters(BaseApi):
             query_params=query_params,
             header_params=header_params,
             content_type=content_type,
+            accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
@@ -613,6 +637,7 @@ class ApiForget(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -627,6 +652,7 @@ class ApiForget(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -643,6 +669,7 @@ class ApiForget(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
@@ -654,6 +681,7 @@ class ApiForget(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -668,6 +696,7 @@ class ApiForget(BaseApi):
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -677,6 +706,7 @@ class ApiForget(BaseApi):
             query_params=query_params,
             header_params=header_params,
             content_type=content_type,
+            accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
