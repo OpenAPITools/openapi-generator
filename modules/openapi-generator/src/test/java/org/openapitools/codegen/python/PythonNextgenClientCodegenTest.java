@@ -23,18 +23,18 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
+import org.openapitools.codegen.languages.PythonNextgenClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PythonLegacyClientCodegenTest {
+public class PythonNextgenClientCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -43,7 +43,7 @@ public class PythonLegacyClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -53,7 +53,7 @@ public class PythonLegacyClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -74,7 +74,7 @@ public class PythonLegacyClientCodegenTest {
     @Test(description = "test regex patterns")
     public void testRegularExpressionOpenAPISchemaVersion3() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_1517.yaml");
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
@@ -95,15 +95,14 @@ public class PythonLegacyClientCodegenTest {
         // added to test fix for issue #6675
         // removed because "/^[\\pattern\\d{3}$/i" is invalid regex because [ is not escaped and there is no closing ]
         // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
-        
-    }
 
+    }
 
 
     @Test(description = "test generated example values for string properties")
     public void testGeneratedExampleValues() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema dummyUserSchema = openAPI.getComponents().getSchemas().get("DummyUser");
         final Schema nameSchema = (Schema) dummyUserSchema.getProperties().get("name");
@@ -119,7 +118,7 @@ public class PythonLegacyClientCodegenTest {
 
     @Test(description = "test single quotes escape")
     public void testSingleQuotes() {
-        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        final PythonNextgenClientCodegen codegen = new PythonNextgenClientCodegen();
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
@@ -128,8 +127,8 @@ public class PythonLegacyClientCodegenTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         codegen.setOpenAPI(openAPI);
@@ -160,7 +159,7 @@ public class PythonLegacyClientCodegenTest {
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -205,7 +204,7 @@ public class PythonLegacyClientCodegenTest {
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -226,10 +225,10 @@ public class PythonLegacyClientCodegenTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "list[str]");
+        Assert.assertEquals(property2.dataType, "List[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "list");
+        Assert.assertEquals(property2.baseType, "List");
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -243,7 +242,7 @@ public class PythonLegacyClientCodegenTest {
                 .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -255,9 +254,9 @@ public class PythonLegacyClientCodegenTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.dataType, "dict[str, str]");
+        Assert.assertEquals(property1.dataType, "Dict[str, str]");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -269,7 +268,7 @@ public class PythonLegacyClientCodegenTest {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -294,7 +293,7 @@ public class PythonLegacyClientCodegenTest {
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -307,9 +306,9 @@ public class PythonLegacyClientCodegenTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "list[Children]");
+        Assert.assertEquals(property1.dataType, "List[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "list");
+        Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -321,7 +320,7 @@ public class PythonLegacyClientCodegenTest {
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -335,9 +334,9 @@ public class PythonLegacyClientCodegenTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "dict[str, Children]");
+        Assert.assertEquals(property1.dataType, "Dict[str, Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -351,7 +350,7 @@ public class PythonLegacyClientCodegenTest {
                 //.description()
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -371,7 +370,7 @@ public class PythonLegacyClientCodegenTest {
         final Schema model = new Schema()
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -380,8 +379,7 @@ public class PythonLegacyClientCodegenTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "null<String, Children>");
-        Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.imports.size(), 0);
     }
 }
