@@ -244,6 +244,26 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void verifyExcludeTests() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .addAdditionalProperty("excludeTests", "true")
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileNotExists(Paths.get(output + "/test/api_pet_test.go"));
+    }
+
+    @Test
     public void verifyFormatErrorMessageInUse() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
