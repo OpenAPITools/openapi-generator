@@ -523,6 +523,8 @@ open class GenerateTask : DefaultTask() {
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
                 project.delete(outputDir)
+                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+                out.withStyle(StyledTextOutput.Style.Success)
                 out.println("Cleaned up the output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
             }
         }
