@@ -136,7 +136,7 @@ class GenerateTaskDslTest : TestBase() {
         )
         withProject(defaultBuildGradle, projectFiles)
 
-        val oldFile = File(temp, "build/kotlin/should-be-removed")
+        val oldFile = File(temp, "build/kotlin/should-not-be-removed")
         oldFile.mkdirs()
         oldFile.createNewFile()
 
@@ -153,7 +153,7 @@ class GenerateTaskDslTest : TestBase() {
             "User friendly generate notice is missing."
         )
 
-        assertTrue(oldFile.exists(), "Old files should have been removed")
+        assertTrue(oldFile.exists(), "Old files should NOT have been removed")
 
         assertEquals(
             TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
