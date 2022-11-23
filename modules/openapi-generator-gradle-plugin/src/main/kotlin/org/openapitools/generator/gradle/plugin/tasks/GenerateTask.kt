@@ -523,6 +523,7 @@ open class GenerateTask : DefaultTask() {
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
                 project.delete(outputDir)
+                out.println("Cleaned up output directory ${outputDir} before code generation (cleanupOutput set to true).")
             }
         }
 
