@@ -378,6 +378,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |mustache
 |Templating engine: "mustache" (default) or "handlebars" (beta)
+
+|cleanupOutput
+|Boolean
+|false
+|Defines whether the output directory should be cleaned up before generating the output.
 |===
 
 [NOTE]
