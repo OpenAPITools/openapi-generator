@@ -80,7 +80,6 @@ public class FakeApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -130,7 +129,6 @@ public class FakeApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -183,7 +181,6 @@ public class FakeApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -235,7 +232,6 @@ public class FakeApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -286,7 +282,6 @@ public class FakeApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -342,7 +337,6 @@ public class FakeApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -405,7 +399,6 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
-
     
     
     
@@ -460,7 +453,6 @@ public class FakeApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -544,7 +536,6 @@ public class FakeApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -634,7 +625,6 @@ if (paramCallback != null)
     localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
     localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
     localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_double", enumQueryDouble));
-
     if (enumHeaderStringArray != null)
       localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
 if (enumHeaderString != null)
@@ -716,7 +706,6 @@ if (enumFormString != null)
     localVarQueryParams.addAll(apiClient.parameterToPair("required_int64_group", requiredInt64Group));
     localVarQueryParams.addAll(apiClient.parameterToPair("string_group", stringGroup));
     localVarQueryParams.addAll(apiClient.parameterToPair("int64_group", int64Group));
-
     if (requiredBooleanGroup != null)
       localVarHeaderParams.put("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
 if (booleanGroup != null)
@@ -774,7 +763,6 @@ if (booleanGroup != null)
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -835,7 +823,6 @@ if (booleanGroup != null)
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -924,7 +911,6 @@ if (param2 != null)
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
-
     
     
     
