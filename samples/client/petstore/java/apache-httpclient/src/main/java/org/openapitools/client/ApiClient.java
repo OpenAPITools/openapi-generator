@@ -737,8 +737,16 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Deserialize response content
+   * Deserialize response body to Java object according to the Content-Type.
+   *
+   * @param <T> Type
+   * @param response Response
+   * @param valueType Return type
+   * @return Deserialized object
+   * @throws ApiException API exception
+   * @throws IOException IO exception
    */
+  @SuppressWarnings("unchecked")
   public <T> T deserialize(HttpResponse response, TypeReference<T> valueType) throws ApiException, IOException {
     if (valueType == null) {
       return null;
