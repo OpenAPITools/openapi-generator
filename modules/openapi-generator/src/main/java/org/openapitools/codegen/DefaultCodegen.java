@@ -3033,17 +3033,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties(), false);
+            addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
             }
@@ -3853,13 +3853,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // handle inner property
-            String itemName = null;
-            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
-                itemName = p.getExtensions().get("x-item-name").toString();
-            }
-            if (itemName == null) {
-                itemName = property.name;
-            }
+            String itemName = getItemsName(p, name);
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
@@ -7355,6 +7349,17 @@ public class DefaultCodegen implements CodegenConfig {
         addRequiredVarsMap(schema, property);
     }
 
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        // fromProperty use case
+        if (containingSchema.getExtensions() != null && containingSchema.getExtensions().get("x-item-name") != null) {
+            return containingSchema.getExtensions().get("x-item-name").toString();
+        }
+        return toVarName(containingSchemaName);
+    }
+
+    protected String getAdditionalPropertiesName() {
+        return "additional_properties";
+    }
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);
