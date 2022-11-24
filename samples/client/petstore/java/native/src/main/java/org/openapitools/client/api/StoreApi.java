@@ -294,24 +294,24 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order body) throws ApiException {
-    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(body);
+  public Order placeOrder(Order order) throws ApiException {
+    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order);
     return localVarResponse.getData();
   }
 
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(body);
+  public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -341,10 +341,10 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(Order body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
+  private HttpRequest.Builder placeOrderRequestBuilder(Order order) throws ApiException {
+    // verify the required parameter 'order' is set
+    if (order == null) {
+      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -357,7 +357,7 @@ public class StoreApi {
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(order);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

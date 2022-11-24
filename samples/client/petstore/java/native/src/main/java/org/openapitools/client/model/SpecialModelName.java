@@ -65,7 +65,7 @@ public class SpecialModelName {
 
 
   /**
-   * Return true if this $special[model.name] object is equal to o.
+   * Return true if this _special_model.name_ object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -75,8 +75,8 @@ public class SpecialModelName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
   }
 
   @Override

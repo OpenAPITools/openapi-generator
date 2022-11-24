@@ -27,9 +27,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## addPet
 
-> void addPet(body)
+> void addPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 
@@ -52,9 +54,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.addPet(body);
+            apiInstance.addPet(pet);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -71,7 +73,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -90,14 +92,16 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 ## addPetWithHttpInfo
 
-> ApiResponse<Void> addPet addPetWithHttpInfo(body)
+> ApiResponse<Void> addPet addPetWithHttpInfo(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 
@@ -121,9 +125,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            ApiResponse<Void> response = apiInstance.addPetWithHttpInfo(body);
+            ApiResponse<Void> response = apiInstance.addPetWithHttpInfo(pet);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -142,7 +146,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -161,7 +165,7 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -170,6 +174,8 @@ ApiResponse<Void>
 > void deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -232,7 +238,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 ## deletePetWithHttpInfo
@@ -240,6 +246,8 @@ null (empty response body)
 > ApiResponse<Void> deletePet deletePetWithHttpInfo(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -305,7 +313,7 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 
@@ -755,9 +763,11 @@ ApiResponse<[**Pet**](Pet.md)>
 
 ## updatePet
 
-> void updatePet(body)
+> void updatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 
@@ -780,9 +790,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.updatePet(body);
+            apiInstance.updatePet(pet);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -799,7 +809,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -818,16 +828,18 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
 
 ## updatePetWithHttpInfo
 
-> ApiResponse<Void> updatePet updatePetWithHttpInfo(body)
+> ApiResponse<Void> updatePet updatePetWithHttpInfo(pet)
 
 Update an existing pet
+
+
 
 ### Example
 
@@ -851,9 +863,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            ApiResponse<Void> response = apiInstance.updatePetWithHttpInfo(body);
+            ApiResponse<Void> response = apiInstance.updatePetWithHttpInfo(pet);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -872,7 +884,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -891,7 +903,7 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -902,6 +914,8 @@ ApiResponse<Void>
 > void updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -966,6 +980,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 ## updatePetWithFormWithHttpInfo
@@ -973,6 +988,8 @@ null (empty response body)
 > ApiResponse<Void> updatePetWithForm updatePetWithFormWithHttpInfo(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -1040,6 +1057,7 @@ ApiResponse<Void>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -1048,6 +1066,8 @@ ApiResponse<Void>
 > ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
+
+
 
 ### Example
 
@@ -1120,6 +1140,8 @@ public class Example {
 > ApiResponse<ModelApiResponse> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
+
+
 
 ### Example
 
@@ -1197,6 +1219,8 @@ ApiResponse<[**ModelApiResponse**](ModelApiResponse.md)>
 
 uploads an image (required)
 
+
+
 ### Example
 
 ```java
@@ -1268,6 +1292,8 @@ public class Example {
 > ApiResponse<ModelApiResponse> uploadFileWithRequiredFile uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 

@@ -80,22 +80,22 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(Pet body) throws ApiException {
-    addPetWithHttpInfo(body);
+  public void addPet(Pet pet) throws ApiException {
+    addPetWithHttpInfo(pet);
   }
 
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(body);
+  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -129,10 +129,10 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder addPetRequestBuilder(Pet body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
+  private HttpRequest.Builder addPetRequestBuilder(Pet pet) throws ApiException {
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -145,7 +145,7 @@ public class PetApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -484,22 +484,22 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(Pet body) throws ApiException {
-    updatePetWithHttpInfo(body);
+  public void updatePet(Pet pet) throws ApiException {
+    updatePetWithHttpInfo(pet);
   }
 
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(body);
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -533,10 +533,10 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetRequestBuilder(Pet body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
+  private HttpRequest.Builder updatePetRequestBuilder(Pet pet) throws ApiException {
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -549,7 +549,7 @@ public class PetApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
