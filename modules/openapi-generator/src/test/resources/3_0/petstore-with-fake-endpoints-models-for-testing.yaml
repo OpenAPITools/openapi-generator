@@ -1937,3 +1937,21 @@ components:
       enum:
         - admin
         - user
+    ArrayDefaultValue:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id
+          format: int64
+        outcomes:
+          type: array
+          items:
+            type: string
+            enum:
+            - SUCCESS
+            - FAILURE
+            - SKIPPED
+              #default:
+              #  - SUCCESS
+              #  - FAILURE

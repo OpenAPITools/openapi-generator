@@ -9,6 +9,7 @@ docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
+docs/ArrayDefaultValue.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
@@ -89,6 +90,7 @@ src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
 src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/ArrayDefaultValue.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
@@ -134,3 +136,4 @@ src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
+src/test/java/org/openapitools/client/model/ArrayDefaultValueTest.java

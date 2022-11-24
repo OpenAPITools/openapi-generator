@@ -1984,6 +1984,21 @@ components:
       - user
       title: SingleRefType
       type: string
+    ArrayDefaultValue:
+      properties:
+        id:
+          description: id
+          format: int64
+          type: integer
+        outcomes:
+          items:
+            enum:
+            - SUCCESS
+            - FAILURE
+            - SKIPPED
+            type: string
+          type: array
+      type: object
     _foo_get_default_response:
       example:
         string:
