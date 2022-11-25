@@ -1,16 +1,13 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
+import java.io.IOException;
+import java.io.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,15 +42,20 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     }
 
     @Override
-//    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
-//        return super.addMustacheLambdas()
-//                .put("doubleMustache", new DoubleMustache());
-//    }
-//
-//    private static class DoubleMustache implements Mustache.Lambda {
-//        @Override
-//        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-//            writer.write(fragment.execute().replaceAll("{", "{{"));
-//        }
-//    }
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+
+        return super.addMustacheLambdas()
+                .put("doubleMustache", new DoubleMustacheLambda());
+    }
+
+    public static class DoubleMustacheLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            String text = fragment.execute();
+            writer.write(text
+                    .replaceAll("\\{", "{{")
+                    .replaceAll("}", "}}")
+            );
+        }
+    }
 }

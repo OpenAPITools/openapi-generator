@@ -2,21 +2,21 @@
 
 ### Delete purchase order by ID
 # deleteOrder
-DELETE http://petstore.swagger.io/v2
+DELETE http://petstore.swagger.io/v2/store/order/{{orderId}}
 
 
 ### Returns pet inventories by status
 # getInventory
-GET http://petstore.swagger.io/v2
+GET http://petstore.swagger.io/v2/store/inventory
 
 
 ### Find purchase order by ID
 # getOrderById
-GET http://petstore.swagger.io/v2
+GET http://petstore.swagger.io/v2/store/order/{{orderId}}
 
 
 ### Place an order for a pet
 # placeOrder
-POST http://petstore.swagger.io/v2
+POST http://petstore.swagger.io/v2/store/order
 
 

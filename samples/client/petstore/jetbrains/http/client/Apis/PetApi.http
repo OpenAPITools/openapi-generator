@@ -2,41 +2,41 @@
 
 ### Add a new pet to the store
 # addPet
-POST http://petstore.swagger.io/v2
+POST http://petstore.swagger.io/v2/pet
 
 
 ### Deletes a pet
 # deletePet
-DELETE http://petstore.swagger.io/v2
+DELETE http://petstore.swagger.io/v2/pet/{{petId}}
 
 
 ### Finds Pets by status
 # findPetsByStatus
-GET http://petstore.swagger.io/v2
+GET http://petstore.swagger.io/v2/pet/findByStatus
 
 
 ### Finds Pets by tags
 # findPetsByTags
-GET http://petstore.swagger.io/v2
+GET http://petstore.swagger.io/v2/pet/findByTags
 
 
 ### Find pet by ID
 # getPetById
-GET http://petstore.swagger.io/v2
+GET http://petstore.swagger.io/v2/pet/{{petId}}
 
 
 ### Update an existing pet
 # updatePet
-PUT http://petstore.swagger.io/v2
+PUT http://petstore.swagger.io/v2/pet
 
 
 ### Updates a pet in the store with form data
 # updatePetWithForm
-POST http://petstore.swagger.io/v2
+POST http://petstore.swagger.io/v2/pet/{{petId}}
 
 
 ### uploads an image
 # uploadFile
-POST http://petstore.swagger.io/v2
+POST http://petstore.swagger.io/v2/pet/{{petId}}/uploadImage
 
 
