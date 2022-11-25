@@ -2,6 +2,8 @@
 name = "petstore-hyper"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
+description = "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters."
+license = "Apache-2.0"
 edition = "2018"
 
 [dependencies]
@@ -16,6 +18,3 @@ hyper-tls = "~0.5"
 http = "~0.2"
 base64 = "~0.7.0"
 futures = "^0.3"
-
-[dev-dependencies]
-tokio-core = "*"

@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
@@ -32,6 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
@@ -66,6 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |performBeanValidation|Use Bean Validation Impl. to perform BeanValidation| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
+|requestMappingMode|Where to generate the class level @RequestMapping annotation.|<dl><dt>**api_interface**</dt><dd>Generate the @RequestMapping annotation on the generated Api Interface.</dd><dt>**controller**</dt><dd>Generate the @RequestMapping annotation on the generated Api Controller Implementation.</dd><dt>**none**</dt><dd>Do not add a class level @RequestMapping annotation.</dd></dl>|controller|
 |responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|
 |returnSuccessCode|Generated server returns 2xx code| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|

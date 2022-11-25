@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
@@ -571,7 +572,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = camelize(model.classname, true);
+        String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }

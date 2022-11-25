@@ -15,10 +15,10 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Base schema for adressable entities
+ * Base schema for addressable entities
  */
 
-@Schema(name = "Addressable", description = "Base schema for adressable entities")
+@Schema(name = "Addressable", description = "Base schema for addressable entities")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Addressable {
 

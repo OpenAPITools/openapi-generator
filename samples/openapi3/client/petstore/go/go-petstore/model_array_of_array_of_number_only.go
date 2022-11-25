@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayOfArrayOfNumberOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayOfArrayOfNumberOnly{}
+
 // ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber [][]float32 `json:"ArrayArrayNumber,omitempty"`
@@ -41,7 +44,7 @@ func NewArrayOfArrayOfNumberOnlyWithDefaults() *ArrayOfArrayOfNumberOnly {
 
 // GetArrayArrayNumber returns the ArrayArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
-	if o == nil || o.ArrayArrayNumber == nil {
+	if o == nil || isNil(o.ArrayArrayNumber) {
 		var ret [][]float32
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
 // GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
-	if o == nil || o.ArrayArrayNumber == nil {
+	if o == nil || isNil(o.ArrayArrayNumber) {
 		return nil, false
 	}
 	return o.ArrayArrayNumber, true
@@ -59,7 +62,7 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
 
 // HasArrayArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfArrayOfNumberOnly) HasArrayArrayNumber() bool {
-	if o != nil && o.ArrayArrayNumber != nil {
+	if o != nil && !isNil(o.ArrayArrayNumber) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 }
 
 func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayOfArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ArrayArrayNumber != nil {
+	if !isNil(o.ArrayArrayNumber) {
 		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
 	}
 
@@ -81,7 +92,7 @@ func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {

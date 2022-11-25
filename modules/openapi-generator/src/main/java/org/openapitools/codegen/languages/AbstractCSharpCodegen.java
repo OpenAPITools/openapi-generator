@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
@@ -467,12 +468,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        // TODO: move the logic of these three methods into patchProperty so all CodegenProperty instances get the same treatment
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            removeCircularReferencesInComposedSchemas(model);
 
             // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
@@ -530,6 +534,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (property.datatypeWithEnum.contains("Dictionary>") && property.items != null) {
             property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
+        }
+    }
+
+    /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
+    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
+        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
+        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
+        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
+
+        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
+        if (composedSchemas != null){
+            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
+            if (anyOf != null) {
+                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
+            }
+
+            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
+            if (oneOf != null){
+                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
+            }
+
+            List<CodegenProperty> allOf = composedSchemas.getAllOf();
+            if (allOf != null){
+                allOf.removeIf(p -> p.dataType.equals(cm.classname));
+            }
         }
     }
 
@@ -974,7 +1003,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {

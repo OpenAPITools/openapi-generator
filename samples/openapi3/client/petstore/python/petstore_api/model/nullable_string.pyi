@@ -38,11 +38,11 @@ class NullableString(
 
     def __new__(
         cls,
-        *args: typing.Union[None, str, ],
+        *_args: typing.Union[None, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'NullableString':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
         )

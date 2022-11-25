@@ -2761,7 +2761,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * A method that allows generators to pre-process test example payloads
-     * This can be useful if one needs to change how values like null in string are represnted
+     * This can be useful if one needs to change how values like null in string are represented
      * @param data the test data payload
      * @return the updated test data payload
      */
@@ -3033,17 +3033,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties(), false);
+            addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
             }
@@ -3723,7 +3723,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.openApiType = p.getType();
         }
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = camelize(property.name);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -3806,6 +3806,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property.isEnumRef = true;
+
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
@@ -3859,13 +3861,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // handle inner property
-            String itemName = null;
-            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
-                itemName = p.getExtensions().get("x-item-name").toString();
-            }
-            if (itemName == null) {
-                itemName = property.name;
-            }
+            String itemName = getItemsName(p, name);
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
@@ -3876,7 +3872,6 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForAnyType(property, p);
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
-            ;
         }
         if (p.get$ref() != null) {
             property.setRef(p.get$ref());
@@ -5634,7 +5629,7 @@ public class DefaultCodegen implements CodegenConfig {
                     continue;
                 }
                 cm.hasOptional = cm.hasOptional || !cp.required;
-                if (cp.isEnum) {
+                if (cp.getIsEnumOrRef()) { // isEnum or isEnumRef set to true
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     cm.hasEnums = true;
@@ -7362,6 +7357,17 @@ public class DefaultCodegen implements CodegenConfig {
         addRequiredVarsMap(schema, property);
     }
 
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        // fromProperty use case
+        if (containingSchema.getExtensions() != null && containingSchema.getExtensions().get("x-item-name") != null) {
+            return containingSchema.getExtensions().get("x-item-name").toString();
+        }
+        return toVarName(containingSchemaName);
+    }
+
+    protected String getAdditionalPropertiesName() {
+        return "additional_properties";
+    }
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);

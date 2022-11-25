@@ -31,7 +31,7 @@ Whale <- R6::R6Class(
     #' @param className className
     #' @param hasBaleen hasBaleen
     #' @param hasTeeth hasTeeth
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`className`, `hasBaleen` = NULL, `hasTeeth` = NULL, additional_properties = NULL, ...) {
@@ -254,7 +254,7 @@ Whale <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Whale$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Whale$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

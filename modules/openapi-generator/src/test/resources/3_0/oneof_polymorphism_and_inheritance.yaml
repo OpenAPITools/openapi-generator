@@ -60,7 +60,7 @@ components:
         id:
           type: string
           description: unique identifier
-      description: Base schema for adressable entities
+      description: Base schema for addressable entities
     Extensible:
       type: object
       properties:

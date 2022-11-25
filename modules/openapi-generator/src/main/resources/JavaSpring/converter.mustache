@@ -1,0 +1,34 @@
+package {{configPackage}};
+
+{{#models}}
+    {{#model}}
+        {{#isEnum}}
+import {{modelPackage}}.{{name}};
+        {{/isEnum}}
+    {{/model}}
+{{/models}}
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+
+@Configuration
+public class EnumConverterConfiguration {
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+    @Bean
+    Converter<{{{dataType}}}, {{name}}> {{classVarName}}Converter() {
+        return new Converter<{{{dataType}}}, {{name}}>() {
+            @Override
+            public {{name}} convert({{{dataType}}} source) {
+                return {{name}}.fromValue(source);
+            }
+        };
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+}

@@ -386,7 +386,7 @@
       # check if items are unique
       if (!identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
         {{#useDefaultExceptionHandling}}
-        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unqiue.")
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unique.")
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
         rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique.",

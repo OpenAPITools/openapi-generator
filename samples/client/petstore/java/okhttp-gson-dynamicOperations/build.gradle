@@ -65,7 +65,7 @@ if(hasProperty('target') && target == 'android') {
             task.from variant.javaCompile.destinationDir
             task.destinationDir = project.file("${project.buildDir}/outputs/jar")
             task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
-            artifacts.add('archives', task);
+            artifacts.add('archives', task)
         }
     }
 

@@ -185,8 +185,9 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -236,10 +237,11 @@ public class {{classname}} {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("{{operationId}}", localVarResponse);
         }
-        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
+        {{#returnType}}InputStream responseBody = localVarResponse.body();
+        {{/returnType}}return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
+          {{#returnType}}responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
           {{^returnType}}null{{/returnType}}
         );
       } finally {
@@ -273,11 +275,12 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<{{{returnType}}}>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -336,7 +339,12 @@ public class {{classname}} {
             {{#isExplode}}
                 {{#hasVars}}
                     {{#vars}}
+                        {{#isArray}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                        {{^isArray}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}

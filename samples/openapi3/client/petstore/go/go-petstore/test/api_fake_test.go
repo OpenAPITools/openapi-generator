@@ -10,196 +10,196 @@ Testing FakeApiService
 package petstore
 
 import (
-    "context"
-    "github.com/stretchr/testify/assert"
-    "github.com/stretchr/testify/require"
-    "testing"
-    openapiclient "./openapi"
+	"context"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"testing"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_petstore_FakeApiService(t *testing.T) {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
 
-    t.Run("Test FakeApiService FakeHealthGet", func(t *testing.T) {
+	t.Run("Test FakeApiService FakeHealthGet", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.FakeHealthGet(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.FakeHealthGet(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService FakeOuterBooleanSerialize", func(t *testing.T) {
+	t.Run("Test FakeApiService FakeOuterBooleanSerialize", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.FakeOuterBooleanSerialize(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.FakeOuterBooleanSerialize(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService FakeOuterCompositeSerialize", func(t *testing.T) {
+	t.Run("Test FakeApiService FakeOuterCompositeSerialize", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.FakeOuterCompositeSerialize(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.FakeOuterCompositeSerialize(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService FakeOuterNumberSerialize", func(t *testing.T) {
+	t.Run("Test FakeApiService FakeOuterNumberSerialize", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.FakeOuterNumberSerialize(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.FakeOuterNumberSerialize(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService FakeOuterStringSerialize", func(t *testing.T) {
+	t.Run("Test FakeApiService FakeOuterStringSerialize", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.FakeOuterStringSerialize(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.FakeOuterStringSerialize(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestBodyWithFileSchema", func(t *testing.T) {
+	t.Run("Test FakeApiService TestBodyWithFileSchema", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestBodyWithFileSchema(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestBodyWithFileSchema(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestBodyWithQueryParams", func(t *testing.T) {
+	t.Run("Test FakeApiService TestBodyWithQueryParams", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestBodyWithQueryParams(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestBodyWithQueryParams(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestClientModel", func(t *testing.T) {
+	t.Run("Test FakeApiService TestClientModel", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestClientModel(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestClientModel(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestEndpointParameters", func(t *testing.T) {
+	t.Run("Test FakeApiService TestEndpointParameters", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestEndpointParameters(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestEndpointParameters(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestEnumParameters", func(t *testing.T) {
+	t.Run("Test FakeApiService TestEnumParameters", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestEnumParameters(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestEnumParameters(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestGroupParameters", func(t *testing.T) {
+	t.Run("Test FakeApiService TestGroupParameters", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestGroupParameters(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestGroupParameters(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestInlineAdditionalProperties", func(t *testing.T) {
+	t.Run("Test FakeApiService TestInlineAdditionalProperties", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestInlineAdditionalProperties(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestInlineAdditionalProperties(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestJsonFormData", func(t *testing.T) {
+	t.Run("Test FakeApiService TestJsonFormData", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestJsonFormData(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestJsonFormData(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestQueryParameterCollectionFormat", func(t *testing.T) {
+	t.Run("Test FakeApiService TestQueryParameterCollectionFormat", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
-    t.Run("Test FakeApiService TestUniqueItemsHeaderAndQueryParameterCollectionFormat", func(t *testing.T) {
+	t.Run("Test FakeApiService TestUniqueItemsHeaderAndQueryParameterCollectionFormat", func(t *testing.T) {
 
-        t.Skip("skip test")  // remove to run test
+		t.Skip("skip test")  // remove to run test
 
-        resp, httpRes, err := apiClient.FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).Execute()
 
-        require.Nil(t, err)
-        require.NotNil(t, resp)
-        assert.Equal(t, 200, httpRes.StatusCode)
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-    })
+	})
 
 }

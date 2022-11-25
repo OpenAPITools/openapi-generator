@@ -669,7 +669,7 @@ fail:
     {{/isDate}}
     {{#isDateTime}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}))
+    if(!cJSON_IsString({{{name}}}) && !cJSON_IsNull({{{name}}}))
     {
     goto end; //DateTime
     }
@@ -893,7 +893,7 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}

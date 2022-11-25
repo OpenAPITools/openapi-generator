@@ -200,7 +200,7 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, list_of_pet_dict)
 
-        # model with additional proerties
+        # model with additional properties
         model_dict = {'some_key': True}
         model = StringBooleanMap(**model_dict)
         result = self.api_client.sanitize_for_serialization(model)

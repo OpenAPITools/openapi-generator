@@ -32,7 +32,7 @@ Cat <- R6::R6Class(
     #' @param className className
     #' @param color color. Default to "red".
     #' @param declawed declawed
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`className`, `color` = "red", `declawed` = NULL, additional_properties = NULL, ...) {
@@ -255,7 +255,7 @@ Cat <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Cat$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Cat$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

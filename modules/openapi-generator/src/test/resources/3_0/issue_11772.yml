@@ -200,7 +200,7 @@ components:
           x-field-extra-annotation: |-
             @org.springframework.data.annotation.LastModifiedDate
         modifiedBy:
-          description: The employee id (Kerberos) of the user that last modifed the project.
+          description: The employee id (Kerberos) of the user that last modified the project.
           type: string
           example: janedoe
           x-field-extra-annotation: |-
