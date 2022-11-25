@@ -864,6 +864,7 @@ public class AbstractJavaCodegenTest {
     public void testOneOfModelImports() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
         codegen.preprocessOpenAPI(openAPI);
 
         Schema<?> schema = openAPI.getComponents().getSchemas().get("Example");
