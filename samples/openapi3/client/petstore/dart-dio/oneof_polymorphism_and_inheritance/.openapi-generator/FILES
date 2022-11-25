@@ -49,5 +49,3 @@ lib/src/model/pizza_speziale.dart
 lib/src/model/ref_or_value_enum.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/foo_ref_or_value_enum_mapping_test.dart
-test/ref_or_value_enum_test.dart
