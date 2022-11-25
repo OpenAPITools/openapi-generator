@@ -141,6 +141,24 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/generateSwagger2Annotations}}
+    {{#micronaut_serde_jackson}}
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-runtime</artifactId>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.micronaut</groupId>
+                    <artifactId>micronaut-jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.serde</groupId>
+            <artifactId>micronaut-serde-jackson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    {{/micronaut_serde_jackson}}
     </dependencies>
 
     <build>
@@ -170,6 +188,13 @@
                             <version>${micronaut.security.version}</version>
                         </path>
     {{/useAuth}}
+    {{#micronaut_serde_jackson}}
+                        <path>
+                           <groupId>io.micronaut.serde</groupId>
+                           <artifactId>micronaut-serde-processor</artifactId>
+                           <version>${micronaut.serialization.version}</version>
+                         </path>
+    {{/micronaut_serde_jackson}}
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-Amicronaut.processing.group={{groupId}}</arg>
