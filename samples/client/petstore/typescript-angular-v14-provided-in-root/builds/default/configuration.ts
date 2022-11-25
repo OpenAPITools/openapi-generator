@@ -177,7 +177,7 @@ export class Configuration {
         //
         // But: if that's all you need (i.e.: the most common use-case): no need for customization!
 
-        const value = param.dataFormat === 'date-time'
+        const value = param.dataFormat === 'date-time' && param.value instanceof Date
             ? (param.value as Date).toISOString()
             : param.value;
 
