@@ -50,6 +50,7 @@ public interface StoreApi {
     @Operation(
         operationId = "deleteOrder",
         summary = "Delete purchase order by ID",
+        description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -77,6 +78,7 @@ public interface StoreApi {
     @Operation(
         operationId = "getInventory",
         summary = "Returns pet inventories by status",
+        description = "Returns a map of status codes to quantities",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -112,6 +114,7 @@ public interface StoreApi {
     @Operation(
         operationId = "getOrderById",
         summary = "Find purchase order by ID",
+        description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -160,6 +163,7 @@ public interface StoreApi {
     @Operation(
         operationId = "placeOrder",
         summary = "Place an order for a pet",
+        description = "",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
