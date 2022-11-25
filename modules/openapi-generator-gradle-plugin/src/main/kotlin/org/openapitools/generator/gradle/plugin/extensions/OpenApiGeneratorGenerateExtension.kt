@@ -263,6 +263,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
+     * Specifies userDefinedTemplates relative to templateDir, see Customizing for more info
+     */
+    val files = project.objects.mapProperty<String, Map<String,String>>()
+
+    /**
      * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.

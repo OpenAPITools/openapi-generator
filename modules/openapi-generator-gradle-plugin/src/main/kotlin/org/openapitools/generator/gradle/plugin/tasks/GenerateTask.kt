@@ -16,19 +16,11 @@
 
 package org.openapitools.generator.gradle.plugin.tasks
 
+import org.apache.commons.lang3.StringUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.CacheableTask
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
@@ -37,8 +29,11 @@ import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
+import org.openapitools.codegen.api.TemplateDefinition
+import org.openapitools.codegen.api.TemplateFileType
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
+import kotlin.streams.toList
 
 /**
  * A task which generates the desired code.
@@ -198,6 +193,14 @@ open class GenerateTask : DefaultTask() {
     @Optional
     @Input
     val typeMappings = project.objects.mapProperty<String, String>()
+
+
+    /**
+     * Sets userDefinedTemplates relative to templateDir, see Customizing for more info
+     */
+    @Optional
+    @Input
+    val files = project.objects.mapProperty<String, Map<String,String>>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
@@ -517,6 +520,21 @@ open class GenerateTask : DefaultTask() {
 
     protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
 
+    private fun getFiles(files: Map<String, Map<String,String>>): List<TemplateDefinition> {
+        return files.entries.stream()
+            .map { (templateFile, file): Map.Entry<String, Map<String, String>> ->
+                var destination = file["destinationFilename"]
+                if (TemplateFileType.SupportingFiles.name == file["templateType"] && StringUtils.isBlank(destination)) {
+                    // this special case allows definitions such as LICENSE:{}
+                    destination = templateFile
+                }
+                val definition = TemplateDefinition(templateFile, file["folder"]?:"", destination)
+                definition.templateType = TemplateFileType.valueOf(file["templateType"]?:TemplateFileType.SupportingFiles.name)
+                definition
+            }?.toList()
+            ?: ArrayList()
+    }
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
@@ -764,6 +782,12 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            if (files.isPresent) {
+                getFiles(files.get()).forEach { entry ->
+                    configurator.addUserDefinedTemplate(entry)
+                }
+            }
+
             if (additionalProperties.isPresent) {
                 additionalProperties.get().forEach { entry ->
                     configurator.addAdditionalProperty(entry.key, entry.value)
@@ -805,7 +829,6 @@ open class GenerateTask : DefaultTask() {
                 out.withStyle(StyledTextOutput.Style.Success)
 
                 DefaultGenerator().opts(clientOptInput).generate()
-
                 out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)

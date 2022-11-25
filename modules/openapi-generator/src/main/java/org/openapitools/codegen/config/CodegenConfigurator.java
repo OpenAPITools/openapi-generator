@@ -525,6 +525,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator addUserDefinedTemplate(TemplateDefinition userDefinedTemplate) {
+        this.userDefinedTemplates.add(userDefinedTemplate);
+        return this;
+    }
+
     @SuppressWarnings("WeakerAccess")
     public Context<?> toContext() {
         Validate.notEmpty(generatorName, "generator name must be specified");
