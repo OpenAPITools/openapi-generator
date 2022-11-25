@@ -70,14 +70,14 @@ class NoAdditionalProperties(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
         petId: typing.Union[MetaOapg.properties.petId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'NoAdditionalProperties':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             id=id,
             petId=petId,
             _configuration=_configuration,

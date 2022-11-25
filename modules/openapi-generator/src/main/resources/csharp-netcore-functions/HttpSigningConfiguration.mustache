@@ -18,7 +18,7 @@ namespace {{packageName}}.Client
     {
         #region
         /// <summary>
-        /// Initailize the HashAlgorithm and SigningAlgorithm to default value
+        /// Initialize the HashAlgorithm and SigningAlgorithm to default value
         /// </summary>
         public HttpSigningConfiguration()
         {
@@ -238,7 +238,7 @@ namespace {{packageName}}.Client
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
             }
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string headerSignatureStr = null;
@@ -361,7 +361,7 @@ namespace {{packageName}}.Client
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
-            byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
+            byte derLength = 68; //default length for ECDSA code signing bit 0x44
             byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
@@ -399,7 +399,7 @@ namespace {{packageName}}.Client
             }
 
             derBytes.Add(48);  //start of the sequence 0x30
-            derBytes.Add(derLength);  //total length r lenth, type and r bytes
+            derBytes.Add(derLength);  //total length r length, type and r bytes
 
             derBytes.Add(2); //tag for integer
             derBytes.Add(rbytesLength); //length of r
@@ -411,7 +411,7 @@ namespace {{packageName}}.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPharse = null)
+        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPhrase = null)
         {
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";
@@ -431,7 +431,7 @@ namespace {{packageName}}.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
                 if (pemkey == null)
                 {
                     return null;
@@ -441,7 +441,7 @@ namespace {{packageName}}.Client
             return null;
         }
 
-        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPharse = null)
+        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPhrase = null)
         {
             const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -494,11 +494,11 @@ namespace {{packageName}}.Client
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                 {
                     return null;
@@ -638,19 +638,19 @@ namespace {{packageName}}.Client
         {
             IntPtr unmanagedPswd = IntPtr.Zero;
             int HASHLENGTH = 16;    //MD5 bytes
-            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store contatenated Mi hashed results
+            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);
             Marshal.ZeroFreeGlobalAllocAnsi(unmanagedPswd);
 
-            // --- contatenate salt and pswd bytes into fixed data array ---
+            // --- concatenate salt and pswd bytes into fixed data array ---
             byte[] data00 = new byte[psbytes.Length + salt.Length];
             Array.Copy(psbytes, data00, psbytes.Length);      //copy the pswd bytes
             Array.Copy(salt, 0, data00, psbytes.Length, salt.Length); //concatenate the salt bytes
 
-            // ---- do multi-hashing and contatenate results  D1, D2 ...  into keymaterial bytes ----
+            // ---- do multi-hashing and concatenate results  D1, D2 ...  into keymaterial bytes ----
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] result = null;
             byte[] hashtarget = new byte[HASHLENGTH + data00.Length];   //fixed length initial hashtarget
@@ -671,7 +671,7 @@ namespace {{packageName}}.Client
 
                 for (int i = 0; i < count; i++)
                     result = md5.ComputeHash(result);
-                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //contatenate to keymaterial
+                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //concatenate to keymaterial
             }
             byte[] deskey = new byte[24];
             Array.Copy(keymaterial, deskey, deskey.Length);

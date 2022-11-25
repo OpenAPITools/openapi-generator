@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Capitalization type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Capitalization{}
+
 // Capitalization struct for Capitalization
 type Capitalization struct {
 	SmallCamel *string `json:"smallCamel,omitempty"`
@@ -238,6 +241,14 @@ func (o *Capitalization) SetATT_NAME(v string) {
 }
 
 func (o Capitalization) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Capitalization) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.SmallCamel) {
 		toSerialize["smallCamel"] = o.SmallCamel
@@ -262,7 +273,7 @@ func (o Capitalization) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Capitalization) UnmarshalJSON(bytes []byte) (err error) {

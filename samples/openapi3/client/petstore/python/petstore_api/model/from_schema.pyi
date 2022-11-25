@@ -72,7 +72,7 @@ class FromSchema(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         data: typing.Union[MetaOapg.properties.data, str, schemas.Unset] = schemas.unset,
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -80,7 +80,7 @@ class FromSchema(
     ) -> 'FromSchema':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             data=data,
             id=id,
             _configuration=_configuration,

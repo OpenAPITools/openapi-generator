@@ -308,11 +308,9 @@ class Foo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setBar($bar)
     {
-
         if (is_null($bar)) {
             throw new \InvalidArgumentException('non-nullable bar cannot be null');
         }
-
         $this->container['bar'] = $bar;
 
         return $this;

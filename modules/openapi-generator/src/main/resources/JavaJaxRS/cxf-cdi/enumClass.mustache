@@ -5,7 +5,7 @@
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}{{#withXml}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{/withXml}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{#withXml}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{/withXml}}@JsonProperty({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 

@@ -715,7 +715,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         super.postProcessOperationsWithModels(objs, allModels);
 
         if (useSingleRequestParameter && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
-            // loop through operations to set x-group-parameters extenion to true if useSingleRequestParameter option is enabled
+            // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();

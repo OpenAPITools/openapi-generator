@@ -533,7 +533,7 @@ Fake endpoint to test group parameters (optional)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 
 ## testInlineAdditionalProperties

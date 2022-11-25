@@ -476,7 +476,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*http.Respon
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -570,7 +570,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (*User,
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -695,8 +695,8 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 		return localVarReturnValue, nil, reportError("password is required and must be specified")
 	}
 
-	localVarQueryParams.Add("username", parameterToString(*r.username, ""))
-	localVarQueryParams.Add("password", parameterToString(*r.password, ""))
+	parameterAddToQuery(localVarQueryParams, "username", r.username, "")
+	parameterAddToQuery(localVarQueryParams, "password", r.password, "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -887,7 +887,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*http.Respon
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", url.PathEscape(parameterValueToString(r.username, "username")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

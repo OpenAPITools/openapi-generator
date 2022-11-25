@@ -309,11 +309,9 @@ class File implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setSourceUri($source_uri)
     {
-
         if (is_null($source_uri)) {
             throw new \InvalidArgumentException('non-nullable source_uri cannot be null');
         }
-
         $this->container['source_uri'] = $source_uri;
 
         return $this;

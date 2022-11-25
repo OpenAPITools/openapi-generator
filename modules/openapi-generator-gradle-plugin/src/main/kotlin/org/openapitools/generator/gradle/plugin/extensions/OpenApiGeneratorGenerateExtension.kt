@@ -17,6 +17,8 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
@@ -51,6 +53,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * The Open API 2.0/3.x specification location.
      */
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
+    val remoteInputSpec = project.objects.property<String>()
 
     /**
      * The template directory holding a custom template.
@@ -336,6 +343,12 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val engine = project.objects.property<String?>()
 
+    /**
+     * Defines whether the output dir should be cleaned up before generating the output.
+     *
+     */
+    val cleanupOutput = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -357,5 +370,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         enablePostProcessFile.set(false)
         skipValidateSpec.set(false)
         generateAliasAsModel.set(false)
+        cleanupOutput.set(false)
     }
 }

@@ -341,7 +341,7 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/PetsForm'
-        description: Object that that contains info about pets
+        description: Object that contains info about pets
         required: true
       responses:
         '200':
@@ -402,7 +402,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: orderId

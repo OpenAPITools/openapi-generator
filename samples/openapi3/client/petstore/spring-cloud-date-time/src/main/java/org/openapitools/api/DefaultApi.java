@@ -68,11 +68,12 @@ public interface DefaultApi {
      * update with form data
      *
      * @param date A date path parameter (required)
-     * @param visitDate Updated last vist timestamp (optional, default to 1971-12-19T03:39:57-08:00)
+     * @param visitDate Updated last visit timestamp (optional, default to 1971-12-19T03:39:57-08:00)
      * @return Invalid input (status code 405)
      */
     @Operation(
         operationId = "updatePetWithForm",
+        description = "update with form data",
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
         }
@@ -84,7 +85,7 @@ public interface DefaultApi {
     )
     ResponseEntity<Void> updatePetWithForm(
         @Parameter(name = "date", description = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "visitDate", description = "Updated last vist timestamp") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @Parameter(name = "visitDate", description = "Updated last visit timestamp") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }

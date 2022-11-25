@@ -67,7 +67,7 @@ FormatTest <- R6::R6Class(
     #' @param uuid uuid
     #' @param pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
     #' @param pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = "2015-10-28T14:38:02Z", `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, additional_properties = NULL, ...) {
@@ -701,7 +701,7 @@ FormatTest <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # FormatTest$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # FormatTest$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

@@ -196,7 +196,7 @@ data OpenAPIPetstoreBackend a m = OpenAPIPetstoreBackend
   , uploadFile :: a -> Integer -> FormUploadFile -> m ApiResponse{- ^  -}
   , deleteOrder :: Text -> m NoContent{- ^ For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors -}
   , getInventory :: a -> m ((Map.Map String Int)){- ^ Returns a map of status codes to quantities -}
-  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions -}
+  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions -}
   , placeOrder :: Order -> m Order{- ^  -}
   , createUser :: User -> m NoContent{- ^ This can only be done by the logged in user. -}
   , createUsersWithArrayInput :: [User] -> m NoContent{- ^  -}
