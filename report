@@ -1,0 +1,2807 @@
+# START SCRIPT: ./bin/generate-samples.sh
+This script generates all configs under bin/configs by default.
+You may generate a targeted script or set of scripts using glob patterns.
+
+For example:
+    ./bin/generate-samples.sh bin/configs/java-*
+
+You may generate a single config with additional options if you use -- to
+separate the single config file from the generator arguments.
+
+For example:
+    ./bin/generate-samples.sh bin/configs/java-vertx.yaml -- --global-property debugModels=true
+
+
+[main] INFO  o.o.codegen.DefaultGenerator - Generating with dryRun=false
+[main] INFO  o.o.codegen.DefaultGenerator - OpenAPI Generator: jetbrains-http-client (client)
+[main] INFO  o.o.codegen.DefaultGenerator - Generator 'jetbrains-http-client' is considered stable.
+[main] INFO  o.o.codegen.InlineModelResolver - Inline schema created as updatePetWithForm_request. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).
+[main] INFO  o.o.codegen.InlineModelResolver - Inline schema created as uploadFile_request. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - Model updatePetWithForm_request not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)
+[main] INFO  o.o.codegen.DefaultGenerator - Model uploadFile_request not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/ApiResponse.http
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/Category.http
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/Order.http
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/Pet.http
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/Tag.http
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Models/User.http
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet	;put class Operation {
+    tags: [pet]
+    summary: Update an existing pet
+    description: 
+    externalDocs: null
+    operationId: updatePet
+    parameters: null
+    requestBody: class RequestBody {
+        description: null
+        content: null
+        required: null
+    }
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid ID supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: Pet not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 405=class ApiResponse {
+            description: Validation exception
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[write:pets, read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/json)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - Multiple MediaTypes found, using only the first one
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet	;post class Operation {
+    tags: [pet]
+    summary: Add a new pet to the store
+    description: 
+    externalDocs: null
+    operationId: addPet
+    parameters: null
+    requestBody: class RequestBody {
+        description: null
+        content: null
+        required: null
+    }
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 405=class ApiResponse {
+            description: Invalid input
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[write:pets, read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/json)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/findByStatus	;get class Operation {
+    tags: [pet]
+    summary: Finds Pets by status
+    description: Multiple status values can be provided with comma separated strings
+    externalDocs: null
+    operationId: findPetsByStatus
+    parameters: [class QueryParameter {
+        class Parameter {
+            name: status
+            in: null
+            description: Status values that need to be considered for filter
+            required: true
+            deprecated: true
+            allowEmptyValue: null
+            style: form
+            explode: false
+            allowReserved: null
+            schema: class ArraySchema {
+                class Schema {
+                    type: array
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: query
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class ArraySchema {
+                        class Schema {
+                            type: array
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class ArraySchema {
+                        class Schema {
+                            type: array
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid status value
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/findByTags	;get class Operation {
+    tags: [pet]
+    summary: Finds Pets by tags
+    description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    externalDocs: null
+    operationId: findPetsByTags
+    parameters: [class QueryParameter {
+        class Parameter {
+            name: tags
+            in: null
+            description: Tags to filter by
+            required: true
+            deprecated: null
+            allowEmptyValue: null
+            style: form
+            explode: false
+            allowReserved: null
+            schema: class ArraySchema {
+                class Schema {
+                    type: array
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: query
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class ArraySchema {
+                        class Schema {
+                            type: array
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class ArraySchema {
+                        class Schema {
+                            type: array
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid tag value
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: true
+    security: [class SecurityRequirement {
+        {petstore_auth=[read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/{petId}	;get class Operation {
+    tags: [pet]
+    summary: Find pet by ID
+    description: Returns a single pet
+    externalDocs: null
+    operationId: getPetById
+    parameters: [class PathParameter {
+        class Parameter {
+            name: petId
+            in: null
+            description: ID of pet to return
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class IntegerSchema {
+                class Schema {
+                    type: integer
+                    format: int64
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Pet
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid ID supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: Pet not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/{petId}	;post class Operation {
+    tags: [pet]
+    summary: Updates a pet in the store with form data
+    description: 
+    externalDocs: null
+    operationId: updatePetWithForm
+    parameters: [class PathParameter {
+        class Parameter {
+            name: petId
+            in: null
+            description: ID of pet that needs to be updated
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class IntegerSchema {
+                class Schema {
+                    type: integer
+                    format: int64
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: class RequestBody {
+        description: null
+        content: class Content {
+            {application/x-www-form-urlencoded=class MediaType {
+                schema: class Schema {
+                    type: null
+                    format: null
+                    $ref: #/components/schemas/updatePetWithForm_request
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+                examples: null
+                example: null
+                encoding: null
+            }}
+        }
+        required: null
+    }
+    responses: class ApiResponses {
+        {405=class ApiResponse {
+            description: Invalid input
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[write:pets, read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/{petId}	;delete class Operation {
+    tags: [pet]
+    summary: Deletes a pet
+    description: 
+    externalDocs: null
+    operationId: deletePet
+    parameters: [class HeaderParameter {
+        class Parameter {
+            name: api_key
+            in: null
+            description: null
+            required: false
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: header
+    }, class PathParameter {
+        class Parameter {
+            name: petId
+            in: null
+            description: Pet id to delete
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class IntegerSchema {
+                class Schema {
+                    type: integer
+                    format: int64
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {400=class ApiResponse {
+            description: Invalid pet value
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[write:pets, read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /pet/{petId}/uploadImage	;post class Operation {
+    tags: [pet]
+    summary: uploads an image
+    description: 
+    externalDocs: null
+    operationId: uploadFile
+    parameters: [class PathParameter {
+        class Parameter {
+            name: petId
+            in: null
+            description: ID of pet to update
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class IntegerSchema {
+                class Schema {
+                    type: integer
+                    format: int64
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: class RequestBody {
+        description: null
+        content: class Content {
+            {multipart/form-data=class MediaType {
+                schema: class Schema {
+                    type: null
+                    format: null
+                    $ref: #/components/schemas/uploadFile_request
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+                examples: null
+                example: null
+                encoding: null
+            }}
+        }
+        required: null
+    }
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/ApiResponse
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {petstore_auth=[write:pets, read:pets]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /store/inventory	;get class Operation {
+    tags: [store]
+    summary: Returns pet inventories by status
+    description: Returns a map of status codes to quantities
+    externalDocs: null
+    operationId: getInventory
+    parameters: null
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/json=class MediaType {
+                    schema: class MapSchema {
+                        class Schema {
+                            type: object
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: class IntegerSchema {
+                                class Schema {
+                                    type: integer
+                                    format: int32
+                                    $ref: null
+                                    description: null
+                                    title: null
+                                    multipleOf: null
+                                    maximum: null
+                                    exclusiveMaximum: null
+                                    minimum: null
+                                    exclusiveMinimum: null
+                                    maxLength: null
+                                    minLength: null
+                                    pattern: null
+                                    maxItems: null
+                                    minItems: null
+                                    uniqueItems: null
+                                    maxProperties: null
+                                    minProperties: null
+                                    required: null
+                                    not: null
+                                    properties: null
+                                    additionalProperties: null
+                                    nullable: null
+                                    readOnly: null
+                                    writeOnly: null
+                                    example: null
+                                    externalDocs: null
+                                    deprecated: null
+                                    discriminator: null
+                                    xml: null
+                                }
+                            }
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /store/order	;post class Operation {
+    tags: [store]
+    summary: Place an order for a pet
+    description: 
+    externalDocs: null
+    operationId: placeOrder
+    parameters: null
+    requestBody: class RequestBody {
+        description: order placed for purchasing the pet
+        content: class Content {
+            {application/json=class MediaType {
+                schema: class Schema {
+                    type: null
+                    format: null
+                    $ref: #/components/schemas/Order
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+                examples: null
+                example: null
+                encoding: null
+            }}
+        }
+        required: true
+    }
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Order
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Order
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid Order
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: null
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /store/order/{orderId}	;get class Operation {
+    tags: [store]
+    summary: Find purchase order by ID
+    description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    externalDocs: null
+    operationId: getOrderById
+    parameters: [class PathParameter {
+        class Parameter {
+            name: orderId
+            in: null
+            description: ID of pet that needs to be fetched
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class IntegerSchema {
+                class Schema {
+                    type: integer
+                    format: int64
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: 5
+                    exclusiveMaximum: null
+                    minimum: 1
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Order
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/Order
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid ID supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: Order not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: null
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /store/order/{orderId}	;delete class Operation {
+    tags: [store]
+    summary: Delete purchase order by ID
+    description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    externalDocs: null
+    operationId: deleteOrder
+    parameters: [class PathParameter {
+        class Parameter {
+            name: orderId
+            in: null
+            description: ID of the order that needs to be deleted
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {400=class ApiResponse {
+            description: Invalid ID supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: Order not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: null
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user	;post class Operation {
+    tags: [user]
+    summary: Create user
+    description: This can only be done by the logged in user.
+    externalDocs: null
+    operationId: createUser
+    parameters: null
+    requestBody: class RequestBody {
+        description: Created user object
+        content: class Content {
+            {application/json=class MediaType {
+                schema: class Schema {
+                    type: null
+                    format: null
+                    $ref: #/components/schemas/User
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+                examples: null
+                example: null
+                encoding: null
+            }}
+        }
+        required: true
+    }
+    responses: class ApiResponses {
+        {default=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/createWithArray	;post class Operation {
+    tags: [user]
+    summary: Creates list of users with given input array
+    description: 
+    externalDocs: null
+    operationId: createUsersWithArrayInput
+    parameters: null
+    requestBody: class RequestBody {
+        description: null
+        content: null
+        required: null
+    }
+    responses: class ApiResponses {
+        {default=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/createWithList	;post class Operation {
+    tags: [user]
+    summary: Creates list of users with given input array
+    description: 
+    externalDocs: null
+    operationId: createUsersWithListInput
+    parameters: null
+    requestBody: class RequestBody {
+        description: null
+        content: null
+        required: null
+    }
+    responses: class ApiResponses {
+        {default=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/login	;get class Operation {
+    tags: [user]
+    summary: Logs user into the system
+    description: 
+    externalDocs: null
+    operationId: loginUser
+    parameters: [class QueryParameter {
+        class Parameter {
+            name: username
+            in: null
+            description: The user name for login
+            required: true
+            deprecated: null
+            allowEmptyValue: null
+            style: form
+            explode: true
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: query
+    }, class QueryParameter {
+        class Parameter {
+            name: password
+            in: null
+            description: The password for login in clear text
+            required: true
+            deprecated: null
+            allowEmptyValue: null
+            style: form
+            explode: true
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: query
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: {Set-Cookie=class Header {
+                description: Cookie authentication key for use with the `api_key` apiKey authentication.
+                required: null
+                deprecated: null
+                style: simple
+                explode: false
+                schema: class StringSchema {
+                    class Schema {
+                        type: string
+                        format: null
+                        $ref: null
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                }
+                examples: null
+                example: null
+                content: null
+                $ref: null
+            }, X-Rate-Limit=class Header {
+                description: calls per hour allowed by the user
+                required: null
+                deprecated: null
+                style: simple
+                explode: false
+                schema: class IntegerSchema {
+                    class Schema {
+                        type: integer
+                        format: int32
+                        $ref: null
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                }
+                examples: null
+                example: null
+                content: null
+                $ref: null
+            }, X-Expires-After=class Header {
+                description: date in UTC when token expires
+                required: null
+                deprecated: null
+                style: simple
+                explode: false
+                schema: class DateTimeSchema {
+                    class Schema {
+                        type: string
+                        format: date-time
+                        $ref: null
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                }
+                examples: null
+                example: null
+                content: null
+                $ref: null
+            }}
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class StringSchema {
+                        class Schema {
+                            type: string
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class StringSchema {
+                        class Schema {
+                            type: string
+                            format: null
+                            $ref: null
+                            description: null
+                            title: null
+                            multipleOf: null
+                            maximum: null
+                            exclusiveMaximum: null
+                            minimum: null
+                            exclusiveMinimum: null
+                            maxLength: null
+                            minLength: null
+                            pattern: null
+                            maxItems: null
+                            minItems: null
+                            uniqueItems: null
+                            maxProperties: null
+                            minProperties: null
+                            required: null
+                            not: null
+                            properties: null
+                            additionalProperties: null
+                            nullable: null
+                            readOnly: null
+                            writeOnly: null
+                            example: null
+                            externalDocs: null
+                            deprecated: null
+                            discriminator: null
+                            xml: null
+                        }
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid username/password supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: null
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/logout	;get class Operation {
+    tags: [user]
+    summary: Logs out current logged in user session
+    description: 
+    externalDocs: null
+    operationId: logoutUser
+    parameters: null
+    requestBody: null
+    responses: class ApiResponses {
+        {default=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/{username}	;get class Operation {
+    tags: [user]
+    summary: Get user by user name
+    description: 
+    externalDocs: null
+    operationId: getUserByName
+    parameters: [class PathParameter {
+        class Parameter {
+            name: username
+            in: null
+            description: The name that needs to be fetched. Use user1 for testing.
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {200=class ApiResponse {
+            description: successful operation
+            headers: null
+            content: class Content {
+                {application/xml=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/User
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }, application/json=class MediaType {
+                    schema: class Schema {
+                        type: null
+                        format: null
+                        $ref: #/components/schemas/User
+                        description: null
+                        title: null
+                        multipleOf: null
+                        maximum: null
+                        exclusiveMaximum: null
+                        minimum: null
+                        exclusiveMinimum: null
+                        maxLength: null
+                        minLength: null
+                        pattern: null
+                        maxItems: null
+                        minItems: null
+                        uniqueItems: null
+                        maxProperties: null
+                        minProperties: null
+                        required: null
+                        not: null
+                        properties: null
+                        additionalProperties: null
+                        nullable: null
+                        readOnly: null
+                        writeOnly: null
+                        example: null
+                        externalDocs: null
+                        deprecated: null
+                        discriminator: null
+                        xml: null
+                    }
+                    examples: null
+                    example: null
+                    encoding: null
+                }}
+            }
+            links: null
+            extensions: null
+            $ref: null
+        }, 400=class ApiResponse {
+            description: Invalid username supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: User not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: null
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.utils.ModelUtils - Multiple schemas found in the OAS 'content' section, returning only the first one (application/xml)
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/{username}	;put class Operation {
+    tags: [user]
+    summary: Updated user
+    description: This can only be done by the logged in user.
+    externalDocs: null
+    operationId: updateUser
+    parameters: [class PathParameter {
+        class Parameter {
+            name: username
+            in: null
+            description: name that need to be deleted
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: class RequestBody {
+        description: Updated user object
+        content: class Content {
+            {application/json=class MediaType {
+                schema: class Schema {
+                    type: null
+                    format: null
+                    $ref: #/components/schemas/User
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+                examples: null
+                example: null
+                encoding: null
+            }}
+        }
+        required: true
+    }
+    responses: class ApiResponses {
+        {400=class ApiResponse {
+            description: Invalid user supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: User not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.DefaultGenerator - processOperation: resourcePath=  /user/{username}	;delete class Operation {
+    tags: [user]
+    summary: Delete user
+    description: This can only be done by the logged in user.
+    externalDocs: null
+    operationId: deleteUser
+    parameters: [class PathParameter {
+        class Parameter {
+            name: username
+            in: null
+            description: The name that needs to be deleted
+            required: null
+            deprecated: null
+            allowEmptyValue: null
+            style: simple
+            explode: false
+            allowReserved: null
+            schema: class StringSchema {
+                class Schema {
+                    type: string
+                    format: null
+                    $ref: null
+                    description: null
+                    title: null
+                    multipleOf: null
+                    maximum: null
+                    exclusiveMaximum: null
+                    minimum: null
+                    exclusiveMinimum: null
+                    maxLength: null
+                    minLength: null
+                    pattern: null
+                    maxItems: null
+                    minItems: null
+                    uniqueItems: null
+                    maxProperties: null
+                    minProperties: null
+                    required: null
+                    not: null
+                    properties: null
+                    additionalProperties: null
+                    nullable: null
+                    readOnly: null
+                    writeOnly: null
+                    example: null
+                    externalDocs: null
+                    deprecated: null
+                    discriminator: null
+                    xml: null
+                }
+            }
+            examples: null
+            example: null
+            content: null
+            $ref: null
+        }
+        in: path
+        required: true
+    }]
+    requestBody: null
+    responses: class ApiResponses {
+        {400=class ApiResponse {
+            description: Invalid username supplied
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }, 404=class ApiResponse {
+            description: User not found
+            headers: null
+            content: null
+            links: null
+            extensions: null
+            $ref: null
+        }}
+        extensions: null
+    }
+    callbacks: null
+    deprecated: null
+    security: [class SecurityRequirement {
+        {api_key=[]}
+    }]
+    servers: null
+}
+
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Apis/PetApi.http
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Apis/StoreApi.http
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] WARN  o.o.codegen.DefaultCodegen - escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters
+[main] INFO  o.o.codegen.TemplateManager - writing file samples/client/petstore/jetbrains/http/client/Apis/UserApi.http
+[main] INFO  o.o.codegen.DefaultGenerator - ############ Operation info ############

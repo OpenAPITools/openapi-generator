@@ -1,0 +1,42 @@
+## UserApi
+
+### Create user
+# createUser
+POST http://petstore.swagger.io/v2
+
+
+### Creates list of users with given input array
+# createUsersWithArrayInput
+POST http://petstore.swagger.io/v2
+
+
+### Creates list of users with given input array
+# createUsersWithListInput
+POST http://petstore.swagger.io/v2
+
+
+### Delete user
+# deleteUser
+DELETE http://petstore.swagger.io/v2
+
+
+### Get user by user name
+# getUserByName
+GET http://petstore.swagger.io/v2
+
+
+### Logs user into the system
+# loginUser
+GET http://petstore.swagger.io/v2
+
+
+### Logs out current logged in user session
+# logoutUser
+GET http://petstore.swagger.io/v2
+
+
+### Updated user
+# updateUser
+PUT http://petstore.swagger.io/v2
+
+

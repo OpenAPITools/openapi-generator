@@ -35,12 +35,25 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         super();
 
         outputFolder = "generated-code" + File.separator + "jetbrains-http-client";
-        modelTemplateFiles.put("model.mustache", ".zz");
-        apiTemplateFiles.put("api.mustache", ".zz");
+        modelTemplateFiles.put("model.mustache", ".http");
+        apiTemplateFiles.put("api.mustache", ".http");
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // TODO: Fill this out.
     }
+
+    @Override
+//    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+//        return super.addMustacheLambdas()
+//                .put("doubleMustache", new DoubleMustache());
+//    }
+//
+//    private static class DoubleMustache implements Mustache.Lambda {
+//        @Override
+//        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+//            writer.write(fragment.execute().replaceAll("{", "{{"));
+//        }
+//    }
 }

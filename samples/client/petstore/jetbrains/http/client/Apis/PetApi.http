@@ -1,0 +1,42 @@
+## PetApi
+
+### Add a new pet to the store
+# addPet
+POST http://petstore.swagger.io/v2
+
+
+### Deletes a pet
+# deletePet
+DELETE http://petstore.swagger.io/v2
+
+
+### Finds Pets by status
+# findPetsByStatus
+GET http://petstore.swagger.io/v2
+
+
+### Finds Pets by tags
+# findPetsByTags
+GET http://petstore.swagger.io/v2
+
+
+### Find pet by ID
+# getPetById
+GET http://petstore.swagger.io/v2
+
+
+### Update an existing pet
+# updatePet
+PUT http://petstore.swagger.io/v2
+
+
+### Updates a pet in the store with form data
+# updatePetWithForm
+POST http://petstore.swagger.io/v2
+
+
+### uploads an image
+# uploadFile
+POST http://petstore.swagger.io/v2
+
+

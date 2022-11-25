@@ -1,0 +1,11 @@
+## {{classname}}
+
+{{#operations}}
+{{#operation}}
+### {{#summary}}{{summary}}{{/summary}}
+# {{operationId}}
+{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
+
+
+{{/operation}}
+{{/operations}}
