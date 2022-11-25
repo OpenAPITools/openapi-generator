@@ -45,6 +45,7 @@ public class InlineModelResolver {
     private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
+    public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
@@ -73,6 +74,11 @@ public class InlineModelResolver {
 
     public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
         this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
+
+        if ("true".equalsIgnoreCase(
+                this.inlineSchemaNameDefaults.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
+            this.skipSchemaReuse = true;
+        }
     }
 
     void flatten(OpenAPI openAPI) {
@@ -340,7 +346,7 @@ public class InlineModelResolver {
                 } else {
                     // allOf is just one or more types only so do not generate the inline allOf model
                     if (m.getAllOf().size() == 1) {
-                        // handle earlier in this function when looping through properites
+                        // handle earlier in this function when looping through properties
                     } else if (m.getAllOf().size() > 1) {
                         LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
                     } else {
@@ -638,6 +644,10 @@ public class InlineModelResolver {
     }
 
     private String matchGenerated(Schema model) {
+        if (skipSchemaReuse) { // skip reusing schema
+            return null;
+        }
+
         try {
             String json = structureMapper.writeValueAsString(model);
             if (generatedSignature.containsKey(json)) {
@@ -892,7 +902,7 @@ public class InlineModelResolver {
      *
      * @param name   name of the inline schema
      * @param schema inilne schema
-     * @return the actual model name (based on inlineSchemaNameMapping if provied)
+     * @return the actual model name (based on inlineSchemaNameMapping if provided)
      */
     private String addSchemas(String name, Schema schema) {
         //check inlineSchemaNameMapping

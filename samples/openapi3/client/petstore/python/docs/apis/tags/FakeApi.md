@@ -30,7 +30,7 @@ Method | HTTP request | Description
 [**object_model_with_ref_props**](#object_model_with_ref_props) | **post** /fake/refs/object_model_with_ref_props | 
 [**parameter_collisions**](#parameter_collisions) | **post** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 [**query_param_with_json_content_type**](#query_param_with_json_content_type) | **get** /fake/queryParamWithJsonContentType | query param with json content-type
-[**query_parameter_collection_format**](#query_parameter_collection_format) | **put** /fake/test-query-paramters | 
+[**query_parameter_collection_format**](#query_parameter_collection_format) | **put** /fake/test-query-parameters | 
 [**ref_object_in_query**](#ref_object_in_query) | **get** /fake/refObjInQuery | user list
 [**response_without_schema**](#response_without_schema) | **get** /fake/responseWithoutSchema | receives a response without schema
 [**string**](#string) | **post** /fake/refs/string | 
@@ -561,7 +561,7 @@ No authorization required
 
 
 
-Ensures that original naming is used in endpoint params, that way we on't have collisions
+Ensures that original naming is used in endpoint params, that way we won't have collisions
 
 ### Example
 
@@ -1097,6 +1097,7 @@ body | typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] | 
 query_params | RequestQueryParams | |
 header_params | RequestHeaderParams | |
 content_type | str | optional, default is 'application/x-www-form-urlencoded' | Selects the schema and serialization of the request body
+accept_content_types | typing.Tuple[str] | default is ('application/json', ) | Tells the server the content type(s) that are accepted by the client
 stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
 timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
 skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
@@ -1221,8 +1222,15 @@ headers | Unset | headers were not defined |
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
+body | typing.Union[SchemaFor404ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
+
+# SchemaFor404ResponseBodyApplicationJson
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 
 ### Authorization
 

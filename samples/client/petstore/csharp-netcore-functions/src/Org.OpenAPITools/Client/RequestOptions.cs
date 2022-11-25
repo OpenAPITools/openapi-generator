@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Client
         public Multimap<string, string> QueryParameters { get; set; }
 
         /// <summary>
-        /// Header parameters to be applied to to the request.
+        /// Header parameters to be applied to the request.
         /// Keys may have 1 or more values associated.
         /// </summary>
         public Multimap<string, string> HeaderParameters { get; set; }

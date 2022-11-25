@@ -80,7 +80,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    * @param key the name of the property
-   * @param value the value value of the property
+   * @param value the value of the property
    * @return self reference
    */
   @JsonAnySetter

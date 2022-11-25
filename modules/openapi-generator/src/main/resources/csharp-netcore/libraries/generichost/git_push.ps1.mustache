@@ -49,7 +49,7 @@ Set-StrictMode -Version 3.0
 if ($Help){
     Write-Output "
     This script will initialize a git repository, then add and commit all files.
-    The local repository will then be pushed to your prefered git provider.
+    The local repository will then be pushed to your preferred git provider.
     If the remote repository does not exist yet and you are using GitHub,
     the repository will be created for you provided you have the GitHub CLI installed.
     

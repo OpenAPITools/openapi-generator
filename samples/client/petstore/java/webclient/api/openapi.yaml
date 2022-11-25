@@ -412,7 +412,7 @@ paths:
       x-accepts: application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -712,7 +712,7 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)

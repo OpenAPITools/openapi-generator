@@ -40,7 +40,7 @@ Pet <- R6::R6Class(
     #' @param category category
     #' @param tags tags
     #' @param status pet status in the store
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, additional_properties = NULL, ...) {
@@ -353,7 +353,7 @@ Pet <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Pet$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Pet$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

@@ -52,6 +52,7 @@ public interface FakeClassnameTestApi {
     @Operation(
         operationId = "testClassname",
         summary = "To test class name in snake case",
+        description = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

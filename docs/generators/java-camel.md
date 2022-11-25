@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
@@ -38,7 +39,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelRestClientRequestValidation|enable validation of the client request to check whether the Content-Type and Accept headers from the client is supported by the Rest-DSL configuration| |false|
 |camelRestComponent|name of the Camel component to use as the REST consumer| |servlet|
 |camelSecurityDefinitions|generate camel security definitions| |true|
-|camelUseDefaultValidationtErrorProcessor|generate default validation error processor| |true|
+|camelUseDefaultValidationErrorProcessor|generate default validation error processor| |true|
 |camelValidationErrorProcessor|validation error processor bean name| |validationErrorProcessor|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|

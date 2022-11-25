@@ -81,14 +81,14 @@ class JSONPatchRequestRemove(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         op: typing.Union[MetaOapg.properties.op, str, ],
         path: typing.Union[MetaOapg.properties.path, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'JSONPatchRequestRemove':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             op=op,
             path=path,
             _configuration=_configuration,

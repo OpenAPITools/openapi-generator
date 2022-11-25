@@ -104,14 +104,14 @@ class Apple(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, None, ],
+        *_args: typing.Union[dict, frozendict.frozendict, None, ],
         origin: typing.Union[MetaOapg.properties.origin, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Apple':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             origin=origin,
             _configuration=_configuration,
             **kwargs,

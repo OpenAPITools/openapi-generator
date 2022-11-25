@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -69,7 +70,7 @@ public class StoreApiTest {
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      * @throws ApiException
      *          if the Api call fails
@@ -93,9 +94,9 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
+        Order order = null;
         Order response = 
-        api.placeOrder(body);
+        api.placeOrder(order);
         
         // TODO: test validations
     }
