@@ -17,11 +17,14 @@
 
 package org.openapitools.codegen.testutils;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class IntegrationTestPathsConfig {
-    private static final Path INTEGRATION_TEST_PATH = Paths.get("target/test-classes/integrationtests").toAbsolutePath();
+    private static final Path INTEGRATION_TEST_PATH = getIntegrationTestsPath();
     private final Path outputPath;
     private final Path specPath;
     private final Path expectedPath;
@@ -52,5 +55,16 @@ public class IntegrationTestPathsConfig {
 
     public Path getIgnoreFilePath() {
         return ignoreFilePath;
+    }
+
+    private static Path getIntegrationTestsPath() {
+        try {
+            final URL resourceUrl = Objects.requireNonNull(
+                    IntegrationTestPathsConfig.class.getClassLoader().getResource("integrationtests"),
+                    "The 'integrationtests' resource does not exist.");
+            return Paths.get(resourceUrl.toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
