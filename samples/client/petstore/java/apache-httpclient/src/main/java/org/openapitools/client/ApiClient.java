@@ -205,6 +205,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the object mapper.
+   *
+   * @param objectMapper object mapper
    * @return API client
    */
   public ApiClient setObjectMapper(ObjectMapper objectMapper) {
@@ -217,6 +220,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the HTTP client.
+   *
+   * @param httpClient HTTP client
    * @return API client
    */
   public ApiClient setHttpClient(CloseableHttpClient httpClient) {
@@ -229,6 +235,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the base path.
+   *
+   * @param basePath base path
    * @return API client
    */
   public ApiClient setBasePath(String basePath) {
@@ -242,6 +251,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server.
+   *
+   * @param servers a list of server configuration
    * @return API client
    */
   public ApiClient setServers(List<ServerConfiguration> servers) {
@@ -254,6 +266,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server index.
+   *
+   * @param serverIndex server index
    * @return API client
    */
   public ApiClient setServerIndex(Integer serverIndex) {
@@ -266,6 +281,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server variables.
+   *
+   * @param serverVariables server variables
    * @return API client
    */
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
@@ -275,6 +293,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Gets the status code of the previous request
+   *
    * @return Status code
    */
   public int getStatusCode() {
@@ -704,7 +723,10 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Transform response headers into map
+   * Transforms response headers into map.
+   *
+   * @param headers HTTP headers
+   * @return a map of string array
    */
   protected Map<String, List<String>> transformResponseHeaders(Header[] headers) {
     Map<String, List<String>> headersMap = new HashMap<>();
