@@ -21,9 +21,10 @@ dependencies {
     implementation(project(":openapi-generator-core"))
 }
 
+@Suppress("UnstableApiUsage")
 gradlePlugin {
-    website = "https://openapi-generator.tech/"
-    vcsUrl = "https://github.com/OpenAPITools/openapi-generator"
+    website.set("https://openapi-generator.tech/")
+    vcsUrl.set("https://github.com/OpenAPITools/openapi-generator")
     plugins {
         register("openApiGenerator") {
             id = "org.openapi.generator"
