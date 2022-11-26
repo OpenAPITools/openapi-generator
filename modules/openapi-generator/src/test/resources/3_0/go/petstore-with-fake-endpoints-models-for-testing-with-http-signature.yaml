@@ -355,7 +355,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -838,7 +838,13 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
+        '5XX':
+          description: Something wrong
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
     post:
       tags:
@@ -1149,6 +1155,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/deep_object_test:
+    get:
+      tags:
+        - fake
+      operationId: test_query_deep_object
+      parameters:
+        - name: test_pet
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Pet'
+          explode: true
+        - name: inputOptions
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Category'
+          explode: true
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2017,3 +2046,8 @@ components:
           additionalProperties:
             type: string
             format: binary
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string

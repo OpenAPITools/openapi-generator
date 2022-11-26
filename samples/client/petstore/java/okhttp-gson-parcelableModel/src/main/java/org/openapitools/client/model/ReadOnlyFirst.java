@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -40,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -75,7 +74,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -95,7 +93,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return baz
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBaz() {
     return baz;
@@ -192,9 +189,7 @@ public class ReadOnlyFirst implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ReadOnlyFirst.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ReadOnlyFirst.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }

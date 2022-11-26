@@ -902,7 +902,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 		return nil, reportError("body is required and must be specified")
 	}
 
-	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
+	parameterAddToQuery(localVarQueryParams, "query", r.query, "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -1247,24 +1247,24 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.integer != nil {
-		localVarFormParams.Add("integer", parameterToString(*r.integer, ""))
+		parameterAddToQuery(localVarFormParams, "integer", r.integer, "")
 	}
 	if r.int32_ != nil {
-		localVarFormParams.Add("int32", parameterToString(*r.int32_, ""))
+		parameterAddToQuery(localVarFormParams, "int32", r.int32_, "")
 	}
 	if r.int64_ != nil {
-		localVarFormParams.Add("int64", parameterToString(*r.int64_, ""))
+		parameterAddToQuery(localVarFormParams, "int64", r.int64_, "")
 	}
-	localVarFormParams.Add("number", parameterToString(*r.number, ""))
+	parameterAddToQuery(localVarFormParams, "number", r.number, "")
 	if r.float != nil {
-		localVarFormParams.Add("float", parameterToString(*r.float, ""))
+		parameterAddToQuery(localVarFormParams, "float", r.float, "")
 	}
-	localVarFormParams.Add("double", parameterToString(*r.double, ""))
+	parameterAddToQuery(localVarFormParams, "double", r.double, "")
 	if r.string_ != nil {
-		localVarFormParams.Add("string", parameterToString(*r.string_, ""))
+		parameterAddToQuery(localVarFormParams, "string", r.string_, "")
 	}
-	localVarFormParams.Add("pattern_without_delimiter", parameterToString(*r.patternWithoutDelimiter, ""))
-	localVarFormParams.Add("byte", parameterToString(*r.byte_, ""))
+	parameterAddToQuery(localVarFormParams, "pattern_without_delimiter", r.patternWithoutDelimiter, "")
+	parameterAddToQuery(localVarFormParams, "byte", r.byte_, "")
 	var binaryLocalVarFormFileName string
 	var binaryLocalVarFileName     string
 	var binaryLocalVarFileBytes    []byte
@@ -1283,16 +1283,16 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	}
 	formFiles = append(formFiles, formFile{fileBytes: binaryLocalVarFileBytes, fileName: binaryLocalVarFileName, formFileName: binaryLocalVarFormFileName})
 	if r.date != nil {
-		localVarFormParams.Add("date", parameterToString(*r.date, ""))
+		parameterAddToQuery(localVarFormParams, "date", r.date, "")
 	}
 	if r.dateTime != nil {
-		localVarFormParams.Add("dateTime", parameterToString(*r.dateTime, ""))
+		parameterAddToQuery(localVarFormParams, "dateTime", r.dateTime, "")
 	}
 	if r.password != nil {
-		localVarFormParams.Add("password", parameterToString(*r.password, ""))
+		parameterAddToQuery(localVarFormParams, "password", r.password, "")
 	}
 	if r.callback != nil {
-		localVarFormParams.Add("callback", parameterToString(*r.callback, ""))
+		parameterAddToQuery(localVarFormParams, "callback", r.callback, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1422,16 +1422,16 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	localVarFormParams := url.Values{}
 
 	if r.enumQueryStringArray != nil {
-		localVarQueryParams.Add("enum_query_string_array", parameterToString(*r.enumQueryStringArray, "csv"))
+	    parameterAddToQuery(localVarQueryParams, "enum_query_string_array", r.enumQueryStringArray, "csv")
 	}
 	if r.enumQueryString != nil {
-		localVarQueryParams.Add("enum_query_string", parameterToString(*r.enumQueryString, ""))
+	    parameterAddToQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
 	}
 	if r.enumQueryInteger != nil {
-		localVarQueryParams.Add("enum_query_integer", parameterToString(*r.enumQueryInteger, ""))
+	    parameterAddToQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
 	}
 	if r.enumQueryDouble != nil {
-		localVarQueryParams.Add("enum_query_double", parameterToString(*r.enumQueryDouble, ""))
+	    parameterAddToQuery(localVarQueryParams, "enum_query_double", r.enumQueryDouble, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1451,16 +1451,16 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.enumHeaderStringArray != nil {
-		localVarHeaderParams["enum_header_string_array"] = parameterToString(*r.enumHeaderStringArray, "csv")
+		parameterAddToQuery(localVarQueryParams, "enum_header_string_array", r.enumHeaderStringArray, "csv")
 	}
 	if r.enumHeaderString != nil {
-		localVarHeaderParams["enum_header_string"] = parameterToString(*r.enumHeaderString, "")
+		parameterAddToQuery(localVarQueryParams, "enum_header_string", r.enumHeaderString, "")
 	}
 	if r.enumFormStringArray != nil {
-		localVarFormParams.Add("enum_form_string_array", parameterToString(*r.enumFormStringArray, "csv"))
+		parameterAddToQuery(localVarFormParams, "enum_form_string_array", r.enumFormStringArray, "csv")
 	}
 	if r.enumFormString != nil {
-		localVarFormParams.Add("enum_form_string", parameterToString(*r.enumFormString, ""))
+		parameterAddToQuery(localVarFormParams, "enum_form_string", r.enumFormString, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1584,13 +1584,13 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 		return nil, reportError("requiredInt64Group is required and must be specified")
 	}
 
-	localVarQueryParams.Add("required_string_group", parameterToString(*r.requiredStringGroup, ""))
-	localVarQueryParams.Add("required_int64_group", parameterToString(*r.requiredInt64Group, ""))
+	parameterAddToQuery(localVarQueryParams, "required_string_group", r.requiredStringGroup, "")
+	parameterAddToQuery(localVarQueryParams, "required_int64_group", r.requiredInt64Group, "")
 	if r.stringGroup != nil {
-		localVarQueryParams.Add("string_group", parameterToString(*r.stringGroup, ""))
+	    parameterAddToQuery(localVarQueryParams, "string_group", r.stringGroup, "")
 	}
 	if r.int64Group != nil {
-		localVarQueryParams.Add("int64_group", parameterToString(*r.int64Group, ""))
+	    parameterAddToQuery(localVarQueryParams, "int64_group", r.int64Group, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1609,9 +1609,9 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarHeaderParams["required_boolean_group"] = parameterToString(*r.requiredBooleanGroup, "")
+	parameterAddToQuery(localVarQueryParams, "required_boolean_group", r.requiredBooleanGroup, "")
 	if r.booleanGroup != nil {
-		localVarHeaderParams["boolean_group"] = parameterToString(*r.booleanGroup, "")
+		parameterAddToQuery(localVarQueryParams, "boolean_group", r.booleanGroup, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1817,8 +1817,8 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarFormParams.Add("param", parameterToString(*r.param, ""))
-	localVarFormParams.Add("param2", parameterToString(*r.param2, ""))
+	parameterAddToQuery(localVarFormParams, "param", r.param, "")
+	parameterAddToQuery(localVarFormParams, "param2", r.param2, "")
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -1935,19 +1935,19 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		return nil, reportError("context is required and must be specified")
 	}
 
-	localVarQueryParams.Add("pipe", parameterToString(*r.pipe, "csv"))
-	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
-	localVarQueryParams.Add("http", parameterToString(*r.http, "ssv"))
-	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
+	parameterAddToQuery(localVarQueryParams, "pipe", r.pipe, "csv")
+	parameterAddToQuery(localVarQueryParams, "ioutil", r.ioutil, "csv")
+	parameterAddToQuery(localVarQueryParams, "http", r.http, "ssv")
+	parameterAddToQuery(localVarQueryParams, "url", r.url, "csv")
 	{
 		t := *r.context
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+				parameterAddToQuery(localVarQueryParams, "context", s.Index(i), "multi")
 			}
 		} else {
-			localVarQueryParams.Add("context", parameterToString(t, "multi"))
+			parameterAddToQuery(localVarQueryParams, "context", t, "multi")
 		}
 	}
 	// to determine the Content-Type header

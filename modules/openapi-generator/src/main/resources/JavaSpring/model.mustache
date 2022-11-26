@@ -21,6 +21,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 {{/useJakartaEe}}
 {{/useBeanValidation}}
+{{^useBeanValidation}}
+{{#useJakartaEe}}
+import jakarta.validation.constraints.NotNull;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
+import javax.validation.constraints.NotNull;
+{{/useJakartaEe}}
+{{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}

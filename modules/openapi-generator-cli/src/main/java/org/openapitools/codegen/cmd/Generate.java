@@ -177,7 +177,7 @@ public class Generate extends OpenApiGeneratorCommand {
             name = {"--inline-schema-name-defaults"},
             title = "inline schema name defaults",
             description = "specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. "
-                    + " ONLY arrayItemSuffix, mapItemSuffix at the moment.")
+                    + " ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.")
     private List<String> inlineSchemaNameDefaults = new ArrayList<>();
 
     @Option(

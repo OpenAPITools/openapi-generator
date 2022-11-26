@@ -398,7 +398,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: orderId
@@ -1115,5 +1115,77 @@ components:
         percent_description:
           description: using % in the description
           type: string
+        url_property:
+          type: string
+          format: uri
       required:
         - className
+        - url_property
+    format_test:
+      type: object
+      required:
+        - number
+        - byte
+        - date
+        - password
+      properties:
+        integer:
+          type: integer
+          maximum: 100
+          minimum: 10
+        int32:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+        int64:
+          type: integer
+          format: int64
+        number:
+          maximum: 543.2
+          minimum: 32.1
+          type: number
+        float:
+          type: number
+          format: float
+          maximum: 987.6
+          minimum: 54.3
+        double:
+          type: number
+          format: double
+          maximum: 123.4
+          minimum: 67.8
+        string:
+          type: string
+          pattern: '/[a-z]/i'
+        byte:
+          type: string
+          format: byte
+        binary:
+          type: string
+          format: binary
+        date:
+          type: string
+          format: date
+          default: 2019-07-19
+        dateTime:
+          type: string
+          format: date-time
+          default: 2015-10-28T14:38:02Z
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        password:
+          type: string
+          format: password
+          maxLength: 64
+          minLength: 10
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros.
+          type: string
+          pattern: '^\d{10}$'
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+          type: string
+          pattern: '/^image_\d{1,3}$/i'

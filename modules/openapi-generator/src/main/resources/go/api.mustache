@@ -124,7 +124,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", url.PathEscape(parameterToString(r.{{paramName}}, "{{collectionFormat}}")), -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", url.PathEscape(parameterValueToString(r.{{paramName}}, "{{paramName}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -189,15 +189,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterAddToQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+			parameterAddToQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+	parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
@@ -207,14 +207,14 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterAddToQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+			parameterAddToQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+	    parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
@@ -242,11 +242,11 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 {{#headerParams}}
 	{{#required}}
-	localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
+	parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if r.{{paramName}} != nil {
-		localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
+		parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	}
 	{{/required}}
 {{/headerParams}}
@@ -277,7 +277,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isFile}}
 {{^isFile}}
 {{#required}}
-	localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+	parameterAddToQuery(localVarFormParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 {{/required}}
 {{^required}}
 {{#isModel}}
@@ -291,7 +291,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isModel}}
 {{^isModel}}
 	if r.{{paramName}} != nil {
-		localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+		parameterAddToQuery(localVarFormParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	}
 {{/isModel}}
 {{/required}}
@@ -371,7 +371,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
 		{{/is4xx}}
 		{{#is5xx}}
-		if localVarHTTPResponse.StatusCode >= 500
+		if localVarHTTPResponse.StatusCode >= 500 {
 		{{/is5xx}}
 		{{/range}}
 		{{^range}}
@@ -385,7 +385,8 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+            		newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+            		newErr.model = v
 			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			{{/-last}}

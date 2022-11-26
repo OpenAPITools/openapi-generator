@@ -3,10 +3,20 @@ name: Samples Java Client JDK11
 on:
   push:
     paths:
-      - 'samples/client/petstore/java*/**'
+      - 'samples/client/petstore/java/**'
+      - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/java-micronaut-client/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/native/**
   pull_request:
     paths:
-      - 'samples/client/petstore/java*/**'
+      - 'samples/client/petstore/java/**'
+      - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/java-micronaut-client/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/native/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -26,7 +36,7 @@ jobs:
           - samples/client/petstore/java/resttemplate
           - samples/client/petstore/java/resttemplate-withXml
           - samples/client/petstore/java/webclient
-          - samples/client/petstore/java/webclient-nulable-arrays
+          - samples/client/petstore/java/webclient-nullable-arrays
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/resteasy
@@ -38,6 +48,11 @@ jobs:
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/jersey1
+          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
+          - samples/openapi3/client/petstore/java/native
+          - samples/client/petstore/java/okhttp-gson-swagger1/
+          - samples/client/petstore/java/resttemplate-swagger1/
+          - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3

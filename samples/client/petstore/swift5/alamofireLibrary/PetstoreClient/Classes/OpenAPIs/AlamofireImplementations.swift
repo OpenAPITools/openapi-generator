@@ -96,9 +96,9 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType == "application/json" {
+            if contentType.hasPrefix("application/json") {
                 encoding = JSONDataEncoding()
-            } else if contentType == "multipart/form-data" {
+            } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = nil
 
                 let upload = manager.upload(multipartFormData: { mpForm in
@@ -134,7 +134,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
-            } else if contentType == "application/x-www-form-urlencoded" {
+            } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
@@ -165,16 +165,18 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -257,23 +259,27 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.stringResponseSerializer,
+                          completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
                 case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as! T)))
+                    completion(.success(Response(response: stringResponse.response!, body: value as! T, bodyData: stringResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
                 }
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 do {
@@ -309,7 +315,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T)))
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T, bodyData: data)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
@@ -319,31 +325,37 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T, bodyData: voidResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
                 case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T, bodyData: dataResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }
 
             })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {
@@ -358,7 +370,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
                 guard let data = dataResponse.data, !data.isEmpty else {
                     if T.self is ExpressibleByNilLiteral.Type {
-                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T, bodyData: dataResponse.data)))
                     } else {
                         completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
                     }
@@ -369,7 +381,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
                 switch decodeResult {
                 case let .success(decodableObj):
-                    completion(.success(Response(response: httpResponse, body: decodableObj)))
+                    completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, httpResponse, error)))
                 }

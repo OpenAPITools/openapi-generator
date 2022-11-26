@@ -65,7 +65,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
-    public static final String SUPPORT_PYTHON2 = "supportPython2";
     public static final String FEATURE_CORS = "featureCORS";
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
@@ -152,8 +151,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 defaultValue("controllers"));
         cliOptions.add(new CliOption(DEFAULT_CONTROLLER, "default controller").
                 defaultValue("default_controller"));
-        cliOptions.add(new CliOption(SUPPORT_PYTHON2, "support python2. This option has been deprecated and will be removed in the 5.x release.").
-                defaultValue("false"));
         cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
                 defaultValue("8080"));
         cliOptions.add(CliOption.newBoolean(FEATURE_CORS, "use flask-cors for handling CORS requests").
@@ -199,10 +196,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         } else {
             this.defaultController = "default_controller";
             additionalProperties.put(DEFAULT_CONTROLLER, this.defaultController);
-        }
-        if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_PYTHON2))) {
-            additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
-            typeMapping.put("long", "long");
         }
         if (additionalProperties.containsKey(FEATURE_CORS)) {
             setFeatureCORS(String.valueOf(additionalProperties.get(FEATURE_CORS)));
@@ -320,7 +313,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (name == null || name.length() == 0) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
 

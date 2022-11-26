@@ -19,12 +19,15 @@ import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
 import ArrayTest from './model/ArrayTest';
+import BasquePig from './model/BasquePig';
 import Capitalization from './model/Capitalization';
 import Cat from './model/Cat';
 import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
+import Color from './model/Color';
+import DanishPig from './model/DanishPig';
 import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
 import DogAllOf from './model/DogAllOf';
@@ -43,6 +46,8 @@ import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
 import Name from './model/Name';
+import NestedColor from './model/NestedColor';
+import NestedOneOf from './model/NestedOneOf';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
 import ObjectWithDeprecatedFields from './model/ObjectWithDeprecatedFields';
@@ -54,6 +59,7 @@ import OuterEnumInteger from './model/OuterEnumInteger';
 import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
 import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
 import Pet from './model/Pet';
+import Pig from './model/Pig';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
@@ -143,6 +149,12 @@ export {
     ArrayTest,
 
     /**
+     * The BasquePig model constructor.
+     * @property {module:model/BasquePig}
+     */
+    BasquePig,
+
+    /**
      * The Capitalization model constructor.
      * @property {module:model/Capitalization}
      */
@@ -177,6 +189,18 @@ export {
      * @property {module:model/Client}
      */
     Client,
+
+    /**
+     * The Color model constructor.
+     * @property {module:model/Color}
+     */
+    Color,
+
+    /**
+     * The DanishPig model constructor.
+     * @property {module:model/DanishPig}
+     */
+    DanishPig,
 
     /**
      * The DeprecatedObject model constructor.
@@ -287,6 +311,18 @@ export {
     Name,
 
     /**
+     * The NestedColor model constructor.
+     * @property {module:model/NestedColor}
+     */
+    NestedColor,
+
+    /**
+     * The NestedOneOf model constructor.
+     * @property {module:model/NestedOneOf}
+     */
+    NestedOneOf,
+
+    /**
      * The NullableClass model constructor.
      * @property {module:model/NullableClass}
      */
@@ -351,6 +387,12 @@ export {
      * @property {module:model/Pet}
      */
     Pet,
+
+    /**
+     * The Pig model constructor.
+     * @property {module:model/Pig}
+     */
+    Pig,
 
     /**
      * The ReadOnlyFirst model constructor.

@@ -2,17 +2,12 @@ name: Gradle tests (Java samples)
 
 on:
   push:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
-      - "java*"
     paths:
       - 'samples/client/petstore/java/**'
+      - 'samples/openapi3/client/petstore/java/**'
   pull_request:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
     paths:
+      - 'samples/client/petstore/java/**'
       - 'samples/openapi3/client/petstore/java/**'
 env:
   GRADLE_VERSION: 7.2
@@ -26,11 +21,11 @@ jobs:
       fail-fast: true
       matrix:
         sample:
-          - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/jersey2-java8
           - samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/jersey2-java8
+          - samples/client/petstore/java/jersey2-java8-localdatetime
+          - samples/client/petstore/java/jersey2-java8
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-group-parameter
     steps:

@@ -6,7 +6,7 @@
 ```ps1
 $properties = @(
     'apiName=Api',
-    'targetFramework=net6.0',
+    'targetFramework=net7.0',
     'validatable=true',
     'nullableReferenceTypes=false',
     'hideGenerationTimestamp=true',
@@ -216,7 +216,7 @@ Authentication schemes defined for the API:
 - modelTests: true
 - withXml: 
 
-## [OpenApi Generator Parameteres](https://openapi-generator.tech/docs/generators/csharp-netcore)
+## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: 
 - apiName: Api
 - caseInsensitiveResponseHeaders: 
@@ -250,7 +250,7 @@ Authentication schemes defined for the API:
 - returnICollection: false
 - sortParamsByRequiredFlag: 
 - sourceFolder: src
-- targetFramework: net6.0
+- targetFramework: net7.0
 - useCollection: false
 - useDateTimeOffset: false
 - useOneOfDiscriminatorLookup: false

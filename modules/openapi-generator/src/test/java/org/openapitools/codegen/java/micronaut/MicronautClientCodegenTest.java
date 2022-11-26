@@ -239,4 +239,16 @@ public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
         String resourcesPath = outputPath + "src/main/resources/";
         assertFileContains(resourcesPath + "application.yml", "OAuth_2_0_Client_Credentials:");
     }
+
+    @Test
+    public void testAdditionalClientTypeAnnotations() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.ADDITIONAL_CLIENT_TYPE_ANNOTATIONS, "MyAdditionalAnnotation1(1,${param1});MyAdditionalAnnotation2(2,${param2});");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                                          CodegenConstants.APIS);
+
+        // Micronaut declarative http client should contain custom added annotations
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "MyAdditionalAnnotation1(1,${param1})");
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "MyAdditionalAnnotation2(2,${param2})");
+    }
 }

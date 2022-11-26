@@ -31,6 +31,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -481,7 +483,8 @@ public class JavaModelTest {
                 .items(new Schema().name("elobjeto").$ref("#/components/schemas/Children"))
                 .name("arraySchema")
                 .description("an array model");
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER1);
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -502,7 +505,8 @@ public class JavaModelTest {
                 .uniqueItems(true)
                 .name("arraySchema")
                 .description("an array model");
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER1);
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -521,7 +525,8 @@ public class JavaModelTest {
         final Schema schema = new Schema()
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER1);
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);

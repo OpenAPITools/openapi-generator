@@ -103,7 +103,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void convertVarName() throws Exception {
+    public void convertVarName() {
         Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
@@ -119,10 +119,15 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
+
+        AbstractJavaCodegen withCaml = new P_AbstractJavaCodegen();
+        withCaml.setCamelCaseDollarSign(true);
+        Assert.assertEquals(withCaml.toVarName("$name"), "$Name");
+        Assert.assertEquals(withCaml.toVarName("1AAaa"), "_1AAaa");
     }
 
     @Test
-    public void convertModelName() throws Exception {
+    public void convertModelName() {
         Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
@@ -853,6 +858,21 @@ public class AbstractJavaCodegenTest {
         // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
         // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
         Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
+    }
+
+    @Test
+    public void testOneOfModelImports() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("Example");
+        CodegenModel cm = codegen.fromModel("Example", schema);
+        Assert.assertEquals(cm.imports.size(), 3);
+        Assert.assertTrue(cm.imports.contains("BigDecimal"));
+        Assert.assertTrue(cm.imports.contains("Date"));
+        Assert.assertTrue(cm.imports.contains("UUID"));
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

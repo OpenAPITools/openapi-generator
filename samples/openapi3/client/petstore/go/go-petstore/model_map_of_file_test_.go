@@ -15,6 +15,9 @@ import (
 	"os"
 )
 
+// checks if the MapOfFileTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MapOfFileTest{}
+
 // MapOfFileTest test map of file in a property
 type MapOfFileTest struct {
 	// a property to test map of file
@@ -43,7 +46,7 @@ func NewMapOfFileTestWithDefaults() *MapOfFileTest {
 
 // GetPropTest returns the PropTest field value if set, zero value otherwise.
 func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
-	if o == nil || o.PropTest == nil {
+	if o == nil || isNil(o.PropTest) {
 		var ret map[string]*os.File
 		return ret
 	}
@@ -53,7 +56,7 @@ func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
 // GetPropTestOk returns a tuple with the PropTest field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
-	if o == nil || o.PropTest == nil {
+	if o == nil || isNil(o.PropTest) {
 		return nil, false
 	}
 	return o.PropTest, true
@@ -61,7 +64,7 @@ func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
 
 // HasPropTest returns a boolean if a field has been set.
 func (o *MapOfFileTest) HasPropTest() bool {
-	if o != nil && o.PropTest != nil {
+	if o != nil && !isNil(o.PropTest) {
 		return true
 	}
 
@@ -74,8 +77,16 @@ func (o *MapOfFileTest) SetPropTest(v map[string]*os.File) {
 }
 
 func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.PropTest != nil {
+	if !isNil(o.PropTest) {
 		toSerialize["prop_test"] = o.PropTest
 	}
 
@@ -83,7 +94,7 @@ func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {

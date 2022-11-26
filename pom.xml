@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>6.1.1-SNAPSHOT</version>
+    <version>6.3.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -745,6 +745,30 @@
             </modules>
         </profile>
         <profile>
+            <id>java-helidon-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-helidon-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-helidon-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-helidon-server</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -1018,7 +1042,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-prior</module>
             </modules>
         </profile>
         <profile>
@@ -1131,28 +1155,22 @@
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
-                <!-- servers -->
-                <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-aiohttp-srclayout</module>
-                <module>samples/server/petstore/python-fastapi</module>
-                <module>samples/server/petstore/python-flask</module>
                 <!-- TODO: will move these to Github action
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>-->
-                <module>samples/server/petstore/rust-server</module>
+                <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
                 <module>samples/client/petstore/perl</module>
                 <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/client/petstore/ruby-faraday</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/ruby-autoload</module>
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust/hyper/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
+                <module>samples/client/petstore/rust/reqwest/petstore-async-middleware</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -1171,6 +1189,10 @@
             </activation>
             <modules>
                 <!-- servers -->
+                <module>samples/server/petstore/python-aiohttp</module>
+                <module>samples/server/petstore/python-aiohttp-srclayout</module>
+                <module>samples/server/petstore/python-fastapi</module>
+                <module>samples/server/petstore/python-flask</module>
                 <module>samples/server/petstore/java-camel</module>
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
@@ -1202,8 +1224,8 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
+                <module>samples/client/petstore/python-prior</module>
+                <module>samples/client/petstore/python-prior_disallowAdditionalPropertiesIfNotPresent</module>
                 <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
@@ -1249,7 +1271,10 @@
             <modules>
                 <!-- python clients which don't need the server running -->
                 <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-experimental</module>
+                <module>samples/openapi3/client/petstore/python-prior</module>
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1272,6 +1297,7 @@
                 <module>samples/client/petstore/java/jersey3</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java-micronaut-client</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1309,10 +1335,8 @@
                 <!-- test Go projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
-                <module>samples/server/petstore/go-api-server</module>
                 <!-- comment out due to Go version
                 <module>samples/server/petstore/go-gin-api-server</module>-->
-                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <profile>
@@ -1463,17 +1487,18 @@
 
         <archunit.version>0.23.1</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
-        <commons-cli.version>1.4</commons-cli.version>
+        <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang.version>3.12.0</commons-lang.version>
-        <commons-text.version>1.9</commons-text.version>
+        <commons-text.version>1.10.0</commons-text.version>
         <diffutils.version>1.3.0</diffutils.version>
         <generex.version>1.0.2</generex.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <groovy.version>3.0.9</groovy.version>
-        <guava.version>30.1.1-jre</guava.version>
+        <guava.version>31.1-jre</guava.version>
         <handlebars-java.version>4.2.1</handlebars-java.version>
         <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
+        <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <jmustache.version>1.14</jmustache.version>
@@ -1485,17 +1510,17 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <mockito.version>4.5.1</mockito.version>
+        <mockito.version>4.8.1</mockito.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10</reflections.version>
-        <rxgen.version>1.3</rxgen.version>
+        <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
         <openrewrite.version>7.22.0</openrewrite.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.1</swagger-parser.version>
+        <swagger-parser.version>2.1.6</swagger-parser.version>
         <testng.version>7.5</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

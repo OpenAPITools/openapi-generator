@@ -2434,7 +2434,7 @@ data GetInventory
 --   Find purchase order by ID
 --   
 --   For valid response try integer IDs with value <a>5 or</a> 10. Other
---   values will generated exceptions
+--   values will generate exceptions
 getOrderById :: Accept accept -> OrderId -> OpenAPIPetstoreRequest GetOrderById MimeNoContent Order accept
 data GetOrderById
 

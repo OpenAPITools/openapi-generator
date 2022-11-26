@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayTest{}
+
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString []string `json:"array_of_string,omitempty"`
@@ -43,7 +46,7 @@ func NewArrayTestWithDefaults() *ArrayTest {
 
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayOfString() []string {
-	if o == nil || o.ArrayOfString == nil {
+	if o == nil || isNil(o.ArrayOfString) {
 		var ret []string
 		return ret
 	}
@@ -53,7 +56,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 // GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
-	if o == nil || o.ArrayOfString == nil {
+	if o == nil || isNil(o.ArrayOfString) {
 		return nil, false
 	}
 	return o.ArrayOfString, true
@@ -61,7 +64,7 @@ func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 
 // HasArrayOfString returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayOfString() bool {
-	if o != nil && o.ArrayOfString != nil {
+	if o != nil && !isNil(o.ArrayOfString) {
 		return true
 	}
 
@@ -75,7 +78,7 @@ func (o *ArrayTest) SetArrayOfString(v []string) {
 
 // GetArrayArrayOfInteger returns the ArrayArrayOfInteger field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
-	if o == nil || o.ArrayArrayOfInteger == nil {
+	if o == nil || isNil(o.ArrayArrayOfInteger) {
 		var ret [][]int64
 		return ret
 	}
@@ -85,7 +88,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 // GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
-	if o == nil || o.ArrayArrayOfInteger == nil {
+	if o == nil || isNil(o.ArrayArrayOfInteger) {
 		return nil, false
 	}
 	return o.ArrayArrayOfInteger, true
@@ -93,7 +96,7 @@ func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 
 // HasArrayArrayOfInteger returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayArrayOfInteger() bool {
-	if o != nil && o.ArrayArrayOfInteger != nil {
+	if o != nil && !isNil(o.ArrayArrayOfInteger) {
 		return true
 	}
 
@@ -107,7 +110,7 @@ func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
 
 // GetArrayArrayOfModel returns the ArrayArrayOfModel field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
-	if o == nil || o.ArrayArrayOfModel == nil {
+	if o == nil || isNil(o.ArrayArrayOfModel) {
 		var ret [][]ReadOnlyFirst
 		return ret
 	}
@@ -117,7 +120,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 // GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
-	if o == nil || o.ArrayArrayOfModel == nil {
+	if o == nil || isNil(o.ArrayArrayOfModel) {
 		return nil, false
 	}
 	return o.ArrayArrayOfModel, true
@@ -125,7 +128,7 @@ func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 
 // HasArrayArrayOfModel returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayArrayOfModel() bool {
-	if o != nil && o.ArrayArrayOfModel != nil {
+	if o != nil && !isNil(o.ArrayArrayOfModel) {
 		return true
 	}
 
@@ -138,14 +141,22 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 }
 
 func (o ArrayTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ArrayOfString != nil {
+	if !isNil(o.ArrayOfString) {
 		toSerialize["array_of_string"] = o.ArrayOfString
 	}
-	if o.ArrayArrayOfInteger != nil {
+	if !isNil(o.ArrayArrayOfInteger) {
 		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
 	}
-	if o.ArrayArrayOfModel != nil {
+	if !isNil(o.ArrayArrayOfModel) {
 		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
 	}
 
@@ -153,7 +164,7 @@ func (o ArrayTest) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ArrayTest) UnmarshalJSON(bytes []byte) (err error) {

@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -343,7 +344,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        String sanitizedOperationId = camelize(sanitizeName(operationId), true);
+        String sanitizedOperationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
@@ -354,7 +355,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            sanitizedOperationId = camelize("call_" + sanitizedOperationId, true);
+            sanitizedOperationId = camelize("call_" + sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         }
 
         // method name from updateSomething to update_Something.

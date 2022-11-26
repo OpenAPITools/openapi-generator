@@ -29,7 +29,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     - `:body` ({{dataType}}): {{&description}}
 {{/isBodyParam}}
 {{^isBodyParam}}
-    - `{{#atom}}{{#underscored}}{{&paramName}}{{/underscored}}{{/atom}}` ({{&dataType}}): {{&description}}
+    - `{{#atom}}{{&baseName}}{{/atom}}` ({{&dataType}}): {{&description}}
 {{/isBodyParam}}
 {{/optionalParams}}
 

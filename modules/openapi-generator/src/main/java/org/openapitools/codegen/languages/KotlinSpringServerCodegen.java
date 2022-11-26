@@ -42,6 +42,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
@@ -75,7 +76,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
-    private String resourceFolder = "src/main/resources";
     private boolean useBeanValidation = true;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
@@ -234,14 +234,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 getDocumentationProvider().equals(DocumentationProvider.SOURCE);
     }
 
-    public String getResourceFolder() {
-        return this.resourceFolder;
-    }
-
-    public void setResourceFolder(String resourceFolder) {
-        this.resourceFolder = resourceFolder;
-    }
-
     public String getBasePackage() {
         return this.basePackage;
     }
@@ -334,10 +326,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setReactive(boolean reactive) {
         this.reactive = reactive;
-    }
-
-    public boolean isBeanQualifiers() {
-        return beanQualifiers;
     }
 
     public void setBeanQualifiers(boolean beanQualifiers) {
@@ -569,16 +557,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                             "HomeController.kt"));
                     supportingFiles.add(new SupportingFile("openapi.mustache",
-                            ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
+                            resourcesFolder.replace("/", java.io.File.separator), "openapi.yaml"));
                 }
 
-                supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
+                supportingFiles.add(new SupportingFile("application.mustache", resourcesFolder, "application.yaml"));
                 supportingFiles.add(new SupportingFile("springBootApplication.mustache",
                         sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
 
                 if (useSwaggerUI && selectedDocumentationProviderRequiresSwaggerUiBootstrap()) {
                     supportingFiles.add(new SupportingFile("swagger-ui.mustache",
-                            "src/main/resources/static", "swagger-ui.html"));
+                            resourcesFolder + "/static", "swagger-ui.html"));
                 }
             }
         }
@@ -656,7 +644,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (title.toUpperCase(Locale.ROOT).endsWith("API"))
                     title = title.substring(0, title.length() - 3);
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
