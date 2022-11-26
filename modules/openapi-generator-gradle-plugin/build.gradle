@@ -1,13 +1,14 @@
 import io.github.gradlenexus.publishplugin.CloseNexusStagingRepository
 import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.gradle.plugin-publish") version "1.0.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
     id("java-gradle-plugin")
     id("maven-publish")
-    id("org.gradle.kotlin.kotlin-dsl") version "2.3.3"
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
+    id("org.jetbrains.kotlin.jvm") version "1.7.10"
     id("signing")
 }
 
@@ -39,13 +40,12 @@ repositories {
 
 dependencies {
     implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.6.21")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
 }
 
-tasks.named("test").configure {
+tasks.named("test", Test).configure {
     useTestNG()
     testLogging.showStandardStreams = false
-    failFast = true
 
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
@@ -60,7 +60,7 @@ tasks.named("test").configure {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -81,20 +81,17 @@ tasks.withType(ReleaseNexusStagingRepository).configureEach {
 }
 
 gradlePlugin {
+    website = "https://openapi-generator.tech/"
+    vcsUrl = "https://github.com/OpenAPITools/openapi-generator"
     plugins {
         openApiGenerator {
             id = "org.openapi.generator"
+            description = "OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)."
             displayName = "OpenAPI Generator Gradle Plugin"
             implementationClass = "org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin"
-            description = "OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)."
+            tags.addAll("openapi-3.0", "openapi-2.0", "openapi", "swagger", "codegen", "sdk")
         }
     }
-}
-
-pluginBundle {
-    website = "https://openapi-generator.tech/"
-    vcsUrl = "https://github.com/OpenAPITools/openapi-generator"
-    tags = ["openapi-3.0", "openapi-2.0", "openapi", "swagger", "codegen", "sdk"]
 }
 
 nexusPublishing {
