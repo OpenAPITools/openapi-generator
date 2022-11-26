@@ -865,6 +865,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
+                ops.stream()
+                        .filter(op -> op.isArray && !"string".equalsIgnoreCase(op.returnBaseType))
+                        .forEach(op -> op.vendorExtensions.put("x-webclient-is-non-string-array", true));
                 for (CodegenOperation operation : ops) {
                     if (!operation.vendorExtensions.containsKey(VendorExtension.X_WEBCLIENT_BLOCKING.getName()) && webclientBlockingOperations) {
                         operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_BLOCKING.getName(), true);
