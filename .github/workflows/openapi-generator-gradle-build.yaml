@@ -25,4 +25,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -Popenapi-generator-project.acceptGradleTOS=true
