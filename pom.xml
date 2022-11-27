@@ -1298,6 +1298,7 @@
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
+                <module>samples/client/petstore/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->

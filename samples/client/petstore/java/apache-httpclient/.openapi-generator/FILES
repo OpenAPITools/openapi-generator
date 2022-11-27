@@ -19,6 +19,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DefaultValue.md
 docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
@@ -103,6 +104,7 @@ src/main/java/org/openapitools/client/model/CatAllOf.java
 src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/ClassModel.java
 src/main/java/org/openapitools/client/model/Client.java
+src/main/java/org/openapitools/client/model/DefaultValue.java
 src/main/java/org/openapitools/client/model/DeprecatedObject.java
 src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/DogAllOf.java

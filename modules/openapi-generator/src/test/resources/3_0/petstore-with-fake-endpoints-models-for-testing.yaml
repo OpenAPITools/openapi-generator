@@ -1937,21 +1937,35 @@ components:
       enum:
         - admin
         - user
-    ArrayDefaultValue:
+    DefaultValue:
       type: object
       properties:
-        id:
-          type: integer
-          description: id
-          format: int64
-        outcomes:
+        array_string_enum_default:
           type: array
           items:
             type: string
             enum:
-            - SUCCESS
-            - FAILURE
-            - SKIPPED
-              #default:
-              #  - SUCCESS
-              #  - FAILURE
+            - success
+            - failure
+          default:
+            - success
+            - failure
+        array_string_default:
+          type: array
+          items:
+            type: string
+          default:
+            - failure
+            - skipped
+        array_string:
+          type: array
+          items:
+            type: string
+        array_string_nullable:
+          nullable: true
+          type: array
+          items:
+            type: string
+        string_nullable:
+          nullable: true
+          type: string

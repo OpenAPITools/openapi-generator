@@ -163,6 +163,7 @@ Class | Method | HTTP request | Description
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)

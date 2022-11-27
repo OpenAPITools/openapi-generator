@@ -942,20 +942,91 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return name;
     }
 
+    /**
+     * Return the default value of array property
+     * <p>
+     * Return null if there's no default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param cp Codegen property
+     * @param schema Property schema
+     * @return string presentation of the default value of the property
+     */
+    public String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
+        if (schema.getDefault() != null) { // has default value
+            if (cp.isArray && !cp.getUniqueItems()) { // array
+                List<String> _values = new ArrayList<>();
+
+                if (schema.getDefault() instanceof ArrayNode) { // array of default values
+                    ArrayNode _default = (ArrayNode) schema.getDefault();
+                    if (_default.isEmpty()) {
+                        return "null";
+                    }
+
+                    List<String> final_values = _values;
+                    _default.elements().forEachRemaining((element) -> {
+                        final_values.add(element.asText());
+                    });
+                } else { // single value
+                    _values = Arrays.asList(String.valueOf(schema.getDefault()));
+                }
+
+                String defaultDataType = "";
+                String defaultValue = "";
+
+                if (cp.items.isEnum) { // enum
+                    defaultDataType = cp.items.datatypeWithEnum;
+                    List<String> defaultValues = new ArrayList<>();
+                    for (String _value : _values) {
+                        defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
+                    }
+                    defaultValue = StringUtils.join(defaultValues, ", ");
+                } else {
+                    defaultDataType = cp.items.dataType;
+                    if (cp.items.isString) {
+                        defaultValue = StringUtils.join(_values, "\", \"");
+                        defaultValue = "\"" + defaultValue + "\"";
+                    } else {
+                        defaultValue = StringUtils.join(_values, ", ");
+                    }
+                }
+                return String.format(Locale.ROOT, "Arrays.asList(new %s[] {%s})", defaultDataType, defaultValue);
+            } else if (cp.isArray && cp.getUniqueItems()) { // set
+                // TODO
+                return null;
+            } else if (cp.isMap) { // map
+                // TODO
+                return null;
+            } else {
+                throw new RuntimeException("Error. Codegen Property must be array/set/map: " + cp);
+            }
+        } else {
+            return null;
+        }
+    }
+
     @Override
-    public String toDefaultValue(Schema schema) {
+    public String toDefaultValue(CodegenProperty cp, Schema schema) {
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
-            final String pattern;
-            if (ModelUtils.isSet(schema)) {
-                String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
-                pattern = "new " + mapInstantiationType + "<%s>()";
-            } else {
-                String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
-                pattern = "new " + arrInstantiationType + "<%s>()";
+            if (schema.getDefault() == null) {
+                if (cp.isNullable) { // nullable
+                    return "null";
+                } else {
+                    final String pattern;
+                    if (ModelUtils.isSet(schema)) {
+                        String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
+                        pattern = "new " + mapInstantiationType + "<%s>()";
+                    } else {
+                        String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
+                        pattern = "new " + arrInstantiationType + "<%s>()";
+                    }
+                    return String.format(Locale.ROOT, pattern, "");
+                }
+            } else { // has default value
+                return toArrayDefaultValue(cp, schema);
             }
 
-            return String.format(Locale.ROOT, pattern, "");
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties

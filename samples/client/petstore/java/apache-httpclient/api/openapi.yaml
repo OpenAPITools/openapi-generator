@@ -1984,6 +1984,38 @@ components:
       - user
       title: SingleRefType
       type: string
+    DefaultValue:
+      properties:
+        array_string_enum_default:
+          default:
+          - success
+          - failure
+          items:
+            enum:
+            - success
+            - failure
+            type: string
+          type: array
+        array_string_default:
+          default:
+          - failure
+          - skipped
+          items:
+            type: string
+          type: array
+        array_string:
+          items:
+            type: string
+          type: array
+        array_string_nullable:
+          items:
+            type: string
+          nullable: true
+          type: array
+        string_nullable:
+          nullable: true
+          type: string
+      type: object
     _foo_get_default_response:
       example:
         string:

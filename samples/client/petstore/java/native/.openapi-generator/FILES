@@ -9,7 +9,6 @@ docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
-docs/ArrayDefaultValue.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
@@ -20,6 +19,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DefaultValue.md
 docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
@@ -90,7 +90,6 @@ src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
 src/main/java/org/openapitools/client/model/Animal.java
-src/main/java/org/openapitools/client/model/ArrayDefaultValue.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
@@ -100,6 +99,7 @@ src/main/java/org/openapitools/client/model/CatAllOf.java
 src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/ClassModel.java
 src/main/java/org/openapitools/client/model/Client.java
+src/main/java/org/openapitools/client/model/DefaultValue.java
 src/main/java/org/openapitools/client/model/DeprecatedObject.java
 src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/DogAllOf.java
@@ -136,4 +136,3 @@ src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/test/java/org/openapitools/client/model/ArrayDefaultValueTest.java
