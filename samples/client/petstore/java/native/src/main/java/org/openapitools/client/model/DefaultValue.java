@@ -79,13 +79,13 @@ public class DefaultValue {
   }
 
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = null;
+  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = Arrays.asList(new ArrayStringEnumDefaultEnum[] {ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE});
 
   public static final String JSON_PROPERTY_ARRAY_STRING_DEFAULT = "array_string_default";
-  private List<String> arrayStringDefault = null;
+  private List<String> arrayStringDefault = Arrays.asList(new String[] {"failure", "skipped"});
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
-  private List<String> arrayString = null;
+  private List<String> arrayString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_STRING_NULLABLE = "array_string_nullable";
   private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();

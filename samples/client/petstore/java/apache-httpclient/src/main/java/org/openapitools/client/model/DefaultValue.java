@@ -102,7 +102,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumDefaultItem(ArrayStringEnumDefaultEnum arrayStringEnumDefaultItem) {
     if (this.arrayStringEnumDefault == null) {
-      this.arrayStringEnumDefault = new ArrayList<>();
+      this.arrayStringEnumDefault = Arrays.asList(new ArrayStringEnumDefaultEnum[] {ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE});
     }
     this.arrayStringEnumDefault.add(arrayStringEnumDefaultItem);
     return this;
@@ -136,7 +136,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringDefaultItem(String arrayStringDefaultItem) {
     if (this.arrayStringDefault == null) {
-      this.arrayStringDefault = new ArrayList<>();
+      this.arrayStringDefault = Arrays.asList(new String[] {"failure", "skipped"});
     }
     this.arrayStringDefault.add(arrayStringDefaultItem);
     return this;
