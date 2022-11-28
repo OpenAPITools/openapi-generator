@@ -83,12 +83,12 @@ public class QueryApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
         try {
-            String result = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject);
+            String result = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeTrueObject");
+            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeTrueArrayString");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -105,6 +105,8 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectWithHttpInfo) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 
@@ -114,6 +116,7 @@ Class | Method | HTTP request | Description
  - [Category](docs/Category.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 
 ## Documentation for Authorization
@@ -128,5 +131,5 @@ However, the instances of the api clients created from the `ApiClient` are threa
 
 ## Author
 
-team@openapitools.oprg
+team@openapitools.org
 

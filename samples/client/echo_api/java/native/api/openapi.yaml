@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   contact:
-    email: team@openapitools.oprg
+    email: team@openapitools.org
   description: Echo Server API
   license:
     name: Apache 2.0
@@ -11,6 +11,29 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
+  /query/style_form/explode_true/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/array_string
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -96,4 +119,11 @@ components:
       type: object
       xml:
         name: pet
+    test_query_style_form_explode_true_array_string_query_object_parameter:
+      properties:
+        values:
+          items:
+            type: string
+          type: array
+      type: object
 

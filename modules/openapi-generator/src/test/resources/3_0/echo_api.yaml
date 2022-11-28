@@ -3,7 +3,7 @@ info:
   title: Echo Server API
   description: Echo Server API
   contact:
-    email: team@openapitools.oprg
+    email: team@openapitools.org
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -11,6 +11,32 @@ info:
 servers:
   - url: http://localhost:3000/
 paths:
+  /query/style_form/explode_true/array_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/array_string
+      parameters:
+      - in: query
+        name: query_object
+        style: form #default
+        explode: true #default
+        schema:
+          type: object
+          properties:
+            values:
+                type: array
+                items:
+                    type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/style_form/explode_true/object:
     get:
       tags:
