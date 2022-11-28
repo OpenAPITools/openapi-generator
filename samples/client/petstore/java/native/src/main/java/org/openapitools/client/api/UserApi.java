@@ -108,7 +108,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -189,7 +188,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -270,7 +268,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -351,7 +348,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -431,7 +427,6 @@ public class UserApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<User>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -507,7 +502,6 @@ public class UserApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -588,7 +582,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -661,7 +654,6 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {

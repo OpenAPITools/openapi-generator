@@ -254,12 +254,18 @@ public class {{classname}} {
         }
         {{/vendorExtensions.x-java-text-plain-string}}
         {{^vendorExtensions.x-java-text-plain-string}}
-        {{#returnType}}InputStream responseBody = localVarResponse.body();
-        {{/returnType}}return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
+        {{#returnType}}
+        InputStream responseBody = localVarResponse.body();
+        {{/returnType}}
+        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
-          {{^returnType}}null{{/returnType}}
+          {{#returnType}}
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          {{/returnType}}
+          {{^returnType}}
+          null
+          {{/returnType}}
         );
         {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
