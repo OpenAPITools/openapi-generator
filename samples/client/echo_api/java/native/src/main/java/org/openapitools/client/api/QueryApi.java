@@ -107,8 +107,8 @@ public class QueryApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeTrueArrayString", localVarResponse);
         }
+        // for plain text response
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
           java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
@@ -118,12 +118,9 @@ public class QueryApi {
                   localVarResponse.headers().map(),
                   responseBodyText
           );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
-        return new ApiResponse<String>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
-        );
       } finally {
       }
     } catch (IOException e) {
@@ -195,8 +192,8 @@ public class QueryApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeTrueObject", localVarResponse);
         }
+        // for plain text response
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
           java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
@@ -206,12 +203,9 @@ public class QueryApi {
                   localVarResponse.headers().map(),
                   responseBodyText
           );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
-        return new ApiResponse<String>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
-        );
       } finally {
       }
     } catch (IOException e) {

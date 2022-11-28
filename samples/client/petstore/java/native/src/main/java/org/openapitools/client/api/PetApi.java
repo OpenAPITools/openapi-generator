@@ -110,6 +110,7 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -192,6 +193,7 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -270,21 +272,11 @@ public class PetApi {
           throw getApiException("findPetsByStatus", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -366,21 +358,11 @@ public class PetApi {
           throw getApiException("findPetsByTags", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -458,21 +440,11 @@ public class PetApi {
           throw getApiException("getPetById", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -542,6 +514,7 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -626,6 +599,7 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -705,21 +679,11 @@ public class PetApi {
           throw getApiException("uploadFile", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -793,21 +757,11 @@ public class PetApi {
           throw getApiException("uploadFileWithRequiredFile", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
       } finally {
       }

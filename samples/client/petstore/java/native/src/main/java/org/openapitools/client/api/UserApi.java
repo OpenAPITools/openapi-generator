@@ -108,6 +108,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -188,6 +189,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -268,6 +270,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -348,6 +351,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -423,21 +427,11 @@ public class UserApi {
           throw getApiException("getUserByName", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<User>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<User>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -509,21 +503,11 @@ public class UserApi {
           throw getApiException("loginUser", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        // for plain text reponse
-        if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-          String responseBodyText = s.hasNext() ? s.next() : "";
-          return new ApiResponse<String>(
-                  localVarResponse.statusCode(),
-                  localVarResponse.headers().map(),
-                  responseBodyText
-          );
-        }
         return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -604,6 +588,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -676,6 +661,7 @@ public class UserApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
