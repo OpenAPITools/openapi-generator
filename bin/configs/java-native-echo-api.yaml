@@ -1,0 +1,8 @@
+generatorName: java
+outputDir: samples/client/echo_api/java/native
+library: native
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: echo-api-native
+  hideGenerationTimestamp: "true"
