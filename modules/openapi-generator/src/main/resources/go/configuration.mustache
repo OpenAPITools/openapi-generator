@@ -19,36 +19,36 @@ func (c contextKey) String() string {
 }
 
 var (
-    {{#isOAuth}}
+    {{#hasOAuthMethods}}
 	// ContextOAuth2 takes an oauth2.TokenSource as authentication for the request.
 	ContextOAuth2 = contextKey("token")
 
-    {{/isOAuth}}
-    {{#isBasicBasic}}
+    {{/hasOAuthMethods}}
+    {{#hasHttpBasicMethods}}
 	// ContextBasicAuth takes BasicAuth as authentication for the request.
 	ContextBasicAuth = contextKey("basic")
 
-    {{/isBasicBasic}}
-    {{#isBasicBearer}}
+    {{/hasHttpBasicMethods}}
+    {{#hasHttpBearerMethods}}
 	// ContextAccessToken takes a string oauth2 access token as authentication for the request.
 	ContextAccessToken = contextKey("accesstoken")
 
-    {{/isBasicBearer}}
-    {{#isApiKey}}
+    {{/hasHttpBearerMethods}}
+    {{#hasApiKeyMethods}}
 	// ContextAPIKeys takes a string apikey as authentication for the request
 	ContextAPIKeys = contextKey("apiKeys")
 
-    {{/isApiKey}}
+    {{/hasApiKeyMethods}}
 	{{#withAWSV4Signature}}
 	// ContextAWSv4 takes an Access Key and a Secret Key for signing AWS Signature v4
 	ContextAWSv4 = contextKey("awsv4")
 
 	{{/withAWSV4Signature}}
-	{{#isHttpSignature}}
+	{{#hasHttpSignatureMethods}}
 	// ContextHttpSignatureAuth takes HttpSignatureAuth as authentication for the request.
 	ContextHttpSignatureAuth = contextKey("httpsignature")
 
-    {{/isHttpSignature}}
+    {{/hasHttpSignatureMethods}}
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 
