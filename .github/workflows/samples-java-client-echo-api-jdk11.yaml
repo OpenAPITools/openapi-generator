@@ -34,7 +34,9 @@ jobs:
       - name: Setup node.js
         uses: actions/setup-node@v3
       - name: Run echo server
-        run: npx "https://wing328/http-echo-server#openapi-generator-test-server"
+        run: |
+          git clone https://wing328/http-echo-server -b openapi-generator-test-server
+          (cd http-echo-server && npm start &)
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: mvn clean package
