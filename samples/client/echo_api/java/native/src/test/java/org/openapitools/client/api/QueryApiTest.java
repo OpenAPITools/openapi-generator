@@ -13,39 +13,42 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Assert;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Pet;
 import org.junit.Test;
 import org.junit.Ignore;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
  * API tests for QueryApi
  */
+@Ignore
 public class QueryApiTest {
 
     private final QueryApi api = new QueryApi();
 
-
+    
     /**
      * Test query parameter(s)
-     * <p>
+     *
      * Test query parameter(s)
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void testQueryStyleFormExplodeTrueObjectTest() throws ApiException {
-        Pet queryObject = new Pet().id(12345L).name("Hello World").
-                photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
-
-        String response = api.testQueryStyleFormExplodeTrueObject(queryObject);
-        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/object?id=12345&name=Hello%20World&category=class%20Category%20%7B%0A%20%20%20%20id%3A%20987%0A%20%20%20%20name%3A%20new%20category%0A%7D&photoUrls=http%3A%2F%2Fa.com&photoUrls=http%3A%2F%2Fb.com", p.path);
+        Pet queryObject = null;
+        String response = 
+        api.testQueryStyleFormExplodeTrueObject(queryObject);
+        
+        // TODO: test validations
     }
-
+    
 }

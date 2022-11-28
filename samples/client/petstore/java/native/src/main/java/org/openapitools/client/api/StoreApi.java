@@ -107,7 +107,6 @@ public class StoreApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -181,11 +180,21 @@ public class StoreApi {
           throw getApiException("getInventory", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
+        // for plain text reponse
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        }
         return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -250,11 +259,21 @@ public class StoreApi {
           throw getApiException("getOrderById", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
+        // for plain text reponse
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        }
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -324,11 +343,21 @@ public class StoreApi {
           throw getApiException("placeOrder", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
+        // for plain text reponse
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        }
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
-          
         );
       } finally {
       }

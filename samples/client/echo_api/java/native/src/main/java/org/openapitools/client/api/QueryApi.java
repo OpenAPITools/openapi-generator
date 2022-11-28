@@ -11,6 +11,7 @@
  */
 
 package org.openapitools.client.api;
+
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
@@ -106,26 +107,21 @@ public class QueryApi {
           throw getApiException("testQueryStyleFormExplodeTrueObject", localVarResponse);
         }
         InputStream responseBody = localVarResponse.body();
-        //if (localVarResponse == null || responseBody.available() < 1) throw new RuntimeException("response body is null");
-        if ("text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+        // for plain text reponse
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
           java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
-          responseBody.close();
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
                   localVarResponse.headers().map(),
                   responseBodyText
-                  //"POST /data HTTP/1.1"
-                  //responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
           );
         }
-
         return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          //"POST /data HTTP/1.1"
-          responseBody == null ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream\
-          //responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
         );
       } finally {
       }

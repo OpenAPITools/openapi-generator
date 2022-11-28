@@ -33,6 +33,3 @@ src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/test/java/org/openapitools/client/api/QueryApiTest.java
-src/test/java/org/openapitools/client/model/CategoryTest.java
-src/test/java/org/openapitools/client/model/PetTest.java
-src/test/java/org/openapitools/client/model/TagTest.java
