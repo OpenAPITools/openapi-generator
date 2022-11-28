@@ -36,7 +36,7 @@ jobs:
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
-          (cd http-echo-server && npm start &)
+          (cd http-echo-server && npm install && npm start &)
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: mvn clean package
