@@ -1,0 +1,6 @@
+// {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
+type {{classname}} struct {
+	{{#anyOf}}
+	{{{.}}} *{{{.}}}
+	{{/anyOf}}
+}

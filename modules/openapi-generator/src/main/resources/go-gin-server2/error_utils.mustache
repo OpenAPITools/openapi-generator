@@ -1,0 +1,24 @@
+{{>do_not_edit}}
+{{>partial_header}}
+package errorutil
+
+import (
+    "fmt"
+    "strings"
+
+    "github.com/gin-gonic/gin"
+)
+
+func SetErrorResponse(location string, c *gin.Context, err error, logger Logger) {
+    code, apiErr := 422, InvalidRequestError(location, err)
+    errToPrint := make([]string, 0)
+
+    for _, e := range apiErr.Errors {
+        errToPrint = append(errToPrint, fmt.Sprintf("field: %s -> error: %s", e.Field, e.FailedValidation))
+    }
+
+    if logger != nil {
+        logger.Errorf("failed to process %s params: %s", location, strings.Join(errToPrint, "; "))
+    }
+c.JSON(code, apiErr)
+}

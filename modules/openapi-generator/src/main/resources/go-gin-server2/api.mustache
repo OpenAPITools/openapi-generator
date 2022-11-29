@@ -1,0 +1,157 @@
+{{>do_not_edit}}
+{{>partial_header}}package {{baseName.toLowerCase}}
+{{#operations}}
+
+import (
+    "fmt"
+    "net/http"
+{{#imports}}
+    "{{import}}"
+{{/imports}}
+
+	"github.com/gin-gonic/gin"
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}"
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/errorutil"
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/models"
+)
+{{#operation}}
+{{#hasQueryParams}}
+
+type {{operationId}}{{#hasPathParams}}Query{{/hasPathParams}}Params struct {
+{{#queryParams}}
+
+    // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{description}}
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{#isNullable}}*{{/isNullable}}{{dataType}} `form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/queryParams}}
+}
+{{/hasQueryParams}}
+{{#hasPathParams}}
+
+type {{operationId}}Params struct {
+{{#pathParams}}
+
+    // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{description}}
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}} `uri:"{{baseName}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/pathParams}}
+{{#hasQueryParams}}
+
+    // {{operationId}}QueryParams query parameters
+    {{operationId}}QueryParams
+{{/hasQueryParams}}
+{{#bodyParam}}
+
+    // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} request body
+    {{^isArray}}models.{{dataType}}{{/isArray}}{{#isArray}}[]*models.{{baseType}}{{/isArray}}
+{{/bodyParam}}
+}
+{{/hasPathParams}}
+{{/operation}}
+
+type API interface {
+{{#operation}}
+    // {{nickname}} - {{{summary}}}
+    // path: {{path}}
+    // method: {{httpMethod}}
+    {{operationId}}(ctx *gin.Context{{^hasPathParams}}{{#bodyParam}}, request {{^isArray}}*models.{{dataType}}{{/isArray}}{{#isArray}}[]*models.{{baseType}}{{/isArray}}{{/bodyParam}}{{/hasPathParams}}{{#hasQueryParams}}, params *{{nickname}}Params{{/hasQueryParams}}{{^hasQueryParams}}{{#hasPathParams}}, params *{{nickname}}Params{{/hasPathParams}}{{/hasQueryParams}}) (response interface{}, code int)
+{{/operation}}
+}
+
+type ApiHandler struct {
+    api API
+    securer {{packageName}}.Securer
+    logger errorutil.Logger
+}
+
+func NewApiHandler(api API, securer {{packageName}}.Securer, logger errorutil.Logger) *ApiHandler {
+    return &ApiHandler{
+        api: api,
+        securer: securer,
+        logger: logger,
+    }
+}
+
+{{#operation}}
+// {{nickname}} - {{{summary}}}
+// path: {{path}}
+// method: {{httpMethod}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (h *ApiHandler) {{nickname}}(c *gin.Context) {
+{{#hasBodyParam}}
+{{#bodyParam}}
+    req := {{^isArray}}{{^primitiveType}}models.{{/primitiveType}}{{dataType}}{{/isArray}}{{#isArray}}{{^isPrimitive}}[]*models.{{/isPrimitive}}{{baseType}}{{/isArray}}{}
+    if err := c.ShouldBind(&req); err != nil {
+        errorutil.SetErrorResponse("body", c, err, h.logger)
+        return
+    }
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#hasQueryParams}}
+    q := {{nickname}}{{#hasPathParams}}Query{{/hasPathParams}}Params{}
+    if err := c.ShouldBindQuery(&q); err != nil {
+    errorutil.SetErrorResponse("query/form", c, err, h.logger)
+        return
+    }
+{{/hasQueryParams}}
+{{#hasPathParams}}
+    params := &{{nickname}}Params{}
+{{#hasQueryParams}}
+    params.{{operationId}}QueryParams = q
+{{/hasQueryParams}}
+{{#hasBodyParam}}
+    {{#bodyParam}}params.{{dataType}} = req{{/bodyParam}}
+{{/hasBodyParam}}
+    if err := c.ShouldBindUri(params); err != nil {
+        errorutil.SetErrorResponse("path/uri", c, err, h.logger)
+        return
+    }
+{{/hasPathParams}}
+
+    res, code := h.api.{{nickname}}(c{{^hasPathParams}}{{#bodyParam}}, {{^isArray}}&{{/isArray}}req{{/bodyParam}}{{#hasQueryParams}}, &q{{/hasQueryParams}}{{/hasPathParams}}{{#hasPathParams}}, params{{/hasPathParams}})
+    if res == nil {
+        c.Status(code)
+        return
+    }
+
+    switch code {
+{{#responses}}
+    case {{code}}:
+    {{^baseType}}
+        c.Status({{code}})
+    {{/baseType}}
+    {{#baseType}}
+        c.JSON({{code}}, res.({{^isArray}}{{^primitiveType}}{{^isMap}}*models.{{/isMap}}{{/primitiveType}}{{dataType}}{{/isArray}}{{#isArray}}{{^isPrimitive}}{{^isMap}}[]models.{{/isMap}}{{/isPrimitive}}{{baseType}}{{/isArray}}))
+    {{/baseType}}
+{{/responses}}
+    default:
+        message := fmt.Sprintf("unsupported response code: %d, res: %+v", code, res)
+        if e, ok := res.(error); ok {
+            message = e.Error()
+        }
+        c.JSON(code, gin.H{"error": message})
+    }
+}
+
+{{/operation}}{{/operations}}func (h *ApiHandler) Routes() {{packageName}}.Routes {
+    return []{{packageName}}.Route{
+{{#operations}}
+{{#operation}}
+        {
+            Name:     "{{nickname}}",
+            Method:   http.Method{{httpMethod}},
+            Pattern:  "{{path}}",
+            Handlers: []gin.HandlerFunc{
+{{#vendorExtensions.x-security}}
+                h.securer.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}({{#roles}}"{{.}}"{{^-last}}, {{/-last}}{{/roles}}),
+{{/vendorExtensions.x-security}}
+{{#authMethods}}
+                h.securer.{{#lambda.titlecase}}{{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}{{/lambda.titlecase}}({{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}}),
+{{/authMethods}}
+                h.{{nickname}},
+            },
+        },
+{{/operation}}
+{{/operations}}
+    }
+}

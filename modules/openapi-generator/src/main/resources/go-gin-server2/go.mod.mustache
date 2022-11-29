@@ -1,0 +1,13 @@
+module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}
+
+go {{goVersion}}
+
+require (
+    github.com/gin-gonic/gin {{ginVersion}}
+{{#featureCORS}}
+    github.com/gin-contrib/cors {{corsLibVersion}}
+{{/featureCORS}}
+{{#featureOpenapiUUID}}
+    github.com/go-openapi/strfmt {{openapiUUIDLibVersion}}
+{{/featureOpenapiUUID}}
+)

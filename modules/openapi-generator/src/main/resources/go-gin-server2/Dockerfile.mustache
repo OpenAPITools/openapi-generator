@@ -1,0 +1,16 @@
+FROM golang:{{goVersion}} AS build
+WORKDIR /go/src
+COPY  . .
+
+ARG GOARCH=amd64
+ARG GOOS=linux
+ARG CGO_ENABLED=0
+
+RUN GOARCH=$GOARCH CGO_ENABLED=$CGO_ENABLED GOOS=$GOOS go build main.go
+
+FROM scratch AS runtime
+ENV GIN_MODE=release
+COPY --from=build /go/src/main ./main
+EXPOSE {{serverPort}}/tcp
+ENTRYPOINT ["./main"]
+

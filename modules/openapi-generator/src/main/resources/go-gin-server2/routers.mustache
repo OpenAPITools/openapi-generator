@@ -1,0 +1,44 @@
+{{>do_not_edit}}
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+// Route is the information for every URI.
+type Route struct {
+
+    // Name is the name of this Route.
+	Name string
+
+    // Method is the string for the HTTP method. ex) GET, POST etc..
+	Method string
+
+    // Pattern is the pattern of the URI.
+	Pattern string
+
+    // Handlers for this route.
+    Handlers gin.HandlersChain
+}
+
+// Router interface
+type Router interface {
+	Routes() Routes
+}
+
+// Routes is the list of the generated Route.
+type Routes []Route
+
+// ApplyRouters ApplyRoutes applies the routes to the gin.Engine.
+// Must be called after all middlewares are applied.
+func ApplyRouters(g *gin.Engine, routers ...Router) {
+	if routers == nil {
+		return
+	}
+    for _, r := range routers {
+        for _, route := range r.Routes() {
+            g.Handle(route.Method, route.Pattern, route.Handlers...)
+        }
+    }
+}

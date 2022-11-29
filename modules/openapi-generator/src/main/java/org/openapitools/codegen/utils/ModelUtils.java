@@ -1404,6 +1404,7 @@ public class ModelUtils {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
+                    schema.setNullable(ref.getNullable());
                     return schema;
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),

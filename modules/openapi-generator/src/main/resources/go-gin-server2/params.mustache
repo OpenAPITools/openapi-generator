@@ -1,0 +1,18 @@
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+package {{baseName.toLowerCase}}
+{{#hasQueryParams}}
+type {{operationId}}Params struct {
+{{#queryParams}}
+    // {{paramName}} {{description}}
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}} `form:"{{baseName}}" json:"{{baseName}}"{{#required}} binding:"required"{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/queryParams}}
+}
+{{/hasQueryParams}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

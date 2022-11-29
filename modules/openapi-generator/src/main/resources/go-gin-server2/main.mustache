@@ -1,0 +1,31 @@
+package main
+
+import (
+	"log"
+
+    "github.com/gin-gonic/gin"
+	"github.com/{{{gitUserId}}}/{{{gitRepoId}}}/{{#packagePath}}{{.}}/{{/packagePath}}{{{packageName}}}"
+{{#apiInfo}}
+{{#apis}}
+    "github.com/{{{gitUserId}}}/{{{gitRepoId}}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/operations/{{baseName.toLowerCase}}"
+{{/apis}}
+{{/apiInfo}}
+)
+
+func main() {
+	log.Printf("Server started")
+
+    router := gin.Default()
+    applyHandlers(router)
+
+	log.Fatal(router.Run(":{{serverPort}}"))
+}
+
+func applyHandlers(g *gin.Engine) {
+{{#apiInfo}}
+{{#apis}}
+    {{baseName.toLowerCase}}Handler := {{baseName.toLowerCase}}.NewApiHandler(nil, nil, nil)
+{{/apis}}
+{{/apiInfo}}
+	{{packageName}}.ApplyRouters(g{{#apiInfo}}{{#apis}}, {{baseName.toLowerCase}}Handler{{/apis}}{{/apiInfo}})
+}
