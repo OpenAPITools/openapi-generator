@@ -41,7 +41,7 @@ var bee_class_name := "{{classname}}"
 {{#if isEnum}}
 # Allowed values: {{#with allowableValues}}{{#each values}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}{{/with}}
 {{/if}}
-var {{name}}: {{>partials/data_type}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
+@export var {{name}}: {{>partials/data_type}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}:
 	set(value):
 {{#if deprecated}}
 		if str(value) != "":
