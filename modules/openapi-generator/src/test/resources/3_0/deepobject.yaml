@@ -12,7 +12,7 @@ paths:
           required: false
           style: deepObject
           schema:
-            $ref: '#/components/schemas/Options'
+            $ref: '#/components/schemas/Pet'
           explode: true
         - name: inputOptions
           in: query
@@ -36,7 +36,7 @@ paths:
           required: false
           style: form
           schema:
-            $ref: '#/components/schemas/Options'
+            $ref: '#/components/schemas/Pet'
           explode: true
       responses:
         '200':
