@@ -14,6 +14,13 @@ paths:
           schema:
             $ref: '#/components/schemas/Options'
           explode: true
+        - name: inputOptions
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Options'
+          explode: true
       responses:
         '200':
           description: OK

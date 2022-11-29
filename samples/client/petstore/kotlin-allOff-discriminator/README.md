@@ -12,7 +12,7 @@ For more information, please visit [https://example.org](https://example.org)
 
 ## Requires
 
-* Kotlin 1.6.10
+* Kotlin 1.7.21
 * Gradle 7.5
 
 ## Build

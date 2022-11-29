@@ -110,7 +110,6 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -193,7 +192,6 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -276,7 +274,6 @@ public class PetApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -362,7 +359,6 @@ public class PetApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Set<Pet>>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -444,7 +440,6 @@ public class PetApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -514,7 +509,6 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -599,7 +593,6 @@ public class PetApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -683,7 +676,6 @@ public class PetApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -761,7 +753,6 @@ public class PetApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
-          
         );
       } finally {
       }
