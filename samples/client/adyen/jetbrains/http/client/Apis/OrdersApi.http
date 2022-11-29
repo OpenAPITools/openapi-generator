@@ -1,0 +1,22 @@
+## OrdersApi
+
+
+
+### Create an order
+# @name postOrders
+POST https://checkout-test.adyen.com/v69/orders
+Content-Type: application/json
+
+
+### Cancel an order
+# @name postOrdersCancel
+POST https://checkout-test.adyen.com/v69/orders/cancel
+Content-Type: application/json
+
+
+### Get the balance of a gift card
+# @name postPaymentMethodsBalance
+POST https://checkout-test.adyen.com/v69/paymentMethods/balance
+Content-Type: application/json
+
+

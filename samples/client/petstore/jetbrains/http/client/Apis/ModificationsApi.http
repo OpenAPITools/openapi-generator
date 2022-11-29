@@ -1,0 +1,37 @@
+## ModificationsApi
+
+### Cancel an authorised payment
+# @name postCancels
+POST https://checkout-test.adyen.com/v69/cancels
+Content-Type: application/json
+
+
+### Update an authorised amount
+# @name postPaymentsPaymentPspReferenceAmountUpdates
+POST https://checkout-test.adyen.com/v69/payments/{{paymentPspReference}}/amountUpdates
+Content-Type: application/json
+
+
+### Cancel an authorised payment
+# @name postPaymentsPaymentPspReferenceCancels
+POST https://checkout-test.adyen.com/v69/payments/{{paymentPspReference}}/cancels
+Content-Type: application/json
+
+
+### Capture an authorised payment
+# @name postPaymentsPaymentPspReferenceCaptures
+POST https://checkout-test.adyen.com/v69/payments/{{paymentPspReference}}/captures
+Content-Type: application/json
+
+
+### Refund a captured payment
+# @name postPaymentsPaymentPspReferenceRefunds
+POST https://checkout-test.adyen.com/v69/payments/{{paymentPspReference}}/refunds
+Content-Type: application/json
+
+
+### Refund or cancel a payment
+# @name postPaymentsPaymentPspReferenceReversals
+POST https://checkout-test.adyen.com/v69/payments/{{paymentPspReference}}/reversals
+Content-Type: application/json
+

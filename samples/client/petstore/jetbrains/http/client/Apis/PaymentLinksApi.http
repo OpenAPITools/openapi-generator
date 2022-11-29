@@ -1,0 +1,19 @@
+## PaymentLinksApi
+
+### Get a payment link
+# @name getPaymentLinksLinkId
+GET https://checkout-test.adyen.com/v69/paymentLinks/{{linkId}}
+
+
+
+### Update the status of a payment link
+# @name patchPaymentLinksLinkId
+PATCH https://checkout-test.adyen.com/v69/paymentLinks/{{linkId}}
+Content-Type: application/json
+
+
+### Create a payment link
+# @name postPaymentLinks
+POST https://checkout-test.adyen.com/v69/paymentLinks
+Content-Type: application/json
+

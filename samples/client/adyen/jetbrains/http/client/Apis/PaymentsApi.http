@@ -1,0 +1,40 @@
+## PaymentsApi
+
+
+
+### Get the list of brands on the card
+# @name postCardDetails
+POST https://checkout-test.adyen.com/v69/cardDetails
+Content-Type: application/json
+
+
+### Start a transaction for donations
+# @name postDonations
+POST https://checkout-test.adyen.com/v69/donations
+Content-Type: application/json
+
+
+### Get a list of available payment methods
+# @name postPaymentMethods
+POST https://checkout-test.adyen.com/v69/paymentMethods
+Content-Type: application/json
+
+
+### Start a transaction
+# @name postPayments
+POST https://checkout-test.adyen.com/v69/payments
+Content-Type: application/json
+
+
+### Submit details for a payment
+# @name postPaymentsDetails
+POST https://checkout-test.adyen.com/v69/payments/details
+Content-Type: application/json
+
+
+### Create a payment session
+# @name postSessions
+POST https://checkout-test.adyen.com/v69/sessions
+Content-Type: application/json
+
+
