@@ -154,7 +154,7 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         if (status) {
-            queryParameters.append('status', status.join(COLLECTION_FORMATS['csv']));
+            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;
@@ -204,7 +204,7 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         if (tags) {
-            queryParameters.append('tags', tags.join(COLLECTION_FORMATS['csv']));
+            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;
