@@ -351,10 +351,10 @@ public class {{classname}} {
     if ({{paramName}} != null) {
           {{#items.vars}}
               {{#isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{baseName}}", {{paramName}}.{{getter}}()));
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
               {{/isArray}}
               {{^isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
               {{/isArray}}
           {{/items.vars}}
     }
