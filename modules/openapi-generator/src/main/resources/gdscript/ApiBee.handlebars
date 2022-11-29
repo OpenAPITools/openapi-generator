@@ -326,6 +326,7 @@ func bee_do_request_text(
 	if response_code >= 500:
 		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = ERR_PRINTER_ON_FIRE
+		error.response_code = response_code
 		error.identifier = "apibee.response.5xx"
 		error.message = "%s: request to `%s' made the server hiccup with a %d." % [
 			self.bee_name, path, response_code
@@ -338,6 +339,7 @@ func bee_do_request_text(
 	elif response_code >= 400:
 		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.response.4xx"
+		error.response_code = response_code
 		error.message = "%s: request to `%s' was denied with a %d." % [
 			self.bee_name, path, response_code
 		]
@@ -349,6 +351,7 @@ func bee_do_request_text(
 	elif response_code >= 300:
 		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.response.3xx"
+		error.response_code = response_code
 		error.message = "%s: request to `%s' was redirected with a %d.  We do not support redirects in that client yet." % [
 			self.bee_name, path, response_code
 		]
