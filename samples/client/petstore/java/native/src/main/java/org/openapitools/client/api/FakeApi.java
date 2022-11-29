@@ -120,7 +120,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -189,7 +188,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -286,7 +284,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -361,7 +358,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -436,7 +432,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -511,7 +506,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -581,7 +575,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterObjectWithEnumProperty>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -656,7 +649,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -737,7 +729,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -820,7 +811,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -918,7 +908,6 @@ public class FakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -1019,7 +1008,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -1122,7 +1110,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -1255,7 +1242,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -1433,7 +1419,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -1516,7 +1501,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -1607,7 +1591,6 @@ public class FakeApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {

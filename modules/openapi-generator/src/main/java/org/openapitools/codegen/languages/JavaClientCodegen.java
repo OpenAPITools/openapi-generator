@@ -795,6 +795,24 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (NATIVE.equals(getLibrary()) || APACHE.equals(getLibrary())) {
+            OperationMap operations = objs.getOperations();
+            List<CodegenOperation> operationList = operations.getOperation();
+            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
+            for (CodegenOperation op : operationList) {
+                // add extension to indicate content type is `text/plain` and the response type is `String`
+                if (op.produces != null) {
+                    for (Map<String, String> produce : op.produces) {
+                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType"))
+                                && "String".equals(op.returnType)) {
+                            op.vendorExtensions.put("x-java-text-plain-string", true);
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }

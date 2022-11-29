@@ -107,7 +107,6 @@ public class StoreApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          
           null
         );
       } finally {
@@ -185,7 +184,6 @@ public class StoreApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -254,7 +252,6 @@ public class StoreApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
-          
         );
       } finally {
       }
@@ -328,7 +325,6 @@ public class StoreApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
-          
         );
       } finally {
       }

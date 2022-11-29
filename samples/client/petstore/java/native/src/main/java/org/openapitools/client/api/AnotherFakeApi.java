@@ -111,7 +111,6 @@ public class AnotherFakeApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}) // closes the InputStream
-          
         );
       } finally {
       }
