@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements CodegenConfig {
-    public static final String PROJECT_NAME = "projectName";
+    public static final String PROJECT_NAME = "Jetbrains HTTP Client";
 
     static final Logger LOGGER = LoggerFactory.getLogger(JetbrainsHttpClientClientCodegen.class);
 
@@ -25,20 +25,19 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     }
 
     public String getHelp() {
-        return "Generates a jetbrains-http-client client.";
+        return "Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html";
     }
 
     public JetbrainsHttpClientClientCodegen() {
         super();
 
         outputFolder = "generated-code" + File.separator + "jetbrains-http-client";
-        modelTemplateFiles.put("model.mustache", ".http");
+//        modelTemplateFiles.put("model.mustache", ".http");
         apiTemplateFiles.put("api.mustache", ".http");
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
-        modelPackage = "Models";
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        // TODO: Fill this out.
+//        modelPackage = "Models";
+//        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override

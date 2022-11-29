@@ -1,11 +1,14 @@
 ## {{classname}}
 
 {{#operations}}
-{{#operation}}
-### {{#summary}}{{summary}}{{/summary}}
-# {{operationId}}
-{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
 
+{{#operation}}
+
+### {{#summary}}{{summary}}{{/summary}}
+# @name {{operationId}}
+{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
+{{#consumes}}Content-Type: {{{mediaType}}}{{/consumes}}
 
 {{/operation}}
+
 {{/operations}}
