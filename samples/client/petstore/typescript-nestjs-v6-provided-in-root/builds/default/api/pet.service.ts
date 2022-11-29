@@ -152,9 +152,9 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
         if (status) {
-            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
+            queryParameters.append('status', status.join(COLLECTION_FORMATS['csv']));
         }
 
         let headers = this.defaultHeaders;
@@ -202,9 +202,9 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
         if (tags) {
-            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
+            queryParameters.append('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
 
         let headers = this.defaultHeaders;
