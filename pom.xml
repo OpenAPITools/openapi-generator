@@ -1300,24 +1300,6 @@
                 <module>samples/client/petstore/java-micronaut-client</module>
             </modules>
         </profile>
-        <!-- test with JDK9 in Shippable CI -->
-        <profile>
-            <id>samples.shippable</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.shippable</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/openapi3/client/elm</module>
-                <!--<module>samples/client/petstore/elixir</module>-->
-                <module>samples/client/petstore/erlang-client</module>
-                <module>samples/client/petstore/erlang-proper</module>
-                <!--<module>samples/server/petstore/erlang-server</module>-->
-            </modules>
-        </profile>
         <!-- test with Haskell -->
         <profile>
             <id>samples.misc</id>
