@@ -8,6 +8,18 @@ import org.openapitools.codegen.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.openapitools.codegen.model.ApiInfoMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,5 +69,38 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                     .replaceAll("}", "}}")
             );
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> bundle) {
+
+        ApiInfoMap apiInfoMap = (ApiInfoMap) bundle.get("apiInfo");
+        ArrayList<OperationsMap> operationsMapsList = (ArrayList<OperationsMap>) apiInfoMap.get("apis");
+
+
+        List<OperationMap> operationsMap = operationsMapsList.stream()
+                .map(operationsMaps -> ((OperationMap) operationsMaps.get("operations")))
+                .collect(Collectors.toList());
+
+        List<CodegenOperation> operations = operationsMap.stream()
+                        .flatMap(operationMaps -> ((List<CodegenOperation>) operationMaps.get("operation")).stream())
+                        .collect(Collectors.toList());
+
+        List<CodegenParameter> pathParameters = operations.stream()
+                        .flatMap(operation -> operation.pathParams.stream())
+                        .collect(Collectors.toList());
+
+        List<CodegenParameter> distinctPathParameters = pathParameters.stream()
+                .filter(distinctByKey(cgp -> cgp.baseName))
+                .collect(Collectors.toList());
+
+        bundle.put("distinctPathParameters", distinctPathParameters);
+
+        return bundle;
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 }
