@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_DEFAULT,
+  DefaultValue.JSON_PROPERTY_ARRAY_INTEGER_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
@@ -49,7 +50,9 @@ public class DefaultValue {
   public enum ArrayStringEnumDefaultEnum {
     SUCCESS("success"),
     
-    FAILURE("failure");
+    FAILURE("failure"),
+    
+    UNCLASSIFIED("unclassified");
 
     private String value;
 
@@ -79,10 +82,13 @@ public class DefaultValue {
   }
 
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = Arrays.asList(new ArrayStringEnumDefaultEnum[] {ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE});
+  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(new ArrayStringEnumDefaultEnum[] {ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE}));
 
   public static final String JSON_PROPERTY_ARRAY_STRING_DEFAULT = "array_string_default";
-  private List<String> arrayStringDefault = Arrays.asList(new String[] {"failure", "skipped"});
+  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList(new String[] {"failure", "skipped"}));
+
+  public static final String JSON_PROPERTY_ARRAY_INTEGER_DEFAULT = "array_integer_default";
+  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(new Integer[] {1, 3}));
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
   private List<String> arrayString = new ArrayList<>();
@@ -159,6 +165,39 @@ public class DefaultValue {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayStringDefault(List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
+  }
+
+
+  public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
+    this.arrayIntegerDefault = arrayIntegerDefault;
+    return this;
+  }
+
+  public DefaultValue addArrayIntegerDefaultItem(Integer arrayIntegerDefaultItem) {
+    if (this.arrayIntegerDefault == null) {
+      this.arrayIntegerDefault = new ArrayList<>();
+    }
+    this.arrayIntegerDefault.add(arrayIntegerDefaultItem);
+    return this;
+  }
+
+   /**
+   * Get arrayIntegerDefault
+   * @return arrayIntegerDefault
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<Integer> getArrayIntegerDefault() {
+    return arrayIntegerDefault;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrayIntegerDefault(List<Integer> arrayIntegerDefault) {
+    this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
 
@@ -287,6 +326,7 @@ public class DefaultValue {
     DefaultValue defaultValue = (DefaultValue) o;
     return Objects.equals(this.arrayStringEnumDefault, defaultValue.arrayStringEnumDefault) &&
         Objects.equals(this.arrayStringDefault, defaultValue.arrayStringDefault) &&
+        Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
         equalsNullable(this.arrayStringNullable, defaultValue.arrayStringNullable) &&
         equalsNullable(this.stringNullable, defaultValue.stringNullable);
@@ -298,7 +338,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumDefault, arrayStringDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(stringNullable));
+    return Objects.hash(arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(stringNullable));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -314,6 +354,7 @@ public class DefaultValue {
     sb.append("class DefaultValue {\n");
     sb.append("    arrayStringEnumDefault: ").append(toIndentedString(arrayStringEnumDefault)).append("\n");
     sb.append("    arrayStringDefault: ").append(toIndentedString(arrayStringDefault)).append("\n");
+    sb.append("    arrayIntegerDefault: ").append(toIndentedString(arrayIntegerDefault)).append("\n");
     sb.append("    arrayString: ").append(toIndentedString(arrayString)).append("\n");
     sb.append("    arrayStringNullable: ").append(toIndentedString(arrayStringNullable)).append("\n");
     sb.append("    stringNullable: ").append(toIndentedString(stringNullable)).append("\n");

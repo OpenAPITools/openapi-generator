@@ -130,6 +130,7 @@ components:
             enum:
             - success
             - failure
+            - unclassified
             type: string
           type: array
         array_string_default:
@@ -138,6 +139,13 @@ components:
           - skipped
           items:
             type: string
+          type: array
+        array_integer_default:
+          default:
+          - 1
+          - 3
+          items:
+            type: integer
           type: array
         array_string:
           items:

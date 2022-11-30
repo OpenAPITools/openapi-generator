@@ -990,7 +990,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultValue = StringUtils.join(_values, ", ");
                     }
                 }
-                return String.format(Locale.ROOT, "Arrays.asList(new %s[] {%s})", defaultDataType, defaultValue);
+                return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(new %s[] {%s}))", defaultDataType, defaultValue);
             } else if (cp.isArray && cp.getUniqueItems()) { // set
                 // TODO
                 return null;

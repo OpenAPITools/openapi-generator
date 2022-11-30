@@ -15,10 +15,8 @@ package org.openapitools.client;
 
 import org.junit.Assert;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.api.QueryApi;
-import org.openapitools.client.model.Category;
-import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
+import org.openapitools.client.api.*;
+import org.openapitools.client.model.*;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -65,6 +63,36 @@ public class CustomTest {
         String response = api.testQueryStyleFormExplodeTrueArrayString(q);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
         Assert.assertEquals("/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", p.path);
+    }
+
+    @Test
+    public void testArrayDefaultValues() {
+        // test array default values
+        DefaultValue d = new DefaultValue();
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
+
+        Assert.assertEquals(d.getArrayStringDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringDefault().get(0), "failure");
+        Assert.assertEquals(d.getArrayStringDefault().get(1), "skipped");
+
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 2);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
+        Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
+
+        // test addItem
+        d.addArrayStringEnumDefaultItem(DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(2), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+
+        d.addArrayStringDefaultItem("new item");
+        Assert.assertEquals(d.getArrayStringDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringDefault().get(2), "new item");
+
+        d.addArrayIntegerDefaultItem(5);
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 3);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(2), Integer.valueOf(5));
     }
 
 }

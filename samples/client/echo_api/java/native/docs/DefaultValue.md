@@ -10,6 +10,7 @@ to test the default value of properties
 |------------ | ------------- | ------------- | -------------|
 |**arrayStringEnumDefault** | [**List&lt;ArrayStringEnumDefaultEnum&gt;**](#List&lt;ArrayStringEnumDefaultEnum&gt;) |  |  [optional] |
 |**arrayStringDefault** | **List&lt;String&gt;** |  |  [optional] |
+|**arrayIntegerDefault** | **List&lt;Integer&gt;** |  |  [optional] |
 |**arrayString** | **List&lt;String&gt;** |  |  [optional] |
 |**arrayStringNullable** | **List&lt;String&gt;** |  |  [optional] |
 |**stringNullable** | **String** |  |  [optional] |
@@ -22,6 +23,7 @@ to test the default value of properties
 |---- | -----|
 | SUCCESS | &quot;success&quot; |
 | FAILURE | &quot;failure&quot; |
+| UNCLASSIFIED | &quot;unclassified&quot; |
 
 
 
