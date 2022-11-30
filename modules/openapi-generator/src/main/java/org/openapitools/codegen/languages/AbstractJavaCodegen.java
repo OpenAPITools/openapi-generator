@@ -971,18 +971,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _values = Arrays.asList(String.valueOf(schema.getDefault()));
                 }
 
-                String defaultDataType = "";
                 String defaultValue = "";
 
                 if (cp.items.isEnum) { // enum
-                    defaultDataType = cp.items.datatypeWithEnum;
                     List<String> defaultValues = new ArrayList<>();
                     for (String _value : _values) {
                         defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
                     }
                     defaultValue = StringUtils.join(defaultValues, ", ");
                 } else {
-                    defaultDataType = cp.items.dataType;
                     if (cp.items.isString) {
                         defaultValue = StringUtils.join(_values, "\", \"");
                         defaultValue = "\"" + defaultValue + "\"";
@@ -990,7 +987,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultValue = StringUtils.join(_values, ", ");
                     }
                 }
-                return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(new %s[] {%s}))", defaultDataType, defaultValue);
+                return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(%s))", defaultValue);
             } else if (cp.isArray && cp.getUniqueItems()) { // set
                 // TODO
                 return null;
