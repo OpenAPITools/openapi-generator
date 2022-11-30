@@ -173,6 +173,7 @@ conf = {{{packageName}}}.Configuration(
         username=None,
         password=None,
 {{/if}}
+        discard_unknown_keys=False,
         disabled_client_side_validations="",
 {{#if hasHttpSignatureMethods}}
         signing_info=None,

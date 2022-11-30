@@ -164,6 +164,7 @@ conf = petstore_api.Configuration(
         api_key_prefix=None,
         username=None,
         password=None,
+        discard_unknown_keys=False,
         disabled_client_side_validations="",
         signing_info=None,
         server_index=None,

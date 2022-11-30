@@ -83,6 +83,7 @@ class Configuration(object):
     def __init__(
         self,
         host=None,
+        discard_unknown_keys=False,
         disabled_client_side_validations="",
         server_index=None,
         server_variables=None,
