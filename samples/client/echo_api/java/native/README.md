@@ -114,6 +114,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Category](docs/Category.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)

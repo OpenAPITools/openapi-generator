@@ -6,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/Category.md
+docs/DefaultValue.md
 docs/Pet.md
 docs/QueryApi.md
 docs/Tag.md
@@ -31,6 +32,7 @@ src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/QueryApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/DefaultValue.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java

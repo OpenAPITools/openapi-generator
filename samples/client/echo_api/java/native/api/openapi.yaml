@@ -119,6 +119,39 @@ components:
       type: object
       xml:
         name: pet
+    DefaultValue:
+      description: to test the default value of properties
+      properties:
+        array_string_enum_default:
+          default:
+          - success
+          - failure
+          items:
+            enum:
+            - success
+            - failure
+            type: string
+          type: array
+        array_string_default:
+          default:
+          - failure
+          - skipped
+          items:
+            type: string
+          type: array
+        array_string:
+          items:
+            type: string
+          type: array
+        array_string_nullable:
+          items:
+            type: string
+          nullable: true
+          type: array
+        string_nullable:
+          nullable: true
+          type: string
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
