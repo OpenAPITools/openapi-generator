@@ -242,7 +242,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
-    protected Map<String, String> typeAliases = null;
+    protected Map<String, String> typeAliases = Collections.emptyMap();
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -844,6 +844,9 @@ public class DefaultCodegen implements CodegenConfig {
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
+
+        // Multiple operations rely on proper type aliases, so we should always update them
+        typeAliases = getAllAliases(ModelUtils.getSchemas(openAPI));
     }
 
     // override with any message to be shown right before the process finishes
@@ -2875,10 +2878,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        if (typeAliases == null) {
-            // Only do this once during first call
-            typeAliases = getAllAliases(allDefinitions);
-        }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (schema.equals(trueSchema)) {
@@ -5089,7 +5088,6 @@ public class DefaultCodegen implements CodegenConfig {
                             properties.entrySet().stream()
                                     .map(entry -> {
                                         CodegenProperty property = fromProperty(entry.getKey(), entry.getValue(), requiredVarNames.contains(entry.getKey()));
-                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
                                         return property;
                                     }).collect(Collectors.toList());
                 } else {

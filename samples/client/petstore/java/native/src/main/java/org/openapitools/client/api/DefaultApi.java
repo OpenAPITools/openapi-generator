@@ -109,7 +109,6 @@ public class DefaultApi {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<FooGetDefaultResponse>() {}) // closes the InputStream
-          
         );
       } finally {
       }

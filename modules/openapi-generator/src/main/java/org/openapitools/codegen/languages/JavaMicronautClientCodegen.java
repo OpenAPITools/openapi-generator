@@ -1,5 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -10,10 +13,12 @@ import org.openapitools.codegen.meta.Stability;
 public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";
+    public static final String ADDITIONAL_CLIENT_TYPE_ANNOTATIONS = "additionalClientTypeAnnotations";
 
     public static final String NAME = "java-micronaut-client";
 
     protected boolean configureAuthorization;
+    protected List<String> additionalClientTypeAnnotations;
 
     public JavaMicronautClientCodegen() {
         super();
@@ -27,6 +32,7 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         additionalProperties.put("client", "true");
 
         cliOptions.add(CliOption.newBoolean(OPT_CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
+        cliOptions.add(CliOption.newString(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS, "Additional annotations for client type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
     }
 
     @Override
@@ -75,6 +81,12 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
             supportingFiles.add(new SupportingFile("client/auth/configuration/HttpBasicAuthConfiguration.mustache", authConfigurationFolder, "HttpBasicAuthConfiguration.java"));
         }
 
+        if (additionalProperties.containsKey(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS)) {
+            String additionalClientAnnotationsList = additionalProperties.get(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS).toString();
+            this.setAdditionalClientTypeAnnotations(Arrays.asList(additionalClientAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
+            additionalProperties.put(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS, additionalClientTypeAnnotations);
+        }
+
         // Api file
         apiTemplateFiles.clear();
         apiTemplateFiles.put("client/api.mustache", ".java");
@@ -92,5 +104,9 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         supportingFiles.add(new SupportingFile("client/doc/auth.mustache", apiDocPath, "auth.md"));
         apiDocTemplateFiles.clear();
         apiDocTemplateFiles.put("client/doc/api_doc.mustache", ".md");
+    }
+
+    public void setAdditionalClientTypeAnnotations(final List<String> additionalClientTypeAnnotations) {
+        this.additionalClientTypeAnnotations = additionalClientTypeAnnotations;
     }
 }

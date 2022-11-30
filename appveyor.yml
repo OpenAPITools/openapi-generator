@@ -15,14 +15,14 @@ install:
   # install gradle
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\gradle\gradle-5.6.4" )) {
+      if (!(Test-Path -Path "C:\gradle\gradle-7.6" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://services.gradle.org/distributions/gradle-5.6.4-bin.zip',
+          'https://services.gradle.org/distributions/gradle-7.6-bin.zip',
           'C:\gradle-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\gradle-bin.zip", "C:\gradle")
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.8.3\bin;C:\gradle\gradle-5.6.4\bin;%JAVA_HOME%\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.8.3\bin;C:\gradle\gradle-7.6\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xmx4g
   - cmd: SET JAVA_OPTS=-Xmx4g
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.8.3

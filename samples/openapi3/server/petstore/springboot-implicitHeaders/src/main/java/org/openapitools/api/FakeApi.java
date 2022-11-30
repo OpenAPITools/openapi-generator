@@ -58,6 +58,7 @@ public interface FakeApi {
     @Operation(
         operationId = "createXmlItem",
         summary = "creates an XmlItem",
+        description = "this route creates an XmlItem",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -85,6 +86,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "fakeOuterBooleanSerialize",
+        description = "Test serialization of outer boolean types",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output boolean", content = {
@@ -114,6 +116,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "fakeOuterCompositeSerialize",
+        description = "Test serialization of object with outer number type",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output composite", content = {
@@ -152,6 +155,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "fakeOuterNumberSerialize",
+        description = "Test serialization of outer number types",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output number", content = {
@@ -181,6 +185,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "fakeOuterStringSerialize",
+        description = "Test serialization of outer string types",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output string", content = {
@@ -210,6 +215,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "testBodyWithFileSchema",
+        description = "For this test, the body for this request much reference a schema named `File`.",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
@@ -266,6 +272,7 @@ public interface FakeApi {
     @Operation(
         operationId = "testClientModel",
         summary = "To test \"client\" model",
+        description = "To test \"client\" model",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -320,6 +327,7 @@ public interface FakeApi {
     @Operation(
         operationId = "testEndpointParameters",
         summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -371,6 +379,7 @@ public interface FakeApi {
     @Operation(
         operationId = "testEnumParameters",
         summary = "To test enum parameters",
+        description = "To test enum parameters",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid request"),
@@ -412,6 +421,7 @@ public interface FakeApi {
     @Operation(
         operationId = "testGroupParameters",
         summary = "Fake endpoint to test group parameters (optional)",
+        description = "Fake endpoint to test group parameters (optional)",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Something wrong")
@@ -505,6 +515,7 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "testQueryParameterCollectionFormat",
+        description = "To test the collection format in query parameters",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
