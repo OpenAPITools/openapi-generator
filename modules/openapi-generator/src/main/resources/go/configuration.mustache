@@ -19,26 +19,26 @@ func (c contextKey) String() string {
 }
 
 var (
-    {{#hasOAuthMethods}}
+	{{#hasOAuthMethods}}
 	// ContextOAuth2 takes an oauth2.TokenSource as authentication for the request.
 	ContextOAuth2 = contextKey("token")
 
-    {{/hasOAuthMethods}}
-    {{#hasHttpBasicMethods}}
+	{{/hasOAuthMethods}}
+	{{#hasHttpBasicMethods}}
 	// ContextBasicAuth takes BasicAuth as authentication for the request.
 	ContextBasicAuth = contextKey("basic")
 
-    {{/hasHttpBasicMethods}}
-    {{#hasHttpBearerMethods}}
+	{{/hasHttpBasicMethods}}
+	{{#hasHttpBearerMethods}}
 	// ContextAccessToken takes a string oauth2 access token as authentication for the request.
 	ContextAccessToken = contextKey("accesstoken")
 
-    {{/hasHttpBearerMethods}}
-    {{#hasApiKeyMethods}}
+	{{/hasHttpBearerMethods}}
+	{{#hasApiKeyMethods}}
 	// ContextAPIKeys takes a string apikey as authentication for the request
 	ContextAPIKeys = contextKey("apiKeys")
 
-    {{/hasApiKeyMethods}}
+	{{/hasApiKeyMethods}}
 	{{#withAWSV4Signature}}
 	// ContextAWSv4 takes an Access Key and a Secret Key for signing AWS Signature v4
 	ContextAWSv4 = contextKey("awsv4")
@@ -48,7 +48,7 @@ var (
 	// ContextHttpSignatureAuth takes HttpSignatureAuth as authentication for the request.
 	ContextHttpSignatureAuth = contextKey("httpsignature")
 
-    {{/hasHttpSignatureMethods}}
+	{{/hasHttpSignatureMethods}}
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 
@@ -118,9 +118,9 @@ type Configuration struct {
 	Servers          ServerConfigurations
 	OperationServers map[string]ServerConfigurations
 	HTTPClient       *http.Client
-    {{#withCustomMiddlewareFunction}}
+	{{#withCustomMiddlewareFunction}}
 	Middleware       MiddlewareFunction
-    {{/withCustomMiddlewareFunction}}
+	{{/withCustomMiddlewareFunction}}
 }
 
 // NewConfiguration returns a new Configuration object

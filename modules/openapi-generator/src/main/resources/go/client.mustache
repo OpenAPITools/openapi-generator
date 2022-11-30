@@ -24,9 +24,9 @@ import (
 	"time"
 	"unicode/utf8"
 
-    {{#hasOAuthMethods}}
+	{{#hasOAuthMethods}}
 	"golang.org/x/oauth2"
-    {{/hasOAuthMethods}}
+	{{/hasOAuthMethods}}
 	{{#withAWSV4Signature}}
 	awsv4 "github.com/aws/aws-sdk-go/aws/signer/v4"
 	awscredentials "github.com/aws/aws-sdk-go/aws/credentials"
@@ -416,7 +416,7 @@ func (c *APIClient) prepareRequest(
 
 		// Walk through any authentication.
 
-        {{#hasOAuthMethods}}
+		{{#hasOAuthMethods}}
 		// OAuth2 authentication
 		if tok, ok := ctx.Value(ContextOAuth2).(oauth2.TokenSource); ok {
 			// We were able to grab an oauth2 token from the context
@@ -428,21 +428,21 @@ func (c *APIClient) prepareRequest(
 			latestToken.SetAuthHeader(localVarRequest)
 		}
 
-        {{/hasOAuthMethods}}
-        {{#hasHttpBasicMethods}}
+		{{/hasOAuthMethods}}
+		{{#hasHttpBasicMethods}}
 		// Basic HTTP Authentication
 		if auth, ok := ctx.Value(ContextBasicAuth).(BasicAuth); ok {
 			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
 		}
 
-        {{/hasHttpBasicMethods}}
-        {{#hasHttpBearerMethods}}
+		{{/hasHttpBasicMethods}}
+		{{#hasHttpBearerMethods}}
 		// AccessToken Authentication
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
 
-        {{/hasHttpBearerMethods}}
+		{{/hasHttpBearerMethods}}
 		{{#withAWSV4Signature}}
 		// AWS Signature v4 Authentication
 		if auth, ok := ctx.Value(ContextAWSv4).(AWSv4); ok {
