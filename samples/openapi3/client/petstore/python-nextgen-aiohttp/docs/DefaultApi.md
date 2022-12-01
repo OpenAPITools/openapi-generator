@@ -29,12 +29,12 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.DefaultApi(api_client)
 
     try:
-        api_response = api_instance.foo_get()
+        api_response = await api_instance.foo_get()
         print("The response of DefaultApi->foo_get:\n")
         pprint(api_response)
     except Exception as e:

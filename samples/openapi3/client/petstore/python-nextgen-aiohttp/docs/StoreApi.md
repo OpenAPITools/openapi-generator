@@ -34,14 +34,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
     try:
         # Delete purchase order by ID
-        api_instance.delete_order(order_id)
+        await api_instance.delete_order(order_id)
     except Exception as e:
         print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
@@ -108,13 +108,13 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
 
     try:
         # Returns pet inventories by status
-        api_response = api_instance.get_inventory()
+        api_response = await api_instance.get_inventory()
         print("The response of StoreApi->get_inventory:\n")
         pprint(api_response)
     except Exception as e:
@@ -168,14 +168,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
 
     try:
         # Find purchase order by ID
-        api_response = api_instance.get_order_by_id(order_id)
+        api_response = await api_instance.get_order_by_id(order_id)
         print("The response of StoreApi->get_order_by_id:\n")
         pprint(api_response)
     except Exception as e:
@@ -234,14 +234,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order = petstore_api.Order() # Order | order placed for purchasing the pet
 
     try:
         # Place an order for a pet
-        api_response = api_instance.place_order(order)
+        api_response = await api_instance.place_order(order)
         print("The response of StoreApi->place_order:\n")
         pprint(api_response)
     except Exception as e:

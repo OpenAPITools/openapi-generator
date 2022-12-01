@@ -61,14 +61,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.AnotherFakeApi(api_client)
     client = petstore_api.Client() # Client | client model
 
     try:
         # To test special tags
-        api_response = api_instance.call_123_test_special_tags(client)
+        api_response = await api_instance.call_123_test_special_tags(client)
         print("The response of AnotherFakeApi->call_123_test_special_tags:\n")
         pprint(api_response)
     except ApiException as e:

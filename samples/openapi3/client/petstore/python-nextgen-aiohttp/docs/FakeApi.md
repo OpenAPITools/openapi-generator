@@ -44,13 +44,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
 
     try:
         # Health check endpoint
-        api_response = api_instance.fake_health_get()
+        api_response = await api_instance.fake_health_get()
         print("The response of FakeApi->fake_health_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -166,7 +166,7 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
@@ -175,7 +175,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # test http signature authentication
-        api_instance.fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
+        await api_instance.fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
     except Exception as e:
         print("Exception when calling FakeApi->fake_http_signature_test: %s\n" % e)
 ```
@@ -232,13 +232,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
 
     try:
-        api_response = api_instance.fake_outer_boolean_serialize(body=body)
+        api_response = await api_instance.fake_outer_boolean_serialize(body=body)
         print("The response of FakeApi->fake_outer_boolean_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -295,13 +295,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
     try:
-        api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
+        api_response = await api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
         print("The response of FakeApi->fake_outer_composite_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -358,13 +358,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 3.4 # float | Input number as post body (optional)
 
     try:
-        api_response = api_instance.fake_outer_number_serialize(body=body)
+        api_response = await api_instance.fake_outer_number_serialize(body=body)
         print("The response of FakeApi->fake_outer_number_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -421,13 +421,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
 
     try:
-        api_response = api_instance.fake_outer_string_serialize(body=body)
+        api_response = await api_instance.fake_outer_string_serialize(body=body)
         print("The response of FakeApi->fake_outer_string_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -484,13 +484,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
 
     try:
-        api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
+        api_response = await api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
         print("The response of FakeApi->fake_property_enum_integer_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -547,13 +547,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | image to upload
 
     try:
-        api_instance.test_body_with_binary(body)
+        await api_instance.test_body_with_binary(body)
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_binary: %s\n" % e)
 ```
@@ -608,13 +608,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
     try:
-        api_instance.test_body_with_file_schema(file_schema_test_class)
+        await api_instance.test_body_with_file_schema(file_schema_test_class)
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
@@ -667,14 +667,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
     user = petstore_api.User() # User | 
 
     try:
-        api_instance.test_body_with_query_params(query, user)
+        await api_instance.test_body_with_query_params(query, user)
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
@@ -730,14 +730,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     client = petstore_api.Client() # Client | client model
 
     try:
         # To test \"client\" model
-        api_response = api_instance.test_client_model(client)
+        api_response = await api_instance.test_client_model(client)
         print("The response of FakeApi->test_client_model:\n")
         pprint(api_response)
     except Exception as e:
@@ -805,7 +805,7 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     number = 3.4 # float | None
@@ -825,7 +825,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
+        await api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
     except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
@@ -904,7 +904,7 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     required_string_group = 56 # int | Required String in group parameters
@@ -916,7 +916,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Fake endpoint to test group parameters (optional)
-        api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
+        await api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
     except Exception as e:
         print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
@@ -976,14 +976,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     request_body = {'key': 'request_body_example'} # Dict[str, str] | request body
 
     try:
         # test inline additionalProperties
-        api_instance.test_inline_additional_properties(request_body)
+        await api_instance.test_inline_additional_properties(request_body)
     except Exception as e:
         print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
@@ -1038,7 +1038,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1
@@ -1046,7 +1046,7 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         # test json serialization of form data
-        api_instance.test_json_form_data(param, param2)
+        await api_instance.test_json_form_data(param, param2)
     except Exception as e:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
@@ -1102,7 +1102,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     pipe = ['pipe_example'] # List[str] | 
@@ -1114,7 +1114,7 @@ with petstore_api.ApiClient() as api_client:
     language = {'key': 'language_example'} # Dict[str, str] |  (optional)
 
     try:
-        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
+        await api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
     except Exception as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```

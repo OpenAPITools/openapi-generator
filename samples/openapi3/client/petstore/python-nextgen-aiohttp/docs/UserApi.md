@@ -38,14 +38,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = petstore_api.User() # User | Created user object
 
     try:
         # Create user
-        api_instance.create_user(user)
+        await api_instance.create_user(user)
     except Exception as e:
         print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
@@ -100,14 +100,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = [petstore_api.User()] # List[User] | List of user object
 
     try:
         # Creates list of users with given input array
-        api_instance.create_users_with_array_input(user)
+        await api_instance.create_users_with_array_input(user)
     except Exception as e:
         print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
@@ -162,14 +162,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = [petstore_api.User()] # List[User] | List of user object
 
     try:
         # Creates list of users with given input array
-        api_instance.create_users_with_list_input(user)
+        await api_instance.create_users_with_list_input(user)
     except Exception as e:
         print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
@@ -224,14 +224,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be deleted
 
     try:
         # Delete user
-        api_instance.delete_user(username)
+        await api_instance.delete_user(username)
     except Exception as e:
         print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
@@ -287,14 +287,14 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
     try:
         # Get user by user name
-        api_response = api_instance.get_user_by_name(username)
+        api_response = await api_instance.get_user_by_name(username)
         print("The response of UserApi->get_user_by_name:\n")
         pprint(api_response)
     except Exception as e:
@@ -353,7 +353,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The user name for login
@@ -361,7 +361,7 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         # Logs user into the system
-        api_response = api_instance.login_user(username, password)
+        api_response = await api_instance.login_user(username, password)
         print("The response of UserApi->login_user:\n")
         pprint(api_response)
     except Exception as e:
@@ -420,13 +420,13 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
 
     try:
         # Logs out current logged in user session
-        api_instance.logout_user()
+        await api_instance.logout_user()
     except Exception as e:
         print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
@@ -478,7 +478,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted
@@ -486,7 +486,7 @@ with petstore_api.ApiClient() as api_client:
 
     try:
         # Updated user
-        api_instance.update_user(username, user)
+        await api_instance.update_user(username, user)
     except Exception as e:
         print("Exception when calling UserApi->update_user: %s\n" % e)
 ```

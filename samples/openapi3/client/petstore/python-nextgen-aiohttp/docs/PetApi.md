@@ -105,14 +105,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Add a new pet to the store
-        api_instance.add_pet(pet)
+        await api_instance.add_pet(pet)
     except Exception as e:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -199,14 +199,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Add a new pet to the store
-        api_instance.add_pet(pet)
+        await api_instance.add_pet(pet)
     except Exception as e:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -269,7 +269,7 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | Pet id to delete
@@ -277,7 +277,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Deletes a pet
-        api_instance.delete_pet(pet_id, api_key=api_key)
+        await api_instance.delete_pet(pet_id, api_key=api_key)
     except Exception as e:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
@@ -400,14 +400,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
     try:
         # Finds Pets by status
-        api_response = api_instance.find_pets_by_status(status)
+        api_response = await api_instance.find_pets_by_status(status)
         print("The response of PetApi->find_pets_by_status:\n")
         pprint(api_response)
     except Exception as e:
@@ -496,14 +496,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
     try:
         # Finds Pets by status
-        api_response = api_instance.find_pets_by_status(status)
+        api_response = await api_instance.find_pets_by_status(status)
         print("The response of PetApi->find_pets_by_status:\n")
         pprint(api_response)
     except Exception as e:
@@ -627,14 +627,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
 
     try:
         # Finds Pets by tags
-        api_response = api_instance.find_pets_by_tags(tags)
+        api_response = await api_instance.find_pets_by_tags(tags)
         print("The response of PetApi->find_pets_by_tags:\n")
         pprint(api_response)
     except Exception as e:
@@ -723,14 +723,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
 
     try:
         # Finds Pets by tags
-        api_response = api_instance.find_pets_by_tags(tags)
+        api_response = await api_instance.find_pets_by_tags(tags)
         print("The response of PetApi->find_pets_by_tags:\n")
         pprint(api_response)
     except Exception as e:
@@ -799,14 +799,14 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to return
 
     try:
         # Find pet by ID
-        api_response = api_instance.get_pet_by_id(pet_id)
+        api_response = await api_instance.get_pet_by_id(pet_id)
         print("The response of PetApi->get_pet_by_id:\n")
         pprint(api_response)
     except Exception as e:
@@ -931,14 +931,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Update an existing pet
-        api_instance.update_pet(pet)
+        await api_instance.update_pet(pet)
     except Exception as e:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -1025,14 +1025,14 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Update an existing pet
-        api_instance.update_pet(pet)
+        await api_instance.update_pet(pet)
     except Exception as e:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -1097,7 +1097,7 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet that needs to be updated
@@ -1106,7 +1106,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Updates a pet in the store with form data
-        api_instance.update_pet_with_form(pet_id, name=name, status=status)
+        await api_instance.update_pet_with_form(pet_id, name=name, status=status)
     except Exception as e:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
@@ -1171,7 +1171,7 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
@@ -1180,7 +1180,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # uploads an image
-        api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+        api_response = await api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
         print("The response of PetApi->upload_file:\n")
         pprint(api_response)
     except Exception as e:
@@ -1246,7 +1246,7 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
@@ -1255,7 +1255,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # uploads an image (required)
-        api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+        api_response = await api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
         print("The response of PetApi->upload_file_with_required_file:\n")
         pprint(api_response)
     except Exception as e:

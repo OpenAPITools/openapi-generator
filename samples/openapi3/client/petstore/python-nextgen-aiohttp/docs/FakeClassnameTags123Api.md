@@ -42,14 +42,14 @@ configuration.api_key['api_key_query'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeClassnameTags123Api(api_client)
     client = petstore_api.Client() # Client | client model
 
     try:
         # To test class name in snake case
-        api_response = api_instance.test_classname(client)
+        api_response = await api_instance.test_classname(client)
         print("The response of FakeClassnameTags123Api->test_classname:\n")
         pprint(api_response)
     except Exception as e:
