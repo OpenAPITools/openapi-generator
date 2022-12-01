@@ -3,8 +3,9 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '{{apiRelativeToRoot}}configuration';
+import type { Configuration } from '{{apiRelativeToRoot}}configuration';
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
 // @ts-ignore

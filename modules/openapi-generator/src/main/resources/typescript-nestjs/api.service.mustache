@@ -76,7 +76,7 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
 {{#queryParams}}
         {{#isArray}}
         if ({{paramName}}) {
@@ -93,10 +93,10 @@ export class {{classname}} {
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
+            queryParameters.append('{{baseName}}', <any>{{paramName}}.toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}};
+            queryParameters.append('{{baseName}}', <any>{{paramName}});
         {{/isDateTime}}
         }
         {{/isArray}}
@@ -128,10 +128,10 @@ export class {{classname}} {
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
         {{^hasQueryParams}}
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
         {{/hasQueryParams}}
         if (this.configuration.apiKeys["{{keyParamName}}"]) {
-            queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
+            queryParameters.append('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
 {{/isKeyInQuery}}

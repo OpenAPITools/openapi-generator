@@ -1163,15 +1163,14 @@
                 <!-- clients -->
                 <module>samples/client/petstore/perl</module>
                 <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/client/petstore/ruby-faraday</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/ruby-autoload</module>
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust/hyper/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
+                <module>samples/client/petstore/rust/reqwest/petstore-async-middleware</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -1273,6 +1272,9 @@
                 <!-- python clients which don't need the server running -->
                 <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-prior</module>
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1296,24 +1298,6 @@
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
-            </modules>
-        </profile>
-        <!-- test with JDK9 in Shippable CI -->
-        <profile>
-            <id>samples.shippable</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.shippable</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/openapi3/client/elm</module>
-                <!--<module>samples/client/petstore/elixir</module>-->
-                <module>samples/client/petstore/erlang-client</module>
-                <module>samples/client/petstore/erlang-proper</module>
-                <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
         <!-- test with Haskell -->

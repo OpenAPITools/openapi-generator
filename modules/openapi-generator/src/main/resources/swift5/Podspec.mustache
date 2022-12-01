@@ -33,14 +33,14 @@ Pod::Spec.new do |s|
   s.documentation_url = '{{.}}'
   {{/podDocumentationURL}}
   s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
-  s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
+  s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
   {{#useAlamofire}}
-  s.dependency 'Alamofire', '~> 5.4.3'
+  s.dependency 'Alamofire', '~> 5.4'
   {{/useAlamofire}}
   {{#usePromiseKit}}
-  s.dependency 'PromiseKit/CorePromise', '~> 6.15.3'
+  s.dependency 'PromiseKit/CorePromise', '~> 6.15'
   {{/usePromiseKit}}
   {{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 6.2.0'
+  s.dependency 'RxSwift', '~> 6.2'
   {{/useRxSwift}}
 end

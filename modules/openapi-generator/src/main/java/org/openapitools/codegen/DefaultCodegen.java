@@ -242,7 +242,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
-    protected Map<String, String> typeAliases = null;
+    protected Map<String, String> typeAliases = Collections.emptyMap();
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -859,6 +859,9 @@ public class DefaultCodegen implements CodegenConfig {
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
+
+        // Multiple operations rely on proper type aliases, so we should always update them
+        typeAliases = getAllAliases(ModelUtils.getSchemas(openAPI));
     }
 
     // override with any message to be shown right before the process finishes
@@ -2876,10 +2879,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        if (typeAliases == null) {
-            // Only do this once during first call
-            typeAliases = getAllAliases(allDefinitions);
-        }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (schema.equals(trueSchema)) {
@@ -3048,17 +3047,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties(), false);
+            addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
             }
@@ -3868,13 +3867,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // handle inner property
-            String itemName = null;
-            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
-                itemName = p.getExtensions().get("x-item-name").toString();
-            }
-            if (itemName == null) {
-                itemName = property.name;
-            }
+            String itemName = getItemsName(p, name);
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
@@ -5093,7 +5086,6 @@ public class DefaultCodegen implements CodegenConfig {
                             properties.entrySet().stream()
                                     .map(entry -> {
                                         CodegenProperty property = fromProperty(entry.getKey(), entry.getValue(), requiredVarNames.contains(entry.getKey()));
-                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
                                         return property;
                                     }).collect(Collectors.toList());
                 } else {
@@ -7370,6 +7362,17 @@ public class DefaultCodegen implements CodegenConfig {
         addRequiredVarsMap(schema, property);
     }
 
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        // fromProperty use case
+        if (containingSchema.getExtensions() != null && containingSchema.getExtensions().get("x-item-name") != null) {
+            return containingSchema.getExtensions().get("x-item-name").toString();
+        }
+        return toVarName(containingSchemaName);
+    }
+
+    protected String getAdditionalPropertiesName() {
+        return "additional_properties";
+    }
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);

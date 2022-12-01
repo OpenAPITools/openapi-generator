@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the FileSchemaTestClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FileSchemaTestClass{}
+
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
@@ -102,6 +105,14 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 }
 
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o FileSchemaTestClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.File) {
 		toSerialize["file"] = o.File
@@ -109,7 +120,7 @@ func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Files) {
 		toSerialize["files"] = o.Files
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableFileSchemaTestClass struct {

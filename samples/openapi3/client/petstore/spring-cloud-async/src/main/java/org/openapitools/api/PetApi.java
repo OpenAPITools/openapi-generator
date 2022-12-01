@@ -102,6 +102,7 @@ public interface PetApi {
     @Operation(
         operationId = "findPetsByStatus",
         summary = "Finds Pets by status",
+        description = "Multiple status values can be provided with comma separated strings",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -137,6 +138,7 @@ public interface PetApi {
     @Operation(
         operationId = "findPetsByTags",
         summary = "Finds Pets by tags",
+        description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -171,6 +173,7 @@ public interface PetApi {
     @Operation(
         operationId = "getPetById",
         summary = "Find pet by ID",
+        description = "Returns a single pet",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

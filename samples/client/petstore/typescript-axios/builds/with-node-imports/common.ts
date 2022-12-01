@@ -13,9 +13,10 @@
  */
 
 
-import { Configuration } from "./configuration";
-import { RequiredError, RequestArgs } from "./base";
-import { AxiosInstance, AxiosResponse } from 'axios';
+import type { Configuration } from "./configuration";
+import type { RequestArgs } from "./base";
+import type { AxiosInstance, AxiosResponse } from 'axios';
+import { RequiredError } from "./base";
 import { URL, URLSearchParams } from 'url';
 
 /**

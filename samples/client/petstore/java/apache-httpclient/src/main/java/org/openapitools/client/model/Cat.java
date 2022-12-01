@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -40,9 +39,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-})
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

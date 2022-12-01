@@ -83,13 +83,13 @@ class ObjectWithInvalidNamedRefedProperties(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithInvalidNamedRefedProperties':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
             **kwargs,
         )

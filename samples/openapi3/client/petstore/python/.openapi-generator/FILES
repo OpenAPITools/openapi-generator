@@ -96,6 +96,7 @@ docs/models/Number.md
 docs/models/NumberOnly.md
 docs/models/NumberWithValidations.md
 docs/models/ObjectInterface.md
+docs/models/ObjectModelWithArgAndArgsProperties.md
 docs/models/ObjectModelWithRefProps.md
 docs/models/ObjectWithAllOfWithReqTestPropFromUnsetAddProp.md
 docs/models/ObjectWithDecimalProperties.md
@@ -318,6 +319,8 @@ petstore_api/model/number_with_validations.py
 petstore_api/model/number_with_validations.pyi
 petstore_api/model/object_interface.py
 petstore_api/model/object_interface.pyi
+petstore_api/model/object_model_with_arg_and_args_properties.py
+petstore_api/model/object_model_with_arg_and_args_properties.pyi
 petstore_api/model/object_model_with_ref_props.py
 petstore_api/model/object_model_with_ref_props.pyi
 petstore_api/model/object_with_all_of_with_req_test_prop_from_unset_add_prop.py

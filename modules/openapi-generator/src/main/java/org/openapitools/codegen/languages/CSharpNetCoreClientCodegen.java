@@ -79,8 +79,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
-            FrameworkStrategy.NET_5_0,
-            FrameworkStrategy.NET_6_0
+            FrameworkStrategy.NET_6_0,
+            FrameworkStrategy.NET_7_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -731,7 +731,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
                             s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
-                            s.equals(FrameworkStrategy.NET_5_0) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
@@ -1243,15 +1242,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
+        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible (End of Support 13 Dec 2022)", "netcoreapp3.1", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8 compatible", "net48", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
-        };
         static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0 compatible", "net7.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;

@@ -34,7 +34,7 @@ public class Pet   {
 
 public enum StatusEnum {
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
+    @JsonProperty("available") AVAILABLE(String.valueOf("available")), @JsonProperty("pending") PENDING(String.valueOf("pending")), @JsonProperty("sold") SOLD(String.valueOf("sold"));
 
 
     private String value;

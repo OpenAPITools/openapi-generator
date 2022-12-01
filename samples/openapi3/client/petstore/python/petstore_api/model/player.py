@@ -77,7 +77,7 @@ class Player(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         enemyPlayer: typing.Union['Player', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -85,7 +85,7 @@ class Player(
     ) -> 'Player':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             name=name,
             enemyPlayer=enemyPlayer,
             _configuration=_configuration,

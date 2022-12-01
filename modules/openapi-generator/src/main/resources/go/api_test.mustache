@@ -39,10 +39,12 @@ func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 		var {{paramName}} {{{dataType}}}
 		{{/pathParams}}
 
-		resp, httpRes, err := apiClient.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
+		{{#returnType}}resp, {{/returnType}}httpRes, err := apiClient.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()
 
 		require.Nil(t, err)
+		{{#returnType}}
 		require.NotNil(t, resp)
+		{{/returnType}}
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

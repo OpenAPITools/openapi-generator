@@ -52,12 +52,12 @@ class SchemaForRequestBodyMultipartFormData(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'files':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -90,14 +90,14 @@ class SchemaForRequestBodyMultipartFormData(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         files: typing.Union[MetaOapg.properties.files, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             files=files,
             _configuration=_configuration,
             **kwargs,
@@ -242,7 +242,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 

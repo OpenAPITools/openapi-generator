@@ -111,7 +111,7 @@ func TestFindPetsByTag(t *testing.T) {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
 				if *resp[i].Id == 12830 {
-					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
+					assert.Equal("available", *resp[i].Status, "Pet status should be `available`")
 					found = true
 				}
 			}

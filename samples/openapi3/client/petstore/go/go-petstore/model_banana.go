@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Banana type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Banana{}
+
 // Banana struct for Banana
 type Banana struct {
 	LengthCm *float32 `json:"lengthCm,omitempty"`
@@ -72,6 +75,14 @@ func (o *Banana) SetLengthCm(v float32) {
 }
 
 func (o Banana) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Banana) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.LengthCm) {
 		toSerialize["lengthCm"] = o.LengthCm
@@ -81,7 +92,7 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {

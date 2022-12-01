@@ -318,6 +318,7 @@ Class | Method | HTTP request | Description
  - [NumberOnly](docs/models/NumberOnly.md)
  - [NumberWithValidations](docs/models/NumberWithValidations.md)
  - [ObjectInterface](docs/models/ObjectInterface.md)
+ - [ObjectModelWithArgAndArgsProperties](docs/models/ObjectModelWithArgAndArgsProperties.md)
  - [ObjectModelWithRefProps](docs/models/ObjectModelWithRefProps.md)
  - [ObjectWithAllOfWithReqTestPropFromUnsetAddProp](docs/models/ObjectWithAllOfWithReqTestPropFromUnsetAddProp.md)
  - [ObjectWithDecimalProperties](docs/models/ObjectWithDecimalProperties.md)

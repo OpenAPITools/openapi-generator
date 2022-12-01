@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Animal type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Animal{}
+
 // Animal struct for Animal
 type Animal struct {
 	ClassName string `json:"className"`
@@ -102,10 +105,16 @@ func (o *Animal) SetColor(v string) {
 }
 
 func (o Animal) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["className"] = o.ClassName
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Animal) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["className"] = o.ClassName
 	if !isNil(o.Color) {
 		toSerialize["color"] = o.Color
 	}
@@ -114,7 +123,7 @@ func (o Animal) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Animal) UnmarshalJSON(bytes []byte) (err error) {

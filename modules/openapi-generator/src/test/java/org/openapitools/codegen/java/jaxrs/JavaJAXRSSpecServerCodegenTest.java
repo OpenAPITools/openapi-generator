@@ -30,9 +30,8 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.RETURN_RESPONSE;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
+import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 import static org.testng.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
@@ -724,5 +723,35 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
                 "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
 
+    }
+
+    @Test
+    public void generateApiForQuarkusWithGzipFeature() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_GZIP_FEATURE, true);
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated class contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "\nimport org.jboss.resteasy.annotations.GZIP\n",
+                "@GZIP\n"
+        );
     }
 }
