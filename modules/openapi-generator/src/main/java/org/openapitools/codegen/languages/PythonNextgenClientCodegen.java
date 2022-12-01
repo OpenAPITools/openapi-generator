@@ -389,10 +389,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         if (cp.isArray) {
             typingImports.add("List");
-            return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format("Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
         } else if (cp.isString || cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -407,10 +407,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                    //fieldCustomization.add(String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
                 pydanticImports.add("constr");
-                return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
                 if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
@@ -444,7 +444,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("confloat");
-                return String.format("%s(%s)", "confloat",
+                return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictFloat");
@@ -474,7 +474,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conint");
-                return String.format("%s(%s)", "conint",
+                return String.format(Locale.ROOT, "%s(%s)", "conint",
                         StringUtils.join(fieldCustomization, ", "));
 
             } else {
@@ -495,7 +495,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conbytes");
-                return String.format("%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
@@ -527,7 +527,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
                 pydanticImports.add("condecimal");
-                return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
                 return "condecimal()";
@@ -606,14 +606,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     values.add((String) enumVar.get("value"));
                 }
             }
-            return String.format("%sEnum", cp.nameInCamelCase);
+            return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
             typingImports.add("List");
-            return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format("Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -628,10 +628,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
                 pydanticImports.add("constr");
-                return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
                 if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
@@ -665,7 +665,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("confloat");
-                return String.format("%s(%s)", "confloat",
+                return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictFloat");
@@ -695,7 +695,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conint");
-                return String.format("%s(%s)", "conint",
+                return String.format(Locale.ROOT, "%s(%s)", "conint",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictInt");
@@ -715,11 +715,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
                 }
 
                 pydanticImports.add("conbytes");
-                return String.format("%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
@@ -751,7 +751,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
                 pydanticImports.add("condecimal");
-                return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
                 return "condecimal()";
@@ -816,7 +816,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 if (!StringUtils.isEmpty(param.description)) { // has description
-                    fields.add(String.format("description=\"%s\"", param.description));
+                    fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
                 }
 
                 if (param.isArray && param.getUniqueItems()) { // a set
@@ -825,7 +825,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 /* TODO support example
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                    fields.add(String.format("example=%s", cp.getExample()));
+                    fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
                 }*/
 
                 String fieldCustomization;
@@ -840,7 +840,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                         fields.add(0, fieldCustomization);
                     }
                     pydanticImports.add("Field");
-                    fieldCustomization = String.format("Field(%s)", StringUtils.join(fields, ", "));
+                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 } else {
                     fieldCustomization = "Field()";
                 }
@@ -848,7 +848,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if ("Field()".equals(fieldCustomization)) {
                     param.vendorExtensions.put("x-py-typing", typing);
                 } else {
-                    param.vendorExtensions.put("x-py-typing", String.format("Annotated[%s, %s]", typing, fieldCustomization));
+                    param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
                 }
             }
 
@@ -865,21 +865,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         // need datetime import
         if (!datetimeImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format("from datetime import %s\n", StringUtils.join(datetimeImports, ", ")));
+            item.put("import", String.format(Locale.ROOT, "from datetime import %s\n", StringUtils.join(datetimeImports, ", ")));
             newImports.add(item);
         }
 
         // need pydantic imports
         if (!pydanticImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format("from pydantic import %s\n", StringUtils.join(pydanticImports, ", ")));
+            item.put("import", String.format(Locale.ROOT, "from pydantic import %s\n", StringUtils.join(pydanticImports, ", ")));
             newImports.add(item);
         }
 
         // need typing imports
         if (!typingImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format("from typing import %s\n", StringUtils.join(typingImports, ", ")));
+            item.put("import", String.format(Locale.ROOT, "from typing import %s\n", StringUtils.join(typingImports, ", ")));
             newImports.add(item);
         }
 
@@ -896,14 +896,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         // need models import
         if (hasModelsToImport) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format("from %s import models", packageName));
+            item.put("import", String.format(Locale.ROOT, "from %s import models", packageName));
             newImports.add(item);
         }
 
         // models import
         if (hasModelsToImport) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format("from %s import %s", modelPackage, StringUtils.join(modelImports, ", ")));
+            item.put("import", String.format(Locale.ROOT, "from %s import %s", modelPackage, StringUtils.join(modelImports, ", ")));
             newImports.add(item);
         }*/
 
@@ -999,11 +999,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // field
                 if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                    fields.add(String.format("alias=\"%s\"", cp.baseName));
+                    fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
                 }
 
                 if (!StringUtils.isEmpty(cp.description)) { // has description
-                    fields.add(String.format("description=\"%s\"", cp.description));
+                    fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
                 }
 
                 if (cp.isArray && cp.getUniqueItems()) { // a set
@@ -1012,7 +1012,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 /* TODO review as example may break the build
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                    fields.add(String.format("example=%s", cp.getExample()));
+                    fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
                 }*/
 
                 String fieldCustomization;
@@ -1029,16 +1029,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (!fields.isEmpty()) {
                     fields.add(0, fieldCustomization);
                     pydanticImports.add("Field");
-                    fieldCustomization = String.format("Field(%s)", StringUtils.join(fields, ", "));
+                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
 
                 cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format("__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__oneof_schema_%d", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format("__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__anyof_schema_%d", property_count++));
                 }
             }
 
