@@ -681,6 +681,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 imports.add(createMapping("import", "time"));
             }
 
+            // if allOf contains "time.Time" type
+            if (!addedTimeImport && model.allOf != null && model.allOf.contains("time.Time")) {
+                imports.add(createMapping("import", "time"));
+            }
+
             // if oneOf contains "null" type
             if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
                 model.isNullable = true;
