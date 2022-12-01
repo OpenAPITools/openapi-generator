@@ -79,6 +79,7 @@ class Pig(BaseModel):
         instance = cls()
         error_messages = []
         match = 0
+
         # deserialize data into BasquePig
         try:
             instance.actual_instance = BasquePig.from_json(json_str)
