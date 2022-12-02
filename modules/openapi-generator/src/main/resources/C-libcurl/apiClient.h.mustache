@@ -42,6 +42,7 @@ typedef struct apiClient_t {
     {{/isApiKey}}
     {{/authMethods}}
     {{/hasAuthMethods}}
+    CURL *curl_handle;
 } apiClient_t;
 
 apiClient_t* apiClient_create();
