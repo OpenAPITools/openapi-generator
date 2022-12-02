@@ -597,6 +597,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
+        supportingFiles.add(new SupportingFile("Validation.mustache",
+                sourceFolder,
+                "Validation.swift"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
