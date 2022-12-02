@@ -368,6 +368,14 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         {{/openApiNullable}}
+
+        {{#withAWSV4Signature}}
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-signer</artifactId>
+            <version>1.12.349</version>
+        </dependency>
+        {{/withAWSV4Signature}}
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
