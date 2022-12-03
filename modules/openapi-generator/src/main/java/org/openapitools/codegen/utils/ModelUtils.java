@@ -1527,11 +1527,18 @@ public class ModelUtils {
         return false;
     }
 
-    public static boolean isExtensionParent(Schema a) {
-        if (a.getExtensions() == null) {
+    /**
+     * If it's a boolean, returns the value of the extension `x-parent`.
+     * If it's string, return true if it's non-empty.
+     *
+     * @param schema    Schema
+     * @return boolean
+     */
+    public static boolean isExtensionParent(Schema schema) {
+        if (schema.getExtensions() == null) {
             return false;
         } else {
-            Object xParent = a.getExtensions().get("x-parent");
+            Object xParent = schema.getExtensions().get("x-parent");
             if (xParent == null) {
                 return false;
             } else if (xParent instanceof Boolean) {
