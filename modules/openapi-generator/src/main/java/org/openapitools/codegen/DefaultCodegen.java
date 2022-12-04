@@ -7918,6 +7918,9 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public boolean getUseInlineModelResolver() { return true; }
 
+    @Override
+    public boolean getUseOpenAPINormalizer() { return true; }
+
     /*
     A function to convert yaml or json ingested strings like property names
     And convert special characters like newline, tab, carriage return

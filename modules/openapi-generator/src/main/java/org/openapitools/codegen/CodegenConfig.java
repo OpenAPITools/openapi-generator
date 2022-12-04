@@ -330,4 +330,7 @@ public interface CodegenConfig {
     boolean getUseInlineModelResolver();
 
     boolean getAddSuffixToDuplicateOperationNicknames();
+
+    boolean getUseOpenAPINormalizer();
+
 }

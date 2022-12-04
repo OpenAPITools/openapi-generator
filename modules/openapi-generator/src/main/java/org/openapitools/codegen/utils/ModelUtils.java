@@ -1530,6 +1530,7 @@ public class ModelUtils {
     /**
      * If it's a boolean, returns the value of the extension `x-parent`.
      * If it's string, return true if it's non-empty.
+     * If the return value is `true`, the schema is a parent.
      *
      * @param schema    Schema
      * @return boolean

@@ -255,6 +255,14 @@ public class DefaultGenerator implements Generator {
 
         config.processOpts();
 
+        // normalize the spec
+        if (config.getUseOpenAPINormalizer()) {
+            // TODO fix rules
+            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+            //openapiNormalizer.setRules();
+            //openapiNormalizer.normalize(openAPI);
+        }
+
         // resolve inline models
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
