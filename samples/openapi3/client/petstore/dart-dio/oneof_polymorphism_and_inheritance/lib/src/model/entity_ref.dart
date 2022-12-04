@@ -129,9 +129,9 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     final discIndex = serializedList.indexOf(EntityRef.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case 'BarRef':
+      case r'BarRef':
         return serializers.deserialize(serialized, specifiedType: FullType(BarRef)) as BarRef;
-      case 'FooRef':
+      case r'FooRef':
         return serializers.deserialize(serialized, specifiedType: FullType(FooRef)) as FooRef;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($EntityRef)) as $EntityRef;
