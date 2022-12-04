@@ -24,7 +24,7 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
   /// One Of [Bar], [BarRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Bar': Bar,

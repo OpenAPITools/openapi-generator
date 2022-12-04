@@ -26,7 +26,7 @@ part 'entity.g.dart';
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
 abstract class Entity implements Addressable, Extensible {
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Bar': Bar,

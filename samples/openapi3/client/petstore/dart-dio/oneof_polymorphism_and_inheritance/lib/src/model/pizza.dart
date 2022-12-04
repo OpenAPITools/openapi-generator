@@ -24,7 +24,7 @@ abstract class Pizza implements Entity {
   @BuiltValueField(wireName: r'pizzaSize')
   num? get pizzaSize;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'PizzaSpeziale': PizzaSpeziale,

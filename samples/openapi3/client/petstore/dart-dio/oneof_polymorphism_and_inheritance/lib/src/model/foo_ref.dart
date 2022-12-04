@@ -23,7 +23,7 @@ abstract class FooRef implements EntityRef, Built<FooRef, FooRefBuilder> {
   @BuiltValueField(wireName: r'foorefPropA')
   String? get foorefPropA;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   FooRef._();
 

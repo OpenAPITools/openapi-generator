@@ -24,7 +24,7 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
   /// One Of [Foo], [FooRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Foo': Foo,
