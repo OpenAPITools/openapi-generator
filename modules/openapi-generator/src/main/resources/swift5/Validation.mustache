@@ -6,13 +6,13 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct StringValidationRule {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct StringRule {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var minLength: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var maxLength: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var pattern: String?
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct NumericValidationRule<T: Comparable & Numeric> {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct NumericRule<T: Comparable & Numeric> {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var minimum: T?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var exclusiveMinimum = false
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var maximum: T?
@@ -33,7 +33,7 @@ import Foundation
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct Validator {
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate(_ string: String, with rule: StringValidationRule) throws -> String {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate(_ string: String, with rule: StringRule) throws -> String {
         var error = ValidationError<StringValidationErrorKind>(kinds: [])
         if let minLength = rule.minLength, !(minLength <= string.count) {
             error.kinds.insert(.minLength)
@@ -54,7 +54,7 @@ import Foundation
         return string
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {
@@ -81,7 +81,7 @@ import Foundation
         return numeric
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {

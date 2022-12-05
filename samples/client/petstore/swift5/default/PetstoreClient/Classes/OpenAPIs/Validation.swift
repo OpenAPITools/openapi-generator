@@ -6,13 +6,13 @@
 
 import Foundation
 
-public struct StringValidationRule {
+public struct StringRule {
     public var minLength: Int?
     public var maxLength: Int?
     public var pattern: String?
 }
 
-public struct NumericValidationRule<T: Comparable & Numeric> {
+public struct NumericRule<T: Comparable & Numeric> {
     public var minimum: T?
     public var exclusiveMinimum = false
     public var maximum: T?
@@ -33,7 +33,7 @@ public struct ValidationError<T: Error & Hashable>: Error {
 }
 
 public struct Validator {
-    public static func validate(_ string: String, with rule: StringValidationRule) throws -> String {
+    public static func validate(_ string: String, with rule: StringRule) throws -> String {
         var error = ValidationError<StringValidationErrorKind>(kinds: [])
         if let minLength = rule.minLength, !(minLength <= string.count) {
             error.kinds.insert(.minLength)
@@ -54,7 +54,7 @@ public struct Validator {
         return string
     }
 
-    public static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    public static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {
@@ -81,7 +81,7 @@ public struct Validator {
         return numeric
     }
 
-    public static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    public static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {
