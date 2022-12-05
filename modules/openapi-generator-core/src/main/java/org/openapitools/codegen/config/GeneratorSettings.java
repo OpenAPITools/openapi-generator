@@ -926,10 +926,10 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets a single {@code inlineSchemaNameMappings} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets a single {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param key   A key for the inline schema mapping
-         * @param value The value of inline schema mapping
+         * @param key   A key for the OpenAPI normalizer rule
+         * @param value The value of the OpenAPI normalizer rule
          * @return a reference to this Builder
          */
         public Builder withOpenAPINormalizer(String key, String value) {
