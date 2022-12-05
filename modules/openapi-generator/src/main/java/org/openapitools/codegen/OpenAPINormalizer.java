@@ -54,6 +54,9 @@ public class OpenAPINormalizer {
 
     /**
      * Initializes OpenAPI Normalizer with a set of rules
+     *
+     * @param openAPI OpenAPI
+     * @param rules a map of rules
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> rules) {
         this.openAPI = openAPI;
@@ -275,8 +278,8 @@ public class OpenAPINormalizer {
     /**
      * Normalizes a schema
      *
+     * @param schema Schema
      * @param visitedSchemas a set of visited schemas
-     * @apram schema Schema
      */
     public void normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (schema == null) {
