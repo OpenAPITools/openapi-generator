@@ -251,6 +251,13 @@ open class GenerateTask : DefaultTask() {
     val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings (rules) in OpenAPI normalizer
+     */
+    @Optional
+    @Input
+    val openapiNormalizer = project.objects.mapProperty<String, String>()
+
+    /**
      * Root package for generated code.
      */
     @Optional
@@ -755,6 +762,12 @@ open class GenerateTask : DefaultTask() {
             if (inlineSchemaNameDefaults.isPresent) {
                 inlineSchemaNameDefaults.get().forEach { entry ->
                     configurator.addInlineSchemaNameDefault(entry.key, entry.value)
+                }
+            }
+
+            if (openapiNormalizer.isPresent) {
+                openapiNormalizer.get().forEach { entry ->
+                    configurator.addOpenAPINormalizer(entry.key, entry.value)
                 }
             }
 

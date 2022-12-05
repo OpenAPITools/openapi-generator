@@ -257,10 +257,8 @@ public class DefaultGenerator implements Generator {
 
         // normalize the spec
         if (config.getUseOpenAPINormalizer()) {
-            // TODO fix rules
-            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
-            //openapiNormalizer.setRules();
-            //openapiNormalizer.normalize(openAPI);
+            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+            openapiNormalizer.normalize();
         }
 
         // resolve inline models

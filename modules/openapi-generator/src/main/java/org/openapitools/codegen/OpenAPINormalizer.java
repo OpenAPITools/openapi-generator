@@ -46,9 +46,10 @@ public class OpenAPINormalizer {
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     // ============= a list of rules =============
+    //final String ALL = "ALL";
     // when set to true, $ref in allOf is treated as parent so that x-parent: true will be added
     // to the schema in $ref (if x-parent is not present)
-    final String USE_ALLOF_REF_AS_PARENT = "USE_ALLOF_REF_AS_PARENT";
+    final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     // ============= end of rules =============
 
     /**
@@ -56,8 +57,12 @@ public class OpenAPINormalizer {
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> rules) {
         this.openAPI = openAPI;
-        // TODO remove hardcoded rule
-        this.rules.put(USE_ALLOF_REF_AS_PARENT, "true");
+
+        if (rules == null) {
+            return;
+        } else {
+            this.rules = rules;
+        }
     }
 
     /**
@@ -75,7 +80,7 @@ public class OpenAPINormalizer {
      * @param rules a map of rules
      */
     public void setRules(Map<String, String> rules) {
-        //
+        this.rules = rules;
     }
 
     /**
@@ -111,9 +116,12 @@ public class OpenAPINormalizer {
     /**
      * Normalizes the OpenAPI input, which may not perfectly conform to
      * the specification.
-     *
      */
     void normalize() {
+        if (rules == null || rules.isEmpty()) {
+            return;
+        }
+
         if (this.openAPI.getComponents() == null) {
             this.openAPI.setComponents(new Components());
         }
@@ -342,31 +350,6 @@ public class OpenAPINormalizer {
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
             normalizeSchema(property, visitedSchemas);
-
-            /*
-            if (property instanceof ObjectSchema && ((ObjectSchema) property).getProperties() != null
-                    && ((ObjectSchema) property).getProperties().size() > 0) {
-                ObjectSchema op = (ObjectSchema) property;
-            } else if (property instanceof ArraySchema) {
-                ArraySchema ap = (ArraySchema) property;
-                Schema inner = ap.getItems();
-                if (inner instanceof ObjectSchema) {
-                    ObjectSchema op = (ObjectSchema) inner;
-                    if (op.getProperties() != null && op.getProperties().size() > 0) {
-                        normalizeProperties(op.getProperties());
-                    }
-                }
-            }
-            if (ModelUtils.isMapSchema(property)) {
-                Schema inner = ModelUtils.getAdditionalProperties(openAPI, property);
-                if (inner instanceof ObjectSchema) {
-                    ObjectSchema op = (ObjectSchema) inner;
-                    if (op.getProperties() != null && op.getProperties().size() > 0) {
-                        normalizeProperties(op.getProperties());
-                    }
-                }
-            }
-             */
         }
     }
 
@@ -406,7 +389,7 @@ public class OpenAPINormalizer {
 
     // ===================== a list of rules =====================
     private void processUseAllOfRefAsParent(Schema schema) {
-        if (!isRuleEnabled(USE_ALLOF_REF_AS_PARENT)) {
+        if (!isRuleEnabled(REF_AS_PARENT_IN_ALLOF)) {
             return;
         }
 
