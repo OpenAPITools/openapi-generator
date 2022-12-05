@@ -6,13 +6,13 @@
 
 import Foundation
 
-struct StringValidationRule {
+public struct StringValidationRule {
     var minLength: Int?
     var maxLength: Int?
     var pattern: String?
 }
 
-struct NumericValidationRule<T: Comparable & Numeric> {
+public struct NumericValidationRule<T: Comparable & Numeric> {
     var minimum: T?
     var exclusiveMinimum = false
     var maximum: T?
@@ -20,20 +20,20 @@ struct NumericValidationRule<T: Comparable & Numeric> {
     var multipleOf: T?
 }
 
-enum StringValidationErrorKind: Error {
+public enum StringValidationErrorKind: Error {
     case minLength, maxLength, pattern
 }
 
-enum NumericValidationErrorKind: Error {
+public enum NumericValidationErrorKind: Error {
     case minimum, maximum, multipleOf
 }
 
-struct ValidationError<T: Error & Hashable>: Error {
+public struct ValidationError<T: Error & Hashable>: Error {
     public fileprivate(set) var kinds: Set<T>
 }
 
-struct Validator {
-    static func validate(_ string: String, with rule: StringValidationRule) throws -> String {
+public struct Validator {
+    public static func validate(_ string: String, with rule: StringValidationRule) throws -> String {
         var error = ValidationError<StringValidationErrorKind>(kinds: [])
         if let minLength = rule.minLength, !(minLength <= string.count) {
             error.kinds.insert(.minLength)
@@ -54,7 +54,7 @@ struct Validator {
         return string
     }
 
-    static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    public static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum && minium <= numeric {
@@ -81,7 +81,7 @@ struct Validator {
         return numeric
     }
 
-    static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
+    public static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum && minium <= numeric {
