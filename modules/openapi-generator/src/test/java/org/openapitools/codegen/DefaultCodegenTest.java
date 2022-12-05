@@ -270,6 +270,27 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testSingleInheritanceArraysAndObjectsGetResolved() {
+        // See Issue #13784
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        CodegenModel codegenEntityModel = codegen.fromModel("EntityWithId", schemas.get("EntityWithId"));
+        Map<String, CodegenProperty> entityParameters = codegenEntityModel.getVars().stream().collect(Collectors.toMap(CodegenProperty::getBaseName, (x) -> x));
+        Assert.assertEquals(entityParameters.get("idReferenceArray").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceAnyOfArray").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceArrayInPlace").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceArrayInPlace2").complexType, "string");
+
+        CodegenModel codegenObjectModel = codegen.fromModel("ObjectTypeReference", schemas.get("ObjectTypeReference"));
+        Map<String, CodegenProperty> objectParameters = codegenObjectModel.getVars().stream().collect(Collectors.toMap(CodegenProperty::getBaseName, (x) -> x));
+        Assert.assertEquals(objectParameters.get("prop1").baseType, "ObjectType");
+        Assert.assertEquals(objectParameters.get("prop2").baseType, "ObjectType");
+    }
+
+    @Test
     public void testFormParameterHasDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

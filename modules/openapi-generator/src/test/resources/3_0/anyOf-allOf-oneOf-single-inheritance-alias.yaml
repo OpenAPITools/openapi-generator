@@ -36,6 +36,11 @@ components:
     UuidAlias:
       type: string
       format: uuid
+    IdReferenceArray:
+      type: array
+      items:
+        anyOf:
+          - $ref:  '#/components/schemas/IdReference'
     EntityWithId:
       description: Entity with id
       type: object
@@ -69,3 +74,41 @@ components:
         uuidReference:
           anyOf:
             - $ref: '#/components/schemas/UuidAlias'
+
+        # An array of an alias is an array of string
+        idReferenceArray:
+          $ref:  '#/components/schemas/IdReferenceArray'
+
+        # An array of an alias is an array of string
+        idReferenceAnyOfArray:
+          anyOf:
+            - $ref:  '#/components/schemas/IdReferenceArray'
+
+        # An array of an alias is an array of string
+        idReferenceArrayInPlace:
+          type: array
+          items:
+            $ref:  '#/components/schemas/IdReference'
+
+        # An array of an 'in place' alias is an array of string
+        idReferenceArrayInPlace2:
+          type: array
+          items:
+            anyOf:
+              - $ref:  '#/components/schemas/IdReference'
+
+    ObjectType:
+      type: object
+      properties:
+        name:
+          type: string
+    # The properties of this type should be aliases for 'ObjectType'
+    ObjectTypeReference:
+      type: object
+      properties:
+        prop1:
+          anyOf:
+            - $ref: '#/components/schemas/ObjectType'
+        prop2:
+          allOf:
+            - $ref: '#/components/schemas/ObjectType'

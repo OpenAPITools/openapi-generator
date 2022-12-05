@@ -5697,6 +5697,7 @@ public class DefaultCodegen implements CodegenConfig {
             return new HashMap<>();
         }
 
+        // First, add all root types
         Map<String, Schema> aliases = new HashMap<>();
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
             Schema schema = entry.getValue();
@@ -5707,6 +5708,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         }
 
+        // Then find all types, that are aliases to a base type
         boolean foundNewAlias;
         do {
             foundNewAlias = false;
