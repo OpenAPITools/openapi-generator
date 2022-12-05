@@ -7,17 +7,17 @@
 import Foundation
 
 internal struct StringValidationRule {
-    var minLength: Int?
-    var maxLength: Int?
-    var pattern: String?
+    internal var minLength: Int?
+    internal var maxLength: Int?
+    internal var pattern: String?
 }
 
 internal struct NumericValidationRule<T: Comparable & Numeric> {
-    var minimum: T?
-    var exclusiveMinimum = false
-    var maximum: T?
-    var exclusiveMaximum = false
-    var multipleOf: T?
+    internal var minimum: T?
+    internal var exclusiveMinimum = false
+    internal var maximum: T?
+    internal var exclusiveMaximum = false
+    internal var multipleOf: T?
 }
 
 internal enum StringValidationErrorKind: Error {
@@ -29,7 +29,7 @@ internal enum NumericValidationErrorKind: Error {
 }
 
 internal struct ValidationError<T: Error & Hashable>: Error {
-    public fileprivate(set) var kinds: Set<T>
+    internal fileprivate(set) var kinds: Set<T>
 }
 
 internal struct Validator {

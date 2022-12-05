@@ -7,17 +7,17 @@
 import Foundation
 
 public struct StringValidationRule {
-    var minLength: Int?
-    var maxLength: Int?
-    var pattern: String?
+    public var minLength: Int?
+    public var maxLength: Int?
+    public var pattern: String?
 }
 
 public struct NumericValidationRule<T: Comparable & Numeric> {
-    var minimum: T?
-    var exclusiveMinimum = false
-    var maximum: T?
-    var exclusiveMaximum = false
-    var multipleOf: T?
+    public var minimum: T?
+    public var exclusiveMinimum = false
+    public var maximum: T?
+    public var exclusiveMaximum = false
+    public var multipleOf: T?
 }
 
 public enum StringValidationErrorKind: Error {
