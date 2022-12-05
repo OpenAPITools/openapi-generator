@@ -127,7 +127,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     Type oneOfType;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType({{modelName}}),
@@ -210,7 +210,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     Type anyOfType;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         anyOfResult = serializers.deserialize(anyOfDataSrc, specifiedType: FullType({{modelName}})) as {{modelName}};
         anyOfType = {{modelName}};
         break;
@@ -271,7 +271,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         return serializers.deserialize(serialized, specifiedType: FullType({{modelName}})) as {{modelName}};
       {{/mappedModels}}
       default:
