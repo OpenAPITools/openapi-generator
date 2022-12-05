@@ -4478,6 +4478,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
         op.externalDocs = operation.getExternalDocs();
+        op.hasExternalDocs = op.externalDocs != null;
         // legacy support
         op.nickname = op.operationId;
 
