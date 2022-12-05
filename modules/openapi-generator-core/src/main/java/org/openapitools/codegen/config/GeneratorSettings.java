@@ -1160,6 +1160,7 @@ public final class GeneratorSettings implements Serializable {
                 getSchemaMappings(),
                 getInlineSchemaNameMappings(),
                 getInlineSchemaNameDefaults(),
+                getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordsMappings(),
                 getGitHost(),

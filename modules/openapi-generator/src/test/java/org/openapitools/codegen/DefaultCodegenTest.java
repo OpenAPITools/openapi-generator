@@ -4303,15 +4303,22 @@ public class DefaultCodegenTest {
     @Test
     public void testOpenAPINormalizer() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertNull(schema.getExtensions());
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema2.getExtensions().get("x-parent"), "abstract");
+
         Map<String, String> options = new HashMap<>();
         options.put("REF_AS_PARENT_IN_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema = openAPI.getComponents().getSchemas().get("AnotherPerson");
-        assertEquals(schema.getExtensions().get("x-parent"), true);
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertEquals(schema3.getExtensions().get("x-parent"), true);
 
-        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
-        assertEquals(schema2.getExtensions().get("x-parent"), "abstract");
+        Schema schema4 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema4.getExtensions().get("x-parent"), "abstract");
     }
 }
