@@ -456,7 +456,7 @@ Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCH
 
 OpenAPI Normalizer (off by default) transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. Here is a list of rules supported:
 
-- `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in allOf, which is a $ref, is considered a parent
+- `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema)
 
 
 Example:
