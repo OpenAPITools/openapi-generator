@@ -19,5 +19,8 @@ components:
          properties:
             count:
                type: integer
-               maximum: 100
                minimum: 10
+               exclusiveMinimum: true
+               maximum: 100
+               exclusiveMaximum: true
+               multipleOf: 5
