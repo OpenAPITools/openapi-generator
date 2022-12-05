@@ -3457,12 +3457,11 @@ public class DefaultCodegenTest {
         for (CodegenProperty var : cm.getVars()) {
             boolean hasRequired = var.getHasRequired();
             if (modelNamesWithoutRequired.contains(var.name)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, var.name + " should not be required");
             } else if (modelNamesWithRequired.contains(var.name)) {
-                assertTrue(hasRequired);
+                assertTrue(hasRequired, var.name + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
@@ -3507,12 +3506,11 @@ public class DefaultCodegenTest {
         for (CodegenParameter param : co.pathParams) {
             boolean hasRequired = param.getHasRequired();
             if (modelNamesWithoutRequired.contains(param.baseName)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, param.baseName + " should not be required");
             } else if (modelNamesWithRequired.contains(param.baseName)) {
-                assertTrue(hasRequired);
+                assertFalse(hasRequired, param.baseName + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
@@ -3557,12 +3555,11 @@ public class DefaultCodegenTest {
         for (CodegenResponse cr : co.responses) {
             boolean hasRequired = cr.getHasRequired();
             if (modelNamesWithoutRequired.contains(cr.message)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, cr.message + " should not be required");
             } else if (modelNamesWithRequired.contains(cr.message)) {
-                assertTrue(hasRequired);
+                assertTrue(hasRequired, cr.message + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
