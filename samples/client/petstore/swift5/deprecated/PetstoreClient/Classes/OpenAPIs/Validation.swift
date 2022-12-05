@@ -57,18 +57,18 @@ public struct Validator {
     public static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
-            if !rule.exclusiveMinimum && minium <= numeric {
+            if !rule.exclusiveMinimum, !(minium <= numeric) {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum && minium < numeric {
+            if rule.exclusiveMinimum, !(minium < numeric) {
                 error.kinds.insert(.minimum)
             }
         }
         if let maximum = rule.maximum {
-            if !rule.exclusiveMaximum && numeric <= maximum {
+            if !rule.exclusiveMaximum, !(numeric <= maximum) {
                 error.kinds.insert(.maximum)
             }
-            if rule.exclusiveMaximum && numeric < maximum {
+            if rule.exclusiveMaximum, !(numeric < maximum) {
                 error.kinds.insert(.maximum)
             }
         }
@@ -84,18 +84,18 @@ public struct Validator {
     public static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericValidationRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
-            if !rule.exclusiveMinimum && minium <= numeric {
+            if !rule.exclusiveMinimum, !(minium <= numeric) {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum && minium < numeric {
+            if rule.exclusiveMinimum, !(minium < numeric) {
                 error.kinds.insert(.minimum)
             }
         }
         if let maximum = rule.maximum {
-            if !rule.exclusiveMaximum && numeric <= maximum {
+            if !rule.exclusiveMaximum, !(numeric <= maximum) {
                 error.kinds.insert(.maximum)
             }
-            if rule.exclusiveMaximum && numeric < maximum {
+            if rule.exclusiveMaximum, !(numeric < maximum) {
                 error.kinds.insert(.maximum)
             }
         }
