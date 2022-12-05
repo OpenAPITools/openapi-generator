@@ -12,6 +12,7 @@ import AnyCodable
 
 public struct Banana: Codable, JSONEncodable, Hashable {
 
+    static let countRule = NumericValidationRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     public var count: Int?
 
     public init(count: Int? = nil) {

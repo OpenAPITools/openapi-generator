@@ -13,6 +13,13 @@ import Vapor
 
 public final class FormatTest: Content, Hashable {
 
+    static let integerRule = NumericValidationRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    static let int32Rule = NumericValidationRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
+    static let numberRule = NumericValidationRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
+    static let floatRule = NumericValidationRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
+    static let doubleRule = NumericValidationRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
+    static let stringRule = StringValidationRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
+    static let passwordRule = StringValidationRule(minLength: 10, maxLength: 64, pattern: nil)
     public var integer: Int?
     public var int32: Int?
     public var int64: Int64?
