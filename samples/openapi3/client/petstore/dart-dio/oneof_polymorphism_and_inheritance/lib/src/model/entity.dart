@@ -26,7 +26,7 @@ part 'entity.g.dart';
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
 abstract class Entity implements Addressable, Extensible {
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Bar': Bar,
@@ -125,17 +125,17 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     final discIndex = serializedList.indexOf(Entity.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case 'Bar':
+      case r'Bar':
         return serializers.deserialize(serialized, specifiedType: FullType(Bar)) as Bar;
-      case 'Bar_Create':
+      case r'Bar_Create':
         return serializers.deserialize(serialized, specifiedType: FullType(BarCreate)) as BarCreate;
-      case 'Foo':
+      case r'Foo':
         return serializers.deserialize(serialized, specifiedType: FullType(Foo)) as Foo;
-      case 'Pasta':
+      case r'Pasta':
         return serializers.deserialize(serialized, specifiedType: FullType(Pasta)) as Pasta;
-      case 'Pizza':
+      case r'Pizza':
         return serializers.deserialize(serialized, specifiedType: FullType(Pizza)) as Pizza;
-      case 'PizzaSpeziale':
+      case r'PizzaSpeziale':
         return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Entity)) as $Entity;

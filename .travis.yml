@@ -160,8 +160,8 @@ after_success:
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishMavenJavaPublicationToNexusRepository closeAndReleaseRepository --no-daemon;
-        echo "Finished ./gradlew publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository";
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
+        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
         popd;
       elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
@@ -169,15 +169,15 @@ after_success:
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository --no-daemon;
-        echo "Finished ./gradlew publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository";
+        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
+        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
         popd;
       fi;
       if [ -n $TRAVIS_TAG ] && [[ "$TRAVIS_TAG" =~ ^[v][0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         echo "Publishing the gradle plugin to Gradle Portal on tag $TRAVIS_TAG (only)";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" publishPlugins -Dgradle.publish.key=$GRADLE_PUBLISH_KEY -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET --no-daemon;
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" publishPlugins -Dgradle.publish.key=$GRADLE_PUBLISH_KEY -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET;
         echo "Finished ./gradlew publishPlugins (plugin portal)";
         popd;
       fi;

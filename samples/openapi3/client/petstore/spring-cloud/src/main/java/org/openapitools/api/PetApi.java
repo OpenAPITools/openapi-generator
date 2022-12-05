@@ -46,6 +46,7 @@ public interface PetApi {
     @Operation(
         operationId = "addPet",
         summary = "Add a new pet to the store",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -80,6 +81,7 @@ public interface PetApi {
     @Operation(
         operationId = "deletePet",
         summary = "Deletes a pet",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid pet value")
@@ -109,6 +111,7 @@ public interface PetApi {
     @Operation(
         operationId = "findPetsByStatus",
         summary = "Finds Pets by status",
+        description = "Multiple status values can be provided with comma separated strings",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -144,6 +147,7 @@ public interface PetApi {
     @Operation(
         operationId = "findPetsByTags",
         summary = "Finds Pets by tags",
+        description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -178,6 +182,7 @@ public interface PetApi {
     @Operation(
         operationId = "getPetById",
         summary = "Find pet by ID",
+        description = "Returns a single pet",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -214,6 +219,7 @@ public interface PetApi {
     @Operation(
         operationId = "updatePet",
         summary = "Update an existing pet",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -251,6 +257,7 @@ public interface PetApi {
     @Operation(
         operationId = "updatePetWithForm",
         summary = "Updates a pet in the store with form data",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
@@ -283,6 +290,7 @@ public interface PetApi {
     @Operation(
         operationId = "uploadFile",
         summary = "uploads an image",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

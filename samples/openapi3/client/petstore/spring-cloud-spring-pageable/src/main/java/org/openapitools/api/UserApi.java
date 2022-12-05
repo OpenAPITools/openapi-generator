@@ -46,6 +46,7 @@ public interface UserApi {
     @Operation(
         operationId = "createUser",
         summary = "Create user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -117,6 +118,7 @@ public interface UserApi {
     @Operation(
         operationId = "deleteUser",
         summary = "Delete user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -250,6 +252,7 @@ public interface UserApi {
     @Operation(
         operationId = "updateUser",
         summary = "Updated user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid user supplied"),

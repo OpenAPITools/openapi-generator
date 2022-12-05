@@ -233,4 +233,30 @@ public class PythonClientTest {
         String importValue = codegen.toModelImport("model_name");
         Assert.assertEquals(importValue, "from openapi.client.model.model_name import ModelName");
     }
+
+    @Test
+    public void testIdenticalSchemasHaveDifferentBasenames() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        Schema objSchema = new Schema();
+        objSchema.setType("object");
+        Schema addProp = new Schema();
+        addProp.setType("object");
+        objSchema.setAdditionalProperties(addProp);
+
+        Schema arraySchema = new ArraySchema();
+        Schema items = new Schema();
+        items.setType("object");
+        arraySchema.setItems(items);
+
+        CodegenProperty objSchemaProp = codegen.fromProperty("objSchemaProp", objSchema, false, false);
+        CodegenProperty arraySchemaProp = codegen.fromProperty("arraySchemaProp", arraySchema, false, false);
+        Assert.assertEquals(objSchemaProp.getAdditionalProperties().baseName, "additional_properties");
+        Assert.assertEquals(arraySchemaProp.getItems().baseName, "items");
+
+        CodegenModel objSchemaModel = codegen.fromModel("objSchemaModel", objSchema);
+        CodegenModel arraySchemaModel = codegen.fromModel("arraySchemaModel", arraySchema);
+        Assert.assertEquals(objSchemaModel.getAdditionalProperties().baseName, "additional_properties");
+        Assert.assertEquals(arraySchemaModel.getItems().baseName, "items");
+    }
 }

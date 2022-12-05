@@ -1763,6 +1763,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/component-deprecated.yml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
 
         CodegenModel codegenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
         Assert.assertTrue(codegenPetModel.isDeprecated);
@@ -2592,7 +2593,7 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         modelName = "AdditionalPropertiesUnset";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -2615,7 +2616,7 @@ public class DefaultCodegenTest {
         modelName = "AdditionalPropertiesSchema";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         assertEquals(cm.getAdditionalProperties(), stringCp);
         assertFalse(cm.getAdditionalPropertiesIsAnyType());
     }
@@ -2630,8 +2631,8 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenProperty mapWithAddPropsUnset;
         CodegenProperty mapWithAddPropsTrue;
         CodegenProperty mapWithAddPropsFalse;
@@ -2691,8 +2692,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenParameter mapWithAddPropsUnset;
         CodegenParameter mapWithAddPropsTrue;
         CodegenParameter mapWithAddPropsFalse;
@@ -2752,8 +2753,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenResponse mapWithAddPropsUnset;
         CodegenResponse mapWithAddPropsTrue;
         CodegenResponse mapWithAddPropsFalse;
@@ -2808,7 +2809,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         Schema sc;
         CodegenModel cm;

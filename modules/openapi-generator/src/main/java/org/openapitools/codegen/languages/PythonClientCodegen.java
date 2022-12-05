@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -239,6 +240,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         // When the 'additionalProperties' keyword is not present in a OAS schema, allow
         // undeclared properties. This is compliant with the JSON schema specification.
         this.setDisallowAdditionalPropertiesIfNotPresent(false);
+        GlobalSettings.setProperty("x-disallow-additional-properties-if-not-present", "false");
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
@@ -1063,17 +1065,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         if (cp.isPrimitiveType && unaliasedSchema.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        setAdditionalPropsAndItemsVarNames(cp);
         return cp;
-    }
-
-    private void setAdditionalPropsAndItemsVarNames(IJsonSchemaValidationProperties item) {
-        if (item.getAdditionalProperties() != null) {
-            item.getAdditionalProperties().setBaseName("additional_properties");
-        }
-        if (item.getItems() != null) {
-            item.getItems().setBaseName("items");
-        }
     }
 
     /**
@@ -1087,6 +1079,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     @Override
     public boolean isDataTypeString(String dataType) {
         return "str".equals(dataType);
+    }
+
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        return "items";
     }
 
     /**
@@ -1510,7 +1506,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
             cm.setHasMultipleTypes(true);
         }
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
-        setAdditionalPropsAndItemsVarNames(cm);
         if (isNotPythonModelSimpleModel) {
             return cm;
         }
@@ -2272,7 +2267,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         if (addPropsSchema == null) {
             return;
         }
-        CodegenProperty addPropProp = fromProperty("",  addPropsSchema, false, false);
+        CodegenProperty addPropProp = fromProperty(getAdditionalPropertiesName(),  addPropsSchema, false, false);
         property.setAdditionalProperties(addPropProp);
     }
 

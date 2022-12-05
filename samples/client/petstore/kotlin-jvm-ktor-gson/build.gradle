@@ -7,8 +7,8 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
-    ext.ktor_version = '2.1.2'
+    ext.kotlin_version = '1.7.21'
+    ext.ktor_version = '2.1.3'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
