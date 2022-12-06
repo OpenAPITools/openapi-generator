@@ -994,6 +994,35 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void shouldGenerateBlockingAndNoBlockingOperationsForWebClient() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.WEBCLIENT_BLOCKING_OPERATIONS, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.WEBCLIENT)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("StoreApi.java"))
+            .assertMethod("getInventory").hasReturnType("Mono<Map<String, Integer>>") //explicit 'x-webclient-blocking: false' which overrides global config
+            .toFileAssert()
+            .assertMethod("placeOrder").hasReturnType("Order"); // use global config
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .assertMethod("findPetsByStatus").hasReturnType("List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
+    }
+
+    @Test
     public void testAllowModelWithNoProperties() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
