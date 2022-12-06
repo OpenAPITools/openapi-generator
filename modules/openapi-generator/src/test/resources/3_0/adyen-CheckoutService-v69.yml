@@ -5728,7 +5728,7 @@ components:
         splits:
           description: An array of objects specifying how the payment should be split
             when using [Adyen for Platforms](https://docs.adyen.com/platforms/processing-payments#providing-split-information)
-            or [Issuing](https://docs.adyen.com/issuing/manage-funds#split).
+            or [Issuing](https://docs.adyen.com/issuinga-funds#split).
           items:
             $ref: '#/components/schemas/Split'
           type: array

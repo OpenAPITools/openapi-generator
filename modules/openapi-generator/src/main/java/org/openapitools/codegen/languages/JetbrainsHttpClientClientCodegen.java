@@ -18,6 +18,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.openapitools.codegen.model.ApiInfoMap;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
@@ -77,7 +78,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         ApiInfoMap apiInfoMap = (ApiInfoMap) bundle.get("apiInfo");
         ArrayList<OperationsMap> operationsMapsList = (ArrayList<OperationsMap>) apiInfoMap.get("apis");
 
-
         List<OperationMap> operationsMap = operationsMapsList.stream()
                 .map(operationsMaps -> ((OperationMap) operationsMaps.get("operations")))
                 .collect(Collectors.toList());
@@ -86,6 +86,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                         .flatMap(operationMaps -> ((List<CodegenOperation>) operationMaps.get("operation")).stream())
                         .collect(Collectors.toList());
 
+
+        // Path parameters
         List<CodegenParameter> pathParameters = operations.stream()
                         .flatMap(operation -> operation.pathParams.stream())
                         .collect(Collectors.toList());
@@ -94,9 +96,26 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                 .filter(distinctByKey(cgp -> cgp.baseName))
                 .collect(Collectors.toList());
 
+        // Adding this here for now to easily be exhaustive
         bundle.put("distinctPathParameters", distinctPathParameters);
 
+        // Auth Methods
+        List<CodegenSecurity> authMethods = operations.stream()
+                .flatMap(operation -> operation.authMethods.stream())
+                .collect(Collectors.toList());
+
+        List<CodegenSecurity> distinctAuthMethods = authMethods.stream()
+                .filter(distinctByKey(cgs -> cgs.type))
+                .collect(Collectors.toList());
+
+        bundle.put("distinctAuthMethods", distinctAuthMethods);
+
         return bundle;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {

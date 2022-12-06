@@ -5,8 +5,10 @@
 {{#operation}}
 
 ### {{#summary}}{{summary}}{{/summary}}
+{{#notes}}### {{notes}}{{/notes}}
 # @name {{operationId}}
 {{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
+{{#authMethods}}{{#isApiKey}}{{keyParamName}}: {{=<% %>=}}{{<% type %>}}<%={{ }}=%>{{/isApiKey}}{{/authMethods}}
 {{#consumes}}Content-Type: {{{mediaType}}}{{/consumes}}
 
 {{/operation}}
