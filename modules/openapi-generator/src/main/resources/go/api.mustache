@@ -259,20 +259,25 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{paramName}}LocalVarFormFileName = "{{baseName}}"
 
 {{#required}}
-	{{paramName}}LocalVarFile := *r.{{paramName}}
+	{{paramName}}LocalVarFile := r.{{paramName}}
 {{/required}}
 {{^required}}
-	var {{paramName}}LocalVarFile {{dataType}}
+	var {{paramName}}LocalVarFile *{{dataType}}
 	if r.{{paramName}} != nil {
-		{{paramName}}LocalVarFile = *r.{{paramName}}
+		{{paramName}}LocalVarFile = r.{{paramName}}
 	}
-{{/required}}
 	if {{paramName}}LocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
+		{{/required}}
+        {{#required}}
+        		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
+        {{/required}}
 		{{paramName}}LocalVarFileBytes = fbs
 		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
 		{{paramName}}LocalVarFile.Close()
-	}
+	{{^required}}
+    }
+    {{/required}}
 	formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 {{/isFile}}
 {{^isFile}}

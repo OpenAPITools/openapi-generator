@@ -1073,7 +1073,7 @@ type ApiTestEndpointParametersRequest struct {
 	int64_ *int64
 	float *float32
 	string_ *string
-	binary **os.File
+	binary *os.File
 	date *string
 	dateTime *time.Time
 	password *string
@@ -1135,7 +1135,7 @@ func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpoin
 }
 
 // None
-func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
+func (r ApiTestEndpointParametersRequest) Binary(binary os.File) ApiTestEndpointParametersRequest {
 	r.binary = &binary
 	return r
 }
@@ -1273,14 +1273,14 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 
 	var binaryLocalVarFile *os.File
 	if r.binary != nil {
-		binaryLocalVarFile = *r.binary
+		binaryLocalVarFile = r.binary
 	}
 	if binaryLocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll(binaryLocalVarFile)
 		binaryLocalVarFileBytes = fbs
 		binaryLocalVarFileName = binaryLocalVarFile.Name()
 		binaryLocalVarFile.Close()
-	}
+    }
 	formFiles = append(formFiles, formFile{fileBytes: binaryLocalVarFileBytes, fileName: binaryLocalVarFileName, formFileName: binaryLocalVarFormFileName})
 	if r.date != nil {
 		parameterAddToQuery(localVarFormParams, "date", r.date, "")

@@ -29,7 +29,7 @@ type FormatTest struct {
 	Double *float64 `json:"double,omitempty"`
 	String *string `json:"string,omitempty"`
 	Byte string `json:"byte"`
-	Binary **os.File `json:"binary,omitempty"`
+	Binary *os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Uuid *string `json:"uuid,omitempty"`
@@ -305,9 +305,9 @@ func (o *FormatTest) SetByte(v string) {
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *FormatTest) GetBinary() *os.File {
+func (o *FormatTest) GetBinary() os.File {
 	if o == nil || isNil(o.Binary) {
-		var ret *os.File
+		var ret os.File
 		return ret
 	}
 	return *o.Binary
@@ -315,7 +315,7 @@ func (o *FormatTest) GetBinary() *os.File {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
+func (o *FormatTest) GetBinaryOk() (*os.File, bool) {
 	if o == nil || isNil(o.Binary) {
 		return nil, false
 	}
@@ -331,8 +331,8 @@ func (o *FormatTest) HasBinary() bool {
 	return false
 }
 
-// SetBinary gets a reference to the given *os.File and assigns it to the Binary field.
-func (o *FormatTest) SetBinary(v *os.File) {
+// SetBinary gets a reference to the given os.File and assigns it to the Binary field.
+func (o *FormatTest) SetBinary(v os.File) {
 	o.Binary = &v
 }
 
