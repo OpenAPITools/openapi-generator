@@ -84,14 +84,14 @@ class DanishPig(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         className: typing.Union[MetaOapg.properties.className, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'DanishPig':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             className=className,
             _configuration=_configuration,
             **kwargs,

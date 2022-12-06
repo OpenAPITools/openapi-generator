@@ -96,9 +96,11 @@ import javax.annotation.Generated;
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{#useRequestMappingOnInterface}}
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnInterface}}
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}
@@ -149,9 +151,9 @@ public interface {{classname}} {
         {{#summary}}
         summary = "{{{.}}}",
         {{/summary}}
-        {{#description}}
-        description= "{{{.}}}",
-        {{/description}}
+        {{#notes}}
+        description = "{{{.}}}",
+        {{/notes}}
         {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}

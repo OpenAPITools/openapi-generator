@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import org.openapitools.model.*;
 import org.openapitools.api.UserApiService;
 import org.openapitools.api.factories.UserApiServiceFactory;
 

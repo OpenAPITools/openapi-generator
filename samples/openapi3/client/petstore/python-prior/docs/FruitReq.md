@@ -1,6 +1,6 @@
 # FruitReq
 
-a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas also, this schem accepts null as a value
+a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas also, this scheme accepts null as a value
 
 ## Properties
 Name | Type | Description | Notes

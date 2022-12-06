@@ -21,6 +21,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -90,15 +91,24 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
     /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
+    @Input
+    @Optional
+    val remoteInputSpec = project.objects.property<String>()
+
+    /**
      * The template directory holding a custom template.
      */
     @Optional
-    @Input
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     val templateDir = project.objects.property<String?>()
 
     /**
@@ -122,7 +132,8 @@ open class GenerateTask : DefaultTask() {
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val configFile = project.objects.property<String>()
 
     /**
@@ -320,7 +331,8 @@ open class GenerateTask : DefaultTask() {
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val ignoreFileOverride = project.objects.property<String?>()
 
     /**
@@ -478,6 +490,14 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
+    /**
+     * Defines whether the output dir should be cleaned up before generating the output.
+     *
+     */
+    @Optional
+    @Input
+    val cleanupOutput = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -500,6 +520,15 @@ open class GenerateTask : DefaultTask() {
     @Suppress("unused")
     @TaskAction
     fun doWork() {
+        cleanupOutput.ifNotEmpty { cleanup ->
+            if (cleanup) {
+                project.delete(outputDir)
+                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+                out.withStyle(StyledTextOutput.Style.Success)
+                out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
+            }
+        }
+
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
         } else createDefaultCodegenConfigurator()
@@ -552,6 +581,10 @@ open class GenerateTask : DefaultTask() {
                 GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
+            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
+                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
+            }
+
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -566,6 +599,10 @@ open class GenerateTask : DefaultTask() {
             }
 
             inputSpec.ifNotEmpty { value ->
+                configurator.setInputSpec(value)
+            }
+
+            remoteInputSpec.ifNotEmpty { value ->
                 configurator.setInputSpec(value)
             }
 

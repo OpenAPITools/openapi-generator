@@ -6,7 +6,7 @@ but can enable as your microservice capabilities needs to be extended to meet st
 PKMST feature set.
 a)Read the Swagger supplied and will create a maven project
 b)Create basic controller based on rest verb and path configured in swagger
-c)generate default unit test cose using junit
+c)generate default unit test case using junit
 d)generate all needed dependency needed to run the microservice on local
 e)generate a default manifest file that allows you to push code to cloudfoundry instance ( eg pcf , ibm bluemix etc)
 
@@ -19,7 +19,7 @@ i)Allow you to configure Oauth2 security based authorization for your microservi
 
  Additional Features
  j)generate sample cucumber file and dependency to drive your Behaviour driven development.
- k)generate gatling based performance test, which can be excuted via build pipeline like jenkins etc.
+ k)generate gatling based performance test, which can be executed via build pipeline like jenkins etc.
  
  
 Working:

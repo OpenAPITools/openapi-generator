@@ -57,12 +57,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property '__Client'
+        /// Test the property '_Client'
         /// </summary>
         [Fact]
-        public void __ClientTest()
+        public void _ClientTest()
         {
-            // TODO unit test for the property '__Client'
+            // TODO unit test for the property '_Client'
         }
 
     }

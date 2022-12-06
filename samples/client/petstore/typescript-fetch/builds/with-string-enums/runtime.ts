@@ -146,22 +146,22 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const overridedInit: RequestInit = {
+        const overriddenInit: RequestInit = {
             ...initParams,
             ...(await initOverrideFn({
                 init: initParams,
                 context,
             }))
-        }
+        };
 
         const init: RequestInit = {
-            ...overridedInit,
+            ...overriddenInit,
             body:
-                isFormData(overridedInit.body) ||
-                overridedInit.body instanceof URLSearchParams ||
-                isBlob(overridedInit.body)
-                    ? overridedInit.body
-                    : JSON.stringify(overridedInit.body),
+                isFormData(overriddenInit.body) ||
+                overriddenInit.body instanceof URLSearchParams ||
+                isBlob(overriddenInit.body)
+                    ? overriddenInit.body
+                    : JSON.stringify(overriddenInit.body),
         };
 
         return { url, init };
@@ -177,7 +177,7 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = undefined;
+        let response: Response | undefined = undefined;
         try {
             response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         } catch (e) {
@@ -226,11 +226,11 @@ export class BaseAPI {
 };
 
 function isBlob(value: any): value is Blob {
-    return typeof Blob !== 'undefined' && value instanceof Blob
+    return typeof Blob !== 'undefined' && value instanceof Blob;
 }
 
 function isFormData(value: any): value is FormData {
-    return typeof FormData !== "undefined" && value instanceof FormData
+    return typeof FormData !== "undefined" && value instanceof FormData;
 }
 
 export class ResponseError extends Error {
@@ -268,7 +268,7 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
+export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody };
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
@@ -335,7 +335,7 @@ export function canConsumeForm(consumes: Consume[]): boolean {
 }
 
 export interface Consume {
-    contentType: string
+    contentType: string;
 }
 
 export interface RequestContext {

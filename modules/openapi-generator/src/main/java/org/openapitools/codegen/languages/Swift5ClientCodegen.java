@@ -42,6 +42,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.util.concurrent.TimeUnit;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -827,7 +828,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // Throw exception if method name is empty.
         // This should not happen but keep the check just in case
@@ -837,15 +838,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(("call_" + operationId), true);
+            String newOperationId = camelize(("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
-            operationId = camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
 
 
@@ -864,7 +865,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with `` or append _
         if (isReservedWord(name)) {
@@ -894,7 +895,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with ``
         if (isReservedWord(name)) {
@@ -1019,7 +1020,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (enumUnknownDefaultCase) {
             if (name.equals(enumUnknownDefaultCaseName)) {
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             }
         }
 
@@ -1031,18 +1032,18 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // Prefix with underscore if name starts with number
         if (name.matches("\\d.*")) {
-            return "_" + replaceSpecialCharacters(camelize(name, true));
+            return "_" + replaceSpecialCharacters(camelize(name, LOWERCASE_FIRST_LETTER));
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), LOWERCASE_FIRST_LETTER);
         }
 
         // Camelize only when we have a structure defined below
-        Boolean camelized = false;
+        boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
             camelized = true;
         }
 
@@ -1062,7 +1063,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", "")),
-                true);
+                LOWERCASE_FIRST_LETTER);
     }
 
     private String replaceSpecialCharacters(String name) {

@@ -48,12 +48,12 @@ class ArrayOfNumberOnly(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]]],
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'ArrayNumber':
                     return super().__new__(
                         cls,
-                        arg,
+                        _arg,
                         _configuration=_configuration,
                     )
             
@@ -86,14 +86,14 @@ class ArrayOfNumberOnly(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             ArrayNumber=ArrayNumber,
             _configuration=_configuration,
             **kwargs,

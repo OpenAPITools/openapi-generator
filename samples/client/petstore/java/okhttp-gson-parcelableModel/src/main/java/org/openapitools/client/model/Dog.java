@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import android.os.Parcelable;
@@ -41,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -72,7 +71,6 @@ public class Dog extends Animal implements Parcelable {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBreed() {
     return breed;
@@ -171,9 +169,7 @@ public class Dog extends Animal implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Dog.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Dog.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Dog is not found in the empty JSON string", Dog.openapiRequiredFields.toString()));
         }
       }

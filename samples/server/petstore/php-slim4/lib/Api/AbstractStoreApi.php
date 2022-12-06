@@ -81,7 +81,7 @@ abstract class AbstractStoreApi
     /**
      * GET getOrderById
      * Summary: Find purchase order by ID
-     * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -38,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -87,7 +86,6 @@ public class Capitalization {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getSmallCamel() {
     return smallCamel;
@@ -110,7 +108,6 @@ public class Capitalization {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -133,7 +130,6 @@ public class Capitalization {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getSmallSnake() {
     return smallSnake;
@@ -156,7 +152,6 @@ public class Capitalization {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -179,7 +174,6 @@ public class Capitalization {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -202,7 +196,6 @@ public class Capitalization {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
 
   public String getATTNAME() {
     return ATT_NAME;
@@ -288,9 +281,7 @@ public class Capitalization {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Capitalization.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Capitalization.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Capitalization is not found in the empty JSON string", Capitalization.openapiRequiredFields.toString()));
         }
       }

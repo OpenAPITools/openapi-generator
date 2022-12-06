@@ -20,7 +20,7 @@ components:
   schemas:
     _op_get_request:
       properties:
-        propery:
+        property:
           type: string
       required:
       - property

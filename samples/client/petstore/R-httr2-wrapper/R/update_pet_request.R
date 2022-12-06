@@ -28,12 +28,10 @@ UpdatePetRequest <- R6::R6Class(
     #'
     #' @param jsonData jsonData
     #' @param binaryDataN2Information binaryDataN2Information
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `jsonData` = NULL, `binaryDataN2Information` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`jsonData` = NULL, `binaryDataN2Information` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`jsonData`)) {
         stopifnot(R6::is.R6(`jsonData`))
         self$`jsonData` <- `jsonData`
@@ -202,18 +200,19 @@ UpdatePetRequest <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#UpdatePetRequest$unlock()
+# UpdatePetRequest$unlock()
 #
-## Below is an example to define the print fnuction
-#UpdatePetRequest$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+## Below is an example to define the print function
+# UpdatePetRequest$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#UpdatePetRequest$lock()
+# UpdatePetRequest$lock()
 

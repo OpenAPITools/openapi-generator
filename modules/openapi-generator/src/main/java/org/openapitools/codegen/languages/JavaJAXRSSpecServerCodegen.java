@@ -25,6 +25,8 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import java.io.File;
 import java.util.Map;
 
+import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
+
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -48,6 +50,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean generatePom = true;
     private boolean generateBuilders = false;
     private boolean useSwaggerAnnotations = true;
+
+    protected boolean useGzipFeature = false;
     private boolean useJackson = false;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
@@ -111,11 +115,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void processOpts() {
-
-        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
-            useJakartaEE = Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString());
-        }
-
         if (additionalProperties.containsKey(GENERATE_POM)) {
             generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
         }
@@ -164,6 +163,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
+
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
         useJackson = convertPropertyToBoolean(JACKSON);
@@ -240,8 +240,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 
-
-
+        if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
+            useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
+            if (!useGzipFeature) {
+                additionalProperties.remove(USE_GZIP_FEATURE);
+            }
+        }
     }
 
     @Override

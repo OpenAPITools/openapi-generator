@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing Banana
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void BananaInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" Banana
-            //Assert.IsInstanceOfType<Banana> (instance, "variable 'instance' is a Banana");
+            // TODO uncomment below to test "IsType" Banana
+            //Assert.IsType<Banana>(instance);
         }
 
 

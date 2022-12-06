@@ -90,7 +90,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
     protected static Schema falseSchema;
@@ -161,9 +161,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
-    // a map to store the mappping between a schema and the new one
+    // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
-    // a map to store the mappping between inline schema and the name provided by the user
+    // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
@@ -242,7 +242,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
-    protected Map<String, String> typeAliases = null;
+    protected Map<String, String> typeAliases = Collections.emptyMap();
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -844,6 +844,9 @@ public class DefaultCodegen implements CodegenConfig {
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
+
+        // Multiple operations rely on proper type aliases, so we should always update them
+        typeAliases = getAllAliases(ModelUtils.getSchemas(openAPI));
     }
 
     // override with any message to be shown right before the process finishes
@@ -2761,7 +2764,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * A method that allows generators to pre-process test example payloads
-     * This can be useful if one needs to change how values like null in string are represnted
+     * This can be useful if one needs to change how values like null in string are represented
      * @param data the test data payload
      * @return the updated test data payload
      */
@@ -2861,10 +2864,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        if (typeAliases == null) {
-            // Only do this once during first call
-            typeAliases = getAllAliases(allDefinitions);
-        }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (schema.equals(trueSchema)) {
@@ -3033,17 +3032,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("", new Schema(), false);
+                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties(), false);
+            addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
             }
@@ -3715,7 +3714,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.openApiType = p.getType();
         }
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = camelize(property.name);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -3798,6 +3797,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property.isEnumRef = true;
+
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
@@ -3851,13 +3852,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // handle inner property
-            String itemName = null;
-            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
-                itemName = p.getExtensions().get("x-item-name").toString();
-            }
-            if (itemName == null) {
-                itemName = property.name;
-            }
+            String itemName = getItemsName(p, name);
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
@@ -3868,7 +3863,6 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForAnyType(property, p);
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
-            ;
         }
         if (p.get$ref() != null) {
             property.setRef(p.get$ref());
@@ -5077,7 +5071,6 @@ public class DefaultCodegen implements CodegenConfig {
                             properties.entrySet().stream()
                                     .map(entry -> {
                                         CodegenProperty property = fromProperty(entry.getKey(), entry.getValue(), requiredVarNames.contains(entry.getKey()));
-                                        property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
                                         return property;
                                     }).collect(Collectors.toList());
                 } else {
@@ -5626,7 +5619,7 @@ public class DefaultCodegen implements CodegenConfig {
                     continue;
                 }
                 cm.hasOptional = cm.hasOptional || !cp.required;
-                if (cp.isEnum) {
+                if (cp.getIsEnumOrRef()) { // isEnum or isEnumRef set to true
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     cm.hasEnums = true;
@@ -7354,6 +7347,17 @@ public class DefaultCodegen implements CodegenConfig {
         addRequiredVarsMap(schema, property);
     }
 
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        // fromProperty use case
+        if (containingSchema.getExtensions() != null && containingSchema.getExtensions().get("x-item-name") != null) {
+            return containingSchema.getExtensions().get("x-item-name").toString();
+        }
+        return toVarName(containingSchemaName);
+    }
+
+    protected String getAdditionalPropertiesName() {
+        return "additional_properties";
+    }
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);

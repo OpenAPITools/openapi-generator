@@ -13,7 +13,7 @@ import collections
 
 from petstore_api import api_client, exceptions, schemas
 
-ParamTestCase = collections.namedtuple('ParamTestCase', 'payload expected_serialization explode', defaults=[False])
+from . import ParamTestCase
 
 
 class TestParameter(unittest.TestCase):
@@ -930,7 +930,7 @@ class TestParameter(unittest.TestCase):
             content={'application/json': schemas.AnyTypeSchema}
         )
 
-    def test_content_json_serialization(self):
+    def test_header_content_json_serialization(self):
         name = 'color'
         test_cases = (
             ParamTestCase(
@@ -984,6 +984,66 @@ class TestParameter(unittest.TestCase):
         )
         for test_case in test_cases:
             parameter = api_client.HeaderParameter(
+                name=name,
+                content={'application/json': schemas.AnyTypeSchema}
+            )
+            serialization = parameter.serialize(test_case.payload)
+            self.assertEqual(serialization, test_case.expected_serialization)
+
+    def test_query_content_json_serialization(self):
+        name = 'color'
+        test_cases = (
+            ParamTestCase(
+                None,
+                {'color': '?color=null'}
+            ),
+            ParamTestCase(
+                1,
+                {'color': '?color=1'}
+            ),
+            ParamTestCase(
+                3.14,
+                {'color': '?color=3.14'}
+            ),
+            ParamTestCase(
+                'blue',
+                {'color': '?color=%22blue%22'}
+            ),
+            ParamTestCase(
+                'hello world',
+                {'color': '?color=%22hello%20world%22'}
+            ),
+            ParamTestCase(
+                '',
+                {'color': '?color=%22%22'}
+            ),
+            ParamTestCase(
+                True,
+                {'color': '?color=true'}
+            ),
+            ParamTestCase(
+                False,
+                {'color': '?color=false'}
+            ),
+            ParamTestCase(
+                [],
+                {'color': '?color=%5B%5D'}
+            ),
+            ParamTestCase(
+                ['blue', 'black', 'brown'],
+                {'color': '?color=%5B%22blue%22%2C%22black%22%2C%22brown%22%5D'}
+            ),
+            ParamTestCase(
+                {},
+                {'color': '?color=%7B%7D'}
+            ),
+            ParamTestCase(
+                dict(R=100, G=200, B=150),
+                {'color': '?color=%7B%22R%22%3A100%2C%22G%22%3A200%2C%22B%22%3A150%7D'}
+            ),
+        )
+        for test_case in test_cases:
+            parameter = api_client.QueryParameter(
                 name=name,
                 content={'application/json': schemas.AnyTypeSchema}
             )

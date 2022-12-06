@@ -144,7 +144,7 @@ func TestUploadFile(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(file).Execute()
+	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(*file).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while uploading file: %v", err)
@@ -162,7 +162,7 @@ func TestUploadFileRequired(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830).RequiredFile(file).AdditionalMetadata("golang").Execute()
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830).RequiredFile(*file).AdditionalMetadata("golang").Execute()
 
 	if err != nil {
 		t.Fatalf("Error while uploading file: %v", err)
@@ -178,6 +178,26 @@ func TestDeletePet(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
+	}
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+}
+
+// test deep object query parameter and verify via tcpdump
+func TestDeepObjectQuery(t *testing.T) {
+	newPet := sw.Pet{
+		Id: sw.PtrInt64(12830), Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: []sw.Tag{{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}},
+	}
+
+	newCategory := sw.Category{Id: sw.PtrInt64(12830), Name: "cat"}
+	configuration := sw.NewConfiguration()
+	apiClient := sw.NewAPIClient(configuration)
+	r, err := apiClient.FakeApi.TestQueryDeepObject(context.Background()).TestPet(newPet).InputOptions(newCategory).Execute()
+	if err != nil {
+		// for sure this will fail as the endpoint is fake
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)

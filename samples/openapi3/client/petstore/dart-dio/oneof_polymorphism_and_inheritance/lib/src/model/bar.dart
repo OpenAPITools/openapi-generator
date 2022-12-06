@@ -32,7 +32,7 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   @BuiltValueField(wireName: r'barPropA')
   String? get barPropA;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   Bar._();
 

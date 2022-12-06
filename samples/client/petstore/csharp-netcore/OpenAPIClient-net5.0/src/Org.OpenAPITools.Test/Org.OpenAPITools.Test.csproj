@@ -3,8 +3,9 @@
   <PropertyGroup>
     <AssemblyName>Org.OpenAPITools.Test</AssemblyName>
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -92,7 +91,6 @@ public class TypeHolderExample implements Parcelable {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "what", required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
@@ -115,7 +113,6 @@ public class TypeHolderExample implements Parcelable {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -138,7 +135,6 @@ public class TypeHolderExample implements Parcelable {
    * @return floatItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public Float getFloatItem() {
     return floatItem;
@@ -161,7 +157,6 @@ public class TypeHolderExample implements Parcelable {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "-2", required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -184,7 +179,6 @@ public class TypeHolderExample implements Parcelable {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "true", required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -212,7 +206,6 @@ public class TypeHolderExample implements Parcelable {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -335,9 +328,7 @@ public class TypeHolderExample implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (TypeHolderExample.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!TypeHolderExample.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderExample is not found in the empty JSON string", TypeHolderExample.openapiRequiredFields.toString()));
         }
       }
@@ -356,11 +347,13 @@ public class TypeHolderExample implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("string_item") != null && !jsonObj.get("string_item").isJsonNull()) && !jsonObj.get("string_item").isJsonPrimitive()) {
+      if (!jsonObj.get("string_item").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
       }
-      // ensure the json data is an array
-      if ((jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonNull()) && !jsonObj.get("array_item").isJsonArray()) {
+      // ensure the required json array is present
+      if (jsonObj.get("array_item") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("array_item").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }

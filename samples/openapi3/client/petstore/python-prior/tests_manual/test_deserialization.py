@@ -10,7 +10,6 @@ $ nosetests -v
 """
 from collections import namedtuple
 import json
-import os
 import time
 import unittest
 import datetime
@@ -88,7 +87,7 @@ class DeserializationTests(unittest.TestCase):
         """
         deserialize Animal to a Dog instance
         Animal uses a discriminator which has a map built of child classes
-        that inherrit from Animal
+        that inherit from Animal
         This is the swagger (v2) way of doing something like oneOf composition
         """
         class_name = 'Dog'
