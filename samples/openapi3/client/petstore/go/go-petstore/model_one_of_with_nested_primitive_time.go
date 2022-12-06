@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the OneOfWithNestedPrimitiveTime type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &OneOfWithNestedPrimitiveTime{}
+
 // OneOfWithNestedPrimitiveTime struct for OneOfWithNestedPrimitiveTime
 type OneOfWithNestedPrimitiveTime struct {
 	Avatar NullableOneOfWithNestedPrimitiveTimeAvatar `json:"avatar,omitempty"`
@@ -82,6 +85,14 @@ func (o *OneOfWithNestedPrimitiveTime) UnsetAvatar() {
 }
 
 func (o OneOfWithNestedPrimitiveTime) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o OneOfWithNestedPrimitiveTime) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Avatar.IsSet() {
 		toSerialize["avatar"] = o.Avatar.Get()
@@ -91,7 +102,7 @@ func (o OneOfWithNestedPrimitiveTime) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *OneOfWithNestedPrimitiveTime) UnmarshalJSON(bytes []byte) (err error) {

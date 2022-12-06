@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the PrimitiveAndPrimitiveTime type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &PrimitiveAndPrimitiveTime{}
+
 // PrimitiveAndPrimitiveTime struct for PrimitiveAndPrimitiveTime
 type PrimitiveAndPrimitiveTime struct {
 	// Unique identifier for the file.
@@ -108,6 +111,14 @@ func (o *PrimitiveAndPrimitiveTime) SetUploadedOn(v time.Time) {
 }
 
 func (o PrimitiveAndPrimitiveTime) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o PrimitiveAndPrimitiveTime) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -120,7 +131,7 @@ func (o PrimitiveAndPrimitiveTime) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *PrimitiveAndPrimitiveTime) UnmarshalJSON(bytes []byte) (err error) {
