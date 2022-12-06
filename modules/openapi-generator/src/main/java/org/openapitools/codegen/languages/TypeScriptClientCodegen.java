@@ -1144,43 +1144,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                     return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    /*
-                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
-                    So strip off the leading / and trailing / and turn on ignore case if we have it
-                     */
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
-                    Matcher m = valueExtractor.matcher(pattern);
-                    RgxGen rgxGen = null;
-                    if (m.find()) {
-                        int groupCount = m.groupCount();
-                        if (groupCount == 1) {
-                            // only pattern found
-                            String isolatedPattern = m.group(1);
-                            rgxGen = new RgxGen(isolatedPattern);
-                        } else if (groupCount == 2) {
-                            // patterns and flag found
-                            String isolatedPattern = m.group(1);
-                            String flags = m.group(2);
-                            if (flags.contains("i")) {
-                                rgxGen = new RgxGen(isolatedPattern);
-                                RgxGenProperties properties = new RgxGenProperties();
-                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
-                                rgxGen.setProperties(properties);
-                            } else {
-                                rgxGen = new RgxGen(isolatedPattern);
-                            }
-                        }
-                    } else {
-                        rgxGen = new RgxGen(pattern);
-                    }
+                    RgxGen rgxGen = new RgxGen(pattern);
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    if (rgxGen != null){
-                        example = rgxGen.generate(random);
-                    } else {
-                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

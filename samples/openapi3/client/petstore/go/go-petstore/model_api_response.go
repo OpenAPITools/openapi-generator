@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ApiResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ApiResponse{}
+
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
@@ -138,6 +141,14 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Code) {
 		toSerialize["code"] = o.Code
@@ -153,7 +164,7 @@ func (o ApiResponse) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {

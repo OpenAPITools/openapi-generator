@@ -669,7 +669,7 @@ paths:
           description: Something wrong
         "5XX":
           content:
-            applicatino/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/OuterNumber'
           description: Something wrong
@@ -1114,6 +1114,29 @@ paths:
                 $ref: '#/components/schemas/HealthCheckResult'
           description: The instance started successfully
       summary: Health check endpoint
+      tags:
+      - fake
+  /fake/deep_object_test:
+    get:
+      operationId: test_query_deep_object
+      parameters:
+      - explode: true
+        in: query
+        name: test_pet
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      - explode: true
+        in: query
+        name: inputOptions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Category'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
       tags:
       - fake
 components:

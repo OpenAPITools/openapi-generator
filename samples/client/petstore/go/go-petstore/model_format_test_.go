@@ -16,6 +16,9 @@ import (
 	"time"
 )
 
+// checks if the FormatTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FormatTest{}
+
 // FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`
@@ -26,7 +29,7 @@ type FormatTest struct {
 	Double *float64 `json:"double,omitempty"`
 	String *string `json:"string,omitempty"`
 	Byte string `json:"byte"`
-	Binary **os.File `json:"binary,omitempty"`
+	Binary *os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Uuid *string `json:"uuid,omitempty"`
@@ -296,9 +299,9 @@ func (o *FormatTest) SetByte(v string) {
 }
 
 // GetBinary returns the Binary field value if set, zero value otherwise.
-func (o *FormatTest) GetBinary() *os.File {
+func (o *FormatTest) GetBinary() os.File {
 	if o == nil || isNil(o.Binary) {
-		var ret *os.File
+		var ret os.File
 		return ret
 	}
 	return *o.Binary
@@ -306,7 +309,7 @@ func (o *FormatTest) GetBinary() *os.File {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
+func (o *FormatTest) GetBinaryOk() (*os.File, bool) {
 	if o == nil || isNil(o.Binary) {
 		return nil, false
 	}
@@ -322,8 +325,8 @@ func (o *FormatTest) HasBinary() bool {
 	return false
 }
 
-// SetBinary gets a reference to the given *os.File and assigns it to the Binary field.
-func (o *FormatTest) SetBinary(v *os.File) {
+// SetBinary gets a reference to the given os.File and assigns it to the Binary field.
+func (o *FormatTest) SetBinary(v os.File) {
 	o.Binary = &v
 }
 
@@ -472,6 +475,14 @@ func (o *FormatTest) SetBigDecimal(v float64) {
 }
 
 func (o FormatTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Integer) {
 		toSerialize["integer"] = o.Integer
@@ -482,9 +493,7 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Int64) {
 		toSerialize["int64"] = o.Int64
 	}
-	if true {
-		toSerialize["number"] = o.Number
-	}
+	toSerialize["number"] = o.Number
 	if !isNil(o.Float) {
 		toSerialize["float"] = o.Float
 	}
@@ -494,28 +503,22 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if !isNil(o.String) {
 		toSerialize["string"] = o.String
 	}
-	if true {
-		toSerialize["byte"] = o.Byte
-	}
+	toSerialize["byte"] = o.Byte
 	if !isNil(o.Binary) {
 		toSerialize["binary"] = o.Binary
 	}
-	if true {
-		toSerialize["date"] = o.Date
-	}
+	toSerialize["date"] = o.Date
 	if !isNil(o.DateTime) {
 		toSerialize["dateTime"] = o.DateTime
 	}
 	if !isNil(o.Uuid) {
 		toSerialize["uuid"] = o.Uuid
 	}
-	if true {
-		toSerialize["password"] = o.Password
-	}
+	toSerialize["password"] = o.Password
 	if !isNil(o.BigDecimal) {
 		toSerialize["BigDecimal"] = o.BigDecimal
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableFormatTest struct {

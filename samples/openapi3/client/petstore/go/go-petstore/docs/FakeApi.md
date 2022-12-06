@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
+[**TestQueryDeepObject**](FakeApi.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
 [**TestQueryParameterCollectionFormat**](FakeApi.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
 [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeApi.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-parameters | 
 
@@ -570,7 +571,7 @@ func main() {
     int64_ := int64(789) // int64 | None (optional)
     float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
-    binary := os.NewFile(1234, "some_file") // *os.File | None (optional)
+    binary := os.NewFile(1234, "some_file") // os.File | None (optional)
     date := time.Now() // string | None (optional)
     dateTime := time.Now() // time.Time | None (optional)
     password := "password_example" // string | None (optional)
@@ -606,7 +607,7 @@ Name | Type | Description  | Notes
  **int64_** | **int64** | None | 
  **float** | **float32** | None | 
  **string_** | **string** | None | 
- **binary** | ***os.File** | None | 
+ **binary** | **os.File** | None | 
  **date** | **string** | None | 
  **dateTime** | **time.Time** | None | 
  **password** | **string** | None | 
@@ -775,7 +776,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: applicatino/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -905,6 +906,70 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryDeepObject
+
+> TestQueryDeepObject(ctx).TestPet(testPet).InputOptions(inputOptions).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    testPet := map[string][]openapiclient.Pet{"key": map[string]interface{}{ ... }} // Pet |  (optional)
+    inputOptions := map[string][]openapiclient.Category{"key": map[string]interface{}{ ... }} // Category |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.FakeApi.TestQueryDeepObject(context.Background()).TestPet(testPet).InputOptions(inputOptions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryDeepObject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryDeepObjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testPet** | [**Pet**](Pet.md) |  | 
+ **inputOptions** | [**Category**](Category.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

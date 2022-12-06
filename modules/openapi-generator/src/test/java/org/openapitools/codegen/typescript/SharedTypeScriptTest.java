@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import static org.openapitools.codegen.typescript.TypeScriptGroups.*;
 
@@ -85,14 +86,15 @@ public class SharedTypeScriptTest {
         TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
 
         Map<String, String[]> types = new HashMap<String, String[]>() {{
-            put("Schema & AnotherSchema", new String[]{ "Schema", "AnotherSchema" });
-            put("Schema | AnotherSchema", new String[]{ "Schema", "AnotherSchema" });
+            put("Schema & AnotherSchema", new String[]{ "AnotherSchema", "Schema" });
+            put("Schema | AnotherSchema", new String[]{ "AnotherSchema", "Schema" });
             put("Schema & object", new String[]{ "Schema" });
             put("Schema | object", new String[]{ "Schema" });
         }};
 
         for (Map.Entry<String, String[]> entry : types.entrySet()) {
             String[] mapped = codegen.toModelImportMap(entry.getKey()).values().toArray(new String[0]);
+            Arrays.sort(mapped);
             Assert.assertEquals(mapped, entry.getValue());
         }
     }

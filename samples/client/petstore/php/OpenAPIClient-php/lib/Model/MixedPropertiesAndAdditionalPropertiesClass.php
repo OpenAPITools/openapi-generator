@@ -322,11 +322,9 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setUuid($uuid)
     {
-
         if (is_null($uuid)) {
             throw new \InvalidArgumentException('non-nullable uuid cannot be null');
         }
-
         $this->container['uuid'] = $uuid;
 
         return $this;
@@ -351,11 +349,9 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setDateTime($date_time)
     {
-
         if (is_null($date_time)) {
             throw new \InvalidArgumentException('non-nullable date_time cannot be null');
         }
-
         $this->container['date_time'] = $date_time;
 
         return $this;
@@ -380,11 +376,9 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function setMap($map)
     {
-
         if (is_null($map)) {
             throw new \InvalidArgumentException('non-nullable map cannot be null');
         }
-
         $this->container['map'] = $map;
 
         return $this;

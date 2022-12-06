@@ -29,6 +29,7 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -46,6 +47,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.assertj.core.api.Condition;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -1501,14 +1503,48 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent().assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
                                 !annotation.getNameAsString().equals("Pattern") ||
                                 !annotation.getNameAsString().equals("Email") ||
                                 !annotation.getNameAsString().equals("Size"));
+        javaFileAssert.hasImports("javax.validation.constraints.NotNull");
+    }
 
+    @Test
+    public void requiredFieldShouldIncludeNotNullAnnotationJakarta_issue13365_issue13885() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JAKARTA_EE, "true");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, "false");
+        codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
+        codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
+
+        //Assert that NotNull annotation exists alone with no other BeanValidation annotations
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+                .containsWithName("NotNull").anyMatch(annotation ->
+                        !annotation.getNameAsString().equals("Valid") ||
+                                !annotation.getNameAsString().equals("Pattern") ||
+                                !annotation.getNameAsString().equals("Email") ||
+                                !annotation.getNameAsString().equals("Size"));
+        javaFileAssert.hasImports("jakarta.validation.constraints.NotNull");
     }
 
     @Test
@@ -1517,8 +1553,8 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
-        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
         codegen.additionalProperties().put(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
@@ -1529,9 +1565,13 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert.assertThat(files.get("Alien.java"))
-                .printFileContent().assertMethod("getName")
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
+        javaFileAssert.isNot(new Condition<>(classfile ->
+                classfile.getImports().stream().map(NodeWithName::getNameAsString)
+                        .anyMatch("javax.validation.constraints.NotNull"::equals), ""));
     }
 
     @Test
@@ -1552,10 +1592,14 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent().assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").containsWithName("Size").containsWithName("Email");
-
+        javaFileAssert.isNot(new Condition<>(classfile ->
+                classfile.getImports().stream().map(NodeWithName::getNameAsString)
+                        .anyMatch("javax.validation.constraints.NotNull"::equals), ""));
+        javaFileAssert.hasImports("javax.validation.constraints");
     }
 
     public void shouldUseEqualsNullableForArrayWhenSetInConfig_issue13385() throws IOException {
@@ -1616,6 +1660,46 @@ public class SpringCodegenTest {
                 .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
+    }
+
+    @Test
+    public void shouldHandleSeparatelyInterfaceAndModelAdditionalAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_13917.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@marker.Class1;@marker.Class2;@marker.Common");
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "@marker.Interface1;@marker.Common");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PatchRequestInner.java"))
+            .isInterface()
+            .assertTypeAnnotations()
+            .containsWithName("marker.Interface1")
+            .containsWithName("marker.Common");
+
+        JavaFileAssert.assertThat(files.get("JSONPatchRequestRemove.java"))
+            .isNormalClass()
+            .assertTypeAnnotations()
+            .containsWithName("marker.Class1")
+            .containsWithName("marker.Class2")
+            .containsWithName("marker.Common");
     }
 
     @Test

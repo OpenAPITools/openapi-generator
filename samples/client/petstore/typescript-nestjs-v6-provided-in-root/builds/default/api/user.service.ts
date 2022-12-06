@@ -268,12 +268,12 @@ export class UserService {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
         if (username !== undefined && username !== null) {
-            queryParameters['username'] = <any>username;
+            queryParameters.append('username', <any>username);
         }
         if (password !== undefined && password !== null) {
-            queryParameters['password'] = <any>password;
+            queryParameters.append('password', <any>password);
         }
 
         let headers = this.defaultHeaders;

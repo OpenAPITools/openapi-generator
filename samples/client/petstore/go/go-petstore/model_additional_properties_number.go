@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesNumber type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesNumber{}
+
 // AdditionalPropertiesNumber struct for AdditionalPropertiesNumber
 type AdditionalPropertiesNumber struct {
 	Name *string `json:"name,omitempty"`
@@ -69,11 +72,19 @@ func (o *AdditionalPropertiesNumber) SetName(v string) {
 }
 
 func (o AdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesNumber) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableAdditionalPropertiesNumber struct {

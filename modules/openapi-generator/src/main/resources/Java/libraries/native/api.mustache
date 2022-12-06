@@ -185,8 +185,9 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -236,12 +237,37 @@ public class {{classname}} {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("{{operationId}}", localVarResponse);
         }
+        {{#vendorExtensions.x-java-text-plain-string}}
+        // for plain text response
+        InputStream responseBody = localVarResponse.body();
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+        {{/vendorExtensions.x-java-text-plain-string}}
+        {{^vendorExtensions.x-java-text-plain-string}}
+        {{#returnType}}
+        InputStream responseBody = localVarResponse.body();
+        {{/returnType}}
         return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
-          {{^returnType}}null{{/returnType}}
+          {{#returnType}}
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          {{/returnType}}
+          {{^returnType}}
+          null
+          {{/returnType}}
         );
+        {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
         {{^returnType}}
         // Drain the InputStream
@@ -273,11 +299,12 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<{{{returnType}}}>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -324,10 +351,10 @@ public class {{classname}} {
     if ({{paramName}} != null) {
           {{#items.vars}}
               {{#isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{baseName}}", {{paramName}}.{{getter}}()));
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
               {{/isArray}}
               {{^isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
               {{/isArray}}
           {{/items.vars}}
     }

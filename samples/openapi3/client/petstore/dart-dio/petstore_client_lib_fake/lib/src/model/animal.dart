@@ -85,9 +85,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case 'Cat':
+      case r'Cat':
         return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
-      case 'Dog':
+      case r'Dog':
         return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;

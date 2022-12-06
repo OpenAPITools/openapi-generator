@@ -83,9 +83,30 @@ public class {{classname}} {
     {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
 
     {{#queryParams}}
+        {{#isDeepObject}}
     {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+        {{/isDeepObject}}
+        {{^isDeepObject}}
+            {{#isExplode}}
+                {{#hasVars}}
+                    {{#vars}}
+                        {{#isArray}}
+    localVarQueryParams.addAll(apiClient.parameterToPair("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                        {{^isArray}}
+    localVarQueryParams.addAll(apiClient.parameterToPair("{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                    {{/vars}}
+                {{/hasVars}}
+                {{^hasVars}}
+    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+                {{/hasVars}}
+            {{/isExplode}}
+            {{^isExplode}}
+    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{/isExplode}}
+        {{/isDeepObject}}
     {{/queryParams}}
-
     {{#headerParams}}if ({{paramName}} != null)
       localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
