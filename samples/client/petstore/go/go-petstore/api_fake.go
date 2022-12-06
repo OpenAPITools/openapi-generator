@@ -1280,7 +1280,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		binaryLocalVarFileBytes = fbs
 		binaryLocalVarFileName = binaryLocalVarFile.Name()
 		binaryLocalVarFile.Close()
-    }
+	}
 	formFiles = append(formFiles, formFile{fileBytes: binaryLocalVarFileBytes, fileName: binaryLocalVarFileName, formFileName: binaryLocalVarFormFileName})
 	if r.date != nil {
 		parameterAddToQuery(localVarFormParams, "date", r.date, "")
@@ -1422,16 +1422,16 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	localVarFormParams := url.Values{}
 
 	if r.enumQueryStringArray != nil {
-	    parameterAddToQuery(localVarQueryParams, "enum_query_string_array", r.enumQueryStringArray, "csv")
+		parameterAddToQuery(localVarQueryParams, "enum_query_string_array", r.enumQueryStringArray, "csv")
 	}
 	if r.enumQueryString != nil {
-	    parameterAddToQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
+		parameterAddToQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
 	}
 	if r.enumQueryInteger != nil {
-	    parameterAddToQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
+		parameterAddToQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
 	}
 	if r.enumQueryDouble != nil {
-	    parameterAddToQuery(localVarQueryParams, "enum_query_double", r.enumQueryDouble, "")
+		parameterAddToQuery(localVarQueryParams, "enum_query_double", r.enumQueryDouble, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1587,10 +1587,10 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	parameterAddToQuery(localVarQueryParams, "required_string_group", r.requiredStringGroup, "")
 	parameterAddToQuery(localVarQueryParams, "required_int64_group", r.requiredInt64Group, "")
 	if r.stringGroup != nil {
-	    parameterAddToQuery(localVarQueryParams, "string_group", r.stringGroup, "")
+		parameterAddToQuery(localVarQueryParams, "string_group", r.stringGroup, "")
 	}
 	if r.int64Group != nil {
-	    parameterAddToQuery(localVarQueryParams, "int64_group", r.int64Group, "")
+		parameterAddToQuery(localVarQueryParams, "int64_group", r.int64Group, "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

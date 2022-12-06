@@ -214,7 +214,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	    parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
+		parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
@@ -269,15 +269,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	if {{paramName}}LocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
 		{{/required}}
-        {{#required}}
-        		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
-        {{/required}}
+		{{#required}}
+				fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
+		{{/required}}
 		{{paramName}}LocalVarFileBytes = fbs
 		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
 		{{paramName}}LocalVarFile.Close()
 	{{^required}}
-    }
-    {{/required}}
+	}
+	{{/required}}
 	formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 {{/isFile}}
 {{^isFile}}
@@ -390,8 +390,8 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
-            		newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-            		newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			{{/-last}}
