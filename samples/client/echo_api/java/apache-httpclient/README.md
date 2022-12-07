@@ -1,4 +1,4 @@
-# echo-api-native
+# echo-api-apache-httpclient
 
 Echo Server API
 
@@ -13,7 +13,7 @@ Echo Server API
 
 Building the API client library requires:
 
-1. Java 11+
+1. Java 1.8+
 2. Maven/Gradle
 
 ## Installation
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>echo-api-native</artifactId>
+  <artifactId>echo-api-apache-httpclient</artifactId>
   <version>0.1.0</version>
   <scope>compile</scope>
 </dependency>
@@ -50,7 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:echo-api-native:0.1.0"
+compile "org.openapitools:echo-api-apache-httpclient:0.1.0"
 ```
 
 ### Others
@@ -63,7 +63,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/echo-api-native-0.1.0.jar`
+- `target/echo-api-apache-httpclient-0.1.0.jar`
 - `target/lib/*.jar`
 
 ## Getting Started
@@ -73,6 +73,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```java
 
 import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
 import org.openapitools.client.api.PathApi;
 
@@ -80,8 +81,8 @@ public class PathApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        // Configure clients using the `defaultClient` object, such as
-        // overriding the host and port, timeout, etc.
+        defaultClient.setBasePath("http://localhost:3000");
+        
         PathApi apiInstance = new PathApi(defaultClient);
         String pathString = "pathString_example"; // String | 
         Integer pathInteger = 56; // Integer | 
@@ -107,13 +108,9 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
-*PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
-*QueryApi* | [**testQueryIntegerBooleanStringWithHttpInfo**](docs/QueryApi.md#testQueryIntegerBooleanStringWithHttpInfo) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectWithHttpInfo) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 
 
 ## Documentation for Models
@@ -132,7 +129,6 @@ Authentication schemes defined for the API:
 ## Recommendation
 
 It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
-However, the instances of the api clients created from the `ApiClient` are thread-safe and can be re-used.
 
 ## Author
 
