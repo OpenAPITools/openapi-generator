@@ -50,6 +50,7 @@ function Initialize-PSPet {
         [PSCustomObject[]]
         ${Tags},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("available", "pending", "sold")]
         [String]
         ${Status}
     )

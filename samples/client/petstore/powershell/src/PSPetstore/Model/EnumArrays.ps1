@@ -27,9 +27,11 @@ function Initialize-PSEnumArrays {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet(">=", "$")]
         [String]
         ${JustSymbol},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("fish", "crab")]
         [String[]]
         ${ArrayEnum}
     )

@@ -34,6 +34,7 @@ function Initialize-PSMapTest {
         [System.Collections.Hashtable]
         ${MapMapOfString},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("UPPER", "lower")]
         [System.Collections.Hashtable]
         ${MapOfEnumString},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
