@@ -1,0 +1,8 @@
+Apis/ClassicCheckoutSDKApi.http
+Apis/ModificationsApi.http
+Apis/OrdersApi.http
+Apis/PaymentLinksApi.http
+Apis/PaymentsApi.http
+Apis/UtilityApi.http
+Apis/http-client.env.json
+README.md
