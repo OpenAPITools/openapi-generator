@@ -41,6 +41,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 {{/generateSwagger2Annotations}}
 
+{{#additionalClientTypeAnnotations}}
+	{{{.}}}
+{{/additionalClientTypeAnnotations}}
 {{>common/generatedAnnotation}}
 @Client("${{openbrace}}{{{applicationName}}}-base-path{{closebrace}}")
 public interface {{classname}} {

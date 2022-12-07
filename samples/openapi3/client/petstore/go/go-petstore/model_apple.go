@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Apple type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Apple{}
+
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
@@ -72,6 +75,14 @@ func (o *Apple) SetCultivar(v string) {
 }
 
 func (o Apple) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Apple) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Cultivar) {
 		toSerialize["cultivar"] = o.Cultivar
@@ -81,7 +92,7 @@ func (o Apple) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {

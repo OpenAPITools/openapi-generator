@@ -146,6 +146,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     skipValidateSpec.set(generate.skipValidateSpec)
                     generateAliasAsModel.set(generate.generateAliasAsModel)
                     engine.set(generate.engine)
+                    cleanupOutput.set(generate.cleanupOutput)
                 }
             }
         }

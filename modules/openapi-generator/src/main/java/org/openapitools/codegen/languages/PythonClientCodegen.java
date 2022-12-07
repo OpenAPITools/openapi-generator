@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -239,6 +240,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         // When the 'additionalProperties' keyword is not present in a OAS schema, allow
         // undeclared properties. This is compliant with the JSON schema specification.
         this.setDisallowAdditionalPropertiesIfNotPresent(false);
+        GlobalSettings.setProperty("x-disallow-additional-properties-if-not-present", "false");
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
@@ -889,7 +891,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     @Override
     public String toModelImport(String name) {
         // name looks like Cat
-        return "from " + packagePath() + "." +  modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
+        return "from " + packageName + "." +  modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
     }
 
     @Override
@@ -1063,17 +1065,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         if (cp.isPrimitiveType && unaliasedSchema.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        setAdditionalPropsAndItemsVarNames(cp);
         return cp;
-    }
-
-    private void setAdditionalPropsAndItemsVarNames(IJsonSchemaValidationProperties item) {
-        if (item.getAdditionalProperties() != null) {
-            item.getAdditionalProperties().setBaseName("additional_properties");
-        }
-        if (item.getItems() != null) {
-            item.getItems().setBaseName("items");
-        }
     }
 
     /**
@@ -1087,6 +1079,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     @Override
     public boolean isDataTypeString(String dataType) {
         return "str".equals(dataType);
+    }
+
+    protected String getItemsName(Schema containingSchema, String containingSchemaName) {
+        return "items";
     }
 
     /**
@@ -1273,7 +1269,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         // Replace " " with _
         String usedValue = value.replaceAll("\\s+", "_");
         // strip first character if it is invalid
+        int lengthBeforeFirstCharStrip = usedValue.length();
+        Character firstChar = usedValue.charAt(0);
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        boolean firstCharStripped = usedValue.length() == lengthBeforeFirstCharStrip - 1;
         // Replace / with _ for path enums
         usedValue = usedValue.replaceAll("/", "_");
         // Replace . with _ for tag enums
@@ -1296,6 +1295,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
             // remove trailing _
             usedValue = usedValue.replaceAll("[_]$", "");
         }
+        // check first character to see if it is valid
+        // if not then add a valid prefix
+        boolean validFirstChar = Pattern.matches("^[_a-zA-Z]", usedValue.substring(0,1));
+        if (!validFirstChar && firstCharStripped) {
+            String charName = Character.getName(firstChar.hashCode());
+            usedValue = charNameToVarName(charName) + "_" + usedValue;
+        }
+
         return usedValue;
     }
 
@@ -1499,7 +1506,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
             cm.setHasMultipleTypes(true);
         }
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
-        setAdditionalPropsAndItemsVarNames(cm);
         if (isNotPythonModelSimpleModel) {
             return cm;
         }
@@ -2261,7 +2267,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         if (addPropsSchema == null) {
             return;
         }
-        CodegenProperty addPropProp = fromProperty("",  addPropsSchema, false, false);
+        CodegenProperty addPropProp = fromProperty(getAdditionalPropertiesName(),  addPropsSchema, false, false);
         property.setAdditionalProperties(addPropProp);
     }
 
@@ -2748,14 +2754,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
     public void preprocessOpenAPI(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
-        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsKey(xOriginalSwaggerVersion)) {
             originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
         } else {
             originalSpecVersion = openAPI.getOpenapi();
         }
         Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
         if (specMajorVersion < 3) {
-            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
+            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. " + getName() + " only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
         }
     }
 

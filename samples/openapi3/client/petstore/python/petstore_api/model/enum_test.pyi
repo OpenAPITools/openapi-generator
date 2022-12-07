@@ -208,7 +208,7 @@ class EnumTest(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         enum_string_required: typing.Union[MetaOapg.properties.enum_string_required, str, ],
         enum_string: typing.Union[MetaOapg.properties.enum_string, str, schemas.Unset] = schemas.unset,
         enum_integer: typing.Union[MetaOapg.properties.enum_integer, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -223,7 +223,7 @@ class EnumTest(
     ) -> 'EnumTest':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             enum_string_required=enum_string_required,
             enum_string=enum_string,
             enum_integer=enum_integer,

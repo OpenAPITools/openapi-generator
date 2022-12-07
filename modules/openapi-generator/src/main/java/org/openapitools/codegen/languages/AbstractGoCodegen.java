@@ -121,9 +121,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
-        typeMapping.put("File", "*os.File");
-        typeMapping.put("file", "*os.File");
-        typeMapping.put("binary", "*os.File");
+        typeMapping.put("File", "os.File");
+        typeMapping.put("file", "os.File");
+        typeMapping.put("binary", "os.File");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
@@ -505,13 +505,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             // import "os" if the operation uses files
-            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+            if (!addedOSImport && "os.File".equals(operation.returnType)) {
                 imports.add(createMapping("import", "os"));
                 addedOSImport = true;
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && "os.File".equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -665,8 +665,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
-                        (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
+                if (!addedOSImport && ("os.File".equals(cp.dataType) ||
+                        (cp.items != null && "os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }

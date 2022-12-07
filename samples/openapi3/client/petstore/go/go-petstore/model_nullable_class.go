@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the NullableClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableClass{}
+
 // NullableClass struct for NullableClass
 type NullableClass struct {
 	IntegerProp NullableInt32 `json:"integer_prop,omitempty"`
@@ -501,6 +504,14 @@ func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface
 }
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o NullableClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.IntegerProp.IsSet() {
 		toSerialize["integer_prop"] = o.IntegerProp.Get()
@@ -538,7 +549,7 @@ func (o NullableClass) MarshalJSON() ([]byte, error) {
 	if !isNil(o.ObjectItemsNullable) {
 		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableNullableClass struct {

@@ -46,6 +46,7 @@ public interface UserApi {
     @Operation(
         operationId = "createUser",
         summary = "Create user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -74,6 +75,7 @@ public interface UserApi {
     @Operation(
         operationId = "createUsersWithArrayInput",
         summary = "Creates list of users with given input array",
+        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -102,6 +104,7 @@ public interface UserApi {
     @Operation(
         operationId = "createUsersWithListInput",
         summary = "Creates list of users with given input array",
+        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -131,6 +134,7 @@ public interface UserApi {
     @Operation(
         operationId = "deleteUser",
         summary = "Delete user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -161,6 +165,7 @@ public interface UserApi {
     @Operation(
         operationId = "getUserByName",
         summary = "Get user by user name",
+        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -193,6 +198,7 @@ public interface UserApi {
     @Operation(
         operationId = "loginUser",
         summary = "Logs user into the system",
+        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -222,6 +228,7 @@ public interface UserApi {
     @Operation(
         operationId = "logoutUser",
         summary = "Logs out current logged in user session",
+        description = "",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation")
@@ -251,6 +258,7 @@ public interface UserApi {
     @Operation(
         operationId = "updateUser",
         summary = "Updated user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid user supplied"),

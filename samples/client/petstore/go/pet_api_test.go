@@ -111,7 +111,7 @@ func TestFindPetsByTag(t *testing.T) {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
 				if *resp[i].Id == 12830 {
-					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
+					assert.Equal("available", *resp[i].Status, "Pet status should be `available`")
 					found = true
 				}
 			}
@@ -154,7 +154,7 @@ func TestUploadFile(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(file).Execute()
+	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(*file).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while uploading file: %v", err)
@@ -172,7 +172,7 @@ func TestUploadFileRequired(t *testing.T) {
 		t.Fatalf("Error opening file: %v", err1)
 	}
 
-	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830).RequiredFile(file).AdditionalMetadata("golang").Execute()
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830).RequiredFile(*file).AdditionalMetadata("golang").Execute()
 
 	if err != nil {
 		t.Fatalf("Error while uploading file: %v", err)

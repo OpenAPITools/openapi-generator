@@ -1,0 +1,129 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: team@openapitools.org
+  description: Echo Server API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Echo Server API
+  version: 0.1.0
+servers:
+- url: http://localhost:3000/
+paths:
+  /query/style_form/explode_true/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/array_string
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_form/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+components:
+  schemas:
+    Category:
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        name:
+          example: Dogs
+          type: string
+      type: object
+      xml:
+        name: category
+    Tag:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: tag
+    Pet:
+      properties:
+        id:
+          example: 10
+          format: int64
+          type: integer
+        name:
+          example: doggie
+          type: string
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
+          items:
+            type: string
+            xml:
+              name: photoUrl
+          type: array
+          xml:
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+      xml:
+        name: pet
+    test_query_style_form_explode_true_array_string_query_object_parameter:
+      properties:
+        values:
+          items:
+            type: string
+          type: array
+      type: object
+
