@@ -108,7 +108,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, PREFIX + "Oauth.cpp"));
         supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, PREFIX + "Oauth.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("CmakeConfig.mustache", sourceFolder, "Config.cmake.in"));
+        supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
@@ -148,7 +148,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
             supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, modelNamePrefix + "Oauth.cpp"));
             supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, modelNamePrefix + "Oauth.h"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            supportingFiles.add(new SupportingFile("CmakeConfig.mustache", sourceFolder, "Config.cmake.in"));
+            supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
 
 
