@@ -878,3 +878,14 @@ components:
         required_nullable:
           type: string
           nullable: true
+    EnumArrayTesting:
+      description: Test of enum array
+      type: object
+      required:
+        - required_enums
+      properties:
+        required_enums:
+          type: array
+          items:
+            type: string
+            enum: ["A", "B", "C"]
