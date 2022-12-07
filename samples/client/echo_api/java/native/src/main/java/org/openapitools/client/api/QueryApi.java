@@ -78,6 +78,97 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param integerQuery  (optional)
+   * @param booleanQuery  (optional)
+   * @param stringQuery  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+    ApiResponse<String> localVarResponse = testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param integerQuery  (optional)
+   * @param booleanQuery  (optional)
+   * @param stringQuery  (optional)
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testQueryIntegerBooleanStringRequestBuilder(integerQuery, booleanQuery, stringQuery);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testQueryIntegerBooleanString", localVarResponse);
+        }
+        // for plain text response
+        InputStream responseBody = localVarResponse.body();
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testQueryIntegerBooleanStringRequestBuilder(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/query/integer/boolean/string";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("integer_query", integerQuery));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("boolean_query", booleanQuery));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("string_query", stringQuery));
+
+    if (!localVarQueryParams.isEmpty()) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "text/plain");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
    * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call

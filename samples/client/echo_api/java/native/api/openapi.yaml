@@ -11,6 +11,73 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
+  /path/string/{path_string}/integer/{path_integer}:
+    get:
+      description: Test path parameter(s)
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      parameters:
+      - explode: false
+        in: path
+        name: path_string
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: path_integer
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test path parameter(s)
+      tags:
+      - path
+      x-accepts: text/plain
+  /query/integer/boolean/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/integer/boolean/string
+      parameters:
+      - explode: true
+        in: query
+        name: integer_query
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: boolean_query
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/style_form/explode_true/array_string:
     get:
       description: Test query parameter(s)

@@ -74,21 +74,22 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 import org.openapitools.client.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.QueryApi;
+import org.openapitools.client.api.PathApi;
 
-public class QueryApiExample {
+public class PathApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
-        QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        PathApi apiInstance = new PathApi(defaultClient);
+        String pathString = "pathString_example"; // String | 
+        Integer pathInteger = 56; // Integer | 
         try {
-            String result = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject);
+            String result = apiInstance.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeTrueArrayString");
+            System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathInteger");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -105,6 +106,10 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**testQueryIntegerBooleanStringWithHttpInfo**](docs/QueryApi.md#testQueryIntegerBooleanStringWithHttpInfo) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
