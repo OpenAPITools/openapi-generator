@@ -801,7 +801,7 @@ components:
       properties:
         uuid:
           type: string
-          format: uuid 
+          format: uuid
     ActionContainer:
       required:
       - action
