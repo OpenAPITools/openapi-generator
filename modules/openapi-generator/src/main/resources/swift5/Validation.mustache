@@ -39,7 +39,7 @@ import Foundation
     /// - Returns: A validated string.
     /// - Throws: `ValidationError<StringValidationErrorKind>` if the string is invalid against the rule,
     ///           `NSError` if the rule.pattern is invalid.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate(_ string: String, with rule: StringRule) throws -> String {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate(_ string: String, against rule: StringRule) throws -> String {
         var error = ValidationError<StringValidationErrorKind>(kinds: [])
         if let minLength = rule.minLength, !(minLength <= string.count) {
             error.kinds.insert(.minLength)
@@ -65,7 +65,7 @@ import Foundation
     /// - Parameter rule: The NumericRule you wish to use for validation.
     /// - Returns: A validated integer.
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & BinaryInteger>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & BinaryInteger>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {
@@ -97,7 +97,7 @@ import Foundation
     /// - Parameter rule: The NumericRule you wish to use for validation.
     /// - Returns: A validated fractional number.
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & FloatingPoint>(_ numeric: T, with rule: NumericRule<T>) throws -> T {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & FloatingPoint>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
             if !rule.exclusiveMinimum, !(minium <= numeric) {
