@@ -932,6 +932,9 @@ public class ApiClient extends JavaTimeFormatter {
       } else {
         throw new ApiException("method " + method + " does not support a request body");
       }
+    } else {
+      // for empty body
+      builder.setEntity(serialize(null, null, contentTypeObj));
     }
 
     try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
