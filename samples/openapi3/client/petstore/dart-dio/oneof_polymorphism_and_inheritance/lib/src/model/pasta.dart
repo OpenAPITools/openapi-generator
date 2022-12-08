@@ -23,7 +23,7 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   @BuiltValueField(wireName: r'vendor')
   String? get vendor;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   Pasta._();
 

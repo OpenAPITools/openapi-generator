@@ -128,10 +128,10 @@ func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/is
 	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 {{^isFreeFormObject}}
 		return nil, false
-    {{/isFreeFormObject}}
-    {{#isFreeFormObject}}
+	{{/isFreeFormObject}}
+	{{#isFreeFormObject}}
 		return {{vendorExtensions.x-go-base-type}}{}, false
-    {{/isFreeFormObject}}
+	{{/isFreeFormObject}}
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
@@ -198,12 +198,12 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
 	if o == nil{{^isNullable}} || isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
-    {{^isFreeFormObject}}
+	{{^isFreeFormObject}}
 		return nil, false
-    {{/isFreeFormObject}}
-    {{#isFreeFormObject}}
+	{{/isFreeFormObject}}
+	{{#isFreeFormObject}}
 		return {{vendorExtensions.x-go-base-type}}{}, false
-    {{/isFreeFormObject}}
+	{{/isFreeFormObject}}
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}

@@ -358,6 +358,7 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
+      x-webclient-blocking: false
       x-accepts: application/json
   /store/order:
     post:

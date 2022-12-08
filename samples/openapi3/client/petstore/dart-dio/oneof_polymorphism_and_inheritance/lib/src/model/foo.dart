@@ -27,7 +27,7 @@ abstract class Foo implements Entity, Built<Foo, FooBuilder> {
   @BuiltValueField(wireName: r'fooPropB')
   String? get fooPropB;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   Foo._();
 
