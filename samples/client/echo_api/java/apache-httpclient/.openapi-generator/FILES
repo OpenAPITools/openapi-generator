@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
+docs/BodyApi.md
 docs/Category.md
 docs/PathApi.md
 docs/Pet.md
@@ -29,6 +30,7 @@ src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/BodyApi.java
 src/main/java/org/openapitools/client/api/PathApi.java
 src/main/java/org/openapitools/client/api/QueryApi.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java

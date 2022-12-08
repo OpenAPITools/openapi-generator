@@ -26,6 +26,10 @@ info:
 servers:
   - url: http://localhost:3000/
 paths:
+  # Path usually starts with parameter type such as path, query, header, form
+  # For body/form parameters, path starts with "/echo" so the the echo server
+  # will response with the same body in the HTTP request.
+  #
   # path parameter tests
   /path/string/{path_string}/integer/{path_integer}:
     get:
@@ -133,8 +137,31 @@ paths:
             text/plain:
               schema:
                 type: string
+  /echo/body/Pet:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/echo/body/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
 
 components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
   schemas:
     Category:
       type: object

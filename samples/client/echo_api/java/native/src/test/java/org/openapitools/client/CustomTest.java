@@ -15,10 +15,8 @@ package org.openapitools.client;
 
 import org.junit.Assert;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.api.QueryApi;
-import org.openapitools.client.model.Category;
-import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
+import org.openapitools.client.api.*;
+import org.openapitools.client.model.*;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -31,7 +29,30 @@ import java.util.*;
 public class CustomTest {
 
     private final QueryApi api = new QueryApi();
+    private final BodyApi bodyApi = new BodyApi();
 
+
+    /**
+     * Test body parameter(s)
+     * <p>
+     * Test body parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testEchoBodyPet() throws ApiException {
+        Pet queryObject = new Pet().id(12345L).name("Hello World").
+                photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
+
+        Pet p = bodyApi.testEchoBodyPet(queryObject);
+        Assert.assertNotNull(p);
+        Assert.assertEquals("Hello World", p.getName());
+        Assert.assertEquals(Long.valueOf(12345L), p.getId());
+
+        // response is empty body
+        Pet p2 = bodyApi.testEchoBodyPet(null);
+        Assert.assertNull(p2);
+    }
 
     /**
      * Test query parameter(s)

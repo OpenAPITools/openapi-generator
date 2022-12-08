@@ -75,22 +75,21 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.PathApi;
+import org.openapitools.client.api.BodyApi;
 
-public class PathApiExample {
+public class BodyApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost:3000");
         
-        PathApi apiInstance = new PathApi(defaultClient);
-        String pathString = "pathString_example"; // String | 
-        Integer pathInteger = 56; // Integer | 
+        BodyApi apiInstance = new BodyApi(defaultClient);
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            String result = apiInstance.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+            Pet result = apiInstance.testEchoBodyPet(pet);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathInteger");
+            System.err.println("Exception when calling BodyApi#testEchoBodyPet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -107,6 +106,7 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)

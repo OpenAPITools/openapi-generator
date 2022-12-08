@@ -112,10 +112,9 @@ public class QueryApi {
           throw getApiException("testQueryIntegerBooleanString", localVarResponse);
         }
         // for plain text response
-        InputStream responseBody = localVarResponse.body();
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -199,10 +198,9 @@ public class QueryApi {
           throw getApiException("testQueryStyleFormExplodeTrueArrayString", localVarResponse);
         }
         // for plain text response
-        InputStream responseBody = localVarResponse.body();
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -284,10 +282,9 @@ public class QueryApi {
           throw getApiException("testQueryStyleFormExplodeTrueObject", localVarResponse);
         }
         // for plain text response
-        InputStream responseBody = localVarResponse.body();
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
