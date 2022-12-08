@@ -124,9 +124,37 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /echo/body/Pet:
+    post:
+      description: Test body parameter(s)
+      operationId: test/echo/body/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: application/json
 components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
   schemas:
     Category:
+      example:
+        name: Dogs
+        id: 1
       properties:
         id:
           example: 1
@@ -139,6 +167,9 @@ components:
       xml:
         name: category
     Tag:
+      example:
+        name: name
+        id: 0
       properties:
         id:
           format: int64
@@ -149,6 +180,21 @@ components:
       xml:
         name: tag
     Pet:
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+        name: doggie
+        id: 10
+        category:
+          name: Dogs
+          id: 1
+        tags:
+        - name: name
+          id: 0
+        - name: name
+          id: 0
+        status: available
       properties:
         id:
           example: 10
