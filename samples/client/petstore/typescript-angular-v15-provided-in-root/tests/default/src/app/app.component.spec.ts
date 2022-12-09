@@ -53,7 +53,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v11 (provided in root)!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v15 (provided in root)!');
   }));
 
   describe(`constructor()`, () => {
