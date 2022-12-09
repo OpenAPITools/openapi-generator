@@ -316,7 +316,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Specific ng-packagr configuration
         if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("ngPackagrVersion", "15.0.2");
-            // tsTickle is not required and there no available version compatible with
+            // tsTickle is not required and there is no available version compatible with
             // versions of TypeScript compatible with Angular 15.
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("ngPackagrVersion", "14.0.2");
