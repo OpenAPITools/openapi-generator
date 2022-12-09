@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,13 +28,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ParentPet
     /// </summary>
-    public partial class ParentPet : GrandparentAnimal, IEquatable<ParentPet>
+    public partial class ParentPet : GrandparentAnimal, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
-        /// <param name="petType">petType (required)</param>
-        public ParentPet(string petType) : base(petType)
+        /// <param name="petType">petType</param>
+        [JsonConstructor]
+        internal ParentPet(string petType) : base(petType)
         {
         }
 
@@ -51,40 +51,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ParentPet).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ParentPet instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ParentPet to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ParentPet? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                return hashCode;
-            }
-        }
-
     }
 
     /// <summary>
@@ -92,13 +58,6 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public class ParentPetJsonConverter : JsonConverter<ParentPet>
     {
-        /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(ParentPet).IsAssignableFrom(typeToConvert);
-
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -111,17 +70,22 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            string? petType = default;
+            JsonTokenType startingTokenType = reader.TokenType;
+
+            string petType = default;
 
             while (reader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -130,6 +94,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "pet_type":
                             petType = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -145,6 +111,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="parentPet"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("pet_type", parentPet.PetType);
+
+            writer.WriteEndObject();
+        }
     }
 }
