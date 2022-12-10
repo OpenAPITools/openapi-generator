@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - build-with-gradle-7.5.1
+      - build-with-gradle
       - '[5-9]+.[0-9]+.x'
   pull_request:
     branches:
