@@ -18,6 +18,7 @@ buildscript {
     }
 }
 
+apply plugin: 'base'
 apply plugin: 'org.openapi.generator'
 
 openApiMeta {
