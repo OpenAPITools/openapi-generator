@@ -1,15 +1,6 @@
 name: OpenAPI Generator (Gradle Build)
 
-on:
-  push:
-    branches:
-      - master
-      - build-with-gradle
-      - '[5-9]+.[0-9]+.x'
-  pull_request:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   build:
@@ -21,7 +12,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 8
-          distribution: 'temurin'
+          distribution: temurin
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
