@@ -1,7 +1,7 @@
 import org.apache.tools.ant.DirectoryScanner
 
 plugins {
-    id("com.gradle.enterprise") version "3.11.2"
+    id("com.gradle.enterprise") version "3.12"
     id("com.gradle.common-custom-user-data-gradle-plugin") version "1.8.2"
 }
 
@@ -23,7 +23,7 @@ DirectoryScanner.removeDefaultExclude("**/.gitignore")
 
 gradleEnterprise {
     buildScan {
-        val acceptTOSProp = providers.gradleProperty("openapi-generator-project.acceptGradleTOS")
+        val acceptTOSProp = providers.gradleProperty("${rootProject.name}.acceptGradleTOS")
         if (acceptTOSProp.map { it.toBoolean() }.getOrElse(false)) {
             termsOfServiceUrl = "https://gradle.com/terms-of-service"
             termsOfServiceAgree = "yes"
