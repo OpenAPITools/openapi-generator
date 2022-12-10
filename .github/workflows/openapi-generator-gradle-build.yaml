@@ -25,7 +25,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
-        run: ./gradlew clean build publishToMavenLocal -Popenapi-generator-project.acceptGradleTOS=true
+        run: ./gradlew clean build publishToMavenLocal
       - name: Verify Gradle plugin sample
         working-directory: modules/openapi-generator-gradle-plugin/samples/local-spec
         run: |

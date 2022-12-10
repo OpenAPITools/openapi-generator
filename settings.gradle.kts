@@ -23,10 +23,12 @@ DirectoryScanner.removeDefaultExclude("**/.gitignore")
 
 gradleEnterprise {
     buildScan {
+        val isCI = System.getenv("CI").toBoolean()
         val acceptTOSProp = providers.gradleProperty("${rootProject.name}.acceptGradleTOS")
-        if (acceptTOSProp.map { it.toBoolean() }.getOrElse(false)) {
+        if (isCI || acceptTOSProp.map { it.toBoolean() }.getOrElse(false)) {
             termsOfServiceUrl = "https://gradle.com/terms-of-service"
             termsOfServiceAgree = "yes"
+            isUploadInBackground = !isCI
             publishAlways()
             obfuscation {
                 hostname { null }
