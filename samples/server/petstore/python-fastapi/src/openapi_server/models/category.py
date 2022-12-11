@@ -28,4 +28,5 @@ class Category(BaseModel):
         assert value is not None and re.match(r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$", value)
         return value
 
+
 Category.update_forward_refs()

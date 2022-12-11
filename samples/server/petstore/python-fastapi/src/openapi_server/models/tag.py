@@ -23,4 +23,5 @@ class Tag(BaseModel):
     id: Optional[int] = Field(alias="id", default=None)
     name: Optional[str] = Field(alias="name", default=None)
 
+
 Tag.update_forward_refs()

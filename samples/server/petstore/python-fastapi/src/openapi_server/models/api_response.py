@@ -25,4 +25,5 @@ class ApiResponse(BaseModel):
     type: Optional[str] = Field(alias="type", default=None)
     message: Optional[str] = Field(alias="message", default=None)
 
+
 ApiResponse.update_forward_refs()

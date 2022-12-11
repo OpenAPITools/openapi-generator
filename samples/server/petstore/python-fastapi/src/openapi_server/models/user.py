@@ -35,4 +35,5 @@ class User(BaseModel):
     phone: Optional[str] = Field(alias="phone", default=None)
     user_status: Optional[int] = Field(alias="userStatus", default=None)
 
+
 User.update_forward_refs()

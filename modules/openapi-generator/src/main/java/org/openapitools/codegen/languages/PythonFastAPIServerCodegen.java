@@ -253,7 +253,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
         for (Map.Entry<String, ModelsMap> entry : result.entrySet()) {
-            for (ModelMap mo : entry.getValue().getModels()) {
+            ModelsMap models = entry.getValue();
+            postProcessModelsEnum(models);
+            for (ModelMap mo : models.getModels()) {
                 CodegenModel cm = mo.getModel();
                 // Add additional filename information for imports
                 mo.put("pyImports", toPyImports(cm, cm.imports));

@@ -31,4 +31,5 @@ class Order(BaseModel):
     status: Optional[str] = Field(alias="status", default=None)
     complete: Optional[bool] = Field(alias="complete", default=None)
 
+
 Order.update_forward_refs()

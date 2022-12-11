@@ -33,4 +33,5 @@ class Pet(BaseModel):
     tags: Optional[List[Tag]] = Field(alias="tags", default=None)
     status: Optional[str] = Field(alias="status", default=None)
 
+
 Pet.update_forward_refs()
