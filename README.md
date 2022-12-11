@@ -240,7 +240,9 @@ openapi-generator-cli version # is always 4.0.2, unless any of the above overrid
 
 ### [1.4 - Build Projects](#table-of-contents)
 
-To build from source, you need the following installed and available in your `$PATH:`
+#### Maven
+
+To build using Maven, you need the following installed and available in your `$PATH:`
 
 * [Java 8](https://www.oracle.com/technetwork/java/index.html)
 
@@ -261,6 +263,36 @@ The default build contains minimal static analysis (via CheckStyle). To run your
 ```sh
 mvn -Pstatic-analysis clean install
 ```
+
+#### Gradle
+
+To build with [Gradle](https://gradle.org/), you must have the following installed:
+
+* [Java 8](https://www.oracle.com/technetwork/java/index.html)
+
+The following command will build the project and execute tests using Gradle:
+
+```sh
+./gradlew build
+```
+
+Subsequent Gradle builds will be noticeably faster because of Gradle's incremental build and build caching features.
+
+This project is also configured to publish a [Build Scan™](https://scans.gradle.com/) for each Gradle build. A Build Scan is a shareable record of a build that provides insights into what happened and why. You may be asked to share a Build Scan when asking for help with build issues.
+
+You may opt in to this feature by adding the following to your `~/.gradle/gradle.properties` file:
+
+```
+openapi-generator-project.acceptGradleTOS=true
+```
+
+By opting in to the Build Scan service, you agree to the [Gradle Terms of Use](https://gradle.com/terms-of-service).
+
+**Note:** Building with Gradle is currently incubating. Currently, only the following subprojects can be built with Gradle:
+
+- `openapi-generator`
+- `openapi-generator-core`
+- `openapi-generator-gradle-plugin`
 
 ### [1.5 - Homebrew](#table-of-contents)
 
