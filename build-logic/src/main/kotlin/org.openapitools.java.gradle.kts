@@ -2,9 +2,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-    java
-    `maven-publish`
+    id("java")
+    id("maven-publish")
     id("org.openapitools.base")
+    id("org.openapitools.publishing")
 }
 
 java {

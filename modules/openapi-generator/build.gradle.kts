@@ -40,3 +40,11 @@ dependencies {
     testImplementation("org.openrewrite:rewrite-maven:7.22.0")
     testImplementation("org.reflections:reflections:0.10")
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+}

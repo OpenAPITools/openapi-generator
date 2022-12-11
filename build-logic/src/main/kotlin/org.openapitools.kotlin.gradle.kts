@@ -1,6 +1,6 @@
 plugins {
+    id("org.jetbrains.kotlin.jvm")
     id("org.openapitools.java")
-    kotlin("jvm")
 }
 
 dependencies {

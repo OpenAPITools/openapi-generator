@@ -1,10 +1,8 @@
 plugins {
+    `kotlin-dsl`
     id("com.gradle.plugin-publish") version "1.0.0"
     id("java-gradle-plugin")
-    id("maven-publish")
-    id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
     id("org.openapitools.kotlin")
-    id("signing")
 }
 
 description = """
@@ -45,51 +43,4 @@ signing {
     val isReleaseVersion: Boolean by extra
     setRequired { isReleaseVersion && gradle.taskGraph.hasTask("publishPluginMavenPublicationToSonatypeRepository") }
     sign(publishing.publications)
-}
-
-// afterEvaluate is necessary because java-gradle-plugin
-// creates its publications in an afterEvaluate callback
-afterEvaluate {
-    tasks.named("publishToSonatype") {
-        dependsOn("check")
-    }
-
-    publishing {
-        publications {
-            named<MavenPublication>("pluginMaven") {
-                pom {
-                    name.set("OpenAPI-Generator Contributors")
-                    description.set(project.description)
-                    url.set("https://openapi-generator.tech")
-                    organization {
-                        name.set("org.openapitools")
-                        url.set("https://github.com/OpenAPITools")
-                    }
-                    licenses {
-                        license {
-                            name.set("The Apache Software License, Version 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                            distribution.set("repo")
-                        }
-                    }
-                    developers {
-                        developer {
-                            id.set("openapitools")
-                            name.set("OpenAPI-Generator Contributors")
-                            email.set("team@openapitools.org")
-                        }
-                    }
-                    scm {
-                        url.set("https://github.com/OpenAPITools/openapi-generator")
-                        connection.set("scm:git:git://github.com/OpenAPITools/openapi-generator.git")
-                        developerConnection.set("scm:git:ssh://git@github.com:OpenAPITools/openapi-generator.git")
-                    }
-                    issueManagement {
-                        system.set("GitHub")
-                        url.set("https://github.com/OpenAPITools/openapi-generator/issues")
-                    }
-                }
-            }
-        }
-    }
 }

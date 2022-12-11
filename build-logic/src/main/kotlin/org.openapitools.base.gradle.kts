@@ -1,5 +1,5 @@
 plugins {
-    base
+    id("base")
 }
 
 val openApiGeneratorVersion: String by properties
