@@ -33,14 +33,3 @@ gradlePlugin {
         }
     }
 }
-
-// Signing requires three keys to be defined: signing.keyId, signing.password, and signing.secretKeyRingFile.
-// These can be passed to the Gradle command:
-//     ./gradlew -Psigning.keyId=yourid
-// or stored as key=value pairs in ~/.gradle/gradle.properties
-// You can also apply them in CI via environment variables. See Gradle's docs for details.
-signing {
-    val isReleaseVersion: Boolean by extra
-    setRequired { isReleaseVersion && gradle.taskGraph.hasTask("publishPluginMavenPublicationToSonatypeRepository") }
-    sign(publishing.publications)
-}

@@ -46,11 +46,23 @@ mavenPom {
     }
 }
 
+signing {
+    val isReleaseVersion: Boolean by extra
+    setRequired { isReleaseVersion && containsSonatypePublishTask() }
+    sign(publishing.publications)
+}
+
 fun Project.mavenPom(action: Action<MavenPom>) {
     // afterEvaluate is necessary because java-gradle-plugin
     // creates its publications in an afterEvaluate callback
     afterEvaluate {
         val publishing = project.extensions.getByType<PublishingExtension>()
         publishing.publications.withType<MavenPublication>().configureEach { pom(action) }
+    }
+}
+
+fun Project.containsSonatypePublishTask(): Boolean {
+    return gradle.taskGraph.allTasks.any { task ->
+        task.path.startsWith(project.path) && task.name.endsWith("ToSonatypeRepository")
     }
 }
