@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class MetaTaskDslTest : TestBase() {
-    override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
+    override var temp: File = createTempDir(javaClass.simpleName)
 
     @Test
     fun `openApiMeta should generate desired project contents`() {

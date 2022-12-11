@@ -789,14 +789,12 @@ open class GenerateTask : DefaultTask() {
             }
 
             val clientOptInput = configurator.toClientOptInput()
-            @Suppress("DEPRECATION")
             val codegenConfig = clientOptInput.config
 
             if (configOptions.isPresent) {
                 val userSpecifiedConfigOptions = configOptions.get()
                 codegenConfig.cliOptions().forEach {
                     if (userSpecifiedConfigOptions.containsKey(it.opt)) {
-                        @Suppress("DEPRECATION")
                         clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
                     }
                 }
