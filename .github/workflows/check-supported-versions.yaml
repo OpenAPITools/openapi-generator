@@ -15,10 +15,6 @@ jobs:
         include:
           - java: 8
             os: windows-latest
-          - java: 17
-            os: ubuntu-latest
-            # Need to update to Gradle version with v17 support in modules/openapi-generator-gradle-plugin/pom.xml
-            flags: -am -pl modules/openapi-generator-cli -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -41,7 +37,7 @@ jobs:
 
       - name: Build with Maven
         shell: bash
-        run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
+        run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml
 
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v3
