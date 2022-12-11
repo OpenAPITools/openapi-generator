@@ -36,14 +36,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('modules/openapi-generator-gradle-plugin/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Build with Maven
         shell: bash
@@ -58,7 +52,8 @@ jobs:
 
       - name: Test Gradle plugin usage
         shell: bash
-        run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
+        working-directory: modules/openapi-generator-gradle-plugin/samples/local-spec
+        run: ./gradlew buildGoSdk --stacktrace
 
       - name: Test Maven plugin integration
         if: matrix.java == '8'
