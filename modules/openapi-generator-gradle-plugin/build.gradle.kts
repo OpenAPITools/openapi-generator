@@ -50,13 +50,13 @@ signing {
 // afterEvaluate is necessary because java-gradle-plugin
 // creates its publications in an afterEvaluate callback
 afterEvaluate {
-    tasks.named("publishToSonatype").configure {
+    tasks.named("publishToSonatype") {
         dependsOn("check")
     }
 
     publishing {
         publications {
-            named<MavenPublication>("pluginMaven").configure {
+            named<MavenPublication>("pluginMaven") {
                 pom {
                     name.set("OpenAPI-Generator Contributors")
                     description.set(project.description)
