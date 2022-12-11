@@ -32,6 +32,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
+|customRepositoryId|Repository ID in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect| |null|
+|customRepositoryName|Repository name in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect| |null|
+|customRepositoryUrl|Repository URL in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|

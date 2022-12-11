@@ -129,5 +129,13 @@
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
     </properties>
-
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

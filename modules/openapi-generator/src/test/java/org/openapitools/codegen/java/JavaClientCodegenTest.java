@@ -80,9 +80,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class JavaClientCodegenTest {
 
@@ -1833,5 +1831,69 @@ public class JavaClientCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    public void testNoCustomRepositoryIfNotAllParametersProvided() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.CUSTOM_REPOSITORY_ID, "private-repo");
+        properties.put(CodegenConstants.CUSTOM_REPOSITORY_NAME, "Custom repository");
+        // Did not provide custom repository URL.
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        final Path pomXmlPath = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileNotContains(pomXmlPath, "<repository>");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testCustomRepository() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.CUSTOM_REPOSITORY_ID, "private-repo");
+        properties.put(CodegenConstants.CUSTOM_REPOSITORY_NAME, "Custom repository");
+        properties.put(CodegenConstants.CUSTOM_REPOSITORY_URL, "https://customrepository.example.com/repository/maven-public/");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        final Path pomXmlPath = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileContains(pomXmlPath, "<repository>");
+        TestUtils.assertFileContains(pomXmlPath, "<id>private-repo</id>");
+        TestUtils.assertFileContains(pomXmlPath, "<name>Custom repository</name>");
+        TestUtils.assertFileContains(pomXmlPath, "<url>https://customrepository.example.com/repository/maven-public/</url>");
+        TestUtils.assertFileContains(pomXmlPath, "</repository>");
+
+        output.deleteOnExit();
     }
 }

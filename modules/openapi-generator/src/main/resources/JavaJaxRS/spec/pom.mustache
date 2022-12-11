@@ -184,4 +184,13 @@
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
 {{/useJakartaEe}}
   </properties>
+{{#customRepository}}
+  <repositories>
+    <repository>
+      <id>{{{customRepositoryId}}}</id>
+      <name>{{{customRepositoryName}}}</name>
+      <url>{{{customRepositoryUrl}}}</url>
+   </repository>
+  </repositories>
+{{/customRepository}}
 </project>

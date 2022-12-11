@@ -231,4 +231,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <annotation-api-version>1.3.5</annotation-api-version>
   </properties>
+{{#customRepository}}
+  <repositories>
+    <repository>
+      <id>{{{customRepositoryId}}}</id>
+      <name>{{{customRepositoryName}}}</name>
+      <url>{{{customRepositoryUrl}}}</url>
+   </repository>
+  </repositories>
+{{/customRepository}}
 </project>

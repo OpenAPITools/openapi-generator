@@ -204,6 +204,13 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+{{#customRepository}}
+    <repository>
+      <id>{{{customRepositoryId}}}</id>
+      <name>{{{customRepositoryName}}}</name>
+      <url>{{{customRepositoryUrl}}}</url>
+    </repository>
+{{/customRepository}}
   </repositories>
   <properties>
     <java.version>1.8</java.version>
