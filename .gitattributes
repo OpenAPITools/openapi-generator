@@ -1,2 +1,5 @@
-**/*.mustache linguist-vendored=true
-* text=auto eol=lf
+# https://help.github.com/articles/dealing-with-line-endings/
+**/*.mustache   linguist-vendored=true
+*               text=auto               eol=lf
+/gradlew        text                    eol=lf
+*.bat           text                    eol=crlf
