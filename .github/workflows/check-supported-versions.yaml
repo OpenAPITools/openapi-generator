@@ -51,6 +51,7 @@ jobs:
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
 
       - name: Test Gradle plugin usage
+        if: matrix.java != '17'
         shell: bash
         working-directory: modules/openapi-generator-gradle-plugin/samples/local-spec
         run: ./gradlew buildGoSdk --stacktrace
