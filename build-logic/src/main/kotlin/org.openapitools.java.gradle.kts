@@ -27,16 +27,6 @@ dependencies {
     testImplementation("org.testng:testng:7.5")
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Javadoc>().configureEach {
-    if (java.toolchain.languageVersion.map { it.canCompileOrRun(9) }.getOrElse(false)) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    }
-}
-
 tasks.withType<Test>().configureEach {
     useTestNG()
 

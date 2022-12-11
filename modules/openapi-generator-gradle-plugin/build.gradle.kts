@@ -42,8 +42,8 @@ gradlePlugin {
 // or stored as key=value pairs in ~/.gradle/gradle.properties
 // You can also apply them in CI via environment variables. See Gradle's docs for details.
 signing {
-    setRequired({ (project.extra["isReleaseVersion"] as Boolean)
-            && gradle.taskGraph.hasTask("publishPluginMavenPublicationToSonatypeRepository") })
+    val isReleaseVersion: Boolean by extra
+    setRequired { isReleaseVersion && gradle.taskGraph.hasTask("publishPluginMavenPublicationToSonatypeRepository") }
     sign(publishing.publications)
 }
 
