@@ -1,6 +1,10 @@
 import io.github.gradlenexus.publishplugin.CloseNexusStagingRepository
 import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
 
+if (project != rootProject) {
+    throw GradleException("Plugin 'org.openapitools.nexus' must only be applied to root project but was applied to ${project.path}.")
+}
+
 plugins {
     id("io.github.gradle-nexus.publish-plugin")
     id("org.openapitools.base")
