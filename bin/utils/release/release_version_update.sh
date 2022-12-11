@@ -78,7 +78,6 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-maven-plugin/pom.xml"
     "${root}/modules/openapi-generator-online/pom.xml"
     "${root}/modules/openapi-generator/pom.xml"
-    "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
     "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
     "${root}/modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/java-client.xml"
@@ -86,6 +85,7 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/kotlin.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/spring.xml"
+    "${root}/gradle.properties"
     "${root}/pom.xml"
 )
 
