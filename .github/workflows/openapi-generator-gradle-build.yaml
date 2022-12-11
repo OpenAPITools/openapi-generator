@@ -8,15 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
           java-version: 8
           distribution: temurin
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
       - name: Build with Gradle
         run: ./gradlew clean build publishToMavenLocal
+
       - name: Verify Gradle plugin sample
         working-directory: modules/openapi-generator-gradle-plugin/samples/local-spec
         run: |
