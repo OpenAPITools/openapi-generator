@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -28,25 +29,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Fruit
     /// </summary>
-    public partial class Fruit : IValidatableObject
+    public partial class Fruit : IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="apple?"></param>
         /// <param name="color">color</param>
-        [JsonConstructor]
-        public Fruit(Apple? apple, string color)
+        public Fruit(Apple? apple, string? color = default)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Apple = apple;
             Color = color;
         }
@@ -56,18 +47,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        [JsonConstructor]
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana banana, string? color = default)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Banana = banana;
             Color = color;
         }
@@ -80,13 +61,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Banana Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -100,6 +81,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Fruit).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Fruit instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Fruit to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Fruit? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.Color != null)
+                {
+                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                }
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -117,6 +136,13 @@ namespace Org.OpenAPITools.Model
     public class FruitJsonConverter : JsonConverter<Fruit>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Fruit).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -128,10 +154,8 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
-
-            JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader appleReader = reader;
             bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple? apple);
@@ -139,17 +163,14 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader bananaReader = reader;
             bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana? banana);
 
-            string color = default;
+            string? color = default;
 
             while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
-                    break;
-
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -158,8 +179,6 @@ namespace Org.OpenAPITools.Model
                     {
                         case "color":
                             color = reader.GetString();
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -181,13 +200,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="fruit"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions options)
-        {
-            writer.WriteStartObject();
-
-            writer.WriteString("color", fruit.Color);
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

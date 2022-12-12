@@ -3,15 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
-using {{packageName}}.{{clientPackage}};{{#hasImport}}
+using {{packageName}}.Client;{{#hasImport}}
 using {{packageName}}.{{modelPackage}};{{/hasImport}}
-using {{packageName}}.Extensions;
 
 
-{{>testInstructions}}
+{{{testInstructions}}}
 
 
-namespace {{packageName}}.Test.{{apiPackage}}
+namespace {{packageName}}.Test.Api
 {
     /// <summary>
     ///  Base class for API tests
@@ -26,7 +25,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .Configure{{apiName}}((context, services, options) =>
+            .Configure{{apiName}}((context, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);

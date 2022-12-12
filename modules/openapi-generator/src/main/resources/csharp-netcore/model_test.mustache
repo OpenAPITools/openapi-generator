@@ -8,11 +8,9 @@ using System.IO;
 using System.Collections.Generic;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.{{modelPackage}};
-using {{packageName}}.{{clientPackage}};
+using {{packageName}}.Client;
 using System.Reflection;
-{{^useGenericHost}}
 using Newtonsoft.Json;
-{{/useGenericHost}}
 
 {{#models}}
 {{#model}}

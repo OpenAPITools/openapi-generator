@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Extensions;
 
 
 /* *********************************************************************************
@@ -50,7 +49,7 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .ConfigureApi((context, services, options) =>
+            .ConfigureApi((context, options) =>
             {
                 ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);

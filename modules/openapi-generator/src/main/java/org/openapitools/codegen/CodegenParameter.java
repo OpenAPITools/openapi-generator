@@ -763,12 +763,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         this.requiredVars = requiredVars;
     }
 
-    public boolean requiredAndNotNullable(){
+    public boolean compulsory(){
         return required && !isNullable;
-    }
-
-    public boolean notRequiredOrIsNullable() {
-        return !required || isNullable;
     }
 
     @Override

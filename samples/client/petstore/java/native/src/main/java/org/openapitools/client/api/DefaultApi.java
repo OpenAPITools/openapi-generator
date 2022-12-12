@@ -104,10 +104,11 @@ public class DefaultApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fooGet", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<FooGetDefaultResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FooGetDefaultResponse>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<FooGetDefaultResponse>() {}) // closes the InputStream
         );
       } finally {
       }

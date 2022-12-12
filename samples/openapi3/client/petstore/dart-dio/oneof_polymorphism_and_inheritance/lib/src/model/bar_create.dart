@@ -32,7 +32,7 @@ abstract class BarCreate implements Entity, Built<BarCreate, BarCreateBuilder> {
   @BuiltValueField(wireName: r'barPropA')
   String? get barPropA;
 
-  static const String discriminatorFieldName = r'@type';
+  static const String discriminatorFieldName = r'atType';
 
   BarCreate._();
 

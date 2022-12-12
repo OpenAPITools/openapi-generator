@@ -18,6 +18,7 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,6 +57,14 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
+        /// Test the property 'Uuid'
+        /// </summary>
+        [Fact]
+        public void UuidTest()
+        {
+            // TODO unit test for the property 'Uuid'
+        }
+        /// <summary>
         /// Test the property 'DateTime'
         /// </summary>
         [Fact]
@@ -70,14 +79,6 @@ namespace Org.OpenAPITools.Test.Model
         public void MapTest()
         {
             // TODO unit test for the property 'Map'
-        }
-        /// <summary>
-        /// Test the property 'Uuid'
-        /// </summary>
-        [Fact]
-        public void UuidTest()
-        {
-            // TODO unit test for the property 'Uuid'
         }
 
     }

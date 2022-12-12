@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**PropTest** | Pointer to **map[string]os.File** | a property to test map of file | [optional] 
+**PropTest** | Pointer to **map[string]*os.File** | a property to test map of file | [optional] 
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetPropTest
 
-`func (o *MapOfFileTest) GetPropTest() map[string]os.File`
+`func (o *MapOfFileTest) GetPropTest() map[string]*os.File`
 
 GetPropTest returns the PropTest field if non-nil, zero value otherwise.
 
 ### GetPropTestOk
 
-`func (o *MapOfFileTest) GetPropTestOk() (*map[string]os.File, bool)`
+`func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool)`
 
 GetPropTestOk returns a tuple with the PropTest field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPropTest
 
-`func (o *MapOfFileTest) SetPropTest(v map[string]os.File)`
+`func (o *MapOfFileTest) SetPropTest(v map[string]*os.File)`
 
 SetPropTest sets PropTest field to given value.
 

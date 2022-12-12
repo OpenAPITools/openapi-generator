@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -26,15 +27,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ChildCat
     /// </summary>
-    public partial class ChildCat : ParentPet, IValidatableObject
+    public partial class ChildCat : ParentPet, IEquatable<ChildCat>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="childCatAllOf"></param>
-        /// <param name="petType">petType</param>
-        [JsonConstructor]
-        internal ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
+        /// <param name="petType">petType (required)</param>
+        public ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
         }
@@ -56,6 +56,40 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ChildCat).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if ChildCat instances are equal
+        /// </summary>
+        /// <param name="input">Instance of ChildCat to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(ChildCat input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                return hashCode;
+            }
+        }
+
     }
 
     /// <summary>
@@ -63,6 +97,13 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(ChildCat).IsAssignableFrom(typeToConvert);
+
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -75,25 +116,20 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
-
             Utf8JsonReader childCatAllOfReader = reader;
-            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref reader, options, out ChildCatAllOf childCatAllOf);
+            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref childCatAllOfReader, options, out ChildCatAllOf childCatAllOf);
 
             string petType = default;
 
             while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
-                    break;
-
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -102,8 +138,6 @@ namespace Org.OpenAPITools.Model
                     {
                         case "pet_type":
                             petType = reader.GetString();
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -119,13 +153,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="childCat"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions options)
-        {
-            writer.WriteStartObject();
-
-            writer.WriteString("pet_type", childCat.PetType);
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

@@ -269,10 +269,11 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("findPetsByStatus", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -353,10 +354,11 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("findPetsByTags", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Set<Pet>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -433,10 +435,11 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getPetById", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -668,10 +671,11 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("uploadFile", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -744,10 +748,11 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("uploadFileWithRequiredFile", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
         );
       } finally {
       }

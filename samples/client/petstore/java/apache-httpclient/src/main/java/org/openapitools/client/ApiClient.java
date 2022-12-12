@@ -596,11 +596,9 @@ public class ApiClient extends JavaTimeFormatter {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null || value instanceof Collection) {
-      return params;
-    }
+    if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
 
-    params.add(new Pair(name, escapeString(parameterToString(value))));
+    params.add(new Pair(name, parameterToString(value)));
     return params;
   }
 
@@ -847,10 +845,6 @@ public class ApiClient extends JavaTimeFormatter {
     if (mimeType == null || isJsonMime(mimeType)) {
       // Assume json if no mime type
       return objectMapper.readValue(entity.getContent(), valueType);
-    } else if ("text/plain".equalsIgnoreCase(mimeType)) {
-      // convert input stream to string
-      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
-      return (T) (s.hasNext() ? s.next() : "");
     } else {
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
@@ -939,8 +933,7 @@ public class ApiClient extends JavaTimeFormatter {
             url.append("&");
           }
           String value = parameterToString(param.getValue());
-          // query parameter value already escaped as part of parameterToPair
-          url.append(escapeString(param.getName())).append("=").append(value);
+          url.append(escapeString(param.getName())).append("=").append(escapeString(value));
         }
       }
     }
@@ -1075,9 +1068,6 @@ public class ApiClient extends JavaTimeFormatter {
       } else {
         throw new ApiException("method " + method + " does not support a request body");
       }
-    } else {
-      // for empty body
-      builder.setEntity(serialize(null, null, contentTypeObj));
     }
 
     try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -26,16 +27,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Dog
     /// </summary>
-    public partial class Dog : Animal, IValidatableObject
+    public partial class Dog : Animal, IEquatable<Dog>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="dogAllOf"></param>
-        /// <param name="className">className</param>
+        /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        [JsonConstructor]
-        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        public Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
         {
             DogAllOf = dogAllOf;
         }
@@ -57,6 +57,40 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Dog).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Dog instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Dog to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Dog input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                return hashCode;
+            }
+        }
+
     }
 
     /// <summary>
@@ -64,6 +98,13 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public class DogJsonConverter : JsonConverter<Dog>
     {
+        /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Dog).IsAssignableFrom(typeToConvert);
+
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -76,26 +117,21 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
-
             Utf8JsonReader dogAllOfReader = reader;
-            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref reader, options, out DogAllOf dogAllOf);
+            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref dogAllOfReader, options, out DogAllOf dogAllOf);
 
             string className = default;
             string color = default;
 
             while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
-                    break;
-
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -107,8 +143,6 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "color":
                             color = reader.GetString();
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -124,14 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="dog"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions options)
-        {
-            writer.WriteStartObject();
-
-            writer.WriteString("className", dog.ClassName);
-            writer.WriteString("color", dog.Color);
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

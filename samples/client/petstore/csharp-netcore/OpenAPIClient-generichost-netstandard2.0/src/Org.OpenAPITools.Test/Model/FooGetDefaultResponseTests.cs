@@ -18,6 +18,7 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,12 +57,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'StringProperty'
+        /// Test the property 'String'
         /// </summary>
         [Fact]
-        public void StringPropertyTest()
+        public void StringTest()
         {
-            // TODO unit test for the property 'StringProperty'
+            // TODO unit test for the property 'String'
         }
 
     }

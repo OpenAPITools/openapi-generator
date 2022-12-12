@@ -179,10 +179,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getInventory", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -246,10 +247,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getOrderById", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -318,10 +320,11 @@ public class StoreApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("placeOrder", localVarResponse);
         }
+        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -26,14 +27,13 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// PolymorphicProperty
     /// </summary>
-    public partial class PolymorphicProperty : IValidatableObject
+    public partial class PolymorphicProperty : IEquatable<PolymorphicProperty>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="_bool"></param>
-        [JsonConstructor]
-        internal PolymorphicProperty(bool _bool)
+        public PolymorphicProperty(bool _bool)
         {
             Bool = _bool;
         }
@@ -42,8 +42,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="_string"></param>
-        [JsonConstructor]
-        internal PolymorphicProperty(string _string)
+        public PolymorphicProperty(string _string)
         {
             String = _string;
         }
@@ -52,8 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="_object"></param>
-        [JsonConstructor]
-        internal PolymorphicProperty(Object _object)
+        public PolymorphicProperty(Object _object)
         {
             Object = _object;
         }
@@ -62,8 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="liststring"></param>
-        [JsonConstructor]
-        internal PolymorphicProperty(List<string> liststring)
+        public PolymorphicProperty(List<string> liststring)
         {
             Liststring = liststring;
         }
@@ -92,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -106,6 +103,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as PolymorphicProperty).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if PolymorphicProperty instances are equal
+        /// </summary>
+        /// <param name="input">Instance of PolymorphicProperty to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(PolymorphicProperty input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -123,6 +158,13 @@ namespace Org.OpenAPITools.Model
     public class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(PolymorphicProperty).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -134,10 +176,8 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
-
-            JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader _boolReader = reader;
             bool _boolDeserialized = Client.ClientUtils.TryDeserialize<bool>(ref _boolReader, options, out bool _bool);
@@ -154,21 +194,16 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
-                    break;
-
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
 
                     switch (propertyName)
                     {
-                        default:
-                            break;
                     }
                 }
             }
@@ -195,12 +230,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="polymorphicProperty"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions options)
-        {
-            writer.WriteStartObject();
-
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

@@ -4,12 +4,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using {{packageName}}.{{clientPackage}};
-using {{packageName}}.{{interfacePrefix}}{{apiPackage}};
-using {{packageName}}.Extensions;
+using {{packageName}}.Client;
+using {{packageName}}.{{apiPackage}};
 using Xunit;
 
-namespace {{packageName}}.Test.{{apiPackage}}
+namespace {{packageName}}.Test.Api
 {
     /// <summary>
     ///  Tests the dependency injection.
@@ -17,7 +16,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient = 
-            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
@@ -38,7 +37,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
@@ -114,7 +113,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void ConfigureApiWithAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
             
             {{/-last}}{{/apis}}{{/apiInfo}}
@@ -126,7 +125,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void ConfigureApiWithoutAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
             
             {{/-last}}{{/apis}}{{/apiInfo}}
@@ -138,7 +137,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void AddApiWithAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
             
             {{/-last}}{{/apis}}{{/apiInfo}}
@@ -150,7 +149,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void AddApiWithoutAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
             
             {{/-last}}{{/apis}}{{/apiInfo}}
