@@ -5,14 +5,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+{{#jackson}}
 import feign.okhttp.OkHttpClient;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
+{{/jackson}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
@@ -21,8 +22,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.form.FormEncoder;
+{{#jackson}}
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
+{{/jackson}}
+{{#gson}}
+import feign.gson.GsonDecoder;
+import feign.gson.GsonEncoder;
+{{/gson}}
 import feign.slf4j.Slf4jLogger;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
@@ -53,6 +60,7 @@ public class ApiClient {
   public ApiClient() {
     objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    {{#gson}}
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
@@ -62,6 +70,17 @@ public class ApiClient {
                 .retryer(new Retryer.Default(0, 0, 2))
                 {{/hasOAuthMethods}}
                 .logger(new Slf4jLogger());
+    {{/jackson}}
+    {{#gson}}
+    feignBuilder = Feign.builder()
+        .encoder(new FormEncoder(new GsonEncoder()))
+        .decoder(new GsonDecoder())
+        {{#hasOAuthMethods}}
+        .errorDecoder(new ApiErrorDecoder())
+        .retryer(new Retryer.Default(0, 0, 2))
+        {{/hasOAuthMethods}}
+        .logger(new Slf4jLogger());
+    {{/gson}}
   }
 
   public ApiClient(String[] authNames) {
