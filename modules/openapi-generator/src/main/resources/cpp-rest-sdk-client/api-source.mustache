@@ -10,6 +10,138 @@
 
 #include <unordered_set>
 
+namespace {
+
+    enum SerDeContentType {
+        BINARY,
+        JSON_DIALECT,
+        MULTIPART_FORM_DATA,
+        TEXT_PLAIN,
+        X_WWW_FORM_URLENCODED
+    };
+
+    std::pair<utility::string_t, SerDeContentType> select_expected_response_content_type(const std::unordered_set<utility::string_t>& responseContentTypes)
+    {
+        utility::string_t responseContentType;
+        SerDeContentType deserialiser;
+        // use JSON if possible
+        if ( responseContentTypes.size() == 0 )
+        {
+            {{#vendorExtensions.x-codegen-response.isString}}
+            responseContentType = utility::conversions::to_string_t("text/plain");
+            deserialiser = TEXT_PLAIN;
+            {{/vendorExtensions.x-codegen-response.isString}}
+            {{^vendorExtensions.x-codegen-response.isString}}
+            responseContentType = utility::conversions::to_string_t("application/json");
+            deserialiser = JSON_DIALECT;
+            {{/vendorExtensions.x-codegen-response.isString}}
+        }
+        {{#vendorExtensions.x-codegen-response.isString}}
+        // plain text
+        else if( responseContentTypes.find(utility::conversions::to_string_t("text/plain")) != responseContentTypes.end() )
+        {
+            responseContentType = utility::conversions::to_string_t("text/plain");
+            deserialiser = TEXT_PLAIN;
+        }
+        {{/vendorExtensions.x-codegen-response.isString}}
+        // JSON
+        else if ( responseContentTypes.find(utility::conversions::to_string_t("application/json")) != responseContentTypes.end() )
+        {
+            responseContentType = utility::conversions::to_string_t("application/json");
+            deserialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( responseContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != responseContentTypes.end() )
+        {
+            responseContentType = utility::conversions::to_string_t("multipart/form-data");
+            deserialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (responseContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != responseContentTypes.end())
+        {
+            responseContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            deserialiser = X_WWW_FORM_URLENCODED;
+        }
+        {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+        else
+        {
+            //It's going to be binary, so just use the first one.
+            responseContentType = *responseContentTypes.begin();
+            deserialiser = BINARY;
+        }
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+        {{^vendorExtensions.x-codegen-response-ishttpcontent}}
+        else
+        {
+            throw org::openapitools::client::api::ApiException(400, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not produce any supported media type"));
+        }
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+
+        return make_pair(responseContentType, deserialiser);
+    }
+
+    std::pair<utility::string_t, SerDeContentType> select_request_content_type(std::unordered_set<utility::string_t>& requestContentTypes)
+    {
+        utility::string_t requestContentType;
+        SerDeContentType serialiser;
+
+        if ( requestContentTypes.size() == 0 ){
+            {{#vendorExtensions.x-codegen-response.isString}}
+            requestContentTypes.insert(utility::conversions::to_string_t("text/plain"));
+            serialiser = TEXT_PLAIN;
+            {{/vendorExtensions.x-codegen-response.isString}}
+            {{^vendorExtensions.x-codegen-response.isString}}
+            requestContentTypes.insert(utility::conversions::to_string_t("application/json"));
+            serialiser = JSON_DIALECT;
+            {{/vendorExtensions.x-codegen-response.isString}}
+        }
+
+        {{#vendorExtensions.x-codegen-response.isString}}
+        // plain text
+        if( requestContentTypes.find(utility::conversions::to_string_t("text/plain")) != requestContentTypes.end() )
+        {
+            requestContentType = utility::conversions::to_string_t("text/plain");
+            serialiser = TEXT_PLAIN;
+        }
+        {{/vendorExtensions.x-codegen-response.isString}}
+        // JSON
+        else if ( requestContentTypes.find(utility::conversions::to_string_t("application/json")) != requestContentTypes.end() )
+        {
+            requestContentType = utility::conversions::to_string_t("application/json");
+            serialiser = JSON_DIALECT;
+        }
+        // multipart formdata
+        else if( requestContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != requestContentTypes.end() )
+        {
+            requestContentType = utility::conversions::to_string_t("multipart/form-data");
+            serialiser = MULTIPART_FORM_DATA;
+        }
+        // x-www-form-urlencoded type
+        else if (requestContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != requestContentTypes.end())
+        {
+            requestContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+            serialiser = X_WWW_FORM_URLENCODED;
+        }
+        {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+        else
+        {
+            //It's going to be binary, so just use the first one.
+            requestContentType = *responseContentTypes.begin();
+            serialiser = BINARY;
+        }
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+        {{^vendorExtensions.x-codegen-response-ishttpcontent}}
+        else
+        {
+            throw org::openapitools::client::api::ApiException(415, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not consume any supported media type"));
+        }
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+
+        return make_pair(requestContentType, serialiser);
+    }
+
+} // namespace anonymous
+
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
@@ -51,49 +183,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("{{{mediaType}}}") );
     {{/produces}}
 
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        {{#vendorExtensions.x-codegen-response.isString}}
-        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
-        {{/vendorExtensions.x-codegen-response.isString}}
-        {{^vendorExtensions.x-codegen-response.isString}}
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-        {{/vendorExtensions.x-codegen-response.isString}}
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    {{#vendorExtensions.x-codegen-response.isString}}
-    // plain text
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("text/plain")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
-    }
-    {{/vendorExtensions.x-codegen-response.isString}}
-    {{#vendorExtensions.x-codegen-response-ishttpcontent}}
-    else
-    {
-        //It's going to be binary, so just use the first one.
-        localVarResponseHttpContentType = *localVarResponseHttpContentTypes.begin();
-    }
-    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
-    {{^vendorExtensions.x-codegen-response-ishttpcontent}}
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not produce any supported media type"));
-    }
-    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
-
+    auto [localVarResponseHttpContentType, responseDeserialiser] = select_expected_response_content_type(localVarResponseHttpContentTypes);
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
@@ -150,12 +240,11 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     {{/allParams}}
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
+    auto [localVarRequestHttpContentType, requestSerialiser] = select_request_content_type(localVarConsumeHttpContentTypes);
 
     // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    if (requestSerialiser == JSON_DIALECT)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         {{#bodyParam}}
         web::json::value localVarJson;
 
@@ -187,9 +276,8 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         {{/bodyParam}}
     }
     // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    else if(requestSerialiser == MULTIPART_FORM_DATA)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         {{#bodyParam}}
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
         {{#isPrimitiveType}}
@@ -224,13 +312,21 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
         {{/bodyParam}}
     }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    else if (requestSerialiser == X_WWW_FORM_URLENCODED)
     {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+        // TODO: serialise "application/x-www-form-urlencoded" format.
+    }
+    else if (requestSerialiser == TEXT_PLAIN)
+    {
+        // TODO: serialise "text/plain" format.
+    }
+    else if (requestSerialiser == BINARY)
+    {
+        // TODO: serialise "binary" format.
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not consume any supported media type"));
+        throw ApiException(500, utility::conversions::to_string_t("error calling {{operationId}}: unsupported request type"));
     }
 
     {{#authMethods}}
@@ -306,7 +402,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         return localVarResult;
         {{/vendorExtensions.x-codegen-response-ishttpcontent}}
         {{^vendorExtensions.x-codegen-response-ishttpcontent}}
-        return localVarResponse.extract_string();
+        return localVarResponse.extract_string(true);
     })
     .then([=](utility::string_t localVarResponse)
     {
@@ -321,7 +417,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         {{{returnType}}} localVarResult({{{defaultResponse}}});
         {{/returnContainer}}
 
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        if (responseDeserialiser == JSON_DIALECT)
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
             {{#isArray}}
@@ -339,11 +435,11 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
             }{{/isMap}}{{^isArray}}{{^isMap}}
             ModelBase::fromJson(localVarJson, localVarResult);{{/isMap}}{{/isArray}}
         }{{#vendorExtensions.x-codegen-response.isString}}
-        else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
+        else if(responseDeserialiser == TEXT_PLAIN)
         {
             localVarResult = localVarResponse;
         }{{/vendorExtensions.x-codegen-response.isString}}
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // else if(responseDeserialiser == MULTIPART_FORM_DATA)
         // {
         // TODO multipart response parsing
         // }
