@@ -24,7 +24,7 @@ abstract class Pizza implements Entity {
   @BuiltValueField(wireName: r'pizzaSize')
   num? get pizzaSize;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'PizzaSpeziale': PizzaSpeziale,
@@ -110,7 +110,7 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
     final discIndex = serializedList.indexOf(Pizza.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case 'PizzaSpeziale':
+      case r'PizzaSpeziale':
         return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Pizza)) as $Pizza;

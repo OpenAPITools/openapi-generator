@@ -91,7 +91,7 @@ public class {{classname}} {
                 {{#hasVars}}
                     {{#vars}}
                         {{#isArray}}
-    localVarQueryParams.addAll(apiClient.parameterToPair("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
                         {{/isArray}}
                         {{^isArray}}
     localVarQueryParams.addAll(apiClient.parameterToPair("{{baseName}}", {{paramName}}.{{getter}}()));

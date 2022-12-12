@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// A token constructed from a username and password.
     /// </summary>
-    public class BasicToken : TokenBase
+    {{>visibility}} class BasicToken : TokenBase
     {
         private string _username;
 

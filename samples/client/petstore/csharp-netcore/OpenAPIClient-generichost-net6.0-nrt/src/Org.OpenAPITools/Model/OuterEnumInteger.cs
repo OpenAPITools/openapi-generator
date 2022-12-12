@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -47,4 +46,107 @@ namespace Org.OpenAPITools.Model
         NUMBER_2 = 2
 
     }
+
+    public class OuterEnumIntegerConverter : JsonConverter<OuterEnumInteger>
+    {
+        public static OuterEnumInteger FromString(string value)
+        {
+            if (value == (0).ToString())
+                return OuterEnumInteger.NUMBER_0;
+
+            if (value == (1).ToString())
+                return OuterEnumInteger.NUMBER_1;
+
+            if (value == (2).ToString())
+                return OuterEnumInteger.NUMBER_2;
+
+            throw new NotImplementedException($"Could not convert value to type OuterEnumInteger: '{value}'");
+        }
+
+        public static OuterEnumInteger? FromStringOrDefault(string value)
+        {
+            if (value == (0).ToString())
+                return OuterEnumInteger.NUMBER_0;
+
+            if (value == (1).ToString())
+                return OuterEnumInteger.NUMBER_1;
+
+            if (value == (2).ToString())
+                return OuterEnumInteger.NUMBER_2;
+
+            return null;
+        }
+
+        public static int ToJsonValue(OuterEnumInteger value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Returns a  from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override OuterEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string? rawValue = reader.GetString();
+
+            OuterEnumInteger? result = OuterEnumIntegerConverter.FromString(rawValue);
+            
+            if (result != null)
+                return result.Value;
+
+            throw new JsonException();
+        }
+
+        /// <summary>
+        /// Writes the OuterEnumInteger to the json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerEnumInteger"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, OuterEnumInteger outerEnumInteger, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(outerEnumInteger.ToString());
+        }
+    }
+
+    public class OuterEnumIntegerNullableConverter : JsonConverter<OuterEnumInteger?>
+    {
+        /// <summary>
+        /// Returns a OuterEnumInteger from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override OuterEnumInteger? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string? rawValue = reader.GetString();
+
+            if (rawValue == null)
+                return null;
+
+            OuterEnumInteger? result = OuterEnumIntegerConverter.FromString(rawValue);
+
+            if (result != null)
+                return result.Value;
+
+            throw new JsonException();
+        }
+
+        /// <summary>
+        /// Writes the DateTime to the json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerEnumInteger"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, OuterEnumInteger? outerEnumInteger, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(outerEnumInteger?.ToString() ?? "null");
+        }
+    }
+
 }

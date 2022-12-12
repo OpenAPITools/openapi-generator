@@ -16,6 +16,7 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/echo_api/java/apache-httpclient
           - samples/client/echo_api/java/native
     steps:
       - uses: actions/checkout@v3
