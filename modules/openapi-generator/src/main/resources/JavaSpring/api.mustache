@@ -16,9 +16,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-{{#hasExternalDocs}}
+{{#externalDocs}}
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
-{{/hasExternalDocs}}
+{{/externalDocs}}
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
@@ -173,8 +173,8 @@ public interface {{classname}} {
             {{#authMethods}}
             @SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/isOAuth}}){{^-last}},{{/-last}}
             {{/authMethods}}
-        }{{/hasAuthMethods}}{{#hasExternalDocs}},
-        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/hasExternalDocs}}
+        }{{/hasAuthMethods}}{{#externalDocs}},
+        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
     )
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}

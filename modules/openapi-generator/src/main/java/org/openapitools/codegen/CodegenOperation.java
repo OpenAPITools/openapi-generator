@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams, hasExternalDocs,
+    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
@@ -316,7 +316,6 @@ public class CodegenOperation {
         sb.append(", hasParams=").append(hasParams);
         sb.append(", hasOptionalParams=").append(hasOptionalParams);
         sb.append(", hasRequiredParams=").append(hasRequiredParams);
-        sb.append(", hasExternalDocs=").append(hasExternalDocs);
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
@@ -394,7 +393,6 @@ public class CodegenOperation {
                 hasParams == that.hasParams &&
                 hasOptionalParams == that.hasOptionalParams &&
                 hasRequiredParams == that.hasRequiredParams &&
-                hasExternalDocs == that.hasExternalDocs &&
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
                 returnSimpleType == that.returnSimpleType &&
                 subresourceOperation == that.subresourceOperation &&
@@ -464,7 +462,7 @@ public class CodegenOperation {
     public int hashCode() {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
-                hasRequiredParams, hasExternalDocs, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
+                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
                 isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
