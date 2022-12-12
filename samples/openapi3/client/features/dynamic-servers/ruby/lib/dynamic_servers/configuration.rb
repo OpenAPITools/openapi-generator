@@ -62,6 +62,11 @@ module DynamicServers
     # Defines the access token (Bearer) used with OAuth2.
     attr_accessor :access_token
 
+    # Defines a Proc used to fetch or refresh access tokens (Bearer) used with OAuth2.
+    # Overrides the access_token if set
+    # @return [Proc]
+    attr_accessor :access_token_getter
+
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
     # Default to false.
@@ -206,6 +211,12 @@ module DynamicServers
       else
         key
       end
+    end
+
+    # Gets access_token using access_token_getter or uses the static access_token
+    def access_token_with_refresh
+        return access_token if access_token_getter.nil?
+        access_token_getter.call
     end
 
     # Gets Basic Auth token string
