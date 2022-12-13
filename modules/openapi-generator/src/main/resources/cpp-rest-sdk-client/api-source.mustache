@@ -8,6 +8,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
+#include <regex>
 #include <unordered_set>
 
 namespace {
@@ -19,6 +20,27 @@ namespace {
         TEXT_PLAIN,
         X_WWW_FORM_URLENCODED
     };
+
+    std::pair<bool, utility::string_t> check_json_content_type(const std::unordered_set<utility::string_t>& content_types)
+    {
+        auto it_content_type = content_types.find(utility::conversions::to_string_t("application/json"));
+        if (it_content_type != content_types.end())
+        {
+            return std::make_pair(true, *it_content_type);
+        }
+
+        static const std::regex REGEX_JSON_CONTENT(R"(application/([a-zA-Z0-9]+\+)?json)");
+        auto it_regex_match = std::find_if(content_types.begin(), content_types.end(),
+            [](const utility::string_t& content_type) -> bool {
+                return std::regex_match(utility::conversions::to_utf8string(content_type), REGEX_JSON_CONTENT);
+            });
+
+        bool dialect_matched = it_regex_match != content_types.end();
+        return std::make_pair(
+            dialect_matched,
+            (dialect_matched) ? *it_regex_match : utility::conversions::to_string_t("")
+        );
+    }
 
     std::pair<utility::string_t, SerDeContentType> select_expected_response_content_type(const std::unordered_set<utility::string_t>& responseContentTypes)
     {
@@ -45,9 +67,9 @@ namespace {
         }
         {{/vendorExtensions.x-codegen-response.isString}}
         // JSON
-        else if ( responseContentTypes.find(utility::conversions::to_string_t("application/json")) != responseContentTypes.end() )
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(responseContentTypes); supported_dialect)
         {
-            responseContentType = utility::conversions::to_string_t("application/json");
+            responseContentType = dialect_family;
             deserialiser = JSON_DIALECT;
         }
         // multipart formdata
@@ -105,9 +127,9 @@ namespace {
         }
         {{/vendorExtensions.x-codegen-response.isString}}
         // JSON
-        else if ( requestContentTypes.find(utility::conversions::to_string_t("application/json")) != requestContentTypes.end() )
+        else if (auto [supported_dialect, dialect_family] = check_json_content_type(requestContentTypes); supported_dialect)
         {
-            requestContentType = utility::conversions::to_string_t("application/json");
+            requestContentType = dialect_family;
             serialiser = JSON_DIALECT;
         }
         // multipart formdata
