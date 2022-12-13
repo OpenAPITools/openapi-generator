@@ -70,9 +70,9 @@ public class ApiClient {
       {{#authMethods}}if ("{{name}}".equals(authName)) {
         {{#isBasic}}{{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasicBasic}}{{^isBasicBasic}}
+        {{/isBasicBasic}}{{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-        {{/isBasicBasic}}{{/isBasic}}
+        {{/isBasicBearer}}{{/isBasic}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
         {{/isApiKey}}
