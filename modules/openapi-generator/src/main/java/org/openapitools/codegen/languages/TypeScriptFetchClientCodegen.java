@@ -73,6 +73,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected String inferEntityFromUniqueIdWithName = null;
     protected boolean packageAsSourceOnlyLibrary = false;
 
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
+
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -98,6 +101,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
     @Override
@@ -129,6 +135,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }
@@ -189,6 +196,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 "ids".equals(name) ||
                 (name.length() >= 3 && name.endsWith("Id")) ||
                 (name.length() >= 4 && name.endsWith("Ids"));
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return createPath(outputFolder, apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return createPath(outputFolder, modelDocPath);
     }
 
     @Override
@@ -936,7 +953,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static boolean itemsAreUniqueId(CodegenProperty items) {
         if (items.items != null) {
             return itemsAreUniqueId(items.items);
-        };
+        }
+        ;
         if (items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
             return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
         }
@@ -946,14 +964,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static boolean itemsAreNullable(CodegenProperty items) {
         if (items.items != null) {
             return itemsAreNullable(items.items);
-        };
+        }
+        ;
         return items.isNullable;
     }
 
     private static String getItemsDataType(CodegenProperty items) {
         if (items.items != null) {
             return getItemsDataType(items.items);
-        };
+        }
+        ;
         return items.dataType;
     }
 

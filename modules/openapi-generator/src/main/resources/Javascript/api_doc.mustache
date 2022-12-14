@@ -70,7 +70,7 @@ let opts = {
 {{/optionalParams}}
 {{#usePromises}}
 apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(({{#returnType}}data{{/returnType}}) => {
-  {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
+  {{#returnType}}console.log('API called successfully. Returned data: ', data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, (error) => {
   console.error(error);
 });
@@ -81,7 +81,7 @@ apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-
   if (error) {
     console.error(error);
   } else {
-    {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
+    {{#returnType}}console.log('API called successfully. Returned data: ', data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 });
 {{/usePromises}}

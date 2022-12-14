@@ -763,33 +763,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "\"" + input + "\"";
     }
 
-    /**
-     * Concatenates an array of path segments into a path string.
-     *
-     * @param segments The path segments to concatenate. A segment may contain
-     *                 either of the file separator characters '\' or '/'. A segment
-     *                 is ignored if it is <code>null</code>, empty or
-     *                 &quot;.&quot;.
-     * @return A path string using the correct platform-specific file separator
-     * character.
-     */
-    private String createPath(String... segments) {
-        StringBuilder buf = new StringBuilder();
-        for (String segment : segments) {
-            if (!StringUtils.isEmpty(segment) && !segment.equals(".")) {
-                if (buf.length() != 0)
-                    buf.append(File.separatorChar);
-                buf.append(segment);
-            }
-        }
-        for (int i = 0; i < buf.length(); i++) {
-            char c = buf.charAt(i);
-            if ((c == '/' || c == '\\') && c != File.separatorChar)
-                buf.setCharAt(i, File.separatorChar);
-        }
-        return buf.toString();
-    }
-
     @Override
     public String apiFileFolder() {
         return createPath(outputFolder, sourceFolder, invokerPackage, apiPackage());
