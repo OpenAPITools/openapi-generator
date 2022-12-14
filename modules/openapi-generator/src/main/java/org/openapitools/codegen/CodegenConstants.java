@@ -415,13 +415,4 @@ public class CodegenConstants {
                     "setting this to true. You can do that by:<ul>" +
                     "<li>defining the propertyName as an enum with only one value in the schemas that are in your discriminator map</li>" +
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
-
-    public static final String CUSTOM_REPOSITORY_ID = "customRepositoryId";
-    public static final String CUSTOM_REPOSITORY_ID_DESC = "Repository ID in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
-
-    public static final String CUSTOM_REPOSITORY_NAME = "customRepositoryName";
-    public static final String CUSTOM_REPOSITORY_NAME_DESC = "Repository name in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
-
-    public static final String CUSTOM_REPOSITORY_URL = "customRepositoryUrl";
-    public static final String CUSTOM_REPOSITORY_URL_DESC = "Repository URL in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
 }

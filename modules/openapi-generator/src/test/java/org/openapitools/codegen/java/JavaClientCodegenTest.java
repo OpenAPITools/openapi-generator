@@ -1836,8 +1836,8 @@ public class JavaClientCodegenTest {
     @Test
     public void testNoCustomRepositoryIfNotAllParametersProvided() throws IOException {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(CodegenConstants.CUSTOM_REPOSITORY_ID, "private-repo");
-        properties.put(CodegenConstants.CUSTOM_REPOSITORY_NAME, "Custom repository");
+        properties.put(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID, "private-repo");
+        properties.put(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME, "Custom repository");
         // Did not provide custom repository URL.
 
         File output = Files.createTempDirectory("test").toFile();
@@ -1866,9 +1866,9 @@ public class JavaClientCodegenTest {
     @Test
     public void testCustomRepository() throws IOException {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(CodegenConstants.CUSTOM_REPOSITORY_ID, "private-repo");
-        properties.put(CodegenConstants.CUSTOM_REPOSITORY_NAME, "Custom repository");
-        properties.put(CodegenConstants.CUSTOM_REPOSITORY_URL, "https://customrepository.example.com/repository/maven-public/");
+        properties.put(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID, "private-repo");
+        properties.put(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME, "Custom repository");
+        properties.put(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL, "https://customrepository.example.com/repository/maven-public/");
 
         File output = Files.createTempDirectory("test").toFile();
 

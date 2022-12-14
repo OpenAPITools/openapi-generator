@@ -89,6 +89,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
+
+    public static final String CUSTOM_REPOSITORY_ID = "customRepositoryId";
+    public static final String CUSTOM_REPOSITORY_ID_DESC = "Repository ID in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String CUSTOM_REPOSITORY_NAME = "customRepositoryName";
+    public static final String CUSTOM_REPOSITORY_NAME_DESC = "Repository name in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String CUSTOM_REPOSITORY_URL = "customRepositoryUrl";
+    public static final String CUSTOM_REPOSITORY_URL_DESC = "Repository URL in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -287,9 +297,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
 
-        cliOptions.add(CliOption.newString(CodegenConstants.CUSTOM_REPOSITORY_ID, CodegenConstants.CUSTOM_REPOSITORY_ID_DESC));
-        cliOptions.add(CliOption.newString(CodegenConstants.CUSTOM_REPOSITORY_NAME, CodegenConstants.CUSTOM_REPOSITORY_NAME_DESC));
-        cliOptions.add(CliOption.newString(CodegenConstants.CUSTOM_REPOSITORY_URL, CodegenConstants.CUSTOM_REPOSITORY_URL_DESC));
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID, AbstractJavaCodegen.CUSTOM_REPOSITORY_ID_DESC));
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME, AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME_DESC));
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL, AbstractJavaCodegen.CUSTOM_REPOSITORY_URL_DESC));
 
         CliOption snapShotVersion = CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC);
         Map<String, String> snapShotVersionOptions = new HashMap<>();
@@ -571,16 +581,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.CUSTOM_REPOSITORY_ID)) {
-            this.setCustomRepositoryId((String) additionalProperties.get(CodegenConstants.CUSTOM_REPOSITORY_ID));
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID)) {
+            this.setCustomRepositoryId((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.CUSTOM_REPOSITORY_NAME)) {
-            this.setCustomRepositoryName((String) additionalProperties.get(CodegenConstants.CUSTOM_REPOSITORY_NAME));
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME)) {
+            this.setCustomRepositoryName((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.CUSTOM_REPOSITORY_URL)) {
-            this.setCustomRepositoryUrl((String) additionalProperties.get(CodegenConstants.CUSTOM_REPOSITORY_URL));
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL)) {
+            this.setCustomRepositoryUrl((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL));
         }
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
