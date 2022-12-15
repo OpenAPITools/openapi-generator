@@ -136,7 +136,7 @@ petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 let apiInstance = new OpenApiPetstore.PetApi();
 let status = ["'available'"]; // [String] | Status values that need to be considered for filter
 apiInstance.findPetsByStatus(status).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -184,7 +184,7 @@ petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 let apiInstance = new OpenApiPetstore.PetApi();
 let tags = ["null"]; // [String] | Tags to filter by
 apiInstance.findPetsByTags(tags).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -234,7 +234,7 @@ api_key.apiKey = 'YOUR API KEY';
 let apiInstance = new OpenApiPetstore.PetApi();
 let petId = 789; // Number | ID of pet to return
 apiInstance.getPetById(petId).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -388,7 +388,7 @@ let opts = {
   'file': "/path/to/file" // File | file to upload
 };
 apiInstance.uploadFile(petId, opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -442,7 +442,7 @@ let opts = {
   'additionalMetadata': "additionalMetadata_example" // String | Additional data to pass to server
 };
 apiInstance.uploadFileWithRequiredFile(petId, requiredFile, opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });

@@ -37,7 +37,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 apiInstance.fakeHealthGet().then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -129,7 +129,7 @@ let opts = {
   'body': true // Boolean | Input boolean as post body
 };
 apiInstance.fakeOuterBooleanSerialize(opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -175,7 +175,7 @@ let opts = {
   'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -221,7 +221,7 @@ let opts = {
   'body': 3.4 // Number | Input number as post body
 };
 apiInstance.fakeOuterNumberSerialize(opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -267,7 +267,7 @@ let opts = {
   'body': "body_example" // String | Input string as post body
 };
 apiInstance.fakeOuterStringSerialize(opts).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -311,7 +311,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.FakeApi();
 let outerObjectWithEnumProperty = new OpenApiPetstore.OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
 apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -487,7 +487,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.FakeApi();
 let client = new OpenApiPetstore.Client(); // Client | client model
 apiInstance.testClientModel(client).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });

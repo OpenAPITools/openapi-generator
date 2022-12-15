@@ -207,7 +207,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
 apiInstance.getUserByName(username).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -252,7 +252,7 @@ let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | The user name for login
 let password = "password_example"; // String | The password for login in clear text
 apiInstance.loginUser(username, password).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });

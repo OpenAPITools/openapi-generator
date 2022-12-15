@@ -44,11 +44,6 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     Dog object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
     if (object.color != null) {
       yield r'color';
       yield serializers.serialize(
@@ -56,6 +51,11 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
         specifiedType: const FullType(String),
       );
     }
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
     if (object.breed != null) {
       yield r'breed';
       yield serializers.serialize(
@@ -86,19 +86,19 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
         case r'color':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.color = valueDes;
+          break;
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
           break;
         case r'breed':
           final valueDes = serializers.deserialize(

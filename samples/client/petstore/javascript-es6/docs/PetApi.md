@@ -141,7 +141,7 @@ apiInstance.findPetsByStatus(status, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -190,7 +190,7 @@ apiInstance.findPetsByTags(tags, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -241,7 +241,7 @@ apiInstance.getPetById(petId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -398,7 +398,7 @@ apiInstance.uploadFile(petId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -453,7 +453,7 @@ apiInstance.uploadFileWithRequiredFile(petId, requiredFile, opts, (error, data, 
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```

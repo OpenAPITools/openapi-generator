@@ -24,7 +24,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.AnotherFakeApi();
 let client = new OpenApiPetstore.Client(); // Client | client model
 apiInstance.call123testSpecialTags(client).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
