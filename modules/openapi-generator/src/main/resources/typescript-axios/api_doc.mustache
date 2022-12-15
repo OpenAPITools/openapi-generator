@@ -23,9 +23,11 @@ All URIs are relative to *{{basePath}}*
 
 ```typescript
 import * as {{{apiModuleClassName}}} from '{{{npmName}}}';
+
 {{#useSingleRequestParameter}}
 const configuration = {{{apiModuleClassName}}}.createConfiguration();
 const apiInstance = new {{{apiModuleClassName}}}.{{classname}}(configuration);
+
 {{#hasParams}}
 let body: {{{apiModuleClassName}}}.{{classname}}{{operationIdCamelCase}}Request = {
 {{#allParams}}
@@ -44,6 +46,7 @@ apiInstance.{{{operationId}}}(body).then((data:any) => {
 {{^useSingleRequestParameter}}
 const configuration: {{{apiModuleClassName}}}.Configuration = new {{{apiModuleClassName}}}.Configuration();
 const apiInstance: {{{apiModuleClassName}}}.{{classname}} = new {{{apiModuleClassName}}}.{{classname}}(configuration);
+
 {{#hasParams}}
 {{#requiredParams}}
 let {{{paramName}}}: {{#isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{apiModuleClassName}}}.{{{dataType}}}{{/isPrimitiveType}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
@@ -65,6 +68,7 @@ const {{{paramName}}}: {{{apiModuleClassName}}}.{{{dataType}}} = {
 {{^hasParams}}
 //let body: {{{apiModuleClassName}}}.{{dataType}} = {};
 {{/hasParams}}
+
 apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}{{{paramName}}}{{/-last}}{{/optionalParams}}).then(({{#returnType}}data: any{{/returnType}}) => {
 {{#returnType}}  console.log('API called successfully. Returned data: ', data);{{/returnType}}{{^returnType}}  console.log('API called successfully.');{{/returnType}}
 }).catch((error: any) => {
