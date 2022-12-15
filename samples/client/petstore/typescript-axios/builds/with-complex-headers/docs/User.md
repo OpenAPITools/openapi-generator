@@ -1,0 +1,17 @@
+# .User
+
+## Properties
+
+|Name | Type | Description | Notes|
+|------------ | ------------- | ------------- | -------------|
+|**id** | **number** |  | [optional] [default to undefined]|
+|**username** | **string** |  | [optional] [default to undefined]|
+|**firstName** | **string** |  | [optional] [default to undefined]|
+|**lastName** | **string** |  | [optional] [default to undefined]|
+|**email** | **string** |  | [optional] [default to undefined]|
+|**password** | **string** |  | [optional] [default to undefined]|
+|**phone** | **string** |  | [optional] [default to undefined]|
+|**userStatus** | **number** | User Status | [optional] [default to undefined]|
+
+
+
