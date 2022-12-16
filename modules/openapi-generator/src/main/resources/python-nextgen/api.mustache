@@ -150,7 +150,7 @@ class {{classname}}(object):
             if _key not in _all_params{{#servers.0}} and _key != "_host_index"{{/servers.0}}:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method {{operationId}}" % key
+                    " to method {{operationId}}" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -230,7 +230,7 @@ class {{classname}}(object):
         _response_types_map = {
         {{/-first}}
             {{^isWildcard}}
-            {{code}}: {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            '{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
         {{#-last}}
         }

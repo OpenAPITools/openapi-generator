@@ -132,7 +132,7 @@ class StoreApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_order" % key
+                    " to method delete_order" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -264,7 +264,7 @@ class StoreApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_inventory" % key
+                    " to method get_inventory" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -295,7 +295,7 @@ class StoreApi(object):
         _auth_settings = ['api_key']  # noqa: E501
 
         _response_types_map = {
-            200: "Dict[str, int]",
+            '200': "Dict[str, int]",
         }
 
         return self.api_client.call_api(
@@ -405,7 +405,7 @@ class StoreApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_order_by_id" % key
+                    " to method get_order_by_id" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -438,9 +438,9 @@ class StoreApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "Order",
-            400: None,
-            404: None,
+            '200': "Order",
+            '400': None,
+            '404': None,
         }
 
         return self.api_client.call_api(
@@ -550,7 +550,7 @@ class StoreApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method place_order" % key
+                    " to method place_order" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -590,8 +590,8 @@ class StoreApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "Order",
-            400: None,
+            '200': "Order",
+            '400': None,
         }
 
         return self.api_client.call_api(

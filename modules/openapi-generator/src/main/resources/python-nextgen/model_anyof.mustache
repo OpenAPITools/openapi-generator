@@ -56,7 +56,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @classmethod
     def from_json(cls, json_str: str) -> {{{classname}}}:
-        """Returns the string representation of the model"""
+        """Returns the object represented by the json string"""
         instance = cls()
         error_messages = []
         {{#composedSchemas.anyOf}}

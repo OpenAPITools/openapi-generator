@@ -75,7 +75,7 @@ class Pig(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Pig:
-        """Returns the string representation of the model"""
+        """Returns the object represented by the json string"""
         instance = cls()
         error_messages = []
         match = 0

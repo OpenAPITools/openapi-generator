@@ -63,7 +63,7 @@ class AnyOfPig(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfPig:
-        """Returns the string representation of the model"""
+        """Returns the object represented by the json string"""
         instance = cls()
         error_messages = []
         # __anyof_schema_1: Optional[BasquePig] = None

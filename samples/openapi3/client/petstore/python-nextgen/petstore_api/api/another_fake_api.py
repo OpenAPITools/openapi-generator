@@ -130,7 +130,7 @@ class AnotherFakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method call_123_test_special_tags" % key
+                    " to method call_123_test_special_tags" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -170,7 +170,7 @@ class AnotherFakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "Client",
+            '200': "Client",
         }
 
         return self.api_client.call_api(

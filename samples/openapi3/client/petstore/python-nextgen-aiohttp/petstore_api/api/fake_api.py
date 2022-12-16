@@ -133,7 +133,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_health_get" % key
+                    " to method fake_health_get" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -164,7 +164,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "HealthCheckResult",
+            '200': "HealthCheckResult",
         }
 
         return self.api_client.call_api(
@@ -282,7 +282,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_http_signature_test" % key
+                    " to method fake_http_signature_test" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -430,7 +430,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_boolean_serialize" % key
+                    " to method fake_outer_boolean_serialize" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -470,7 +470,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "bool",
+            '200': "bool",
         }
 
         return self.api_client.call_api(
@@ -580,7 +580,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_composite_serialize" % key
+                    " to method fake_outer_composite_serialize" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -620,7 +620,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "OuterComposite",
+            '200': "OuterComposite",
         }
 
         return self.api_client.call_api(
@@ -730,7 +730,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_number_serialize" % key
+                    " to method fake_outer_number_serialize" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -770,7 +770,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "float",
+            '200': "float",
         }
 
         return self.api_client.call_api(
@@ -880,7 +880,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_outer_string_serialize" % key
+                    " to method fake_outer_string_serialize" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -920,7 +920,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "str",
+            '200': "str",
         }
 
         return self.api_client.call_api(
@@ -1030,7 +1030,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method fake_property_enum_integer_serialize" % key
+                    " to method fake_property_enum_integer_serialize" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1070,7 +1070,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "OuterObjectWithEnumProperty",
+            '200': "OuterObjectWithEnumProperty",
         }
 
         return self.api_client.call_api(
@@ -1180,7 +1180,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_body_with_binary" % key
+                    " to method test_body_with_binary" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1324,7 +1324,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_body_with_file_schema" % key
+                    " to method test_body_with_file_schema" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1471,7 +1471,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_body_with_query_params" % key
+                    " to method test_body_with_query_params" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1617,7 +1617,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_client_model" % key
+                    " to method test_client_model" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1657,7 +1657,7 @@ class FakeApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "Client",
+            '200': "Client",
         }
 
         return self.api_client.call_api(
@@ -1832,7 +1832,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_endpoint_parameters" % key
+                    " to method test_endpoint_parameters" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -2027,7 +2027,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_group_parameters" % key
+                    " to method test_group_parameters" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -2174,7 +2174,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_inline_additional_properties" % key
+                    " to method test_inline_additional_properties" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -2323,7 +2323,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_json_form_data" % key
+                    " to method test_json_form_data" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -2499,7 +2499,7 @@ class FakeApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_query_parameter_collection_format" % key
+                    " to method test_query_parameter_collection_format" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

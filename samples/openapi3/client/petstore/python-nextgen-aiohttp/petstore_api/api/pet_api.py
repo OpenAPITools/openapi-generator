@@ -133,7 +133,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method add_pet" % key
+                    " to method add_pet" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -282,7 +282,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_pet" % key
+                    " to method delete_pet" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -421,7 +421,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method find_pets_by_status" % key
+                    " to method find_pets_by_status" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -455,8 +455,8 @@ class PetApi(object):
         _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {
-            200: "List[Pet]",
-            400: None,
+            '200': "List[Pet]",
+            '400': None,
         }
 
         return self.api_client.call_api(
@@ -566,7 +566,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method find_pets_by_tags" % key
+                    " to method find_pets_by_tags" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -600,8 +600,8 @@ class PetApi(object):
         _auth_settings = ['http_signature_test', 'petstore_auth']  # noqa: E501
 
         _response_types_map = {
-            200: "List[Pet]",
-            400: None,
+            '200': "List[Pet]",
+            '400': None,
         }
 
         return self.api_client.call_api(
@@ -711,7 +711,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_pet_by_id" % key
+                    " to method get_pet_by_id" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -744,9 +744,9 @@ class PetApi(object):
         _auth_settings = ['api_key']  # noqa: E501
 
         _response_types_map = {
-            200: "Pet",
-            400: None,
-            404: None,
+            '200': "Pet",
+            '400': None,
+            '404': None,
         }
 
         return self.api_client.call_api(
@@ -856,7 +856,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_pet" % key
+                    " to method update_pet" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1010,7 +1010,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_pet_with_form" % key
+                    " to method update_pet_with_form" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1168,7 +1168,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method upload_file" % key
+                    " to method upload_file" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1212,7 +1212,7 @@ class PetApi(object):
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {
-            200: "ApiResponse",
+            '200': "ApiResponse",
         }
 
         return self.api_client.call_api(
@@ -1332,7 +1332,7 @@ class PetApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method upload_file_with_required_file" % key
+                    " to method upload_file_with_required_file" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1376,7 +1376,7 @@ class PetApi(object):
         _auth_settings = ['petstore_auth']  # noqa: E501
 
         _response_types_map = {
-            200: "ApiResponse",
+            '200': "ApiResponse",
         }
 
         return self.api_client.call_api(

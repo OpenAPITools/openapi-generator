@@ -180,7 +180,7 @@ class RESTClientObject(object):
 
         return r
 
-    async def GET(self, url, headers=None, query_params=None,
+    async def get_request(self, url, headers=None, query_params=None,
                   _preload_content=True, _request_timeout=None):
         return (await self.request("GET", url,
                                    headers=headers,
@@ -188,7 +188,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
-    async def HEAD(self, url, headers=None, query_params=None,
+    async def head_request(self, url, headers=None, query_params=None,
                    _preload_content=True, _request_timeout=None):
         return (await self.request("HEAD", url,
                                    headers=headers,
@@ -196,7 +196,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    query_params=query_params))
 
-    async def OPTIONS(self, url, headers=None, query_params=None,
+    async def options_request(self, url, headers=None, query_params=None,
                       post_params=None, body=None, _preload_content=True,
                       _request_timeout=None):
         return (await self.request("OPTIONS", url,
@@ -207,7 +207,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def DELETE(self, url, headers=None, query_params=None, body=None,
+    async def delete_request(self, url, headers=None, query_params=None, body=None,
                      _preload_content=True, _request_timeout=None):
         return (await self.request("DELETE", url,
                                    headers=headers,
@@ -216,7 +216,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def POST(self, url, headers=None, query_params=None,
+    async def post_request(self, url, headers=None, query_params=None,
                    post_params=None, body=None, _preload_content=True,
                    _request_timeout=None):
         return (await self.request("POST", url,
@@ -227,7 +227,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def PUT(self, url, headers=None, query_params=None, post_params=None,
+    async def put_request(self, url, headers=None, query_params=None, post_params=None,
                   body=None, _preload_content=True, _request_timeout=None):
         return (await self.request("PUT", url,
                                    headers=headers,
@@ -237,7 +237,7 @@ class RESTClientObject(object):
                                    _request_timeout=_request_timeout,
                                    body=body))
 
-    async def PATCH(self, url, headers=None, query_params=None,
+    async def patch_request(self, url, headers=None, query_params=None,
                     post_params=None, body=None, _preload_content=True,
                     _request_timeout=None):
         return (await self.request("PATCH", url,

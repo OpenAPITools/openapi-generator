@@ -121,7 +121,7 @@ class DefaultApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method foo_get" % key
+                    " to method foo_get" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

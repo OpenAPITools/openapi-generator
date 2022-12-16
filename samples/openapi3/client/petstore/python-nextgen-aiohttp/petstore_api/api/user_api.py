@@ -146,7 +146,7 @@ class UserApi(object):
             if _key not in _all_params and _key != "_host_index":
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_user" % key
+                    " to method create_user" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -291,7 +291,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_users_with_array_input" % key
+                    " to method create_users_with_array_input" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -435,7 +435,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_users_with_list_input" % key
+                    " to method create_users_with_list_input" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -579,7 +579,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_user" % key
+                    " to method delete_user" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -716,7 +716,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_user_by_name" % key
+                    " to method get_user_by_name" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -749,9 +749,9 @@ class UserApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "User",
-            400: None,
-            404: None,
+            '200': "User",
+            '400': None,
+            '404': None,
         }
 
         return self.api_client.call_api(
@@ -866,7 +866,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method login_user" % key
+                    " to method login_user" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -901,8 +901,8 @@ class UserApi(object):
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            200: "str",
-            400: None,
+            '200': "str",
+            '400': None,
         }
 
         return self.api_client.call_api(
@@ -1007,7 +1007,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method logout_user" % key
+                    " to method logout_user" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1147,7 +1147,7 @@ class UserApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_user" % key
+                    " to method update_user" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
