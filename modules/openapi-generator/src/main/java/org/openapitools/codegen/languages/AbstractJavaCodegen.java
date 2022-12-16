@@ -83,6 +83,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String JAVAX_PACKAGE = "javaxPackage";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
@@ -135,6 +137,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+    protected boolean useJakartaEe = false;
 
     protected boolean camelCaseDollarSign = false;
 
@@ -252,6 +255,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(DISCRIMINATOR_CASE_SENSITIVE, "Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client", discriminatorCaseSensitive));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "Whether to use Jakarta EE or not", useJakartaEe));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -385,6 +389,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_ENUM_TYPE_ANNOTATIONS).toString();
 
             this.setAdditionalEnumTypeAnnotations(Arrays.asList(additionalAnnotationsList.split(";")));
+        }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            this.setUseJakartaEe(Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
@@ -670,6 +678,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
             setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
         }
+
+        applyJavaxPackage();
     }
 
     @Override
@@ -719,6 +729,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, useJakartaEe ? "jakarta" : "javax");
     }
 
     @Override
@@ -2088,6 +2102,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
+    }
+
+    public void setUseJakartaEe(final boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
     }
 
     public List<String> getAdditionalOneOfTypeAnnotations() {

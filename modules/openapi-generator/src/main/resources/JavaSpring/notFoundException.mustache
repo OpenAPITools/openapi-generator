@@ -1,11 +1,6 @@
 package {{apiPackage}};
 
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
+import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
 public class NotFoundException extends ApiException {

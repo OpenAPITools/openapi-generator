@@ -10,3 +10,4 @@ additionalProperties:
   useBeanValidation: true
   artifactId: spring-boot-beanvalidation
   hideGenerationTimestamp: "true"
+  useJakartaEe: "true"

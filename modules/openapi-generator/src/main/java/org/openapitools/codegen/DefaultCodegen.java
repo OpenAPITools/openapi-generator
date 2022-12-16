@@ -6440,7 +6440,7 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
-    public void writePropertyBack(String propertyKey, boolean value) {
+    public void writePropertyBack(String propertyKey, Object value) {
         additionalProperties.put(propertyKey, value);
     }
 
