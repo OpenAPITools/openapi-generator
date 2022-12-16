@@ -895,7 +895,7 @@ type ApiUploadFileRequest struct {
 	ApiService PetApi
 	petId int64
 	additionalMetadata *string
-	file **os.File
+	file *os.File
 }
 
 // Additional data to pass to server
@@ -905,7 +905,7 @@ func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiU
 }
 
 // file to upload
-func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
+func (r ApiUploadFileRequest) File(file os.File) ApiUploadFileRequest {
 	r.file = &file
 	return r
 }
@@ -979,7 +979,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 
 	var fileLocalVarFile *os.File
 	if r.file != nil {
-		fileLocalVarFile = *r.file
+		fileLocalVarFile = r.file
 	}
 	if fileLocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll(fileLocalVarFile)
@@ -1029,12 +1029,12 @@ type ApiUploadFileWithRequiredFileRequest struct {
 	ctx context.Context
 	ApiService PetApi
 	petId int64
-	requiredFile **os.File
+	requiredFile *os.File
 	additionalMetadata *string
 }
 
 // file to upload
-func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) ApiUploadFileWithRequiredFileRequest {
+func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile os.File) ApiUploadFileWithRequiredFileRequest {
 	r.requiredFile = &requiredFile
 	return r
 }
@@ -1115,13 +1115,11 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 
 	requiredFileLocalVarFormFileName = "requiredFile"
 
-	requiredFileLocalVarFile := *r.requiredFile
-	if requiredFileLocalVarFile != nil {
-		fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
+	requiredFileLocalVarFile := r.requiredFile
+				fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
 		requiredFileLocalVarFile.Close()
-	}
 	formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

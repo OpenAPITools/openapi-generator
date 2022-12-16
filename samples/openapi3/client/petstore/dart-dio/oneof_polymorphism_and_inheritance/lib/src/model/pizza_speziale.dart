@@ -23,7 +23,7 @@ abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezial
   @BuiltValueField(wireName: r'toppings')
   String? get toppings;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   PizzaSpeziale._();
 
