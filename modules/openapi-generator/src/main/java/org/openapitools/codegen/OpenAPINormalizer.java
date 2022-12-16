@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.java.accessibility.util.AccessibilityListenerList;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -46,7 +47,8 @@ public class OpenAPINormalizer {
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     // ============= a list of rules =============
-    //final String ALL = "ALL";
+    // when set to true, all rules are enabled
+    final String ALL = "ALL";
     // when set to true, $ref in allOf is treated as parent so that x-parent: true will be added
     // to the schema in $ref (if x-parent is not present)
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
@@ -56,7 +58,7 @@ public class OpenAPINormalizer {
      * Initializes OpenAPI Normalizer with a set of rules
      *
      * @param openAPI OpenAPI
-     * @param rules a map of rules
+     * @param rules   a map of rules
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> rules) {
         this.openAPI = openAPI;
@@ -93,14 +95,18 @@ public class OpenAPINormalizer {
      * @return boolean
      */
     public boolean isRuleEnabled(String rule) {
-        if ("true".equalsIgnoreCase(this.rules.get(rule))) {
-            // true or false
+        if ("true".equalsIgnoreCase(this.rules.get(ALL))) {
+            // enable all rules
             return true;
+        } else if ("true".equalsIgnoreCase(this.rules.get(rule))) {
+            // true
+            return true;
+        } else if ("false".equalsIgnoreCase(this.rules.get(rule))) {
+            // false
+            return false;
         } else if (StringUtils.isNotEmpty(this.rules.get(rule))) {
             // string value, e.g. pascal, snake, original
             return true;
-        } else if (StringUtils.isEmpty(this.rules.get(rule))) {
-            return false;
         } else {
             return false;
         }
@@ -278,7 +284,7 @@ public class OpenAPINormalizer {
     /**
      * Normalizes a schema
      *
-     * @param schema Schema
+     * @param schema         Schema
      * @param visitedSchemas a set of visited schemas
      */
     public void normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -298,18 +304,9 @@ public class OpenAPINormalizer {
         }
 
         if (schema instanceof ArraySchema) {
-            if (schema.getItems() != null) {
-                normalizeSchema(schema.getItems(), visitedSchemas);
-            } else {
-                LOGGER.warn("Array item cannot be null: {}", schema);
-            }
-
+            normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            if (schema.getAdditionalProperties() != null) {
-                normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
-            } else {
-                LOGGER.warn("Map item cannot be null: {}", schema);
-            }
+            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {
             ComposedSchema m = (ComposedSchema) schema;
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
@@ -343,7 +340,7 @@ public class OpenAPINormalizer {
     }
 
     private void normalizeNonComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
-
+        // normalize non-composed schema (e.g. schema with only properties)
     }
 
     private void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
@@ -391,6 +388,7 @@ public class OpenAPINormalizer {
     }
 
     // ===================== a list of rules =====================
+    // all rules (fuctions) start with the word "process"
     private void processUseAllOfRefAsParent(Schema schema) {
         if (!isRuleEnabled(REF_AS_PARENT_IN_ALLOF)) {
             return;
@@ -411,14 +409,14 @@ public class OpenAPINormalizer {
                 }
                 if (refSchema.getExtensions() == null) {
                     refSchema.setExtensions(new HashMap<>());
-                    refSchema.getExtensions().put("x-parent", true);
-                } else {
-                    if (refSchema.getExtensions().containsKey("x-parent")) {
-                        // doing nothing as x-parent already exists
-                    } else {
-                        refSchema.getExtensions().put("x-parent", true);
-                    }
                 }
+
+                if (refSchema.getExtensions().containsKey("x-parent")) {
+                    // doing nothing as x-parent already exists
+                } else {
+                    refSchema.getExtensions().put("x-parent", true);
+                }
+
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
             }
         }

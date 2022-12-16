@@ -498,7 +498,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
 
         if (Boolean.TRUE.equals(openapiNormalizer)) {
-            sb.append(newline).append("OPENAIP NORMALIZER RULEA").append(newline).append(newline);
+            sb.append(newline).append("OPENAPI NORMALIZER RULES").append(newline).append(newline);
             Map<String, String> map = config.openapiNormalizer()
                     .entrySet()
                     .stream()
