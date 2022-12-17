@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("code", (int)apiResponse.Code);
+            writer.WriteNumber("code", apiResponse.Code);
             writer.WriteString("message", apiResponse.Message);
             writer.WriteString("type", apiResponse.Type);
 

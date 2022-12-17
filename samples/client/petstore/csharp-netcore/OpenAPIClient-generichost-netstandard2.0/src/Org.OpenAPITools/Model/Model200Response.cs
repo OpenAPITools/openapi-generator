@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("class", model200Response.ClassProperty);
-            writer.WriteNumber("name", (int)model200Response.Name);
+            writer.WriteNumber("name", model200Response.Name);
 
             writer.WriteEndObject();
         }

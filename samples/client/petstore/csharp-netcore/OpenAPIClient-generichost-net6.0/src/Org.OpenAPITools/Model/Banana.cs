@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("lengthCm", (int)banana.LengthCm);
+            writer.WriteNumber("lengthCm", banana.LengthCm);
 
             writer.WriteEndObject();
         }

@@ -291,7 +291,7 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("category");
             JsonSerializer.Serialize(writer, pet.Category, options);
-            writer.WriteNumber("id", (int)pet.Id);
+            writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, options);

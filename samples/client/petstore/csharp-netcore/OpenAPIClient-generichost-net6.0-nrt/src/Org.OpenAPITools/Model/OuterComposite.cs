@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
-            writer.WriteNumber("my_number", (int)outerComposite.MyNumber);
+            writer.WriteNumber("my_number", outerComposite.MyNumber);
             writer.WriteString("my_string", outerComposite.MyString);
 
             writer.WriteEndObject();

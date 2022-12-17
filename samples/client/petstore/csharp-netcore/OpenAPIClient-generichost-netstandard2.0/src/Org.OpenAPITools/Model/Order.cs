@@ -289,9 +289,9 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("id", (int)order.Id);
-            writer.WriteNumber("petId", (int)order.PetId);
-            writer.WriteNumber("quantity", (int)order.Quantity);
+            writer.WriteNumber("id", order.Id);
+            writer.WriteNumber("petId", order.PetId);
+            writer.WriteNumber("quantity", order.Quantity);
             writer.WritePropertyName("shipDate");
             JsonSerializer.Serialize(writer, order.ShipDate, options);
             var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
