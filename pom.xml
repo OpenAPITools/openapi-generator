@@ -1224,6 +1224,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/openapi3/client/petstore/python-nextgen</module>
+                <module>samples/openapi3/client/petstore/python-nextgen-aiohttp</module>
                 <module>samples/client/petstore/python-prior</module>
                 <module>samples/client/petstore/python-prior_disallowAdditionalPropertiesIfNotPresent</module>
                 <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
