@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, options);
             writer.WritePropertyName("deprecatedRef");
             JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, options);
-            writer.WriteNumber("id", (int)objectWithDeprecatedFields.Id);
+            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
             writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
 
             writer.WriteEndObject();

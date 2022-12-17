@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("return", (int)_return.ReturnProperty);
+            writer.WriteNumber("return", _return.ReturnProperty);
 
             writer.WriteEndObject();
         }

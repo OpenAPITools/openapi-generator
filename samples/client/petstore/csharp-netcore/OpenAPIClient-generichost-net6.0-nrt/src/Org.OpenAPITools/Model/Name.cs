@@ -232,10 +232,10 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("name", (int)name.NameProperty);
+            writer.WriteNumber("name", name.NameProperty);
             writer.WriteString("property", name.Property);
-            writer.WriteNumber("snake_case", (int)name.SnakeCase);
-            writer.WriteNumber("123Number", (int)name._123Number);
+            writer.WriteNumber("snake_case", name.SnakeCase);
+            writer.WriteNumber("123Number", name._123Number);
 
             writer.WriteEndObject();
         }

@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("JustNumber", (int)numberOnly.JustNumber);
+            writer.WriteNumber("JustNumber", numberOnly.JustNumber);
 
             writer.WriteEndObject();
         }

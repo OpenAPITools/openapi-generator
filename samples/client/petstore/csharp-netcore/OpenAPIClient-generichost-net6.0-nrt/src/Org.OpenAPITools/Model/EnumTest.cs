@@ -225,13 +225,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string EnumNumberEnumToJsonValue(EnumNumberEnum value)
+        public static double EnumNumberEnumToJsonValue(EnumNumberEnum value)
         {
             if (value == EnumNumberEnum.NUMBER_1_DOT_1)
-                return "1.1";
+                return 1.1;
 
             if (value == EnumNumberEnum.NUMBER_MINUS_1_DOT_2)
-                return "-1.2";
+                return -1.2;
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
@@ -538,9 +538,9 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("enum_integer", (int)enumTest.EnumInteger);
-            writer.WriteNumber("enum_integer_only", (int)enumTest.EnumIntegerOnly);
-            writer.WriteNumber("enum_number", (int)enumTest.EnumNumber);
+            writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumInteger));
+            writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly));
+            writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber));
             var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString);
             if (enumStringRawValue != null)
                 writer.WriteString("enum_string", enumStringRawValue);

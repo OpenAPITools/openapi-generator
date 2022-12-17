@@ -492,12 +492,12 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, formatTest.DateTime, options);
             writer.WritePropertyName("decimal");
             JsonSerializer.Serialize(writer, formatTest.DecimalProperty, options);
-            writer.WriteNumber("double", (int)formatTest.DoubleProperty);
-            writer.WriteNumber("float", (int)formatTest.FloatProperty);
-            writer.WriteNumber("int32", (int)formatTest.Int32);
-            writer.WriteNumber("int64", (int)formatTest.Int64);
-            writer.WriteNumber("integer", (int)formatTest.Integer);
-            writer.WriteNumber("number", (int)formatTest.Number);
+            writer.WriteNumber("double", formatTest.DoubleProperty);
+            writer.WriteNumber("float", formatTest.FloatProperty);
+            writer.WriteNumber("int32", formatTest.Int32);
+            writer.WriteNumber("int64", formatTest.Int64);
+            writer.WriteNumber("integer", formatTest.Integer);
+            writer.WriteNumber("number", formatTest.Number);
             writer.WriteString("password", formatTest.Password);
             writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
             writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);

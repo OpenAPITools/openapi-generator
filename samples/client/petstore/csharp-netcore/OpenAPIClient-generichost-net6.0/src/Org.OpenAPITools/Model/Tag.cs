@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("id", (int)tag.Id);
+            writer.WriteNumber("id", tag.Id);
             writer.WriteString("name", tag.Name);
 
             writer.WriteEndObject();

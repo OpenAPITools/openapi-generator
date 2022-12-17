@@ -321,13 +321,13 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteString("email", user.Email);
             writer.WriteString("firstName", user.FirstName);
-            writer.WriteNumber("id", (int)user.Id);
+            writer.WriteNumber("id", user.Id);
             writer.WriteString("lastName", user.LastName);
             writer.WritePropertyName("objectWithNoDeclaredProps");
             JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, options);
             writer.WriteString("password", user.Password);
             writer.WriteString("phone", user.Phone);
-            writer.WriteNumber("userStatus", (int)user.UserStatus);
+            writer.WriteNumber("userStatus", user.UserStatus);
             writer.WriteString("username", user.Username);
             writer.WritePropertyName("anyTypeProp");
             JsonSerializer.Serialize(writer, user.AnyTypeProp, options);

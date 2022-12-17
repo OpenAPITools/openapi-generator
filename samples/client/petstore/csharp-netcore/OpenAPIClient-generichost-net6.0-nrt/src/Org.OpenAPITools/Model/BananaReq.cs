@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("lengthCm", (int)bananaReq.LengthCm);
+            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
             writer.WriteBoolean("sweet", bananaReq.Sweet);
 
             writer.WriteEndObject();

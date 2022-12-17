@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("_special_model.name_", specialModelName.SpecialModelNameProperty);
-            writer.WriteNumber("$special[property.name]", (int)specialModelName.SpecialPropertyName);
+            writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
 
             writer.WriteEndObject();
         }
