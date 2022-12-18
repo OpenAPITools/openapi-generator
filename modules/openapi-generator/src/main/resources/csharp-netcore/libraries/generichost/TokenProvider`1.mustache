@@ -7,14 +7,14 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using {{packageName}}.Client;
+using {{packageName}}.{{clientPackage}};
 
 namespace {{packageName}}
 {
     /// <summary>
     /// A class which will provide tokens.
     /// </summary>
-    public abstract class TokenProvider<TTokenBase> where TTokenBase : TokenBase
+    {{>visibility}} abstract class TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
         /// <summary>
         /// The array of tokens.

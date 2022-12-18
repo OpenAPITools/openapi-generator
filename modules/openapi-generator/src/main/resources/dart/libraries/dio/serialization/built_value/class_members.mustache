@@ -15,7 +15,7 @@
 {{/-first}}{{/anyOf}}{{#oneOf}}{{#-first}}  /// One Of {{#oneOf}}[{{{.}}}]{{^-last}}, {{/-last}}{{/oneOf}}
   OneOf get oneOf;
 
-{{/-first}}{{/oneOf}}{{#discriminator}}  static const String discriminatorFieldName = r'{{propertyName}}';{{#hasDiscriminatorWithNonEmptyMapping}}
+{{/-first}}{{/oneOf}}{{#discriminator}}  static const String discriminatorFieldName = r'{{propertyBaseName}}';{{#hasDiscriminatorWithNonEmptyMapping}}
 
   static const Map<String, Type> discriminatorMapping = {
     {{#mappedModels}}

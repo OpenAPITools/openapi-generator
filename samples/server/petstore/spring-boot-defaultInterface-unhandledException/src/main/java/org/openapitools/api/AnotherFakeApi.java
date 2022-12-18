@@ -44,6 +44,7 @@ public interface AnotherFakeApi {
     @Operation(
         operationId = "call123testSpecialTags",
         summary = "To test special tags",
+        description = "To test special tags and operation ID starting with number",
         tags = { "$another-fake?" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

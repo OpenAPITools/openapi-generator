@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalClientTypeAnnotations|Additional annotations for client type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
@@ -70,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
+|serializationLibrary|Serialization library for model|<dl><dt>**jackson**</dt><dd>Jackson as serialization library</dd><dt>**micronaut_serde_jackson**</dt><dd>Use micronaut-serialization with Jackson annotations</dd></dl>|jackson|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

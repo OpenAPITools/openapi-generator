@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ReadOnlyWithDefault type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ReadOnlyWithDefault{}
+
 // ReadOnlyWithDefault struct for ReadOnlyWithDefault
 type ReadOnlyWithDefault struct {
 	Prop1 *string `json:"prop1,omitempty"`
@@ -282,6 +285,14 @@ func (o *ReadOnlyWithDefault) SetIntProp2(v float32) {
 }
 
 func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Prop1) {
 		toSerialize["prop1"] = o.Prop1
@@ -309,7 +320,7 @@ func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {

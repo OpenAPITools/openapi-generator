@@ -73,7 +73,6 @@ public class StoreApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -122,7 +121,6 @@ public class StoreApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
 
     
     
@@ -181,7 +179,6 @@ public class StoreApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -216,16 +213,16 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order body) throws ApiException {
-    Object localVarPostBody = body;
+  public Order placeOrder(Order order) throws ApiException {
+    Object localVarPostBody = order;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
+    // verify the required parameter 'order' is set
+    if (order == null) {
+      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
     }
     
     // create path and map variables
@@ -238,7 +235,6 @@ public class StoreApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
     
     
@@ -248,7 +244,7 @@ public class StoreApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 

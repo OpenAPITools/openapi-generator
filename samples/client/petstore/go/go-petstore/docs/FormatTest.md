@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **Double** | Pointer to **float64** |  | [optional] 
 **String** | Pointer to **string** |  | [optional] 
 **Byte** | **string** |  | 
-**Binary** | Pointer to ***os.File** |  | [optional] 
+**Binary** | Pointer to **os.File** |  | [optional] 
 **Date** | **string** |  | 
 **DateTime** | Pointer to **time.Time** |  | [optional] 
 **Uuid** | Pointer to **string** |  | [optional] 
@@ -230,20 +230,20 @@ SetByte sets Byte field to given value.
 
 ### GetBinary
 
-`func (o *FormatTest) GetBinary() *os.File`
+`func (o *FormatTest) GetBinary() os.File`
 
 GetBinary returns the Binary field if non-nil, zero value otherwise.
 
 ### GetBinaryOk
 
-`func (o *FormatTest) GetBinaryOk() (**os.File, bool)`
+`func (o *FormatTest) GetBinaryOk() (*os.File, bool)`
 
 GetBinaryOk returns a tuple with the Binary field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBinary
 
-`func (o *FormatTest) SetBinary(v *os.File)`
+`func (o *FormatTest) SetBinary(v os.File)`
 
 SetBinary sets Binary field to given value.
 

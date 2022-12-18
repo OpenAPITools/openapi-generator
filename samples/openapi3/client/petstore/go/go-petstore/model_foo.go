@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Foo type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Foo{}
+
 // Foo struct for Foo
 type Foo struct {
 	Bar *string `json:"bar,omitempty"`
@@ -76,6 +79,14 @@ func (o *Foo) SetBar(v string) {
 }
 
 func (o Foo) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Bar) {
 		toSerialize["bar"] = o.Bar
@@ -85,7 +96,7 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {

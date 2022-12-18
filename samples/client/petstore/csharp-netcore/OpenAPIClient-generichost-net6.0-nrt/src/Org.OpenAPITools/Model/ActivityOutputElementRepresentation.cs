@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,15 +28,28 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ActivityOutputElementRepresentation
     /// </summary>
-    public partial class ActivityOutputElementRepresentation : IEquatable<ActivityOutputElementRepresentation>, IValidatableObject
+    public partial class ActivityOutputElementRepresentation : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivityOutputElementRepresentation" /> class.
         /// </summary>
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
-        public ActivityOutputElementRepresentation(string? prop1 = default, Object? prop2 = default)
+        [JsonConstructor]
+        public ActivityOutputElementRepresentation(string prop1, Object prop2)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (prop1 == null)
+                throw new ArgumentNullException("prop1 is a required property for ActivityOutputElementRepresentation and cannot be null.");
+
+            if (prop2 == null)
+                throw new ArgumentNullException("prop2 is a required property for ActivityOutputElementRepresentation and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             Prop1 = prop1;
             Prop2 = prop2;
         }
@@ -46,19 +58,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string? Prop1 { get; set; }
+        public string Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object? Prop2 { get; set; }
+        public Object Prop2 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -74,52 +86,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ActivityOutputElementRepresentation).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ActivityOutputElementRepresentation instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ActivityOutputElementRepresentation to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ActivityOutputElementRepresentation? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Prop1 != null)
-                {
-                    hashCode = (hashCode * 59) + this.Prop1.GetHashCode();
-                }
-                if (this.Prop2 != null)
-                {
-                    hashCode = (hashCode * 59) + this.Prop2.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -131,4 +97,77 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type ActivityOutputElementRepresentation
+    /// </summary>
+    public class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override ActivityOutputElementRepresentation Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
+
+            string prop1 = default;
+            Object prop2 = default;
+
+            while (reader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "prop1":
+                            prop1 = reader.GetString();
+                            break;
+                        case "prop2":
+                            prop2 = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new ActivityOutputElementRepresentation(prop1, prop2);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="activityOutputElementRepresentation"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
+            writer.WritePropertyName("prop2");
+            JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, options);
+
+            writer.WriteEndObject();
+        }
+    }
 }
