@@ -597,16 +597,18 @@ public class ApiClient extends JavaTimeFormatter {
         Map<String,Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
-        String finalUri = path;
+        String queryUri = null;
 
         if (queryParams != null && !queryParams.isEmpty()) {
             //Include queryParams in uriParams taking into account the paramName
-            String queryUri = generateQueryUri(queryParams, uriParams);
-            //Append to finalUri the templatized query string like "?param1={param1Value}&.......
-            finalUri += "?" + queryUri;
+            String query = generateQueryUri(queryParams, uriParams);
+            queryUri = expandPath("?" + query, uriParams).substring(1); //exclude the '?'
+            //queryUri is the templatized query string like "?param1={param1Value}&.......
         }
-        String expandedPath = this.expandPath(finalUri, uriParams);
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
+        String expandedPath = this.expandPath(path, uriParams);
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath)
+                .path(expandedPath)
+                .query(queryUri);
 
         URI uri;
         try {
