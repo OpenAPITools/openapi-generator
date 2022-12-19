@@ -161,12 +161,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
         setLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
         
-        if (!additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
-            additionalProperties.put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, false);
-            LOGGER.debug("legacyDiscriminatorBehavior not set, using default {}", false);
-        }        
-
-        this.setLegacyDiscriminatorBehavior(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+            if (!additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
+                additionalProperties.put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, false);
+                LOGGER.debug("legacyDiscriminatorBehavior not set, using default {}", false);
+            }
+    
+            this.setLegacyDiscriminatorBehavior(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
+        }
 
         if (!additionalProperties.containsKey(DATE_LIBRARY)) {
             additionalProperties.put(DATE_LIBRARY, DATE_LIBRARY_DEFAULT);
