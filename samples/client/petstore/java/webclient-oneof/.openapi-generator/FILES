@@ -1,6 +1,5 @@
 .github/workflows/maven.yml
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -57,19 +56,3 @@ src/main/java/org/openapitools/client/model/FooRefOrValue.java
 src/main/java/org/openapitools/client/model/Pasta.java
 src/main/java/org/openapitools/client/model/Pizza.java
 src/main/java/org/openapitools/client/model/PizzaSpeziale.java
-src/test/java/org/openapitools/client/api/BarApiTest.java
-src/test/java/org/openapitools/client/api/FooApiTest.java
-src/test/java/org/openapitools/client/model/AddressableTest.java
-src/test/java/org/openapitools/client/model/BarCreateTest.java
-src/test/java/org/openapitools/client/model/BarRefOrValueTest.java
-src/test/java/org/openapitools/client/model/BarRefTest.java
-src/test/java/org/openapitools/client/model/BarTest.java
-src/test/java/org/openapitools/client/model/EntityRefTest.java
-src/test/java/org/openapitools/client/model/EntityTest.java
-src/test/java/org/openapitools/client/model/ExtensibleTest.java
-src/test/java/org/openapitools/client/model/FooRefOrValueTest.java
-src/test/java/org/openapitools/client/model/FooRefTest.java
-src/test/java/org/openapitools/client/model/FooTest.java
-src/test/java/org/openapitools/client/model/PastaTest.java
-src/test/java/org/openapitools/client/model/PizzaSpezialeTest.java
-src/test/java/org/openapitools/client/model/PizzaTest.java
