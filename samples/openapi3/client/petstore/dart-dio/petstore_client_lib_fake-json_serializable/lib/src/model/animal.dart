@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/dog.dart';
+import 'package:openapi/src/model/cat.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'animal.g.dart';
