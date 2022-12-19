@@ -72,9 +72,6 @@ public class HomeController {
 {{#sourceDocumentationProvider}}
     static final String API_DOCS_PATH = "/openapi.json";
 {{/sourceDocumentationProvider}}
-{{#springFoxDocumentationProvider}}
-    static final String API_DOCS_PATH = "/v2/api-docs";
-{{/springFoxDocumentationProvider}}
 
     @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
     @ResponseBody

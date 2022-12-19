@@ -10,13 +10,9 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        {{#springFoxDocumentationProvider}}
-        <springfox.version>2.9.2</springfox.version>
-        {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
         <springdoc.version>1.6.8</springdoc.version>
         {{/springDocDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6</swagger-annotations.version>
@@ -25,7 +21,6 @@
         <swagger-annotations.version>}2.1.13</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -69,15 +64,6 @@
             <version>${springdoc.version}</version>
         </dependency>
         {{/springDocDocumentationProvider}}
-        {{#springFoxDocumentationProvider}}
-        <!--SpringFox dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        {{/springFoxDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
         <dependency>
@@ -94,7 +80,6 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
