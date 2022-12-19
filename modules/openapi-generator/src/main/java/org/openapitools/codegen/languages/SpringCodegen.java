@@ -288,6 +288,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public List<AnnotationLibrary> supportedAnnotationLibraries() {
         List<AnnotationLibrary> supportedLibraries = new ArrayList<>();
         supportedLibraries.add(AnnotationLibrary.NONE);
+        supportedLibraries.add(AnnotationLibrary.SWAGGER1);
         supportedLibraries.add(AnnotationLibrary.SWAGGER2);
         return supportedLibraries;
     }
@@ -462,6 +463,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
         }
         if (isUseSpringBoot3()) {
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
             writePropertyBack(USE_JAKARTA_EE, true);
         } else {
             writePropertyBack(USE_JAKARTA_EE, false);
