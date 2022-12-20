@@ -49,11 +49,11 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.color != null) {
-      yield r'color';
-      yield serializers.serialize(
-        object.color,
-        specifiedType: const FullType(String),
-      );
+    yield r'color';
+    yield serializers.serialize(
+      object.color,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

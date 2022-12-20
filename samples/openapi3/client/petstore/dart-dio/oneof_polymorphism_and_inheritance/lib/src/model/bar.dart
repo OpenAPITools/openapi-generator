@@ -32,14 +32,12 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   @BuiltValueField(wireName: r'barPropA')
   String? get barPropA;
 
-  static const String discriminatorFieldName = r'@type';
-
   Bar._();
 
   factory Bar([void updates(BarBuilder b)]) = _$Bar;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarBuilder b) => b;
+  static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue();
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Bar> get serializer => _$BarSerializer();
@@ -58,46 +56,46 @@ class _$BarSerializer implements PrimitiveSerializer<Bar> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.atSchemaLocation != null) {
-      yield r'@schemaLocation';
-      yield serializers.serialize(
-        object.atSchemaLocation,
-        specifiedType: const FullType(String),
-      );
+    yield r'@schemaLocation';
+    yield serializers.serialize(
+      object.atSchemaLocation,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.foo != null) {
-      yield r'foo';
-      yield serializers.serialize(
-        object.foo,
-        specifiedType: const FullType(FooRefOrValue),
-      );
+    yield r'foo';
+    yield serializers.serialize(
+      object.foo,
+      specifiedType: const FullType(FooRefOrValue),
+    );
     }
     if (object.atBaseType != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBaseType,
-        specifiedType: const FullType(String),
-      );
+    yield r'@baseType';
+    yield serializers.serialize(
+      object.atBaseType,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.fooPropB != null) {
-      yield r'fooPropB';
-      yield serializers.serialize(
-        object.fooPropB,
-        specifiedType: const FullType(String),
-      );
+    yield r'fooPropB';
+    yield serializers.serialize(
+      object.fooPropB,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.href != null) {
-      yield r'href';
-      yield serializers.serialize(
-        object.href,
-        specifiedType: const FullType(String),
-      );
+    yield r'href';
+    yield serializers.serialize(
+      object.href,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.id != null) {
-      yield r'id';
-      yield serializers.serialize(
-        object.id,
-        specifiedType: const FullType(String),
-      );
+    yield r'id';
+    yield serializers.serialize(
+      object.id,
+      specifiedType: const FullType(String),
+    );
     }
     yield r'@type';
     yield serializers.serialize(
@@ -105,11 +103,11 @@ class _$BarSerializer implements PrimitiveSerializer<Bar> {
       specifiedType: const FullType(String),
     );
     if (object.barPropA != null) {
-      yield r'barPropA';
-      yield serializers.serialize(
-        object.barPropA,
-        specifiedType: const FullType(String),
-      );
+    yield r'barPropA';
+    yield serializers.serialize(
+      object.barPropA,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

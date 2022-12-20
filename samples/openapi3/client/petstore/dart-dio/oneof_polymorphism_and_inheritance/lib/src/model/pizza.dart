@@ -34,6 +34,23 @@ abstract class Pizza implements Entity {
   static Serializer<Pizza> get serializer => _$PizzaSerializer();
 }
 
+extension PizzaDiscriminatorExt on Pizza {
+    String? discriminatorValue() {
+        if (this is PizzaSpeziale) {
+            return r'PizzaSpeziale';
+        }
+        return null;
+    }
+}
+extension PizzaBuilderDiscriminatorExt on PizzaBuilder {
+    String? discriminatorValue() {
+        if (this is PizzaSpezialeBuilder) {
+            return r'PizzaSpeziale';
+        }
+        return null;
+    }
+}
+
 class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   @override
   final Iterable<Type> types = const [Pizza];
@@ -47,39 +64,39 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.pizzaSize != null) {
-      yield r'pizzaSize';
-      yield serializers.serialize(
-        object.pizzaSize,
-        specifiedType: const FullType(num),
-      );
+    yield r'pizzaSize';
+    yield serializers.serialize(
+      object.pizzaSize,
+      specifiedType: const FullType(num),
+    );
     }
     if (object.atSchemaLocation != null) {
-      yield r'@schemaLocation';
-      yield serializers.serialize(
-        object.atSchemaLocation,
-        specifiedType: const FullType(String),
-      );
+    yield r'@schemaLocation';
+    yield serializers.serialize(
+      object.atSchemaLocation,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.atBaseType != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBaseType,
-        specifiedType: const FullType(String),
-      );
+    yield r'@baseType';
+    yield serializers.serialize(
+      object.atBaseType,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.href != null) {
-      yield r'href';
-      yield serializers.serialize(
-        object.href,
-        specifiedType: const FullType(String),
-      );
+    yield r'href';
+    yield serializers.serialize(
+      object.href,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.id != null) {
-      yield r'id';
-      yield serializers.serialize(
-        object.id,
-        specifiedType: const FullType(String),
-      );
+    yield r'id';
+    yield serializers.serialize(
+      object.id,
+      specifiedType: const FullType(String),
+    );
     }
     yield r'@type';
     yield serializers.serialize(

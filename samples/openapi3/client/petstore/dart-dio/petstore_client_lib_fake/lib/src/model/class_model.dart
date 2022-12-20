@@ -41,11 +41,11 @@ class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.classField != null) {
-      yield r'_class';
-      yield serializers.serialize(
-        object.classField,
-        specifiedType: const FullType(String),
-      );
+    yield r'_class';
+    yield serializers.serialize(
+      object.classField,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

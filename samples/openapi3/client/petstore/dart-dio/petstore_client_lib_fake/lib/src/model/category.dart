@@ -46,11 +46,11 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.id != null) {
-      yield r'id';
-      yield serializers.serialize(
-        object.id,
-        specifiedType: const FullType(int),
-      );
+    yield r'id';
+    yield serializers.serialize(
+      object.id,
+      specifiedType: const FullType(int),
+    );
     }
     yield r'name';
     yield serializers.serialize(

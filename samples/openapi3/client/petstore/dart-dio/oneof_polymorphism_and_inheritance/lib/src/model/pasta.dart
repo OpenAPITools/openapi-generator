@@ -23,14 +23,12 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   @BuiltValueField(wireName: r'vendor')
   String? get vendor;
 
-  static const String discriminatorFieldName = r'@type';
-
   Pasta._();
 
   factory Pasta([void updates(PastaBuilder b)]) = _$Pasta;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PastaBuilder b) => b;
+  static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue();
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Pasta> get serializer => _$PastaSerializer();
@@ -49,32 +47,32 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.atSchemaLocation != null) {
-      yield r'@schemaLocation';
-      yield serializers.serialize(
-        object.atSchemaLocation,
-        specifiedType: const FullType(String),
-      );
+    yield r'@schemaLocation';
+    yield serializers.serialize(
+      object.atSchemaLocation,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.atBaseType != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBaseType,
-        specifiedType: const FullType(String),
-      );
+    yield r'@baseType';
+    yield serializers.serialize(
+      object.atBaseType,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.href != null) {
-      yield r'href';
-      yield serializers.serialize(
-        object.href,
-        specifiedType: const FullType(String),
-      );
+    yield r'href';
+    yield serializers.serialize(
+      object.href,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.id != null) {
-      yield r'id';
-      yield serializers.serialize(
-        object.id,
-        specifiedType: const FullType(String),
-      );
+    yield r'id';
+    yield serializers.serialize(
+      object.id,
+      specifiedType: const FullType(String),
+    );
     }
     yield r'@type';
     yield serializers.serialize(
@@ -82,11 +80,11 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
       specifiedType: const FullType(String),
     );
     if (object.vendor != null) {
-      yield r'vendor';
-      yield serializers.serialize(
-        object.vendor,
-        specifiedType: const FullType(String),
-      );
+    yield r'vendor';
+    yield serializers.serialize(
+      object.vendor,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

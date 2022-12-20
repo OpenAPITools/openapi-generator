@@ -41,11 +41,11 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.client != null) {
-      yield r'client';
-      yield serializers.serialize(
-        object.client,
-        specifiedType: const FullType(String),
-      );
+    yield r'client';
+    yield serializers.serialize(
+      object.client,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

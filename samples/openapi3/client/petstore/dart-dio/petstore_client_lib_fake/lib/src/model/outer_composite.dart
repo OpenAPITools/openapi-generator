@@ -49,25 +49,25 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.myNumber != null) {
-      yield r'my_number';
-      yield serializers.serialize(
-        object.myNumber,
-        specifiedType: const FullType(num),
-      );
+    yield r'my_number';
+    yield serializers.serialize(
+      object.myNumber,
+      specifiedType: const FullType(num),
+    );
     }
     if (object.myString != null) {
-      yield r'my_string';
-      yield serializers.serialize(
-        object.myString,
-        specifiedType: const FullType(String),
-      );
+    yield r'my_string';
+    yield serializers.serialize(
+      object.myString,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.myBoolean != null) {
-      yield r'my_boolean';
-      yield serializers.serialize(
-        object.myBoolean,
-        specifiedType: const FullType(bool),
-      );
+    yield r'my_boolean';
+    yield serializers.serialize(
+      object.myBoolean,
+      specifiedType: const FullType(bool),
+    );
     }
   }
 

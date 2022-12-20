@@ -82,11 +82,11 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.enumString != null) {
-      yield r'enum_string';
-      yield serializers.serialize(
-        object.enumString,
-        specifiedType: const FullType(EnumTestEnumStringEnum),
-      );
+    yield r'enum_string';
+    yield serializers.serialize(
+      object.enumString,
+      specifiedType: const FullType(EnumTestEnumStringEnum),
+    );
     }
     yield r'enum_string_required';
     yield serializers.serialize(
@@ -94,46 +94,46 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
       specifiedType: const FullType(EnumTestEnumStringRequiredEnum),
     );
     if (object.enumInteger != null) {
-      yield r'enum_integer';
-      yield serializers.serialize(
-        object.enumInteger,
-        specifiedType: const FullType(EnumTestEnumIntegerEnum),
-      );
+    yield r'enum_integer';
+    yield serializers.serialize(
+      object.enumInteger,
+      specifiedType: const FullType(EnumTestEnumIntegerEnum),
+    );
     }
     if (object.enumNumber != null) {
-      yield r'enum_number';
-      yield serializers.serialize(
-        object.enumNumber,
-        specifiedType: const FullType(EnumTestEnumNumberEnum),
-      );
+    yield r'enum_number';
+    yield serializers.serialize(
+      object.enumNumber,
+      specifiedType: const FullType(EnumTestEnumNumberEnum),
+    );
     }
     if (object.outerEnum != null) {
-      yield r'outerEnum';
-      yield serializers.serialize(
-        object.outerEnum,
-        specifiedType: const FullType.nullable(OuterEnum),
-      );
+    yield r'outerEnum';
+    yield serializers.serialize(
+      object.outerEnum,
+      specifiedType: const FullType.nullable(OuterEnum),
+    );
     }
     if (object.outerEnumInteger != null) {
-      yield r'outerEnumInteger';
-      yield serializers.serialize(
-        object.outerEnumInteger,
-        specifiedType: const FullType(OuterEnumInteger),
-      );
+    yield r'outerEnumInteger';
+    yield serializers.serialize(
+      object.outerEnumInteger,
+      specifiedType: const FullType(OuterEnumInteger),
+    );
     }
     if (object.outerEnumDefaultValue != null) {
-      yield r'outerEnumDefaultValue';
-      yield serializers.serialize(
-        object.outerEnumDefaultValue,
-        specifiedType: const FullType(OuterEnumDefaultValue),
-      );
+    yield r'outerEnumDefaultValue';
+    yield serializers.serialize(
+      object.outerEnumDefaultValue,
+      specifiedType: const FullType(OuterEnumDefaultValue),
+    );
     }
     if (object.outerEnumIntegerDefaultValue != null) {
-      yield r'outerEnumIntegerDefaultValue';
-      yield serializers.serialize(
-        object.outerEnumIntegerDefaultValue,
-        specifiedType: const FullType(OuterEnumIntegerDefaultValue),
-      );
+    yield r'outerEnumIntegerDefaultValue';
+    yield serializers.serialize(
+      object.outerEnumIntegerDefaultValue,
+      specifiedType: const FullType(OuterEnumIntegerDefaultValue),
+    );
     }
   }
 

@@ -34,6 +34,29 @@ abstract class Animal  {
   static Serializer<Animal> get serializer => _$AnimalSerializer();
 }
 
+extension AnimalDiscriminatorExt on Animal {
+    String? discriminatorValue() {
+        if (this is Cat) {
+            return r'Cat';
+        }
+        if (this is Dog) {
+            return r'Dog';
+        }
+        return null;
+    }
+}
+extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
+    String? discriminatorValue() {
+        if (this is CatBuilder) {
+            return r'Cat';
+        }
+        if (this is DogBuilder) {
+            return r'Dog';
+        }
+        return null;
+    }
+}
+
 class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   @override
   final Iterable<Type> types = const [Animal];
@@ -52,11 +75,11 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
-      yield r'color';
-      yield serializers.serialize(
-        object.color,
-        specifiedType: const FullType(String),
-      );
+    yield r'color';
+    yield serializers.serialize(
+      object.color,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

@@ -105,25 +105,25 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.integer != null) {
-      yield r'integer';
-      yield serializers.serialize(
-        object.integer,
-        specifiedType: const FullType(int),
-      );
+    yield r'integer';
+    yield serializers.serialize(
+      object.integer,
+      specifiedType: const FullType(int),
+    );
     }
     if (object.int32 != null) {
-      yield r'int32';
-      yield serializers.serialize(
-        object.int32,
-        specifiedType: const FullType(int),
-      );
+    yield r'int32';
+    yield serializers.serialize(
+      object.int32,
+      specifiedType: const FullType(int),
+    );
     }
     if (object.int64 != null) {
-      yield r'int64';
-      yield serializers.serialize(
-        object.int64,
-        specifiedType: const FullType(int),
-      );
+    yield r'int64';
+    yield serializers.serialize(
+      object.int64,
+      specifiedType: const FullType(int),
+    );
     }
     yield r'number';
     yield serializers.serialize(
@@ -131,32 +131,32 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       specifiedType: const FullType(num),
     );
     if (object.float != null) {
-      yield r'float';
-      yield serializers.serialize(
-        object.float,
-        specifiedType: const FullType(double),
-      );
+    yield r'float';
+    yield serializers.serialize(
+      object.float,
+      specifiedType: const FullType(double),
+    );
     }
     if (object.double_ != null) {
-      yield r'double';
-      yield serializers.serialize(
-        object.double_,
-        specifiedType: const FullType(double),
-      );
+    yield r'double';
+    yield serializers.serialize(
+      object.double_,
+      specifiedType: const FullType(double),
+    );
     }
     if (object.decimal != null) {
-      yield r'decimal';
-      yield serializers.serialize(
-        object.decimal,
-        specifiedType: const FullType(double),
-      );
+    yield r'decimal';
+    yield serializers.serialize(
+      object.decimal,
+      specifiedType: const FullType(double),
+    );
     }
     if (object.string != null) {
-      yield r'string';
-      yield serializers.serialize(
-        object.string,
-        specifiedType: const FullType(String),
-      );
+    yield r'string';
+    yield serializers.serialize(
+      object.string,
+      specifiedType: const FullType(String),
+    );
     }
     yield r'byte';
     yield serializers.serialize(
@@ -164,11 +164,11 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       specifiedType: const FullType(String),
     );
     if (object.binary != null) {
-      yield r'binary';
-      yield serializers.serialize(
-        object.binary,
-        specifiedType: const FullType(Uint8List),
-      );
+    yield r'binary';
+    yield serializers.serialize(
+      object.binary,
+      specifiedType: const FullType(Uint8List),
+    );
     }
     yield r'date';
     yield serializers.serialize(
@@ -176,18 +176,18 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       specifiedType: const FullType(Date),
     );
     if (object.dateTime != null) {
-      yield r'dateTime';
-      yield serializers.serialize(
-        object.dateTime,
-        specifiedType: const FullType(DateTime),
-      );
+    yield r'dateTime';
+    yield serializers.serialize(
+      object.dateTime,
+      specifiedType: const FullType(DateTime),
+    );
     }
     if (object.uuid != null) {
-      yield r'uuid';
-      yield serializers.serialize(
-        object.uuid,
-        specifiedType: const FullType(String),
-      );
+    yield r'uuid';
+    yield serializers.serialize(
+      object.uuid,
+      specifiedType: const FullType(String),
+    );
     }
     yield r'password';
     yield serializers.serialize(
@@ -195,18 +195,18 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       specifiedType: const FullType(String),
     );
     if (object.patternWithDigits != null) {
-      yield r'pattern_with_digits';
-      yield serializers.serialize(
-        object.patternWithDigits,
-        specifiedType: const FullType(String),
-      );
+    yield r'pattern_with_digits';
+    yield serializers.serialize(
+      object.patternWithDigits,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.patternWithDigitsAndDelimiter != null) {
-      yield r'pattern_with_digits_and_delimiter';
-      yield serializers.serialize(
-        object.patternWithDigitsAndDelimiter,
-        specifiedType: const FullType(String),
-      );
+    yield r'pattern_with_digits_and_delimiter';
+    yield serializers.serialize(
+      object.patternWithDigitsAndDelimiter,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

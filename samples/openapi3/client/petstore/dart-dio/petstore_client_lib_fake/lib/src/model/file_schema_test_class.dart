@@ -47,18 +47,18 @@ class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaT
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.file != null) {
-      yield r'file';
-      yield serializers.serialize(
-        object.file,
-        specifiedType: const FullType(ModelFile),
-      );
+    yield r'file';
+    yield serializers.serialize(
+      object.file,
+      specifiedType: const FullType(ModelFile),
+    );
     }
     if (object.files != null) {
-      yield r'files';
-      yield serializers.serialize(
-        object.files,
-        specifiedType: const FullType(BuiltList, [FullType(ModelFile)]),
-      );
+    yield r'files';
+    yield serializers.serialize(
+      object.files,
+      specifiedType: const FullType(BuiltList, [FullType(ModelFile)]),
+    );
     }
   }
 

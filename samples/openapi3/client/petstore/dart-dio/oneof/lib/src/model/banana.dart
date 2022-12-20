@@ -41,11 +41,11 @@ class _$BananaSerializer implements PrimitiveSerializer<Banana> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.count != null) {
-      yield r'count';
-      yield serializers.serialize(
-        object.count,
-        specifiedType: const FullType(num),
-      );
+    yield r'count';
+    yield serializers.serialize(
+      object.count,
+      specifiedType: const FullType(num),
+    );
     }
   }
 

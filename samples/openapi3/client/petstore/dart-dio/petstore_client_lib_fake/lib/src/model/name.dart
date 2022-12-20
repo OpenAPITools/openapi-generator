@@ -58,25 +58,25 @@ class _$NameSerializer implements PrimitiveSerializer<Name> {
       specifiedType: const FullType(int),
     );
     if (object.snakeCase != null) {
-      yield r'snake_case';
-      yield serializers.serialize(
-        object.snakeCase,
-        specifiedType: const FullType(int),
-      );
+    yield r'snake_case';
+    yield serializers.serialize(
+      object.snakeCase,
+      specifiedType: const FullType(int),
+    );
     }
     if (object.property != null) {
-      yield r'property';
-      yield serializers.serialize(
-        object.property,
-        specifiedType: const FullType(String),
-      );
+    yield r'property';
+    yield serializers.serialize(
+      object.property,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.n123number != null) {
-      yield r'123Number';
-      yield serializers.serialize(
-        object.n123number,
-        specifiedType: const FullType(int),
-      );
+    yield r'123Number';
+    yield serializers.serialize(
+      object.n123number,
+      specifiedType: const FullType(int),
+    );
     }
   }
 

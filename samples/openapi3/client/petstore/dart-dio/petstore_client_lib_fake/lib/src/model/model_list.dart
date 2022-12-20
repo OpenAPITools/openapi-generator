@@ -41,11 +41,11 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.n123list != null) {
-      yield r'123-list';
-      yield serializers.serialize(
-        object.n123list,
-        specifiedType: const FullType(String),
-      );
+    yield r'123-list';
+    yield serializers.serialize(
+      object.n123list,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

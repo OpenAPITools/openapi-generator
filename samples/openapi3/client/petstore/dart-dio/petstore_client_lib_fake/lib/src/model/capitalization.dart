@@ -62,46 +62,46 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.smallCamel != null) {
-      yield r'smallCamel';
-      yield serializers.serialize(
-        object.smallCamel,
-        specifiedType: const FullType(String),
-      );
+    yield r'smallCamel';
+    yield serializers.serialize(
+      object.smallCamel,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.capitalCamel != null) {
-      yield r'CapitalCamel';
-      yield serializers.serialize(
-        object.capitalCamel,
-        specifiedType: const FullType(String),
-      );
+    yield r'CapitalCamel';
+    yield serializers.serialize(
+      object.capitalCamel,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.smallSnake != null) {
-      yield r'small_Snake';
-      yield serializers.serialize(
-        object.smallSnake,
-        specifiedType: const FullType(String),
-      );
+    yield r'small_Snake';
+    yield serializers.serialize(
+      object.smallSnake,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.capitalSnake != null) {
-      yield r'Capital_Snake';
-      yield serializers.serialize(
-        object.capitalSnake,
-        specifiedType: const FullType(String),
-      );
+    yield r'Capital_Snake';
+    yield serializers.serialize(
+      object.capitalSnake,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.sCAETHFlowPoints != null) {
-      yield r'SCA_ETH_Flow_Points';
-      yield serializers.serialize(
-        object.sCAETHFlowPoints,
-        specifiedType: const FullType(String),
-      );
+    yield r'SCA_ETH_Flow_Points';
+    yield serializers.serialize(
+      object.sCAETHFlowPoints,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.ATT_NAME != null) {
-      yield r'ATT_NAME';
-      yield serializers.serialize(
-        object.ATT_NAME,
-        specifiedType: const FullType(String),
-      );
+    yield r'ATT_NAME';
+    yield serializers.serialize(
+      object.ATT_NAME,
+      specifiedType: const FullType(String),
+    );
     }
   }
 

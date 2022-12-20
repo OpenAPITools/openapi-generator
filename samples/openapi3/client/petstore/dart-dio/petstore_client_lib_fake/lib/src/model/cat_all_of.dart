@@ -34,11 +34,11 @@ class _$CatAllOfSerializer implements PrimitiveSerializer<CatAllOf> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.declawed != null) {
-      yield r'declawed';
-      yield serializers.serialize(
-        object.declawed,
-        specifiedType: const FullType(bool),
-      );
+    yield r'declawed';
+    yield serializers.serialize(
+      object.declawed,
+      specifiedType: const FullType(bool),
+    );
     }
   }
 

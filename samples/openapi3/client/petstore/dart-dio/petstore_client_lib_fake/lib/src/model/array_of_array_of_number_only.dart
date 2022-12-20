@@ -42,11 +42,11 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.arrayArrayNumber != null) {
-      yield r'ArrayArrayNumber';
-      yield serializers.serialize(
-        object.arrayArrayNumber,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]),
-      );
+    yield r'ArrayArrayNumber';
+    yield serializers.serialize(
+      object.arrayArrayNumber,
+      specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]),
+    );
     }
   }
 

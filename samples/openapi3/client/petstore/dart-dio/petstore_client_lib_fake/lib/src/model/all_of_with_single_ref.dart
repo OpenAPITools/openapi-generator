@@ -46,18 +46,18 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.username != null) {
-      yield r'username';
-      yield serializers.serialize(
-        object.username,
-        specifiedType: const FullType(String),
-      );
+    yield r'username';
+    yield serializers.serialize(
+      object.username,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.singleRefType != null) {
-      yield r'SingleRefType';
-      yield serializers.serialize(
-        object.singleRefType,
-        specifiedType: const FullType(SingleRefType),
-      );
+    yield r'SingleRefType';
+    yield serializers.serialize(
+      object.singleRefType,
+      specifiedType: const FullType(SingleRefType),
+    );
     }
   }
 

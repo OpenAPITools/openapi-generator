@@ -18,14 +18,12 @@ part 'cat.g.dart';
 /// * [declawed] 
 @BuiltValue()
 abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
-  static const String discriminatorFieldName = r'className';
-
   Cat._();
 
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue()
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
@@ -50,18 +48,18 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
-      yield r'color';
-      yield serializers.serialize(
-        object.color,
-        specifiedType: const FullType(String),
-      );
+    yield r'color';
+    yield serializers.serialize(
+      object.color,
+      specifiedType: const FullType(String),
+    );
     }
     if (object.declawed != null) {
-      yield r'declawed';
-      yield serializers.serialize(
-        object.declawed,
-        specifiedType: const FullType(bool),
-      );
+    yield r'declawed';
+    yield serializers.serialize(
+      object.declawed,
+      specifiedType: const FullType(bool),
+    );
     }
   }
 
