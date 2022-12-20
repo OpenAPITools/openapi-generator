@@ -13,15 +13,12 @@
 
 package org.openapitools.client;
 
-import org.springframework.web.client.RestClientException;
 import org.junit.Assert;
 import org.openapitools.client.api.QueryApi;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 import org.junit.Test;
-import org.junit.Ignore;
-
 import java.util.*;
 
 
@@ -38,11 +35,16 @@ public class CustomTest {
      * <p>
      * Test query parameter(s)
      *
-     * @throws RestClientException if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueObjectTest() throws RestClientException{
+    public void testQueryStyleFormExplodeTrueObjectTest() {
+        var queryObject = new Pet().id(12345L).name("Hello World").
+                photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
 
+        var response = api.testQueryStyleFormExplodeTrueObject(queryObject);
+        var parsed = new EchoServerResponseParser(response);
+        Assert.assertEquals("/query/style_form/explode_true/object?id=12345&name=Hello%20World&category=class%20Category%20%7B%0A%20%20%20%20id%3A%20987%0A%20%20%20%20name%3A%20new%20category%0A%7D&photoUrls=http%3A%2F%2Fa.com&photoUrls=http%3A%2F%2Fb.com", parsed.path);
     }
 
     /**
@@ -50,11 +52,16 @@ public class CustomTest {
      * <p>
      * Test query parameter(s)
      *
-     * @throws RestClientException if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueArrayString() throws RestClientException {
+    public void testQueryStyleFormExplodeTrueArrayString() {
+        var query = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()
+                .values(Arrays.asList(new String[]{"hello world 1", "hello world 2"}));
 
+        var response = api.testQueryStyleFormExplodeTrueArrayString(query);
+        var parsed = new EchoServerResponseParser(response);
+        Assert.assertEquals("/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", parsed.path);
     }
 
 }
