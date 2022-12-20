@@ -1,5 +1,5 @@
 extension {{classname}}DiscriminatorExt on {{classname}} {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         {{#mappedModels}}
         if (this is {{modelName}}) {
             return r'{{mappingName}}';
@@ -9,7 +9,7 @@ extension {{classname}}DiscriminatorExt on {{classname}} {
     }
 }
 extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         {{#mappedModels}}
         if (this is {{modelName}}Builder) {
             return r'{{mappingName}}';
