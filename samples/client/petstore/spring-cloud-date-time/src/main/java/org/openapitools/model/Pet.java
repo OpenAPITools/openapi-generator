@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -14,6 +12,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -56,7 +55,7 @@ public class Pet {
    * @return atType
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "@type", required = true)
   public String getAtType() {
     return atType;
   }
@@ -75,7 +74,7 @@ public class Pet {
    * @return age
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "age", required = false)
   public Integer getAge() {
     return age;
   }
@@ -94,7 +93,7 @@ public class Pet {
    * @return happy
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "happy", required = false)
   public Boolean getHappy() {
     return happy;
   }
@@ -113,7 +112,7 @@ public class Pet {
    * @return price
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "price", required = false)
   public BigDecimal getPrice() {
     return price;
   }
@@ -132,7 +131,7 @@ public class Pet {
    * @return lastFeed
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "lastFeed", required = false)
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -151,7 +150,7 @@ public class Pet {
    * @return dateOfBirth
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateOfBirth", required = false)
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }

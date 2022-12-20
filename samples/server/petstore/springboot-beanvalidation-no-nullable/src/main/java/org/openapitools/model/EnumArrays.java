@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -111,7 +110,7 @@ public class EnumArrays {
    * @return justSymbol
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "just_symbol", required = false)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -138,7 +137,7 @@ public class EnumArrays {
    * @return arrayEnum
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "array_enum", required = false)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

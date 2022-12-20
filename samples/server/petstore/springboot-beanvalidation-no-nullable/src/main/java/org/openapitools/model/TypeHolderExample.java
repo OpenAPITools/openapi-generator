@@ -4,14 +4,13 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -53,7 +52,7 @@ public class TypeHolderExample {
    * @return stringItem
   */
   @NotNull 
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @Schema(name = "string_item", example = "what", required = true)
   public String getStringItem() {
     return stringItem;
   }
@@ -72,7 +71,7 @@ public class TypeHolderExample {
    * @return numberItem
   */
   @NotNull @Valid 
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(name = "number_item", example = "1.234", required = true)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -91,7 +90,7 @@ public class TypeHolderExample {
    * @return floatItem
   */
   @NotNull 
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(name = "float_item", example = "1.234", required = true)
   public Float getFloatItem() {
     return floatItem;
   }
@@ -110,7 +109,7 @@ public class TypeHolderExample {
    * @return integerItem
   */
   @NotNull 
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @Schema(name = "integer_item", example = "-2", required = true)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -129,7 +128,7 @@ public class TypeHolderExample {
    * @return boolItem
   */
   @NotNull 
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @Schema(name = "bool_item", example = "true", required = true)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -156,7 +155,7 @@ public class TypeHolderExample {
    * @return arrayItem
   */
   @NotNull 
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

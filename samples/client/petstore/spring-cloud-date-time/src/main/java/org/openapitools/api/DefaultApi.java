@@ -8,7 +8,14 @@ package org.openapitools.api;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +33,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "Default", description = "the Default API")
+@Tag(name = "Default", description = "the Default API")
 public interface DefaultApi {
 
     /**
@@ -38,23 +45,21 @@ public interface DefaultApi {
      * @param loginDate A date cookie parameter (optional, default to 1975-01-01)
      * @return OK (status code 200)
      */
-    @ApiOperation(
-        value = "",
-        nickname = "get",
-        notes = ""
+    @Operation(
+        operationId = "get",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "OK")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "OK")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/thingy/{date}"
     )
     ResponseEntity<Void> get(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @NotNull @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @NotNull @ApiParam(value = "A date header parameter", required = true, defaultValue = "1974-01-01") @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "1974-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
-        @ApiParam(value = "A date cookie parameter", defaultValue = "1975-01-01") @CookieValue(name = "loginDate", required = false, defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
+        @Parameter(name = "date", description = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true) @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @NotNull @Parameter(name = "X-Order-Date", description = "A date header parameter", required = true) @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "1974-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
+        @Parameter(name = "loginDate", description = "A date cookie parameter") @CookieValue(name = "loginDate", required = false, defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
 
 
@@ -66,22 +71,21 @@ public interface DefaultApi {
      * @param visitDate Updated last visit timestamp (optional, default to 1971-12-19T03:39:57-08:00)
      * @return Invalid input (status code 405)
      */
-    @ApiOperation(
-        value = "",
-        nickname = "updatePetWithForm",
-        notes = "update with form data"
+    @Operation(
+        operationId = "updatePetWithForm",
+        description = "update with form data",
+        responses = {
+            @ApiResponse(responseCode = "405", description = "Invalid input")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 405, message = "Invalid input")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/thingy/{date}",
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "Updated last visit timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @Parameter(name = "date", description = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "visitDate", description = "Updated last visit timestamp") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }

@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -41,7 +40,7 @@ public class OuterComposite {
    * @return myNumber
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_number", required = false)
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -60,7 +59,7 @@ public class OuterComposite {
    * @return myString
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_string", required = false)
   public String getMyString() {
     return myString;
   }
@@ -79,7 +78,7 @@ public class OuterComposite {
    * @return myBoolean
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_boolean", required = false)
   public Boolean getMyBoolean() {
     return myBoolean;
   }

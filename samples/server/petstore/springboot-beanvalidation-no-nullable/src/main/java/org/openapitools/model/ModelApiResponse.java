@@ -5,11 +5,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -42,7 +41,7 @@ public class ModelApiResponse {
    * @return code
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "code", required = false)
   public Integer getCode() {
     return code;
   }
@@ -61,7 +60,7 @@ public class ModelApiResponse {
    * @return type
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "type", required = false)
   public String getType() {
     return type;
   }
@@ -80,7 +79,7 @@ public class ModelApiResponse {
    * @return message
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "message", required = false)
   public String getMessage() {
     return message;
   }

@@ -5,11 +5,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -36,7 +35,7 @@ public class CatAllOf {
    * @return declawed
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "declawed", required = false)
   public Boolean getDeclawed() {
     return declawed;
   }

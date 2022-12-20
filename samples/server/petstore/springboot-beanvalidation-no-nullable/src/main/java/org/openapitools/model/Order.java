@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -90,7 +89,7 @@ public class Order {
    * @return id
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -109,7 +108,7 @@ public class Order {
    * @return petId
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
   }
@@ -128,7 +127,7 @@ public class Order {
    * @return quantity
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
   }
@@ -147,7 +146,7 @@ public class Order {
    * @return shipDate
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "shipDate", required = false)
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -166,7 +165,7 @@ public class Order {
    * @return status
   */
   
-  @ApiModelProperty(value = "Order Status")
+  @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -185,7 +184,7 @@ public class Order {
    * @return complete
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
   }

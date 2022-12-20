@@ -10,7 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springfox.version>2.9.2</springfox.version>
+        <springdoc.version>1.6.8</springdoc.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -35,11 +35,11 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--SpringFox dependencies -->
+        <!--SpringDoc dependencies -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>

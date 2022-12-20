@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
@@ -15,6 +13,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -94,7 +93,7 @@ public class Pet {
    * @return id
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -113,7 +112,7 @@ public class Pet {
    * @return category
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "category", required = false)
   public Category getCategory() {
     return category;
   }
@@ -132,7 +131,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
     return name;
   }
@@ -156,7 +155,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "photoUrls", required = true)
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -183,7 +182,7 @@ public class Pet {
    * @return tags
   */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "tags", required = false)
   public List<Tag> getTags() {
     return tags;
   }
@@ -202,7 +201,7 @@ public class Pet {
    * @return status
   */
   
-  @ApiModelProperty(value = "pet status in the store")
+  @Schema(name = "status", description = "pet status in the store", required = false)
   public StatusEnum getStatus() {
     return status;
   }

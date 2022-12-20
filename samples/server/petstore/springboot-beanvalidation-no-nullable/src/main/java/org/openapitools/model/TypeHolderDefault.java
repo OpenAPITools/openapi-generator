@@ -4,14 +4,13 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -50,7 +49,7 @@ public class TypeHolderDefault {
    * @return stringItem
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "string_item", required = true)
   public String getStringItem() {
     return stringItem;
   }
@@ -69,7 +68,7 @@ public class TypeHolderDefault {
    * @return numberItem
   */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number_item", required = true)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -88,7 +87,7 @@ public class TypeHolderDefault {
    * @return integerItem
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "integer_item", required = true)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -107,7 +106,7 @@ public class TypeHolderDefault {
    * @return boolItem
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "bool_item", required = true)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -134,7 +133,7 @@ public class TypeHolderDefault {
    * @return arrayItem
   */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "array_item", required = true)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
