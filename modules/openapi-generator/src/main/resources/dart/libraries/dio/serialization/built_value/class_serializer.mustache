@@ -15,11 +15,11 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{^required}}
     if (object.{{{name}}} != null) {
     {{/required}}
-      yield r'{{baseName}}';
-      yield {{#required}}{{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}{{/required}}serializers.serialize(
-        object.{{{name}}},
-        specifiedType: const {{>serialization/built_value/variable_serializer_type}},
-      );
+    yield r'{{baseName}}';
+    yield {{#required}}{{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}{{/required}}serializers.serialize(
+      object.{{{name}}},
+      specifiedType: const {{>serialization/built_value/variable_serializer_type}},
+    );
     {{^required}}
     }
     {{/required}}
