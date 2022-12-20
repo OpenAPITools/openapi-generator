@@ -4318,7 +4318,10 @@ public class DefaultCodegenTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnotherPerson");
         assertEquals(schema3.getExtensions().get("x-parent"), true);
 
-        Schema schema4 = openAPI.getComponents().getSchemas().get("Person");
-        assertEquals(schema4.getExtensions().get("x-parent"), "abstract");
+        Schema schema4 = openAPI.getComponents().getSchemas().get("AnotherParent");
+        assertEquals(schema4.getExtensions().get("x-parent"), true);
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema5.getExtensions().get("x-parent"), "abstract");
     }
 }

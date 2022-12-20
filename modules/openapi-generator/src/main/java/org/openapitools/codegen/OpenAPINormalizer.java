@@ -17,12 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.java.accessibility.util.AccessibilityListenerList;
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
@@ -35,13 +29,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
-    private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> rules = new HashMap<>();
 
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
@@ -49,9 +41,13 @@ public class OpenAPINormalizer {
     // ============= a list of rules =============
     // when set to true, all rules are enabled
     final String ALL = "ALL";
+    boolean enableAll;
+
     // when set to true, $ref in allOf is treated as parent so that x-parent: true will be added
     // to the schema in $ref (if x-parent is not present)
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
+    boolean enableRefAsParentInAllOf;
+
     // ============= end of rules =============
 
     /**
@@ -62,64 +58,27 @@ public class OpenAPINormalizer {
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> rules) {
         this.openAPI = openAPI;
-
-        if (rules == null) {
-            return;
-        } else {
-            this.rules = rules;
-        }
+        this.rules = rules;
+        parseRules(rules);
     }
 
     /**
-     * Gets the rule.
-     *
-     * @return a map of rules
-     */
-    public Map<String, String> getRules() {
-        return this.rules;
-    }
-
-    /**
-     * Sets the rule.
+     * Parses the rules.
      *
      * @param rules a map of rules
      */
-    public void setRules(Map<String, String> rules) {
-        this.rules = rules;
-    }
-
-    /**
-     * Returns true if the rule is enabled.
-     *
-     * @param rule name of the rule
-     * @return boolean
-     */
-    public boolean isRuleEnabled(String rule) {
-        if ("true".equalsIgnoreCase(this.rules.get(ALL))) {
-            // enable all rules
-            return true;
-        } else if ("true".equalsIgnoreCase(this.rules.get(rule))) {
-            // true
-            return true;
-        } else if ("false".equalsIgnoreCase(this.rules.get(rule))) {
-            // false
-            return false;
-        } else if (StringUtils.isNotEmpty(this.rules.get(rule))) {
-            // string value, e.g. pascal, snake, original
-            return true;
-        } else {
-            return false;
+    public void parseRules(Map<String, String> rules) {
+        if (rules == null) {
+            return;
         }
-    }
 
-    /**
-     * Sets the rule.
-     *
-     * @param key   rule name
-     * @param value rule value
-     */
-    public void setRule(String key, String value) {
-        this.rules.put(key, value);
+        if ("true".equalsIgnoreCase(rules.get(ALL))) {
+            enableAll = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(REF_AS_PARENT_IN_ALLOF))) {
+            enableRefAsParentInAllOf = true;
+        }
     }
 
     /**
@@ -390,7 +349,7 @@ public class OpenAPINormalizer {
     // ===================== a list of rules =====================
     // all rules (fuctions) start with the word "process"
     private void processUseAllOfRefAsParent(Schema schema) {
-        if (!isRuleEnabled(REF_AS_PARENT_IN_ALLOF)) {
+        if (!enableRefAsParentInAllOf) {
             return;
         }
 

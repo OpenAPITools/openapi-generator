@@ -58,9 +58,6 @@ components:
       - $ref: '#/components/schemas/Person'
     AnotherChild:
       description: another child class that does NOT extend/inherit AnotherPerson
-      properties:
-        boosterSeat:
-          type: boolean
       allOf:
         - type: object
           properties:
@@ -71,10 +68,20 @@ components:
     AnotherPerson:
       description: person object without x-parent extension
       type: object
+      allOf:
+        - properties:
+            $_type:
+              type: string
+            lastName:
+              type: string
+            firstName:
+              type: string
+        - $ref: '#/components/schemas/AnotherParent'
+    AnotherParent:
+      description: parent object without x-parent extension
+      type: object
       properties:
-        $_type:
-          type: string
-        lastName:
-          type: string
-        firstName:
+        isParent:
+          type: boolean
+        mum_or_dad:
           type: string
