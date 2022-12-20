@@ -38,6 +38,10 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
+{{#discriminator}}import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+{{/discriminator}}
 {{/multiplatform}}
 {{#serializableModel}}
 import java.io.Serializable
@@ -57,7 +61,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#multiplatform}}{{^discriminator}}@Serializable{{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{#multiplatform}}@Serializable{{#discriminator}}(with = {{classname}}Serializer::class){{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
@@ -146,3 +150,13 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{#vendorExtensions.x-has-data-class-body}}
 }
 {{/vendorExtensions.x-has-data-class-body}}
+{{#discriminator}}
+
+internal object {{classname}}Serializer : JsonContentPolymorphicSerializer<{{classname}}>({{classname}}::class) {
+    override fun selectDeserializer(element: JsonElement) = when {
+    {{#mappedModels}}
+        "{{mappingName}}" in element.jsonObject["{{discriminatorName}}"].toString() -> {{modelName}}.serializer()
+    {{/mappedModels}}
+        else -> {{classname}}.serializer()
+    }
+}{{/discriminator}}
