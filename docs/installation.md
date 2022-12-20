@@ -171,3 +171,4 @@ echo "export OPENAPI_GENERATOR_VERSION=3.0.2" >> ~/.bashrc
 source ~/.bashrc
 openapi-generator-cli version # is always 3.0.2, unless any of the above overrides are done ad hoc
 ```
+
