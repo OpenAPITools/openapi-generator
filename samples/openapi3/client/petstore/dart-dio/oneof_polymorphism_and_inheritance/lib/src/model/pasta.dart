@@ -28,7 +28,7 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   factory Pasta([void updates(PastaBuilder b)]) = _$Pasta;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue();
+  static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Pasta> get serializer => _$PastaSerializer();

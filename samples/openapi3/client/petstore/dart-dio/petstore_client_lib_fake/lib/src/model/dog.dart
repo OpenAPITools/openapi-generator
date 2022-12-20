@@ -23,7 +23,7 @@ abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
   factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DogBuilder b) => b..className=b.discriminatorValue()
+  static void _defaults(DogBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)

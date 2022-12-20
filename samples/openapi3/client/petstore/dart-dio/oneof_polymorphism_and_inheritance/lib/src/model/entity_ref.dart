@@ -44,7 +44,7 @@ abstract class EntityRef implements Addressable, Extensible {
 }
 
 extension EntityRefDiscriminatorExt on EntityRef {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is BarRef) {
             return r'BarRef';
         }
@@ -55,7 +55,7 @@ extension EntityRefDiscriminatorExt on EntityRef {
     }
 }
 extension EntityRefBuilderDiscriminatorExt on EntityRefBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is BarRefBuilder) {
             return r'BarRef';
         }

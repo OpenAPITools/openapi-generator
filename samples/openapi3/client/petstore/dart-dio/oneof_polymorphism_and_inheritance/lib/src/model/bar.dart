@@ -37,7 +37,7 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   factory Bar([void updates(BarBuilder b)]) = _$Bar;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue();
+  static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Bar> get serializer => _$BarSerializer();

@@ -42,7 +42,7 @@ abstract class Entity implements Addressable, Extensible {
 }
 
 extension EntityDiscriminatorExt on Entity {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is Bar) {
             return r'Bar';
         }
@@ -65,7 +65,7 @@ extension EntityDiscriminatorExt on Entity {
     }
 }
 extension EntityBuilderDiscriminatorExt on EntityBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is BarBuilder) {
             return r'Bar';
         }

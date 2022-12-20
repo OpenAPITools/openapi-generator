@@ -43,7 +43,7 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
 }
 
 extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is Bar) {
             return r'Bar';
         }
@@ -54,7 +54,7 @@ extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
     }
 }
 extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is BarBuilder) {
             return r'Bar';
         }

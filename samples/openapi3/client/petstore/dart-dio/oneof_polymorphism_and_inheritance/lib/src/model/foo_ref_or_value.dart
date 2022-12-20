@@ -43,7 +43,7 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
 }
 
 extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is Foo) {
             return r'Foo';
         }
@@ -54,7 +54,7 @@ extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
     }
 }
 extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is FooBuilder) {
             return r'Foo';
         }

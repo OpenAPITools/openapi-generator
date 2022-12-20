@@ -35,7 +35,7 @@ abstract class Pizza implements Entity {
 }
 
 extension PizzaDiscriminatorExt on Pizza {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is PizzaSpeziale) {
             return r'PizzaSpeziale';
         }
@@ -43,7 +43,7 @@ extension PizzaDiscriminatorExt on Pizza {
     }
 }
 extension PizzaBuilderDiscriminatorExt on PizzaBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is PizzaSpezialeBuilder) {
             return r'PizzaSpeziale';
         }

@@ -23,7 +23,7 @@ abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue()
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)

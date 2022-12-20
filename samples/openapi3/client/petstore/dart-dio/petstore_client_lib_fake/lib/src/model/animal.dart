@@ -35,7 +35,7 @@ abstract class Animal  {
 }
 
 extension AnimalDiscriminatorExt on Animal {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is Cat) {
             return r'Cat';
         }
@@ -46,7 +46,7 @@ extension AnimalDiscriminatorExt on Animal {
     }
 }
 extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
-    String? discriminatorValue() {
+    String? get discriminatorValue {
         if (this is CatBuilder) {
             return r'Cat';
         }

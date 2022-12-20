@@ -28,7 +28,7 @@ abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezial
   factory PizzaSpeziale([void updates(PizzaSpezialeBuilder b)]) = _$PizzaSpeziale;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PizzaSpezialeBuilder b) => b..atType=b.discriminatorValue();
+  static void _defaults(PizzaSpezialeBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<PizzaSpeziale> get serializer => _$PizzaSpezialeSerializer();
