@@ -10,26 +10,17 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{{classname}}} object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    {{#vendorExtensions.x-self-and-ancestor-only-props}}
-    {{#required}}
-    {{!
-        A required property need to always be part of the serialized output.
-        When it is nullable, null is serialized, otherwise it is an error if it is null.
-    }}
-    yield r'{{baseName}}';
-    yield {{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(
-      object.{{{name}}},
-      specifiedType: const {{>serialization/built_value/variable_serializer_type}},
-    );
-    {{/required}}
+    {{#vendorExtensions.x-self-and-ancestor-only-props}}    
+    {{! Non-required properties are only serialized if not null. }}
     {{^required}}
     if (object.{{{name}}} != null) {
-      {{! Non-required properties are only serialized if not null. }}
+    {{/required}}
       yield r'{{baseName}}';
-      yield serializers.serialize(
+      yield {{#required}}{{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}{{/required}}serializers.serialize(
         object.{{{name}}},
         specifiedType: const {{>serialization/built_value/variable_serializer_type}},
       );
+    {{^required}}
     }
     {{/required}}
     {{/vendorExtensions.x-self-and-ancestor-only-props}}

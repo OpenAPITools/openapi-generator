@@ -1,0 +1,20 @@
+extension {{classname}}DiscriminatorExt on {{classname}} {
+    String? discriminatorValue() {
+        {{#mappedModels}}
+        if (this is {{modelName}}) {
+            return r'{{mappingName}}';
+        }
+        {{/mappedModels}}
+        return null;
+    }
+}
+extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
+    String? discriminatorValue() {
+        {{#mappedModels}}
+        if (this is {{modelName}}Builder) {
+            return r'{{mappingName}}';
+        }
+        {{/mappedModels}}
+        return null;
+    }
+}

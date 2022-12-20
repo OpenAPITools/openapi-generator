@@ -404,6 +404,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
     private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
     private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    private final String kParentDiscriminator = "x-parent-discriminator";
     
     // adapts codegen models and property to dart rules of inheritance
     private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
@@ -455,7 +456,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsPure, isPure);
             if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty()) && (cm.anyOf == null || cm.anyOf.isEmpty())) {
                 //discriminator has no meaning here
-                cm.discriminator=null;
+                if (cm.discriminator!=null) {
+                    cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
+                    cm.discriminator=null;
+                }
+
             }
             // when pure:
             // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
