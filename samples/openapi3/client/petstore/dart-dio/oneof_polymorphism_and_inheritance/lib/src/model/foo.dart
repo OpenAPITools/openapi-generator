@@ -51,46 +51,46 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.atSchemaLocation != null) {
-    yield r'@schemaLocation';
-    yield serializers.serialize(
-      object.atSchemaLocation,
-      specifiedType: const FullType(String),
-    );
+      yield r'@schemaLocation';
+      yield serializers.serialize(
+        object.atSchemaLocation,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.fooPropA != null) {
-    yield r'fooPropA';
-    yield serializers.serialize(
-      object.fooPropA,
-      specifiedType: const FullType(String),
-    );
+      yield r'fooPropA';
+      yield serializers.serialize(
+        object.fooPropA,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.atBaseType != null) {
-    yield r'@baseType';
-    yield serializers.serialize(
-      object.atBaseType,
-      specifiedType: const FullType(String),
-    );
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBaseType,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.fooPropB != null) {
-    yield r'fooPropB';
-    yield serializers.serialize(
-      object.fooPropB,
-      specifiedType: const FullType(String),
-    );
+      yield r'fooPropB';
+      yield serializers.serialize(
+        object.fooPropB,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.href != null) {
-    yield r'href';
-    yield serializers.serialize(
-      object.href,
-      specifiedType: const FullType(String),
-    );
+      yield r'href';
+      yield serializers.serialize(
+        object.href,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
     }
     yield r'@type';
     yield serializers.serialize(

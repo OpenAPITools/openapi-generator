@@ -48,18 +48,18 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
-    yield r'color';
-    yield serializers.serialize(
-      object.color,
-      specifiedType: const FullType(String),
-    );
+      yield r'color';
+      yield serializers.serialize(
+        object.color,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.declawed != null) {
-    yield r'declawed';
-    yield serializers.serialize(
-      object.declawed,
-      specifiedType: const FullType(bool),
-    );
+      yield r'declawed';
+      yield serializers.serialize(
+        object.declawed,
+        specifiedType: const FullType(bool),
+      );
     }
   }
 

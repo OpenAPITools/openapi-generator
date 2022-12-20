@@ -55,32 +55,32 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.uuid != null) {
-    yield r'uuid';
-    yield serializers.serialize(
-      object.uuid,
-      specifiedType: const FullType(String),
-    );
+      yield r'uuid';
+      yield serializers.serialize(
+        object.uuid,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(num),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(num),
+      );
     }
     if (object.deprecatedRef != null) {
-    yield r'deprecatedRef';
-    yield serializers.serialize(
-      object.deprecatedRef,
-      specifiedType: const FullType(DeprecatedObject),
-    );
+      yield r'deprecatedRef';
+      yield serializers.serialize(
+        object.deprecatedRef,
+        specifiedType: const FullType(DeprecatedObject),
+      );
     }
     if (object.bars != null) {
-    yield r'bars';
-    yield serializers.serialize(
-      object.bars,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+      yield r'bars';
+      yield serializers.serialize(
+        object.bars,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
     }
   }
 

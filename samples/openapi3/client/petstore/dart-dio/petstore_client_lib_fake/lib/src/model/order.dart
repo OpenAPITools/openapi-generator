@@ -65,46 +65,46 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(int),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.petId != null) {
-    yield r'petId';
-    yield serializers.serialize(
-      object.petId,
-      specifiedType: const FullType(int),
-    );
+      yield r'petId';
+      yield serializers.serialize(
+        object.petId,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.quantity != null) {
-    yield r'quantity';
-    yield serializers.serialize(
-      object.quantity,
-      specifiedType: const FullType(int),
-    );
+      yield r'quantity';
+      yield serializers.serialize(
+        object.quantity,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.shipDate != null) {
-    yield r'shipDate';
-    yield serializers.serialize(
-      object.shipDate,
-      specifiedType: const FullType(DateTime),
-    );
+      yield r'shipDate';
+      yield serializers.serialize(
+        object.shipDate,
+        specifiedType: const FullType(DateTime),
+      );
     }
     if (object.status != null) {
-    yield r'status';
-    yield serializers.serialize(
-      object.status,
-      specifiedType: const FullType(OrderStatusEnum),
-    );
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(OrderStatusEnum),
+      );
     }
     if (object.complete != null) {
-    yield r'complete';
-    yield serializers.serialize(
-      object.complete,
-      specifiedType: const FullType(bool),
-    );
+      yield r'complete';
+      yield serializers.serialize(
+        object.complete,
+        specifiedType: const FullType(bool),
+      );
     }
   }
 

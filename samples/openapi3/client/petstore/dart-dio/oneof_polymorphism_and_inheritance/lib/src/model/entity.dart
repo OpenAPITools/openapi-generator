@@ -101,32 +101,32 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.atSchemaLocation != null) {
-    yield r'@schemaLocation';
-    yield serializers.serialize(
-      object.atSchemaLocation,
-      specifiedType: const FullType(String),
-    );
+      yield r'@schemaLocation';
+      yield serializers.serialize(
+        object.atSchemaLocation,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.atBaseType != null) {
-    yield r'@baseType';
-    yield serializers.serialize(
-      object.atBaseType,
-      specifiedType: const FullType(String),
-    );
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBaseType,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.href != null) {
-    yield r'href';
-    yield serializers.serialize(
-      object.href,
-      specifiedType: const FullType(String),
-    );
+      yield r'href';
+      yield serializers.serialize(
+        object.href,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
     }
     yield r'@type';
     yield serializers.serialize(

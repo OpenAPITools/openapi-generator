@@ -55,32 +55,32 @@ class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.mapMapOfString != null) {
-    yield r'map_map_of_string';
-    yield serializers.serialize(
-      object.mapMapOfString,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
-    );
+      yield r'map_map_of_string';
+      yield serializers.serialize(
+        object.mapMapOfString,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+      );
     }
     if (object.mapOfEnumString != null) {
-    yield r'map_of_enum_string';
-    yield serializers.serialize(
-      object.mapOfEnumString,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]),
-    );
+      yield r'map_of_enum_string';
+      yield serializers.serialize(
+        object.mapOfEnumString,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]),
+      );
     }
     if (object.directMap != null) {
-    yield r'direct_map';
-    yield serializers.serialize(
-      object.directMap,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
-    );
+      yield r'direct_map';
+      yield serializers.serialize(
+        object.directMap,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
+      );
     }
     if (object.indirectMap != null) {
-    yield r'indirect_map';
-    yield serializers.serialize(
-      object.indirectMap,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
-    );
+      yield r'indirect_map';
+      yield serializers.serialize(
+        object.indirectMap,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]),
+      );
     }
   }
 

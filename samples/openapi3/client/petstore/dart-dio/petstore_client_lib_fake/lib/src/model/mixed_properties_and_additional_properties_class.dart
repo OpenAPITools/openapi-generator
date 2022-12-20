@@ -51,25 +51,25 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.uuid != null) {
-    yield r'uuid';
-    yield serializers.serialize(
-      object.uuid,
-      specifiedType: const FullType(String),
-    );
+      yield r'uuid';
+      yield serializers.serialize(
+        object.uuid,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.dateTime != null) {
-    yield r'dateTime';
-    yield serializers.serialize(
-      object.dateTime,
-      specifiedType: const FullType(DateTime),
-    );
+      yield r'dateTime';
+      yield serializers.serialize(
+        object.dateTime,
+        specifiedType: const FullType(DateTime),
+      );
     }
     if (object.map != null) {
-    yield r'map';
-    yield serializers.serialize(
-      object.map,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
-    );
+      yield r'map';
+      yield serializers.serialize(
+        object.map,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
+      );
     }
   }
 

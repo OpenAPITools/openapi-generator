@@ -46,18 +46,18 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.mapProperty != null) {
-    yield r'map_property';
-    yield serializers.serialize(
-      object.mapProperty,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
-    );
+      yield r'map_property';
+      yield serializers.serialize(
+        object.mapProperty,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+      );
     }
     if (object.mapOfMapProperty != null) {
-    yield r'map_of_map_property';
-    yield serializers.serialize(
-      object.mapOfMapProperty,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
-    );
+      yield r'map_of_map_property';
+      yield serializers.serialize(
+        object.mapOfMapProperty,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+      );
     }
   }
 

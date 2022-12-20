@@ -45,18 +45,18 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.atSchemaLocation != null) {
-    yield r'@schemaLocation';
-    yield serializers.serialize(
-      object.atSchemaLocation,
-      specifiedType: const FullType(String),
-    );
+      yield r'@schemaLocation';
+      yield serializers.serialize(
+        object.atSchemaLocation,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.atBaseType != null) {
-    yield r'@baseType';
-    yield serializers.serialize(
-      object.atBaseType,
-      specifiedType: const FullType(String),
-    );
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBaseType,
+        specifiedType: const FullType(String),
+      );
     }
     yield r'@type';
     yield serializers.serialize(

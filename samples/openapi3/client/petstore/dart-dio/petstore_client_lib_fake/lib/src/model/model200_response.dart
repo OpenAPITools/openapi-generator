@@ -45,18 +45,18 @@ class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Respon
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.name != null) {
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(int),
-    );
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.classField != null) {
-    yield r'class';
-    yield serializers.serialize(
-      object.classField,
-      specifiedType: const FullType(String),
-    );
+      yield r'class';
+      yield serializers.serialize(
+        object.classField,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

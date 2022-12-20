@@ -40,18 +40,18 @@ class _$AddressableSerializer implements PrimitiveSerializer<Addressable> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.href != null) {
-    yield r'href';
-    yield serializers.serialize(
-      object.href,
-      specifiedType: const FullType(String),
-    );
+      yield r'href';
+      yield serializers.serialize(
+        object.href,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

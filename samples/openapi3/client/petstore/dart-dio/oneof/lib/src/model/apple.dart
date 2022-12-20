@@ -41,11 +41,11 @@ class _$AppleSerializer implements PrimitiveSerializer<Apple> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.kind != null) {
-    yield r'kind';
-    yield serializers.serialize(
-      object.kind,
-      specifiedType: const FullType(String),
-    );
+      yield r'kind';
+      yield serializers.serialize(
+        object.kind,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

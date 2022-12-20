@@ -66,18 +66,18 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(int),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.category != null) {
-    yield r'category';
-    yield serializers.serialize(
-      object.category,
-      specifiedType: const FullType(Category),
-    );
+      yield r'category';
+      yield serializers.serialize(
+        object.category,
+        specifiedType: const FullType(Category),
+      );
     }
     yield r'name';
     yield serializers.serialize(
@@ -90,18 +90,18 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
       specifiedType: const FullType(BuiltSet, [FullType(String)]),
     );
     if (object.tags != null) {
-    yield r'tags';
-    yield serializers.serialize(
-      object.tags,
-      specifiedType: const FullType(BuiltList, [FullType(Tag)]),
-    );
+      yield r'tags';
+      yield serializers.serialize(
+        object.tags,
+        specifiedType: const FullType(BuiltList, [FullType(Tag)]),
+      );
     }
     if (object.status != null) {
-    yield r'status';
-    yield serializers.serialize(
-      object.status,
-      specifiedType: const FullType(PetStatusEnum),
-    );
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(PetStatusEnum),
+      );
     }
   }
 

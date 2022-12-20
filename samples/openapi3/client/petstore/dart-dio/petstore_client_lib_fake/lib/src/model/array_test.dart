@@ -51,25 +51,25 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.arrayOfString != null) {
-    yield r'array_of_string';
-    yield serializers.serialize(
-      object.arrayOfString,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+      yield r'array_of_string';
+      yield serializers.serialize(
+        object.arrayOfString,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
     }
     if (object.arrayArrayOfInteger != null) {
-    yield r'array_array_of_integer';
-    yield serializers.serialize(
-      object.arrayArrayOfInteger,
-      specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])]),
-    );
+      yield r'array_array_of_integer';
+      yield serializers.serialize(
+        object.arrayArrayOfInteger,
+        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])]),
+      );
     }
     if (object.arrayArrayOfModel != null) {
-    yield r'array_array_of_model';
-    yield serializers.serialize(
-      object.arrayArrayOfModel,
-      specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])]),
-    );
+      yield r'array_array_of_model';
+      yield serializers.serialize(
+        object.arrayArrayOfModel,
+        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])]),
+      );
     }
   }
 

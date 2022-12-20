@@ -41,11 +41,11 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
-    yield r'$special[property.name]';
-    yield serializers.serialize(
-      object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
-      specifiedType: const FullType(int),
-    );
+      yield r'$special[property.name]';
+      yield serializers.serialize(
+        object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
+        specifiedType: const FullType(int),
+      );
     }
   }
 

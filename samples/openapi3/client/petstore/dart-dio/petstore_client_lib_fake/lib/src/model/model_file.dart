@@ -42,11 +42,11 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.sourceURI != null) {
-    yield r'sourceURI';
-    yield serializers.serialize(
-      object.sourceURI,
-      specifiedType: const FullType(String),
-    );
+      yield r'sourceURI';
+      yield serializers.serialize(
+        object.sourceURI,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

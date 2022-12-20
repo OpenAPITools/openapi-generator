@@ -75,11 +75,11 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
-    yield r'color';
-    yield serializers.serialize(
-      object.color,
-      specifiedType: const FullType(String),
-    );
+      yield r'color';
+      yield serializers.serialize(
+        object.color,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

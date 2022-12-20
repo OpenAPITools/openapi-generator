@@ -34,11 +34,11 @@ class _$DogAllOfSerializer implements PrimitiveSerializer<DogAllOf> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.breed != null) {
-    yield r'breed';
-    yield serializers.serialize(
-      object.breed,
-      specifiedType: const FullType(String),
-    );
+      yield r'breed';
+      yield serializers.serialize(
+        object.breed,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

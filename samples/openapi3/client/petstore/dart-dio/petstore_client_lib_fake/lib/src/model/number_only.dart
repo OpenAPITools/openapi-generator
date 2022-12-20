@@ -41,11 +41,11 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.justNumber != null) {
-    yield r'JustNumber';
-    yield serializers.serialize(
-      object.justNumber,
-      specifiedType: const FullType(num),
-    );
+      yield r'JustNumber';
+      yield serializers.serialize(
+        object.justNumber,
+        specifiedType: const FullType(num),
+      );
     }
   }
 

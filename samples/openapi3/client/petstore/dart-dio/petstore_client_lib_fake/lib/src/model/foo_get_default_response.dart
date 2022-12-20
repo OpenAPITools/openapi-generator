@@ -42,11 +42,11 @@ class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDef
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.string != null) {
-    yield r'string';
-    yield serializers.serialize(
-      object.string,
-      specifiedType: const FullType(Foo),
-    );
+      yield r'string';
+      yield serializers.serialize(
+        object.string,
+        specifiedType: const FullType(Foo),
+      );
     }
   }
 

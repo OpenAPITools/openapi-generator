@@ -70,60 +70,60 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.id != null) {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(int),
-    );
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.username != null) {
-    yield r'username';
-    yield serializers.serialize(
-      object.username,
-      specifiedType: const FullType(String),
-    );
+      yield r'username';
+      yield serializers.serialize(
+        object.username,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.firstName != null) {
-    yield r'firstName';
-    yield serializers.serialize(
-      object.firstName,
-      specifiedType: const FullType(String),
-    );
+      yield r'firstName';
+      yield serializers.serialize(
+        object.firstName,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.lastName != null) {
-    yield r'lastName';
-    yield serializers.serialize(
-      object.lastName,
-      specifiedType: const FullType(String),
-    );
+      yield r'lastName';
+      yield serializers.serialize(
+        object.lastName,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.email != null) {
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
+      yield r'email';
+      yield serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.password != null) {
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
+      yield r'password';
+      yield serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.phone != null) {
-    yield r'phone';
-    yield serializers.serialize(
-      object.phone,
-      specifiedType: const FullType(String),
-    );
+      yield r'phone';
+      yield serializers.serialize(
+        object.phone,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.userStatus != null) {
-    yield r'userStatus';
-    yield serializers.serialize(
-      object.userStatus,
-      specifiedType: const FullType(int),
-    );
+      yield r'userStatus';
+      yield serializers.serialize(
+        object.userStatus,
+        specifiedType: const FullType(int),
+      );
     }
   }
 

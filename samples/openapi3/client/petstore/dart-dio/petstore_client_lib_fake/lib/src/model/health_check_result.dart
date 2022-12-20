@@ -41,11 +41,11 @@ class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckRe
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.nullableMessage != null) {
-    yield r'NullableMessage';
-    yield serializers.serialize(
-      object.nullableMessage,
-      specifiedType: const FullType.nullable(String),
-    );
+      yield r'NullableMessage';
+      yield serializers.serialize(
+        object.nullableMessage,
+        specifiedType: const FullType.nullable(String),
+      );
     }
   }
 

@@ -49,25 +49,25 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.code != null) {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
     }
     if (object.type != null) {
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(String),
-    );
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.message != null) {
-    yield r'message';
-    yield serializers.serialize(
-      object.message,
-      specifiedType: const FullType(String),
-    );
+      yield r'message';
+      yield serializers.serialize(
+        object.message,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

@@ -41,11 +41,11 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.return_ != null) {
-    yield r'return';
-    yield serializers.serialize(
-      object.return_,
-      specifiedType: const FullType(int),
-    );
+      yield r'return';
+      yield serializers.serialize(
+        object.return_,
+        specifiedType: const FullType(int),
+      );
     }
   }
 

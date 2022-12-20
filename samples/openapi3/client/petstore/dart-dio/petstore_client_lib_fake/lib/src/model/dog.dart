@@ -48,18 +48,18 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
-    yield r'color';
-    yield serializers.serialize(
-      object.color,
-      specifiedType: const FullType(String),
-    );
+      yield r'color';
+      yield serializers.serialize(
+        object.color,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.breed != null) {
-    yield r'breed';
-    yield serializers.serialize(
-      object.breed,
-      specifiedType: const FullType(String),
-    );
+      yield r'breed';
+      yield serializers.serialize(
+        object.breed,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

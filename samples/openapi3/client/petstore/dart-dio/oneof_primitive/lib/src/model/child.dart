@@ -41,11 +41,11 @@ class _$ChildSerializer implements PrimitiveSerializer<Child> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.name != null) {
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

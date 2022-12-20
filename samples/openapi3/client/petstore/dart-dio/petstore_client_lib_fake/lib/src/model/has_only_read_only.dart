@@ -45,18 +45,18 @@ class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.bar != null) {
-    yield r'bar';
-    yield serializers.serialize(
-      object.bar,
-      specifiedType: const FullType(String),
-    );
+      yield r'bar';
+      yield serializers.serialize(
+        object.bar,
+        specifiedType: const FullType(String),
+      );
     }
     if (object.foo != null) {
-    yield r'foo';
-    yield serializers.serialize(
-      object.foo,
-      specifiedType: const FullType(String),
-    );
+      yield r'foo';
+      yield serializers.serialize(
+        object.foo,
+        specifiedType: const FullType(String),
+      );
     }
   }
 

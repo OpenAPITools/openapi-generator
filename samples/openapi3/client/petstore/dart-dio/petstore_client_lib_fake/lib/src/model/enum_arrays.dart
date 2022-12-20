@@ -48,18 +48,18 @@ class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     if (object.justSymbol != null) {
-    yield r'just_symbol';
-    yield serializers.serialize(
-      object.justSymbol,
-      specifiedType: const FullType(EnumArraysJustSymbolEnum),
-    );
+      yield r'just_symbol';
+      yield serializers.serialize(
+        object.justSymbol,
+        specifiedType: const FullType(EnumArraysJustSymbolEnum),
+      );
     }
     if (object.arrayEnum != null) {
-    yield r'array_enum';
-    yield serializers.serialize(
-      object.arrayEnum,
-      specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
-    );
+      yield r'array_enum';
+      yield serializers.serialize(
+        object.arrayEnum,
+        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
+      );
     }
   }
 
