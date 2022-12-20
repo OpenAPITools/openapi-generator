@@ -573,7 +573,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }        
         return sub;
-        //sub.getMappedModels().
     }
 
     @Override
