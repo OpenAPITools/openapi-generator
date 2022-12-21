@@ -38,6 +38,7 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication.
     :param password: Password for HTTP basic authentication.
+    :param access_token: Access token.
     :param discard_unknown_keys: Boolean value indicating whether to discard
       unknown properties. A server may send a response that includes additional
       properties that are not known by the client in the following scenarios:
@@ -168,6 +169,7 @@ conf = {{{packageName}}}.Configuration(
     def __init__(self, host=None,
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
+                 access_token=None,
                  discard_unknown_keys=False,
                  disabled_client_side_validations="",
 {{#hasHttpSignatureMethods}}
@@ -212,6 +214,9 @@ conf = {{{packageName}}}.Configuration(
         """
         self.password = password
         """Password for HTTP basic authentication
+        """
+        self.access_token = access_token
+        """Access token
         """
         self.discard_unknown_keys = discard_unknown_keys
         self.disabled_client_side_validations = disabled_client_side_validations
