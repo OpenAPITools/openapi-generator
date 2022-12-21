@@ -50,19 +50,6 @@ class Configuration(object):
       then all undeclared properties received by the server are injected into the
       additional properties map. In that case, there are undeclared properties, and
       nothing to discard.
-    :param disabled_client_side_validations (string): Comma-separated list of
-      JSON schema validation keywords to disable JSON schema structural validation
-      rules. The following keywords may be specified: multipleOf, maximum,
-      exclusiveMaximum, minimum, exclusiveMinimum, maxLength, minLength, pattern,
-      maxItems, minItems.
-      By default, the validation is performed for data generated locally by the client
-      and data received from the server, independent of any validation performed by
-      the server side. If the input data does not satisfy the JSON schema validation
-      rules specified in the OpenAPI document, an exception is raised.
-      If disabled_client_side_validations is set, structural validation is
-      disabled. This can be useful to troubleshoot data validation problem, such as
-      when the OpenAPI document validation rules do not match the actual API data
-      received by the server.
 {{#hasHttpSignatureMethods}}
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of {{{packageName}}}.signing.HttpSigningConfiguration
@@ -171,7 +158,6 @@ conf = {{{packageName}}}.Configuration(
                  username=None, password=None,
                  access_token=None,
                  discard_unknown_keys=False,
-                 disabled_client_side_validations="",
 {{#hasHttpSignatureMethods}}
                  signing_info=None,
 {{/hasHttpSignatureMethods}}
@@ -219,7 +205,6 @@ conf = {{{packageName}}}.Configuration(
         """Access token
         """
         self.discard_unknown_keys = discard_unknown_keys
-        self.disabled_client_side_validations = disabled_client_side_validations
 {{#hasHttpSignatureMethods}}
         if signing_info is not None:
             signing_info.host = host
@@ -329,13 +314,6 @@ conf = {{{packageName}}}.Configuration(
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
-        if name == 'disabled_client_side_validations':
-            s = set(filter(None, value.split(',')))
-            for v in s:
-                if v not in JSON_SCHEMA_VALIDATION_KEYWORDS:
-                    raise ApiValueError(
-                        "Invalid keyword: '{0}''".format(v))
-            self._disabled_client_side_validations = s
 {{#hasHttpSignatureMethods}}
         if name == "signing_info" and value is not None:
             # Ensure the host parameter from signing info is the same as
