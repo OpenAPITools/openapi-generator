@@ -67,7 +67,7 @@ class SingleRefTypeTypeTransformer {
   /// and users are still using an old app with the old code.
   SingleRefType? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'admin': return SingleRefType.admin;
         case r'user': return SingleRefType.user;
         default:

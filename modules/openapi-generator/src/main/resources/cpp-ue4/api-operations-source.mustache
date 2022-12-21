@@ -146,6 +146,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	{{/headerParams}}
 	{{/headerParams.0}}
 
+	{{#isBodyAllowed}}
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
@@ -281,6 +282,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	{
 		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
 	}
+	{{/isBodyAllowed}}
 }
 
 {{#responses.0}}

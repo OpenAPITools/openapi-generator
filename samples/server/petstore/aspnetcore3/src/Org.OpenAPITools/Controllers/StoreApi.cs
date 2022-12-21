@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
-        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</remarks>
+        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions</remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid ID supplied</response>

@@ -49,7 +49,7 @@ class Category
      * @Assert\Type("int")
      * @Type("int")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var string|null
@@ -58,16 +58,16 @@ class Category
      * @Type("string")
      * @Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property values initializing the model
+     * @param array|null $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
+        $this->id = $data['id'] ?? null;
+        $this->name = $data['name'] ?? null;
     }
 
     /**
@@ -75,7 +75,7 @@ class Category
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -87,7 +87,7 @@ class Category
      *
      * @return $this
      */
-    public function setId($id = null)
+    public function setId(?int $id = null): self
     {
         $this->id = $id;
 
@@ -99,7 +99,7 @@ class Category
      *
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -111,7 +111,7 @@ class Category
      *
      * @return $this
      */
-    public function setName($name = null)
+    public function setName(?string $name = null): self
     {
         $this->name = $name;
 

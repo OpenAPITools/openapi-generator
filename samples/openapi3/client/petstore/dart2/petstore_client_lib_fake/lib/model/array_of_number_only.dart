@@ -31,9 +31,9 @@ class ArrayOfNumberOnly {
   String toString() => 'ArrayOfNumberOnly[arrayNumber=$arrayNumber]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'ArrayNumber'] = arrayNumber;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'ArrayNumber'] = this.arrayNumber;
+    return json;
   }
 
   /// Returns a new [ArrayOfNumberOnly] instance and imports its values from

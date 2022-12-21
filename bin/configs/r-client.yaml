@@ -8,3 +8,6 @@ additionalProperties:
   exceptionPackage: rlang
   useRlangExceptionHandling: true
   returnExceptionOnFailure: true
+  errorObjectType: "ModelApiResponse"
+  operationIdNaming: PascalCase #default
+  disallowAdditionalPropertiesIfNotPresent: false

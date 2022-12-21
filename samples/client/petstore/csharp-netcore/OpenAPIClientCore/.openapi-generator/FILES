@@ -2,6 +2,8 @@
 Org.OpenAPITools.sln
 README.md
 appveyor.yml
+docs/Activity.md
+docs/ActivityOutputElementRepresentation.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -97,6 +99,9 @@ src/Org.OpenAPITools/Api/UserApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs
 src/Org.OpenAPITools/Client/ApiException.cs
 src/Org.OpenAPITools/Client/ApiResponse.cs
+src/Org.OpenAPITools/Client/Auth/OAuthAuthenticator.cs
+src/Org.OpenAPITools/Client/Auth/OAuthFlow.cs
+src/Org.OpenAPITools/Client/Auth/TokenResponse.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs
@@ -112,6 +117,8 @@ src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
+src/Org.OpenAPITools/Model/Activity.cs
+src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs

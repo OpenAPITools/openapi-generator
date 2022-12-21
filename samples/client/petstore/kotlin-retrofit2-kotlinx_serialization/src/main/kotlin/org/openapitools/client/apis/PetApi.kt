@@ -4,6 +4,8 @@ import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
@@ -35,6 +37,16 @@ interface PetApi {
      */
     @DELETE("pet/{petId}")
     fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Call<Unit>
+
+
+    /**
+    * enum for parameter status
+    */
+    enum class Status_findPetsByStatus(val value: kotlin.String) {
+        @SerialName(value = "available") AVAILABLE("available"),
+        @SerialName(value = "pending") PENDING("pending"),
+        @SerialName(value = "sold") SOLD("sold")
+    }
 
     /**
      * Finds Pets by status

@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,13 +28,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// FruitReq
     /// </summary>
-    public partial class FruitReq : IEquatable<FruitReq>, IValidatableObject
+    public partial class FruitReq : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
-        public FruitReq(AppleReq appleReq)
+        [JsonConstructor]
+        internal FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
         }
@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
-        public FruitReq(BananaReq bananaReq)
+        [JsonConstructor]
+        internal FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
         }
@@ -52,12 +53,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AppleReq
         /// </summary>
-        public AppleReq AppleReq { get; set; }
+        public AppleReq? AppleReq { get; set; }
 
         /// <summary>
         /// Gets or Sets BananaReq
         /// </summary>
-        public BananaReq BananaReq { get; set; }
+        public BananaReq? BananaReq { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,40 +71,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as FruitReq).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if FruitReq instances are equal
-        /// </summary>
-        /// <param name="input">Instance of FruitReq to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(FruitReq? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -121,13 +88,6 @@ namespace Org.OpenAPITools.Model
     public class FruitReqJsonConverter : JsonConverter<FruitReq>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(FruitReq).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -139,8 +99,10 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader appleReqReader = reader;
             bool appleReqDeserialized = Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, options, out AppleReq? appleReq);
@@ -151,16 +113,21 @@ namespace Org.OpenAPITools.Model
 
             while (reader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
 
                     switch (propertyName)
                     {
+                        default:
+                            break;
                     }
                 }
             }
@@ -181,6 +148,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="fruitReq"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+
+            writer.WriteEndObject();
+        }
     }
 }

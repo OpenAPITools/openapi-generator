@@ -5,7 +5,6 @@ package org.openapitools.api;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ApiException extends Exception {
-
     /** The HTTP status code. */
     private int code;
 
@@ -29,4 +28,10 @@ public class ApiException extends Exception {
         return code;
     }
 
+    @Override
+    public String toString() {
+        return "ApiException{" +
+               "code=" + code +
+               '}';
+    }
 }

@@ -50,13 +50,13 @@
   describe('ClassModel', function() {
     it('should create an instance of ClassModel', function() {
       // uncomment below and update the code to test ClassModel
-      //var instane = new OpenApiPetstore.ClassModel();
+      //var instance = new OpenApiPetstore.ClassModel();
       //expect(instance).to.be.a(OpenApiPetstore.ClassModel);
     });
 
     it('should have the property _class (base name: "_class")', function() {
       // uncomment below and update the code to test the property _class
-      //var instane = new OpenApiPetstore.ClassModel();
+      //var instance = new OpenApiPetstore.ClassModel();
       //expect(instance).to.be();
     });
 

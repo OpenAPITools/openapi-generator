@@ -2,17 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**CreateUser**](UserApi.md#createuser) | **POST** /user | Create user
-[**CreateUsersWithArrayInput**](UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**CreateUsersWithListInput**](UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-[**DeleteUser**](UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
-[**GetUserByName**](UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
-[**LoginUser**](UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
-[**LogoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
-[**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
-
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+| [**CreateUser**](UserApi.md#createuser) | **POST** /user | Create user |
+| [**CreateUsersWithArrayInput**](UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**CreateUsersWithListInput**](UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**DeleteUser**](UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user |
+| [**GetUserByName**](UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name |
+| [**LoginUser**](UserApi.md#loginuser) | **GET** /user/login | Logs user into the system |
+| [**LogoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session |
+| [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user |
 
 <a name="createuser"></a>
 # **CreateUser**
@@ -53,8 +52,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -62,11 +61,28 @@ namespace Example
 }
 ```
 
+#### Using the CreateUserWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Create user
+    apiInstance.CreateUserWithHttpInfo(user);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.CreateUserWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **user** | [**User**](User.md) | Created user object |  |
 
 ### Return type
 
@@ -126,8 +142,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -135,11 +151,28 @@ namespace Example
 }
 ```
 
+#### Using the CreateUsersWithArrayInputWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Creates list of users with given input array
+    apiInstance.CreateUsersWithArrayInputWithHttpInfo(user);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInputWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **user** | [**List&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -199,8 +232,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -208,11 +241,28 @@ namespace Example
 }
 ```
 
+#### Using the CreateUsersWithListInputWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Creates list of users with given input array
+    apiInstance.CreateUsersWithListInputWithHttpInfo(user);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.CreateUsersWithListInputWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **user** | [**List&lt;User&gt;**](User.md) | List of user object |  |
 
 ### Return type
 
@@ -274,8 +324,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -283,11 +333,28 @@ namespace Example
 }
 ```
 
+#### Using the DeleteUserWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Delete user
+    apiInstance.DeleteUserWithHttpInfo(username);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.DeleteUserWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **username** | **string** | The name that needs to be deleted |  |
 
 ### Return type
 
@@ -344,8 +411,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -353,11 +420,31 @@ namespace Example
 }
 ```
 
+#### Using the GetUserByNameWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get user by user name
+    ApiResponse<User> response = apiInstance.GetUserByNameWithHttpInfo(username);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.GetUserByNameWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **username** | **string** | The name that needs to be fetched. Use user1 for testing. |  |
 
 ### Return type
 
@@ -416,8 +503,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -425,12 +512,32 @@ namespace Example
 }
 ```
 
+#### Using the LoginUserWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Logs user into the system
+    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(username, password);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.LoginUserWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | 
- **password** | **string**| The password for login in clear text | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **username** | **string** | The user name for login |  |
+| **password** | **string** | The password for login in clear text |  |
 
 ### Return type
 
@@ -490,8 +597,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -499,9 +606,25 @@ namespace Example
 }
 ```
 
+#### Using the LogoutUserWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Logs out current logged in user session
+    apiInstance.LogoutUserWithHttpInfo();
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.LogoutUserWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 This endpoint does not need any parameter.
-
 ### Return type
 
 void (empty response body)
@@ -563,8 +686,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -572,12 +695,29 @@ namespace Example
 }
 ```
 
+#### Using the UpdateUserWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Updated user
+    apiInstance.UpdateUserWithHttpInfo(username, user);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling UserApi.UpdateUserWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **username** | **string** | name that need to be deleted |  |
+| **user** | [**User**](User.md) | Updated user object |  |
 
 ### Return type
 

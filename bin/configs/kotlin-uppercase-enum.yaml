@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-uppercase-enum
   enumPropertyNaming: UPPERCASE
+  serializationLibrary: kotlinx_serialization
+  enumUnknownDefaultCase: "true"

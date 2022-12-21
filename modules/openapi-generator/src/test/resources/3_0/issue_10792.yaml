@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: Example
+  description: An example
+  version: '0.1'
+  contact:
+    email: contact@example.org
+    url: 'https://example.org'
+servers:
+  - url: http://example.org
+tags:
+  - name: bird
+paths:
+  '/v1/bird/{id}':
+    get:
+      tags:
+        - bird
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bird'
+      operationId: get-bird
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+components:
+  schemas:
+    animal:
+      title: An animal
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
+      discriminator:
+        propertyName: type
+        mapping:
+          BIRD: '#/components/schemas/bird'
+    bird:
+      title: A bird
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/animal'
+        - properties:
+            featherType:
+              type: string
+          required:
+            - featherType

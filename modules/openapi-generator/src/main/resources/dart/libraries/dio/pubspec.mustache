@@ -14,8 +14,10 @@ environment:
 dependencies:
   dio: '>=4.0.1 <5.0.0'
 {{#useBuiltValue}}
-  built_value: '>=8.1.0 <9.0.0'
-  built_collection: '>=5.1.0 <6.0.0'
+  one_of: '>=1.5.0 <2.0.0'
+  one_of_serializer: '>=1.5.0 <2.0.0'
+  built_value: '>=8.4.0 <9.0.0'
+  built_collection: '>=5.1.1 <6.0.0'
 {{/useBuiltValue}}
 {{#useJsonSerializable}}
   json_annotation: '^4.4.0'
@@ -26,7 +28,7 @@ dependencies:
 
 dev_dependencies:
 {{#useBuiltValue}}
-  built_value_generator: '>=8.1.0 <9.0.0'
+  built_value_generator: '>=8.4.0 <9.0.0'
   build_runner: any
 {{/useBuiltValue}}
 {{#useJsonSerializable}}

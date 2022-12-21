@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 {{/jackson}}
 {{#withXml}}
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 {{/withXml}}
 {{#jsonb}}
 import java.lang.reflect.Type;

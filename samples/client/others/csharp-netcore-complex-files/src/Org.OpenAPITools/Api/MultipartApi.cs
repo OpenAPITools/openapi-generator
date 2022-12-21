@@ -502,7 +502,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.Serialize(status)); // form parameter
             if (marker != null)
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter

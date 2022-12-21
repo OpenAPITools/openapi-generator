@@ -16,20 +16,10 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="value"></param>
         /// <param name="prefix"></param>
-        /// <param name="timeout"></param>        
+        /// <param name="timeout"></param>
         public ApiKeyToken(string value, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
             _raw = $"{ prefix }{ value }";
-        }
-
-        /// <summary>
-        /// Places the token in the cookie.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cookieName"></param>
-        public virtual void UseInCookie(System.Net.Http.HttpRequestMessage request, string cookieName)
-        {
-            request.Headers.Add("Cookie", $"{ cookieName }=_raw");
         }
 
         /// <summary>

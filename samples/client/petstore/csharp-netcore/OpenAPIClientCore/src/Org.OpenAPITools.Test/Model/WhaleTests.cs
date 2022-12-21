@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing Whale
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void WhaleInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" Whale
-            //Assert.IsInstanceOfType<Whale> (instance, "variable 'instance' is a Whale");
+            // TODO uncomment below to test "IsType" Whale
+            //Assert.IsType<Whale>(instance);
         }
 
 

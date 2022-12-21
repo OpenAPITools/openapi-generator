@@ -1871,7 +1871,8 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "application/json",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1945,7 +1946,8 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "application/json",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             };
 
 

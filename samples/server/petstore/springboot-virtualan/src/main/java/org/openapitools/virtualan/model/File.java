@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -19,7 +18,7 @@ import javax.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
-@ApiModel(description = "Must be named `File` for test.")
+@Schema(name = "File", description = "Must be named `File` for test.")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class File {
 
@@ -36,7 +35,7 @@ public class File {
    * @return sourceURI
   */
   
-  @ApiModelProperty(value = "Test capitalization")
+  @Schema(name = "sourceURI", description = "Test capitalization", required = false)
   public String getSourceURI() {
     return sourceURI;
   }

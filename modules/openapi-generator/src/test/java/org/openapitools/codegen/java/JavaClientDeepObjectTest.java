@@ -58,6 +58,9 @@ public class JavaClientDeepObjectTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
-                "options[a]", "options[b]", "\"csv\", \"options[c]\"");
+                "options[id]", "options[name]", "options[status]",
+                "\"csv\", \"options[tags]\"",
+                "\"csv\", \"options[photoUrls]\"",
+                "inputOptions[a]", "inputOptions[b]", "\"csv\", \"inputOptions[c]\"");
     }
 }

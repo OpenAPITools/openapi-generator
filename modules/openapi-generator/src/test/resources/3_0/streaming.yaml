@@ -23,6 +23,39 @@ paths:
             'application/json':
                schema:
                  $ref: "#/components/schemas/SomeObj"
+    get:
+      x-streaming: true
+      x-group-parameters: true
+      operationId: getPing
+      tags:
+      - ping
+      parameters:
+        - name: petId
+          in: query
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+               schema:
+                 $ref: "#/components/schemas/SomeObj"
 components:
   schemas:
     SomeObj:

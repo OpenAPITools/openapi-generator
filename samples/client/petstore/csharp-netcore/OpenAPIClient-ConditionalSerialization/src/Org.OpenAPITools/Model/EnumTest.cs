@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumStringRequired
         /// </summary>
 
-        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = true)]
         public EnumStringRequiredEnum EnumStringRequired
         {
             get{ return _EnumStringRequired;}

@@ -21,36 +21,35 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("XmlItem")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class XmlItem  implements Serializable {
-  
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<>();
+  private @Valid List<Integer> wrappedArray = null;
   private @Valid String nameString;
   private @Valid BigDecimal nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> nameArray = null;
+  private @Valid List<Integer> nameWrappedArray = null;
   private @Valid String prefixString;
   private @Valid BigDecimal prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> prefixArray = null;
+  private @Valid List<Integer> prefixWrappedArray = null;
   private @Valid String namespaceString;
   private @Valid BigDecimal namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceArray = null;
+  private @Valid List<Integer> namespaceWrappedArray = null;
   private @Valid String prefixNsString;
   private @Valid BigDecimal prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsArray = null;
+  private @Valid List<Integer> prefixNsWrappedArray = null;
 
   /**
    **/
@@ -71,7 +70,7 @@ public class XmlItem  implements Serializable {
     this.attributeString = attributeString;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
@@ -90,7 +89,7 @@ public class XmlItem  implements Serializable {
     this.attributeNumber = attributeNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
@@ -109,7 +108,7 @@ public class XmlItem  implements Serializable {
     this.attributeInteger = attributeInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
@@ -128,7 +127,7 @@ public class XmlItem  implements Serializable {
     this.attributeBoolean = attributeBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem wrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
@@ -163,7 +162,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem nameString(String nameString) {
     this.nameString = nameString;
@@ -182,7 +181,7 @@ public class XmlItem  implements Serializable {
     this.nameString = nameString;
   }
 
-/**
+  /**
    **/
   public XmlItem nameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
@@ -201,7 +200,7 @@ public class XmlItem  implements Serializable {
     this.nameNumber = nameNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem nameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
@@ -220,7 +219,7 @@ public class XmlItem  implements Serializable {
     this.nameInteger = nameInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem nameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
@@ -239,7 +238,7 @@ public class XmlItem  implements Serializable {
     this.nameBoolean = nameBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem nameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
@@ -274,7 +273,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem nameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
@@ -309,7 +308,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixString(String prefixString) {
     this.prefixString = prefixString;
@@ -328,7 +327,7 @@ public class XmlItem  implements Serializable {
     this.prefixString = prefixString;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
@@ -347,7 +346,7 @@ public class XmlItem  implements Serializable {
     this.prefixNumber = prefixNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
@@ -366,7 +365,7 @@ public class XmlItem  implements Serializable {
     this.prefixInteger = prefixInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
@@ -385,7 +384,7 @@ public class XmlItem  implements Serializable {
     this.prefixBoolean = prefixBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
@@ -420,7 +419,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
@@ -455,7 +454,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem namespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
@@ -474,7 +473,7 @@ public class XmlItem  implements Serializable {
     this.namespaceString = namespaceString;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
@@ -493,7 +492,7 @@ public class XmlItem  implements Serializable {
     this.namespaceNumber = namespaceNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
@@ -512,7 +511,7 @@ public class XmlItem  implements Serializable {
     this.namespaceInteger = namespaceInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
@@ -531,7 +530,7 @@ public class XmlItem  implements Serializable {
     this.namespaceBoolean = namespaceBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem namespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
@@ -566,7 +565,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
@@ -601,7 +600,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
@@ -620,7 +619,7 @@ public class XmlItem  implements Serializable {
     this.prefixNsString = prefixNsString;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
@@ -639,7 +638,7 @@ public class XmlItem  implements Serializable {
     this.prefixNsNumber = prefixNsNumber;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
@@ -658,7 +657,7 @@ public class XmlItem  implements Serializable {
     this.prefixNsInteger = prefixNsInteger;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
@@ -677,7 +676,7 @@ public class XmlItem  implements Serializable {
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
-/**
+  /**
    **/
   public XmlItem prefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
@@ -712,7 +711,7 @@ public class XmlItem  implements Serializable {
 
     return this;
   }
-/**
+  /**
    **/
   public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;

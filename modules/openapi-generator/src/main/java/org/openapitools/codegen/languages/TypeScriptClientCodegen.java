@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -114,9 +115,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
 
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
         outputFolder = "generated-code" + File.separator + "typescript";
         embeddedTemplateDir = templateDir = "typescript";
 
@@ -128,7 +126,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                 "requestOptions", "from",
                 // Typescript reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "constructor", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -237,7 +235,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
 
         // models
-        setModelPackage("");
+        setModelPackage("models");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
@@ -325,8 +323,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Add additional filename information for model imports in the apis
         List<Map<String, String>> imports = operations.getImports();
         for (Map<String, String> im : imports) {
-            im.put("filename", im.get("import").replace(".", "/"));
-            im.put("classname", getModelnameFromModelFilename(im.get("import")));
+            im.put("filename", im.get("import"));
         }
 
         OperationMap operationsMap = operations.getOperations();
@@ -360,11 +357,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return String.join(" | ", returnTypes);
-    }
-
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + File.separator).length());
-        return camelize(name);
     }
 
     @Override
@@ -411,6 +403,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         fullModelName = addPrefix(fullModelName, modelNamePrefix);
         fullModelName = addSuffix(fullModelName, modelNameSuffix);
         return toTypescriptTypeName(fullModelName, "Model");
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
     }
 
     protected String addPrefix(String name, String prefix) {
@@ -465,7 +462,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // should be the same as the model name
         return toModelName(name);
     }
-
 
     @Override
     protected String getParameterDataType(Parameter parameter, Schema p) {
@@ -593,10 +589,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), true));
+            return escapeReservedWord(camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -619,7 +615,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -731,13 +727,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", importMapping.getOrDefault(im, toModelImport(im)));
                 tsImports.add(tsImport);
             }
         }
         return tsImports;
     }
-
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
@@ -809,7 +804,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // change package names
         apiPackage = this.apiPackage + ".apis";
-        modelPackage = this.modelPackage + ".models";
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
@@ -885,10 +879,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + "; }";
+            inner = getSchemaAdditionalProperties(p);
+            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -940,7 +934,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            Schema unaliasedSchema = unaliasSchema(sc);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -1150,43 +1144,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                     return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    /*
-                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
-                    So strip off the leading / and trailing / and turn on ignore case if we have it
-                     */
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
-                    Matcher m = valueExtractor.matcher(pattern);
-                    RgxGen rgxGen = null;
-                    if (m.find()) {
-                        int groupCount = m.groupCount();
-                        if (groupCount == 1) {
-                            // only pattern found
-                            String isolatedPattern = m.group(1);
-                            rgxGen = new RgxGen(isolatedPattern);
-                        } else if (groupCount == 2) {
-                            // patterns and flag found
-                            String isolatedPattern = m.group(1);
-                            String flags = m.group(2);
-                            if (flags.contains("i")) {
-                                rgxGen = new RgxGen(isolatedPattern);
-                                RgxGenProperties properties = new RgxGenProperties();
-                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
-                                rgxGen.setProperties(properties);
-                            } else {
-                                rgxGen = new RgxGen(isolatedPattern);
-                            }
-                        }
-                    } else {
-                        rgxGen = new RgxGen(pattern);
-                    }
+                    RgxGen rgxGen = new RgxGen(pattern);
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    if (rgxGen != null){
-                        example = rgxGen.generate(random);
-                    } else {
-                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

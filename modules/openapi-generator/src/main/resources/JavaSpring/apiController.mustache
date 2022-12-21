@@ -58,9 +58,11 @@ import javax.annotation.Generated;
 
 {{>generatedAnnotation}}
 @Controller
+{{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
 {{#isDelegate}}
@@ -115,6 +117,9 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},

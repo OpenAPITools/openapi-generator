@@ -27,7 +27,7 @@ use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 
 class StrictJsonDeserializationVisitor implements DeserializationVisitorInterface
 {
-    protected $jsonDeserializationVisitor: JsonDeserializationVisitor; 
+    protected JsonDeserializationVisitor $jsonDeserializationVisitor;
 
     public function __construct(
         int $options = 0,

@@ -28,6 +28,8 @@ client/PFXStoreApi.cpp
 client/PFXStoreApi.h
 client/PFXTag.cpp
 client/PFXTag.h
+client/PFXTestAnyType.cpp
+client/PFXTestAnyType.h
 client/PFXUser.cpp
 client/PFXUser.h
 client/PFXUserApi.cpp

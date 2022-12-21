@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -90,6 +91,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE = "javax";
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
+    public static final String WEBCLIENT_BLOCKING_OPERATIONS = "webclientBlockingOperations";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -124,6 +126,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
+    protected boolean useSingleRequestParameter = false;
+    protected boolean webclientBlockingOperations = false;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -133,6 +137,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.rootPackage = rootPackage;
             this.pomTemplate = pomTemplate;
         }
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SOURCE;
+    }
+
+    @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        List<DocumentationProvider> documentationProviders = new ArrayList<>();
+        documentationProviders.add(DocumentationProvider.NONE);
+        documentationProviders.add(DocumentationProvider.SOURCE);
+        return documentationProviders;
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        List<AnnotationLibrary> annotationLibraries = new ArrayList<>();
+        annotationLibraries.add(AnnotationLibrary.NONE);
+        annotationLibraries.add(AnnotationLibrary.SWAGGER1);
+        return annotationLibraries;
     }
 
     public JavaClientCodegen() {
@@ -180,11 +205,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option."));
+        cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey3' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.x. JSON processing: Jackson 2.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x. or Gson 2.x");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
@@ -281,6 +308,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
@@ -384,6 +416,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
         }
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
+        if (additionalProperties.containsKey(WEBCLIENT_BLOCKING_OPERATIONS)) {
+            this.webclientBlockingOperations = Boolean.parseBoolean(additionalProperties.get(WEBCLIENT_BLOCKING_OPERATIONS).toString());
+        }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -450,7 +485,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc.mustache");
             //Templates to decode response headers
             supportingFiles.add(new SupportingFile("model/ApiResponse.mustache", modelsFolder, "ApiResponse.java"));
-            supportingFiles.add(new SupportingFile("ApiResponseDecoder.mustache", invokerFolder, "ApiResponseDecoder.java"));
 
             // TODO remove "file" from reserved word list as feign client doesn't support using `baseName`
             // as the parameter name yet
@@ -468,8 +502,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (FEIGN.equals(getLibrary())) {
-            forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
-            supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
+            if (getSerializationLibrary() == null) {
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
+                setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+            }
+            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("ApiResponseDecoder.mustache", invokerFolder, "ApiResponseDecoder.java"));
+                supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
+            }
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
             supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
         } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
@@ -684,13 +724,26 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
+
+        if (useSingleRequestParameter && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
+            // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
+            OperationMap operations = objs.getOperations();
+            if (operations != null) {
+                List<CodegenOperation> ops = operations.getOperation();
+                for (CodegenOperation operation : ops) {
+                    if (!operation.vendorExtensions.containsKey("x-group-parameters")) {
+                        operation.vendorExtensions.put("x-group-parameters", true);
+                    }
+                }
+            }
+        }
+
         if (RETROFIT_2.equals(getLibrary())) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
                     if (operation.hasConsumes == Boolean.TRUE) {
-
                         if (isMultipartType(operation.consumes)) {
                             operation.isMultipart = Boolean.TRUE;
                         } else {
@@ -713,14 +766,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 if (one.isQueryParam && another.isPathParam) {
                                     return 1;
                                 }
-
                                 return 0;
                             }
                         });
                     }
                 }
             }
-
         }
 
         // camelize path variables for Feign client
@@ -744,7 +795,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 for (int i = 0; i < items.length; ++i) {
                     if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                         // camelize path variable
-                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), LOWERCASE_FIRST_LETTER) + "}";
                     }
                 }
                 op.path = StringUtils.join(items, "/");
@@ -755,8 +806,38 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (NATIVE.equals(getLibrary()) || APACHE.equals(getLibrary())) {
+            OperationMap operations = objs.getOperations();
+            List<CodegenOperation> operationList = operations.getOperation();
+            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
+            for (CodegenOperation op : operationList) {
+                // add extension to indicate content type is `text/plain` and the response type is `String`
+                if (op.produces != null) {
+                    for (Map<String, String> produce : op.produces) {
+                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType"))
+                                && "String".equals(op.returnType)) {
+                            op.vendorExtensions.put("x-java-text-plain-string", true);
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
+        }
+
+        if (WEBCLIENT.equals(getLibrary())) {
+            OperationMap operations = objs.getOperations();
+            if (operations != null) {
+                List<CodegenOperation> ops = operations.getOperation();
+                for (CodegenOperation operation : ops) {
+                    if (!operation.vendorExtensions.containsKey(VendorExtension.X_WEBCLIENT_BLOCKING.getName()) && webclientBlockingOperations) {
+                        operation.vendorExtensions.put(VendorExtension.X_WEBCLIENT_BLOCKING.getName(), true);
+                    }
+                }
+            }
         }
 
         return objs;
@@ -867,6 +948,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 codegenModel.imports.remove("ApiModel");
             }
         }
+
+        // TODO: inverse logic. Do not add the imports unconditionally in the first place.
+        if (! AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+            // Remove io.swagger.annotations.* imports
+            codegenModel.imports.remove("ApiModel");
+            codegenModel.imports.remove("ApiModelProperty");
+        }
+
         return codegenModel;
     }
 
@@ -900,16 +989,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             List<Map<String, String>> imports = objs.getImports();
             for (ModelMap mo : models) {
                 CodegenModel cm = mo.getModel();
-                boolean addImports = false;
+                boolean addNullableImports = false;
 
                 for (CodegenProperty var : cm.vars) {
-                    if (this.openApiNullable) {
-                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                        // only add JsonNullable and related imports to optional and nullable values
-                        addImports |= isOptionalNullable;
-                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
-                    }
-
+                    addNullableImports = isAddNullableImports(cm, addNullableImports, var);
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
                         var.datatypeWithEnum = var.dataType;
@@ -936,17 +1019,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                 }
 
-                if (addImports) {
+                if (addNullableImports) {
                     Map<String, String> imports2Classnames = new HashMap<>();
                     imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
                     imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-                    for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
-                        cm.imports.add(entry.getKey());
-                        Map<String, String> importsItem = new HashMap<>();
-                        importsItem.put("import", entry.getValue());
-                        imports.add(importsItem);
-                    }
+                    addImports(imports, cm, imports2Classnames);
                 }
             }
         }
@@ -957,8 +1035,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
-
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
                     cm.isNullable = true;
@@ -985,6 +1061,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     public void setUseRxJava(boolean useRxJava) {

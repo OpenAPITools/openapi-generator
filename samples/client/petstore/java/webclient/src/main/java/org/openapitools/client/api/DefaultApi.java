@@ -88,8 +88,26 @@ public class DefaultApi {
         return fooGetRequestCreation().bodyToMono(localVarReturnType);
     }
 
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @return ResponseEntity&lt;FooGetDefaultResponse&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<FooGetDefaultResponse>> fooGetWithHttpInfo() throws WebClientResponseException {
         ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
         return fooGetRequestCreation().toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - response
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fooGetWithResponseSpec() throws WebClientResponseException {
+        return fooGetRequestCreation();
     }
 }

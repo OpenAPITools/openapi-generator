@@ -81,24 +81,34 @@ class Order {
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (petId != null) {
-      _json[r'petId'] = petId;
+    if (this.petId != null) {
+      json[r'petId'] = this.petId;
+    } else {
+      json[r'petId'] = null;
     }
-    if (quantity != null) {
-      _json[r'quantity'] = quantity;
+    if (this.quantity != null) {
+      json[r'quantity'] = this.quantity;
+    } else {
+      json[r'quantity'] = null;
     }
-    if (shipDate != null) {
-      _json[r'shipDate'] = shipDate!.toUtc().toIso8601String();
+    if (this.shipDate != null) {
+      json[r'shipDate'] = this.shipDate!.toUtc().toIso8601String();
+    } else {
+      json[r'shipDate'] = null;
     }
-    if (status != null) {
-      _json[r'status'] = status;
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
     }
-      _json[r'complete'] = complete;
-    return _json;
+      json[r'complete'] = this.complete;
+    return json;
   }
 
   /// Returns a new [Order] instance and imports its values from
@@ -237,7 +247,7 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'placed': return OrderStatusEnum.placed;
         case r'approved': return OrderStatusEnum.approved;
         case r'delivered': return OrderStatusEnum.delivered;

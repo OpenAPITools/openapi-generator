@@ -206,11 +206,13 @@
     </profiles>
 
     <dependencies>
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swagger1AnnotationLibrary}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -262,7 +264,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <retrofit-version>1.9.0</retrofit-version>
         <okhttp-version>2.7.5</okhttp-version>
         <jodatime-version>2.9.9</jodatime-version>

@@ -69,7 +69,7 @@ public class CXFInterfaceComparator implements ResourceComparator {
             if (requestVerb.equals(HttpMethod.OPTIONS) && match(pathValue,requestPath)) {
                return true;
             }
-            // Also check the HTTP verb since a single path can be match do multiple request, depending of the HTTP request verb.
+            // Also check the HTTP verb since a single path can be match do multiple request, depending on the HTTP request verb.
             if (requestVerb.equals(methodHttpVerb) && match(pathValue, requestPath)) {
                return true;
             }

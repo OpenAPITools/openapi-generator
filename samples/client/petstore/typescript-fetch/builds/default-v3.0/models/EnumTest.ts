@@ -13,26 +13,26 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { OuterEnum } from './OuterEnum';
 import {
-    OuterEnum,
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
 } from './OuterEnum';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
 import {
-    OuterEnumDefaultValue,
     OuterEnumDefaultValueFromJSON,
     OuterEnumDefaultValueFromJSONTyped,
     OuterEnumDefaultValueToJSON,
 } from './OuterEnumDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
-    OuterEnumInteger,
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
 } from './OuterEnumInteger';
+import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
-    OuterEnumIntegerDefaultValue,
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
@@ -133,6 +133,16 @@ export const EnumTestEnumNumberEnum = {
 } as const;
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
+
+/**
+ * Check if a given object implements the EnumTest interface.
+ */
+export function instanceOfEnumTest(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "enumStringRequired" in value;
+
+    return isInstance;
+}
 
 export function EnumTestFromJSON(json: any): EnumTest {
     return EnumTestFromJSONTyped(json, false);

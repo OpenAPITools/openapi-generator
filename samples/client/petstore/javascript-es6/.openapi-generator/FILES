@@ -9,12 +9,15 @@ docs/ApiResponse.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
+docs/BasquePig.md
 docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
+docs/Color.md
+docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -36,6 +39,8 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
+docs/NestedColor.md
+docs/NestedOneOf.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -48,6 +53,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
+docs/Pig.md
 docs/ReadOnlyFirst.md
 docs/Return.md
 docs/SpecialModelName.md
@@ -73,12 +79,15 @@ src/model/ApiResponse.js
 src/model/ArrayOfArrayOfNumberOnly.js
 src/model/ArrayOfNumberOnly.js
 src/model/ArrayTest.js
+src/model/BasquePig.js
 src/model/Capitalization.js
 src/model/Cat.js
 src/model/CatAllOf.js
 src/model/Category.js
 src/model/ClassModel.js
 src/model/Client.js
+src/model/Color.js
+src/model/DanishPig.js
 src/model/DeprecatedObject.js
 src/model/Dog.js
 src/model/DogAllOf.js
@@ -97,6 +106,8 @@ src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
 src/model/Model200Response.js
 src/model/Name.js
+src/model/NestedColor.js
+src/model/NestedOneOf.js
 src/model/NullableClass.js
 src/model/NumberOnly.js
 src/model/ObjectWithDeprecatedFields.js
@@ -108,6 +119,7 @@ src/model/OuterEnumInteger.js
 src/model/OuterEnumIntegerDefaultValue.js
 src/model/OuterObjectWithEnumProperty.js
 src/model/Pet.js
+src/model/Pig.js
 src/model/ReadOnlyFirst.js
 src/model/Return.js
 src/model/SpecialModelName.js

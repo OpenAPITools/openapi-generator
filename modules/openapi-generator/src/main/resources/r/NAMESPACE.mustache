@@ -3,8 +3,19 @@
 
 import(R6)
 import(jsonlite)
+{{^isHttr2}}
 import(httr)
+{{/isHttr2}}
+{{#isHttr2}}
+import(httr2)
+{{/isHttr2}}
 import(base64enc)
+import(stringr)
+
+{{#generateWrapper}}
+# Wrapper
+export({{#lambda.lowercase}}{{{packageName}}}{{/lambda.lowercase}}_api)
+{{/generateWrapper}}
 
 # Core
 export(ApiClient)

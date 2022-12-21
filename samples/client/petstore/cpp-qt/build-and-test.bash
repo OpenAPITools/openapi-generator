@@ -35,7 +35,7 @@ else
     exit 1
   fi
 
-  echo "Check if no memory leaks occured:"
+  echo "Check if no memory leaks occurred:"
   leakCount=$(cat result.log | grep 'lost: 0 bytes in 0 blocks' | wc -l)
   if [ $leakCount == 3 ]
   then

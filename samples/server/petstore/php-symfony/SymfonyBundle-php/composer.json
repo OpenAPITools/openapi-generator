@@ -1,5 +1,5 @@
 {
-    "name": "GIT_USER_ID/GIT_REPO_ID",
+    "name": "openapitools/petstore",
     "description": "",
     "keywords": [
         "openapi",
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OpenAPI\\Server\\" : "./"
+            "OpenAPI\\Server\\" : ""
         }
     }
 }

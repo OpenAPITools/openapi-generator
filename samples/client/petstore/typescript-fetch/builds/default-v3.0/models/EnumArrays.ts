@@ -53,6 +53,15 @@ export const EnumArraysArrayEnumEnum = {
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
 
+/**
+ * Check if a given object implements the EnumArrays interface.
+ */
+export function instanceOfEnumArrays(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function EnumArraysFromJSON(json: any): EnumArrays {
     return EnumArraysFromJSONTyped(json, false);
 }

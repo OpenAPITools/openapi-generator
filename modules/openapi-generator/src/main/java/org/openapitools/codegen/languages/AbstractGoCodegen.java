@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -120,9 +121,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
-        typeMapping.put("File", "*os.File");
-        typeMapping.put("file", "*os.File");
-        typeMapping.put("binary", "*os.File");
+        typeMapping.put("File", "os.File");
+        typeMapping.put("file", "os.File");
+        typeMapping.put("binary", "os.File");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
@@ -232,7 +233,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
-        name = camelize(toVarName(name), true);
+        name = camelize(toVarName(name), LOWERCASE_FIRST_LETTER);
 
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
@@ -330,6 +331,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return apiName;
     }
 
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
     /**
      * Return the golang implementation type for the specified property.
      *
@@ -346,7 +352,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // specification is aligned with the JSON schema specification.
             // When "items" is not specified, the elements of the array may be anything at all.
             if (inner != null) {
-                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+                inner = unaliasSchema(inner);
             }
             String typDecl;
             if (inner != null) {
@@ -360,10 +366,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            return getSchemaType(p) + "[string]" +  getTypeDeclaration(unaliasSchema(inner));
         }
-        //return super.getTypeDeclaration(p);
 
+        //return super.getTypeDeclaration(p);
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
@@ -499,13 +505,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             // import "os" if the operation uses files
-            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+            if (!addedOSImport && "os.File".equals(operation.returnType)) {
                 imports.add(createMapping("import", "os"));
                 addedOSImport = true;
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && "os.File".equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -621,17 +627,46 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        boolean addedTimeImport = false;
-        boolean addedOSImport = false;
         for (ModelMap m : objs.getModels()) {
+            boolean addedTimeImport = false;
+            boolean addedOSImport = false;
             CodegenModel model = m.getModel();
-            for (CodegenProperty param : model.vars) {
-                if (!addedTimeImport
-                    && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+
+            List<CodegenProperty> inheritedProperties = new ArrayList<>();
+            if (model.getComposedSchemas() != null) {
+                if (model.getComposedSchemas().getAllOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getAllOf());
+                }
+                if (model.getComposedSchemas().getAnyOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
+                }
+                if (model.getComposedSchemas().getOneOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
+                }
+            }
+
+            List<CodegenProperty> codegenProperties = new ArrayList<>();
+            if(model.getIsModel() || model.getComposedSchemas() == null) {
+                // If the model is a model, use model.vars as it only
+                // contains properties the generated struct will own itself.
+                // If model is no model and it has no composed schemas use
+                // model.vars.
+                codegenProperties.addAll(model.vars);
+            } else {
+                // If the model is no model, but is a
+                // allOf, anyOf or oneOf, add all first level options
+                // from allOf, anyOf or oneOf.
+                codegenProperties.addAll(inheritedProperties);
+            }
+
+            for (CodegenProperty cp : codegenProperties) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
+                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && "*os.File".equals(param.baseType)) {
+                if (!addedOSImport && ("os.File".equals(cp.dataType) ||
+                        (cp.items != null && "os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -639,6 +674,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+            }
+
+            // if oneOf contains "time.Time" type
+            if (!addedTimeImport && model.oneOf != null && model.oneOf.contains("time.Time")) {
+                imports.add(createMapping("import", "time"));
             }
 
             // if oneOf contains "null" type
@@ -792,7 +832,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
-        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
+        schema = unaliasSchema(schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {

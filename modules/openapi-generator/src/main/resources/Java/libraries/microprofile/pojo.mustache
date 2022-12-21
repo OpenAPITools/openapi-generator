@@ -72,7 +72,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   @JsonbCreator
   public {{classname}}(
   {{#readOnlyVars}}
-    @JsonbProperty("{{baseName}}") {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    @JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}) {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}

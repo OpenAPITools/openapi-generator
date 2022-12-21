@@ -118,7 +118,6 @@ public class DefaultApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -131,10 +130,7 @@ public class DefaultApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fooGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fooGetCall(_callback);
-        return localVarCall;
+        return fooGetCall(_callback);
 
     }
 

@@ -227,7 +227,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (auth instanceof OAuth) {
       authentications.put("{{name}}", auth);
     } else {
-      authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+      authentications.put("{{name}}", new OAuth(basePath, "{{{tokenUrl}}}"));
     }
     {{/isOAuth}}
     {{/authMethods}}
@@ -518,6 +518,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setCredentials(clientId, clientSecret, isDebugging());
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the credentials of a public client for the first OAuth2 authentication.
+   *
+   * @param clientId the client ID
+   * @return a {@link org.openapitools.client.ApiClient} object.
+   */
+  public ApiClient setOauthCredentialsForPublicClient(String clientId) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setCredentialsForPublicClient(clientId, isDebugging());
         return this;
       }
     }
@@ -1218,7 +1234,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         queryParams,
         allHeaderParams,
         cookieParams,
+        {{#hasHttpSignatureMethods}}
         serializeToString(body, formParams, contentType, isBodyNullable),
+        {{/hasHttpSignatureMethods}}
+        {{^hasHttpSignatureMethods}}
+        null,
+        {{/hasHttpSignatureMethods}}
         method,
         target.getUri());
 
