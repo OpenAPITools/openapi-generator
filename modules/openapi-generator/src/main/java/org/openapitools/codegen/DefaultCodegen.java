@@ -6663,6 +6663,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
                 } else if (!codegenParameter.required) {
+                    // Set 'required' flag for properties declared inside the allOf
                     codegenParameter.required = allRequired.stream().anyMatch(r -> r.equals(codegenParameter.paramName));
                 }
 
