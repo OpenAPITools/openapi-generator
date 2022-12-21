@@ -27,7 +27,7 @@ paths:
 components:
   schemas:
     Person:
-      description: person using x-parent (abstrct) to indicate it's a parent class
+      description: person using x-parent (abstract) to indicate it's a parent class
       type: object
       x-parent: "abstract"
       properties:
