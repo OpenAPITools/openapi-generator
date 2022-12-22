@@ -1193,11 +1193,6 @@
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
                 <module>samples/server/petstore/python-fastapi</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/java-camel</module>
-                <module>samples/server/petstore/java-vertx-web</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-undertow</module>
             </modules>
         </profile>
         <profile>
