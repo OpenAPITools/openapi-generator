@@ -16,6 +16,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
