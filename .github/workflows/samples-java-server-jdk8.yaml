@@ -3,14 +3,15 @@ name: Samples Java Server
 on:
   push:
     paths:
-      - 'samples/server/petstore/java-camel/**'
+      # java-camel is tested locally for the time being
+      #- 'samples/server/petstore/java-camel/**'
       - 'samples/server/petstore/java-vertx-web/**'
       - 'samples/server/petstore/java-inflector/**'
       - 'samples/server/petstore/java-pkmst/**'
       - 'samples/server/petstore/java-undertow/**'
   pull_request:
     paths:
-      - 'samples/server/petstore/java-camel/**'
+      #- 'samples/server/petstore/java-camel/**'
       - 'samples/server/petstore/java-vertx-web/**'
       - 'samples/server/petstore/java-inflector/**'
       - 'samples/server/petstore/java-pkmst/**'
@@ -24,7 +25,7 @@ jobs:
       matrix:
         sample:
           # servers
-          - samples/server/petstore/java-camel/
+          #- samples/server/petstore/java-camel/
           - samples/server/petstore/java-vertx-web/
           - samples/server/petstore/java-inflector/
           - samples/server/petstore/java-pkmst/
@@ -34,7 +35,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 8
       - name: Cache maven dependencies
         uses: actions/cache@v3
         env:
