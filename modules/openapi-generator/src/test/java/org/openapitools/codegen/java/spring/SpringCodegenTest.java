@@ -1273,6 +1273,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
             .printFileContent()
+            .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
             .assertMethod("updatePet")
             .assertMethodAnnotations()
             .containsWithName("Operation")

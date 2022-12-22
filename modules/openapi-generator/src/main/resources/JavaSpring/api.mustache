@@ -8,6 +8,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -16,9 +17,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-{{#externalDocs}}
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
-{{/externalDocs}}
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
