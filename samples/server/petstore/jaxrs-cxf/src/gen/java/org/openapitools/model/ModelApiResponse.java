@@ -92,25 +92,6 @@ public class ModelApiResponse  {
     return Objects.hash(code, type, message);
   }
 
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      ModelApiResponse _apiResponse = (ModelApiResponse) o;
-      return Objects.equals(code, _apiResponse.code) &&
-          Objects.equals(type, _apiResponse.type) &&
-          Objects.equals(message, _apiResponse.message);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(code, type, message);
-    }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

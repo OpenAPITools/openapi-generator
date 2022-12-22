@@ -86,24 +86,6 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
     return Objects.hash(kind, super.hashCode());
   }
 
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      BigCat bigCat = (BigCat) o;
-      return Objects.equals(kind, bigCat.kind) &&
-          super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(kind, super.hashCode());
-    }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

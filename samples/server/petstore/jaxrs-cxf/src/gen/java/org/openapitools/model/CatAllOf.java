@@ -48,23 +48,6 @@ public class CatAllOf  {
     return Objects.hash(declawed);
   }
 
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      CatAllOf catAllOf = (CatAllOf) o;
-      return Objects.equals(declawed, catAllOf.declawed);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(declawed);
-    }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

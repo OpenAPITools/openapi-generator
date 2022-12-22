@@ -56,23 +56,6 @@ public class ArrayOfArrayOfNumberOnly  {
     return Objects.hash(arrayArrayNumber);
   }
 
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
-      return Objects.equals(arrayArrayNumber, arrayOfArrayOfNumberOnly.arrayArrayNumber);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(arrayArrayNumber);
-    }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
