@@ -13,51 +13,44 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ClubOwner } from './ClubOwner';
-import {
-    ClubOwnerFromJSON,
-    ClubOwnerFromJSONTyped,
-    ClubOwnerToJSON,
-} from './ClubOwner';
-
 /**
  * 
  * @export
- * @interface Club
+ * @interface ClubOwner
  */
-export interface Club {
+export interface ClubOwner {
     /**
      * 
-     * @type {ClubOwner}
-     * @memberof Club
+     * @type {string}
+     * @memberof ClubOwner
      */
-    owner?: ClubOwner | null;
+    name?: string;
 }
 
 /**
- * Check if a given object implements the Club interface.
+ * Check if a given object implements the ClubOwner interface.
  */
-export function instanceOfClub(value: object): boolean {
+export function instanceOfClubOwner(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function ClubFromJSON(json: any): Club {
-    return ClubFromJSONTyped(json, false);
+export function ClubOwnerFromJSON(json: any): ClubOwner {
+    return ClubOwnerFromJSONTyped(json, false);
 }
 
-export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club {
+export function ClubOwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClubOwner {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'owner': !exists(json, 'owner') ? undefined : ClubOwnerFromJSON(json['owner']),
+        'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
 
-export function ClubToJSON(value?: Club | null): any {
+export function ClubOwnerToJSON(value?: ClubOwner | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -66,7 +59,7 @@ export function ClubToJSON(value?: Club | null): any {
     }
     return {
         
-        'owner': ClubOwnerToJSON(value.owner),
+        'name': value.name,
     };
 }
 
