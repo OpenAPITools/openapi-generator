@@ -182,4 +182,5 @@ Do not edit the class manually.
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
