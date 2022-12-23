@@ -53,9 +53,9 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #./configure --enable-optimizations
   #sudo make altinstall
   pyenv install --list 
-  pyenv install 3.6.3
+  pyenv install 3.7.12
   pyenv install 2.7.14
-  pyenv global 3.6.3
+  pyenv global 3.7.12
 
   # Install node@stable (for angular 6)
   set +e

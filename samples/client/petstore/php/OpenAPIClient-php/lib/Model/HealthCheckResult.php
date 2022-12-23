@@ -309,7 +309,6 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     public function setNullableMessage($nullable_message)
     {
-
         if (is_null($nullable_message)) {
             array_push($this->openAPINullablesSetToNull, 'nullable_message');
         } else {
@@ -320,7 +319,6 @@ class HealthCheckResult implements ModelInterface, ArrayAccess, \JsonSerializabl
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['nullable_message'] = $nullable_message;
 
         return $this;

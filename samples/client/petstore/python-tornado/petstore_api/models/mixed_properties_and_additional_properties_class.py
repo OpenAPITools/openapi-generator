@@ -38,7 +38,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     openapi_types = {
         'uuid': 'str',
         'date_time': 'datetime',
-        'map': 'dict(str, Animal)'
+        'map': 'dict[str, Animal]'
     }
 
     attribute_map = {
@@ -113,7 +113,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :return: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, Animal)
+        :rtype: dict[str, Animal]
         """
         return self._map
 
@@ -123,7 +123,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type map: dict(str, Animal)
+        :type map: dict[str, Animal]
         """
 
         self._map = map

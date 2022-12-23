@@ -44,6 +44,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractPythonCodegen() {
         super();
@@ -68,6 +69,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("dict");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -121,19 +124,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return "_" + name;
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
 
-            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
-        }
-        return super.getTypeDeclaration(p);
-    }
 
     /**
      * Return the default value of the property
@@ -634,6 +625,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
         sanitizedName = sanitizedName.replaceAll("$", "");
@@ -659,6 +662,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (isReservedWord(camelizedName)) {
             String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
@@ -666,9 +670,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (camelizedName.matches("^\\d.*")) {
             String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
+        schemaKeyToModelNameCache.put(origName, camelizedName);
         return camelizedName;
     }
 

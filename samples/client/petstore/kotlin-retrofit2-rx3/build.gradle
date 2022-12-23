@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.7.21'
     ext.retrofitVersion = '2.9.0'
     ext.rxJava3Version = '3.0.12'
 

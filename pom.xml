@@ -1193,11 +1193,6 @@
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
                 <module>samples/server/petstore/python-fastapi</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/java-camel</module>
-                <module>samples/server/petstore/java-vertx-web</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-undertow</module>
             </modules>
         </profile>
         <profile>
@@ -1224,6 +1219,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/openapi3/client/petstore/python-nextgen</module>
+                <module>samples/openapi3/client/petstore/python-nextgen-aiohttp</module>
                 <module>samples/client/petstore/python-prior</module>
                 <module>samples/client/petstore/python-prior_disallowAdditionalPropertiesIfNotPresent</module>
                 <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
@@ -1234,6 +1231,7 @@
                 <module>samples/client/petstore/typescript-angular-v12-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v15-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1298,24 +1296,6 @@
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java-micronaut-client</module>
-            </modules>
-        </profile>
-        <!-- test with JDK9 in Shippable CI -->
-        <profile>
-            <id>samples.shippable</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.shippable</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/openapi3/client/elm</module>
-                <!--<module>samples/client/petstore/elixir</module>-->
-                <module>samples/client/petstore/erlang-client</module>
-                <module>samples/client/petstore/erlang-proper</module>
-                <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
         <!-- test with Haskell -->

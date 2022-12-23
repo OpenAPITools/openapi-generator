@@ -40,7 +40,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, EnumTest)')
+        deserialized = self.deserialize(response, 'dict[str, EnumTest]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
         self.assertEqual(deserialized['enum_test'],
@@ -74,7 +74,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, Pet)')
+        deserialized = self.deserialize(response, 'dict[str, Pet]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
@@ -90,7 +90,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, Animal)')
+        deserialized = self.deserialize(response, 'dict[str, Animal]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
@@ -101,7 +101,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'dict(str, int)')
+        deserialized = self.deserialize(response, 'dict[str, int]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['integer'], int))
 
@@ -218,7 +218,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "dict(str, dict(str, int))")
+        deserialized = self.deserialize(response, "dict[str, dict[str, int]]")
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized["foo"], dict))
         self.assertTrue(isinstance(deserialized["foo"]["bar"], int))

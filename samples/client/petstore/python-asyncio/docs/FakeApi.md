@@ -777,7 +777,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    param = {'key': 'param_example'} # dict(str, str) | request body
+    param = {'key': 'param_example'} # dict[str, str] | request body
 
     try:
         # test inline additionalProperties
@@ -790,7 +790,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**dict(str, str)**](str.md)| request body | 
+ **param** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 

@@ -842,7 +842,7 @@ paths:
         '5XX':
           description: Something wrong
           content:
-            'applicatino/json':
+            'application/json':
               schema:
                 $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
@@ -1155,6 +1155,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/deep_object_test:
+    get:
+      tags:
+        - fake
+      operationId: test_query_deep_object
+      parameters:
+        - name: test_pet
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Pet'
+          explode: true
+        - name: inputOptions
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Category'
+          explode: true
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

@@ -180,6 +180,7 @@ public class TypeScriptNodeClientCodegenTest {
             .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
         codegen.setModelNameSuffix("Suffix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
@@ -209,6 +210,7 @@ public class TypeScriptNodeClientCodegenTest {
             .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
         codegen.setModelNamePrefix("Prefix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(

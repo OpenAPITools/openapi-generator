@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the FooGetDefaultResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FooGetDefaultResponse{}
+
 // FooGetDefaultResponse struct for FooGetDefaultResponse
 type FooGetDefaultResponse struct {
 	String *Foo `json:"string,omitempty"`
@@ -72,6 +75,14 @@ func (o *FooGetDefaultResponse) SetString(v Foo) {
 }
 
 func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.String) {
 		toSerialize["string"] = o.String
@@ -81,7 +92,7 @@ func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {

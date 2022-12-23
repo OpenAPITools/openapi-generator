@@ -76,6 +76,7 @@ import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -86,8 +87,51 @@ public class ApiClient extends JavaTimeFormatter {
   private String basePath = "http://petstore.swagger.io:80/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://127.0.0.1/no_varaible",
+      "The local server without variables",
       new HashMap<String, ServerVariable>()
     )
   ));
@@ -130,7 +174,9 @@ public class ApiClient extends JavaTimeFormatter {
     authentications = new HashMap<String, Authentication>();
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("http_signature_test", new HttpBearerAuth("signature"));
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -159,6 +205,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the object mapper.
+   *
+   * @param objectMapper object mapper
    * @return API client
    */
   public ApiClient setObjectMapper(ObjectMapper objectMapper) {
@@ -171,6 +220,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the HTTP client.
+   *
+   * @param httpClient HTTP client
    * @return API client
    */
   public ApiClient setHttpClient(CloseableHttpClient httpClient) {
@@ -183,6 +235,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the base path.
+   *
+   * @param basePath base path
    * @return API client
    */
   public ApiClient setBasePath(String basePath) {
@@ -196,6 +251,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server.
+   *
+   * @param servers a list of server configuration
    * @return API client
    */
   public ApiClient setServers(List<ServerConfiguration> servers) {
@@ -208,6 +266,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server index.
+   *
+   * @param serverIndex server index
    * @return API client
    */
   public ApiClient setServerIndex(Integer serverIndex) {
@@ -220,6 +281,9 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Sets the server variables.
+   *
+   * @param serverVariables server variables
    * @return API client
    */
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
@@ -229,6 +293,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Gets the status code of the previous request
+   *
    * @return Status code
    */
   public int getStatusCode() {
@@ -270,6 +335,21 @@ public class ApiClient extends JavaTimeFormatter {
    */
   public String getTempFolderPath() {
     return tempFolderPath;
+  }
+
+  /**
+   * Helper method to set access token for the first Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return API client
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+        return this;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
   }
 
 
@@ -516,9 +596,11 @@ public class ApiClient extends JavaTimeFormatter {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
+    if (name == null || name.isEmpty() || value == null || value instanceof Collection) {
+      return params;
+    }
 
-    params.add(new Pair(name, parameterToString(value)));
+    params.add(new Pair(name, escapeString(parameterToString(value))));
     return params;
   }
 
@@ -643,7 +725,10 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Transform response headers into map
+   * Transforms response headers into map.
+   *
+   * @param headers HTTP headers
+   * @return a map of string array
    */
   protected Map<String, List<String>> transformResponseHeaders(Header[] headers) {
     Map<String, List<String>> headersMap = new HashMap<>();
@@ -737,8 +822,16 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Deserialize response content
+   * Deserialize response body to Java object according to the Content-Type.
+   *
+   * @param <T> Type
+   * @param response Response
+   * @param valueType Return type
+   * @return Deserialized object
+   * @throws ApiException API exception
+   * @throws IOException IO exception
    */
+  @SuppressWarnings("unchecked")
   public <T> T deserialize(HttpResponse response, TypeReference<T> valueType) throws ApiException, IOException {
     if (valueType == null) {
       return null;
@@ -754,6 +847,10 @@ public class ApiClient extends JavaTimeFormatter {
     if (mimeType == null || isJsonMime(mimeType)) {
       // Assume json if no mime type
       return objectMapper.readValue(entity.getContent(), valueType);
+    } else if ("text/plain".equalsIgnoreCase(mimeType)) {
+      // convert input stream to string
+      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
+      return (T) (s.hasNext() ? s.next() : "");
     } else {
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
@@ -842,7 +939,8 @@ public class ApiClient extends JavaTimeFormatter {
             url.append("&");
           }
           String value = parameterToString(param.getValue());
-          url.append(escapeString(param.getName())).append("=").append(escapeString(value));
+          // query parameter value already escaped as part of parameterToPair
+          url.append(escapeString(param.getName())).append("=").append(value);
         }
       }
     }
@@ -977,6 +1075,9 @@ public class ApiClient extends JavaTimeFormatter {
       } else {
         throw new ApiException("method " + method + " does not support a request body");
       }
+    } else {
+      // for empty body
+      builder.setEntity(serialize(null, null, contentTypeObj));
     }
 
     try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
