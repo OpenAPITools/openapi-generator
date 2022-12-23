@@ -50,14 +50,8 @@ import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
 
 {{#useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 import java.util.List;
 import java.util.Map;
@@ -72,12 +66,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
+import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
 {{#useBeanValidation}}
