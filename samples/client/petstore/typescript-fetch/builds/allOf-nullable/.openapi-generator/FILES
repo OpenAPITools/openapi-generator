@@ -2,7 +2,6 @@ apis/DefaultApi.ts
 apis/index.ts
 index.ts
 models/Club.ts
-models/ClubOwner.ts
 models/Owner.ts
 models/index.ts
 runtime.ts
