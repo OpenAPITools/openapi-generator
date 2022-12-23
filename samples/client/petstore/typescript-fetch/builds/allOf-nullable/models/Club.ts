@@ -27,6 +27,7 @@ import {
  */
 export interface Club {
     /**
+     *
      * @type {Owner}
      * @memberof Club
      */
@@ -52,7 +53,7 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     }
     return {
         
-        'owner': !exists(json, 'owner') ? undefined : OwnerToJSON(json['owner']),
+        'owner': !exists(json, 'owner') ? undefined : OwnerFromJSON(json['owner']),
     };
 }
 
