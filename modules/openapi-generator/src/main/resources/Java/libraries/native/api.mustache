@@ -239,10 +239,9 @@ public class {{classname}} {
         }
         {{#vendorExtensions.x-java-text-plain-string}}
         // for plain text response
-        InputStream responseBody = localVarResponse.body();
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
-          java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -254,14 +253,11 @@ public class {{classname}} {
         }
         {{/vendorExtensions.x-java-text-plain-string}}
         {{^vendorExtensions.x-java-text-plain-string}}
-        {{#returnType}}
-        InputStream responseBody = localVarResponse.body();
-        {{/returnType}}
         return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           {{#returnType}}
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
           {{/returnType}}
           {{^returnType}}
           null

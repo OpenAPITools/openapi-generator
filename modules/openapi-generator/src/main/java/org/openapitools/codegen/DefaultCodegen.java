@@ -637,14 +637,29 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
-        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
-                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        // for allVars
+        final Map<String, List<CodegenProperty>> allVarsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getAllVars())));
 
-        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, allVarsDependencyMap));
+
+        // for vars
+        final Map<String, List<CodegenProperty>> varsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getVars())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, varsDependencyMap));
+
+        // for oneOf
+        final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
 
-    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
-        return model.getAllVars().stream()
+    private List<CodegenProperty> getModelDependencies( List<CodegenProperty> vars) {
+        return vars.stream()
                 .map(prop -> {
                     if (prop.isContainer) {
                         return prop.items.dataType == null ? null : prop;
@@ -4332,6 +4347,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> formParams = new ArrayList<>();
         List<CodegenParameter> requiredParams = new ArrayList<>();
         List<CodegenParameter> optionalParams = new ArrayList<>();
+        List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4441,6 +4457,10 @@ public class DefaultCodegen implements CodegenConfig {
                 optionalParams.add(cp.copy());
                 op.hasOptionalParams = true;
             }
+
+            if (cp.requiredAndNotNullable()) {
+                requiredAndNotNullableParams.add(cp.copy());
+            }
         }
 
         // add imports to operation import tag
@@ -4477,6 +4497,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.formParams = formParams;
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
+        op.requiredAndNotNullableParams = requiredAndNotNullableParams;
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;

@@ -470,4 +470,14 @@ public class TypeScriptFetchModelTest {
         final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
         Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
+
+    @Test(description = "Don't generate new schemas for nullable references")
+    public void testNestedNullableSchemas() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-nullable.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
+        Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
+    }
 }

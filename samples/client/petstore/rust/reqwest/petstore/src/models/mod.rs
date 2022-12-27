@@ -6,6 +6,8 @@ pub mod baz;
 pub use self::baz::Baz;
 pub mod category;
 pub use self::category::Category;
+pub mod enum_array_testing;
+pub use self::enum_array_testing::EnumArrayTesting;
 pub mod optional_testing;
 pub use self::optional_testing::OptionalTesting;
 pub mod order;

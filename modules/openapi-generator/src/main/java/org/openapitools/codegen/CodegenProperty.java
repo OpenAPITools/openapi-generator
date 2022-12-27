@@ -505,7 +505,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return required;
     }
 
-    public boolean compulsory() {
+    public boolean requiredAndNotNullable() {
         return getRequired() && !isNullable;
     }
 

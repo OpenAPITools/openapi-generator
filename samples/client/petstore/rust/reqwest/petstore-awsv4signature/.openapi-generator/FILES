@@ -6,6 +6,7 @@ docs/ActionContainer.md
 docs/ApiResponse.md
 docs/Baz.md
 docs/Category.md
+docs/EnumArrayTesting.md
 docs/FakeApi.md
 docs/OptionalTesting.md
 docs/Order.md
@@ -32,6 +33,7 @@ src/models/action_container.rs
 src/models/api_response.rs
 src/models/baz.rs
 src/models/category.rs
+src/models/enum_array_testing.rs
 src/models/mod.rs
 src/models/model_return.rs
 src/models/optional_testing.rs

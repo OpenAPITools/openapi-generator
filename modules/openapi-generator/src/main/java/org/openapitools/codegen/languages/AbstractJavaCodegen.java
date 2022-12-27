@@ -656,6 +656,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("jsr310", "true");
             typeMapping.put("date", "LocalDate");
             importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalTime", "java.time.LocalTime");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
                 importMapping.put("LocalDateTime", "java.time.LocalDateTime");

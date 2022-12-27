@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class PetApiTests : ApiTestsBase
     {
-        private readonly IPetApi _instance;
+        private readonly IApi.IPetApi _instance;
 
         public PetApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IPetApi>();
+            _instance = _host.Services.GetRequiredService<IApi.IPetApi>();
         }
 
 
@@ -134,9 +134,9 @@ namespace Org.OpenAPITools.Test.Api
         public async Task UploadFileAsyncTest()
         {
             long petId = default;
-            string additionalMetadata = default;
             System.IO.Stream file = default;
-            var response = await _instance.UploadFileAsync(petId, additionalMetadata, file);
+            string additionalMetadata = default;
+            var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
             Assert.IsType<ApiResponse>(response);
         }
 
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UploadFileWithRequiredFileAsyncTest()
         {
-            long petId = default;
             System.IO.Stream requiredFile = default;
+            long petId = default;
             string additionalMetadata = default;
-            var response = await _instance.UploadFileWithRequiredFileAsync(petId, requiredFile, additionalMetadata);
+            var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
             Assert.IsType<ApiResponse>(response);
         }
     }
