@@ -12,7 +12,7 @@ import * as https from 'https';
 import {{^supportsES6}}* as{{/supportsES6}} URLParse from "url-parse";
 {{/deno}}
 {{/platforms}}
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 
 {{#platforms}}
 {{^deno}}

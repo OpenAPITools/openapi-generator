@@ -836,7 +836,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if ("deno".equals(propPlatform)) {
-            additionalProperties.put("extensionForDeno", ".ts");
+            additionalProperties.put("importFileExtension", ".ts");
         }
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);

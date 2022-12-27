@@ -1,15 +1,15 @@
-import { HttpLibrary } from "./http/http{{extensionForDeno}}";
-import { Middleware, PromiseMiddleware, PromiseMiddlewareWrapper } from "./middleware{{extensionForDeno}}";
+import { HttpLibrary } from "./http/http{{importFileExtension}}";
+import { Middleware, PromiseMiddleware, PromiseMiddlewareWrapper } from "./middleware{{importFileExtension}}";
 {{#frameworks}}
 {{#fetch-api}}
-import { IsomorphicFetchHttpLibrary as DefaultHttpLibrary } from "./http/isomorphic-fetch{{extensionForDeno}}";
+import { IsomorphicFetchHttpLibrary as DefaultHttpLibrary } from "./http/isomorphic-fetch{{importFileExtension}}";
 {{/fetch-api}}
 {{#jquery}}
 import { JQueryHttpLibrary as DefaultHttpLibrary } from "./http/jquery";
 {{/jquery}}
 {{/frameworks}}
-import { BaseServerConfiguration, server1 } from "./servers{{extensionForDeno}}";
-import { configureAuthMethods, AuthMethods, AuthMethodsConfiguration } from "./auth/auth{{extensionForDeno}}";
+import { BaseServerConfiguration, server1 } from "./servers{{importFileExtension}}";
+import { configureAuthMethods, AuthMethods, AuthMethodsConfiguration } from "./auth/auth{{importFileExtension}}";
 
 export interface Configuration {
     readonly baseServer: BaseServerConfiguration;
