@@ -1483,7 +1483,7 @@
         <jacoco.version>0.8.7</jacoco.version>
         <jmustache.version>1.15</jmustache.version>
         <junit.version>4.13.2</junit.version>
-        <kotlin.version>1.6.10</kotlin.version>
+        <kotlin.version>1.6.21</kotlin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
