@@ -234,7 +234,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 {{#if bodyParam}}
-    {{#each getContentTypeToOperation}}
+    {{#each contentTypeToOperation}}
     {{> endpoint_args_baseapi_wrapper contentType=@key this=this}}
 
     {{/each}}
@@ -406,7 +406,7 @@ class {{operationIdCamelCase}}(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
 {{#if bodyParam}}
-    {{#each getContentTypeToOperation}}
+    {{#each contentTypeToOperation}}
     {{> endpoint_args_operationid_wrapper contentType=@key this=this}}
 
     {{/each}}
@@ -437,7 +437,7 @@ class ApiFor{{httpMethod}}(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
 {{#if bodyParam}}
-    {{#each getContentTypeToOperation}}
+    {{#each contentTypeToOperation}}
     {{> endpoint_args_httpmethod_wrapper contentType=@key this=this}}
 
     {{/each}}
