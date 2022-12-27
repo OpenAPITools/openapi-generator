@@ -20,6 +20,7 @@ jobs:
           - samples/server/petstore/jaxrs/jersey2-useTags
           - samples/server/petstore/jaxrs-jersey
           - samples/server/petstore/jaxrs-spec
+          - samples/server/petstore/jaxrs-spec-ee
           - samples/server/petstore/jaxrs-spec-interface
           - samples/server/petstore/jaxrs-spec-interface-response
           - samples/server/petstore/jaxrs-jersey
