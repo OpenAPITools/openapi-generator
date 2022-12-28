@@ -974,7 +974,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 codegenProperties = model.vars;
             }
 
-            //loop through properties/schemas to setup typing, pydantic
+            //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
                 List<String> fields = new ArrayList<>();
@@ -1020,7 +1020,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     if (cp.defaultValue == null) {
                         fieldCustomization = "None";
                     } else {
-                        fieldCustomization = cp.defaultValue;
+                        if (cp.isArray || cp.isMap) {
+                            // TODO handle default value for array/map
+                            fieldCustomization = "None";
+                        } else {
+                            fieldCustomization = cp.defaultValue;
+                        }
                     }
                 } else { // required field
                     fieldCustomization = firstField;
