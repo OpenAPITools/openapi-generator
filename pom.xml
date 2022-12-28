@@ -1477,22 +1477,22 @@
         <groovy.version>3.0.9</groovy.version>
         <guava.version>31.1-jre</guava.version>
         <handlebars-java.version>4.2.1</handlebars-java.version>
-        <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
-        <jackson-databind.version>2.13.4.2</jackson-databind.version>
-        <jackson.version>2.13.4</jackson.version>
+        <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
+        <jackson-databind.version>2.14.0</jackson-databind.version>
+        <jackson.version>2.14.0</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
-        <jmustache.version>1.14</jmustache.version>
+        <jmustache.version>1.15</jmustache.version>
         <junit.version>4.13.2</junit.version>
-        <kotlin.version>1.6.10</kotlin.version>
+        <kotlin.version>1.6.21</kotlin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <mockito.version>4.8.1</mockito.version>
+        <mockito.version>4.10.0</mockito.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
-        <reflections.version>0.10</reflections.version>
+        <reflections.version>0.10.2</reflections.version>
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
