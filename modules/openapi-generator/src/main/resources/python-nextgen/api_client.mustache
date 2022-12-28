@@ -545,6 +545,11 @@ class ApiClient(object):
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if isinstance(v, (int, float)):
+                v = str(v)
+            if isinstance(v, bool):
+                v = str(v).lower()
+                
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
@@ -563,7 +568,7 @@ class ApiClient(object):
             else:
                 new_params.append((k, v))
 
-        return "&".join(["=".join(str(item)) for item in new_params])
+        return "&".join(["=".join(item) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.
