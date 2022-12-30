@@ -31,27 +31,27 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="stringProperty">stringProperty</param>
+        /// <param name="_string">_string</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo stringProperty)
+        public FooGetDefaultResponse(Foo _string)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (stringProperty == null)
-                throw new ArgumentNullException("stringProperty is a required property for FooGetDefaultResponse and cannot be null.");
+            if (_string == null)
+                throw new ArgumentNullException("_string is a required property for FooGetDefaultResponse and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            StringProperty = stringProperty;
+            String = _string;
         }
 
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo StringProperty { get; set; }
+        public Foo String { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Foo stringProperty = default;
+            Foo _string = default;
 
             while (reader.Read())
             {
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "string":
-                            stringProperty = JsonSerializer.Deserialize<Foo>(ref reader, options);
+                            _string = JsonSerializer.Deserialize<Foo>(ref reader, options);
                             break;
                         default:
                             break;
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FooGetDefaultResponse(stringProperty);
+            return new FooGetDefaultResponse(_string);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.StringProperty, options);
+            JsonSerializer.Serialize(writer, fooGetDefaultResponse.String, options);
 
             writer.WriteEndObject();
         }

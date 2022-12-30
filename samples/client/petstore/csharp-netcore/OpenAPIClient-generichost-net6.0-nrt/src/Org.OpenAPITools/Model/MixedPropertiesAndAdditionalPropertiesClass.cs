@@ -33,11 +33,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>
+        /// <param name="uuid">uuid</param>
         /// <param name="dateTime">dateTime</param>
         /// <param name="map">map</param>
-        /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid)
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid, DateTime dateTime, Dictionary<string, Animal> map)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -54,10 +54,16 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
+            Uuid = uuid;
             DateTime = dateTime;
             Map = map;
-            Uuid = uuid;
         }
+
+        /// <summary>
+        /// Gets or Sets Uuid
+        /// </summary>
+        [JsonPropertyName("uuid")]
+        public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
@@ -70,12 +76,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("map")]
         public Dictionary<string, Animal> Map { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Uuid
-        /// </summary>
-        [JsonPropertyName("uuid")]
-        public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,9 +91,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
+            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Map: ").Append(Map).Append("\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -131,9 +131,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
+            Guid uuid = default;
             DateTime dateTime = default;
             Dictionary<string, Animal> map = default;
-            Guid uuid = default;
 
             while (reader.Read())
             {
@@ -150,14 +150,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "uuid":
+                            uuid = reader.GetGuid();
+                            break;
                         case "dateTime":
                             dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "map":
                             map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref reader, options);
-                            break;
-                        case "uuid":
-                            uuid = reader.GetGuid();
                             break;
                         default:
                             break;
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid);
+            return new MixedPropertiesAndAdditionalPropertiesClass(uuid, dateTime, map);
         }
 
         /// <summary>
@@ -179,11 +179,11 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
             writer.WritePropertyName("dateTime");
             JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTime, options);
             writer.WritePropertyName("map");
             JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, options);
-            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
 
             writer.WriteEndObject();
         }

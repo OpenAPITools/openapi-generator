@@ -33,27 +33,27 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="clientProperty">clientProperty</param>
+        /// <param name="_client">_client</param>
         [JsonConstructor]
-        public ModelClient(string clientProperty)
+        public ModelClient(string _client)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (clientProperty == null)
-                throw new ArgumentNullException("clientProperty is a required property for ModelClient and cannot be null.");
+            if (_client == null)
+                throw new ArgumentNullException("_client is a required property for ModelClient and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            _ClientProperty = clientProperty;
+            _Client = _client;
         }
 
         /// <summary>
-        /// Gets or Sets _ClientProperty
+        /// Gets or Sets _Client
         /// </summary>
         [JsonPropertyName("client")]
-        public string _ClientProperty { get; set; }
+        public string _Client { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _ClientProperty: ").Append(_ClientProperty).Append("\n");
+            sb.Append("  _Client: ").Append(_Client).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            string clientProperty = default;
+            string _client = default;
 
             while (reader.Read())
             {
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "client":
-                            clientProperty = reader.GetString();
+                            _client = reader.GetString();
                             break;
                         default:
                             break;
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ModelClient(clientProperty);
+            return new ModelClient(_client);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("client", modelClient._ClientProperty);
+            writer.WriteString("client", modelClient._Client);
 
             writer.WriteEndObject();
         }

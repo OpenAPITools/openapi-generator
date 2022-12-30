@@ -31,17 +31,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
+        /// <param name="enumStringRequired">enumStringRequired</param>
+        /// <param name="enumString">enumString</param>
         /// <param name="enumInteger">enumInteger</param>
         /// <param name="enumIntegerOnly">enumIntegerOnly</param>
         /// <param name="enumNumber">enumNumber</param>
-        /// <param name="enumString">enumString</param>
-        /// <param name="enumStringRequired">enumStringRequired</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
-        /// <param name="outerEnumInteger">outerEnumInteger</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         /// <param name="outerEnum">outerEnum</param>
+        /// <param name="outerEnumInteger">outerEnumInteger</param>
+        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
+        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         [JsonConstructor]
-        public EnumTest(EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumInteger outerEnumInteger, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum? outerEnum = default)
+        public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum enumString, EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, OuterEnum? outerEnum = default, OuterEnumInteger outerEnumInteger, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -73,16 +73,150 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
+            EnumStringRequired = enumStringRequired;
+            EnumString = enumString;
             EnumInteger = enumInteger;
             EnumIntegerOnly = enumIntegerOnly;
             EnumNumber = enumNumber;
-            EnumString = enumString;
-            EnumStringRequired = enumStringRequired;
-            OuterEnumDefaultValue = outerEnumDefaultValue;
-            OuterEnumInteger = outerEnumInteger;
-            OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
             OuterEnum = outerEnum;
+            OuterEnumInteger = outerEnumInteger;
+            OuterEnumDefaultValue = outerEnumDefaultValue;
+            OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
         }
+
+        /// <summary>
+        /// Defines EnumStringRequired
+        /// </summary>
+        public enum EnumStringRequiredEnum
+        {
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            UPPER = 1,
+
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            Lower = 2,
+
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            Empty = 3
+
+        }
+
+        /// <summary>
+        /// Returns a EnumStringRequiredEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static EnumStringRequiredEnum EnumStringRequiredEnumFromString(string value)
+        {
+            if (value == "UPPER")
+                return EnumStringRequiredEnum.UPPER;
+
+            if (value == "lower")
+                return EnumStringRequiredEnum.Lower;
+
+            if (value == "")
+                return EnumStringRequiredEnum.Empty;
+
+            throw new NotImplementedException($"Could not convert value to type EnumStringRequiredEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string EnumStringRequiredEnumToJsonValue(EnumStringRequiredEnum value)
+        {
+            if (value == EnumStringRequiredEnum.UPPER)
+                return "UPPER";
+
+            if (value == EnumStringRequiredEnum.Lower)
+                return "lower";
+
+            if (value == EnumStringRequiredEnum.Empty)
+                return "";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Gets or Sets EnumStringRequired
+        /// </summary>
+        [JsonPropertyName("enum_string_required")]
+        public EnumStringRequiredEnum EnumStringRequired { get; set; }
+
+        /// <summary>
+        /// Defines EnumString
+        /// </summary>
+        public enum EnumStringEnum
+        {
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            UPPER = 1,
+
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            Lower = 2,
+
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            Empty = 3
+
+        }
+
+        /// <summary>
+        /// Returns a EnumStringEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static EnumStringEnum EnumStringEnumFromString(string value)
+        {
+            if (value == "UPPER")
+                return EnumStringEnum.UPPER;
+
+            if (value == "lower")
+                return EnumStringEnum.Lower;
+
+            if (value == "")
+                return EnumStringEnum.Empty;
+
+            throw new NotImplementedException($"Could not convert value to type EnumStringEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string EnumStringEnumToJsonValue(EnumStringEnum value)
+        {
+            if (value == EnumStringEnum.UPPER)
+                return "UPPER";
+
+            if (value == EnumStringEnum.Lower)
+                return "lower";
+
+            if (value == EnumStringEnum.Empty)
+                return "";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Gets or Sets EnumString
+        /// </summary>
+        [JsonPropertyName("enum_string")]
+        public EnumStringEnum EnumString { get; set; }
 
         /// <summary>
         /// Defines EnumInteger
@@ -241,144 +375,10 @@ namespace Org.OpenAPITools.Model
         public EnumNumberEnum EnumNumber { get; set; }
 
         /// <summary>
-        /// Defines EnumString
+        /// Gets or Sets OuterEnum
         /// </summary>
-        public enum EnumStringEnum
-        {
-            /// <summary>
-            /// Enum UPPER for value: UPPER
-            /// </summary>
-            UPPER = 1,
-
-            /// <summary>
-            /// Enum Lower for value: lower
-            /// </summary>
-            Lower = 2,
-
-            /// <summary>
-            /// Enum Empty for value: 
-            /// </summary>
-            Empty = 3
-
-        }
-
-        /// <summary>
-        /// Returns a EnumStringEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumStringEnum EnumStringEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return EnumStringEnum.UPPER;
-
-            if (value == "lower")
-                return EnumStringEnum.Lower;
-
-            if (value == "")
-                return EnumStringEnum.Empty;
-
-            throw new NotImplementedException($"Could not convert value to type EnumStringEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns equivalent json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string EnumStringEnumToJsonValue(EnumStringEnum value)
-        {
-            if (value == EnumStringEnum.UPPER)
-                return "UPPER";
-
-            if (value == EnumStringEnum.Lower)
-                return "lower";
-
-            if (value == EnumStringEnum.Empty)
-                return "";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
-
-        /// <summary>
-        /// Gets or Sets EnumString
-        /// </summary>
-        [JsonPropertyName("enum_string")]
-        public EnumStringEnum EnumString { get; set; }
-
-        /// <summary>
-        /// Defines EnumStringRequired
-        /// </summary>
-        public enum EnumStringRequiredEnum
-        {
-            /// <summary>
-            /// Enum UPPER for value: UPPER
-            /// </summary>
-            UPPER = 1,
-
-            /// <summary>
-            /// Enum Lower for value: lower
-            /// </summary>
-            Lower = 2,
-
-            /// <summary>
-            /// Enum Empty for value: 
-            /// </summary>
-            Empty = 3
-
-        }
-
-        /// <summary>
-        /// Returns a EnumStringRequiredEnum
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static EnumStringRequiredEnum EnumStringRequiredEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return EnumStringRequiredEnum.UPPER;
-
-            if (value == "lower")
-                return EnumStringRequiredEnum.Lower;
-
-            if (value == "")
-                return EnumStringRequiredEnum.Empty;
-
-            throw new NotImplementedException($"Could not convert value to type EnumStringRequiredEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns equivalent json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string EnumStringRequiredEnumToJsonValue(EnumStringRequiredEnum value)
-        {
-            if (value == EnumStringRequiredEnum.UPPER)
-                return "UPPER";
-
-            if (value == EnumStringRequiredEnum.Lower)
-                return "lower";
-
-            if (value == EnumStringRequiredEnum.Empty)
-                return "";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
-
-        /// <summary>
-        /// Gets or Sets EnumStringRequired
-        /// </summary>
-        [JsonPropertyName("enum_string_required")]
-        public EnumStringRequiredEnum EnumStringRequired { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnumDefaultValue
-        /// </summary>
-        [JsonPropertyName("outerEnumDefaultValue")]
-        public OuterEnumDefaultValue OuterEnumDefaultValue { get; set; }
+        [JsonPropertyName("outerEnum")]
+        public OuterEnum? OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumInteger
@@ -387,16 +387,16 @@ namespace Org.OpenAPITools.Model
         public OuterEnumInteger OuterEnumInteger { get; set; }
 
         /// <summary>
+        /// Gets or Sets OuterEnumDefaultValue
+        /// </summary>
+        [JsonPropertyName("outerEnumDefaultValue")]
+        public OuterEnumDefaultValue OuterEnumDefaultValue { get; set; }
+
+        /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumIntegerDefaultValue")]
         public OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnum
-        /// </summary>
-        [JsonPropertyName("outerEnum")]
-        public OuterEnum? OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -412,15 +412,15 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
+            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
+            sb.Append("  EnumString: ").Append(EnumString).Append("\n");
             sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
             sb.Append("  EnumIntegerOnly: ").Append(EnumIntegerOnly).Append("\n");
             sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
-            sb.Append("  EnumString: ").Append(EnumString).Append("\n");
-            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
-            sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
-            sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
-            sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
             sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
+            sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
+            sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
+            sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -458,15 +458,15 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
+            EnumTest.EnumStringRequiredEnum enumStringRequired = default;
+            EnumTest.EnumStringEnum enumString = default;
             EnumTest.EnumIntegerEnum enumInteger = default;
             EnumTest.EnumIntegerOnlyEnum enumIntegerOnly = default;
             EnumTest.EnumNumberEnum enumNumber = default;
-            EnumTest.EnumStringEnum enumString = default;
-            EnumTest.EnumStringRequiredEnum enumStringRequired = default;
-            OuterEnumDefaultValue outerEnumDefaultValue = default;
-            OuterEnumInteger outerEnumInteger = default;
-            OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default;
             OuterEnum? outerEnum = default;
+            OuterEnumInteger outerEnumInteger = default;
+            OuterEnumDefaultValue outerEnumDefaultValue = default;
+            OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default;
 
             while (reader.Read())
             {
@@ -483,6 +483,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "enum_string_required":
+                            string enumStringRequiredRawValue = reader.GetString();
+                            enumStringRequired = EnumTest.EnumStringRequiredEnumFromString(enumStringRequiredRawValue);
+                            break;
+                        case "enum_string":
+                            string enumStringRawValue = reader.GetString();
+                            enumString = EnumTest.EnumStringEnumFromString(enumStringRawValue);
+                            break;
                         case "enum_integer":
                             enumInteger = (EnumTest.EnumIntegerEnum) reader.GetInt32();
                             break;
@@ -492,29 +500,21 @@ namespace Org.OpenAPITools.Model
                         case "enum_number":
                             enumNumber = (EnumTest.EnumNumberEnum) reader.GetInt32();
                             break;
-                        case "enum_string":
-                            string enumStringRawValue = reader.GetString();
-                            enumString = EnumTest.EnumStringEnumFromString(enumStringRawValue);
-                            break;
-                        case "enum_string_required":
-                            string enumStringRequiredRawValue = reader.GetString();
-                            enumStringRequired = EnumTest.EnumStringRequiredEnumFromString(enumStringRequiredRawValue);
-                            break;
-                        case "outerEnumDefaultValue":
-                            string outerEnumDefaultValueRawValue = reader.GetString();
-                            outerEnumDefaultValue = OuterEnumDefaultValueConverter.FromString(outerEnumDefaultValueRawValue);
+                        case "outerEnum":
+                            string outerEnumRawValue = reader.GetString();
+                            outerEnum = OuterEnumConverter.FromStringOrDefault(outerEnumRawValue);
                             break;
                         case "outerEnumInteger":
                             string outerEnumIntegerRawValue = reader.GetString();
                             outerEnumInteger = OuterEnumIntegerConverter.FromString(outerEnumIntegerRawValue);
                             break;
+                        case "outerEnumDefaultValue":
+                            string outerEnumDefaultValueRawValue = reader.GetString();
+                            outerEnumDefaultValue = OuterEnumDefaultValueConverter.FromString(outerEnumDefaultValueRawValue);
+                            break;
                         case "outerEnumIntegerDefaultValue":
                             string outerEnumIntegerDefaultValueRawValue = reader.GetString();
                             outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValueConverter.FromString(outerEnumIntegerDefaultValueRawValue);
-                            break;
-                        case "outerEnum":
-                            string outerEnumRawValue = reader.GetString();
-                            outerEnum = OuterEnumConverter.FromStringOrDefault(outerEnumRawValue);
                             break;
                         default:
                             break;
@@ -522,7 +522,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new EnumTest(enumInteger, enumIntegerOnly, enumNumber, enumString, enumStringRequired, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum);
+            return new EnumTest(enumStringRequired, enumString, enumInteger, enumIntegerOnly, enumNumber, outerEnum, outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
         }
 
         /// <summary>
@@ -536,34 +536,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumInteger));
-            writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly));
-            writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber));
-            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString);
-            if (enumStringRawValue != null)
-                writer.WriteString("enum_string", enumStringRawValue);
-            else
-                writer.WriteNull("enum_string");
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             if (enumStringRequiredRawValue != null)
                 writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             else
                 writer.WriteNull("enum_string_required");
-            var outerEnumDefaultValueRawValue = OuterEnumDefaultValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue);
-            if (outerEnumDefaultValueRawValue != null)
-                writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
+            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumString);
+            if (enumStringRawValue != null)
+                writer.WriteString("enum_string", enumStringRawValue);
             else
-                writer.WriteNull("outerEnumDefaultValue");
-            var outerEnumIntegerRawValue = OuterEnumIntegerConverter.ToJsonValue(enumTest.OuterEnumInteger);
-            if (outerEnumIntegerRawValue != null)
-                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
-            else
-                writer.WriteNull("outerEnumInteger");
-            var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
-            if (outerEnumIntegerDefaultValueRawValue != null)
-                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
-            else
-                writer.WriteNull("outerEnumIntegerDefaultValue");
+                writer.WriteNull("enum_string");
+            writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumInteger));
+            writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnly));
+            writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumber));
             if (enumTest.OuterEnum == null)
                 writer.WriteNull("outerEnum");
             var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
@@ -571,6 +556,21 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("outerEnum", outerEnumRawValue);
             else
                 writer.WriteNull("outerEnum");
+            var outerEnumIntegerRawValue = OuterEnumIntegerConverter.ToJsonValue(enumTest.OuterEnumInteger);
+            if (outerEnumIntegerRawValue != null)
+                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
+            else
+                writer.WriteNull("outerEnumInteger");
+            var outerEnumDefaultValueRawValue = OuterEnumDefaultValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue);
+            if (outerEnumDefaultValueRawValue != null)
+                writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
+            else
+                writer.WriteNull("outerEnumDefaultValue");
+            var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
+            if (outerEnumIntegerDefaultValueRawValue != null)
+                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
+            else
+                writer.WriteNull("outerEnumIntegerDefaultValue");
 
             writer.WriteEndObject();
         }

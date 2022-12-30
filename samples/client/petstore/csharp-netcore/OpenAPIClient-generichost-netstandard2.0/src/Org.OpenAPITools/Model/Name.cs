@@ -32,17 +32,17 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         /// <param name="nameProperty">nameProperty</param>
-        /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
+        /// <param name="property">property</param>
         /// <param name="_123number">_123number</param>
         [JsonConstructor]
-        public Name(int nameProperty, string property, int snakeCase, int _123number)
+        public Name(int nameProperty, int snakeCase, string property, int _123number)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (nameProperty == null)
-                throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");
+            if (name == null)
+                throw new ArgumentNullException("name is a required property for Name and cannot be null.");
 
             if (snakeCase == null)
                 throw new ArgumentNullException("snakeCase is a required property for Name and cannot be null.");
@@ -57,8 +57,8 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             NameProperty = nameProperty;
-            Property = property;
             SnakeCase = snakeCase;
+            Property = property;
             _123Number = _123number;
         }
 
@@ -69,16 +69,16 @@ namespace Org.OpenAPITools.Model
         public int NameProperty { get; set; }
 
         /// <summary>
-        /// Gets or Sets Property
-        /// </summary>
-        [JsonPropertyName("property")]
-        public string Property { get; set; }
-
-        /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
         public int SnakeCase { get; }
+
+        /// <summary>
+        /// Gets or Sets Property
+        /// </summary>
+        [JsonPropertyName("property")]
+        public string Property { get; set; }
 
         /// <summary>
         /// Gets or Sets _123Number
@@ -101,8 +101,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
-            sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+            sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -179,8 +179,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             int nameProperty = default;
-            string property = default;
             int snakeCase = default;
+            string property = default;
             int _123number = default;
 
             while (reader.Read())
@@ -201,11 +201,11 @@ namespace Org.OpenAPITools.Model
                         case "name":
                             nameProperty = reader.GetInt32();
                             break;
-                        case "property":
-                            property = reader.GetString();
-                            break;
                         case "snake_case":
                             snakeCase = reader.GetInt32();
+                            break;
+                        case "property":
+                            property = reader.GetString();
                             break;
                         case "123Number":
                             _123number = reader.GetInt32();
@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Name(nameProperty, property, snakeCase, _123number);
+            return new Name(nameProperty, snakeCase, property, _123number);
         }
 
         /// <summary>
@@ -231,8 +231,8 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteNumber("name", name.NameProperty);
-            writer.WriteString("property", name.Property);
             writer.WriteNumber("snake_case", name.SnakeCase);
+            writer.WriteString("property", name.Property);
             writer.WriteNumber("123Number", name._123Number);
 
             writer.WriteEndObject();

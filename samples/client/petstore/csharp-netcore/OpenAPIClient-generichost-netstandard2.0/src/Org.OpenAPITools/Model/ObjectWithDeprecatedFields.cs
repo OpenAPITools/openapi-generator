@@ -31,12 +31,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFields" /> class.
         /// </summary>
-        /// <param name="bars">bars</param>
-        /// <param name="deprecatedRef">deprecatedRef</param>
-        /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
+        /// <param name="id">id</param>
+        /// <param name="deprecatedRef">deprecatedRef</param>
+        /// <param name="bars">bars</param>
         [JsonConstructor]
-        public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
+        public ObjectWithDeprecatedFields(string uuid, decimal id, DeprecatedObject deprecatedRef, List<string> bars)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -56,25 +56,17 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            Bars = bars;
-            DeprecatedRef = deprecatedRef;
-            Id = id;
             Uuid = uuid;
+            Id = id;
+            DeprecatedRef = deprecatedRef;
+            Bars = bars;
         }
 
         /// <summary>
-        /// Gets or Sets Bars
+        /// Gets or Sets Uuid
         /// </summary>
-        [JsonPropertyName("bars")]
-        [Obsolete]
-        public List<string> Bars { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DeprecatedRef
-        /// </summary>
-        [JsonPropertyName("deprecatedRef")]
-        [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        [JsonPropertyName("uuid")]
+        public string Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
@@ -84,10 +76,18 @@ namespace Org.OpenAPITools.Model
         public decimal Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Uuid
+        /// Gets or Sets DeprecatedRef
         /// </summary>
-        [JsonPropertyName("uuid")]
-        public string Uuid { get; set; }
+        [JsonPropertyName("deprecatedRef")]
+        [Obsolete]
+        public DeprecatedObject DeprecatedRef { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Bars
+        /// </summary>
+        [JsonPropertyName("bars")]
+        [Obsolete]
+        public List<string> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,10 +103,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ObjectWithDeprecatedFields {\n");
-            sb.Append("  Bars: ").Append(Bars).Append("\n");
-            sb.Append("  DeprecatedRef: ").Append(DeprecatedRef).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  DeprecatedRef: ").Append(DeprecatedRef).Append("\n");
+            sb.Append("  Bars: ").Append(Bars).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -144,10 +144,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            List<string> bars = default;
-            DeprecatedObject deprecatedRef = default;
-            decimal id = default;
             string uuid = default;
+            decimal id = default;
+            DeprecatedObject deprecatedRef = default;
+            List<string> bars = default;
 
             while (reader.Read())
             {
@@ -164,17 +164,17 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "bars":
-                            bars = JsonSerializer.Deserialize<List<string>>(ref reader, options);
-                            break;
-                        case "deprecatedRef":
-                            deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref reader, options);
+                        case "uuid":
+                            uuid = reader.GetString();
                             break;
                         case "id":
                             id = reader.GetInt32();
                             break;
-                        case "uuid":
-                            uuid = reader.GetString();
+                        case "deprecatedRef":
+                            deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref reader, options);
+                            break;
+                        case "bars":
+                            bars = JsonSerializer.Deserialize<List<string>>(ref reader, options);
                             break;
                         default:
                             break;
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
+            return new ObjectWithDeprecatedFields(uuid, id, deprecatedRef, bars);
         }
 
         /// <summary>
@@ -196,12 +196,12 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("bars");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, options);
+            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
+            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
             writer.WritePropertyName("deprecatedRef");
             JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, options);
-            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
-            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
+            writer.WritePropertyName("bars");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, options);
 
             writer.WriteEndObject();
         }

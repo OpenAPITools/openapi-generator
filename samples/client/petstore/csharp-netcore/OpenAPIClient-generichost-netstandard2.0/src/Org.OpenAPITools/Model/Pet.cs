@@ -31,14 +31,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="category">category</param>
-        /// <param name="id">id</param>
         /// <param name="name">name</param>
         /// <param name="photoUrls">photoUrls</param>
-        /// <param name="status">pet status in the store</param>
+        /// <param name="id">id</param>
+        /// <param name="category">category</param>
         /// <param name="tags">tags</param>
+        /// <param name="status">pet status in the store</param>
         [JsonConstructor]
-        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
+        public Pet(string name, List<string> photoUrls, long id, Category category, List<Tag> tags, StatusEnum status)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -64,12 +64,12 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            Category = category;
-            Id = id;
             Name = name;
             PhotoUrls = photoUrls;
-            Status = status;
+            Id = id;
+            Category = category;
             Tags = tags;
+            Status = status;
         }
 
         /// <summary>
@@ -142,18 +142,6 @@ namespace Org.OpenAPITools.Model
         public StatusEnum Status { get; set; }
 
         /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [JsonPropertyName("category")]
-        public Category Category { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public long Id { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
@@ -164,6 +152,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("photoUrls")]
         public List<string> PhotoUrls { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [JsonPropertyName("category")]
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
@@ -185,12 +185,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -228,12 +228,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Category category = default;
-            long id = default;
             string name = default;
             List<string> photoUrls = default;
-            Pet.StatusEnum status = default;
+            long id = default;
+            Category category = default;
             List<Tag> tags = default;
+            Pet.StatusEnum status = default;
 
             while (reader.Read())
             {
@@ -250,24 +250,24 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "category":
-                            category = JsonSerializer.Deserialize<Category>(ref reader, options);
-                            break;
-                        case "id":
-                            id = reader.GetInt64();
-                            break;
                         case "name":
                             name = reader.GetString();
                             break;
                         case "photoUrls":
                             photoUrls = JsonSerializer.Deserialize<List<string>>(ref reader, options);
                             break;
-                        case "status":
-                            string statusRawValue = reader.GetString();
-                            status = Pet.StatusEnumFromString(statusRawValue);
+                        case "id":
+                            id = reader.GetInt64();
+                            break;
+                        case "category":
+                            category = JsonSerializer.Deserialize<Category>(ref reader, options);
                             break;
                         case "tags":
                             tags = JsonSerializer.Deserialize<List<Tag>>(ref reader, options);
+                            break;
+                        case "status":
+                            string statusRawValue = reader.GetString();
+                            status = Pet.StatusEnumFromString(statusRawValue);
                             break;
                         default:
                             break;
@@ -275,7 +275,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Pet(category, id, name, photoUrls, status, tags);
+            return new Pet(name, photoUrls, id, category, tags, status);
         }
 
         /// <summary>
@@ -289,19 +289,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("category");
-            JsonSerializer.Serialize(writer, pet.Category, options);
-            writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, options);
+            writer.WriteNumber("id", pet.Id);
+            writer.WritePropertyName("category");
+            JsonSerializer.Serialize(writer, pet.Category, options);
+            writer.WritePropertyName("tags");
+            JsonSerializer.Serialize(writer, pet.Tags, options);
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
-            writer.WritePropertyName("tags");
-            JsonSerializer.Serialize(writer, pet.Tags, options);
 
             writer.WriteEndObject();
         }

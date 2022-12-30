@@ -33,27 +33,27 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="classProperty">classProperty</param>
+        /// <param name="_class">_class</param>
         [JsonConstructor]
-        public ClassModel(string classProperty)
+        public ClassModel(string _class)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (classProperty == null)
-                throw new ArgumentNullException("classProperty is a required property for ClassModel and cannot be null.");
+            if (_class == null)
+                throw new ArgumentNullException("_class is a required property for ClassModel and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            ClassProperty = classProperty;
+            Class = _class;
         }
 
         /// <summary>
-        /// Gets or Sets ClassProperty
+        /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("_class")]
-        public string ClassProperty { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            string classProperty = default;
+            string _class = default;
 
             while (reader.Read())
             {
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "_class":
-                            classProperty = reader.GetString();
+                            _class = reader.GetString();
                             break;
                         default:
                             break;
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ClassModel(classProperty);
+            return new ClassModel(_class);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("_class", classModel.ClassProperty);
+            writer.WriteString("_class", classModel.Class);
 
             writer.WriteEndObject();
         }

@@ -31,20 +31,20 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
         /// </summary>
-        /// <param name="arrayItemsNullable">arrayItemsNullable</param>
-        /// <param name="objectItemsNullable">objectItemsNullable</param>
-        /// <param name="arrayAndItemsNullableProp">arrayAndItemsNullableProp</param>
-        /// <param name="arrayNullableProp">arrayNullableProp</param>
-        /// <param name="booleanProp">booleanProp</param>
-        /// <param name="dateProp">dateProp</param>
-        /// <param name="datetimeProp">datetimeProp</param>
         /// <param name="integerProp">integerProp</param>
         /// <param name="numberProp">numberProp</param>
-        /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
-        /// <param name="objectNullableProp">objectNullableProp</param>
+        /// <param name="booleanProp">booleanProp</param>
         /// <param name="stringProp">stringProp</param>
+        /// <param name="dateProp">dateProp</param>
+        /// <param name="datetimeProp">datetimeProp</param>
+        /// <param name="arrayNullableProp">arrayNullableProp</param>
+        /// <param name="arrayAndItemsNullableProp">arrayAndItemsNullableProp</param>
+        /// <param name="arrayItemsNullable">arrayItemsNullable</param>
+        /// <param name="objectNullableProp">objectNullableProp</param>
+        /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
+        /// <param name="objectItemsNullable">objectItemsNullable</param>
         [JsonConstructor]
-        public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectNullableProp = default, string stringProp = default) : base()
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable) : base()
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -58,61 +58,19 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            ArrayItemsNullable = arrayItemsNullable;
-            ObjectItemsNullable = objectItemsNullable;
-            ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
-            ArrayNullableProp = arrayNullableProp;
-            BooleanProp = booleanProp;
-            DateProp = dateProp;
-            DatetimeProp = datetimeProp;
             IntegerProp = integerProp;
             NumberProp = numberProp;
-            ObjectAndItemsNullableProp = objectAndItemsNullableProp;
-            ObjectNullableProp = objectNullableProp;
+            BooleanProp = booleanProp;
             StringProp = stringProp;
+            DateProp = dateProp;
+            DatetimeProp = datetimeProp;
+            ArrayNullableProp = arrayNullableProp;
+            ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            ArrayItemsNullable = arrayItemsNullable;
+            ObjectNullableProp = objectNullableProp;
+            ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            ObjectItemsNullable = objectItemsNullable;
         }
-
-        /// <summary>
-        /// Gets or Sets ArrayItemsNullable
-        /// </summary>
-        [JsonPropertyName("array_items_nullable")]
-        public List<Object> ArrayItemsNullable { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ObjectItemsNullable
-        /// </summary>
-        [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ArrayAndItemsNullableProp
-        /// </summary>
-        [JsonPropertyName("array_and_items_nullable_prop")]
-        public List<Object> ArrayAndItemsNullableProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ArrayNullableProp
-        /// </summary>
-        [JsonPropertyName("array_nullable_prop")]
-        public List<Object> ArrayNullableProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets BooleanProp
-        /// </summary>
-        [JsonPropertyName("boolean_prop")]
-        public bool? BooleanProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DateProp
-        /// </summary>
-        [JsonPropertyName("date_prop")]
-        public DateTime? DateProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DatetimeProp
-        /// </summary>
-        [JsonPropertyName("datetime_prop")]
-        public DateTime? DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerProp
@@ -127,10 +85,46 @@ namespace Org.OpenAPITools.Model
         public decimal? NumberProp { get; set; }
 
         /// <summary>
-        /// Gets or Sets ObjectAndItemsNullableProp
+        /// Gets or Sets BooleanProp
         /// </summary>
-        [JsonPropertyName("object_and_items_nullable_prop")]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+        [JsonPropertyName("boolean_prop")]
+        public bool? BooleanProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets StringProp
+        /// </summary>
+        [JsonPropertyName("string_prop")]
+        public string StringProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DateProp
+        /// </summary>
+        [JsonPropertyName("date_prop")]
+        public DateTime? DateProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DatetimeProp
+        /// </summary>
+        [JsonPropertyName("datetime_prop")]
+        public DateTime? DatetimeProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayNullableProp
+        /// </summary>
+        [JsonPropertyName("array_nullable_prop")]
+        public List<Object> ArrayNullableProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayAndItemsNullableProp
+        /// </summary>
+        [JsonPropertyName("array_and_items_nullable_prop")]
+        public List<Object> ArrayAndItemsNullableProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayItemsNullable
+        /// </summary>
+        [JsonPropertyName("array_items_nullable")]
+        public List<Object> ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
@@ -139,10 +133,16 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, Object> ObjectNullableProp { get; set; }
 
         /// <summary>
-        /// Gets or Sets StringProp
+        /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
-        [JsonPropertyName("string_prop")]
-        public string StringProp { get; set; }
+        [JsonPropertyName("object_and_items_nullable_prop")]
+        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ObjectItemsNullable
+        /// </summary>
+        [JsonPropertyName("object_items_nullable")]
+        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -153,18 +153,18 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
-            sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
-            sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
-            sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append("\n");
-            sb.Append("  BooleanProp: ").Append(BooleanProp).Append("\n");
-            sb.Append("  DateProp: ").Append(DateProp).Append("\n");
-            sb.Append("  DatetimeProp: ").Append(DatetimeProp).Append("\n");
             sb.Append("  IntegerProp: ").Append(IntegerProp).Append("\n");
             sb.Append("  NumberProp: ").Append(NumberProp).Append("\n");
-            sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append("\n");
-            sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append("\n");
+            sb.Append("  BooleanProp: ").Append(BooleanProp).Append("\n");
             sb.Append("  StringProp: ").Append(StringProp).Append("\n");
+            sb.Append("  DateProp: ").Append(DateProp).Append("\n");
+            sb.Append("  DatetimeProp: ").Append(DatetimeProp).Append("\n");
+            sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append("\n");
+            sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
+            sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
+            sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append("\n");
+            sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append("\n");
+            sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -201,18 +201,18 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            List<Object> arrayItemsNullable = default;
-            Dictionary<string, Object> objectItemsNullable = default;
-            List<Object> arrayAndItemsNullableProp = default;
-            List<Object> arrayNullableProp = default;
-            bool? booleanProp = default;
-            DateTime? dateProp = default;
-            DateTime? datetimeProp = default;
             int? integerProp = default;
             decimal? numberProp = default;
-            Dictionary<string, Object> objectAndItemsNullableProp = default;
-            Dictionary<string, Object> objectNullableProp = default;
+            bool? booleanProp = default;
             string stringProp = default;
+            DateTime? dateProp = default;
+            DateTime? datetimeProp = default;
+            List<Object> arrayNullableProp = default;
+            List<Object> arrayAndItemsNullableProp = default;
+            List<Object> arrayItemsNullable = default;
+            Dictionary<string, Object> objectNullableProp = default;
+            Dictionary<string, Object> objectAndItemsNullableProp = default;
+            Dictionary<string, Object> objectItemsNullable = default;
 
             while (reader.Read())
             {
@@ -229,27 +229,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "array_items_nullable":
-                            arrayItemsNullable = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
-                            break;
-                        case "object_items_nullable":
-                            objectItemsNullable = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
-                            break;
-                        case "array_and_items_nullable_prop":
-                            arrayAndItemsNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
-                            break;
-                        case "array_nullable_prop":
-                            arrayNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
-                            break;
-                        case "boolean_prop":
-                            booleanProp = reader.GetBoolean();
-                            break;
-                        case "date_prop":
-                            dateProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
-                            break;
-                        case "datetime_prop":
-                            datetimeProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
-                            break;
                         case "integer_prop":
                             if (reader.TokenType != JsonTokenType.Null)
                                 integerProp = reader.GetInt32();
@@ -258,14 +237,35 @@ namespace Org.OpenAPITools.Model
                             if (reader.TokenType != JsonTokenType.Null)
                                 numberProp = reader.GetInt32();
                             break;
-                        case "object_and_items_nullable_prop":
-                            objectAndItemsNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
+                        case "boolean_prop":
+                            booleanProp = reader.GetBoolean();
+                            break;
+                        case "string_prop":
+                            stringProp = reader.GetString();
+                            break;
+                        case "date_prop":
+                            dateProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
+                            break;
+                        case "datetime_prop":
+                            datetimeProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
+                            break;
+                        case "array_nullable_prop":
+                            arrayNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
+                            break;
+                        case "array_and_items_nullable_prop":
+                            arrayAndItemsNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
+                            break;
+                        case "array_items_nullable":
+                            arrayItemsNullable = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
                             break;
                         case "object_nullable_prop":
                             objectNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
-                        case "string_prop":
-                            stringProp = reader.GetString();
+                        case "object_and_items_nullable_prop":
+                            objectAndItemsNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
+                            break;
+                        case "object_items_nullable":
+                            objectItemsNullable = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
                         default:
                             break;
@@ -273,7 +273,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
+            return new NullableClass(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable);
         }
 
         /// <summary>
@@ -287,22 +287,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("array_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, options);
-            writer.WritePropertyName("object_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, options);
-            writer.WritePropertyName("array_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, options);
-            writer.WritePropertyName("array_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, options);
-            if (nullableClass.BooleanProp != null)
-                writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
-            else
-                writer.WriteNull("boolean_prop");
-            writer.WritePropertyName("date_prop");
-            JsonSerializer.Serialize(writer, nullableClass.DateProp, options);
-            writer.WritePropertyName("datetime_prop");
-            JsonSerializer.Serialize(writer, nullableClass.DatetimeProp, options);
             if (nullableClass.IntegerProp != null)
                 writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
             else
@@ -311,11 +295,27 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("number_prop", nullableClass.NumberProp.Value);
             else
                 writer.WriteNull("number_prop");
-            writer.WritePropertyName("object_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, options);
+            if (nullableClass.BooleanProp != null)
+                writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
+            else
+                writer.WriteNull("boolean_prop");
+            writer.WriteString("string_prop", nullableClass.StringProp);
+            writer.WritePropertyName("date_prop");
+            JsonSerializer.Serialize(writer, nullableClass.DateProp, options);
+            writer.WritePropertyName("datetime_prop");
+            JsonSerializer.Serialize(writer, nullableClass.DatetimeProp, options);
+            writer.WritePropertyName("array_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, options);
+            writer.WritePropertyName("array_and_items_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, options);
+            writer.WritePropertyName("array_items_nullable");
+            JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, options);
             writer.WritePropertyName("object_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, options);
-            writer.WriteString("string_prop", nullableClass.StringProp);
+            writer.WritePropertyName("object_and_items_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, options);
+            writer.WritePropertyName("object_items_nullable");
+            JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, options);
 
             writer.WriteEndObject();
         }
