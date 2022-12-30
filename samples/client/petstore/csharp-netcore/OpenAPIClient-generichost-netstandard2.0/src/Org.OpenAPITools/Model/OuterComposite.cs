@@ -31,11 +31,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
+        /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
-        /// <param name="myBoolean">myBoolean</param>
         [JsonConstructor]
-        public OuterComposite(decimal myNumber, string myString, bool myBoolean)
+        public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -52,10 +52,16 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
+            MyBoolean = myBoolean;
             MyNumber = myNumber;
             MyString = myString;
-            MyBoolean = myBoolean;
         }
+
+        /// <summary>
+        /// Gets or Sets MyBoolean
+        /// </summary>
+        [JsonPropertyName("my_boolean")]
+        public bool MyBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets MyNumber
@@ -68,12 +74,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("my_string")]
         public string MyString { get; set; }
-
-        /// <summary>
-        /// Gets or Sets MyBoolean
-        /// </summary>
-        [JsonPropertyName("my_boolean")]
-        public bool MyBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
+            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
             sb.Append("  MyString: ").Append(MyString).Append("\n");
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -129,9 +129,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
+            bool myBoolean = default;
             decimal myNumber = default;
             string myString = default;
-            bool myBoolean = default;
 
             while (reader.Read())
             {
@@ -148,14 +148,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "my_boolean":
+                            myBoolean = reader.GetBoolean();
+                            break;
                         case "my_number":
                             myNumber = reader.GetInt32();
                             break;
                         case "my_string":
                             myString = reader.GetString();
-                            break;
-                        case "my_boolean":
-                            myBoolean = reader.GetBoolean();
                             break;
                         default:
                             break;
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new OuterComposite(myNumber, myString, myBoolean);
+            return new OuterComposite(myBoolean, myNumber, myString);
         }
 
         /// <summary>
@@ -177,9 +177,9 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
             writer.WriteNumber("my_number", outerComposite.MyNumber);
             writer.WriteString("my_string", outerComposite.MyString);
-            writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
 
             writer.WriteEndObject();
         }

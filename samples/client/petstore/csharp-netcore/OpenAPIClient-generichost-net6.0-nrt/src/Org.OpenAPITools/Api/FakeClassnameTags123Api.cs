@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient?&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// To test class name in snake case
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
-        Task<ModelClient> TestClassnameAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// To test class name in snake case
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient?&gt;</returns>
-        Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
-        public async Task<ModelClient> TestClassnameAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ModelClient?> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
 
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
-        public async Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ModelClient?>? result = null;
             try 
@@ -185,8 +185,17 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        protected virtual ModelClient? OnTestClassname(ModelClient? modelClient)
+        protected virtual ModelClient OnTestClassname(ModelClient modelClient)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (modelClient == null)
+                throw new ArgumentNullException(nameof(modelClient));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             return modelClient;
         }
 
@@ -195,7 +204,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponse"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterTestClassname(ApiResponse<ModelClient?> apiResponse, ModelClient? modelClient)
+        protected virtual void AfterTestClassname(ApiResponse<ModelClient?> apiResponse, ModelClient modelClient)
         {
         }
 
@@ -206,7 +215,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient? modelClient)
+        protected virtual void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -218,7 +227,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ModelClient?>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             UriBuilder uriBuilder = new UriBuilder();
 

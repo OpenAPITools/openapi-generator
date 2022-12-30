@@ -33,10 +33,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
-        /// <param name="specialPropertyName">specialPropertyName</param>
         /// <param name="specialModelNameProperty">specialModelNameProperty</param>
+        /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        public SpecialModelName(long specialPropertyName, string specialModelNameProperty)
+        public SpecialModelName(string specialModelNameProperty, long specialPropertyName)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -44,27 +44,27 @@ namespace Org.OpenAPITools.Model
             if (specialPropertyName == null)
                 throw new ArgumentNullException("specialPropertyName is a required property for SpecialModelName and cannot be null.");
 
-            if (specialModelName == null)
-                throw new ArgumentNullException("specialModelName is a required property for SpecialModelName and cannot be null.");
+            if (specialModelNameProperty == null)
+                throw new ArgumentNullException("specialModelNameProperty is a required property for SpecialModelName and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            SpecialPropertyName = specialPropertyName;
             SpecialModelNameProperty = specialModelNameProperty;
+            SpecialPropertyName = specialPropertyName;
         }
-
-        /// <summary>
-        /// Gets or Sets SpecialPropertyName
-        /// </summary>
-        [JsonPropertyName("$special[property.name]")]
-        public long SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Gets or Sets SpecialModelNameProperty
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
         public string SpecialModelNameProperty { get; set; }
+
+        /// <summary>
+        /// Gets or Sets SpecialPropertyName
+        /// </summary>
+        [JsonPropertyName("$special[property.name]")]
+        public long SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -80,8 +80,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  SpecialModelNameProperty: ").Append(SpecialModelNameProperty).Append("\n");
+            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -119,8 +119,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            long specialPropertyName = default;
             string specialModelNameProperty = default;
+            long specialPropertyName = default;
 
             while (reader.Read())
             {
@@ -137,11 +137,11 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "$special[property.name]":
-                            specialPropertyName = reader.GetInt64();
-                            break;
                         case "_special_model.name_":
                             specialModelNameProperty = reader.GetString();
+                            break;
+                        case "$special[property.name]":
+                            specialPropertyName = reader.GetInt64();
                             break;
                         default:
                             break;
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new SpecialModelName(specialPropertyName, specialModelNameProperty);
+            return new SpecialModelName(specialModelNameProperty, specialPropertyName);
         }
 
         /// <summary>
@@ -163,8 +163,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
             writer.WriteString("_special_model.name_", specialModelName.SpecialModelNameProperty);
+            writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
 
             writer.WriteEndObject();
         }

@@ -40,8 +40,8 @@ namespace Org.OpenAPITools.Model
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (_return == null)
-                throw new ArgumentNullException("_return is a required property for Return and cannot be null.");
+            if (returnProperty == null)
+                throw new ArgumentNullException("returnProperty is a required property for Return and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'

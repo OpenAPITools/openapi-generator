@@ -33,14 +33,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="smallCamel">smallCamel</param>
+        /// <param name="aTTNAME">Name of the pet </param>
         /// <param name="capitalCamel">capitalCamel</param>
-        /// <param name="smallSnake">smallSnake</param>
         /// <param name="capitalSnake">capitalSnake</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
-        /// <param name="aTTNAME">Name of the pet </param>
+        /// <param name="smallCamel">smallCamel</param>
+        /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(string smallCamel, string capitalCamel, string smallSnake, string capitalSnake, string sCAETHFlowPoints, string aTTNAME)
+        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -66,31 +66,26 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            SmallCamel = smallCamel;
+            ATT_NAME = aTTNAME;
             CapitalCamel = capitalCamel;
-            SmallSnake = smallSnake;
             CapitalSnake = capitalSnake;
             SCAETHFlowPoints = sCAETHFlowPoints;
-            ATT_NAME = aTTNAME;
+            SmallCamel = smallCamel;
+            SmallSnake = smallSnake;
         }
 
         /// <summary>
-        /// Gets or Sets SmallCamel
+        /// Name of the pet 
         /// </summary>
-        [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get; set; }
+        /// <value>Name of the pet </value>
+        [JsonPropertyName("ATT_NAME")]
+        public string ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
         public string CapitalCamel { get; set; }
-
-        /// <summary>
-        /// Gets or Sets SmallSnake
-        /// </summary>
-        [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
@@ -105,11 +100,16 @@ namespace Org.OpenAPITools.Model
         public string SCAETHFlowPoints { get; set; }
 
         /// <summary>
-        /// Name of the pet 
+        /// Gets or Sets SmallCamel
         /// </summary>
-        /// <value>Name of the pet </value>
-        [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get; set; }
+        [JsonPropertyName("smallCamel")]
+        public string SmallCamel { get; set; }
+
+        /// <summary>
+        /// Gets or Sets SmallSnake
+        /// </summary>
+        [JsonPropertyName("small_Snake")]
+        public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -125,12 +125,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Capitalization {\n");
-            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
+            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
             sb.Append("  CapitalCamel: ").Append(CapitalCamel).Append("\n");
-            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
             sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
             sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
-            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
+            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
+            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -168,12 +168,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            string smallCamel = default;
+            string aTTNAME = default;
             string capitalCamel = default;
-            string smallSnake = default;
             string capitalSnake = default;
             string sCAETHFlowPoints = default;
-            string aTTNAME = default;
+            string smallCamel = default;
+            string smallSnake = default;
 
             while (reader.Read())
             {
@@ -190,14 +190,11 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "smallCamel":
-                            smallCamel = reader.GetString();
+                        case "ATT_NAME":
+                            aTTNAME = reader.GetString();
                             break;
                         case "CapitalCamel":
                             capitalCamel = reader.GetString();
-                            break;
-                        case "small_Snake":
-                            smallSnake = reader.GetString();
                             break;
                         case "Capital_Snake":
                             capitalSnake = reader.GetString();
@@ -205,8 +202,11 @@ namespace Org.OpenAPITools.Model
                         case "SCA_ETH_Flow_Points":
                             sCAETHFlowPoints = reader.GetString();
                             break;
-                        case "ATT_NAME":
-                            aTTNAME = reader.GetString();
+                        case "smallCamel":
+                            smallCamel = reader.GetString();
+                            break;
+                        case "small_Snake":
+                            smallSnake = reader.GetString();
                             break;
                         default:
                             break;
@@ -214,7 +214,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Capitalization(smallCamel, capitalCamel, smallSnake, capitalSnake, sCAETHFlowPoints, aTTNAME);
+            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
 
         /// <summary>
@@ -228,12 +228,12 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("smallCamel", capitalization.SmallCamel);
+            writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
             writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
-            writer.WriteString("small_Snake", capitalization.SmallSnake);
             writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
             writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
-            writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
+            writer.WriteString("smallCamel", capitalization.SmallCamel);
+            writer.WriteString("small_Snake", capitalization.SmallSnake);
 
             writer.WriteEndObject();
         }

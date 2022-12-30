@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>
         /// <param name="code">code</param>
-        /// <param name="type">type</param>
         /// <param name="message">message</param>
+        /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(int code, string type, string message)
+        public ApiResponse(int code, string message, string type)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -55,8 +55,8 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Code = code;
-            Type = type;
             Message = message;
+            Type = type;
         }
 
         /// <summary>
@@ -66,16 +66,16 @@ namespace Org.OpenAPITools.Model
         public int Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -92,8 +92,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -132,8 +132,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             int code = default;
-            string type = default;
             string message = default;
+            string type = default;
 
             while (reader.Read())
             {
@@ -153,11 +153,11 @@ namespace Org.OpenAPITools.Model
                         case "code":
                             code = reader.GetInt32();
                             break;
-                        case "type":
-                            type = reader.GetString();
-                            break;
                         case "message":
                             message = reader.GetString();
+                            break;
+                        case "type":
+                            type = reader.GetString();
                             break;
                         default:
                             break;
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ApiResponse(code, type, message);
+            return new ApiResponse(code, message, type);
         }
 
         /// <summary>
@@ -180,8 +180,8 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteNumber("code", apiResponse.Code);
-            writer.WriteString("type", apiResponse.Type);
             writer.WriteString("message", apiResponse.Message);
+            writer.WriteString("type", apiResponse.Type);
 
             writer.WriteEndObject();
         }

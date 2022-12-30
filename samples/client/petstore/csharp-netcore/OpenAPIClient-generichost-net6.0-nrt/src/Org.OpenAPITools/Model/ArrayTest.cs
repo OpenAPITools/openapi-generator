@@ -33,11 +33,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        /// <param name="arrayOfString">arrayOfString</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
+        /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(List<string> arrayOfString, List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel)
+        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -54,16 +54,10 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            ArrayOfString = arrayOfString;
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
+            ArrayOfString = arrayOfString;
         }
-
-        /// <summary>
-        /// Gets or Sets ArrayOfString
-        /// </summary>
-        [JsonPropertyName("array_of_string")]
-        public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
@@ -76,6 +70,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayOfString
+        /// </summary>
+        [JsonPropertyName("array_of_string")]
+        public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -91,9 +91,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
-            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
             sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -131,9 +131,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            List<string> arrayOfString = default;
             List<List<long>> arrayArrayOfInteger = default;
             List<List<ReadOnlyFirst>> arrayArrayOfModel = default;
+            List<string> arrayOfString = default;
 
             while (reader.Read())
             {
@@ -150,14 +150,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "array_of_string":
-                            arrayOfString = JsonSerializer.Deserialize<List<string>>(ref reader, options);
-                            break;
                         case "array_array_of_integer":
                             arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref reader, options);
                             break;
                         case "array_array_of_model":
                             arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref reader, options);
+                            break;
+                        case "array_of_string":
+                            arrayOfString = JsonSerializer.Deserialize<List<string>>(ref reader, options);
                             break;
                         default:
                             break;
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ArrayTest(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+            return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
 
         /// <summary>
@@ -179,12 +179,12 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("array_of_string");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, options);
             writer.WritePropertyName("array_array_of_integer");
             JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, options);
             writer.WritePropertyName("array_array_of_model");
             JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, options);
+            writer.WritePropertyName("array_of_string");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, options);
 
             writer.WriteEndObject();
         }

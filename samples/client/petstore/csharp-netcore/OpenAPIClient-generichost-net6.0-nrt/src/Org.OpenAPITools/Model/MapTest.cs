@@ -33,12 +33,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
-        /// <param name="mapMapOfString">mapMapOfString</param>
-        /// <param name="mapOfEnumString">mapOfEnumString</param>
         /// <param name="directMap">directMap</param>
         /// <param name="indirectMap">indirectMap</param>
+        /// <param name="mapMapOfString">mapMapOfString</param>
+        /// <param name="mapOfEnumString">mapOfEnumString</param>
         [JsonConstructor]
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString, Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap)
+        public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -58,10 +58,10 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            MapMapOfString = mapMapOfString;
-            MapOfEnumString = mapOfEnumString;
             DirectMap = directMap;
             IndirectMap = indirectMap;
+            MapMapOfString = mapMapOfString;
+            MapOfEnumString = mapOfEnumString;
         }
 
         /// <summary>
@@ -115,18 +115,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets MapMapOfString
-        /// </summary>
-        [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-        [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
-
-        /// <summary>
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
@@ -137,6 +125,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("indirect_map")]
         public Dictionary<string, bool> IndirectMap { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapMapOfString
+        /// </summary>
+        [JsonPropertyName("map_map_of_string")]
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [JsonPropertyName("map_of_enum_string")]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -152,10 +152,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MapTest {\n");
-            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
-            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
             sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
+            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
+            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -193,10 +193,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
-            Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default;
             Dictionary<string, bool> directMap = default;
             Dictionary<string, bool> indirectMap = default;
+            Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
+            Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default;
 
             while (reader.Read())
             {
@@ -213,17 +213,17 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "map_map_of_string":
-                            mapMapOfString = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref reader, options);
-                            break;
-                        case "map_of_enum_string":
-                            mapOfEnumString = JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref reader, options);
-                            break;
                         case "direct_map":
                             directMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref reader, options);
                             break;
                         case "indirect_map":
                             indirectMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref reader, options);
+                            break;
+                        case "map_map_of_string":
+                            mapMapOfString = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref reader, options);
+                            break;
+                        case "map_of_enum_string":
+                            mapOfEnumString = JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref reader, options);
                             break;
                         default:
                             break;
@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MapTest(mapMapOfString, mapOfEnumString, directMap, indirectMap);
+            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
 
         /// <summary>
@@ -245,14 +245,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("map_map_of_string");
-            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, options);
-            writer.WritePropertyName("map_of_enum_string");
-            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, options);
             writer.WritePropertyName("direct_map");
             JsonSerializer.Serialize(writer, mapTest.DirectMap, options);
             writer.WritePropertyName("indirect_map");
             JsonSerializer.Serialize(writer, mapTest.IndirectMap, options);
+            writer.WritePropertyName("map_map_of_string");
+            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, options);
+            writer.WritePropertyName("map_of_enum_string");
+            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, options);
 
             writer.WriteEndObject();
         }

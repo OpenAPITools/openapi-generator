@@ -33,10 +33,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="name">name (default to &quot;default-name&quot;)</param>
         /// <param name="id">id</param>
+        /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
-        public Category(string name = "default-name", long id)
+        public Category(long id, string name = "default-name")
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -50,21 +50,21 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            Name = name;
             Id = id;
+            Name = name;
         }
-
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         public long Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -80,8 +80,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -119,8 +119,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            string name = default;
             long id = default;
+            string name = default;
 
             while (reader.Read())
             {
@@ -137,11 +137,11 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "name":
-                            name = reader.GetString();
-                            break;
                         case "id":
                             id = reader.GetInt64();
+                            break;
+                        case "name":
+                            name = reader.GetString();
                             break;
                         default:
                             break;
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Category(name, id);
+            return new Category(id, name);
         }
 
         /// <summary>
@@ -163,8 +163,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("name", category.Name);
             writer.WriteNumber("id", category.Id);
+            writer.WriteString("name", category.Name);
 
             writer.WriteEndObject();
         }
