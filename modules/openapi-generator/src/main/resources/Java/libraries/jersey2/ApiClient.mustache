@@ -1,15 +1,15 @@
 package {{invokerPackage}};
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import {{javaxPackage}}.ws.rs.client.Client;
+import {{javaxPackage}}.ws.rs.client.ClientBuilder;
+import {{javaxPackage}}.ws.rs.client.Entity;
+import {{javaxPackage}}.ws.rs.client.Invocation;
+import {{javaxPackage}}.ws.rs.client.WebTarget;
+import {{javaxPackage}}.ws.rs.core.Form;
+import {{javaxPackage}}.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.MediaType;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.Response.Status;
 
 {{#hasOAuthMethods}}
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import {{javaxPackage}}.net.ssl.SSLContext;
+import {{javaxPackage}}.net.ssl.TrustManager;
+import {{javaxPackage}}.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -251,7 +251,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Getter for the field <code>httpClient</code>.</p>
    *
-   * @return a {@link javax.ws.rs.client.Client} object.
+   * @return a {@link {{javaxPackage}}.ws.rs.client.Client} object.
    */
   public Client getHttpClient() {
     return httpClient;
@@ -260,7 +260,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Setter for the field <code>httpClient</code>.</p>
    *
-   * @param httpClient a {@link javax.ws.rs.client.Client} object.
+   * @param httpClient a {@link {{javaxPackage}}.ws.rs.client.Client} object.
    * @return a {@link org.openapitools.client.ApiClient} object.
    */
   public ApiClient setHttpClient(Client httpClient) {
@@ -1098,7 +1098,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Prepare the file for download from the response.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link {{javaxPackage}}.ws.rs.core.Response} object.
    * @return a {@link java.io.File} object.
    * @throws java.io.IOException if any.
    */
@@ -1387,7 +1387,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * To completely disable certificate validation (at your own risk), you can
    * override this method and invoke disableCertificateValidation(clientBuilder).
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
@@ -1399,7 +1399,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Please note that trusting all certificates is extremely risky.
    * This may be useful in a development environment with self-signed certificates.
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    * @throws java.security.KeyManagementException if any.
    * @throws java.security.NoSuchAlgorithmException if any.
    */
@@ -1426,7 +1426,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Build the response headers.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link {{javaxPackage}}.ws.rs.core.Response} object.
    * @return a {@link java.util.Map} of response headers.
    */
   protected Map<String, List<String>> buildResponseHeaders(Response response) {

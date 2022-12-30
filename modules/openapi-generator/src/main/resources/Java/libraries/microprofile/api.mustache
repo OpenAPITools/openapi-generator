@@ -17,8 +17,8 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 {{/disableMultipart}}
 
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
