@@ -167,6 +167,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
+    // a map to store the rules in OpenAPI Normalizer
+    protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -1135,6 +1137,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> inlineSchemaNameDefault() {
         return inlineSchemaNameDefault;
+    }
+
+    @Override
+    public Map<String, String> openapiNormalizer() {
+        return openapiNormalizer;
     }
 
     @Override
@@ -7938,6 +7945,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseInlineModelResolver() { return true; }
+
+    @Override
+    public boolean getUseOpenAPINormalizer() { return true; }
 
     /*
     A function to convert yaml or json ingested strings like property names
