@@ -18,7 +18,7 @@
     "@types/node": "^8.10.38",
     "chai": "^4.1.0",
     "mocha": "^5.2.0",
-    "ts-loader": "^2.3.0",
+    "ts-loader": "^9.4.2",
     "typescript": "^2.4.1"
   },
   "name": "typescript-test",
