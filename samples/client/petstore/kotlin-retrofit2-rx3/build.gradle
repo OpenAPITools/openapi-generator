@@ -20,6 +20,7 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
