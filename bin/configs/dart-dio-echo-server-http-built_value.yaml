@@ -1,0 +1,17 @@
+generatorName: dart-dio
+outputDir: samples/client/echo_api/dart/dart-http-built_value
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  serializationLibrary: "built_value"
+  networkingLibrary: "http"
+  artifactId: echo-api-dart-http-built_value
+reservedWordsMappings:
+  class: "classField"
+

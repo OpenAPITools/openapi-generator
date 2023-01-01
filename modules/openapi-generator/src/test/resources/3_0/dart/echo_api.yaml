@@ -1,0 +1,970 @@
+#
+# Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+openapi: 3.0.3
+info:
+  title: Echo Server API
+  description: Echo Server API
+  contact:
+    email: team@openapitools.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+servers:
+  - url: http://localhost:3000/
+paths:
+  # Path usually starts with parameter type such as path, query, header, form
+  # For body/form parameters, path starts with "/echo" so the the echo server
+  # will response with the same body in the HTTP request.
+  #
+  # path parameter tests
+  /path/string/{path_string}/integer/{path_integer}:
+    get:
+      tags:
+        - path 
+      summary: Test path parameter(s)
+      description: Test path parameter(s)
+      operationId: tests/path/string/{path_string}/integer/{path_integer}
+      parameters:
+      - in: path 
+        name: path_string
+        required: true
+        schema:
+          type: string
+      - in: path 
+        name: path_integer
+        required: true
+        schema:
+          type: integer 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # query parameter tests
+  /query/integer/boolean/string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/integer/boolean/string
+      parameters:
+      - in: query
+        name: integer_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: integer
+      - in: query
+        name: boolean_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: boolean
+      - in: query
+        name: string_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_true/array_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/array_string
+      parameters:
+      - in: query
+        name: query_object
+        style: form #default
+        explode: true #default
+        schema:
+          type: object
+          properties:
+            values:
+                type: array
+                items:
+                    type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_true/object:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object
+      parameters:
+      - in: query
+        name: query_object
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /echo/body/Pet:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/echo/body/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+
+components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+  schemas:
+    fruit:
+        title: fruit
+        properties:
+          color:
+              type: string
+        oneOf:
+          - $ref: '#/components/schemas/apple'
+          - $ref: '#/components/schemas/banana'
+        # additionalProperties:
+        #    type: string
+        # uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
+    apple:
+        title: apple
+        type: object
+        properties:
+          kind:
+              type: string
+    banana:
+        title: banana
+        type: object
+        properties:
+          count:
+              type: number
+    ExampleNonPrimitive:
+      oneOf:
+      - type: string
+        format: uuid
+      - type: string
+        format: date-time
+      - type: integer
+      - type: number
+
+    Child:  
+      type: object
+      properties:
+        name:
+          type: string
+    Example:
+      oneOf:
+      - $ref: '#/components/schemas/Child'
+      - type: integer
+        format: int32
+    Addressable:
+      type: object
+      properties:
+        href:
+          type: string
+          description: Hyperlink reference
+        id:
+          type: string
+          description: unique identifier
+      description: Base schema for addressable entities
+    Extensible:
+      type: object
+      properties:
+        "@schemaLocation":
+          type: string
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+        "@baseType":
+          type: string
+          description: When sub-classing, this defines the super-class
+        "@type":
+          type: string
+          description: When sub-classing, this defines the sub-class Extensible name
+      required:
+        - '@type'
+    Entity:
+      type: object
+      discriminator:
+        propertyName: '@type'
+      allOf:
+        - "$ref": "#/components/schemas/Addressable"
+        - "$ref": "#/components/schemas/Extensible"
+    EntityRef:
+      type: object
+      discriminator:
+        propertyName: '@type'
+      description: Entity reference schema to be use for all entityRef class.
+      properties:
+        name:
+          type: string
+          description: Name of the related entity.
+        '@referredType':
+          type: string
+          description: The actual type of the target instance when needed for disambiguation.
+      allOf:
+        - $ref: '#/components/schemas/Addressable'
+        - "$ref": "#/components/schemas/Extensible"
+    FooRefOrValue:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/Foo"
+        - $ref: "#/components/schemas/FooRef"
+      discriminator:
+        propertyName: "@type"
+    Foo:
+      type: object
+      properties:
+        fooPropA:
+          type: string
+        fooPropB:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    FooRef:
+      type: object
+      properties:
+        foorefPropA:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+    BarRef:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+    Bar_Create:
+      type: object
+      properties:
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: '#/components/schemas/FooRefOrValue'
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    Bar:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: '#/components/schemas/FooRefOrValue'
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    BarRefOrValue:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/Bar"
+        - $ref: "#/components/schemas/BarRef"
+    Pizza:
+      type: object
+      properties:
+        pizzaSize:
+          type: number
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    Pasta:
+      type: object
+      properties:
+        vendor:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    PizzaSpeziale:
+      type: object
+      properties:
+        toppings:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Pizza'
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Dogs
+      xml:
+        name: category
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: tag
+    Pet:
+      required:
+        - name
+        - photoUrls
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: doggie
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: photoUrl
+        tags:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+      xml:
+        name: pet  
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          enum:
+            - placed
+            - approved
+            - delivered
+        complete:
+          type: boolean
+          default: false
+      xml:
+        name: Order    
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        userStatus:
+          type: integer
+          format: int32
+          description: User Status
+      xml:
+        name: User
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    Return:
+      description: Model for testing reserved words
+      properties:
+        return:
+          type: integer
+          format: int32
+      xml:
+        name: Return
+    Name:
+      description: Model for testing model name same as property name
+      required:
+        - name
+      properties:
+        name:
+          type: integer
+          format: int32
+        snake_case:
+          readOnly: true
+          type: integer
+          format: int32
+        property:
+          type: string
+        123Number:
+          type: integer
+          readOnly: true
+      xml:
+        name: Name
+    200_response:
+      description: Model for testing model name starting with number
+      properties:
+        name:
+          type: integer
+          format: int32
+        class:
+          type: string
+      xml:
+        name: Name
+    ClassModel:
+      description: Model for testing model with "_class" property
+      properties:
+        _class:
+          type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
+    Animal:
+      type: object
+      discriminator:
+        propertyName: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: red
+    AnimalFarm:
+      type: array
+      items:
+        $ref: '#/components/schemas/Animal'
+    format_test:
+      type: object
+      required:
+        - number
+        - byte
+        - date
+        - password
+      properties:
+        integer:
+          type: integer
+          maximum: 100
+          minimum: 10
+        int32:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+        int64:
+          type: integer
+          format: int64
+        number:
+          maximum: 543.2
+          minimum: 32.1
+          type: number
+        float:
+          type: number
+          format: float
+          maximum: 987.6
+          minimum: 54.3
+        double:
+          type: number
+          format: double
+          maximum: 123.4
+          minimum: 67.8
+        decimal:
+          type: string
+          format: number
+        string:
+          type: string
+          pattern: '/[a-z]/i'
+        byte:
+          type: string
+          format: byte
+        binary:
+          type: string
+          format: binary
+        date:
+          type: string
+          format: date
+        dateTime:
+          type: string
+          format: date-time
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+        password:
+          type: string
+          format: password
+          maxLength: 64
+          minLength: 10
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros.
+          type: string
+          pattern: '^\d{10}$'
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+          type: string
+          pattern: '/^image_\d{1,3}$/i'
+    EnumClass:
+      type: string
+      default: '-efg'
+      enum:
+        - _abc
+        - '-efg'
+        - (xyz)
+    Enum_Test:
+      type: object
+      required:
+        - enum_string_required
+      properties:
+        enum_string:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_string_required:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_integer:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - -1
+        enum_number:
+          type: number
+          format: double
+          enum:
+            - 1.1
+            - -1.2
+        outerEnum:
+          $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+    AdditionalPropertiesClass:
+      type: object
+      properties:
+        map_property:
+          type: object
+          additionalProperties:
+            type: string
+        map_of_map_property:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+    MixedPropertiesAndAdditionalPropertiesClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        map:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Animal'
+    List:
+      type: object
+      properties:
+        123-list:
+          type: string
+    Client:
+      type: object
+      properties:
+        client:
+          type: string
+    ReadOnlyFirst:
+      type: object
+      properties:
+        bar:
+          type: string
+          readOnly: true
+        baz:
+          type: string
+    hasOnlyReadOnly:
+      type: object
+      properties:
+        bar:
+          type: string
+          readOnly: true
+        foo:
+          type: string
+          readOnly: true
+    Capitalization:
+      type: object
+      properties:
+        smallCamel:
+          type: string
+        CapitalCamel:
+          type: string
+        small_Snake:
+          type: string
+        Capital_Snake:
+          type: string
+        SCA_ETH_Flow_Points:
+          type: string
+        ATT_NAME:
+          description: |
+            Name of the pet
+          type: string
+    MapTest:
+      type: object
+      properties:
+        map_map_of_string:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+        map_of_enum_string:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - UPPER
+              - lower
+        direct_map:
+          type: object
+          additionalProperties:
+            type: boolean
+        indirect_map:
+          $ref: '#/components/schemas/StringBooleanMap'
+    ArrayTest:
+      type: object
+      properties:
+        array_of_string:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          maxItems: 3
+        array_array_of_integer:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              format: int64
+        array_array_of_model:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/ReadOnlyFirst'
+    NumberOnly:
+      type: object
+      properties:
+        JustNumber:
+          type: number
+    ArrayOfNumberOnly:
+      type: object
+      properties:
+        ArrayNumber:
+          type: array
+          items:
+            type: number
+    ArrayOfArrayOfNumberOnly:
+      type: object
+      properties:
+        ArrayArrayNumber:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+    EnumArrays:
+      type: object
+      properties:
+        just_symbol:
+          type: string
+          enum:
+            - '>='
+            - $
+        array_enum:
+          type: array
+          items:
+            type: string
+            enum:
+              - fish
+              - crab
+    OuterEnum:
+      nullable: true
+      type: string
+      enum:
+        - placed
+        - approved
+        - delivered
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      example: 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
+    OuterComposite:
+      type: object
+      properties:
+        my_number:
+          $ref: '#/components/schemas/OuterNumber'
+        my_string:
+          $ref: '#/components/schemas/OuterString'
+        my_boolean:
+          $ref: '#/components/schemas/OuterBoolean'
+    OuterNumber:
+      type: number
+    OuterString:
+      type: string
+    OuterBoolean:
+      type: boolean
+      x-codegen-body-parameter-name: boolean_post_body
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+    FileSchemaTestClass:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    File:
+      type: object
+      description: Must be named `File` for test.
+      properties:
+        sourceURI:
+          description: Test capitalization
+          type: string
+    _special_model.name_:
+      properties:
+        '$special[property.name]':
+          type: integer
+          format: int64
+      xml:
+        name: '$special[model.name]'
+    HealthCheckResult:
+      type: object
+      properties:
+        NullableMessage:
+          nullable: true
+          type: string
+      description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+    NullableClass:
+      type: object
+      properties:
+        integer_prop:
+          type: integer
+          nullable: true
+        number_prop:
+          type: number
+          nullable: true
+        boolean_prop:
+          type: boolean
+          nullable: true
+        string_prop:
+          type: string
+          nullable: true
+        date_prop:
+          type: string
+          format: date
+          nullable: true
+        datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        array_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+        array_and_items_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+            nullable: true
+        array_items_nullable:
+          type: array
+          items:
+            type: object
+            nullable: true
+        object_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+        object_and_items_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            nullable: true
+        object_items_nullable:
+          type: object
+          additionalProperties:
+            type: object
+            nullable: true
+      additionalProperties:
+        type: object
+        nullable: true
+    OuterObjectWithEnumProperty:
+      type: object
+      example:
+        value: 2
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/OuterEnumInteger'
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'
+    AllOfWithSingleRef:
+      type: object
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+            - $ref: '#/components/schemas/SingleRefType'
+    SingleRefType:
+      type: string
+      title: SingleRefType
+      enum:
+        - admin
+        - user
