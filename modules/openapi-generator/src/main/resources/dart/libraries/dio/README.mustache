@@ -1,4 +1,4 @@
-# {{pubName}} (EXPERIMENTAL)
+# {{pubName}}
 {{#appDescriptionWithNewLines}}
 {{{.}}}
 {{/appDescriptionWithNewLines}}
@@ -20,7 +20,12 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 ## Requirements
 
 * Dart 2.12.0 or later OR Flutter 1.26.0 or later
+{{#useDio}}
 * Dio 4.0.0+
+{{/useDio}}
+{{#useHttp}}
+* http 0.13.5+
+{{/useHttp}}
 {{#useDateLibTimeMachine}}
 * timemachine option currently **DOES NOT** support sound null-safety and may not work
 {{/useDateLibTimeMachine}}

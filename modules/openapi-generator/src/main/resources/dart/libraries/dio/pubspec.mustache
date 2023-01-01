@@ -12,7 +12,12 @@ environment:
 {{/useJsonSerializable}}
 
 dependencies:
+{{#useDio}}
   dio: '>=4.0.1 <5.0.0'
+{{#useDio}}
+{{#useHttp}}
+  http: '>=0.13.5 <2.0.0'
+{{/useHttp}}
 {{#useBuiltValue}}
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'

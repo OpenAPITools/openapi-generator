@@ -58,6 +58,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String NETWORKING_LIBRARY = "networkingLibrary";
     public static final String DATE_LIBRARY_CORE = "core";
     public static final String DATE_LIBRARY_TIME_MACHINE = "timemachine";
     public static final String DATE_LIBRARY_DEFAULT = DATE_LIBRARY_CORE;
@@ -66,13 +67,20 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
+    public static final String NETWORKING_LIBRARY_DIO = "dio";
+    public static final String NETWORKING_LIBRARY_HTTP = "http";
+    public static final String NETWORKING_LIBRARY_DEFAULT = NETWORKING_LIBRARY_DIO;
+
     private static final String DIO_IMPORT = "package:dio/dio.dart";
+    private static final String HTTP_IMPORT = "package:http/http.dart";
     public static final String FINAL_PROPERTIES = "finalProperties";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
 
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
+
+    private String networkingLibrary;
 
     private String clientName;
 
@@ -102,6 +110,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         embeddedTemplateDir = "dart/libraries/dio";
         this.setTemplateDir(embeddedTemplateDir);
 
+        //SERIALIZATION_LIBRARY options
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
@@ -109,6 +118,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
+        //NETWORKING_LIBRARY options
+        final CliOption networkingOption = CliOption.newString(NETWORKING_LIBRARY, "Specify networking library");
+        networkingOption.setDefault(NETWORKING_LIBRARY_DEFAULT);
+
+        final Map<String, String> networkingOptions = new HashMap<>();
+        networkingOptions.put(NETWORKING_LIBRARY_DIO, "[DEFAULT] Dio");
+        networkingOptions.put(NETWORKING_LIBRARY_HTTP, "[BETA] http");
+        networkingOption.setEnum(networkingOptions);
+        cliOptions.add(networkingOption);
+
+        //FINAL_PROPERTIES option
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
@@ -132,6 +152,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         this.dateLibrary = library;
     }
 
+    public String getNetworkingLibrary() {
+        return networkingLibrary;
+    }
+
+    public void setNetworkingLibrary(String networkingLibrary) {
+        this.networkingLibrary = networkingLibrary;
+    }
+
     public String getClientName() {
         return clientName;
     }
@@ -147,7 +175,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio client library with null-safety.";
+        return "Generates a Dart client library with null-safety.";
     }
 
     @Override
@@ -173,6 +201,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.debug("Date library not set, using default {}", DATE_LIBRARY_DEFAULT);
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+
+        if (!additionalProperties.containsKey(NETWORKING_LIBRARY)) {
+            additionalProperties.put(NETWORKING_LIBRARY, NETWORKING_LIBRARY_DEFAULT);
+            LOGGER.debug("Networking library not set, using default {}", NETWORKING_LIBRARY_DEFAULT);
+        }
+        setNetworkingLibrary(additionalProperties.get(NETWORKING_LIBRARY).toString());
 
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
@@ -208,6 +242,50 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
+        configureNetworkingLibrary(srcFolder);
+    }
+
+    private void configureNetworkingLibrary(String srcFolder) {
+        switch (networkingLibrary) {
+            case NETWORKING_LIBRARY_DIO:
+                additionalProperties.put("useDio", "true");
+                configureNetworkingLibraryDio(srcFolder);
+                break;
+            case NETWORKING_LIBRARY_HTTP:
+                additionalProperties.put("useHttp", "true");
+                configureNetworkingLibraryHttp(srcFolder);                
+                break;
+            default:
+                break;
+        }
+
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
+        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
+        templateManager = new TemplateManager(
+                templateManagerOptions,
+                getTemplatingEngine(),
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
+        // A lambda which allows for easy includes of networking library specific
+        // templates without having to change the main template files.
+        additionalProperties.put("includeNetworkingLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
+            MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
+            String templateFile = "networking/" + library + "/" + fragment.execute() + ".mustache";
+            Template tmpl = engine.getCompiler()
+                    .withLoader(name -> engine.findTemplate(templateManager, name))
+                    .defaultValue("")
+                    .compile(templateManager.getFullTemplateContents(templateFile));
+
+            fragment.executeTemplate(tmpl, writer);
+        });
+    }
+   
+    private void configureNetworkingLibraryDio(String srcFolder) {
+        imports.put("MultipartFile", DIO_IMPORT);
+    }
+    private void configureNetworkingLibraryHttp(String srcFolder) {
+        imports.put("MultipartFile", HTTP_IMPORT);
     }
 
     private void configureSerializationLibrary(String srcFolder) {
@@ -265,7 +343,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
@@ -277,7 +354,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", DIO_IMPORT);
     }
     
     private void configureDateLibrary(String srcFolder) {

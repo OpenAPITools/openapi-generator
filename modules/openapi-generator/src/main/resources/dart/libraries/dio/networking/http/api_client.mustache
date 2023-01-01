@@ -1,0 +1,33 @@
+{{>header}}
+import 'package:http/http.dart' as http;{{#useBuiltValue}}
+import 'package:built_value/serializer.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';{{/useBuiltValue}}
+import 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/bearer_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
+{{#apiInfo}}{{#apis}}import 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
+{{/apis}}{{/apiInfo}}
+class {{clientName}} {
+  static const String basePath = r'{{{basePath}}}';
+
+  final http.Client client;
+{{#useBuiltValue}}
+  final Serializers serializers;
+
+{{/useBuiltValue}}
+  {{clientName}}({
+    http.Client? client,{{#useBuiltValue}}
+    Serializers? serializers,{{/useBuiltValue}}
+    String? basePathOverride,
+  })  : {{#useBuiltValue}}this.serializers = serializers ?? standardSerializers,{{/useBuiltValue}}
+        this.client = client ?? http.Client() {    
+  }
+  {{#apiInfo}}{{#apis}}
+
+  /// Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  {{classname}} get{{classname}}() {
+    return {{classname}}(client{{#useBuiltValue}}, serializers{{/useBuiltValue}});
+  }{{/apis}}{{/apiInfo}}
+}
