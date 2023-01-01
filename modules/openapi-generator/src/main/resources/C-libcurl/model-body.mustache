@@ -635,7 +635,7 @@ fail:
     {{^isEnum}}
     {{#isString}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}))
+    if(!cJSON_IsString({{{name}}}){{^required}} && !cJSON_IsNull({{{name}}}){{/required}})
     {
     goto end; //String
     }
@@ -880,7 +880,7 @@ fail:
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
