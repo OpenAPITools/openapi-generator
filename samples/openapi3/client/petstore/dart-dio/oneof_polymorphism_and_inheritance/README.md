@@ -1,4 +1,4 @@
-# openapi (EXPERIMENTAL)
+# openapi
 This tests for a oneOf interface representation
 
 
