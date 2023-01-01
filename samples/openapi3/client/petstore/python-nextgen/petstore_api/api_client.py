@@ -525,7 +525,7 @@ class ApiClient(object):
                 v = str(v)
             if isinstance(v, bool):
                 v = str(v).lower()
-                
+
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
