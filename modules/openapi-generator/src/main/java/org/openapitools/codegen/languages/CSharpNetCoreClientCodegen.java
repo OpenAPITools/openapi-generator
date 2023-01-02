@@ -372,15 +372,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
 
-                CodegenProperty last = null;
-                for (final CodegenProperty property : parentCodegenModel.vars) {
+                for (final CodegenProperty property : parentCodegenModel.allVars) {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
+                    } else {
+                        CodegenModel finalCodegenModel = codegenModel;
+                        CodegenProperty inheritedProperty = codegenModel.parentVars.stream().filter(v -> v.name.equals(property.name))
+                            .findFirst()
+                            .orElseGet(() -> {
+                                CodegenProperty tmp = propertyHash.get(property.name);
+                                finalCodegenModel.parentVars.add(tmp);
+                                return tmp;
+                            });
+                        inheritedProperty.isInherited = true;
                     }
                 }
             }
@@ -1419,7 +1427,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 if (cp.isInherited){
                     continue;
                 }
-                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
+                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName)))) {
                     LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
                     cp.isInherited = true;
                 }
@@ -1482,7 +1490,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         for (CodegenModel cm : allModels) {
             cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
-            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
+            // cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
 
             if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
                 cm.getComposedSchemas().getAllOf().forEach(allOf -> {

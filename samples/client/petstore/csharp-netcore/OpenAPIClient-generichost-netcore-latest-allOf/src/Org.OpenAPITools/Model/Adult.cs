@@ -33,20 +33,39 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Adult" /> class.
         /// </summary>
-        /// <param name="adultAllOf"></param>
+        /// <param name="children">children</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        internal Adult(AdultAllOf adultAllOf, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Adult(List<Child> children, string firstName, string lastName, string type) : base(firstName, lastName, type)
         {
-            AdultAllOf = adultAllOf;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (children == null)
+                throw new ArgumentNullException("children is a required property for Adult and cannot be null.");
+
+            if (type == null)
+                throw new ArgumentNullException("type is a required property for Adult and cannot be null.");
+
+            if (lastName == null)
+                throw new ArgumentNullException("lastName is a required property for Adult and cannot be null.");
+
+            if (firstName == null)
+                throw new ArgumentNullException("firstName is a required property for Adult and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Children = children;
         }
 
         /// <summary>
-        /// Gets or Sets AdultAllOf
+        /// Gets or Sets Children
         /// </summary>
-        public AdultAllOf AdultAllOf { get; set; }
+        [JsonPropertyName("children")]
+        public List<Child> Children { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,6 +76,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Adult {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Children: ").Append(Children).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,9 +104,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader adultAllOfReader = reader;
-            bool adultAllOfDeserialized = Client.ClientUtils.TryDeserialize<AdultAllOf>(ref reader, options, out AdultAllOf? adultAllOf);
-
+            List<Child> children = default;
             string firstName = default;
             string lastName = default;
             string type = default;
@@ -106,6 +124,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "children":
+                            children = JsonSerializer.Deserialize<List<Child>>(ref reader, options);
+                            break;
                         case "firstName":
                             firstName = reader.GetString();
                             break;
@@ -121,7 +142,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Adult(adultAllOf, firstName, lastName, type);
+            return new Adult(children, firstName, lastName, type);
         }
 
         /// <summary>
@@ -135,6 +156,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WritePropertyName("children");
+            JsonSerializer.Serialize(writer, adult.Children, options);
             writer.WriteString("firstName", adult.FirstName);
             writer.WriteString("lastName", adult.LastName);
             writer.WriteString("$_type", adult.Type);

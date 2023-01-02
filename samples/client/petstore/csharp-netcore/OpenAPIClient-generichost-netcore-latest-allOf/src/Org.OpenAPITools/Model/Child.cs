@@ -33,13 +33,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Child" /> class.
         /// </summary>
-        /// <param name="childAllOf"></param>
-        /// <param name="boosterSeat">boosterSeat</param>
+        /// <param name="age">age</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
+        /// <param name="boosterSeat">boosterSeat</param>
         [JsonConstructor]
-        public Child(ChildAllOf childAllOf, bool boosterSeat, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Child(int age, string firstName, string lastName, string type, bool boosterSeat) : base(firstName, lastName, type)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -47,17 +47,30 @@ namespace Org.OpenAPITools.Model
             if (boosterSeat == null)
                 throw new ArgumentNullException("boosterSeat is a required property for Child and cannot be null.");
 
+            if (age == null)
+                throw new ArgumentNullException("age is a required property for Child and cannot be null.");
+
+            if (type == null)
+                throw new ArgumentNullException("type is a required property for Child and cannot be null.");
+
+            if (lastName == null)
+                throw new ArgumentNullException("lastName is a required property for Child and cannot be null.");
+
+            if (firstName == null)
+                throw new ArgumentNullException("firstName is a required property for Child and cannot be null.");
+
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            ChildAllOf = childAllOf;
+            Age = age;
             BoosterSeat = boosterSeat;
         }
 
         /// <summary>
-        /// Gets or Sets ChildAllOf
+        /// Gets or Sets Age
         /// </summary>
-        public ChildAllOf ChildAllOf { get; set; }
+        [JsonPropertyName("age")]
+        public int Age { get; set; }
 
         /// <summary>
         /// Gets or Sets BoosterSeat
@@ -74,6 +87,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Child {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Age: ").Append(Age).Append("\n");
             sb.Append("  BoosterSeat: ").Append(BoosterSeat).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -102,13 +116,11 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader childAllOfReader = reader;
-            bool childAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildAllOf>(ref reader, options, out ChildAllOf? childAllOf);
-
-            bool boosterSeat = default;
+            int age = default;
             string firstName = default;
             string lastName = default;
             string type = default;
+            bool boosterSeat = default;
 
             while (reader.Read())
             {
@@ -125,8 +137,8 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "boosterSeat":
-                            boosterSeat = reader.GetBoolean();
+                        case "age":
+                            age = reader.GetInt32();
                             break;
                         case "firstName":
                             firstName = reader.GetString();
@@ -137,13 +149,16 @@ namespace Org.OpenAPITools.Model
                         case "$_type":
                             type = reader.GetString();
                             break;
+                        case "boosterSeat":
+                            boosterSeat = reader.GetBoolean();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            return new Child(childAllOf, boosterSeat, firstName, lastName, type);
+            return new Child(age, firstName, lastName, type, boosterSeat);
         }
 
         /// <summary>
@@ -157,10 +172,11 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
+            writer.WriteNumber("age", child.Age);
             writer.WriteString("firstName", child.FirstName);
             writer.WriteString("lastName", child.LastName);
             writer.WriteString("$_type", child.Type);
+            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
 
             writer.WriteEndObject();
         }

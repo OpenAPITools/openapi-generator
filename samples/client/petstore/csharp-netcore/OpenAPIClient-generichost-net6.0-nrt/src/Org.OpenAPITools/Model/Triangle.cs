@@ -34,78 +34,30 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
+        internal Triangle(EquilateralTriangle equilateralTriangle)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             EquilateralTriangle = equilateralTriangle;
-            ShapeType = shapeType;
-            TriangleType = triangleType;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
+        internal Triangle(IsoscelesTriangle isoscelesTriangle)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             IsoscelesTriangle = isoscelesTriangle;
-            ShapeType = shapeType;
-            TriangleType = triangleType;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
+        internal Triangle(ScaleneTriangle scaleneTriangle)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ScaleneTriangle = scaleneTriangle;
-            ShapeType = shapeType;
-            TriangleType = triangleType;
         }
 
         /// <summary>
@@ -124,18 +76,6 @@ namespace Org.OpenAPITools.Model
         public ScaleneTriangle? ScaleneTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets ShapeType
-        /// </summary>
-        [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
-
-        /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -149,8 +89,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -207,8 +145,6 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader scaleneTriangleReader = reader;
             bool scaleneTriangleDeserialized = Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, options, out ScaleneTriangle? scaleneTriangle);
 
-            string shapeType = default;
-            string triangleType = default;
 
             while (reader.Read())
             {
@@ -225,12 +161,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "shapeType":
-                            shapeType = reader.GetString();
-                            break;
-                        case "triangleType":
-                            triangleType = reader.GetString();
-                            break;
                         default:
                             break;
                     }
@@ -238,13 +168,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (equilateralTriangleDeserialized)
-                return new Triangle(equilateralTriangle, shapeType, triangleType);
+                return new Triangle(equilateralTriangle);
 
             if (isoscelesTriangleDeserialized)
-                return new Triangle(isoscelesTriangle, shapeType, triangleType);
+                return new Triangle(isoscelesTriangle);
 
             if (scaleneTriangleDeserialized)
-                return new Triangle(scaleneTriangle, shapeType, triangleType);
+                return new Triangle(scaleneTriangle);
 
             throw new JsonException();
         }
@@ -260,8 +190,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", triangle.ShapeType);
-            writer.WriteString("triangleType", triangle.TriangleType);
 
             writer.WriteEndObject();
         }

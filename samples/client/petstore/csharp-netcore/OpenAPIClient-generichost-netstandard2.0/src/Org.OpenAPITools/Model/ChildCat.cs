@@ -31,18 +31,76 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        /// <param name="childCatAllOf"></param>
-        /// <param name="petType">petType</param>
+        /// <param name="name">name</param>
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        internal ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
+        public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(petType)
         {
-            ChildCatAllOf = childCatAllOf;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (name == null)
+                throw new ArgumentNullException("name is a required property for ChildCat and cannot be null.");
+
+            if (petType == null)
+                throw new ArgumentNullException("petType is a required property for ChildCat and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Name = name;
         }
 
         /// <summary>
-        /// Gets or Sets ChildCatAllOf
+        /// Defines PetType
         /// </summary>
-        public ChildCatAllOf ChildCatAllOf { get; set; }
+        public enum PetTypeEnum
+        {
+            /// <summary>
+            /// Enum ChildCat for value: ChildCat
+            /// </summary>
+            ChildCat = 1
+
+        }
+
+        /// <summary>
+        /// Returns a PetTypeEnum
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static PetTypeEnum PetTypeEnumFromString(string value)
+        {
+            if (value == "ChildCat")
+                return PetTypeEnum.ChildCat;
+
+            throw new NotImplementedException($"Could not convert value to type PetTypeEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string PetTypeEnumToJsonValue(PetTypeEnum value)
+        {
+            if (value == PetTypeEnum.ChildCat)
+                return "ChildCat";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Gets or Sets PetType
+        /// </summary>
+        [JsonPropertyName("pet_type")]
+        public PetTypeEnum PetType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,6 +111,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -80,10 +140,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader childCatAllOfReader = reader;
-            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref reader, options, out ChildCatAllOf childCatAllOf);
-
-            string petType = default;
+            string name = default;
+            ChildCat.PetTypeEnum petType = default;
 
             while (reader.Read())
             {
@@ -100,8 +158,12 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "name":
+                            name = reader.GetString();
+                            break;
                         case "pet_type":
-                            petType = reader.GetString();
+                            string petTypeRawValue = reader.GetString();
+                            petType = ChildCat.PetTypeEnumFromString(petTypeRawValue);
                             break;
                         default:
                             break;
@@ -109,7 +171,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ChildCat(childCatAllOf, petType);
+            return new ChildCat(name, petType);
         }
 
         /// <summary>
@@ -123,7 +185,12 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("pet_type", childCat.PetType);
+            writer.WriteString("name", childCat.Name);
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
+            if (petTypeRawValue != null)
+                writer.WriteString("pet_type", petTypeRawValue);
+            else
+                writer.WriteNull("pet_type");
 
             writer.WriteEndObject();
         }

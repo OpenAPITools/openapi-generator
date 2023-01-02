@@ -10,3 +10,4 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   targetFramework: net7.0
   nullableReferenceTypes: false
+  openapi-normalizer: REF_AS_PARENT_IN_ALLOF=true

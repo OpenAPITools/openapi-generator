@@ -33,19 +33,35 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="dogAllOf"></param>
+        /// <param name="breed">breed</param>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        public Dog(string breed, string className, string color = "red") : base(className, color)
         {
-            DogAllOf = dogAllOf;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (breed == null)
+                throw new ArgumentNullException("breed is a required property for Dog and cannot be null.");
+
+            if (className == null)
+                throw new ArgumentNullException("className is a required property for Dog and cannot be null.");
+
+            if (color == null)
+                throw new ArgumentNullException("color is a required property for Dog and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Breed = breed;
         }
 
         /// <summary>
-        /// Gets or Sets DogAllOf
+        /// Gets or Sets Breed
         /// </summary>
-        public DogAllOf DogAllOf { get; set; }
+        [JsonPropertyName("breed")]
+        public string Breed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +72,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -83,9 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader dogAllOfReader = reader;
-            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref reader, options, out DogAllOf? dogAllOf);
-
+            string breed = default;
             string className = default;
             string color = default;
 
@@ -104,6 +119,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "breed":
+                            breed = reader.GetString();
+                            break;
                         case "className":
                             className = reader.GetString();
                             break;
@@ -116,7 +134,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Dog(dogAllOf, className, color);
+            return new Dog(breed, className, color);
         }
 
         /// <summary>
@@ -130,6 +148,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("breed", dog.Breed);
             writer.WriteString("className", dog.ClassName);
             writer.WriteString("color", dog.Color);
 
