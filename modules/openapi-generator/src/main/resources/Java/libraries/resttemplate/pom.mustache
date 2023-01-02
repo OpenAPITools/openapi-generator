@@ -144,8 +144,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
+                {{#useJakartaEe}}
+                    <source>17</source>
+                    <target>17</target>
+                {{/useJakartaEe}}
+                {{^useJakartaEe}}
                     <source>1.8</source>
                     <target>1.8</target>
+                {{/useJakartaEe}}
                 </configuration>
             </plugin>
             <plugin>
