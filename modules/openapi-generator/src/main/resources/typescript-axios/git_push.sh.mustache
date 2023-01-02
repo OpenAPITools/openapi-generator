@@ -7,6 +7,7 @@ git_user_id=$1
 git_repo_id=$2
 release_note=$3
 git_host=$4
+git_branch=$5
 
 if [ "$git_host" = "" ]; then
     git_host="{{{gitHost}}}"
@@ -26,6 +27,11 @@ fi
 if [ "$release_note" = "" ]; then
     release_note="{{{releaseNote}}}"
     echo "[INFO] No command line input provided. Set \$release_note to $release_note"
+fi
+
+if [ "$git_branch" = "" ]; then
+    git_branch="master"
+    echo "[INFO] No command line input provided. Set \$git_branch to $release_note"
 fi
 
 # Initialize the local directory as a Git repository
@@ -50,8 +56,8 @@ if [ "$git_remote" = "" ]; then # git remote not defined
 
 fi
 
-git pull origin master
+git pull origin $git_branch
 
 # Pushes (Forces) the changes in the local repository up to the remote repository
 echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
-git push origin master 2>&1 | grep -v 'To https'
+git push origin $git_branch 2>&1 | grep -v 'To https'
