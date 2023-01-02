@@ -55,15 +55,21 @@ class {{{classname}}} {
 
 
 {{/vars}}
+  
+  {{#vars}}
+  {{#-first}}
   @override
   bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
-  {{#vars}}
+  {{/-first}}
+  
      other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
+  {{#vars}}
+  {{#-first}}
   @override
   int get hashCode =>
-  {{#vars}}
+  {{/-first}}
     {{#isNullable}}({{{name}}} == null ? 0 : {{{name}}}.hashCode){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
