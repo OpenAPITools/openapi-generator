@@ -27,14 +27,12 @@ abstract class Foo implements Entity, Built<Foo, FooBuilder> {
   @BuiltValueField(wireName: r'fooPropB')
   String? get fooPropB;
 
-  static const String discriminatorFieldName = r'@type';
-
   Foo._();
 
   factory Foo([void updates(FooBuilder b)]) = _$Foo;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FooBuilder b) => b;
+  static void _defaults(FooBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Foo> get serializer => _$FooSerializer();
