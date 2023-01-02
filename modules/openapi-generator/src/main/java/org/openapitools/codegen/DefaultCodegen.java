@@ -6330,7 +6330,7 @@ public class DefaultCodegen implements CodegenConfig {
             String commonPrefix = findCommonPrefixOfVars(values);
             truncateIdx = commonPrefix.length();
         }
-
+        Map<String, Integer> uniqueNames = new HashMap<>();
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName;
@@ -6342,8 +6342,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-
-            enumVar.put("name", toEnumVarName(enumName, dataType));
+            String varName = toEnumVarName(enumName, dataType);
+            enumVar.put("name", ensureUniqueName(uniqueNames, varName));
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
@@ -6375,6 +6375,19 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return enumVars;
+    }
+
+    /**
+     * If necessary, appends a suffix to enforce uniqueness of names within a namespace.
+     * @param uniqueNames Counts name occurrences within a namespace.
+     * @param name The proposed name.
+     * @return <code>name</code>, uniquely suffixed as necessary.
+     */
+    protected String ensureUniqueName(Map<String, Integer> uniqueNames, String name) {
+        int count = uniqueNames.containsKey(name) ? uniqueNames.get(name) + 1 : 1;
+        if (uniqueNames.put(name, count) != null)
+            name = name + '_' + count;
+        return name;
     }
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {

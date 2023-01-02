@@ -789,6 +789,53 @@ public class DefaultCodegenTest {
         Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"animal_cat\"");
     }
 
+
+    @Test
+    public void updateCodegenPropertyEnumWithMultiByteChars() {
+        {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setRemoveEnumValuePrefix(false);
+
+            CodegenProperty enumProperty = codegenProperty(Arrays.asList("猫", "Пёс", "Χάμστερ"));
+
+            codegen.updateCodegenPropertyEnum(enumProperty);
+
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getItems().getAllowableValues().get("enumVars");
+
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "_");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"猫\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "__2");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"Пёс\"");
+            Assert.assertNotNull(enumVars.get(2));
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "__3");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("value", ""), "\"Χάμστερ\"");
+        }
+        {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setRemoveEnumValuePrefix(false);
+
+            CodegenProperty enumProperty = codegenProperty(Arrays.asList("1ый квартал", "1ый день", "1ая смена"));
+
+            codegen.updateCodegenPropertyEnum(enumProperty);
+
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getItems().getAllowableValues().get("enumVars");
+
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "_1_");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"1ый квартал\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "_1__2");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"1ый день\"");
+            Assert.assertNotNull(enumVars.get(2));
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "_1__3");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("value", ""), "\"1ая смена\"");
+        }
+    }
+
     @Test
     public void postProcessModelsEnumWithPrefixRemoved() {
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -844,6 +891,48 @@ public class DefaultCodegenTest {
         Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
         Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
         Assert.assertEquals(enumVars.get(1).getOrDefault("enumDescription", ""), "This is a cat");
+    }
+
+    @Test
+    public void postProcessModelsEnumWithMultiByteChars() {
+        {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            ModelsMap objs = codegenModel(Arrays.asList("猫", "Пёс", "Χάμστερ"));
+            CodegenModel cm = objs.getModels().get(0).getModel();
+
+            codegen.postProcessModelsEnum(objs);
+
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "_");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"猫\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "__2");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"Пёс\"");
+            Assert.assertNotNull(enumVars.get(2));
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "__3");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("value", ""), "\"Χάμστερ\"");
+        }
+        {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            ModelsMap objs = codegenModel(Arrays.asList("1ый квартал", "1ый день", "1ая смена"));
+            CodegenModel cm = objs.getModels().get(0).getModel();
+
+            codegen.postProcessModelsEnum(objs);
+
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "_1_");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"1ый квартал\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "_1__2");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"1ый день\"");
+            Assert.assertNotNull(enumVars.get(2));
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "_1__3");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("value", ""), "\"1ая смена\"");
+        }
     }
 
     @Test
