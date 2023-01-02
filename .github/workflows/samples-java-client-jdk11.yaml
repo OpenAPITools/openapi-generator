@@ -35,6 +35,7 @@ jobs:
           - samples/client/petstore/java/retrofit2-play26
           - samples/client/petstore/java/resttemplate
           - samples/client/petstore/java/resttemplate-withXml
+          - samples/client/petstore/java/resttemplate-jakarta
           - samples/client/petstore/java/webclient
           - samples/client/petstore/java/webclient-nullable-arrays
           - samples/client/petstore/java/vertx

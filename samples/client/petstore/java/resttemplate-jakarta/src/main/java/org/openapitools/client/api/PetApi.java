@@ -5,7 +5,6 @@ import org.openapitools.client.ApiClient;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,11 +54,12 @@ public class PetApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void addPet(Pet body) throws RestClientException {
-        addPetWithHttpInfo(body);
+    public Pet addPet(Pet pet) throws RestClientException {
+        return addPetWithHttpInfo(pet).getBody();
     }
 
     /**
@@ -67,16 +67,16 @@ public class PetApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store (required)
-     * @return ResponseEntity&lt;Void&gt;
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> addPetWithHttpInfo(Pet body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Pet> addPetWithHttpInfo(Pet pet) throws RestClientException {
+        Object localVarPostBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling addPet");
         }
         
 
@@ -85,7 +85,9 @@ public class PetApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/xml", "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "application/json", "application/xml"
@@ -94,13 +96,12 @@ public class PetApi {
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<Pet> localReturnType = new ParameterizedTypeReference<Pet>() {};
         return apiClient.invokeAPI("/pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -113,7 +114,6 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -206,12 +206,12 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
-     * @return Set&lt;Pet&gt;
+     * @return List&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      * @deprecated
      */
     @Deprecated
-    public Set<Pet> findPetsByTags(Set<String> tags) throws RestClientException {
+    public List<Pet> findPetsByTags(List<String> tags) throws RestClientException {
         return findPetsByTagsWithHttpInfo(tags).getBody();
     }
 
@@ -221,12 +221,12 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
-     * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
+     * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      * @deprecated
      */
     @Deprecated
-    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws RestClientException {
+    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'tags' is set
@@ -251,7 +251,7 @@ public class PetApi {
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        ParameterizedTypeReference<Set<Pet>> localReturnType = new ParameterizedTypeReference<Set<Pet>>() {};
+        ParameterizedTypeReference<List<Pet>> localReturnType = new ParameterizedTypeReference<List<Pet>>() {};
         return apiClient.invokeAPI("/pet/findByTags", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
@@ -314,11 +314,12 @@ public class PetApi {
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet body) throws RestClientException {
-        updatePetWithHttpInfo(body);
+    public Pet updatePet(Pet pet) throws RestClientException {
+        return updatePetWithHttpInfo(pet).getBody();
     }
 
     /**
@@ -328,16 +329,16 @@ public class PetApi {
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store (required)
-     * @return ResponseEntity&lt;Void&gt;
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithHttpInfo(Pet body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Pet> updatePetWithHttpInfo(Pet pet) throws RestClientException {
+        Object localVarPostBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling updatePet");
         }
         
 
@@ -346,7 +347,9 @@ public class PetApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/xml", "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "application/json", "application/xml"
@@ -355,7 +358,7 @@ public class PetApi {
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<Pet> localReturnType = new ParameterizedTypeReference<Pet>() {};
         return apiClient.invokeAPI("/pet", HttpMethod.PUT, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
@@ -474,70 +477,5 @@ public class PetApi {
 
         ParameterizedTypeReference<ModelApiResponse> localReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return apiClient.invokeAPI("/pet/{petId}/uploadImage", HttpMethod.POST, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
-    }
-    /**
-     * uploads an image (required)
-     * 
-     * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @return ModelApiResponse
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
-        return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getBody();
-    }
-
-    /**
-     * uploads an image (required)
-     * 
-     * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @return ResponseEntity&lt;ModelApiResponse&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
-        Object localVarPostBody = null;
-        
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
-        }
-        
-        // verify the required parameter 'requiredFile' is set
-        if (requiredFile == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
-        }
-        
-        // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("petId", petId);
-
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
-
-        if (additionalMetadata != null)
-            localVarFormParams.add("additionalMetadata", additionalMetadata);
-        if (requiredFile != null)
-            localVarFormParams.add("requiredFile", new FileSystemResource(requiredFile));
-
-        final String[] localVarAccepts = { 
-            "application/json"
-         };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { 
-            "multipart/form-data"
-         };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-
-        ParameterizedTypeReference<ModelApiResponse> localReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
-        return apiClient.invokeAPI("/fake/{petId}/uploadImageWithRequiredFile", HttpMethod.POST, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }
