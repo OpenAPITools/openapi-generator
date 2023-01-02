@@ -1523,7 +1523,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_JAKARTA_EE, "true");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
         codegen.additionalProperties().put(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");

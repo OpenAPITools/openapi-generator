@@ -71,7 +71,7 @@ before_install:
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
-  - gem install bundler
+  - gem install bundler -v 2.3.26
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
   # -- skip bash test to shorten build time

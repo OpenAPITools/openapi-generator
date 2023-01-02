@@ -23,14 +23,12 @@ abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezial
   @BuiltValueField(wireName: r'toppings')
   String? get toppings;
 
-  static const String discriminatorFieldName = r'@type';
-
   PizzaSpeziale._();
 
   factory PizzaSpeziale([void updates(PizzaSpezialeBuilder b)]) = _$PizzaSpeziale;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PizzaSpezialeBuilder b) => b;
+  static void _defaults(PizzaSpezialeBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<PizzaSpeziale> get serializer => _$PizzaSpezialeSerializer();

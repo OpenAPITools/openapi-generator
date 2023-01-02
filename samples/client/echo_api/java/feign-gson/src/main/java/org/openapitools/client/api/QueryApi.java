@@ -68,7 +68,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
   "Accept: text/plain",
   })
-  String testQueryIntegerBooleanString(@QueryMap(encoded=true) Map<String, Object> queryParams);
+  String testQueryIntegerBooleanString(@QueryMap(encoded=true) TestQueryIntegerBooleanStringQueryParams queryParams);
 
   /**
   * Test query parameter(s)
@@ -88,7 +88,7 @@ public interface QueryApi extends ApiClient.Api {
       @Headers({
     "Accept: text/plain",
       })
-   ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(@QueryMap(encoded=true) TestQueryIntegerBooleanStringQueryParams queryParams);
 
 
    /**
@@ -155,7 +155,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
   "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeTrueArrayString(@QueryMap(encoded=true) Map<String, Object> queryParams);
+  String testQueryStyleFormExplodeTrueArrayString(@QueryMap(encoded=true) TestQueryStyleFormExplodeTrueArrayStringQueryParams queryParams);
 
   /**
   * Test query parameter(s)
@@ -173,7 +173,7 @@ public interface QueryApi extends ApiClient.Api {
       @Headers({
     "Accept: text/plain",
       })
-   ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleFormExplodeTrueArrayStringQueryParams queryParams);
 
 
    /**
@@ -232,7 +232,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
   "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeTrueObject(@QueryMap(encoded=true) Map<String, Object> queryParams);
+  String testQueryStyleFormExplodeTrueObject(@QueryMap(encoded=true) TestQueryStyleFormExplodeTrueObjectQueryParams queryParams);
 
   /**
   * Test query parameter(s)
@@ -250,7 +250,7 @@ public interface QueryApi extends ApiClient.Api {
       @Headers({
     "Accept: text/plain",
       })
-   ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleFormExplodeTrueObjectQueryParams queryParams);
 
 
    /**
