@@ -505,7 +505,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
-        name = name.replaceAll("$", "");
+        name = name.replace("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
