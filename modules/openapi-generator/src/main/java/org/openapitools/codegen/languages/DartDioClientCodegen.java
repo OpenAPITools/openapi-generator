@@ -554,6 +554,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
     }
 
+    /// override the default behavior of createDiscriminator 
+    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false) 
+    /// this ensures 1-1 schema mapping instead of 1-many
     @Override
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {        
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);
