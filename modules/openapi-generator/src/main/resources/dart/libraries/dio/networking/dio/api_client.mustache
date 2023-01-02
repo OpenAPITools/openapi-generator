@@ -2,10 +2,7 @@
 import 'package:dio/dio.dart';{{#useBuiltValue}}
 import 'package:built_value/serializer.dart';
 import 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';{{/useBuiltValue}}
-import 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/bearer_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/_exports.dart';
 {{#apiInfo}}{{#apis}}import 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
 class {{clientName}} {

@@ -1,0 +1,18 @@
+generatorName: dart-dio
+outputDir: samples/client/echo_api/dart/dart-http-json_serializable
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  serializationLibrary: "json_serializable"
+  networkingLibrary: "http"
+  artifactId: echo-api-dart-dio-json_serializable
+reservedWordsMappings:
+  class: "classField"
+
+

@@ -232,14 +232,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         final String srcFolder = libPath + sourceFolder;
         supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
-
-        final String authFolder = srcFolder + File.separator + "auth";
-        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
-        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
-
+        
+        //model exports
+        supportingFiles.add(new SupportingFile("model_exports.mustache", srcFolder + File.separator + modelPackage(), "_exports.dart"));
+        //api exports
+        supportingFiles.add(new SupportingFile("api_exports.mustache", srcFolder + File.separator + apiPackage(), "_exports.dart"));
+        
+        /*
+         * importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
+         * 
+         */
+       
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
         configureNetworkingLibrary(srcFolder);
@@ -271,7 +275,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         // templates without having to change the main template files.
         additionalProperties.put("includeNetworkingLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
             MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
-            String templateFile = "networking/" + library + "/" + fragment.execute() + ".mustache";
+            String templateFile = "networking/" + networkingLibrary + "/" + fragment.execute() + ".mustache";
             Template tmpl = engine.getCompiler()
                     .withLoader(name -> engine.findTemplate(templateManager, name))
                     .defaultValue("")
@@ -279,13 +283,39 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
             fragment.executeTemplate(tmpl, writer);
         });
+
+        
+
     }
    
     private void configureNetworkingLibraryDio(String srcFolder) {
         imports.put("MultipartFile", DIO_IMPORT);
+
+        final String authFolder = srcFolder + File.separator + "auth";
+        final String authMustacheFolder = "networking/dio/auth";        
+        supportingFiles.add(new SupportingFile("networking/dio/api_util.mustache", srcFolder, "api_util.dart"));
+
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "_exports.mustache", authFolder, "_exports.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "authentication.mustache", authFolder, "auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "bearer_auth.mustache", authFolder, "bearer_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "oauth.mustache", authFolder, "oauth.dart"));
     }
+
     private void configureNetworkingLibraryHttp(String srcFolder) {
         imports.put("MultipartFile", HTTP_IMPORT);
+
+        final String authFolder = srcFolder + File.separator + "auth";
+        final String authMustacheFolder = "networking/http/auth";
+        supportingFiles.add(new SupportingFile("networking/http/api_util.mustache", srcFolder, "api_util.dart"));
+
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "_exports.mustache", authFolder, "_exports.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "authentication.mustache", authFolder, "auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "bearer_auth.mustache", authFolder, "bearer_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + File.separator + "oauth.mustache", authFolder, "oauth.dart"));
     }
 
     private void configureSerializationLibrary(String srcFolder) {
@@ -325,8 +355,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
-        supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
-        supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));        
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
