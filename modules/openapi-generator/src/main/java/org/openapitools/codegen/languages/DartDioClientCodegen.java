@@ -454,7 +454,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsChild, isChild);
             cm.vendorExtensions.put(kIsParent, isParent);
             cm.vendorExtensions.put(kIsPure, isPure);
-            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty()) && (cm.anyOf == null || cm.anyOf.isEmpty())) {
+            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
                 //discriminator has no meaning here
                 if (cm.discriminator!=null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
