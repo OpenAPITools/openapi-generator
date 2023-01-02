@@ -11,10 +11,10 @@ part 'name.g.dart';
 /// Model for testing model name same as property name
 ///
 /// Properties:
-/// * [name] 
-/// * [snakeCase] 
-/// * [property] 
-/// * [n123number] 
+/// * [name]
+/// * [snakeCase]
+/// * [property]
+/// * [n123number]
 @BuiltValue()
 abstract class Name implements Built<Name, NameBuilder> {
   @BuiltValueField(wireName: r'name')
@@ -86,7 +86,9 @@ class _$NameSerializer implements PrimitiveSerializer<Name> {
     Name object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -157,4 +159,3 @@ class _$NameSerializer implements PrimitiveSerializer<Name> {
     return result.build();
   }
 }
-

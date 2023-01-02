@@ -12,7 +12,6 @@ import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/test_query_style_form_explode_true_array_string_query_object_parameter.dart';
 
 class QueryApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -23,9 +22,9 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [integerQuery] 
-  /// * [booleanQuery] 
-  /// * [stringQuery] 
+  /// * [integerQuery]
+  /// * [booleanQuery]
+  /// * [stringQuery]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +34,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryIntegerBooleanString({ 
+  Future<Response<String>> testQueryIntegerBooleanString({
     int? integerQuery,
     bool? booleanQuery,
     String? stringQuery,
@@ -60,9 +59,15 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (integerQuery != null) r'integer_query': encodeQueryParameter(_serializers, integerQuery, const FullType(int)),
-      if (booleanQuery != null) r'boolean_query': encodeQueryParameter(_serializers, booleanQuery, const FullType(bool)),
-      if (stringQuery != null) r'string_query': encodeQueryParameter(_serializers, stringQuery, const FullType(String)),
+      if (integerQuery != null)
+        r'integer_query': encodeQueryParameter(
+            _serializers, integerQuery, const FullType(int)),
+      if (booleanQuery != null)
+        r'boolean_query': encodeQueryParameter(
+            _serializers, booleanQuery, const FullType(bool)),
+      if (stringQuery != null)
+        r'string_query': encodeQueryParameter(
+            _serializers, stringQuery, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -78,7 +83,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -104,7 +108,7 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [queryObject] 
+  /// * [queryObject]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -114,7 +118,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryStyleFormExplodeTrueArrayString({ 
+  Future<Response<String>> testQueryStyleFormExplodeTrueArrayString({
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -137,7 +141,12 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (queryObject != null) r'query_object': encodeQueryParameter(_serializers, queryObject, const FullType(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter)),
+      if (queryObject != null)
+        r'query_object': encodeQueryParameter(
+            _serializers,
+            queryObject,
+            const FullType(
+                TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter)),
     };
 
     final _response = await _dio.request<Object>(
@@ -153,7 +162,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -179,7 +187,7 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [queryObject] 
+  /// * [queryObject]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -189,7 +197,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryStyleFormExplodeTrueObject({ 
+  Future<Response<String>> testQueryStyleFormExplodeTrueObject({
     Pet? queryObject,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -212,7 +220,9 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (queryObject != null) r'query_object': encodeQueryParameter(_serializers, queryObject, const FullType(Pet)),
+      if (queryObject != null)
+        r'query_object': encodeQueryParameter(
+            _serializers, queryObject, const FullType(Pet)),
     };
 
     final _response = await _dio.request<Object>(
@@ -228,7 +238,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -249,5 +258,4 @@ class QueryApi {
       extra: _response.extra,
     );
   }
-
 }

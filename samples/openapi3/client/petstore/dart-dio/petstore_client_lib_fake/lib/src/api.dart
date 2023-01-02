@@ -5,10 +5,7 @@
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 import 'package:openapi/src/serializers.dart';
-import 'package:openapi/src/auth/api_key_auth.dart';
-import 'package:openapi/src/auth/basic_auth.dart';
-import 'package:openapi/src/auth/bearer_auth.dart';
-import 'package:openapi/src/auth/oauth.dart';
+import 'package:openapi/src/auth/_exports.dart';
 import 'package:openapi/src/api/another_fake_api.dart';
 import 'package:openapi/src/api/default_api.dart';
 import 'package:openapi/src/api/fake_api.dart';

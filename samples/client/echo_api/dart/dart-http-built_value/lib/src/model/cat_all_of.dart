@@ -11,9 +11,9 @@ part 'cat_all_of.g.dart';
 /// CatAllOf
 ///
 /// Properties:
-/// * [declawed] 
+/// * [declawed]
 @BuiltValue(instantiable: false)
-abstract class CatAllOf  {
+abstract class CatAllOf {
   @BuiltValueField(wireName: r'declawed')
   bool? get declawed;
 
@@ -48,7 +48,9 @@ class _$CatAllOfSerializer implements PrimitiveSerializer<CatAllOf> {
     CatAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   @override
@@ -57,13 +59,15 @@ class _$CatAllOfSerializer implements PrimitiveSerializer<CatAllOf> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized, specifiedType: FullType($CatAllOf)) as $CatAllOf;
+    return serializers.deserialize(serialized,
+        specifiedType: FullType($CatAllOf)) as $CatAllOf;
   }
 }
 
 /// a concrete implementation of [CatAllOf], since [CatAllOf] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $CatAllOf implements CatAllOf, Built<$CatAllOf, $CatAllOfBuilder> {
+abstract class $CatAllOf
+    implements CatAllOf, Built<$CatAllOf, $CatAllOfBuilder> {
   $CatAllOf._();
 
   factory $CatAllOf([void Function($CatAllOfBuilder)? updates]) = _$$CatAllOf;
@@ -138,4 +142,3 @@ class _$$CatAllOfSerializer implements PrimitiveSerializer<$CatAllOf> {
     return result.build();
   }
 }
-

@@ -13,10 +13,10 @@ part 'animal.g.dart';
 /// Animal
 ///
 /// Properties:
-/// * [className] 
-/// * [color] 
+/// * [className]
+/// * [color]
 @BuiltValue(instantiable: false)
-abstract class Animal  {
+abstract class Animal {
   @BuiltValueField(wireName: r'className')
   String get className;
 
@@ -35,26 +35,27 @@ abstract class Animal  {
 }
 
 extension AnimalDiscriminatorExt on Animal {
-    String? get discriminatorValue {
-        if (this is Cat) {
-            return r'Cat';
-        }
-        if (this is Dog) {
-            return r'Dog';
-        }
-        return null;
+  String? get discriminatorValue {
+    if (this is Cat) {
+      return r'Cat';
     }
+    if (this is Dog) {
+      return r'Dog';
+    }
+    return null;
+  }
 }
+
 extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
-    String? get discriminatorValue {
-        if (this is CatBuilder) {
-            return r'Cat';
-        }
-        if (this is DogBuilder) {
-            return r'Dog';
-        }
-        return null;
+  String? get discriminatorValue {
+    if (this is CatBuilder) {
+      return r'Cat';
     }
+    if (this is DogBuilder) {
+      return r'Dog';
+    }
+    return null;
+  }
 }
 
 class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
@@ -95,7 +96,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     if (object is Dog) {
       return serializers.serialize(object, specifiedType: FullType(Dog))!;
     }
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   @override
@@ -106,14 +109,18 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   }) {
     final serializedList = (serialized as Iterable<Object?>).toList();
     final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    final discValue = serializers.deserialize(serializedList[discIndex],
+        specifiedType: FullType(String)) as String;
     switch (discValue) {
       case r'Cat':
-        return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
+        return serializers.deserialize(serialized, specifiedType: FullType(Cat))
+            as Cat;
       case r'Dog':
-        return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
+        return serializers.deserialize(serialized, specifiedType: FullType(Dog))
+            as Dog;
       default:
-        return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
+        return serializers.deserialize(serialized,
+            specifiedType: FullType($Animal)) as $Animal;
     }
   }
 }
@@ -202,4 +209,3 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
     return result.build();
   }
 }
-

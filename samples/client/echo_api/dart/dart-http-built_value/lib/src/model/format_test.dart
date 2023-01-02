@@ -13,20 +13,20 @@ part 'format_test.g.dart';
 /// FormatTest
 ///
 /// Properties:
-/// * [integer] 
-/// * [int32] 
-/// * [int64] 
-/// * [number] 
-/// * [float] 
-/// * [double_] 
-/// * [decimal] 
-/// * [string] 
-/// * [byte] 
-/// * [binary] 
-/// * [date] 
-/// * [dateTime] 
-/// * [uuid] 
-/// * [password] 
+/// * [integer]
+/// * [int32]
+/// * [int64]
+/// * [number]
+/// * [float]
+/// * [double_]
+/// * [decimal]
+/// * [string]
+/// * [byte]
+/// * [binary]
+/// * [date]
+/// * [dateTime]
+/// * [uuid]
+/// * [password]
 /// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
 /// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 @BuiltValue()
@@ -216,7 +216,9 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
     FormatTest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -371,4 +373,3 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
     return result.build();
   }
 }
-

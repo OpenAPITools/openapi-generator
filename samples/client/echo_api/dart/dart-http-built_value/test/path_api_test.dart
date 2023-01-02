@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for PathApi
 void main() {
   final instance = Openapi().getPathApi();
@@ -15,6 +14,5 @@ void main() {
     test('test testsPathStringPathStringIntegerPathInteger', () async {
       // TODO
     });
-
   });
 }

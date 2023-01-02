@@ -7,7 +7,10 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  
   http: '>=0.13.5 <2.0.0'
+  intl: '^0.17.0'
+  meta: '^1.1.8'
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'
   built_value: '>=8.4.0 <9.0.0'

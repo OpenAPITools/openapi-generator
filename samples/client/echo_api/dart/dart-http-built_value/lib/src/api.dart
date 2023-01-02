@@ -5,11 +5,7 @@
 import 'package:http/http.dart' as http;
 import 'package:built_value/serializer.dart';
 import 'package:openapi/src/serializers.dart';
-import 'package:openapi/src/auth/api_key_auth.dart';
-import 'package:openapi/src/auth/authentication.dart';
-import 'package:openapi/src/auth/http_basic_auth.dart';
-import 'package:openapi/src/auth/http_bearer_auth.dart';
-import 'package:openapi/src/auth/oauth.dart';
+import 'package:openapi/src/auth/_exports.dart';
 import 'package:openapi/src/api/body_api.dart';
 import 'package:openapi/src/api/path_api.dart';
 import 'package:openapi/src/api/query_api.dart';
@@ -28,7 +24,6 @@ class Openapi {
   })  : this.serializers = serializers ?? standardSerializers,
         this.client = client ?? http.Client(),
         this.actualBasePath = basePathOverride ?? basePath;
-  
 
   /// Get BodyApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed

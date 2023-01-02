@@ -11,7 +11,7 @@ part 'apple.g.dart';
 /// Apple
 ///
 /// Properties:
-/// * [kind] 
+/// * [kind]
 @BuiltValue()
 abstract class Apple implements Built<Apple, AppleBuilder> {
   @BuiltValueField(wireName: r'kind')
@@ -55,7 +55,9 @@ class _$AppleSerializer implements PrimitiveSerializer<Apple> {
     Apple object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -105,4 +107,3 @@ class _$AppleSerializer implements PrimitiveSerializer<Apple> {
     return result.build();
   }
 }
-

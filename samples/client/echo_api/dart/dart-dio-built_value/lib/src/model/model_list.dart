@@ -11,7 +11,7 @@ part 'model_list.g.dart';
 /// ModelList
 ///
 /// Properties:
-/// * [n123list] 
+/// * [n123list]
 @BuiltValue()
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
   @BuiltValueField(wireName: r'123-list')
@@ -55,7 +55,9 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
     ModelList object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -105,4 +107,3 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
     return result.build();
   }
 }
-

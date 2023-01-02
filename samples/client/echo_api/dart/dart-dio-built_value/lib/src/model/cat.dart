@@ -13,9 +13,9 @@ part 'cat.g.dart';
 /// Cat
 ///
 /// Properties:
-/// * [className] 
-/// * [color] 
-/// * [declawed] 
+/// * [className]
+/// * [color]
+/// * [declawed]
 @BuiltValue()
 abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
   Cat._();
@@ -23,8 +23,9 @@ abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
-      ..color = 'red';
+  static void _defaults(CatBuilder b) => b
+    ..className = b.discriminatorValue
+    ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Cat> get serializer => _$CatSerializer();
@@ -69,7 +70,9 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Cat object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -133,4 +136,3 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     return result.build();
   }
 }
-

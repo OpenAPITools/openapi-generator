@@ -56,7 +56,9 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
     ModelFile object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -106,4 +108,3 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
     return result.build();
   }
 }
-

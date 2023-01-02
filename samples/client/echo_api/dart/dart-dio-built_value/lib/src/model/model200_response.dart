@@ -11,10 +11,11 @@ part 'model200_response.g.dart';
 /// Model for testing model name starting with number
 ///
 /// Properties:
-/// * [name] 
-/// * [classField] 
+/// * [name]
+/// * [classField]
 @BuiltValue()
-abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
+abstract class Model200Response
+    implements Built<Model200Response, Model200ResponseBuilder> {
   @BuiltValueField(wireName: r'name')
   int? get name;
 
@@ -23,16 +24,19 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
 
   Model200Response._();
 
-  factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
+  factory Model200Response([void updates(Model200ResponseBuilder b)]) =
+      _$Model200Response;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(Model200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Model200Response> get serializer => _$Model200ResponseSerializer();
+  static Serializer<Model200Response> get serializer =>
+      _$Model200ResponseSerializer();
 }
 
-class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Response> {
+class _$Model200ResponseSerializer
+    implements PrimitiveSerializer<Model200Response> {
   @override
   final Iterable<Type> types = const [Model200Response, _$Model200Response];
 
@@ -66,7 +70,9 @@ class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Respon
     Model200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -123,4 +129,3 @@ class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Respon
     return result.build();
   }
 }
-

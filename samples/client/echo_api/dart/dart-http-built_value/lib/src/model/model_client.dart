@@ -11,7 +11,7 @@ part 'model_client.g.dart';
 /// ModelClient
 ///
 /// Properties:
-/// * [client] 
+/// * [client]
 @BuiltValue()
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
   @BuiltValueField(wireName: r'client')
@@ -55,7 +55,9 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
     ModelClient object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -105,4 +107,3 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
     return result.build();
   }
 }
-

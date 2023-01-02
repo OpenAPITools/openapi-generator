@@ -11,9 +11,9 @@ part 'dog_all_of.g.dart';
 /// DogAllOf
 ///
 /// Properties:
-/// * [breed] 
+/// * [breed]
 @BuiltValue(instantiable: false)
-abstract class DogAllOf  {
+abstract class DogAllOf {
   @BuiltValueField(wireName: r'breed')
   String? get breed;
 
@@ -48,7 +48,9 @@ class _$DogAllOfSerializer implements PrimitiveSerializer<DogAllOf> {
     DogAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   @override
@@ -57,13 +59,15 @@ class _$DogAllOfSerializer implements PrimitiveSerializer<DogAllOf> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized, specifiedType: FullType($DogAllOf)) as $DogAllOf;
+    return serializers.deserialize(serialized,
+        specifiedType: FullType($DogAllOf)) as $DogAllOf;
   }
 }
 
 /// a concrete implementation of [DogAllOf], since [DogAllOf] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $DogAllOf implements DogAllOf, Built<$DogAllOf, $DogAllOfBuilder> {
+abstract class $DogAllOf
+    implements DogAllOf, Built<$DogAllOf, $DogAllOfBuilder> {
   $DogAllOf._();
 
   factory $DogAllOf([void Function($DogAllOfBuilder)? updates]) = _$$DogAllOf;
@@ -138,4 +142,3 @@ class _$$DogAllOfSerializer implements PrimitiveSerializer<$DogAllOf> {
     return result.build();
   }
 }
-

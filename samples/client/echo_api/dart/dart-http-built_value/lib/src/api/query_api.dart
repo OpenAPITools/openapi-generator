@@ -23,30 +23,24 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [integerQuery] 
-  /// * [booleanQuery] 
-  /// * [stringQuery] 
+  /// * [integerQuery]
+  /// * [booleanQuery]
+  /// * [stringQuery]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryIntegerBooleanString({ 
+
+  Future<String> testQueryIntegerBooleanString({
     int? integerQuery,
     bool? booleanQuery,
     String? stringQuery,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    Map<String, String>? headers,
   }) async {
     final _path = r'/query/integer/boolean/string';
+    final _uri = Uri.parse(_basePath + _path);
+
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -60,9 +54,15 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (integerQuery != null) r'integer_query': encodeQueryParameter(_serializers, integerQuery, const FullType(int)),
-      if (booleanQuery != null) r'boolean_query': encodeQueryParameter(_serializers, booleanQuery, const FullType(bool)),
-      if (stringQuery != null) r'string_query': encodeQueryParameter(_serializers, stringQuery, const FullType(String)),
+      if (integerQuery != null)
+        r'integer_query': encodeQueryParameter(
+            _serializers, integerQuery, const FullType(int)),
+      if (booleanQuery != null)
+        r'boolean_query': encodeQueryParameter(
+            _serializers, booleanQuery, const FullType(bool)),
+      if (stringQuery != null)
+        r'string_query': encodeQueryParameter(
+            _serializers, stringQuery, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -78,7 +78,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -104,26 +103,20 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [queryObject] 
+  /// * [queryObject]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryStyleFormExplodeTrueArrayString({ 
+
+  Future<String> testQueryStyleFormExplodeTrueArrayString({
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    Map<String, String>? headers,
   }) async {
     final _path = r'/query/style_form/explode_true/array_string';
+    final _uri = Uri.parse(_basePath + _path);
+
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -137,7 +130,12 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (queryObject != null) r'query_object': encodeQueryParameter(_serializers, queryObject, const FullType(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter)),
+      if (queryObject != null)
+        r'query_object': encodeQueryParameter(
+            _serializers,
+            queryObject,
+            const FullType(
+                TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter)),
     };
 
     final _response = await _dio.request<Object>(
@@ -153,7 +151,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -179,26 +176,20 @@ class QueryApi {
   /// Test query parameter(s)
   ///
   /// Parameters:
-  /// * [queryObject] 
+  /// * [queryObject]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testQueryStyleFormExplodeTrueObject({ 
+
+  Future<String> testQueryStyleFormExplodeTrueObject({
     Pet? queryObject,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    Map<String, String>? headers,
   }) async {
     final _path = r'/query/style_form/explode_true/object';
+    final _uri = Uri.parse(_basePath + _path);
+
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -212,7 +203,9 @@ class QueryApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (queryObject != null) r'query_object': encodeQueryParameter(_serializers, queryObject, const FullType(Pet)),
+      if (queryObject != null)
+        r'query_object': encodeQueryParameter(
+            _serializers, queryObject, const FullType(Pet)),
     };
 
     final _response = await _dio.request<Object>(
@@ -228,7 +221,6 @@ class QueryApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -249,5 +241,4 @@ class QueryApi {
       extra: _response.extra,
     );
   }
-
 }

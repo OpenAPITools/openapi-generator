@@ -11,7 +11,7 @@ part 'child.g.dart';
 /// Child
 ///
 /// Properties:
-/// * [name] 
+/// * [name]
 @BuiltValue()
 abstract class Child implements Built<Child, ChildBuilder> {
   @BuiltValueField(wireName: r'name')
@@ -55,7 +55,9 @@ class _$ChildSerializer implements PrimitiveSerializer<Child> {
     Child object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -105,4 +107,3 @@ class _$ChildSerializer implements PrimitiveSerializer<Child> {
     return result.build();
   }
 }
-

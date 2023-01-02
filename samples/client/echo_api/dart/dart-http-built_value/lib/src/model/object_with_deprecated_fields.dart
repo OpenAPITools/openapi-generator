@@ -14,12 +14,14 @@ part 'object_with_deprecated_fields.g.dart';
 /// ObjectWithDeprecatedFields
 ///
 /// Properties:
-/// * [uuid] 
-/// * [id] 
-/// * [deprecatedRef] 
-/// * [bars] 
+/// * [uuid]
+/// * [id]
+/// * [deprecatedRef]
+/// * [bars]
 @BuiltValue()
-abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilder> {
+abstract class ObjectWithDeprecatedFields
+    implements
+        Built<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilder> {
   @BuiltValueField(wireName: r'uuid')
   String? get uuid;
 
@@ -34,18 +36,25 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
 
   ObjectWithDeprecatedFields._();
 
-  factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
+  factory ObjectWithDeprecatedFields(
+          [void updates(ObjectWithDeprecatedFieldsBuilder b)]) =
+      _$ObjectWithDeprecatedFields;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ObjectWithDeprecatedFieldsBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ObjectWithDeprecatedFields> get serializer => _$ObjectWithDeprecatedFieldsSerializer();
+  static Serializer<ObjectWithDeprecatedFields> get serializer =>
+      _$ObjectWithDeprecatedFieldsSerializer();
 }
 
-class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<ObjectWithDeprecatedFields> {
+class _$ObjectWithDeprecatedFieldsSerializer
+    implements PrimitiveSerializer<ObjectWithDeprecatedFields> {
   @override
-  final Iterable<Type> types = const [ObjectWithDeprecatedFields, _$ObjectWithDeprecatedFields];
+  final Iterable<Type> types = const [
+    ObjectWithDeprecatedFields,
+    _$ObjectWithDeprecatedFields
+  ];
 
   @override
   final String wireName = r'ObjectWithDeprecatedFields';
@@ -91,7 +100,9 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
     ObjectWithDeprecatedFields object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -162,4 +173,3 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
     return result.build();
   }
 }
-

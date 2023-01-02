@@ -7,9 +7,7 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-
 class PathApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -20,8 +18,8 @@ class PathApi {
   /// Test path parameter(s)
   ///
   /// Parameters:
-  /// * [pathString] 
-  /// * [pathInteger] 
+  /// * [pathString]
+  /// * [pathInteger]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -31,7 +29,7 @@ class PathApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testsPathStringPathStringIntegerPathInteger({ 
+  Future<Response<String>> testsPathStringPathStringIntegerPathInteger({
     required String pathString,
     required int pathInteger,
     CancelToken? cancelToken,
@@ -41,7 +39,9 @@ class PathApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/path/string/{path_string}/integer/{path_integer}'.replaceAll('{' r'path_string' '}', pathString.toString()).replaceAll('{' r'path_integer' '}', pathInteger.toString());
+    final _path = r'/path/string/{path_string}/integer/{path_integer}'
+        .replaceAll('{' r'path_string' '}', pathString.toString())
+        .replaceAll('{' r'path_integer' '}', pathInteger.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -66,7 +66,6 @@ class PathApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -87,5 +86,4 @@ class PathApi {
       extra: _response.extra,
     );
   }
-
 }

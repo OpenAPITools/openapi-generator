@@ -3,7 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 void main() {
-  final instance = TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterBuilder();
+  final instance =
+      TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterBuilder();
   // TODO add properties to the builder and call build()
 
   group(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter, () {
@@ -11,6 +12,5 @@ void main() {
     test('to test the property `values`', () async {
       // TODO
     });
-
   });
 }

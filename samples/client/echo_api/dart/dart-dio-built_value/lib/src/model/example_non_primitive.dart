@@ -12,24 +12,31 @@ part 'example_non_primitive.g.dart';
 
 /// ExampleNonPrimitive
 @BuiltValue()
-abstract class ExampleNonPrimitive implements Built<ExampleNonPrimitive, ExampleNonPrimitiveBuilder> {
+abstract class ExampleNonPrimitive
+    implements Built<ExampleNonPrimitive, ExampleNonPrimitiveBuilder> {
   /// One Of [DateTime], [String], [int], [num]
   OneOf get oneOf;
 
   ExampleNonPrimitive._();
 
-  factory ExampleNonPrimitive([void updates(ExampleNonPrimitiveBuilder b)]) = _$ExampleNonPrimitive;
+  factory ExampleNonPrimitive([void updates(ExampleNonPrimitiveBuilder b)]) =
+      _$ExampleNonPrimitive;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ExampleNonPrimitiveBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ExampleNonPrimitive> get serializer => _$ExampleNonPrimitiveSerializer();
+  static Serializer<ExampleNonPrimitive> get serializer =>
+      _$ExampleNonPrimitiveSerializer();
 }
 
-class _$ExampleNonPrimitiveSerializer implements PrimitiveSerializer<ExampleNonPrimitive> {
+class _$ExampleNonPrimitiveSerializer
+    implements PrimitiveSerializer<ExampleNonPrimitive> {
   @override
-  final Iterable<Type> types = const [ExampleNonPrimitive, _$ExampleNonPrimitive];
+  final Iterable<Type> types = const [
+    ExampleNonPrimitive,
+    _$ExampleNonPrimitive
+  ];
 
   @override
   final String wireName = r'ExampleNonPrimitive';
@@ -38,8 +45,7 @@ class _$ExampleNonPrimitiveSerializer implements PrimitiveSerializer<ExampleNonP
     Serializers serializers,
     ExampleNonPrimitive object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {
-  }
+  }) sync* {}
 
   @override
   Object serialize(
@@ -48,7 +54,8 @@ class _$ExampleNonPrimitiveSerializer implements PrimitiveSerializer<ExampleNonP
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value,
+        specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -59,10 +66,15 @@ class _$ExampleNonPrimitiveSerializer implements PrimitiveSerializer<ExampleNonP
   }) {
     final result = ExampleNonPrimitiveBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [FullType(String), FullType(DateTime), FullType(int), FullType(num), ]);
+    final targetType = const FullType(OneOf, [
+      FullType(String),
+      FullType(DateTime),
+      FullType(int),
+      FullType(num),
+    ]);
     oneOfDataSrc = serialized;
-    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    result.oneOf = serializers.deserialize(oneOfDataSrc,
+        specifiedType: targetType) as OneOf;
     return result.build();
   }
 }
-

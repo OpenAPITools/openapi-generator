@@ -6,6 +6,5 @@ void main() {
   final instance = ExampleNonPrimitiveBuilder();
   // TODO add properties to the builder and call build()
 
-  group(ExampleNonPrimitive, () {
-  });
+  group(ExampleNonPrimitive, () {});
 }

@@ -12,26 +12,35 @@ part 'array_of_array_of_number_only.g.dart';
 /// ArrayOfArrayOfNumberOnly
 ///
 /// Properties:
-/// * [arrayArrayNumber] 
+/// * [arrayArrayNumber]
 @BuiltValue()
-abstract class ArrayOfArrayOfNumberOnly implements Built<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilder> {
+abstract class ArrayOfArrayOfNumberOnly
+    implements
+        Built<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilder> {
   @BuiltValueField(wireName: r'ArrayArrayNumber')
   BuiltList<BuiltList<num>>? get arrayArrayNumber;
 
   ArrayOfArrayOfNumberOnly._();
 
-  factory ArrayOfArrayOfNumberOnly([void updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
+  factory ArrayOfArrayOfNumberOnly(
+          [void updates(ArrayOfArrayOfNumberOnlyBuilder b)]) =
+      _$ArrayOfArrayOfNumberOnly;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ArrayOfArrayOfNumberOnlyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ArrayOfArrayOfNumberOnly> get serializer => _$ArrayOfArrayOfNumberOnlySerializer();
+  static Serializer<ArrayOfArrayOfNumberOnly> get serializer =>
+      _$ArrayOfArrayOfNumberOnlySerializer();
 }
 
-class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayOfArrayOfNumberOnly> {
+class _$ArrayOfArrayOfNumberOnlySerializer
+    implements PrimitiveSerializer<ArrayOfArrayOfNumberOnly> {
   @override
-  final Iterable<Type> types = const [ArrayOfArrayOfNumberOnly, _$ArrayOfArrayOfNumberOnly];
+  final Iterable<Type> types = const [
+    ArrayOfArrayOfNumberOnly,
+    _$ArrayOfArrayOfNumberOnly
+  ];
 
   @override
   final String wireName = r'ArrayOfArrayOfNumberOnly';
@@ -45,7 +54,9 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
       yield r'ArrayArrayNumber';
       yield serializers.serialize(
         object.arrayArrayNumber,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]),
+        specifiedType: const FullType(BuiltList, [
+          FullType(BuiltList, [FullType(num)])
+        ]),
       );
     }
   }
@@ -56,7 +67,9 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
     ArrayOfArrayOfNumberOnly object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -74,7 +87,9 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
         case r'ArrayArrayNumber':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]),
+            specifiedType: const FullType(BuiltList, [
+              FullType(BuiltList, [FullType(num)])
+            ]),
           ) as BuiltList<BuiltList<num>>;
           result.arrayArrayNumber.replace(valueDes);
           break;
@@ -106,4 +121,3 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
     return result.build();
   }
 }
-

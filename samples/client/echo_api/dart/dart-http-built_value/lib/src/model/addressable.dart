@@ -14,7 +14,7 @@ part 'addressable.g.dart';
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 @BuiltValue(instantiable: false)
-abstract class Addressable  {
+abstract class Addressable {
   /// Hyperlink reference
   @BuiltValueField(wireName: r'href')
   String? get href;
@@ -61,7 +61,9 @@ class _$AddressableSerializer implements PrimitiveSerializer<Addressable> {
     Addressable object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   @override
@@ -70,16 +72,19 @@ class _$AddressableSerializer implements PrimitiveSerializer<Addressable> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized, specifiedType: FullType($Addressable)) as $Addressable;
+    return serializers.deserialize(serialized,
+        specifiedType: FullType($Addressable)) as $Addressable;
   }
 }
 
 /// a concrete implementation of [Addressable], since [Addressable] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $Addressable implements Addressable, Built<$Addressable, $AddressableBuilder> {
+abstract class $Addressable
+    implements Addressable, Built<$Addressable, $AddressableBuilder> {
   $Addressable._();
 
-  factory $Addressable([void Function($AddressableBuilder)? updates]) = _$$Addressable;
+  factory $Addressable([void Function($AddressableBuilder)? updates]) =
+      _$$Addressable;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($AddressableBuilder b) => b;
@@ -158,4 +163,3 @@ class _$$AddressableSerializer implements PrimitiveSerializer<$Addressable> {
     return result.build();
   }
 }
-

@@ -24,23 +24,17 @@ class BodyApi {
   /// * [pet] - Pet object that needs to be added to the store
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Pet>> testEchoBodyPet({ 
+
+  Future<Pet> testEchoBodyPet({
     Pet? pet,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    Map<String, String>? headers,
   }) async {
     final _path = r'/echo/body/Pet';
+    final _uri = Uri.parse(_basePath + _path);
+
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -58,11 +52,12 @@ class BodyApi {
 
     try {
       const _type = FullType(Pet);
-      _bodyData = pet == null ? null : _serializers.serialize(pet, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = pet == null
+          ? null
+          : _serializers.serialize(pet, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -88,7 +83,6 @@ class BodyApi {
         _response.data!,
         specifiedType: _responseType,
       ) as Pet;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -109,5 +103,4 @@ class BodyApi {
       extra: _response.extra,
     );
   }
-
 }

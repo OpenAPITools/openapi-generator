@@ -11,14 +11,15 @@ part 'capitalization.g.dart';
 /// Capitalization
 ///
 /// Properties:
-/// * [smallCamel] 
-/// * [capitalCamel] 
-/// * [smallSnake] 
-/// * [capitalSnake] 
-/// * [sCAETHFlowPoints] 
-/// * [ATT_NAME] - Name of the pet 
+/// * [smallCamel]
+/// * [capitalCamel]
+/// * [smallSnake]
+/// * [capitalSnake]
+/// * [sCAETHFlowPoints]
+/// * [ATT_NAME] - Name of the pet
 @BuiltValue()
-abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
+abstract class Capitalization
+    implements Built<Capitalization, CapitalizationBuilder> {
   @BuiltValueField(wireName: r'smallCamel')
   String? get smallCamel;
 
@@ -34,22 +35,25 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
   @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
   String? get sCAETHFlowPoints;
 
-  /// Name of the pet 
+  /// Name of the pet
   @BuiltValueField(wireName: r'ATT_NAME')
   String? get ATT_NAME;
 
   Capitalization._();
 
-  factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
+  factory Capitalization([void updates(CapitalizationBuilder b)]) =
+      _$Capitalization;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CapitalizationBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Capitalization> get serializer => _$CapitalizationSerializer();
+  static Serializer<Capitalization> get serializer =>
+      _$CapitalizationSerializer();
 }
 
-class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> {
+class _$CapitalizationSerializer
+    implements PrimitiveSerializer<Capitalization> {
   @override
   final Iterable<Type> types = const [Capitalization, _$Capitalization];
 
@@ -111,7 +115,9 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     Capitalization object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -196,4 +202,3 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     return result.build();
   }
 }
-

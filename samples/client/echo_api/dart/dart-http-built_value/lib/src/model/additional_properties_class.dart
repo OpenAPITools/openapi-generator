@@ -12,10 +12,12 @@ part 'additional_properties_class.g.dart';
 /// AdditionalPropertiesClass
 ///
 /// Properties:
-/// * [mapProperty] 
-/// * [mapOfMapProperty] 
+/// * [mapProperty]
+/// * [mapOfMapProperty]
 @BuiltValue()
-abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
+abstract class AdditionalPropertiesClass
+    implements
+        Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
   @BuiltValueField(wireName: r'map_property')
   BuiltMap<String, String>? get mapProperty;
 
@@ -24,18 +26,25 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
 
   AdditionalPropertiesClass._();
 
-  factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
+  factory AdditionalPropertiesClass(
+          [void updates(AdditionalPropertiesClassBuilder b)]) =
+      _$AdditionalPropertiesClass;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AdditionalPropertiesClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AdditionalPropertiesClass> get serializer => _$AdditionalPropertiesClassSerializer();
+  static Serializer<AdditionalPropertiesClass> get serializer =>
+      _$AdditionalPropertiesClassSerializer();
 }
 
-class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<AdditionalPropertiesClass> {
+class _$AdditionalPropertiesClassSerializer
+    implements PrimitiveSerializer<AdditionalPropertiesClass> {
   @override
-  final Iterable<Type> types = const [AdditionalPropertiesClass, _$AdditionalPropertiesClass];
+  final Iterable<Type> types = const [
+    AdditionalPropertiesClass,
+    _$AdditionalPropertiesClass
+  ];
 
   @override
   final String wireName = r'AdditionalPropertiesClass';
@@ -49,14 +58,18 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
       yield r'map_property';
       yield serializers.serialize(
         object.mapProperty,
-        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+        specifiedType:
+            const FullType(BuiltMap, [FullType(String), FullType(String)]),
       );
     }
     if (object.mapOfMapProperty != null) {
       yield r'map_of_map_property';
       yield serializers.serialize(
         object.mapOfMapProperty,
-        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+        specifiedType: const FullType(BuiltMap, [
+          FullType(String),
+          FullType(BuiltMap, [FullType(String), FullType(String)])
+        ]),
       );
     }
   }
@@ -67,7 +80,9 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
     AdditionalPropertiesClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -85,14 +100,18 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
         case r'map_property':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+            specifiedType:
+                const FullType(BuiltMap, [FullType(String), FullType(String)]),
           ) as BuiltMap<String, String>;
           result.mapProperty.replace(valueDes);
           break;
         case r'map_of_map_property':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
+            specifiedType: const FullType(BuiltMap, [
+              FullType(String),
+              FullType(BuiltMap, [FullType(String), FullType(String)])
+            ]),
           ) as BuiltMap<String, BuiltMap<String, String>>;
           result.mapOfMapProperty.replace(valueDes);
           break;
@@ -124,4 +143,3 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
     return result.build();
   }
 }
-

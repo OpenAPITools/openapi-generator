@@ -14,7 +14,7 @@ part 'example.g.dart';
 /// Example
 ///
 /// Properties:
-/// * [name] 
+/// * [name]
 @BuiltValue()
 abstract class Example implements Built<Example, ExampleBuilder> {
   /// One Of [Child], [int]
@@ -42,8 +42,7 @@ class _$ExampleSerializer implements PrimitiveSerializer<Example> {
     Serializers serializers,
     Example object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {
-  }
+  }) sync* {}
 
   @override
   Object serialize(
@@ -52,7 +51,8 @@ class _$ExampleSerializer implements PrimitiveSerializer<Example> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value,
+        specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -63,10 +63,13 @@ class _$ExampleSerializer implements PrimitiveSerializer<Example> {
   }) {
     final result = ExampleBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [FullType(Child), FullType(int), ]);
+    final targetType = const FullType(OneOf, [
+      FullType(Child),
+      FullType(int),
+    ]);
     oneOfDataSrc = serialized;
-    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    result.oneOf = serializers.deserialize(oneOfDataSrc,
+        specifiedType: targetType) as OneOf;
     return result.build();
   }
 }
-

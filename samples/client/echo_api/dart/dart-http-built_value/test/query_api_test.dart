@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for QueryApi
 void main() {
   final instance = Openapi().getQueryApi();
@@ -33,6 +32,5 @@ void main() {
     test('test testQueryStyleFormExplodeTrueObject', () async {
       // TODO
     });
-
   });
 }

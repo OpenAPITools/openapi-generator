@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for BodyApi
 void main() {
   final instance = Openapi().getBodyApi();
@@ -15,6 +14,5 @@ void main() {
     test('test testEchoBodyPet', () async {
       // TODO
     });
-
   });
 }

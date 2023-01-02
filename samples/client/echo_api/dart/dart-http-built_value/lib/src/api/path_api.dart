@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:http/http.dart' as http;
 
-
 class PathApi {
   final String _basePath;
   final http.Client? _client;
@@ -20,28 +19,24 @@ class PathApi {
   /// Test path parameter(s)
   ///
   /// Parameters:
-  /// * [pathString] 
-  /// * [pathInteger] 
+  /// * [pathString]
+  /// * [pathInteger]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<String>> testsPathStringPathStringIntegerPathInteger({ 
+
+  Future<String> testsPathStringPathStringIntegerPathInteger({
     required String pathString,
     required int pathInteger,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    Map<String, String>? headers,
   }) async {
-    final _path = r'/path/string/{path_string}/integer/{path_integer}'.replaceAll('{' r'path_string' '}', pathString.toString()).replaceAll('{' r'path_integer' '}', pathInteger.toString());
+    final _path = r'/path/string/{path_string}/integer/{path_integer}'
+        .replaceAll('{' r'path_string' '}', pathString.toString())
+        .replaceAll('{' r'path_integer' '}', pathInteger.toString());
+    final _uri = Uri.parse(_basePath + _path);
+
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -66,7 +61,6 @@ class PathApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -87,5 +81,4 @@ class PathApi {
       extra: _response.extra,
     );
   }
-
 }

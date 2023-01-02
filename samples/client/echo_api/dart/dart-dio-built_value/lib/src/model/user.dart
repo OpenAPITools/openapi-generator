@@ -11,13 +11,13 @@ part 'user.g.dart';
 /// User
 ///
 /// Properties:
-/// * [id] 
-/// * [username] 
-/// * [firstName] 
-/// * [lastName] 
-/// * [email] 
-/// * [password] 
-/// * [phone] 
+/// * [id]
+/// * [username]
+/// * [firstName]
+/// * [lastName]
+/// * [email]
+/// * [password]
+/// * [phone]
 /// * [userStatus] - User Status
 @BuiltValue()
 abstract class User implements Built<User, UserBuilder> {
@@ -133,7 +133,9 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
     User object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -232,4 +234,3 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
     return result.build();
   }
 }
-

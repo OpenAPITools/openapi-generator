@@ -12,8 +12,8 @@ part 'foo.g.dart';
 /// Foo
 ///
 /// Properties:
-/// * [fooPropA] 
-/// * [fooPropB] 
+/// * [fooPropA]
+/// * [fooPropB]
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
@@ -32,7 +32,7 @@ abstract class Foo implements Entity, Built<Foo, FooBuilder> {
   factory Foo([void updates(FooBuilder b)]) = _$Foo;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FooBuilder b) => b..atType=b.discriminatorValue;
+  static void _defaults(FooBuilder b) => b..atType = b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Foo> get serializer => _$FooSerializer();
@@ -105,7 +105,9 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
     Foo object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -197,4 +199,3 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
     return result.build();
   }
 }
-
