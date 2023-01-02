@@ -2,16 +2,14 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
-// ignore: unused_import
+//ignore: unused_import
+import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
-import 'package:http/http.dart' as http;
 
 class PathApi {
+  final Client _client;
   final String _basePath;
-  final http.Client? _client;
 
   const PathApi(this._client, this._basePath);
 

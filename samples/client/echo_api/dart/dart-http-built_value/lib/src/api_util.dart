@@ -2,7 +2,9 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
@@ -22,12 +24,9 @@ class QueryParam {
       '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value)}';
 }
 
+/*
 // Ported from the Java version.
-Iterable<QueryParam> _queryParams(
-  String collectionFormat,
-  String name,
-  dynamic value,
-) {
+Iterable<QueryParam> _queryParams(String collectionFormat, String name, dynamic value,) {
   // Assertions to run in debug mode only.
   assert(name.isNotEmpty, 'Parameter cannot be an empty string.');
 
@@ -35,9 +34,7 @@ Iterable<QueryParam> _queryParams(
 
   if (value is List) {
     if (collectionFormat == 'multi') {
-      return value.map(
-        (dynamic v) => QueryParam(name, parameterToString(v)),
-      );
+      return value.map((dynamic v) => QueryParam(name, parameterToString(v)),);
     }
 
     // Default collection format is 'csv'.
@@ -47,33 +44,14 @@ Iterable<QueryParam> _queryParams(
 
     final delimiter = _delimiters[collectionFormat] ?? ',';
 
-    params.add(QueryParam(
-      name,
-      value.map<dynamic>(parameterToString).join(delimiter),
-    ));
+    params.add(QueryParam(name, value.map<dynamic>(parameterToString).join(delimiter),));
   } else if (value != null) {
     params.add(QueryParam(name, parameterToString(value)));
   }
 
   return params;
 }
-
-/// Format the given parameter object into a [String].
-String parameterToString(dynamic value) {
-  if (value == null) {
-    return '';
-  }
-  if (value is DateTime) {
-    return value.toUtc().toIso8601String();
-  }
-  if (value is ModelEnumClass) {}
-  if (value is OuterEnum) {}
-  if (value is OuterEnumDefaultValue) {}
-  if (value is OuterEnumInteger) {}
-  if (value is OuterEnumIntegerDefaultValue) {}
-  if (value is SingleRefType) {}
-  return value.toString();
-}
+*/
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.

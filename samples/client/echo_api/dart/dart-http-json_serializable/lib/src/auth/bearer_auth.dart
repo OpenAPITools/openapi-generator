@@ -2,45 +2,30 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'package:openapi/src/api_util.dart';
+import 'dart:convert';
+
 import 'auth.dart';
 
-typedef HttpBearerAuthProvider = String Function();
+typedef HttpBearerAuthProvider = String? Function();
 
 class HttpBearerAuth implements Authentication {
   HttpBearerAuth();
 
-  dynamic _accessToken;
-
-  dynamic get accessToken => _accessToken;
-
-  set accessToken(dynamic accessToken) {
-    if (accessToken is! String && accessToken is! HttpBearerAuthProvider) {
-      throw ArgumentError(
-          'accessToken value must be either a String or a String Function().');
-    }
-    _accessToken = accessToken;
-  }
+  HttpBearerAuthProvider? accessTokenProvider;
 
   @override
   Future<void> applyToParams(
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) async {
-    if (_accessToken == null) {
+    final provider = accessTokenProvider;
+    if (provider == null) {
       return;
     }
 
-    String accessToken;
-
-    if (_accessToken is String) {
-      accessToken = _accessToken;
-    } else if (_accessToken is HttpBearerAuthProvider) {
-      accessToken = _accessToken!();
-    } else {
-      return;
-    }
-
-    if (accessToken.isNotEmpty) {
+    final accessToken = provider();
+    if (accessToken != null && accessToken.isNotEmpty) {
       headerParams['Authorization'] = 'Bearer $accessToken';
     }
   }

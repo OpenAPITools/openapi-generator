@@ -64,6 +64,6 @@ class {{clientName}} {
   /// Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   {{classname}} get{{classname}}() {
-    return {{classname}}(dio{{#useBuiltValue}}, serializers{{/useBuiltValue}});
+    return {{classname}}({{#includeSubTemplate}}api_constructor_call{{/includeSubTemplate}});
   }{{/apis}}{{/apiInfo}}
 }

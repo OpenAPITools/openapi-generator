@@ -2,22 +2,20 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
+//ignore: unused_import
 import 'package:built_value/serializer.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/test_query_style_form_explode_true_array_string_query_object_parameter.dart';
 
 class QueryApi {
-  final String _basePath;
-  final http.Client? _client;
-
+  final Client _client;
   final Serializers _serializers;
+  final String _basePath;
 
-  const QueryApi(this._client, this._serializers, this._basePath);
+  const QueryApi(this._client, this._basePath, this._serializers);
 
   /// Test query parameter(s)
   /// Test query parameter(s)

@@ -237,16 +237,33 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("model_exports.mustache", srcFolder + File.separator + modelPackage(), "_exports.dart"));
         //api exports
         supportingFiles.add(new SupportingFile("api_exports.mustache", srcFolder + File.separator + apiPackage(), "_exports.dart"));
-        
-        /*
-         * importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
-         * 
-         */
-       
+          
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
+        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
+        templateManager = new TemplateManager(
+                templateManagerOptions,
+                getTemplatingEngine(),
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
+
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
         configureNetworkingLibrary(srcFolder);
+      
+
+        // A lambda which allows for easy includes of interescting networking and serialization library specific
+        // templates without having to change the main template files.
+        additionalProperties.put("includeSubTemplate", (Mustache.Lambda) (fragment, writer) -> {
+            MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
+            String templateFile = networkingLibrary + "-" + library + "/" + fragment.execute() + ".mustache";
+            Template tmpl = engine.getCompiler()
+                    .withLoader(name -> engine.findTemplate(templateManager, name))
+                    .defaultValue("")
+                    .compile(templateManager.getFullTemplateContents(templateFile));
+
+            fragment.executeTemplate(tmpl, writer);
+        });
     }
 
     private void configureNetworkingLibrary(String srcFolder) {
@@ -263,14 +280,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 break;
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
-        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
-        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
-        templateManager = new TemplateManager(
-                templateManagerOptions,
-                getTemplatingEngine(),
-                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
-        );
         // A lambda which allows for easy includes of networking library specific
         // templates without having to change the main template files.
         additionalProperties.put("includeNetworkingLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
@@ -331,15 +340,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 break;
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
-        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
-        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
-        templateManager = new TemplateManager(
-                templateManagerOptions,
-                getTemplatingEngine(),
-                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
-        );
-
+      
         // A lambda which allows for easy includes of serialization library specific
         // templates without having to change the main template files.
         additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {

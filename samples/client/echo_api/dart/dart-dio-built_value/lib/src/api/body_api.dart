@@ -2,8 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
+//ignore: unused_import
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -11,7 +10,6 @@ import 'package:openapi/src/model/pet.dart';
 
 class BodyApi {
   final Dio _dio;
-
   final Serializers _serializers;
 
   const BodyApi(this._dio, this._serializers);
@@ -30,6 +28,7 @@ class BodyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<Pet>> testEchoBodyPet({
     Pet? pet,
     CancelToken? cancelToken,

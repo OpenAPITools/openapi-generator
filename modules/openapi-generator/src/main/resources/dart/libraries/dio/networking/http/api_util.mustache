@@ -1,6 +1,7 @@
 {{>header}}
-
+import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
@@ -19,6 +20,7 @@ class QueryParam {
   String toString() => '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value)}';
 }
 
+/*
 // Ported from the Java version.
 Iterable<QueryParam> _queryParams(String collectionFormat, String name, dynamic value,) {
   // Assertions to run in debug mode only.
@@ -45,26 +47,7 @@ Iterable<QueryParam> _queryParams(String collectionFormat, String name, dynamic 
 
   return params;
 }
-
-/// Format the given parameter object into a [String].
-String parameterToString(dynamic value) {
-  if (value == null) {
-    return '';
-  }
-  if (value is DateTime) {
-    return value.toUtc().toIso8601String();
-  }
-  {{#models}}
-    {{#model}}
-      {{#isEnum}}
-  if (value is {{{classname}}}) {
-{{#native_serialization}}    return {{{classname}}}TypeTransformer().encode(value).toString();{{/native_serialization}}
-  }
-      {{/isEnum}}
-    {{/model}}
-  {{/models}}
-  return value.toString();
-}
+*/
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.

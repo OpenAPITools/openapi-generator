@@ -2,18 +2,16 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
+//ignore: unused_import
 import 'package:built_value/serializer.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class PathApi {
-  final String _basePath;
-  final http.Client? _client;
-
+  final Client _client;
   final Serializers _serializers;
+  final String _basePath;
 
-  const PathApi(this._client, this._serializers, this._basePath);
+  const PathApi(this._client, this._basePath, this._serializers);
 
   /// Test path parameter(s)
   /// Test path parameter(s)

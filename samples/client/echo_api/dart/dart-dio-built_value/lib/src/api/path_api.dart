@@ -2,14 +2,12 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
+//ignore: unused_import
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 class PathApi {
   final Dio _dio;
-
   final Serializers _serializers;
 
   const PathApi(this._dio, this._serializers);
@@ -29,6 +27,7 @@ class PathApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<String>> testsPathStringPathStringIntegerPathInteger({
     required String pathString,
     required int pathInteger,

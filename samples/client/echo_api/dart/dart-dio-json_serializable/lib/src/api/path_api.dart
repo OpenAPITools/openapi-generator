@@ -2,12 +2,10 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
-// ignore: unused_import
+//ignore: unused_import
 import 'dart:convert';
-import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
+import 'package:openapi/src/deserialize.dart';
 
 class PathApi {
   final Dio _dio;
@@ -29,6 +27,7 @@ class PathApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<String>> testsPathStringPathStringIntegerPathInteger({
     required String pathString,
     required int pathInteger,

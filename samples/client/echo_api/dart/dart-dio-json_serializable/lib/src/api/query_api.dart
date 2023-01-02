@@ -2,12 +2,10 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
-
-// ignore: unused_import
+//ignore: unused_import
 import 'dart:convert';
-import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
+import 'package:openapi/src/deserialize.dart';
 
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/test_query_style_form_explode_true_array_string_query_object_parameter.dart';
@@ -33,6 +31,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<String>> testQueryIntegerBooleanString({
     int? integerQuery,
     bool? booleanQuery,
@@ -112,6 +111,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<String>> testQueryStyleFormExplodeTrueArrayString({
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject,
     CancelToken? cancelToken,
@@ -187,6 +187,7 @@ class QueryApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioError] if API call or serialization fails
+
   Future<Response<String>> testQueryStyleFormExplodeTrueObject({
     Pet? queryObject,
     CancelToken? cancelToken,

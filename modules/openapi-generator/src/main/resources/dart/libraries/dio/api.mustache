@@ -1,1 +1,18 @@
+{{>header}}
+//ignore: unused_import
+{{#includeSubTemplate}}api_imports{{/includeSubTemplate}}
+
+{{#operations}}
+{{#imports}}import '{{.}}';
+{{/imports}}
+
+class {{classname}} {
+
+{{#includeSubTemplate}}api_fields{{/includeSubTemplate}}
+
+{{#includeSubTemplate}}api_constructor{{/includeSubTemplate}}
+
 {{#includeNetworkingLibraryTemplate}}api{{/includeNetworkingLibraryTemplate}}
+
+}
+{{/operations}}

@@ -28,18 +28,18 @@ class Openapi {
   /// Get BodyApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   BodyApi getBodyApi() {
-    return BodyApi(client, serializers, actualBasePath);
+    return BodyApi(client, actualBasePath, serializers);
   }
 
   /// Get PathApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   PathApi getPathApi() {
-    return PathApi(client, serializers, actualBasePath);
+    return PathApi(client, actualBasePath, serializers);
   }
 
   /// Get QueryApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   QueryApi getQueryApi() {
-    return QueryApi(client, serializers, actualBasePath);
+    return QueryApi(client, actualBasePath, serializers);
   }
 }

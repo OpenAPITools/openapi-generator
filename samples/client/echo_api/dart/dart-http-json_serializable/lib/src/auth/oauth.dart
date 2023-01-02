@@ -2,6 +2,9 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'package:openapi/src/api_util.dart';
+import 'dart:convert';
+
 import 'auth.dart';
 
 class OAuth implements Authentication {

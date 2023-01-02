@@ -1,43 +1,5 @@
-{{>header}}
-import 'dart:async';
-
-{{#includeLibraryTemplate}}api/imports{{/includeLibraryTemplate}}
-import 'package:dio/dio.dart';
-
-{{#operations}}
-{{#imports}}import '{{.}}';
-{{/imports}}
-
-class {{classname}} {
-
-  final Dio _dio;
-
-{{#includeLibraryTemplate}}api/constructor{{/includeLibraryTemplate}}
-
   {{#operation}}
-  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
-  /// {{notes}}
-  ///
-  /// Parameters:
-  {{#allParams}}
-  /// * [{{paramName}}] {{#description}}- {{{.}}}{{/description}}
-  {{/allParams}}
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
-  /// Throws [DioError] if API call or serialization fails
-  {{#externalDocs}}
-  /// {{description}}
-  /// Also see [{{summary}} Documentation]({{url}})
-  {{/externalDocs}}
-  {{#isDeprecated}}
-  @Deprecated('This operation has been deprecated')
-  {{/isDeprecated}}
+{{>networking/dio/operation_header}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
     required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
     {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
@@ -142,5 +104,3 @@ class {{classname}} {
   }
 
   {{/operation}}
-}
-{{/operations}}
