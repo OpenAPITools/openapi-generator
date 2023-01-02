@@ -1410,20 +1410,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     cm.allVars.add(cp);
                 }
             }
-
-            for (CodegenProperty cp : cm.allVars) {
-                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11845
-                // some properties do not have isInherited set correctly
-                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
-                // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
-                if (cp.isInherited){
-                    continue;
-                }
-                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
-                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
-                    cp.isInherited = true;
-                }
-            }
         }
 
         return objs;
