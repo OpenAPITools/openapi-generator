@@ -2133,12 +2133,14 @@ components:
         breed:
           type: string
       type: object
+      x-oag-internal-only: true
       example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      x-oag-internal-only: true
       example: null
   securitySchemes:
     petstore_auth:
