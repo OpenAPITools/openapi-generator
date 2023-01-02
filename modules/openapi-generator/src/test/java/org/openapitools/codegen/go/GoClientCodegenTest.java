@@ -286,4 +286,24 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
                 "httpRes, err := apiClient.PetApi.PetDelete(context.Background()).Execute()");
     }
+
+    @Test
+    public void verifyReadOnlyAttributes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/property-readonly.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_request.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_request.go"),
+                "// skip: customerCode is readOnly");
+    }
+
 }

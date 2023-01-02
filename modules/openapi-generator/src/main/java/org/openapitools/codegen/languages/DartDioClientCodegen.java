@@ -385,7 +385,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
     }
-    
+
     private void configureDateLibrary(String srcFolder) {
         switch (dateLibrary) {
             case DATE_LIBRARY_TIME_MACHINE:
@@ -560,7 +560,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsChild, isChild);
             cm.vendorExtensions.put(kIsParent, isParent);
             cm.vendorExtensions.put(kIsPure, isPure);
-            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty()) && (cm.anyOf == null || cm.anyOf.isEmpty())) {
+            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
                 //discriminator has no meaning here
                 if (cm.discriminator!=null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
@@ -660,6 +660,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
     }
 
+    /// override the default behavior of createDiscriminator 
+    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false) 
+    /// this ensures 1-1 schema mapping instead of 1-many
     @Override
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {        
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);

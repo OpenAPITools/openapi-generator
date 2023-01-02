@@ -10,6 +10,7 @@ import org.openapitools.model.FooRefOrValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -89,7 +90,7 @@ public interface FooApi {
         tags = { "Foo" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = {
-                @Content(mediaType = "application/json;charset=utf-8", schema = @Schema(implementation = FooRefOrValue.class))
+                @Content(mediaType = "application/json;charset=utf-8", array = @ArraySchema(schema = @Schema(implementation = FooRefOrValue.class)))
             })
         }
     )
@@ -104,7 +105,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
-                    String exampleString = "null";
+                    String exampleString = "[ null, null ]";
                     ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
                     break;
                 }

@@ -69,6 +69,29 @@ extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
   }
 }
 
+extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        return null;
+    }
+}
+extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        return null;
+    }
+}
+
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
   @override
   final Iterable<Type> types = const [BarRefOrValue, _$BarRefOrValue];

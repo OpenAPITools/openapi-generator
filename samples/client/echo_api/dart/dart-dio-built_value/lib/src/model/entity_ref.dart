@@ -140,9 +140,7 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     if (object is FooRef) {
       return serializers.serialize(object, specifiedType: FullType(FooRef))!;
     }
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -152,32 +150,25 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex =
-        serializedList.indexOf(EntityRef.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(EntityRef.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
       case r'BarRef':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(BarRef)) as BarRef;
+        return serializers.deserialize(serialized, specifiedType: FullType(BarRef)) as BarRef;
       case r'FooRef':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(FooRef)) as FooRef;
+        return serializers.deserialize(serialized, specifiedType: FullType(FooRef)) as FooRef;
       default:
-        return serializers.deserialize(serialized,
-            specifiedType: FullType($EntityRef)) as $EntityRef;
+        return serializers.deserialize(serialized, specifiedType: FullType($EntityRef)) as $EntityRef;
     }
   }
 }
 
 /// a concrete implementation of [EntityRef], since [EntityRef] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $EntityRef
-    implements EntityRef, Built<$EntityRef, $EntityRefBuilder> {
+abstract class $EntityRef implements EntityRef, Built<$EntityRef, $EntityRefBuilder> {
   $EntityRef._();
 
-  factory $EntityRef([void Function($EntityRefBuilder)? updates]) =
-      _$$EntityRef;
+  factory $EntityRef([void Function($EntityRefBuilder)? updates]) = _$$EntityRef;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($EntityRefBuilder b) => b;

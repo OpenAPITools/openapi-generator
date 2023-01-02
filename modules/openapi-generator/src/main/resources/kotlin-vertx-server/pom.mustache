@@ -14,7 +14,12 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.6.10</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
         <junit.version>4.13.2</junit.version>
         <vertx.version>3.9.12</vertx.version>
         <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
