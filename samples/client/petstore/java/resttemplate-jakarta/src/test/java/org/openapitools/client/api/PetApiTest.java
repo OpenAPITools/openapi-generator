@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -16,7 +16,6 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -46,8 +45,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() {
-        Pet body = null;
-        api.addPet(body);
+        Pet pet = null;
+        Pet response = api.addPet(pet);
 
         // TODO: test validations
     }
@@ -95,8 +94,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() {
-        Set<String> tags = null;
-        Set<Pet> response = api.findPetsByTags(tags);
+        List<String> tags = null;
+        List<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }
@@ -127,8 +126,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() {
-        Pet body = null;
-        api.updatePet(body);
+        Pet pet = null;
+        Pet response = api.updatePet(pet);
 
         // TODO: test validations
     }
@@ -165,24 +164,6 @@ public class PetApiTest {
         String additionalMetadata = null;
         File _file = null;
         ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * uploads an image (required)
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadFileWithRequiredFileTest() {
-        Long petId = null;
-        File requiredFile = null;
-        String additionalMetadata = null;
-        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations
     }

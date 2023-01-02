@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -44,8 +44,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() {
-        User body = null;
-        api.createUser(body);
+        User user = null;
+        api.createUser(user);
 
         // TODO: test validations
     }
@@ -60,8 +60,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() {
-        List<User> body = null;
-        api.createUsersWithArrayInput(body);
+        List<User> user = null;
+        api.createUsersWithArrayInput(user);
 
         // TODO: test validations
     }
@@ -76,8 +76,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() {
-        List<User> body = null;
-        api.createUsersWithListInput(body);
+        List<User> user = null;
+        api.createUsersWithListInput(user);
 
         // TODO: test validations
     }
@@ -157,8 +157,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() {
         String username = null;
-        User body = null;
-        api.updateUser(username, body);
+        User user = null;
+        api.updateUser(username, user);
 
         // TODO: test validations
     }
