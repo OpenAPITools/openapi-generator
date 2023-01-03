@@ -7,7 +7,6 @@ import * as http from 'http';
 import * as https from 'https';
 {{/node}}
 {{/platforms}}
-
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 
 {{#platforms}}

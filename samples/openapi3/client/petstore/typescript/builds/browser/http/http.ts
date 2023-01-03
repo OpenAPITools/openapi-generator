@@ -1,4 +1,3 @@
-
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
