@@ -74,7 +74,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = { "browser", "node", "deno" };
     private static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
-    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "The file extension to use for imports. The default is '.ts' when 'platform' is 'deno' and blank otherwise.";
+    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.";
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
