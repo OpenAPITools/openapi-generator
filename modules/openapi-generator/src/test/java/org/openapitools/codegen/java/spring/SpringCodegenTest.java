@@ -47,7 +47,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.assertj.core.api.Condition;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -1568,9 +1567,26 @@ public class SpringCodegenTest {
                 .printFileContent();
         javaFileAssert.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
-        javaFileAssert.isNot(new Condition<>(classfile ->
-                classfile.getImports().stream().map(NodeWithName::getNameAsString)
-                        .anyMatch("javax.validation.constraints.NotNull"::equals), ""));
+        javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
+    }
+
+    @Test
+    public void requiredFieldShouldIncludeNotNullAnnotationWithBeanValidationTrue_issue14252() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
+
+        JavaFileAssert.assertThat(files.get("MyResponse.java"))
+            .printFileContent()
+            .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
+            .assertMethod("getMyPropTypeNumber")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("JsonSerialize", ImmutableMap.of(
+                "using", "ToStringSerializer.class"
+            ));
     }
 
     @Test
@@ -1595,10 +1611,9 @@ public class SpringCodegenTest {
                 .printFileContent();
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").containsWithName("Size").containsWithName("Email");
-        javaFileAssert.isNot(new Condition<>(classfile ->
-                classfile.getImports().stream().map(NodeWithName::getNameAsString)
-                        .anyMatch("javax.validation.constraints.NotNull"::equals), ""));
-        javaFileAssert.hasImports("javax.validation.constraints");
+        javaFileAssert
+            .hasNoImports("javax.validation.constraints.NotNull")
+            .hasImports("javax.validation.constraints");
     }
 
     public void shouldUseEqualsNullableForArrayWhenSetInConfig_issue13385() throws IOException {
