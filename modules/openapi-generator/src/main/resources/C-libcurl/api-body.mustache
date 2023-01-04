@@ -131,7 +131,7 @@ end:
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
@@ -185,13 +185,13 @@ end:
 
     {{/isLong}}
     {{#isString}}
-    if({{paramName}} == NULL) {
+    if({{paramName}} == {{#isEnum}}0{{/isEnum}}{{^isEnum}}NULL{{/isEnum}}) {
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
     sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}});
     {{/isString}}
     {{#isUuid}}
     if({{paramName}} == NULL) {
