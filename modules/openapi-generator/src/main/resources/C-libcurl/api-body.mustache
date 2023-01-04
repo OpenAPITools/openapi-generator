@@ -261,7 +261,7 @@ end:
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
-    if ({{paramName}} != NULL)
+    if ({{paramName}} != {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}})
     {
         {{#isFile}}
         keyForm_{{paramName}} = strdup("{{{baseName}}}");
@@ -510,8 +510,10 @@ end:
         keyForm_{{{paramName}}} = NULL;
     }
     if (valueForm_{{{paramName}}}) {
+        {{^isEnum}}
         free(valueForm_{{{paramName}}});
-        valueForm_{{{paramName}}} = NULL;
+        {{/isEnum}}
+        valueForm_{{{paramName}}} = {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}};
     }
     free(keyPairForm_{{paramName}});
     {{/isString}}

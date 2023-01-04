@@ -75,6 +75,7 @@ end:
 {{^isEnum}}
     {{#vars}}
     {{^isContainer}}
+    {{#isPrimitiveType}}
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
@@ -96,6 +97,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
 }
     {{/isEnum}}
     {{/isModel}}
+    {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#items}}
@@ -138,7 +140,12 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
+    {{^isEnum}}
     {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{#isEnum}}
+    {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
@@ -227,10 +234,12 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
+    {{^isEnum}}
     if ({{{classname}}}->{{{name}}}) {
         {{{complexType}}}_free({{{classname}}}->{{{name}}});
         {{classname}}->{{name}} = NULL;
     }
+    {{/isEnum}}
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
@@ -337,7 +346,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isEnum}}
     {{#isEnum}}
+    {{#isPrimitiveType}}
     if ({{projectName}}_{{classVarName}}_{{enumName}}_NULL == {{{classname}}}->{{{name}}}) {
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    if ({{projectName}}_{{dataType}}_{{enumName}}_NULL == {{{classname}}}->{{{name}}}) {
+    {{/isPrimitiveType}}
         goto fail;
     }
     {{/isEnum}}
@@ -347,7 +361,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{classname}}}->{{{name}}}) {
     {{/isEnum}}
     {{#isEnum}}
+    {{#isPrimitiveType}}
     if({{{classname}}}->{{{name}}} != {{projectName}}_{{classVarName}}_{{enumName}}_NULL) {
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    if({{{classname}}}->{{{name}}} != {{projectName}}_{{dataType}}_{{enumName}}_NULL) {
+    {{/isPrimitiveType}}
     {{/isEnum}}
     {{/required}}
     {{^isContainer}}
@@ -589,7 +608,12 @@ fail:
     {{^isModel}}
     {{^isFreeFormObject}}
     // define the local variable for {{{classname}}}->{{{name}}}
+    {{^isEnum}}
     {{complexType}}_t *{{name}}_local_nonprim = NULL;
+    {{/isEnum}}
+    {{#isEnum}}
+    {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}_local_nonprim = 0;
+    {{/isEnum}}
 
     {{/isFreeFormObject}}
     {{/isModel}}
@@ -853,7 +877,7 @@ fail:
         {{/isModel}}
         {{^isModel}}
         {{^isFreeFormObject}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/required}}{{^-last}},{{/-last}}
         {{/isFreeFormObject}}
         {{/isModel}}
         {{#isUuid}}
@@ -929,8 +953,10 @@ end:
     {{^isModel}}
     {{^isFreeFormObject}}
     if ({{{name}}}_local_nonprim) {
+        {{^isEnum}}
         {{complexType}}_free({{{name}}}_local_nonprim);
-        {{{name}}}_local_nonprim = NULL;
+        {{/isEnum}}
+        {{{name}}}_local_nonprim = {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}};
     }
     {{/isFreeFormObject}}
     {{/isModel}}
