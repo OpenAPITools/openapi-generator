@@ -19,8 +19,13 @@ apiClient_t *apiClient_create() {
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
+    {{#isBasicBasic}}
     apiClient->username = NULL;
     apiClient->password = NULL;
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    apiClient->accessToken = NULL;
+    {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
     apiClient->accessToken = NULL;
@@ -66,8 +71,13 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
+    {{#isBasicBasic}}
     apiClient->username = NULL;
     apiClient->password = NULL;
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    apiClient->accessToken = NULL;
+    {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
     apiClient->accessToken = NULL;
@@ -101,12 +111,19 @@ void apiClient_free(apiClient_t *apiClient) {
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
+    {{#isBasicBasic}}
     if(apiClient->username) {
         free(apiClient->username);
     }
     if(apiClient->password) {
         free(apiClient->password);
     }
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
+    {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
     if(apiClient->accessToken) {
@@ -467,6 +484,22 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
         }
         {{/isApiKey}}
+        {{#isBasic}}
+        {{#isBasicBearer}}
+        // this would only be generated for bearer token authentication
+        if(apiClient->accessToken != NULL)
+        {
+            int authHeaderSize;
+            char *authHeader = NULL;
+
+            authHeaderSize = snprintf(NULL, 0, "Authorization: Bearer %s", apiClient->accessToken) + 1;
+            authHeader = malloc(authHeaderSize);
+            snprintf(authHeader, authHeaderSize, "Authorization: Bearer %s", apiClient->accessToken);
+            headers = curl_slist_append(headers, authHeader);
+            free(authHeader);
+        }
+        {{/isBasicBearer}}
+        {{/isBasic}}
         {{/authMethods}}
         {{/hasAuthMethods}}
 
@@ -488,6 +521,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isBasic}}
+        {{#isBasicBasic}}
         // this would only be generated for basic authentication:
         char *authenticationToken;
 
@@ -511,6 +545,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
                              CURLOPT_USERPWD,
                              authenticationToken);
         }
+        {{/isBasicBasic}}
         {{/isBasic}}
         {{#isOAuth}}
         // this would only be generated for OAuth2 authentication
@@ -549,11 +584,13 @@ void apiClient_invoke(apiClient_t    *apiClient,
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isBasic}}
+        {{#isBasicBasic}}
         if((apiClient->username != NULL) &&
         (apiClient->password != NULL) )
         {
         free(authenticationToken);
         }
+        {{/isBasicBasic}}
         {{/isBasic}}
         {{/authMethods}}
         {{/hasAuthMethods}}

@@ -31,8 +31,13 @@ typedef struct apiClient_t {
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
+    {{#isBasicBasic}}
     char *username;
     char *password;
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    char *accessToken;
+    {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
     char *accessToken;
