@@ -28,9 +28,10 @@ typedef struct user_t {
     char *phone; // string
     int user_status; //numeric
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } user_t;
 
-user_t *user_create(
+__attribute__((deprecated)) user_t *user_create(
     long id,
     char *username,
     char *first_name,

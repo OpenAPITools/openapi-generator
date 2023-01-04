@@ -13,7 +13,7 @@
 
 
 typedef struct object_t {
-    void *temporary;
+    cJSON *json;
 } object_t;
 
 object_t *object_create();
