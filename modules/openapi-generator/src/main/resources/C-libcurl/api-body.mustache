@@ -117,6 +117,13 @@ end:
     snprintf(localVarPath, sizeOfPath, "{{{path}}}");
 
     {{#pathParams}}
+    {{#isString}}
+    if(!{{paramName}})
+        goto end;
+    {{/isString}}
+    {{/pathParams}}
+
+    {{#pathParams}}
 
     // Path Params
     long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
