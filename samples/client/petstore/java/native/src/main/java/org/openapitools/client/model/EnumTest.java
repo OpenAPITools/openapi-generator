@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -492,5 +495,61 @@ public class EnumTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `enum_string` to the URL query string
+    if (getEnumString() != null) {
+      joiner.add(String.format("%s[enum_string]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_string_required` to the URL query string
+    if (getEnumStringRequired() != null) {
+      joiner.add(String.format("%s[enum_string_required]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_integer` to the URL query string
+    if (getEnumInteger() != null) {
+      joiner.add(String.format("%s[enum_integer]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_number` to the URL query string
+    if (getEnumNumber() != null) {
+      joiner.add(String.format("%s[enum_number]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnum` to the URL query string
+    if (getOuterEnum() != null) {
+      joiner.add(String.format("%s[outerEnum]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumInteger` to the URL query string
+    if (getOuterEnumInteger() != null) {
+      joiner.add(String.format("%s[outerEnumInteger]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumDefaultValue` to the URL query string
+    if (getOuterEnumDefaultValue() != null) {
+      joiner.add(String.format("%s[outerEnumDefaultValue]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumIntegerDefaultValue` to the URL query string
+    if (getOuterEnumIntegerDefaultValue() != null) {
+      joiner.add(String.format("%s[outerEnumIntegerDefaultValue]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 
