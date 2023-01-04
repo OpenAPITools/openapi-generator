@@ -30,9 +30,9 @@ char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
 
-//cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
+cJSON *{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
 
-//{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
 
 {{/isEnum}}
 {{^isEnum}}
