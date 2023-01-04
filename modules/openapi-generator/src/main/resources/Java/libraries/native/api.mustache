@@ -349,8 +349,8 @@ public class {{classname}} {
         {{#isDeepObject}}
     if ({{paramName}} != null) {
             {{#isArray}}
-      for (int i=0; i < {{name}}.size(); i++) {
-        localVarQueryDeepObjectStringJoiner.add({{paramName}}.get(i).toUrlQueryString("{{baseName}}"));
+      for (int i=0; i < {{paramName}}.size(); i++) {
+        localVarQueryDeepObjectStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
       }
             {{/isArray}}
             {{^isArray}}
