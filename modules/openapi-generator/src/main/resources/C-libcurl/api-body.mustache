@@ -324,6 +324,10 @@ end:
     }
     {{/isArray}}
     {{^isArray}}
+    {{#isString}}
+    localVarBodyParameters = strdup({{paramName}});
+    {{/isString}}
+    {{^isString}}
     cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
@@ -331,6 +335,7 @@ end:
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
         localVarBodyParameters = {{{cJSONPrint}}}(localVarSingleItemJSON_{{paramName}});
     }
+    {{/isString}}
     {{/isArray}}
     {{/bodyParam}}
     {{#produces}}
@@ -458,10 +463,12 @@ end:
     free(localVarBodyParameters);
     {{/isArray}}
     {{^isArray}}
+    {{^isString}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isString}}
     free(localVarBodyParameters);
     {{/isArray}}
     {{/bodyParams}}
