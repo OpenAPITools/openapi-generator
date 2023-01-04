@@ -160,7 +160,7 @@ public class AllOfWithSingleRef {
 
     // add `SingleRefType` to the URL query string
     if (getSingleRefType() != null) {
-      joiner.add(String.format("%s[SingleRefType]=%s", prefix, getSingleRefType().toUrlQueryString(prefix + "[SingleRefType]")));
+      joiner.add(getSingleRefType().toUrlQueryString(prefix + "[SingleRefType]"));
     }
 
     return joiner.toString();

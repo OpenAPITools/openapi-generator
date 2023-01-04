@@ -244,7 +244,7 @@ public class ObjectWithDeprecatedFields {
 
     // add `deprecatedRef` to the URL query string
     if (getDeprecatedRef() != null) {
-      joiner.add(String.format("%s[deprecatedRef]=%s", prefix, getDeprecatedRef().toUrlQueryString(prefix + "[deprecatedRef]")));
+      joiner.add(getDeprecatedRef().toUrlQueryString(prefix + "[deprecatedRef]"));
     }
 
     // add `bars` to the URL query string

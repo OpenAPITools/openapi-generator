@@ -124,7 +124,7 @@ public class FooGetDefaultResponse {
 
     // add `string` to the URL query string
     if (getString() != null) {
-      joiner.add(String.format("%s[string]=%s", prefix, getString().toUrlQueryString(prefix + "[string]")));
+      joiner.add(getString().toUrlQueryString(prefix + "[string]"));
     }
 
     return joiner.toString();

@@ -83,11 +83,11 @@ public class CustomTest {
         Pet queryObject = new Pet().id(12345L).name("Hello World").
                 photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
 
-        Assert.assertEquals("query_object[id]=12345&query_object[name]=Hello%20World&query_object[category]=query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", queryObject.toUrlQueryString("query_object"));
+        Assert.assertEquals("query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", queryObject.toUrlQueryString("query_object"));
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObject(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_deepObject/explode_true/object?query_object[id]=12345&query_object[name]=Hello%20World&query_object[category]=query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", p.path);
+        Assert.assertEquals("/query/style_deepObject/explode_true/object?query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", p.path);
     }
 
     /**

@@ -342,7 +342,7 @@ public class Pet {
 
     // add `category` to the URL query string
     if (getCategory() != null) {
-      joiner.add(String.format("%s[category]=%s", prefix, getCategory().toUrlQueryString(prefix + "[category]")));
+      joiner.add(getCategory().toUrlQueryString(prefix + "[category]"));
     }
 
     // add `photoUrls` to the URL query string

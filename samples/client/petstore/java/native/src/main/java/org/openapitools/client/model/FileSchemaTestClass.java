@@ -165,7 +165,7 @@ public class FileSchemaTestClass {
 
     // add `file` to the URL query string
     if (getFile() != null) {
-      joiner.add(String.format("%s[file]=%s", prefix, getFile().toUrlQueryString(prefix + "[file]")));
+      joiner.add(getFile().toUrlQueryString(prefix + "[file]"));
     }
 
     // add `files` to the URL query string

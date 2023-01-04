@@ -459,7 +459,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isPrimitiveType}}
     {{#isModel}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s[{{{baseName}}}]=%s", prefix, {{getter}}().toUrlQueryString(prefix + "[{{{baseName}}}]")));
+      joiner.add({{getter}}().toUrlQueryString(prefix + "[{{{baseName}}}]"));
     }
     {{/isModel}}
     {{^isModel}}
