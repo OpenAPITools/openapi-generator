@@ -360,50 +360,61 @@ end:
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
     //primitive return type simple
-    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
+    {{returnType}}* elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = strdup(({{returnType}}*)apiClient->dataReceived);
 
     {{/returnSimpleType}}
     {{^returnSimpleType}}
     //primitive return type not simple
-    cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    cJSON *{{{paramName}}}VarJSON;
-    list_t *elementToReturn = list_createList();
-    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
-        list_addElement(elementToReturn, keyPair);
+    list_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        cJSON *{{{paramName}}}VarJSON;
+        elementToReturn = list_createList();
+        cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
+            keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
+            list_addElement(elementToReturn, keyPair);
+        }
+        cJSON_Delete({{paramName}}localVarJSON);
     }
-    cJSON_Delete({{paramName}}localVarJSON);
 
     {{/returnSimpleType}}
     {{/returnTypeIsPrimitive}}
     {{^returnTypeIsPrimitive}}
     {{#returnContainer}}
-    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    if(!cJSON_IsArray({{classname}}localVarJSON)) {
-        return 0;//nonprimitive container
-    }
-    list_t *elementToReturn = list_createList();
-    cJSON *{{{paramName}}}VarJSON;
-    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
-    {
-        if(!cJSON_IsObject({{{paramName}}}VarJSON))
-        {
-           // return 0;
+    list_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        if(!cJSON_IsArray({{classname}}localVarJSON)) {
+            return 0;//nonprimitive container
         }
-        char *localVarJSONToChar = cJSON_Print({{{paramName}}}VarJSON);
-        list_addElement(elementToReturn , localVarJSONToChar);
-    }
+        elementToReturn = list_createList();
+        cJSON *{{{paramName}}}VarJSON;
+        cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
+        {
+            if(!cJSON_IsObject({{{paramName}}}VarJSON))
+            {
+               // return 0;
+            }
+            char *localVarJSONToChar = cJSON_Print({{{paramName}}}VarJSON);
+            list_addElement(elementToReturn , localVarJSONToChar);
+        }
 
-    cJSON_Delete( {{classname}}localVarJSON);
-    cJSON_Delete( {{{paramName}}}VarJSON);
+        cJSON_Delete( {{classname}}localVarJSON);
+        cJSON_Delete( {{{paramName}}}VarJSON);
+    }
     {{/returnContainer}}
     {{^returnContainer}}
     //nonprimitive not container
-    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    {{^returnTypeIsEnum}}{{{returnBaseType}}}_t *{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}{{projectName}}_{{{.}}}_{{returnEnumName}}_e {{/returnTypeIsEnum}}elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
-    cJSON_Delete({{classname}}localVarJSON);
-    if(elementToReturn == {{^returnTypeIsEnum}}NULL{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}0{{/returnTypeIsEnum}}) {
-        // return 0;
+    {{^returnTypeIsEnum}}{{{returnBaseType}}}_t *{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}{{projectName}}_{{{.}}}_{{returnEnumName}}_e {{/returnTypeIsEnum}}elementToReturn = {{^returnTypeIsEnum}}NULL{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}0{{/returnTypeIsEnum}};
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
+        cJSON_Delete({{classname}}localVarJSON);
+        if(elementToReturn == {{^returnTypeIsEnum}}NULL{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}0{{/returnTypeIsEnum}}) {
+            // return 0;
+        }
     }
 
     {{/returnContainer}}
