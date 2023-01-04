@@ -623,6 +623,9 @@ fail:
     {{#vars}}
     // {{{classname}}}->{{{name}}}
     cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if (cJSON_IsNull({{{name}}})) {
+        {{{name}}} = NULL;
+    }
     {{#required}}
     if (!{{{name}}}) {
         goto end;
