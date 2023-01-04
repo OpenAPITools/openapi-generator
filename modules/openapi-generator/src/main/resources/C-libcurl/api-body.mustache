@@ -107,6 +107,7 @@ end:
     list_t *localVarHeaderType = {{#hasProduces}}list_createList();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
     list_t *localVarContentType = {{#hasConsumes}}list_createList();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -121,6 +122,10 @@ end:
     if(!{{paramName}})
         goto end;
     {{/isString}}
+    {{#isBinary}}
+    if(!{{paramName}})
+        goto end;
+    {{/isBinary}}
     {{/pathParams}}
 
     {{#pathParams}}
@@ -317,20 +322,30 @@ end:
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
         localVarBodyParameters = cJSON_Print(localVarItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     {{/isArray}}
     {{^isArray}}
     {{#isString}}
     localVarBodyParameters = strdup({{paramName}});
+    localVarBodyLength = strlen(localVarBodyParameters);
     {{/isString}}
     {{^isString}}
+    {{#isBinary}}
+    localVarBodyParameters = malloc({{paramName}}->len);
+    memcpy(localVarBodyParameters, {{paramName}}->data, {{paramName}}->len);
+    localVarBodyLength = {{paramName}}->len;
+    {{/isBinary}}
+    {{^isBinary}}
     cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
         localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
+    {{/isBinary}}
     {{/isString}}
     {{/isArray}}
     {{/bodyParam}}
@@ -348,6 +363,7 @@ end:
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "{{{httpMethod}}}");
 
     {{#responses}}
@@ -487,10 +503,12 @@ end:
     {{/isArray}}
     {{^isArray}}
     {{^isString}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
     {{/isString}}
     free(localVarBodyParameters);
     {{/isArray}}
@@ -628,10 +646,12 @@ end:
     free(localVarBodyParameters);
     {{/isArray}}
     {{^isArray}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
     free(localVarBodyParameters);
     {{/isArray}}
     {{/bodyParams}}
