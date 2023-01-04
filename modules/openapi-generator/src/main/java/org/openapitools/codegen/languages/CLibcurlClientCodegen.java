@@ -347,6 +347,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // Object files in model folder
         supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
         supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
+        supportingFiles.add(new SupportingFile("any_type-header.mustache", "model", "any_type.h"));
     }
 
     @Override
