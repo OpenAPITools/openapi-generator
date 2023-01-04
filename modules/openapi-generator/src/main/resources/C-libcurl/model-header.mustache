@@ -154,9 +154,10 @@ typedef struct {{classname}}_t {
     {{/isContainer}}
     {{/vars}}
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } {{classname}}_t;
 
-{{classname}}_t *{{classname}}_create(
+__attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{#vars}}
     {{^isContainer}}
     {{^isPrimitiveType}}

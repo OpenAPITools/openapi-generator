@@ -119,7 +119,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isContainer}}
     {{/vars}}
 
-{{classname}}_t *{{classname}}_create(
+static {{classname}}_t *{{classname}}_create_internal(
     {{#vars}}
     {{^isContainer}}
     {{^isPrimitiveType}}
@@ -205,12 +205,101 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{classname}}_local_var->{{{name}}} = {{{name}}};
     {{/vars}}
 
+    {{classname}}_local_var->_library_owned = 1;
     return {{classname}}_local_var;
 }
 
+__attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{#isEnum}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{^isEnum}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{#isEnum}}
+    {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{/isFreeFormObject}}
+    {{/isModel}}
+    {{#isUuid}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isUuid}}
+    {{#isEmail}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isEmail}}
+    {{#isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isNumeric}}
+    {{#isBoolean}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isByteArray}}
+    {{#isBinary}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isBinary}}
+    {{#isDate}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isDate}}
+    {{#isDateTime}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isArray}}
+    {{#isPrimitiveType}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isPrimitiveType}}
+    {{/isArray}}
+    {{#isMap}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isMap}}
+    {{/isContainer}}
+    {{/vars}}
+    ) {
+    return {{classname}}_create_internal (
+        {{#vars}}
+        {{name}}{{^-last}},{{/-last}}
+        {{/vars}}
+        );
+}
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
     if(NULL == {{classname}}){
+        return ;
+    }
+    if({{classname}}->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "{{classname}}_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -859,7 +948,7 @@ fail:
 
     {{/vars}}
 
-    {{classname}}_local_var = {{classname}}_create (
+    {{classname}}_local_var = {{classname}}_create_internal (
         {{#vars}}
         {{^isContainer}}
         {{^isPrimitiveType}}
