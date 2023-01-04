@@ -108,6 +108,9 @@ end:
     list_t *localVarContentType = {{#hasConsumes}}list_createList();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("{{{path}}}")+1;
     char *localVarPath = malloc(sizeOfPath);
