@@ -49,27 +49,20 @@ fail:
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
-    {{projectName}}_{{classVarName}}_{{enumName}}_e *{{classname}} = NULL;
 {{#isEnum}}
 {{#isNumeric}}
-    cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
-    if(!cJSON_IsNumber({{{classname}}}Var))
-    {
-        goto end;
+    if(!cJSON_IsNumber({{{classname}}}JSON)) {
+        return 0;
     }
+    return {{classname}}JSON->valueint;
 {{/isNumeric}}
 {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}Variable;
-    cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
-    if(!cJSON_IsString({{{classname}}}Var) || ({{{classname}}}Var->valuestring == NULL)){
-        goto end;
+    if(!cJSON_IsString({{{classname}}}JSON) || ({{{classname}}}JSON->valuestring == NULL)) {
+        return 0;
     }
-    {{classname}}Variable = {{classFilename}}_{{classname}}_FromString({{{classname}}}Var->valuestring);
+    return {{classFilename}}_{{classname}}_FromString({{{classname}}}JSON->valuestring);
 {{/isString}}
 {{/isEnum}}
-    return {{classname}}Variable;
-end:
-    return 0;
 }
 {{/isEnum}}
 {{^isEnum}}
