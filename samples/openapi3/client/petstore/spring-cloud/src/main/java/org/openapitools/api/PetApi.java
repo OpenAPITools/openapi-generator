@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -216,6 +217,8 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     @Operation(
         operationId = "updatePet",
@@ -233,7 +236,8 @@ public interface PetApi {
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
-        }
+        },
+        externalDocs = @ExternalDocumentation(description = "API documentation for the updatePet operation", url = "http://petstore.swagger.io/v2/doc/updatePet")
     )
     @RequestMapping(
         method = RequestMethod.PUT,

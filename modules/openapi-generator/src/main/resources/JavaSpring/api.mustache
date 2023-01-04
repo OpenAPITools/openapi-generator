@@ -8,6 +8,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -160,7 +161,8 @@ public interface {{classname}} {
             {{#authMethods}}
             @SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/isOAuth}}){{^-last}},{{/-last}}
             {{/authMethods}}
-        }{{/hasAuthMethods}}
+        }{{/hasAuthMethods}}{{#externalDocs}},
+        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
     )
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}

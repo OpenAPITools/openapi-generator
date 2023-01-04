@@ -8,6 +8,7 @@ package org.openapitools.api;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

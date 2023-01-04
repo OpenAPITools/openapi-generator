@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.Bar;
 import org.openapitools.model.BarCreate;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

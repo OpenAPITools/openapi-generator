@@ -202,6 +202,8 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     @RequestMapping(
         method = RequestMethod.PUT,

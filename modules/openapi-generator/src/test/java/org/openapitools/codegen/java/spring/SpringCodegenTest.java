@@ -1244,6 +1244,48 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldGenerateExternalDocs() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .printFileContent()
+            .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
+            .assertMethod("updatePet")
+            .assertMethodAnnotations()
+            .containsWithName("Operation")
+            .containsWithNameAndAttributes("Operation",
+                ImmutableMap.of(
+                    "operationId", "\"updatePet\"",
+                    //"security", "{ @SecurityRequirement(name = \"petstore_auth\", scopes = { \"write:pets\", \"read:pets\" }) }",
+                    "externalDocs", "@ExternalDocumentation(description = \"API documentation for the updatePet operation\", url = \"http://petstore.swagger.io/v2/doc/updatePet\")"
+                )
+                );
+    }
+
+    @Test
     public void testHandleDefaultValue_issue8535() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");

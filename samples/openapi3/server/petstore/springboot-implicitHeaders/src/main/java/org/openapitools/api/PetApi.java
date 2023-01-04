@@ -8,6 +8,7 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
