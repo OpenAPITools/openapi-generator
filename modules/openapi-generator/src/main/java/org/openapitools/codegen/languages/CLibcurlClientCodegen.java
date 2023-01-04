@@ -930,6 +930,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 CodegenProperty cp = fromProperty("response", responseSchema);
                 if (cp != null) {
                     op.returnTypeIsEnum = cp.isEnum;
+                    op.returnTypeIsBinary = cp.isBinary;
+                    op.returnTypeIsString = cp.isString;
+                    op.returnTypeIsInteger = cp.isInteger;
                 }
             }
         }
@@ -939,6 +942,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     class ExtendedCodegenOperation extends CodegenOperation {
         boolean returnTypeIsEnum;
+        boolean returnTypeIsBinary;
+        boolean returnTypeIsString;
+        boolean returnTypeIsInteger;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -1021,13 +1027,16 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
             boolean result = super.equals(o);
             ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
-            return result && returnTypeIsEnum == that.returnTypeIsEnum;
+            return result && returnTypeIsEnum == that.returnTypeIsEnum &&
+                    returnTypeIsBinary == that.returnTypeIsBinary &&
+                    returnTypeIsString == that.returnTypeIsString &&
+                    returnTypeIsInteger == that.returnTypeIsInteger;
         }
 
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, returnTypeIsEnum);
+            return Objects.hash(superHash, returnTypeIsEnum, returnTypeIsBinary, returnTypeIsString, returnTypeIsInteger);
         }
 
         @Override
@@ -1035,6 +1044,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             String superString = super.toString();
             final StringBuilder sb = new StringBuilder(superString);
             sb.append(", returnTypeIsEnum=").append(returnTypeIsEnum);
+            sb.append(", returnTypeIsBinary=").append(returnTypeIsBinary);
+            sb.append(", returnTypeIsString=").append(returnTypeIsString);
+            sb.append(", returnTypeIsInteger=").append(returnTypeIsInteger);
             return sb.toString();
         }
     }

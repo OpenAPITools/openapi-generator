@@ -98,7 +98,7 @@ end:
 // {{{.}}}
 //
 {{/notes}}
-{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{^returnTypeIsEnum}}{{{.}}}_t*{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}{{projectName}}_{{{.}}}_{{returnEnumName}}_e{{/returnTypeIsEnum}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}{{#returnTypeIsString}}*{{/returnTypeIsString}}{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{^returnTypeIsEnum}}{{{.}}}_t*{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}{{projectName}}_{{{.}}}_{{returnEnumName}}_e{{/returnTypeIsEnum}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}}{{/isMap}}{{/isContainer}} {{{paramName}}} {{/allParams}})
 {
     list_t    *localVarQueryParameters = {{#hasQueryParams}}list_createList();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
@@ -359,11 +359,27 @@ end:
     {{#returnType}}
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
-    //primitive return type simple
+    {{#returnTypeIsBinary}}
+    //primitive return type simple binary
+    {{returnType}} elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = instantiate_binary_t(apiClient->dataReceived, apiClient->dataReceivedLen);
+
+    {{/returnTypeIsBinary}}
+    {{#returnTypeIsString}}
+    //primitive return type simple string
     {{returnType}}* elementToReturn = NULL;
     if(apiClient->response_code >= 200 && apiClient->response_code < 300)
         elementToReturn = strdup(({{returnType}}*)apiClient->dataReceived);
 
+    {{/returnTypeIsString}}
+    {{#returnTypeIsInteger}}
+    //primitive return type simple integer
+    {{returnType}} elementToReturn = 0;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = atoi(apiClient->dataReceived);
+
+    {{/returnTypeIsInteger}}
     {{/returnSimpleType}}
     {{^returnSimpleType}}
     //primitive return type not simple
@@ -557,7 +573,7 @@ end:
     return elementToReturn;
 end:
     free(localVarPath);
-    return {{^returnTypeIsEnum}}NULL{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}0{{/returnTypeIsEnum}};
+    return {{#returnTypeIsInteger}}0{{/returnTypeIsInteger}}{{^returnTypeIsInteger}}{{^returnTypeIsEnum}}NULL{{/returnTypeIsEnum}}{{#returnTypeIsEnum}}0{{/returnTypeIsEnum}}{{/returnTypeIsInteger}};
     {{/returnType}}
     {{^returnType}}
     //No return type
