@@ -22,6 +22,9 @@ apiClient_t *apiClient_create() {
     apiClient->username = NULL;
     apiClient->password = NULL;
     {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    apiClient->accessToken = NULL;
+    {{/isBasicBearer}}
     {{#isOAuth}}
     apiClient->accessToken = NULL;
     {{/isOAuth}}
@@ -69,6 +72,9 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->username = NULL;
     apiClient->password = NULL;
     {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    apiClient->accessToken = NULL;
+    {{/isBasicBearer}}
     {{#isOAuth}}
     apiClient->accessToken = NULL;
     {{/isOAuth}}
@@ -108,6 +114,11 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->password);
     }
     {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
+    {{/isBasicBearer}}
     {{#isOAuth}}
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
@@ -467,6 +478,20 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
         }
         {{/isApiKey}}
+        {{#isBasicBearer}}
+        // this would only be generated for bearer token authentication
+        if(apiClient->accessToken != NULL)
+        {
+            int authHeaderSize;
+            char *authHeader = NULL;
+
+            authHeaderSize = snprintf(NULL, 0, "Authorization: Bearer %s", apiClient->accessToken) + 1;
+            authHeader = malloc(authHeaderSize);
+            snprintf(authHeader, authHeaderSize, "Authorization: Bearer %s", apiClient->accessToken);
+            headers = curl_slist_append(headers, authHeader);
+            free(authHeader);
+        }
+        {{/isBasicBearer}}
         {{/authMethods}}
         {{/hasAuthMethods}}
 
