@@ -25,7 +25,7 @@ char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_
     return 0;
 }
 
-cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
+cJSON *{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
     cJSON *item = cJSON_CreateObject();
 {{#isString}}
     if(cJSON_AddStringToObject(item, "{{{classname}}}", {{classFilename}}_{{{classname}}}_ToString({{{classname}}})) == NULL) {
@@ -48,7 +48,7 @@ fail:
     return NULL;
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
     {{projectName}}_{{classVarName}}_{{enumName}}_e *{{classname}} = NULL;
 {{#isEnum}}
 {{#isNumeric}}
