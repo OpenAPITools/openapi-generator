@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private ModelFile _file;
