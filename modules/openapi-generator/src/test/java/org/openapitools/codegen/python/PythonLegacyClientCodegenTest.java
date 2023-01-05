@@ -123,7 +123,7 @@ public class PythonLegacyClientCodegenTest {
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
+        Assert.assertEquals("'Text containing \\'single\\' quote'", defaultValue);
     }
 
     @Test(description = "convert a python model with dots")
