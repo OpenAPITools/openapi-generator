@@ -6384,7 +6384,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return <code>name</code>, uniquely suffixed as necessary.
      */
     protected String ensureUniqueName(Map<String, Integer> uniqueNames, String name) {
-        int count = uniqueNames.containsKey(name) ? uniqueNames.get(name) + 1 : 1;
+        int count = uniqueNames.getOrDefault(name, 0) + 1 ;
         if (uniqueNames.put(name, count) != null)
             name = name + '_' + count;
         return name;
