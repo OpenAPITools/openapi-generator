@@ -55,7 +55,7 @@ export class PetService {
             throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -108,7 +108,7 @@ export class PetService {
         }
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
         if (apiKey !== undefined && apiKey !== null) {
             headers['api_key'] = String(apiKey);
         }
@@ -158,7 +158,7 @@ export class PetService {
             queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -208,7 +208,7 @@ export class PetService {
             queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -253,7 +253,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -294,7 +294,7 @@ export class PetService {
             throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -349,7 +349,7 @@ export class PetService {
 
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -417,7 +417,7 @@ export class PetService {
 
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {

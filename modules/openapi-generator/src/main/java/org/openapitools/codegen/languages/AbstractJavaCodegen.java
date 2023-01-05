@@ -83,6 +83,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+    public static final String JAVAX_PACKAGE = "javaxPackage";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
@@ -137,6 +139,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String implicitHeadersRegex = null;
 
     protected boolean camelCaseDollarSign = false;
+    protected boolean useJakartaEe = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -272,6 +275,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -656,6 +660,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("jsr310", "true");
             typeMapping.put("date", "LocalDate");
             importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalTime", "java.time.LocalTime");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
                 importMapping.put("LocalDateTime", "java.time.LocalDateTime");
@@ -669,6 +674,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
             setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
+        }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            this.setUseJakartaEe(Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString()));
+        }
+        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+
+        if (useJakartaEe) {
+            applyJakartaPackage();
+        } else {
+            applyJavaxPackage();
         }
     }
 
@@ -719,6 +735,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "javax");
+    }
+
+    protected void applyJakartaPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "jakarta");
     }
 
     @Override
@@ -1351,7 +1375,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (serializeBigDecimalAsString) {
-            if ("decimal".equals(property.baseType)) {
+            if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
                 property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
@@ -1934,6 +1958,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
         this.camelCaseDollarSign = camelCaseDollarSign;
+    }
+
+    public void setUseJakartaEe(boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
     }
 
     @Override

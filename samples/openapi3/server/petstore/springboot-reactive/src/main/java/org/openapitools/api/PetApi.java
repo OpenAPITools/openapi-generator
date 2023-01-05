@@ -8,9 +8,11 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -120,8 +122,8 @@ public interface PetApi {
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid status value")
         },
@@ -159,8 +161,8 @@ public interface PetApi {
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
-                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
