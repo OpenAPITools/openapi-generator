@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
  * CodegenModel represents a schema object in a OpenAPI document.
  */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
-public class CodegenModel implements IJsonSchemaValidationProperties {
+public class CodegenModel implements IJsonSchemaValidationPropertiesWithDefaultValue {
     // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
     // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
     // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the

@@ -298,7 +298,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        return postProcessModelsEnum(objs);
+        return postProcessModelsEnum(super.postProcessModels(objs));
     }
 
     @Override

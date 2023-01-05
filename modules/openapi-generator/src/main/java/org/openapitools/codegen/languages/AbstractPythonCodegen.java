@@ -19,17 +19,22 @@ package org.openapitools.codegen.languages;
 import com.github.curiousoddman.rgxgen.RgxGen;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,9 +147,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     return "True";
             }
         } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
+            DateSchema schema = (DateSchema)p;
+            Calendar c = Calendar.getInstance();
+            c.setTime(schema.getDefault());
+            return String.format("datetime.date(%d, %d, %d)", c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
+            DateTimeSchema schema = (DateTimeSchema)p;
+            OffsetDateTime dateTime = schema.getDefault();
+            return String.format(  // SEE: https://docs.python.org/3/library/datetime.html#datetime.datetime
+                    "datetime.datetime(%d, %d, %d, %d, %d, %d, %d, datetime.timezone(datetime.timedelta(seconds=%d)))",
+                    dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(),
+                    dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond(),
+                    dateTime.getNano() / 1_000, // microseconds
+                    dateTime.getOffset().getTotalSeconds()
+                );
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -620,6 +636,22 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             type = toModelName(openAPIType);
         }
         return type;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+        for (ModelMap mo : objs.getModels()) {
+            postProcessModel(mo.getModel(), mo.getModel());
+        }
+        return objs;
+    }
+
+    protected void postProcessModel(CodegenModel baseModel, IJsonSchemaValidationPropertiesWithDefaultValue model) {
+        if ((model.getIsDateTime() || model.getIsDate()) && model.getDefaultValue() != null) {
+            addImport(baseModel, "import datetime");
+        }
+        model.getVars().forEach(var -> postProcessModel(baseModel, var));
     }
 
 

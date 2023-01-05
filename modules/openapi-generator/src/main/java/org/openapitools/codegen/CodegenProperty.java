@@ -19,7 +19,7 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
-public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
+public class CodegenProperty implements Cloneable, IJsonSchemaValidationPropertiesWithDefaultValue {
     /**
      * The value of the 'type' attribute in the OpenAPI schema.
      * The per-language codegen logic may change to a language-specific type.
