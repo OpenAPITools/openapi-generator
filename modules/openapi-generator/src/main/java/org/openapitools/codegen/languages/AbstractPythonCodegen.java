@@ -34,7 +34,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,16 +151,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() == null) return null;
             DateSchema schema = (DateSchema)p;
-            Calendar c = Calendar.getInstance();
-            c.setTime(schema.getDefault());
-            return String.format("datetime.date(%d, %d, %d)", c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+            SimpleDateFormat format = new SimpleDateFormat("y, M, d");
+            String args = format.format(schema.getDefault());
+            return String.format("datetime.date(%s)", args);
         } else if (ModelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() == null) return null;
             DateTimeSchema schema = (DateTimeSchema)p;
             OffsetDateTime dateTime = schema.getDefault();
             return String.format(  // SEE: https://docs.python.org/3/library/datetime.html#datetime.datetime
                     "datetime.datetime(%d, %d, %d, %d, %d, %d, %d, datetime.timezone(datetime.timedelta(seconds=%d)))",
-                    dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(),
+                    dateTime.getYear(), dateTime.getMonth().getValue(), dateTime.getDayOfMonth(),
                     dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond(),
                     dateTime.getNano() / 1_000, // microseconds
                     dateTime.getOffset().getTotalSeconds()
