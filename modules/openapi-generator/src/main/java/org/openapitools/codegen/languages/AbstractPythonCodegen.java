@@ -147,11 +147,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     return "True";
             }
         } else if (ModelUtils.isDateSchema(p)) {
+            if (p.getDefault() == null) return null;
             DateSchema schema = (DateSchema)p;
             Calendar c = Calendar.getInstance();
             c.setTime(schema.getDefault());
             return String.format("datetime.date(%d, %d, %d)", c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         } else if (ModelUtils.isDateTimeSchema(p)) {
+            if (p.getDefault() == null) return null;
             DateTimeSchema schema = (DateTimeSchema)p;
             OffsetDateTime dateTime = schema.getDefault();
             return String.format(  // SEE: https://docs.python.org/3/library/datetime.html#datetime.datetime
