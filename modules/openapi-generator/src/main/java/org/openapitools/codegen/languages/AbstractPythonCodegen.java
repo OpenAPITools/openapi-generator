@@ -151,7 +151,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() == null) return null;
             DateSchema schema = (DateSchema)p;
-            SimpleDateFormat format = new SimpleDateFormat("y, M, d");
+            SimpleDateFormat format = new SimpleDateFormat("y, M, d", Locale.ROOT);
             String args = format.format(schema.getDefault());
             return String.format("datetime.date(%s)", args);
         } else if (ModelUtils.isDateTimeSchema(p)) {
