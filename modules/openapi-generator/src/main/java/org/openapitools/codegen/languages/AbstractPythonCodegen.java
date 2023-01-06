@@ -153,13 +153,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             DateSchema schema = (DateSchema)p;
             SimpleDateFormat format = new SimpleDateFormat("y, M, d", Locale.ROOT);
             String args = format.format(schema.getDefault());
-            return String.format("datetime.date(%s)", args);
+            return String.format("_dt.date(%s)", args);
         } else if (ModelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() == null) return null;
             DateTimeSchema schema = (DateTimeSchema)p;
             OffsetDateTime dateTime = schema.getDefault();
             return String.format(  // SEE: https://docs.python.org/3/library/datetime.html#datetime.datetime
-                    "datetime.datetime(%d, %d, %d, %d, %d, %d, %d, datetime.timezone(datetime.timedelta(seconds=%d)))",
+                    "_dt.datetime(%d, %d, %d, %d, %d, %d, %d, _dt.timezone(_dt.timedelta(seconds=%d)))",
                     dateTime.getYear(), dateTime.getMonth().getValue(), dateTime.getDayOfMonth(),
                     dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond(),
                     dateTime.getNano() / 1_000, // microseconds
@@ -646,14 +646,21 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
         for (ModelMap mo : objs.getModels()) {
-            postProcessModel(mo.getModel(), mo.getModel());
+            postProcessModel(objs, mo.getModel());
         }
         return objs;
     }
 
-    protected void postProcessModel(CodegenModel baseModel, IJsonSchemaValidationPropertiesWithDefaultValue model) {
+    protected void postProcessModel(ModelsMap baseModel, IJsonSchemaValidationPropertiesWithDefaultValue model) {
         if ((model.getIsDateTime() || model.getIsDate()) && model.getDefaultValue() != null) {
-            addImport(baseModel, "import datetime");
+            final String importLine = "import datetime as _dt";
+            if (baseModel.getImports().stream().map(imp -> imp.get("import")).anyMatch(importLine::equals))
+                return;
+            Map<String, String> dtImport = new HashMap<>();
+            dtImport.put("import", importLine);
+            List<Map<String, String>> imports = baseModel.getImports();
+            imports.add(dtImport);
+            imports.sort(Comparator.comparing(imp -> imp.get("import")));
         }
         model.getVars().forEach(var -> postProcessModel(baseModel, var));
     }
@@ -675,7 +682,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
-        sanitizedName = sanitizedName.replaceAll("$", "");
+        sanitizedName = sanitizedName.replace("$", "");
         // remove whitespace
         sanitizedName = sanitizedName.replaceAll("\\s+", "");
 
