@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -146,5 +149,35 @@ public class FileSchemaTestClass {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `file` to the URL query string
+    if (getFile() != null) {
+      joiner.add(getFile().toUrlQueryString(prefix + "[file]"));
+    }
+
+    // add `files` to the URL query string
+    if (getFiles() != null) {
+      for (int i = 0; i < getFiles().size(); i++) {
+        if (getFiles().get(i) != null) {
+          joiner.add(getFiles().get(i).toUrlQueryString(String.format("%s[files][%d]", prefix, i)));
+        }
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

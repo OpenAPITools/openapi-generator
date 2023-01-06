@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -215,5 +218,33 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `just_symbol` to the URL query string
+    if (getJustSymbol() != null) {
+      joiner.add(String.format("%s[just_symbol]=%s", prefix, URLEncoder.encode(String.valueOf(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `array_enum` to the URL query string
+    if (getArrayEnum() != null) {
+      for (int i = 0; i < getArrayEnum().size(); i++) {
+        joiner.add(String.format("%s[array_enum][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

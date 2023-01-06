@@ -349,6 +349,131 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    {{#allVars}}
+    // add `{{baseName}}` to the URL query string
+    {{#isArray}}
+    {{#items.isPrimitiveType}}
+    {{#uniqueItems}}
+    if ({{getter}}() != null) {
+      int i = 0;
+      for ({{items.dataType}} _item : {{getter}}()) {
+        joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+      i++;
+    }
+    {{/uniqueItems}}
+    {{^uniqueItems}}
+    if ({{getter}}() != null) {
+      for (int i = 0; i < {{getter}}().size(); i++) {
+        joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    {{/uniqueItems}}
+    {{/items.isPrimitiveType}}
+    {{^items.isPrimitiveType}}
+    {{#items.isModel}}
+    {{#uniqueItems}}
+    if ({{getter}}() != null) {
+      int i = 0;
+      for ({{items.dataType}} _item : {{getter}}()) {
+        if ({{getter}}().get(i) != null) {
+          joiner.add(_item.toUrlQueryString(String.format("%s[{{baseName}}][%d]", prefix, i)));
+        }
+      }
+      i++;
+    }
+    {{/uniqueItems}}
+    {{^uniqueItems}}
+    if ({{getter}}() != null) {
+      for (int i = 0; i < {{getter}}().size(); i++) {
+        if ({{getter}}().get(i) != null) {
+          joiner.add({{getter}}().get(i).toUrlQueryString(String.format("%s[{{baseName}}][%d]", prefix, i)));
+        }
+      }
+    }
+    {{/uniqueItems}}
+    {{/items.isModel}}
+    {{^items.isModel}}
+    {{#uniqueItems}}
+    if ({{getter}}() != null) {
+      int i = 0;
+      for ({{items.dataType}} _item : {{getter}}()) {
+        if (_item != null) {
+          joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+        i++;
+      }
+    }
+    {{/uniqueItems}}
+    {{^uniqueItems}}
+    if ({{getter}}() != null) {
+      for (int i = 0; i < {{getter}}().size(); i++) {
+        if ({{getter}}().get(i) != null) {
+          joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+      }
+    }
+    {{/uniqueItems}}
+    {{/items.isModel}}
+    {{/items.isPrimitiveType}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#isMap}}
+    {{#items.isPrimitiveType}}
+    if ({{getter}}() != null) {
+      for (String _key : {{getter}}().keySet()) {
+        joiner.add(String.format("%s[{{baseName}}][%s]=%s", prefix, {{getter}}().get(_key), URLEncoder.encode(String.valueOf({{getter}}().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    {{/items.isPrimitiveType}}
+    {{^items.isPrimitiveType}}
+    if ({{getter}}() != null) {
+      for (String _key : {{getter}}().keySet()) {
+        if ({{getter}}().get(_key) != null) {
+          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s[{{baseName}}][%s]", prefix, _key)));
+        }
+      }
+    }
+    {{/items.isPrimitiveType}}
+    {{/isMap}}
+    {{^isMap}}
+    {{#isPrimitiveType}}
+    if ({{getter}}() != null) {
+      joiner.add(String.format("%s[{{{baseName}}}]=%s", prefix, URLEncoder.encode(String.valueOf({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    if ({{getter}}() != null) {
+      joiner.add({{getter}}().toUrlQueryString(prefix + "[{{{baseName}}}]"));
+    }
+    {{/isModel}}
+    {{^isModel}}
+    if ({{getter}}() != null) {
+      joiner.add(String.format("%s[{{{baseName}}}]=%s", prefix, URLEncoder.encode(String.valueOf({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    {{/isModel}}
+    {{/isPrimitiveType}}
+    {{/isMap}}
+    {{/isArray}}
+
+    {{/allVars}}
+    return joiner.toString();
+  }
 {{#parcelableModel}}
 
   public void writeToParcel(Parcel out, int flags) {

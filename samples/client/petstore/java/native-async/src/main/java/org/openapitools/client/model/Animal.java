@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -151,6 +154,32 @@ public class Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `className` to the URL query string
+    if (getClassName() != null) {
+      joiner.add(String.format("%s[className]=%s", prefix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `color` to the URL query string
+    if (getColor() != null) {
+      joiner.add(String.format("%s[color]=%s", prefix, URLEncoder.encode(String.valueOf(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 static {
   // Initialize and register the discriminator mappings.
   Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();

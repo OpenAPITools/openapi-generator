@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -179,5 +182,40 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      joiner.add(String.format("%s[uuid]=%s", prefix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `dateTime` to the URL query string
+    if (getDateTime() != null) {
+      joiner.add(String.format("%s[dateTime]=%s", prefix, URLEncoder.encode(String.valueOf(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `map` to the URL query string
+    if (getMap() != null) {
+      for (String _key : getMap().keySet()) {
+        if (getMap().get(_key) != null) {
+          joiner.add(getMap().get(_key).toUrlQueryString(String.format("%s[map][%s]", prefix, _key)));
+        }
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

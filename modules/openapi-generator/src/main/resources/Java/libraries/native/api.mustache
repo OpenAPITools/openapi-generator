@@ -338,21 +338,24 @@ public class {{classname}} {
 
     {{#hasQueryParams}}
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     {{#queryParams}}
+    localVarQueryParameterBaseName = "{{{baseName}}}";
       {{#collectionFormat}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
       {{/collectionFormat}}
       {{^collectionFormat}}
         {{#isDeepObject}}
     if ({{paramName}} != null) {
-          {{#items.vars}}
-              {{#isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
-              {{/isArray}}
-              {{^isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{paramName}}[{{name}}]", {{paramName}}.{{getter}}()));
-              {{/isArray}}
-          {{/items.vars}}
+            {{#isArray}}
+      for (int i=0; i < {{paramName}}.size(); i++) {
+        localVarQueryDeepObjectStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      }
+            {{/isArray}}
+            {{^isArray}}
+      localVarQueryDeepObjectStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+            {{/isArray}}
     }
         {{/isDeepObject}}
         {{^isDeepObject}}
@@ -378,9 +381,12 @@ public class {{classname}} {
       {{/collectionFormat}}
     {{/queryParams}}
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       {{javaUtilPrefix}}StringJoiner queryJoiner = new {{javaUtilPrefix}}StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));

@@ -13,10 +13,13 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -115,5 +118,30 @@ public class ArrayOfArrayOfNumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `ArrayArrayNumber` to the URL query string
+    if (getArrayArrayNumber() != null) {
+      for (int i = 0; i < getArrayArrayNumber().size(); i++) {
+        if (getArrayArrayNumber().get(i) != null) {
+          joiner.add(String.format("%s[ArrayArrayNumber][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 
