@@ -1,4 +1,4 @@
-FROM alpine:latest AS build
+FROM alpine:2.7 AS build
 
 RUN apk add --update \
         cmake \
@@ -15,7 +15,7 @@ WORKDIR /usr/server/build
 RUN cmake  -DNODEBUG:STRING="ON" ..
 RUN make
 
-FROM alpine:latest AS runtime
+FROM alpine:2.7 AS runtime
 RUN apk add --update \
         libgcc  \
         libstdc++  \
