@@ -124,6 +124,29 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /query/style_deepObject/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)

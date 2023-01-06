@@ -116,6 +116,83 @@ public interface QueryApi extends ApiClient.Api {
    * @param queryObject  (optional)
    * @return String
    */
+  @RequestLine("GET /query/style_deepObject/explode_true/object?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleDeepObjectExplodeTrueObject(@Param("queryObject") Pet queryObject);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleDeepObjectExplodeTrueObject</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_deepObject/explode_true/object?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@Param("queryObject") Pet queryObject);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleDeepObjectExplodeTrueObject</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleDeepObjectExplodeTrueObjectQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>queryObject -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_deepObject/explode_true/object?query_object={queryObject}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleDeepObjectExplodeTrueObject(@QueryMap(encoded=true) TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleDeepObjectExplodeTrueObject</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>queryObject -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_deepObject/explode_true/object?query_object={queryObject}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleDeepObjectExplodeTrueObject</code> method in a fluent style.
+   */
+  public static class TestQueryStyleDeepObjectExplodeTrueObjectQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryObject(final Pet value) {
+      put("query_object", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   */
   @RequestLine("GET /query/style_form/explode_true/array_string?query_object={queryObject}")
   @Headers({
     "Accept: text/plain",
