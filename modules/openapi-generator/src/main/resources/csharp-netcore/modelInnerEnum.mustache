@@ -57,7 +57,7 @@
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static {{#isString}}string{{/isString}}{{^isString}}int{{/isString}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
+        public static {{>EnumValueDataType}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
         {
             {{^isString}}
             return (int) value;
@@ -66,7 +66,7 @@
             {{#allowableValues}}
             {{#enumVars}}
             if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
-                return "{{value}}";
+                return {{^isNumeric}}"{{/isNumeric}}{{value}}{{^isNumeric}}"{{/isNumeric}};
 
             {{/enumVars}}
             {{/allowableValues}}

@@ -637,14 +637,29 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
-        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
-                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        // for allVars
+        final Map<String, List<CodegenProperty>> allVarsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getAllVars())));
 
-        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, allVarsDependencyMap));
+
+        // for vars
+        final Map<String, List<CodegenProperty>> varsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getVars())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, varsDependencyMap));
+
+        // for oneOf
+        final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
 
-    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
-        return model.getAllVars().stream()
+    private List<CodegenProperty> getModelDependencies( List<CodegenProperty> vars) {
+        return vars.stream()
                 .map(prop -> {
                     if (prop.isContainer) {
                         return prop.items.dataType == null ? null : prop;

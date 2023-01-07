@@ -1,0 +1,14 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>model_enum}}
+{{/isEnum}}
+{{^isEnum}}
+{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_generic}}{{/anyOf}}{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

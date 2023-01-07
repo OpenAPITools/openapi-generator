@@ -306,11 +306,11 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("datetime_prop");
             JsonSerializer.Serialize(writer, nullableClass.DatetimeProp, options);
             if (nullableClass.IntegerProp != null)
-                writer.WriteNumber("integer_prop", (int)nullableClass.IntegerProp.Value);
+                writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
             else
                 writer.WriteNull("integer_prop");
             if (nullableClass.NumberProp != null)
-                writer.WriteNumber("number_prop", (int)nullableClass.NumberProp.Value);
+                writer.WriteNumber("number_prop", nullableClass.NumberProp.Value);
             else
                 writer.WriteNull("number_prop");
             writer.WritePropertyName("object_and_items_nullable_prop");

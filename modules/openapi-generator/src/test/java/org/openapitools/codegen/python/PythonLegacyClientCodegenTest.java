@@ -255,7 +255,7 @@ public class PythonLegacyClientCodegenTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.dataType, "dict(str, str)");
+        Assert.assertEquals(property1.dataType, "dict[str, str]");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
@@ -335,7 +335,7 @@ public class PythonLegacyClientCodegenTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "dict(str, Children)");
+        Assert.assertEquals(property1.dataType, "dict[str, Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");

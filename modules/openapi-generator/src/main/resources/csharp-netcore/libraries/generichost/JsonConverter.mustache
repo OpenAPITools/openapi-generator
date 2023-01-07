@@ -194,17 +194,19 @@
             writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             {{/isNullable}}
             {{/isBoolean}}
+            {{^isEnum}}
             {{#isNumeric}}
             {{#isNullable}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
-                writer.WriteNumber("{{baseName}}", (int){{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
+                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
             else
                 writer.WriteNull("{{baseName}}");
             {{/isNullable}}
             {{^isNullable}}
-            writer.WriteNumber("{{baseName}}", (int){{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
+            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             {{/isNullable}}
             {{/isNumeric}}
+            {{/isEnum}}
             {{#isDate}}
             writer.WritePropertyName("{{baseName}}");
             JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, options);
@@ -214,6 +216,9 @@
             JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, options);
             {{/isDateTime}}
             {{#isEnum}}
+            {{#isNumeric}}
+            writer.WriteNumber("{{baseName}}", {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}));
+            {{/isNumeric}}
             {{^isMap}}
             {{^isNumeric}}
             {{#isInnerEnum}}
