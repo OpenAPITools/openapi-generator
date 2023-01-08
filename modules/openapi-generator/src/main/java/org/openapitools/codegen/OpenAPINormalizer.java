@@ -48,8 +48,16 @@ public class OpenAPINormalizer {
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     boolean enableRefAsParentInAllOf;
 
+    // when set to true, complex composed schemas (a mix of oneOf/anyOf/anyOf and properties) with
+    // oneOf/anyOf containing only `required` and no properties (these are properties inter-dependency rules)
+    // are removed as most generators cannot handle such case at the moment
     final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY";
     boolean removeAnyOfOneOfAndKeepPropertiesOnly;
+
+    // when set to true, oneOf/anyOf with either string or enum string as sub schemas will be simplified
+    // to just string
+    final String SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING";
+    boolean simplifyOneOfAnyOfStringAndEnumString;
 
     // ============= end of rules =============
 
@@ -85,6 +93,10 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY))) {
             removeAnyOfOneOfAndKeepPropertiesOnly = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING))) {
+            simplifyOneOfAnyOfStringAndEnumString = true;
         }
     }
 
@@ -242,7 +254,8 @@ public class OpenAPINormalizer {
             if (schema == null) {
                 LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
             } else {
-                normalizeSchema(schema, new HashSet<>());
+                Schema result = normalizeSchema(schema, new HashSet<>());
+                schemas.put(schemaName, result);
             }
         }
     }
@@ -253,18 +266,18 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      * @param visitedSchemas a set of visited schemas
      */
-    public void normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+    public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (schema == null) {
-            return;
+            return schema;
         }
 
         if (StringUtils.isNotEmpty(schema.get$ref())) {
             // not need to process $ref
-            return;
+            return schema;
         }
 
         if ((visitedSchemas.contains(schema))) {
-            return; // skip due to circular reference
+            return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
         }
@@ -284,7 +297,7 @@ public class OpenAPINormalizer {
             }
 
             if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
-                normalizeAnyOf(m, visitedSchemas);
+                return normalizeAnyOf(m, visitedSchemas);
             }
 
             if (m.getProperties() != null && !m.getProperties().isEmpty()) {
@@ -307,6 +320,8 @@ public class OpenAPINormalizer {
         } else {
             throw new RuntimeException("Unknown schema type found in normalizer: " + schema);
         }
+
+        return schema;
     }
 
     private void normalizeNonComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -346,7 +361,7 @@ public class OpenAPINormalizer {
         // process rules here
     }
 
-    private void normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+    private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getAnyOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -354,7 +369,11 @@ public class OpenAPINormalizer {
             // normalize anyOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
+
+        // last rule to process as the schema may become String schema (not "anyOf") after the completion
+        return processSimplifyAnyOfStringAndEnumString(schema);
     }
 
     private void normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -414,5 +433,49 @@ public class OpenAPINormalizer {
         schema.setOneOf(null);
         schema.setAnyOf(null);
     }
+
+    private Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
+        // if the schema is anyOf and the sub-schemas are either string or enum of string
+        // then simply it to just string as many generators do not yet support anyOf
+        if (!simplifyOneOfAnyOfStringAndEnumString && !enableAll) {
+            return schema;
+        }
+
+        Schema s0 = null, s1 = null;
+        if (schema.getAnyOf().size() == 2) {
+            s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
+            s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));
+        } else {
+            return schema;
+        }
+
+        StringSchema sc;
+
+        if (s0 instanceof StringSchema) {
+            sc = (StringSchema) s0;
+        } else if (s1 instanceof StringSchema) {
+            sc = (StringSchema) s1;
+        } else { // no string schema found
+            return schema;
+        }
+
+        // another schema should be a $ref to enum string schema
+        Schema s0Ref = ModelUtils.getReferencedSchema(openAPI, s0);
+        Schema s1Ref = ModelUtils.getReferencedSchema(openAPI, s1);
+
+        if (s0Ref instanceof StringSchema && ((StringSchema) s0Ref).getEnum() != null
+                && !((StringSchema) s0Ref).getEnum().isEmpty()) {
+            // found enum string
+        } else if (s1Ref.getEnum() != null
+                && !(s1Ref.getEnum().isEmpty())) {
+            // found enum string
+        } else {
+            return schema; // no enum string schema (ref) found
+        }
+
+        // return the string schema instead
+        return sc;
+    }
+
     // ===================== end of rules =====================
 }
