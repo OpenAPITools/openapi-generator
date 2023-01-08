@@ -39,7 +39,7 @@ public class Dog extends Animal {
    * @return breed
   */
   
-  @Schema(name = "breed", required = false)
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getBreed() {
     return breed;
   }

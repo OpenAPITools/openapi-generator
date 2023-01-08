@@ -73,7 +73,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
   */
   
-  @Schema(name = "nullSet", required = false)
+  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
   }
@@ -100,7 +100,7 @@ public class ObjectWithUniqueItems {
    * @return notNullSet
   */
   
-  @Schema(name = "notNullSet", required = false)
+  @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Set<String> getNotNullSet() {
     return notNullSet;
   }
@@ -128,7 +128,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
   */
   
-  @Schema(name = "nullList", required = false)
+  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<List<String>> getNullList() {
     return nullList;
   }
@@ -155,7 +155,7 @@ public class ObjectWithUniqueItems {
    * @return notNullList
   */
   
-  @Schema(name = "notNullList", required = false)
+  @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<String> getNotNullList() {
     return notNullList;
   }
@@ -174,7 +174,7 @@ public class ObjectWithUniqueItems {
    * @return notNullDateField
   */
   @Valid 
-  @Schema(name = "notNullDateField", required = false)
+  @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
@@ -193,7 +193,7 @@ public class ObjectWithUniqueItems {
    * @return nullDateField
   */
   @Valid 
-  @Schema(name = "nullDateField", required = false)
+  @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OffsetDateTime getNullDateField() {
     return nullDateField;
   }

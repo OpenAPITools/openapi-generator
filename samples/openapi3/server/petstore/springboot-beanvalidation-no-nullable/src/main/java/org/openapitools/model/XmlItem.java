@@ -129,7 +129,7 @@ public class XmlItem {
    * @return attributeString
   */
   
-  @Schema(name = "attribute_string", example = "string", required = false)
+  @Schema(name = "attribute_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getAttributeString() {
     return attributeString;
   }
@@ -148,7 +148,7 @@ public class XmlItem {
    * @return attributeNumber
   */
   @Valid 
-  @Schema(name = "attribute_number", example = "1.234", required = false)
+  @Schema(name = "attribute_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -167,7 +167,7 @@ public class XmlItem {
    * @return attributeInteger
   */
   
-  @Schema(name = "attribute_integer", example = "-2", required = false)
+  @Schema(name = "attribute_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -186,7 +186,7 @@ public class XmlItem {
    * @return attributeBoolean
   */
   
-  @Schema(name = "attribute_boolean", example = "true", required = false)
+  @Schema(name = "attribute_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -213,7 +213,7 @@ public class XmlItem {
    * @return wrappedArray
   */
   
-  @Schema(name = "wrapped_array", required = false)
+  @Schema(name = "wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -232,7 +232,7 @@ public class XmlItem {
    * @return nameString
   */
   
-  @Schema(name = "name_string", example = "string", required = false)
+  @Schema(name = "name_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getNameString() {
     return nameString;
   }
@@ -251,7 +251,7 @@ public class XmlItem {
    * @return nameNumber
   */
   @Valid 
-  @Schema(name = "name_number", example = "1.234", required = false)
+  @Schema(name = "name_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -270,7 +270,7 @@ public class XmlItem {
    * @return nameInteger
   */
   
-  @Schema(name = "name_integer", example = "-2", required = false)
+  @Schema(name = "name_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -289,7 +289,7 @@ public class XmlItem {
    * @return nameBoolean
   */
   
-  @Schema(name = "name_boolean", example = "true", required = false)
+  @Schema(name = "name_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -316,7 +316,7 @@ public class XmlItem {
    * @return nameArray
   */
   
-  @Schema(name = "name_array", required = false)
+  @Schema(name = "name_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -343,7 +343,7 @@ public class XmlItem {
    * @return nameWrappedArray
   */
   
-  @Schema(name = "name_wrapped_array", required = false)
+  @Schema(name = "name_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -362,7 +362,7 @@ public class XmlItem {
    * @return prefixString
   */
   
-  @Schema(name = "prefix_string", example = "string", required = false)
+  @Schema(name = "prefix_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getPrefixString() {
     return prefixString;
   }
@@ -381,7 +381,7 @@ public class XmlItem {
    * @return prefixNumber
   */
   @Valid 
-  @Schema(name = "prefix_number", example = "1.234", required = false)
+  @Schema(name = "prefix_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -400,7 +400,7 @@ public class XmlItem {
    * @return prefixInteger
   */
   
-  @Schema(name = "prefix_integer", example = "-2", required = false)
+  @Schema(name = "prefix_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -419,7 +419,7 @@ public class XmlItem {
    * @return prefixBoolean
   */
   
-  @Schema(name = "prefix_boolean", example = "true", required = false)
+  @Schema(name = "prefix_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -446,7 +446,7 @@ public class XmlItem {
    * @return prefixArray
   */
   
-  @Schema(name = "prefix_array", required = false)
+  @Schema(name = "prefix_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -473,7 +473,7 @@ public class XmlItem {
    * @return prefixWrappedArray
   */
   
-  @Schema(name = "prefix_wrapped_array", required = false)
+  @Schema(name = "prefix_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -492,7 +492,7 @@ public class XmlItem {
    * @return namespaceString
   */
   
-  @Schema(name = "namespace_string", example = "string", required = false)
+  @Schema(name = "namespace_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -511,7 +511,7 @@ public class XmlItem {
    * @return namespaceNumber
   */
   @Valid 
-  @Schema(name = "namespace_number", example = "1.234", required = false)
+  @Schema(name = "namespace_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -530,7 +530,7 @@ public class XmlItem {
    * @return namespaceInteger
   */
   
-  @Schema(name = "namespace_integer", example = "-2", required = false)
+  @Schema(name = "namespace_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -549,7 +549,7 @@ public class XmlItem {
    * @return namespaceBoolean
   */
   
-  @Schema(name = "namespace_boolean", example = "true", required = false)
+  @Schema(name = "namespace_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -576,7 +576,7 @@ public class XmlItem {
    * @return namespaceArray
   */
   
-  @Schema(name = "namespace_array", required = false)
+  @Schema(name = "namespace_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -603,7 +603,7 @@ public class XmlItem {
    * @return namespaceWrappedArray
   */
   
-  @Schema(name = "namespace_wrapped_array", required = false)
+  @Schema(name = "namespace_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -622,7 +622,7 @@ public class XmlItem {
    * @return prefixNsString
   */
   
-  @Schema(name = "prefix_ns_string", example = "string", required = false)
+  @Schema(name = "prefix_ns_string", example = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -641,7 +641,7 @@ public class XmlItem {
    * @return prefixNsNumber
   */
   @Valid 
-  @Schema(name = "prefix_ns_number", example = "1.234", required = false)
+  @Schema(name = "prefix_ns_number", example = "1.234", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -660,7 +660,7 @@ public class XmlItem {
    * @return prefixNsInteger
   */
   
-  @Schema(name = "prefix_ns_integer", example = "-2", required = false)
+  @Schema(name = "prefix_ns_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -679,7 +679,7 @@ public class XmlItem {
    * @return prefixNsBoolean
   */
   
-  @Schema(name = "prefix_ns_boolean", example = "true", required = false)
+  @Schema(name = "prefix_ns_boolean", example = "true", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -706,7 +706,7 @@ public class XmlItem {
    * @return prefixNsArray
   */
   
-  @Schema(name = "prefix_ns_array", required = false)
+  @Schema(name = "prefix_ns_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -733,7 +733,7 @@ public class XmlItem {
    * @return prefixNsWrappedArray
   */
   
-  @Schema(name = "prefix_ns_wrapped_array", required = false)
+  @Schema(name = "prefix_ns_wrapped_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
