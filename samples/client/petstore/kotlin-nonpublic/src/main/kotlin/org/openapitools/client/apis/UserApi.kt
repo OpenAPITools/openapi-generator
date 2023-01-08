@@ -66,11 +66,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -133,11 +133,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -200,11 +200,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -267,11 +267,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -335,11 +335,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -406,11 +406,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -480,11 +480,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -546,11 +546,11 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttp
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }

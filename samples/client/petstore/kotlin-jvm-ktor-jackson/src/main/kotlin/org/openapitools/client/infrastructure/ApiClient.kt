@@ -21,6 +21,7 @@ import io.ktor.http.content.PartData
 import io.ktor.http.encodeURLQueryComponent
 import io.ktor.http.encodedPath
 import io.ktor.http.takeFrom
+import io.ktor.http.ContentType.Application
 import io.ktor.serialization.jackson.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -164,6 +165,7 @@ open class ApiClient(
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
+                this.contentType(Application.Json)
                 setBody(body)
             }
         }

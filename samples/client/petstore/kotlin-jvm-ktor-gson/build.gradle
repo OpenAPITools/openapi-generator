@@ -19,7 +19,6 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'maven-publish'
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -36,5 +35,6 @@ dependencies {
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
