@@ -48,6 +48,9 @@ public class OpenAPINormalizer {
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     boolean enableRefAsParentInAllOf;
 
+    final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY";
+    boolean removeAnyOfOneOfAndKeepPropertiesOnly;
+
     // ============= end of rules =============
 
     /**
@@ -78,6 +81,10 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REF_AS_PARENT_IN_ALLOF))) {
             enableRefAsParentInAllOf = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY))) {
+            removeAnyOfOneOfAndKeepPropertiesOnly = true;
         }
     }
 
@@ -284,6 +291,10 @@ public class OpenAPINormalizer {
                 normalizeProperties(m.getProperties(), visitedSchemas);
             }
 
+            if (ModelUtils.isComplexComposedSchema(m)) {
+                normalizeComplexComposedSchema(m, visitedSchemas);
+            }
+
             if (m.getAdditionalProperties() != null) {
                 // normalizeAdditionalProperties(m);
             }
@@ -325,7 +336,7 @@ public class OpenAPINormalizer {
     }
 
     private void normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAllOf()) {
+        for (Object item : schema.getOneOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
             }
@@ -336,7 +347,7 @@ public class OpenAPINormalizer {
     }
 
     private void normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAllOf()) {
+        for (Object item : schema.getAnyOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
             }
@@ -346,10 +357,20 @@ public class OpenAPINormalizer {
         // process rules here
     }
 
+    private void normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+        if (((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
+                || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) // has anyOf or oneOf
+                && (schema.getProperties() != null && !schema.getProperties().isEmpty()) // has properties
+                && schema.getAllOf() == null) { // not allOf
+            processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
+
+        }
+    }
+
     // ===================== a list of rules =====================
     // all rules (fuctions) start with the word "process"
     private void processUseAllOfRefAsParent(Schema schema) {
-        if (!enableRefAsParentInAllOf) {
+        if (!enableRefAsParentInAllOf && !enableAll) {
             return;
         }
 
@@ -379,6 +400,19 @@ public class OpenAPINormalizer {
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
             }
         }
+    }
+
+    private void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
+        // if the schema contains anyOf/oneOf and properties
+        // remove oneOf/anyOf as these serve as rules to ensure inter-dependency between properties
+        // a workaround as such validation is not supported at the moment
+        if (!removeAnyOfOneOfAndKeepPropertiesOnly && !enableAll) {
+            return;
+        }
+
+        // clear oneOf, anyOf
+        schema.setOneOf(null);
+        schema.setAnyOf(null);
     }
     // ===================== end of rules =====================
 }
