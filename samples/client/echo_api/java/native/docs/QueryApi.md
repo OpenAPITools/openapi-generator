@@ -317,7 +317,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(); // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
+        BirdAndCategory queryObject = new BirdAndCategory(); // BirdAndCategory | 
         try {
             String result = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
             System.out.println(result);
@@ -337,7 +337,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] |
+| **queryObject** | [**BirdAndCategory**](.md)|  | [optional] |
 
 ### Return type
 
@@ -383,7 +383,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(); // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
+        BirdAndCategory queryObject = new BirdAndCategory(); // BirdAndCategory | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());
@@ -405,7 +405,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] |
+| **queryObject** | [**BirdAndCategory**](.md)|  | [optional] |
 
 ### Return type
 
