@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PythonNextgenClientCodegenTest {
 
@@ -126,7 +127,7 @@ public class PythonNextgenClientCodegenTest {
     }
 
     @Test(description = "convert a python model with dots")
-    public void modelTest() {
+    public void modelTestDots() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");
         final DefaultCodegen codegen = new PythonNextgenClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -148,6 +149,23 @@ public class PythonNextgenClientCodegenTest {
         final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, null);
         Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
+    }
+
+    @Test(description = "convert a model with dollar signs")
+    public void modelTestDollarSign() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dollar-in-names-pull14359.yaml");
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
+
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
+        Assert.assertEquals(simpleName.name, "$DollarModel$");
+        Assert.assertEquals(simpleName.classname, "DollarModel");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
+
+        List<CodegenProperty> vars = simpleName.getVars();
+        Assert.assertEquals(vars.size(), 1);
+        CodegenProperty property = vars.get(0);
+        Assert.assertEquals(property.name, "dollar_value");
     }
 
     @Test(description = "convert a simple java model")
