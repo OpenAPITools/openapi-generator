@@ -69,4 +69,11 @@ const config = your_api.createConfiguration(configurationParameters);
 
 // Use configuration with your_api
 const api = new your_api.PetApi(config);
+your_api.Pet p = new your_api.Pet();
+p.name = "My new pet";
+p.photoUrls = [];
+p.tags = [];
+p.status = "available";
+Promise<your_api.Pet> createdPet = api.addPet(p);
+
 ```
