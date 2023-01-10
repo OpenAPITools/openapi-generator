@@ -866,6 +866,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
    * @param queryParams The query parameters
    * @param collectionQueryParams The collection query parameters
+   * @param urlQueryDeepObject A URL query string for deep object parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
    * @param cookieParams The cookie parameters
