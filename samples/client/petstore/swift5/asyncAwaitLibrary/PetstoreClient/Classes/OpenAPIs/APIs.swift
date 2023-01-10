@@ -76,7 +76,7 @@ open class RequestBuilder<T> {
                 }
             }
         } onCancel: {
-            requestTask.cancel()
+            self.requestTask.cancel()
         }
     }
     
