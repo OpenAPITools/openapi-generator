@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         {
             // UuidWithPattern (Guid) pattern
             Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
-            if (false == regexUuidWithPattern.Match(this.UuidWithPattern).Success)
+            if (false == regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
             }
