@@ -470,6 +470,35 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            for (CodegenProperty property : model.allVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.vars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readWriteVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.optionalVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.parentVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.requiredVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readOnlyVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.nonNullableVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+        }
+
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
@@ -522,6 +551,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
+    }
+
+    private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
+        return model.parentModel == null
+            ? false
+            : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**
