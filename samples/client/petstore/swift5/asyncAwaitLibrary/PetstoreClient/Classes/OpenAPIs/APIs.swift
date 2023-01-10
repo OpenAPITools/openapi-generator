@@ -56,6 +56,30 @@ open class RequestBuilder<T> {
         return requestTask
     }
 
+    @discardableResult
+    open func execute() async throws -> Response<T> {
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                self.execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: {
+            requestTask.cancel()
+        }
+    }
+    
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value
