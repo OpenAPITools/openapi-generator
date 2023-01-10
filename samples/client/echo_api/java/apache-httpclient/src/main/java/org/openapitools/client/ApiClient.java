@@ -766,9 +766,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @param path The sub path
    * @param queryParams The query parameters
    * @param collectionQueryParams The collection query parameters
+   * @param urlQueryDeepObject URL query string of the deep object parameters
    * @return The full URL
    */
-  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
     String baseURL;
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
@@ -817,6 +818,11 @@ public class ApiClient extends JavaTimeFormatter {
           url.append(escapeString(param.getName())).append("=").append(value);
         }
       }
+    }
+
+    if (urlQueryDeepObject != null && urlQueryDeepObject.length() > 0) {
+      url.append(url.toString().contains("?") ? "&" : "?");
+      url.append(urlQueryDeepObject);
     }
 
     return url.toString();
@@ -876,6 +882,7 @@ public class ApiClient extends JavaTimeFormatter {
        String method,
        List<Pair> queryParams,
        List<Pair> collectionQueryParams,
+       String urlQueryDeepObject,
        Object body,
        Map<String, String> headerParams,
        Map<String, String> cookieParams,
@@ -889,7 +896,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
-    final String url = buildUrl(path, queryParams, collectionQueryParams);
+    final String url = buildUrl(path, queryParams, collectionQueryParams, urlQueryDeepObject);
 
     RequestBuilder builder = RequestBuilder.create(method);
     builder.setUri(url);

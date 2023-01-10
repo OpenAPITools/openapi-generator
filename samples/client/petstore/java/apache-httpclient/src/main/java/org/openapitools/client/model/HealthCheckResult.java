@@ -26,6 +26,9 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -121,6 +124,24 @@ public class HealthCheckResult {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `NullableMessage` to the URL query string
+    if (getNullableMessage() != null) {
+      joiner.add(String.format("%s[NullableMessage]=%s", prefix, URLEncoder.encode(String.valueOf(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    return joiner.toString();
   }
 
 }

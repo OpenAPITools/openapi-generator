@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * Capitalization
@@ -258,6 +261,44 @@ public class Capitalization {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `smallCamel` to the URL query string
+    if (getSmallCamel() != null) {
+      joiner.add(String.format("%s[smallCamel]=%s", prefix, URLEncoder.encode(String.valueOf(getSmallCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `CapitalCamel` to the URL query string
+    if (getCapitalCamel() != null) {
+      joiner.add(String.format("%s[CapitalCamel]=%s", prefix, URLEncoder.encode(String.valueOf(getCapitalCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `small_Snake` to the URL query string
+    if (getSmallSnake() != null) {
+      joiner.add(String.format("%s[small_Snake]=%s", prefix, URLEncoder.encode(String.valueOf(getSmallSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `Capital_Snake` to the URL query string
+    if (getCapitalSnake() != null) {
+      joiner.add(String.format("%s[Capital_Snake]=%s", prefix, URLEncoder.encode(String.valueOf(getCapitalSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `SCA_ETH_Flow_Points` to the URL query string
+    if (getScAETHFlowPoints() != null) {
+      joiner.add(String.format("%s[SCA_ETH_Flow_Points]=%s", prefix, URLEncoder.encode(String.valueOf(getScAETHFlowPoints()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `ATT_NAME` to the URL query string
+    if (getATTNAME() != null) {
+      joiner.add(String.format("%s[ATT_NAME]=%s", prefix, URLEncoder.encode(String.valueOf(getATTNAME()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    return joiner.toString();
   }
 
 }

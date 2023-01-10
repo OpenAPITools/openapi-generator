@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * MapTest
@@ -263,6 +266,44 @@ public class MapTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `map_map_of_string` to the URL query string
+    if (getMapMapOfString() != null) {
+      for (String _key : getMapMapOfString().keySet()) {
+        joiner.add(String.format("%s[map_map_of_string][%s]=%s", prefix, getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    // add `map_of_enum_string` to the URL query string
+    if (getMapOfEnumString() != null) {
+      for (String _key : getMapOfEnumString().keySet()) {
+        joiner.add(String.format("%s[map_of_enum_string][%s]=%s", prefix, getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    // add `direct_map` to the URL query string
+    if (getDirectMap() != null) {
+      for (String _key : getDirectMap().keySet()) {
+        joiner.add(String.format("%s[direct_map][%s]=%s", prefix, getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    // add `indirect_map` to the URL query string
+    if (getIndirectMap() != null) {
+      for (String _key : getIndirectMap().keySet()) {
+        joiner.add(String.format("%s[indirect_map][%s]=%s", prefix, getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    return joiner.toString();
   }
 
 }
