@@ -747,6 +747,8 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     public okhttp3.Call updatePetCall(Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
@@ -820,6 +822,8 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     public Pet updatePet(Pet pet) throws ApiException {
         ApiResponse<Pet> localVarResp = updatePetWithHttpInfo(pet);
@@ -840,6 +844,8 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     public ApiResponse<Pet> updatePetWithHttpInfo(Pet pet) throws ApiException {
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
@@ -862,6 +868,8 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     public okhttp3.Call updatePetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
