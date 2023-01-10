@@ -159,6 +159,7 @@ module Petstore
       @ssl_client_cert = nil
       @ssl_client_key = nil
       @middlewares = Hash.new { |h, k| h[k] = [] }
+      @configure_connection_blocks = []
       @timeout = 60
       # return data as binary instead of file
       @return_binary_data = false
@@ -167,7 +168,6 @@ module Petstore
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
-      @configure_connection_blocks = []
 
       yield(self) if block_given?
     end

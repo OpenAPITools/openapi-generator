@@ -164,7 +164,6 @@ module DynamicServers
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
-      @configure_connection_blocks = []
 
       yield(self) if block_given?
     end
