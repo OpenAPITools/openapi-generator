@@ -81,7 +81,6 @@ void (empty response body)
 > createUsersWithArrayInput(user)
 
 
-
 ### Example
 
 
@@ -144,7 +143,6 @@ void (empty response body)
 
 # **createUsersWithListInput**
 > createUsersWithListInput(user)
-
 
 
 ### Example
@@ -266,7 +264,6 @@ void (empty response body)
 > User getUserByName()
 
 
-
 ### Example
 
 
@@ -320,7 +317,6 @@ No authorization required
 
 # **loginUser**
 > string loginUser()
-
 
 
 ### Example
@@ -378,7 +374,6 @@ No authorization required
 
 # **logoutUser**
 > logoutUser()
-
 
 
 ### Example

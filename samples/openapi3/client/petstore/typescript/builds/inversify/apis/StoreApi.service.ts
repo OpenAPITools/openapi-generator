@@ -1,7 +1,7 @@
 import type { Configuration } from "../configuration";
 import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 
-import { Order } from "../models/Order";
+import { Order } from "/models/Order";
 
 export abstract class AbstractStoreApiRequestFactory {
     public abstract deleteOrder(orderId: string, options?: Configuration): Promise<RequestContext>;

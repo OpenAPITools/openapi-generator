@@ -1,14 +1,14 @@
 // TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
-import {Configuration} from '../configuration.ts';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
-import {ObjectSerializer} from '../models/ObjectSerializer.ts';
-import {ApiException} from './exception.ts';
-import {canConsumeForm, isCodeInRange} from '../util.ts';
-import {SecurityAuthentication} from '../auth/auth.ts';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
+import {Configuration} from '../configuration';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+import {ObjectSerializer} from '../models/ObjectSerializer';
+import {ApiException} from './exception';
+import {canConsumeForm, isCodeInRange} from '../util';
+import {SecurityAuthentication} from '../auth/auth';
 
 
-import { Order } from '../models/Order.ts';
+import { Order } from '/models/Order';
 
 /**
  * no description
@@ -110,7 +110,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */

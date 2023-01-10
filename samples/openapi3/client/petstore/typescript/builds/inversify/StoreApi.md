@@ -173,7 +173,6 @@ No authorization required
 > Order placeOrder(order)
 
 
-
 ### Example
 
 

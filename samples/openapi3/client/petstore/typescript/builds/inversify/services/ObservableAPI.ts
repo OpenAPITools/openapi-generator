@@ -2,12 +2,12 @@ import type { HttpFile } from "../http/http";
 import type { Observable } from "../rxjsStub";
 import type { Configuration } from "../configuration";
 
-import { ApiResponse } from "../models/ApiResponse";
-import { Category } from "../models/Category";
-import { Order } from "../models/Order";
-import { Pet } from "../models/Pet";
-import { Tag } from "../models/Tag";
-import { User } from "../models/User";
+import { ApiResponse } from ".models.ApiResponse";
+import { Category } from ".models.Category";
+import { Order } from ".models.Order";
+import { Pet } from ".models.Pet";
+import { Tag } from ".models.Tag";
+import { User } from ".models.User";
 
 
 export abstract class AbstractObservablePetApi {

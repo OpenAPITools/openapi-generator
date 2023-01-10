@@ -1,12 +1,12 @@
-export * from "./http/http.ts";
-export * from "./auth/auth.ts";
-export * from "./models/all.ts";
-export { createConfiguration } from "./configuration.ts"
-export type { Configuration } from "./configuration.ts"
-export * from "./apis/exception.ts";
-export * from "./servers.ts";
-export { RequiredError } from "./apis/baseapi.ts";
+export * from "./http/http";
+export * from "./auth/auth";
+export * from "./models/all";
+export { createConfiguration } from "./configuration"
+export type { Configuration } from "./configuration"
+export * from "./apis/exception";
+export * from "./servers";
+export { RequiredError } from "./apis/baseapi";
 
-export type { PromiseMiddleware as Middleware } from './middleware.ts';
-export { PromisePetApi as PetApi,  PromiseStoreApi as StoreApi,  PromiseUserApi as UserApi } from './types/PromiseAPI.ts';
+export type { PromiseMiddleware as Middleware } from './middleware';
+export { PromisePetApi as PetApi,  PromiseStoreApi as StoreApi,  PromiseUserApi as UserApi } from './types/PromiseAPI';
 

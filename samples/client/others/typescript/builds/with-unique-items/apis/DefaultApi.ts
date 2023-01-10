@@ -8,7 +8,7 @@ import {canConsumeForm, isCodeInRange} from '../util';
 import {SecurityAuthentication} from '../auth/auth';
 
 
-import { Response } from '../models/Response';
+import { Response } from '/models/Response';
 
 /**
  * no description

@@ -1,16 +1,16 @@
-export * from '../models/ApiResponse.ts';
-export * from '../models/Category.ts';
-export * from '../models/Order.ts';
-export * from '../models/Pet.ts';
-export * from '../models/Tag.ts';
-export * from '../models/User.ts';
+export * from '.models.ApiResponse';
+export * from '.models.Category';
+export * from '.models.Order';
+export * from '.models.Pet';
+export * from '.models.Tag';
+export * from '.models.User';
 
-import { ApiResponse } from '../models/ApiResponse.ts';
-import { Category } from '../models/Category.ts';
-import { Order    , OrderStatusEnum    } from '../models/Order.ts';
-import { Pet     , PetStatusEnum   } from '../models/Pet.ts';
-import { Tag } from '../models/Tag.ts';
-import { User } from '../models/User.ts';
+import { ApiResponse } from '.models.ApiResponse';
+import { Category } from '.models.Category';
+import { Order    , OrderStatusEnum    } from '.models.Order';
+import { Pet     , PetStatusEnum   } from '.models.Pet';
+import { Tag } from '.models.Tag';
+import { User } from '.models.User';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [

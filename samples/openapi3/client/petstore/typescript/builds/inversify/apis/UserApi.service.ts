@@ -1,7 +1,7 @@
 import type { Configuration } from "../configuration";
 import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 
-import { User } from "../models/User";
+import { User } from "/models/User";
 
 export abstract class AbstractUserApiRequestFactory {
     public abstract createUser(user: User, options?: Configuration): Promise<RequestContext>;

@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { DogAllOf } from 'DogAllOf';
 import { HttpFile } from '../http/http';
 
 export class Dog {

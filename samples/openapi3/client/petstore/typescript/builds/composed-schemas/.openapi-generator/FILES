@@ -15,12 +15,10 @@ models/Cat.ts
 models/CatAllOf.ts
 models/Dog.ts
 models/DogAllOf.ts
-models/FilePostRequest.ts
+models/InlineObject.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts
 models/PetByType.ts
-models/PetsFilteredPatchRequest.ts
-models/PetsPatchRequest.ts
 models/all.ts
 package.json
 rxjsStub.ts

@@ -1,15 +1,15 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http.ts';
-import { Configuration} from '../configuration.ts'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import { Configuration} from '../configuration'
 
-import { ApiResponse } from '../models/ApiResponse.ts';
-import { Category } from '../models/Category.ts';
-import { Order } from '../models/Order.ts';
-import { Pet } from '../models/Pet.ts';
-import { Tag } from '../models/Tag.ts';
-import { User } from '../models/User.ts';
+import { ApiResponse } from '.models.ApiResponse';
+import { Category } from '.models.Category';
+import { Order } from '.models.Order';
+import { Pet } from '.models.Pet';
+import { Tag } from '.models.Tag';
+import { User } from '.models.User';
 
-import { ObservablePetApi } from "./ObservableAPI.ts";
-import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi.ts";
+import { ObservablePetApi } from "./ObservableAPI";
+import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 
 export interface PetApiAddPetRequest {
     /**
@@ -121,7 +121,6 @@ export class ObjectPetApi {
     }
 
     /**
-     * 
      * Add a new pet to the store
      * @param param the request object
      */
@@ -130,7 +129,6 @@ export class ObjectPetApi {
     }
 
     /**
-     * 
      * Deletes a pet
      * @param param the request object
      */
@@ -166,7 +164,6 @@ export class ObjectPetApi {
     }
 
     /**
-     * 
      * Update an existing pet
      * @param param the request object
      */
@@ -175,7 +172,6 @@ export class ObjectPetApi {
     }
 
     /**
-     * 
      * Updates a pet in the store with form data
      * @param param the request object
      */
@@ -184,7 +180,6 @@ export class ObjectPetApi {
     }
 
     /**
-     * 
      * uploads an image
      * @param param the request object
      */
@@ -194,8 +189,8 @@ export class ObjectPetApi {
 
 }
 
-import { ObservableStoreApi } from "./ObservableAPI.ts";
-import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi.ts";
+import { ObservableStoreApi } from "./ObservableAPI";
+import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
 
 export interface StoreApiDeleteOrderRequest {
     /**
@@ -262,7 +257,6 @@ export class ObjectStoreApi {
     }
 
     /**
-     * 
      * Place an order for a pet
      * @param param the request object
      */
@@ -272,8 +266,8 @@ export class ObjectStoreApi {
 
 }
 
-import { ObservableUserApi } from "./ObservableAPI.ts";
-import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi.ts";
+import { ObservableUserApi } from "./ObservableAPI";
+import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
 
 export interface UserApiCreateUserRequest {
     /**
@@ -370,7 +364,6 @@ export class ObjectUserApi {
     }
 
     /**
-     * 
      * Creates list of users with given input array
      * @param param the request object
      */
@@ -379,7 +372,6 @@ export class ObjectUserApi {
     }
 
     /**
-     * 
      * Creates list of users with given input array
      * @param param the request object
      */
@@ -397,7 +389,6 @@ export class ObjectUserApi {
     }
 
     /**
-     * 
      * Get user by user name
      * @param param the request object
      */
@@ -406,7 +397,6 @@ export class ObjectUserApi {
     }
 
     /**
-     * 
      * Logs user into the system
      * @param param the request object
      */
@@ -415,7 +405,6 @@ export class ObjectUserApi {
     }
 
     /**
-     * 
      * Logs out current logged in user session
      * @param param the request object
      */

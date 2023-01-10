@@ -1,14 +1,14 @@
 // TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
-import {Configuration} from '../configuration.ts';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
-import {ObjectSerializer} from '../models/ObjectSerializer.ts';
-import {ApiException} from './exception.ts';
-import {canConsumeForm, isCodeInRange} from '../util.ts';
-import {SecurityAuthentication} from '../auth/auth.ts';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
+import {Configuration} from '../configuration';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+import {ObjectSerializer} from '../models/ObjectSerializer';
+import {ApiException} from './exception';
+import {canConsumeForm, isCodeInRange} from '../util';
+import {SecurityAuthentication} from '../auth/auth';
 
 
-import { User } from '../models/User.ts';
+import { User } from '/models/User';
 
 /**
  * no description
@@ -64,7 +64,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -112,7 +111,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -198,7 +196,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
@@ -230,7 +227,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
@@ -278,7 +274,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * 
      * Logs out current logged in user session
      */
     public async logoutUser(_options?: Configuration): Promise<RequestContext> {

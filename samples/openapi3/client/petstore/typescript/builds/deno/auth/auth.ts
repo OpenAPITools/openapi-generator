@@ -1,4 +1,4 @@
-import { RequestContext } from "../http/http.ts";
+import { RequestContext } from "../http/http";
 
 /**
  * Interface authentication schemes.

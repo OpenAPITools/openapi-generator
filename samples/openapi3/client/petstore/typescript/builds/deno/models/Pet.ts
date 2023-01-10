@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-import { Category } from '../models/Category.ts';
-import { Tag } from '../models/Tag.ts';
-import { HttpFile } from '../http/http.ts';
+import { Category } from 'Category';
+import { Tag } from 'Tag';
+import { HttpFile } from '../http/http';
 
 /**
 * A pet for sale in the pet store

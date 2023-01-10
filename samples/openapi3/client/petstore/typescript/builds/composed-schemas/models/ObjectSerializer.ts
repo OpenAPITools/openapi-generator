@@ -1,22 +1,18 @@
-export * from '../models/Cat';
-export * from '../models/CatAllOf';
-export * from '../models/Dog';
-export * from '../models/DogAllOf';
-export * from '../models/FilePostRequest';
-export * from '../models/PetByAge';
-export * from '../models/PetByType';
-export * from '../models/PetsFilteredPatchRequest';
-export * from '../models/PetsPatchRequest';
+export * from '.models.Cat';
+export * from '.models.CatAllOf';
+export * from '.models.Dog';
+export * from '.models.DogAllOf';
+export * from '.models.InlineObject';
+export * from '.models.PetByAge';
+export * from '.models.PetByType';
 
-import { Cat } from '../models/Cat';
-import { CatAllOf } from '../models/CatAllOf';
-import { Dog , DogBreedEnum   } from '../models/Dog';
-import { DogAllOf , DogAllOfBreedEnum   } from '../models/DogAllOf';
-import { FilePostRequest } from '../models/FilePostRequest';
-import { PetByAge } from '../models/PetByAge';
-import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
-import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
-import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from '../models/PetsPatchRequest';
+import { Cat } from '.models.Cat';
+import { CatAllOf } from '.models.CatAllOf';
+import { Dog , DogBreedEnum   } from '.models.Dog';
+import { DogAllOf , DogAllOfBreedEnum   } from '.models.DogAllOf';
+import { InlineObject } from '.models.InlineObject';
+import { PetByAge } from '.models.PetByAge';
+import { PetByType, PetByTypePetTypeEnum    } from '.models.PetByType';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -41,8 +37,6 @@ let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
     "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",
-    "PetsFilteredPatchRequestPetTypeEnum",
-    "PetsPatchRequestBreedEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
@@ -50,11 +44,9 @@ let typeMap: {[index: string]: any} = {
     "CatAllOf": CatAllOf,
     "Dog": Dog,
     "DogAllOf": DogAllOf,
-    "FilePostRequest": FilePostRequest,
+    "InlineObject": InlineObject,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
-    "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
-    "PetsPatchRequest": PetsPatchRequest,
 }
 
 export class ObjectSerializer {

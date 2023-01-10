@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { HttpFile } from '../http/http.ts';
+import { HttpFile } from '../http/http';
 
 /**
 * A tag for a pet

@@ -1,4 +1,4 @@
-import { Configuration } from '../configuration.ts'
+import { Configuration } from '../configuration'
 
 /**
  *
