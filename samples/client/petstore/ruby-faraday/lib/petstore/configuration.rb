@@ -167,6 +167,7 @@ module Petstore
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+      @configure_connection_blocks = []
 
       yield(self) if block_given?
     end
@@ -419,6 +420,32 @@ module Petstore
       end
 
       url
+    end
+
+    # Configure Faraday connection directly.
+    #
+    # ```
+    # c.configure_faraday_connection do |conn|
+    #   conn.use Faraday::HttpCache, shared_cache: false, logger: logger
+    #   conn.response :logger, nil, headers: true, bodies: true, log_level: :debug do |logger|
+    #     logger.filter(/(Authorization: )(.*)/, '\1[REDACTED]')
+    #   end
+    # end
+    #
+    # c.configure_faraday_connection do |conn|
+    #   conn.adapter :typhoeus
+    # end
+    # ```
+    #
+    # @param block [Proc] `#call`able object that takes one arg, the connection
+    def configure_faraday_connection(&block)
+      @configure_connection_blocks << block
+    end
+
+    def configure_connection(conn)
+      @configure_connection_blocks.each do |block|
+        block.call(conn)
+      end
     end
 
     # Adds middleware to the stack
