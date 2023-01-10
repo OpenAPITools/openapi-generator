@@ -66,6 +66,7 @@ import Vapor
     }
 
     {{#useAsyncAwait}}
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute() async throws -> Response<T> {
         return try await withTaskCancellationHandler {
