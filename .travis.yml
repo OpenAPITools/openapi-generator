@@ -108,8 +108,8 @@ before_install:
   # - . ~/otp/18.2.1/activate && erl -version
   #- curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
   # install C++ tools
-  - sudo apt install -y --no-install-recommends valgrind cmake build-essential
-  - cmake --version
+  #- sudo apt install -y --no-install-recommends valgrind cmake build-essential
+  #- cmake --version
   # install Qt5
   #- sudo apt install -y --no-install-recommends qt5-default
   # install boost
