@@ -89,8 +89,8 @@ before_install:
   #- sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
   #- sudo apt-get update
   #- sudo apt-get install dart
-  # switch to php7
-  - sudo apt-get install libonig-dev libzip-dev
+  # switch to php8
+  - sudo apt-get install -f libonig-dev libzip-dev
   - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
   - git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
   - if [ $(ls -A "$HOME/.phpenv/versions/8.1.4" | wc -l) -eq 0 ]; then
