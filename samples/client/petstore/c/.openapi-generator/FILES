@@ -23,6 +23,7 @@ include/binary.h
 include/keyValuePair.h
 include/list.h
 libcurl.licence
+model/any_type.h
 model/api_response.c
 model/api_response.h
 model/category.c
