@@ -157,7 +157,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/BirdAndCategory'
+          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
         style: deepObject
       responses:
         "200":
@@ -285,10 +285,6 @@ components:
         color:
           type: string
       type: object
-    BirdAndCategory:
-      allOf:
-      - $ref: '#/components/schemas/Bird'
-      - $ref: '#/components/schemas/Category'
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -296,4 +292,8 @@ components:
             type: string
           type: array
       type: object
+    test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
+      allOf:
+      - $ref: '#/components/schemas/Bird'
+      - $ref: '#/components/schemas/Category'
 

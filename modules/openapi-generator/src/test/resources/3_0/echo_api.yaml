@@ -171,7 +171,9 @@ paths:
         style: deepObject
         explode: true #default
         schema:
-          $ref: '#/components/schemas/BirdAndCategory'
+          allOf:
+          - $ref: '#/components/schemas/Bird'
+          - $ref: '#/components/schemas/Category'
       responses:
         '200':
           description: Successful operation
@@ -272,7 +274,3 @@ components:
           type: string
         color:
           type: string
-    BirdAndCategory:
-      allOf:
-      - $ref: '#/components/schemas/Bird'
-      - $ref: '#/components/schemas/Category'
