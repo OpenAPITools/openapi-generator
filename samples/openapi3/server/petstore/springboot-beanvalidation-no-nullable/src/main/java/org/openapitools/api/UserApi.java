@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -145,7 +146,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -179,7 +180,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -226,8 +227,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -283,7 +284,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(name = "body", description = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
