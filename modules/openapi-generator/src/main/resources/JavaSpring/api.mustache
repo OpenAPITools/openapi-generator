@@ -150,7 +150,7 @@ public interface {{classname}} {
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
+            @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
                 {{/produces}}

@@ -51,7 +51,7 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
     @RequestMapping(
@@ -74,7 +74,7 @@ public interface UserApi {
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
     @RequestMapping(
@@ -97,7 +97,7 @@ public interface UserApi {
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
     @RequestMapping(
@@ -208,7 +208,7 @@ public interface UserApi {
         summary = "Logs out current logged in user session",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
     @RequestMapping(
@@ -230,7 +230,7 @@ public interface UserApi {
         summary = "logoutUserOptions",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "endpoint configuration response")
+            @ApiResponse(responseCode = "default", description = "endpoint configuration response")
         }
     )
     @RequestMapping(

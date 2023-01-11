@@ -55,7 +55,7 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -87,7 +87,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -119,7 +119,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -269,7 +269,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation")
         },
         security = {
             @SecurityRequirement(name = "api_key")
