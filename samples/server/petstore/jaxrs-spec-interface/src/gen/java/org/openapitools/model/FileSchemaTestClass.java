@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FileSchemaTestClass  implements Serializable {
-  private @Valid ModelFile _file;
+  private ModelFile _file;
   private @Valid List<ModelFile> files = null;
 
   /**
@@ -34,7 +34,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public ModelFile getFile() {
+@Valid   public ModelFile getFile() {
     return _file;
   }
 
@@ -53,7 +53,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+@Valid   public List<@Valid ModelFile> getFiles() {
     return files;
   }
 

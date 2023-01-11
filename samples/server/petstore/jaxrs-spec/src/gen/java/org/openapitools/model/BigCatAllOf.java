@@ -66,7 +66,7 @@ public class BigCatAllOf  implements Serializable {
     }
 }
 
-  private @Valid KindEnum kind;
+  private KindEnum kind;
 
   protected BigCatAllOf(BigCatAllOfBuilder<?, ?> b) {
     this.kind = b.kind;

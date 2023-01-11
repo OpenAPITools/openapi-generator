@@ -25,9 +25,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Pet  implements Serializable {
-  private @Valid Long id;
-  private @Valid Category category;
-  private @Valid String name;
+  private Long id;
+  private Category category;
+  private String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
   private @Valid List<Tag> tags = null;
   public enum StatusEnum {
@@ -77,7 +77,7 @@ public class Pet  implements Serializable {
     }
 }
 
-  private @Valid StatusEnum status;
+  private StatusEnum status;
 
   /**
    **/
@@ -108,7 +108,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Category getCategory() {
+@Valid   public Category getCategory() {
     return category;
   }
 
@@ -127,8 +127,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-  @NotNull
-  public String getName() {
+@NotNull   public String getName() {
     return name;
   }
 
@@ -147,8 +146,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  @NotNull
-  public Set<String> getPhotoUrls() {
+@NotNull   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -184,7 +182,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+@Valid   public List<@Valid Tag> getTags() {
     return tags;
   }
 

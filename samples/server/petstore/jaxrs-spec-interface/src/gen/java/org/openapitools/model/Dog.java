@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Dog")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Dog extends Animal implements Serializable {
-  private @Valid String breed;
+  private String breed;
 
   /**
    **/
