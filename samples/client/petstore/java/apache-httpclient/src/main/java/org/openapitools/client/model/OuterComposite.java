@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * OuterComposite
@@ -163,6 +166,32 @@ public class OuterComposite {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `my_number` to the URL query string
+    if (getMyNumber() != null) {
+      joiner.add(String.format("%s[my_number]=%s", prefix, URLEncoder.encode(String.valueOf(getMyNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `my_string` to the URL query string
+    if (getMyString() != null) {
+      joiner.add(String.format("%s[my_string]=%s", prefix, URLEncoder.encode(String.valueOf(getMyString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `my_boolean` to the URL query string
+    if (getMyBoolean() != null) {
+      joiner.add(String.format("%s[my_boolean]=%s", prefix, URLEncoder.encode(String.valueOf(getMyBoolean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    return joiner.toString();
   }
 
 }
