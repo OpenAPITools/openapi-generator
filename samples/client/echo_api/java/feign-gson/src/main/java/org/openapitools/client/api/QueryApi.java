@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
+import org.openapitools.client.model.BirdAndCategory;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
@@ -182,6 +183,83 @@ public interface QueryApi extends ApiClient.Api {
    */
   public static class TestQueryStyleDeepObjectExplodeTrueObjectQueryParams extends HashMap<String, Object> {
     public TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryObject(final Pet value) {
+      put("query_object", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/style_deepObject/explode_true/object/allOf?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Param("queryObject") BirdAndCategory queryObject);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_deepObject/explode_true/object/allOf?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") BirdAndCategory queryObject);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>queryObject -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_deepObject/explode_true/object/allOf?query_object={queryObject}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@QueryMap(encoded=true) TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>queryObject -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_deepObject/explode_true/object/allOf?query_object={queryObject}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> method in a fluent style.
+   */
+  public static class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(final BirdAndCategory value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }
