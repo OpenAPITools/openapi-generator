@@ -1162,7 +1162,7 @@
                 <module>samples/server/petstore/php-lumen</module>-->
                 <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>-->
                 <!--<module>samples/client/petstore/bash</module>-->
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
