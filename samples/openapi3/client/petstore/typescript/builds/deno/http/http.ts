@@ -1,4 +1,4 @@
-import { Observable, from } from '../rxjsStub';
+import { Observable, from } from '../rxjsStub.ts';
 
 
 /**

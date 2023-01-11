@@ -11,7 +11,7 @@ import {SecurityAuthentication} from '../auth/auth';
 
 import { injectable } from "inversify";
 
-import { Order } from '/models/Order';
+import { Order } from '../models/Order';
 
 /**
  * no description
@@ -102,6 +102,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */

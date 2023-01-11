@@ -1,5 +1,5 @@
-import {HttpLibrary, RequestContext, ResponseContext} from './http';
-import { from, Observable } from '../rxjsStub';
+import {HttpLibrary, RequestContext, ResponseContext} from './http.ts';
+import { from, Observable } from '../rxjsStub.ts';
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
