@@ -98,6 +98,25 @@ public class CustomTest {
      * @throws ApiException if the Api call fails
      */
     @Test
+    public void testQueryStyleDeepObjectExplodeTrueObjectAllOf() throws ApiException {
+        BirdAndCategory queryObject = new BirdAndCategory().id(12345L).name("Hello World").
+                color("red").size("small");
+
+        Assert.assertEquals("query_object[size]=small&query_object[color]=red&query_object[id]=12345&query_object[name]=Hello%20World", queryObject.toUrlQueryString("query_object"));
+
+        String response = api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/query/style_deepObject/explode_true/object/allOf?query_object[size]=small&query_object[color]=red&query_object[id]=12345&query_object[name]=Hello%20World", p.path);
+    }
+
+    /**
+     * Test query parameter(s)
+     * <p>
+     * Test query parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
     public void testQueryStyleFormExplodeTrueArrayString() throws ApiException {
         TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter q = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()
                 .values(Arrays.asList(new String[]{"hello world 1", "hello world 2"}));

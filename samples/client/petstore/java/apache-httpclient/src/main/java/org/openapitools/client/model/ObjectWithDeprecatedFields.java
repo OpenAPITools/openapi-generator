@@ -26,6 +26,9 @@ import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * ObjectWithDeprecatedFields
@@ -212,6 +215,38 @@ public class ObjectWithDeprecatedFields {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      joiner.add(String.format("%s[uuid]=%s", prefix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `deprecatedRef` to the URL query string
+    if (getDeprecatedRef() != null) {
+      joiner.add(getDeprecatedRef().toUrlQueryString(prefix + "[deprecatedRef]"));
+    }
+    // add `bars` to the URL query string
+    if (getBars() != null) {
+      for (int i = 0; i < getBars().size(); i++) {
+        joiner.add(String.format("%s[bars][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getBars().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+    return joiner.toString();
   }
 
 }
