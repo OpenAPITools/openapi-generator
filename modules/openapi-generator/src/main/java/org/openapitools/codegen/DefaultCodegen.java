@@ -5264,6 +5264,7 @@ public class DefaultCodegen implements CodegenConfig {
     private CodegenSecurity defaultCodegenSecurity(String key, SecurityScheme securityScheme) {
         final CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
         cs.name = key;
+        cs.classname = camelize(key);
         cs.type = securityScheme.getType().toString();
         cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
         cs.isHttpSignature = false;

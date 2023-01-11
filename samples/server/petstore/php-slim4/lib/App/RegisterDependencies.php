@@ -109,6 +109,25 @@ final class RegisterDependencies
                 ->parameter('path', \DI\get('logger.path'))
                 ->parameter('level', \DI\get('logger.level'))
                 ->parameter('options', \DI\get('logger.options')),
+
+            // set global token middleware options
+            \Dyorg\TokenAuthenticationFactory::class => \DI\autowire()
+                ->constructorParameter('secure', \DI\get('tokenAuth.secure'))
+                ->constructorParameter('relaxed', \DI\get('tokenAuth.relaxed')),
+
+            // middleware factory for security schema api_key type apiKey
+            'ApiKeyMiddlewareFactory' => \DI\create(\Dyorg\TokenAuthenticationFactory::class)
+                ->method('setHeader', 'api_key')
+                ->method('setParameter', null)
+                ->method('setCookie', null)
+                ->method('setRegex', '/^(.*)$/i'),
+
+            // middleware factory for security schema petstore_auth type oauth2
+            'PetstoreAuthMiddlewareFactory' => \DI\create(\Dyorg\TokenAuthenticationFactory::class)
+                ->method('setHeader', 'Authorization')
+                ->method('setParameter', null)
+                ->method('setCookie', null)
+                ->method('setRegex', '/Bearer\s+(.*)$/i'),
         ]);
     }
 }

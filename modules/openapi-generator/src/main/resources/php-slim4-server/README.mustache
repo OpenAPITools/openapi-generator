@@ -196,17 +196,17 @@ No model defined in this package
 {{#authMethods}}
 {{#isBasic}}
 ### Security schema `{{name}}`
-> Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
+> Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}.php) class by [\{{authPackage}}\{{classname}}SecuritySchema](./src/Auth/{{classname}}SecuritySchema.php) class.
 
 {{/isBasic}}
 {{#isApiKey}}
 ### Security schema `{{name}}`
-> Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+> Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}.php) class by [\{{authPackage}}\{{classname}}SecuritySchema](./src/Auth/{{classname}}SecuritySchema.php) class.
 
 {{/isApiKey}}
 {{#isOAuth}}
 ### Security schema `{{name}}`
-> Important! To make OAuth authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+> Important! To make OAuth authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}SecuritySchema{{abstractNameSuffix}}.php) class by [\{{authPackage}}\{{classname}}SecuritySchema](./src/Auth/{{classname}}SecuritySchema.php) class.
 
 Scope list:
 {{#scopes}}
@@ -216,5 +216,5 @@ Scope list:
 {{/isOAuth}}
 {{/authMethods}}
 ### Advanced middleware configuration
-Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)
+Ref to used fork of Slim Token Middleware [ybelenko/slim-token-authentication](https://github.com/ybelenko/slim-token-authentication/tree/php8#readme)
 {{/hasAuthMethods}}

@@ -22,9 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class CodegenSecurity {
     public String name;
+    // The language-specific name of the class that implements this schema.
+    // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
+    public String classname;
     public String type;
     public String scheme;
     public Boolean isBasic, isOAuth, isApiKey;
@@ -131,6 +136,7 @@ public class CodegenSecurity {
     public String toString() {
         final StringBuffer sb = new StringBuffer("CodegenSecurity{");
         sb.append("name='").append(name).append('\'');
+        sb.append(", classname='").append(classname).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", scheme='").append(scheme).append('\'');
         sb.append(", isBasic=").append(isBasic);
@@ -156,5 +162,24 @@ public class CodegenSecurity {
         sb.append(", isImplicit=").append(isImplicit);
         sb.append('}');
         return sb.toString();
+    }
+
+    /**
+     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
+     * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
+     * The name of the class may have to be sanitized with character escaping.
+     *
+     * @return true if the classname property is sanitized
+     */
+    public boolean getIsClassnameSanitized() {
+        return !StringUtils.equals(classname, name);
+    }
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
     }
 }

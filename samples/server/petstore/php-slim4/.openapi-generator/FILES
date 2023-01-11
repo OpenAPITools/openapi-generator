@@ -12,7 +12,7 @@ lib/App/RegisterDependencies.php
 lib/App/RegisterMiddlewares.php
 lib/App/RegisterRoutes.php
 lib/App/ResponseEmitter.php
-lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractSecuritySchema.php
 lib/BaseModel.php
 lib/Model/ApiResponse.php
 lib/Model/Category.php

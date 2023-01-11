@@ -11,6 +11,8 @@ declare(strict_types=1);
  */{{#apiInfo}}
 namespace {{appPackage}};
 
+use Dyorg\TokenAuthentication;
+use Dyorg\TokenAuthenticationFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotImplementedException;
@@ -48,51 +50,15 @@ class RegisterRoutes
                 {{#hasAuthMethods}}
                 {{#authMethods}}
                 // {{type}} security schema named '{{name}}'
-                {{#isBasicBasic}}
                 [
-                    'type' => '{{type}}',
-                    'isBasic' => true,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => false,
-                ],
-                {{/isBasicBasic}}
-                {{#isBasicBearer}}
-                [
-                    'type' => '{{type}}',
-                    'isBasic' => true,
-                    'isBearer' => true,
-                    'isApiKey' => false,
-                    'isOAuth' => false,
-                ],
-                {{/isBasicBearer}}
-                {{#isApiKey}}
-                [
-                    'type' => '{{type}}',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => true,
-                    'isOAuth' => false,
-                    'keyParamName' => '{{keyParamName}}',
-                    'isKeyInHeader' => {{#isKeyInHeader}}true{{/isKeyInHeader}}{{^isKeyInHeader}}false{{/isKeyInHeader}},
-                    'isKeyInQuery' => {{#isKeyInQuery}}true{{/isKeyInQuery}}{{^isKeyInQuery}}false{{/isKeyInQuery}},
-                    'isKeyInCookie' => {{#isKeyInCookie}}true{{/isKeyInCookie}}{{^isKeyInCookie}}false{{/isKeyInCookie}},
-                ],
-                {{/isApiKey}}
-                {{#isOAuth}}
-                [
-                    'type' => '{{type}}',
-                    'isBasic' => false,
-                    'isBearer' => false,
-                    'isApiKey' => false,
-                    'isOAuth' => true,
+                    'name' => '{{name}}',
+                    'classname' => '{{classname}}',
                     'scopes' => [
                     {{#scopes}}
                         '{{scope}}',{{#description}} // {{.}}{{/description}}
                     {{/scopes}}
                     ],
                 ],
-                {{/isOAuth}}
                 {{/authMethods}}
                 {{/hasAuthMethods}}
             ],
@@ -138,6 +104,30 @@ class RegisterRoutes
                 // PHP-DI will instantiate the class for us only when it's actually necessary
                 $callback = ["\\{$operation['apiPackage']}\\{$operation['userClassname']}", $operation['operationId']];
             }
+
+            {{#hasAuthMethods}}
+            foreach ($operation['authMethods'] as $authMethod) {
+                /** @var TokenAuthenticationFactory */
+                $middlewareFactory = $container->get("{$authMethod['classname']}MiddlewareFactory");
+                $userAuthenticatorClass = "\\{{authPackage}}\\{$authMethod['classname']}SecuritySchema";
+                if (\class_exists($userAuthenticatorClass)) {
+                    $authenticator = new $userAuthenticatorClass();
+                    $authenticator->setRequiredScope((empty($authMethod['scopes'])) ? null : $authMethod['scopes']);
+                    $middlewares[] = $middlewareFactory
+                        ->setAuthenticator($authenticator)
+                        ->setError($authenticator)
+                        ->create();
+                } else {
+                    $options = $middlewareFactory->buildOptions();
+                    $options['authenticator'] = function (ServerRequestInterface $request) use ($userAuthenticatorClass) {
+                        throw new HttpNotImplementedException($request, \sprintf('Please extend %s with implementation %s class', '\{{authPackage}}\AbstractSecuritySchema', $userAuthenticatorClass));
+                    };
+                    // reset error handler option
+                    unset($options['error']);
+                    $middlewares[] = new TokenAuthentication($options);
+                }
+            }
+            {{/hasAuthMethods}}
 
             if ($mockMiddlewareFactory) {
                 $mockSchemaResponses = array_map(function ($item) {
