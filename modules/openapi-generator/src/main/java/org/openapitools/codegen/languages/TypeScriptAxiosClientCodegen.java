@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -29,7 +30,10 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -45,7 +49,12 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected String npmRepository = null;
     protected Boolean stringEnums = false;
 
+    private boolean useSingleRequestParameter = false;
+
     private String tsModelPackage = "";
+
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public TypeScriptAxiosClientCodegen() {
         super();
@@ -70,6 +79,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
     @Override
@@ -90,6 +102,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.npmRepository = npmRepository;
     }
 
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
     private static String getRelativeToRoot(String path) {
         StringBuilder sb = new StringBuilder();
         int slashCount = path.split("/").length;
@@ -101,6 +121,16 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return createPath(outputFolder, apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return createPath(outputFolder, modelDocPath);
     }
 
     @Override
@@ -116,6 +146,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put("tsApiPackage", tsApiPackage);
         additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
         additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
+        additionalProperties.put("apiModuleClassName", "ApiModule");
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
@@ -147,6 +178,20 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             addNpmPackageGeneration();
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
     }
 
     @Override
@@ -202,14 +247,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
         }
 
-        for (ModelMap mo  : models) {
+        for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
             // Deduce the model file name in kebab case
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
-            if(!withoutPrefixEnums) {
+            if (!withoutPrefixEnums) {
                 cm.imports = new TreeSet<>(cm.imports);
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {

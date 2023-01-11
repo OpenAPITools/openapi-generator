@@ -214,7 +214,7 @@ apiInstance.getUserByName(username, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -260,7 +260,7 @@ apiInstance.loginUser(username, password, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```

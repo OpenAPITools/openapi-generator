@@ -76,7 +76,7 @@ api_key.apiKey = 'YOUR API KEY';
 
 let apiInstance = new OpenApiPetstore.StoreApi();
 apiInstance.getInventory().then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -117,7 +117,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.StoreApi();
 let orderId = 789; // Number | ID of pet that needs to be fetched
 apiInstance.getOrderById(orderId).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });
@@ -161,7 +161,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let apiInstance = new OpenApiPetstore.StoreApi();
 let order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
 apiInstance.placeOrder(order).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });

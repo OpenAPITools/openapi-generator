@@ -5,7 +5,8 @@ This generator creates TypeScript/JavaScript client that utilizes jquery.
 ### Building
 
 To build and compile the typescript sources to javascript use:
-```
+
+```shell
 npm install
 npm run build
 ```
@@ -20,11 +21,12 @@ navigate to the folder of your consuming project and run one of the following co
 
 _published:_
 
-```
+```shell
 npm install ts-petstore-client@1.0.0 --save
 ```
 
 _unPublished (not recommended):_
 
-```
+```shell
 npm install PATH_TO_GENERATED_PACKAGE --save
+```

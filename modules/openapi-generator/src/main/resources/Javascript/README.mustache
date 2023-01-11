@@ -156,7 +156,7 @@ var opts = {
 {{/hasParams}}
 {{#usePromises}}
 api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
-  {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
+  {{#returnType}}console.log('API called successfully. Returned data: ', data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, function(error) {
   console.error(error);
 });
@@ -167,7 +167,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
+    {{#returnType}}console.log('API called successfully. Returned data: ', data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 };
 api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}callback);

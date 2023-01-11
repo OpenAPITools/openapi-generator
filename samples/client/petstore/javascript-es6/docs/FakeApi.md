@@ -40,7 +40,7 @@ apiInstance.fakeHealthGet((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -134,7 +134,7 @@ apiInstance.fakeOuterBooleanSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -181,7 +181,7 @@ apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -228,7 +228,7 @@ apiInstance.fakeOuterNumberSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -275,7 +275,7 @@ apiInstance.fakeOuterStringSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -320,7 +320,7 @@ apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, (error
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -500,7 +500,7 @@ apiInstance.testClientModel(client, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```

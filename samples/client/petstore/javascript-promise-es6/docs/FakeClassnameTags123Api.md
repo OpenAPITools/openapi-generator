@@ -30,7 +30,7 @@ api_key_query.apiKey = 'YOUR API KEY';
 let apiInstance = new OpenApiPetstore.FakeClassnameTags123Api();
 let client = new OpenApiPetstore.Client(); // Client | client model
 apiInstance.testClassname(client).then((data) => {
-  console.log('API called successfully. Returned data: ' + data);
+  console.log('API called successfully. Returned data: ', data);
 }, (error) => {
   console.error(error);
 });

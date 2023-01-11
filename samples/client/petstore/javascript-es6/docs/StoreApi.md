@@ -80,7 +80,7 @@ apiInstance.getInventory((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -122,7 +122,7 @@ apiInstance.getOrderById(orderId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
@@ -167,7 +167,7 @@ apiInstance.placeOrder(order, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully. Returned data: ', data);
   }
 });
 ```
