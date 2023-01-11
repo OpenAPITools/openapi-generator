@@ -471,6 +471,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        // add URL query deepObject support to native, apache-httpclient by default
+        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
+            additionalProperties.put("supportUrlQueryDeepObject", true);
+        }
+
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",

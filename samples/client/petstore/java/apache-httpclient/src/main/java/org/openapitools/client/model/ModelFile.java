@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * Must be named &#x60;File&#x60; for test.
@@ -99,6 +102,24 @@ public class ModelFile {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `sourceURI` to the URL query string
+    if (getSourceURI() != null) {
+      joiner.add(String.format("%s[sourceURI]=%s", prefix, URLEncoder.encode(String.valueOf(getSourceURI()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    return joiner.toString();
   }
 
 }

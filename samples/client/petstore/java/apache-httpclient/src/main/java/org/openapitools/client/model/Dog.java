@@ -26,6 +26,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 
 /**
  * Dog
@@ -111,6 +114,32 @@ public class Dog extends Animal {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `className` to the URL query string
+    if (getClassName() != null) {
+      joiner.add(String.format("%s[className]=%s", prefix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `color` to the URL query string
+    if (getColor() != null) {
+      joiner.add(String.format("%s[color]=%s", prefix, URLEncoder.encode(String.valueOf(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    // add `breed` to the URL query string
+    if (getBreed() != null) {
+      joiner.add(String.format("%s[breed]=%s", prefix, URLEncoder.encode(String.valueOf(getBreed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+    return joiner.toString();
   }
 
 }
