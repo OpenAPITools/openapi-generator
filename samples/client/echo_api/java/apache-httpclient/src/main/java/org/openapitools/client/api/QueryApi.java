@@ -177,14 +177,16 @@ public class QueryApi {
     // create path and map variables
     String localVarPath = "/query/style_deepObject/explode_true/object/allOf";
 
-    // query params
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPair("query_object", queryObject));
+    localVarQueryParameterBaseName = "query_object";
+    localVarQueryDeepObjectStringJoiner.add(queryObject.toUrlQueryString("query_object"));
     
     
     
@@ -206,6 +208,7 @@ public class QueryApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
+        localVarQueryDeepObjectStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

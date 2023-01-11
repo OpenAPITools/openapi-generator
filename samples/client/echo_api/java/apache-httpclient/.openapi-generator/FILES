@@ -45,5 +45,3 @@ src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java
-src/test/java/org/openapitools/client/model/BirdAndCategoryTest.java
-src/test/java/org/openapitools/client/model/BirdTest.java
