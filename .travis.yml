@@ -90,17 +90,17 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install dart
   # switch to php8
-  - sudo apt-get install -f libonig-dev libzip-dev
-  - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
-  - git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
-  - if [ $(ls -A "$HOME/.phpenv/versions/8.1.4" | wc -l) -eq 0 ]; then
-      phpenv install 8.1.4;
-    fi;
-  - phpenv rehash
-  - phpenv versions
-  #- phpenv global 7.2.15
-  - phpenv global 8.1.4
-  - php -v
+  #- sudo apt-get install -f libonig-dev libzip-dev
+  #- git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
+  #- git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
+  #- if [ $(ls -A "$HOME/.phpenv/versions/8.1.4" | wc -l) -eq 0 ]; then
+  #    phpenv install 8.1.4;
+  #  fi;
+  #- phpenv rehash
+  #- phpenv versions
+  ##- phpenv global 7.2.15
+  #- phpenv global 8.1.4
+  #- php -v
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
