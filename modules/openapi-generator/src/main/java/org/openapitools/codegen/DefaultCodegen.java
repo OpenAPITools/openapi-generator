@@ -5031,7 +5031,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameterModelName != null) {
             codegenParameter.dataType = parameterModelName;
-            if (ModelUtils.isObjectSchema(parameterSchema)) {
+            if (ModelUtils.isObjectSchema(parameterSchema) || ModelUtils.isComposedSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
         } else {

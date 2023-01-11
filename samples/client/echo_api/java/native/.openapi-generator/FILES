@@ -5,6 +5,8 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
+docs/Bird.md
+docs/BirdAndCategory.md
 docs/BodyApi.md
 docs/Category.md
 docs/PathApi.md
@@ -34,6 +36,8 @@ src/main/java/org/openapitools/client/api/BodyApi.java
 src/main/java/org/openapitools/client/api/PathApi.java
 src/main/java/org/openapitools/client/api/QueryApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
+src/main/java/org/openapitools/client/model/Bird.java
+src/main/java/org/openapitools/client/model/BirdAndCategory.java
 src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java

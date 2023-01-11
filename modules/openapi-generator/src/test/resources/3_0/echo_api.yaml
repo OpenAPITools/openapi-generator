@@ -158,6 +158,27 @@ paths:
             text/plain:
               schema:
                 type: string
+  /query/style_deepObject/explode_true/object/allOf:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object/allOf
+      parameters:
+      - in: query
+        name: query_object
+        style: deepObject
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/BirdAndCategory'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /echo/body/Pet:
     post:
       tags:
@@ -244,3 +265,14 @@ components:
             - sold
       xml:
         name: pet
+    Bird:
+      type: object
+      properties:
+        size:
+          type: string
+        color:
+          type: string
+    BirdAndCategory:
+      allOf:
+      - $ref: '#/components/schemas/Bird'
+      - $ref: '#/components/schemas/Category'
