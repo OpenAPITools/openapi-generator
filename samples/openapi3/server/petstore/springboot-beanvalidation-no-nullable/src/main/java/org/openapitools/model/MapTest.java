@@ -51,7 +51,6 @@ public class MapTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
         if (b.value.equals(value)) {
