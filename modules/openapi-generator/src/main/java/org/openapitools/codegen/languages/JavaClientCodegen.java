@@ -427,6 +427,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.webclientBlockingOperations = Boolean.parseBoolean(additionalProperties.get(WEBCLIENT_BLOCKING_OPERATIONS).toString());
         }
 
+        // add URL query deepObject support to native, apache-httpclient by default
+        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
+            additionalProperties.put("supportUrlQueryDeepObject", true);
+        } else {
+            additionalProperties.put("supportUrlQueryDeepObject", Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
@@ -469,11 +476,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (OKHTTP_GSON.equals(getLibrary()) && withAWSV4Signature) {
                 supportingFiles.add(new SupportingFile("auth/AWS4Auth.mustache", authFolder, "AWS4Auth.java"));
             }
-        }
-
-        // add URL query deepObject support to native, apache-httpclient by default
-        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
-            additionalProperties.put("supportUrlQueryDeepObject", true);
         }
 
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));

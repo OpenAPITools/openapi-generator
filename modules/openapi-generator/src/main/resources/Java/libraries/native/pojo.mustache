@@ -348,7 +348,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     }
     return o.toString().replace("\n", "\n    ");
   }
-
+{{#supportUrlQueryDeepObject}}
 
   /**
    * Convert the instance into URL query string.
@@ -474,6 +474,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/allVars}}
     return joiner.toString();
   }
+{{/supportUrlQueryDeepObject}}
 {{#parcelableModel}}
 
   public void writeToParcel(Parcel out, int flags) {
