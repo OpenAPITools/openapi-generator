@@ -360,7 +360,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String toModelImport(String name) {
         if (primitiveTypes.contains(name)) {
-            return "";
+            return null;
         } else {
             return toModelFilename(name);
         }
