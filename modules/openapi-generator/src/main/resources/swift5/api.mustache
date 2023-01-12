@@ -176,7 +176,7 @@ extension {{projectName}}API {
         let requestBuilder = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
         let requestTask = requestBuilder.requestTask
         return Future<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> { promise in
-            requestTask = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
