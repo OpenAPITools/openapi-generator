@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -117,7 +117,12 @@ public class OuterObjectWithEnumProperty {
     StringJoiner joiner = new StringJoiner("&");
     // add `value` to the URL query string
     if (getValue() != null) {
-      joiner.add(String.format("%s[value]=%s", prefix, URLEncoder.encode(String.valueOf(getValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[value]=%s", prefix, URLEncoder.encode(String.valueOf(getValue()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     return joiner.toString();
   }

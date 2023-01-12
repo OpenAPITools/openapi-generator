@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -129,7 +129,12 @@ public class ArrayOfArrayOfNumberOnly {
     if (getArrayArrayNumber() != null) {
       for (int i = 0; i < getArrayArrayNumber().size(); i++) {
         if (getArrayArrayNumber().get(i) != null) {
-          joiner.add(String.format("%s[ArrayArrayNumber][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          try {
+            joiner.add(String.format("%s[ArrayArrayNumber][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+          } catch (UnsupportedEncodingException e) {
+            // Should never happen, UTF-8 is always supported
+            throw new RuntimeException(e);
+          }
         }
       }
     }

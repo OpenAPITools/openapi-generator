@@ -26,8 +26,8 @@ import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -330,11 +330,21 @@ public class Pet {
     StringJoiner joiner = new StringJoiner("&");
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%s[name]=%s", prefix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[name]=%s", prefix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `category` to the URL query string
     if (getCategory() != null) {
@@ -343,7 +353,12 @@ public class Pet {
     // add `photoUrls` to the URL query string
     if (getPhotoUrls() != null) {
       for (int i = 0; i < getPhotoUrls().size(); i++) {
-        joiner.add(String.format("%s[photoUrls][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getPhotoUrls().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[photoUrls][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getPhotoUrls().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `tags` to the URL query string
@@ -356,7 +371,12 @@ public class Pet {
     }
     // add `status` to the URL query string
     if (getStatus() != null) {
-      joiner.add(String.format("%s[status]=%s", prefix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[status]=%s", prefix, URLEncoder.encode(String.valueOf(getStatus()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     return joiner.toString();
   }

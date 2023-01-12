@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -282,25 +282,45 @@ public class MapTest {
     // add `map_map_of_string` to the URL query string
     if (getMapMapOfString() != null) {
       for (String _key : getMapMapOfString().keySet()) {
-        joiner.add(String.format("%s[map_map_of_string][%s]=%s", prefix, getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[map_map_of_string][%s]=%s", prefix, getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `map_of_enum_string` to the URL query string
     if (getMapOfEnumString() != null) {
       for (String _key : getMapOfEnumString().keySet()) {
-        joiner.add(String.format("%s[map_of_enum_string][%s]=%s", prefix, getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[map_of_enum_string][%s]=%s", prefix, getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `direct_map` to the URL query string
     if (getDirectMap() != null) {
       for (String _key : getDirectMap().keySet()) {
-        joiner.add(String.format("%s[direct_map][%s]=%s", prefix, getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[direct_map][%s]=%s", prefix, getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `indirect_map` to the URL query string
     if (getIndirectMap() != null) {
       for (String _key : getIndirectMap().keySet()) {
-        joiner.add(String.format("%s[indirect_map][%s]=%s", prefix, getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[indirect_map][%s]=%s", prefix, getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     return joiner.toString();

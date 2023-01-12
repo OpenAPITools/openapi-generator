@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -145,11 +145,21 @@ public class ReadOnlyFirst {
     StringJoiner joiner = new StringJoiner("&");
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%s[bar]=%s", prefix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[bar]=%s", prefix, URLEncoder.encode(String.valueOf(getBar()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%s[baz]=%s", prefix, URLEncoder.encode(String.valueOf(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[baz]=%s", prefix, URLEncoder.encode(String.valueOf(getBaz()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     return joiner.toString();
   }

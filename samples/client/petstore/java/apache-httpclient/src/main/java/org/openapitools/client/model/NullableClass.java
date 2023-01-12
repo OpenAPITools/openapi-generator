@@ -33,8 +33,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -637,62 +637,122 @@ public class NullableClass extends HashMap<String, Object> {
     StringJoiner joiner = new StringJoiner("&");
     // add `integer_prop` to the URL query string
     if (getIntegerProp() != null) {
-      joiner.add(String.format("%s[integer_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getIntegerProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[integer_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getIntegerProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `number_prop` to the URL query string
     if (getNumberProp() != null) {
-      joiner.add(String.format("%s[number_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getNumberProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[number_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getNumberProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `boolean_prop` to the URL query string
     if (getBooleanProp() != null) {
-      joiner.add(String.format("%s[boolean_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getBooleanProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[boolean_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getBooleanProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `string_prop` to the URL query string
     if (getStringProp() != null) {
-      joiner.add(String.format("%s[string_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getStringProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[string_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getStringProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `date_prop` to the URL query string
     if (getDateProp() != null) {
-      joiner.add(String.format("%s[date_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getDateProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[date_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getDateProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `datetime_prop` to the URL query string
     if (getDatetimeProp() != null) {
-      joiner.add(String.format("%s[datetime_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getDatetimeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[datetime_prop]=%s", prefix, URLEncoder.encode(String.valueOf(getDatetimeProp()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `array_nullable_prop` to the URL query string
     if (getArrayNullableProp() != null) {
       for (int i = 0; i < getArrayNullableProp().size(); i++) {
-        joiner.add(String.format("%s[array_nullable_prop][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_nullable_prop][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayNullableProp().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `array_and_items_nullable_prop` to the URL query string
     if (getArrayAndItemsNullableProp() != null) {
       for (int i = 0; i < getArrayAndItemsNullableProp().size(); i++) {
-        joiner.add(String.format("%s[array_and_items_nullable_prop][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayAndItemsNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_and_items_nullable_prop][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayAndItemsNullableProp().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `array_items_nullable` to the URL query string
     if (getArrayItemsNullable() != null) {
       for (int i = 0; i < getArrayItemsNullable().size(); i++) {
-        joiner.add(String.format("%s[array_items_nullable][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayItemsNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_items_nullable][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayItemsNullable().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `object_nullable_prop` to the URL query string
     if (getObjectNullableProp() != null) {
       for (String _key : getObjectNullableProp().keySet()) {
-        joiner.add(String.format("%s[object_nullable_prop][%s]=%s", prefix, getObjectNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[object_nullable_prop][%s]=%s", prefix, getObjectNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectNullableProp().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `object_and_items_nullable_prop` to the URL query string
     if (getObjectAndItemsNullableProp() != null) {
       for (String _key : getObjectAndItemsNullableProp().keySet()) {
-        joiner.add(String.format("%s[object_and_items_nullable_prop][%s]=%s", prefix, getObjectAndItemsNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectAndItemsNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[object_and_items_nullable_prop][%s]=%s", prefix, getObjectAndItemsNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectAndItemsNullableProp().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `object_items_nullable` to the URL query string
     if (getObjectItemsNullable() != null) {
       for (String _key : getObjectItemsNullable().keySet()) {
-        joiner.add(String.format("%s[object_items_nullable][%s]=%s", prefix, getObjectItemsNullable().get(_key), URLEncoder.encode(String.valueOf(getObjectItemsNullable().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[object_items_nullable][%s]=%s", prefix, getObjectItemsNullable().get(_key), URLEncoder.encode(String.valueOf(getObjectItemsNullable().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     return joiner.toString();
