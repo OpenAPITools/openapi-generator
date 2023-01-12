@@ -358,7 +358,12 @@ public class Pet {
     if (getPhotoUrls() != null) {
       int i = 0;
       for (String _item : getPhotoUrls()) {
-        joiner.add(String.format("%s[photoUrls][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[photoUrls][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
       i++;
     }

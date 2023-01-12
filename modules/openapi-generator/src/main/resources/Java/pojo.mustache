@@ -357,7 +357,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       int i = 0;
       for ({{items.dataType}} _item : {{getter}}()) {
-        joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
       i++;
     }
