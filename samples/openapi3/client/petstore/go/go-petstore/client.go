@@ -234,7 +234,7 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 
 	switch valuesMap := queryParams.(type) {
 		case url.Values:
-			if collectionType == "csv" && valuesMap.Has(keyPrefix){
+			if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
 				valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix) + "," + value)
 			} else {
 				valuesMap.Add(keyPrefix, value)
@@ -244,7 +244,6 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 			valuesMap[keyPrefix] = value
 			break
 	}
-	
 }
 
 // helper for converting interface{} parameters to json strings
