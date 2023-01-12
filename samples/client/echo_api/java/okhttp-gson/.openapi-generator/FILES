@@ -1,6 +1,5 @@
 .github/workflows/maven.yml
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -51,12 +50,3 @@ src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java
-src/test/java/org/openapitools/client/api/BodyApiTest.java
-src/test/java/org/openapitools/client/api/PathApiTest.java
-src/test/java/org/openapitools/client/api/QueryApiTest.java
-src/test/java/org/openapitools/client/model/BirdAndCategoryTest.java
-src/test/java/org/openapitools/client/model/BirdTest.java
-src/test/java/org/openapitools/client/model/CategoryTest.java
-src/test/java/org/openapitools/client/model/PetTest.java
-src/test/java/org/openapitools/client/model/TagTest.java
-src/test/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest.java
