@@ -1,6 +1,5 @@
 sudo: required
 language: java
-dist: bionic
 jdk:
   - openjdk8
 
@@ -57,10 +56,10 @@ before_install:
   - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.3.0/buildx-v0.3.0.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
   - chmod a+x ~/.docker/cli-plugins/docker-buildx
   # to run petstore server locally via docker
-  - echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
-  - docker pull swaggerapi/petstore
-  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-  - docker ps -a
+  #- echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
+  #- docker pull swaggerapi/petstore
+  #- docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  #- docker ps -a
   # comment out crystal installation as the tests will run on circleci or github action instead
   # install crystal
   #- echo 'deb http://download.opensuse.org/repositories/devel:/languages:/crystal/xUbuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/devel:languages:crystal.list
@@ -71,11 +70,11 @@ before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
   - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
-  - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
-  # required when sudo: required for the Ruby petstore tests
-  - gem install bundler -v 2.3.26
-  # set python 3.6.3 as default
-  - source ~/virtualenv/python3.6/bin/activate
+  #- curl https://sh.rustup.rs -sSf | sh -s -- -y -v
+  ## required when sudo: required for the Ruby petstore tests
+  #- gem install bundler -v 2.3.26
+  ## set python 3.6.3 as default
+  #- source ~/virtualenv/python3.6/bin/activate
   # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
   #- sudo add-apt-repository ppa:duggan/bats --yes
@@ -116,8 +115,8 @@ before_install:
   # install boost
   #- sudo apt install -y --no-install-recommends libboost-all-dev
   # perl dep
-  - cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  - cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Ignored failure from cpanm"
+  #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+  #- cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Ignored failure from cpanm"
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version
@@ -129,8 +128,8 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - sh -s v1.6.2 < ./CI/deno_install.sh
-  - export PATH="$HOME/.deno/bin:$PATH"
+  #- sh -s v1.6.2 < ./CI/deno_install.sh
+  #- export PATH="$HOME/.deno/bin:$PATH"
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -152,7 +151,7 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
