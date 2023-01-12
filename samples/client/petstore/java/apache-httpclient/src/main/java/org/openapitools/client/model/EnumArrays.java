@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -228,12 +228,22 @@ public class EnumArrays {
     StringJoiner joiner = new StringJoiner("&");
     // add `just_symbol` to the URL query string
     if (getJustSymbol() != null) {
-      joiner.add(String.format("%s[just_symbol]=%s", prefix, URLEncoder.encode(String.valueOf(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[just_symbol]=%s", prefix, URLEncoder.encode(String.valueOf(getJustSymbol()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `array_enum` to the URL query string
     if (getArrayEnum() != null) {
       for (int i = 0; i < getArrayEnum().size(); i++) {
-        joiner.add(String.format("%s[array_enum][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_enum][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     return joiner.toString();
