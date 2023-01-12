@@ -225,16 +225,12 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 
 	switch valuesMap := queryParams.(type) {
 		case url.Values:
-		if collectionType == "csv" {
-			if valuesMap.Has(keyPrefix){
+			if collectionType == "csv" && valuesMap.Has(keyPrefix){
 				valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix) + "," + value)
 			} else {
 				valuesMap.Add(keyPrefix, value)
 			}
-		} else {
-			valuesMap.Add(keyPrefix, value)
-		}
-		break
+			break
 		case map[string]string:
 			valuesMap[keyPrefix] = value
 			break
