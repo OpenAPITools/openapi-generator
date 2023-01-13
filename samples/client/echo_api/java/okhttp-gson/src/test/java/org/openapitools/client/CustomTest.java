@@ -101,7 +101,7 @@ public class CustomTest {
     @Disabled
     @Test
     public void testQueryStyleDeepObjectExplodeTrueObjectAllOf() throws ApiException {
-        BirdAndCategory queryObject = new BirdAndCategory().id(12345L).name("Hello World").
+        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter().id(12345L).name("Hello World").
                 color("red").size("small");
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);

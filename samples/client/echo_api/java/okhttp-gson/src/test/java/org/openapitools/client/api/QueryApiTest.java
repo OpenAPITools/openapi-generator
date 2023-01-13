@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.openapitools.client.model.BirdAndCategory;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -72,7 +72,7 @@ public class QueryApiTest {
      */
     @Test
     public void testQueryStyleDeepObjectExplodeTrueObjectAllOfTest() throws ApiException {
-        BirdAndCategory queryObject = null;
+        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = null;
         String response = api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
         // TODO: test validations
     }
