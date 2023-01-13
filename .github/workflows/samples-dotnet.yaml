@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
   pull_request:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
 jobs:
@@ -22,6 +24,9 @@ jobs:
           # clients
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-allOf
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-oneOf
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-anyOf
           - samples/server/petstore/aspnetcore-6.0
           - samples/server/petstore/aspnetcore-6.0-pocoModels
           - samples/server/petstore/aspnetcore-6.0-project4Models

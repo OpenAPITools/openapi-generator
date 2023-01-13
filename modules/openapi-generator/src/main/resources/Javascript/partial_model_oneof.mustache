@@ -111,59 +111,67 @@ class {{classname}} {
             }
             {{/items.isString}}
             {{#items.isNumber}}
-            // validate array of string
+            // validate array of number
             for (const item of instance) {
                 if (!(typeof instance === 'number' && instance % 1 != 0)) {
                     throw new Error("Invalid array items. Must be number. Input: " + JSON.stringify(instance));
                 }
             }
             {{/items.isNumber}}
+            {{#items.isBoolean}}
+            // validate array of boolean
+            for (const item of instance) {
+                if (!(typeof instance === 'boolean')) {
+                    throw new Error("Invalid array items. Must be boolean. Input: " + JSON.stringify(instance));
+                }
+            }
+            {{/items.isBoolean}}
             {{/isArray}}
             {{^isArray}}
             {{#isInteger}}
-            // validate array of integer
+            // validate integer
             if (!(typeof instance === 'number' && instance % 1 === 0)) {
-                throw new Error("Invalid array items. Must be integer. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid value. Must be integer. Input: " + JSON.stringify(instance));
             }
             {{#maximum}}
             {{#minimum}}
             if (instance > {{maximum}} || instance < {{minimum}}) {
-                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Min.: {{minimum}}. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid integer value. Max.: {{maximum}}. Min.: {{minimum}}. Input: " + JSON.stringify(instance));
             }
             {{/minimum}}
             {{^minimum}}
             if (instance > {{maximum}}) {
-                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid integer value. Max.: {{maximum}}. Input: " + JSON.stringify(instance));
             }
             {{/minimum}}
             {{/maximum}}
             {{^maximum}}
             {{#minimum}}
             if (instance < {{minimum}}) {
-                throw new Error("Invalid integer value in an array items. Min.: {{minimum}}. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid integer value. Min.: {{minimum}}. Input: " + JSON.stringify(instance));
             }
             {{/minimum}}
             {{/maximum}}
             {{/isInteger}}
             {{#isString}}
-            // validate array of string
+            // validate string
             if (!(typeof instance === 'string')) {
-                throw new Error("Invalid input. Must be string. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid value. Must be string. Input: " + JSON.stringify(instance));
             }
             {{#pattern}}
             if (!{{{pattern}}}.test(instance)) {
-                throw new Error("Invalid string value in an array items. Must conform to {{{.}}}. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Must conform to {{{.}}}. Input: " + JSON.stringify(instance));
             }
             {{/pattern}}
             {{#minLength}}
             {{#maxLength}}
             if (instance.length > {{maxLength}} && instance.length < {{minLength}}) {
-                throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Input: " + JSON.stringify(instance));
             }
             {{/maxLength}}
             {{^maxLength}}
             if (instance.length < {{minLength}}) {
-                throw new Error("Invalid string value in an array items. Min. length: {{{minLength}}}. Input: " + instance);
+                throw new Error("Invalid string value. Min. length: {{{minLength}}}. Input: " + instance);
             }
             {{/maxLength}}
             {{/minLength}}
@@ -176,11 +184,17 @@ class {{classname}} {
             {{/minLength}}
             {{/isString}}
             {{#isNumber}}
-            // validate array of string
+            // validate number
             if (!(typeof instance === 'number' && instance % 1 != 0)) {
-                throw new Error("Invalid array items. Must be number. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid value. Must be number. Input: " + JSON.stringify(instance));
             }
             {{/isNumber}}
+            {{#isBoolean}}
+            // validate boolean
+            if (!(typeof instance === 'boolean')) {
+                throw new Error("Invalid value. Must be boolean. Input: " + JSON.stringify(instance));
+            }
+            {{/isBoolean}}
             {{/isArray}}
             this.actualInstance = instance;
             {{/isPrimitiveType}}

@@ -174,15 +174,11 @@ func (o Name) MarshalJSON() ([]byte, error) {
 func (o Name) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
-	if !isNil(o.SnakeCase) {
-		toSerialize["snake_case"] = o.SnakeCase
-	}
+	// skip: snake_case is readOnly
 	if !isNil(o.Property) {
 		toSerialize["property"] = o.Property
 	}
-	if !isNil(o.Var123Number) {
-		toSerialize["123Number"] = o.Var123Number
-	}
+	// skip: 123Number is readOnly
 	return toSerialize, nil
 }
 

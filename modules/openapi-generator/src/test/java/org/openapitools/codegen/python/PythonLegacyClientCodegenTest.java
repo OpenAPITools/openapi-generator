@@ -128,7 +128,7 @@ public class PythonLegacyClientCodegenTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
+        final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");
         final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         codegen.setOpenAPI(openAPI);
 

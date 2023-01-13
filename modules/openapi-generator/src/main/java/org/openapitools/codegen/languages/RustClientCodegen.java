@@ -424,8 +424,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
+        Schema unaliasSchema = unaliasSchema(p);
+        if (ModelUtils.isArraySchema(unaliasSchema)) {
+            ArraySchema ap = (ArraySchema) unaliasSchema;
             Schema inner = ap.getItems();
             if (inner == null) {
                 LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
@@ -433,10 +434,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(unaliasSchema)) {
+            Schema inner = getAdditionalProperties(unaliasSchema);
             if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
+                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", unaliasSchema.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
@@ -444,7 +445,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String schemaType = getSchemaType(p);
+        String schemaType = getSchemaType(unaliasSchema);
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
         }
