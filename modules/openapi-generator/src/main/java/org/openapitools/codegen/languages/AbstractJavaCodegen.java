@@ -981,8 +981,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     defaultValue = StringUtils.join(defaultValues, ", ");
                 } else {
                     if (cp.items.isString) {
-                        defaultValue = StringUtils.join(_values, "\", \"");
-                        defaultValue = "\"" + defaultValue + "\"";
+                        defaultValue = _values.stream().collect(Collectors.joining("\", \"", "\"", "\""));
                     } else {
                         defaultValue = StringUtils.join(_values, ", ");
                     }
