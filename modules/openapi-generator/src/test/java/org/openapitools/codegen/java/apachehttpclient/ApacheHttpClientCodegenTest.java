@@ -87,7 +87,7 @@ public class ApacheHttpClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-            "localVarQueryParams.addAll(apiClient.parameterToPair(\"multi\", \"values\", queryObject.getValues()))"
+            "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))"
         );
     }
 }

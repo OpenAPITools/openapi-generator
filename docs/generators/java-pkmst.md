@@ -71,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |springBootAdminUri|Spring-Boot URI| |null|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |null|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |zipkinUri|Zipkin URI| |null|
 

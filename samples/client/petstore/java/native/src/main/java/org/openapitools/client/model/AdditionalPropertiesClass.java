@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -34,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = new HashMap<>();
@@ -153,5 +156,34 @@ public class AdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `map_property` to the URL query string
+    if (getMapProperty() != null) {
+      for (String _key : getMapProperty().keySet()) {
+        joiner.add(String.format("%s[map_property][%s]=%s", prefix, getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `map_of_map_property` to the URL query string
+    if (getMapOfMapProperty() != null) {
+      for (String _key : getMapOfMapProperty().keySet()) {
+        joiner.add(String.format("%s[map_of_map_property][%s]=%s", prefix, getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

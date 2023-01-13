@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -115,11 +115,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakeHealthGet", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<HealthCheckResult>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<HealthCheckResult>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -217,11 +216,17 @@ public class FakeApi {
     String localVarPath = "/fake/http-signature-test";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "query_1";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("query_1", query1));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -279,11 +284,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakeOuterBooleanSerialize", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Boolean>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -353,11 +357,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakeOuterCompositeSerialize", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<OuterComposite>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -427,11 +430,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakeOuterNumberSerialize", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<BigDecimal>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -501,11 +503,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakeOuterStringSerialize", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -570,11 +571,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("fakePropertyEnumIntegerSerialize", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<OuterObjectWithEnumProperty>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterObjectWithEnumProperty>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterObjectWithEnumProperty>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -844,11 +844,17 @@ public class FakeApi {
     String localVarPath = "/fake/body-with-query-params";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("query", query));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -903,11 +909,10 @@ public class FakeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testClientModel", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -1135,15 +1140,25 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "enum_query_string_array";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
+    localVarQueryParameterBaseName = "enum_query_string";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_string", enumQueryString));
+    localVarQueryParameterBaseName = "enum_query_integer";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_integer", enumQueryInteger));
+    localVarQueryParameterBaseName = "enum_query_double";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_double", enumQueryDouble));
+    localVarQueryParameterBaseName = "enum_query_model_array";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "enum_query_model_array", enumQueryModelArray));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -1279,14 +1294,23 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "required_string_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("required_string_group", requiredStringGroup));
+    localVarQueryParameterBaseName = "required_int64_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("required_int64_group", requiredInt64Group));
+    localVarQueryParameterBaseName = "string_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("string_group", stringGroup));
+    localVarQueryParameterBaseName = "int64_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("int64_group", int64Group));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -1640,17 +1664,29 @@ public class FakeApi {
     String localVarPath = "/fake/test-query-parameters";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "pipe";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("pipes", "pipe", pipe));
+    localVarQueryParameterBaseName = "ioutil";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
+    localVarQueryParameterBaseName = "http";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("ssv", "http", http));
+    localVarQueryParameterBaseName = "url";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
+    localVarQueryParameterBaseName = "context";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
+    localVarQueryParameterBaseName = "language";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("language", language));
+    localVarQueryParameterBaseName = "allowEmpty";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("allowEmpty", allowEmpty));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));

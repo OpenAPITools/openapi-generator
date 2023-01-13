@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -36,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString = new ArrayList<>();
@@ -193,5 +196,43 @@ public class ArrayTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `array_of_string` to the URL query string
+    if (getArrayOfString() != null) {
+      for (int i = 0; i < getArrayOfString().size(); i++) {
+        joiner.add(String.format("%s[array_of_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_array_of_integer` to the URL query string
+    if (getArrayArrayOfInteger() != null) {
+      for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
+        joiner.add(String.format("%s[array_array_of_integer][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_array_of_model` to the URL query string
+    if (getArrayArrayOfModel() != null) {
+      for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
+        if (getArrayArrayOfModel().get(i) != null) {
+          joiner.add(String.format("%s[array_array_of_model][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,15 +28,28 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ReadOnlyFirst
     /// </summary>
-    public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst>, IValidatableObject
+    public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
-        public ReadOnlyFirst(string? bar = default, string? baz = default)
+        [JsonConstructor]
+        public ReadOnlyFirst(string bar, string baz)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (bar == null)
+                throw new ArgumentNullException("bar is a required property for ReadOnlyFirst and cannot be null.");
+
+            if (baz == null)
+                throw new ArgumentNullException("baz is a required property for ReadOnlyFirst and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             Bar = bar;
             Baz = baz;
         }
@@ -46,19 +58,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get; private set; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string? Baz { get; set; }
+        public string Baz { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -104,22 +116,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
-                {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
-                }
-                if (this.Baz != null)
-                {
-                    hashCode = (hashCode * 59) + this.Baz.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + Bar.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
                 return hashCode;
             }
         }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -131,4 +133,76 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type ReadOnlyFirst
+    /// </summary>
+    public class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override ReadOnlyFirst Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
+
+            string bar = default;
+            string baz = default;
+
+            while (reader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                {
+                    string? propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "bar":
+                            bar = reader.GetString();
+                            break;
+                        case "baz":
+                            baz = reader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new ReadOnlyFirst(bar, baz);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="readOnlyFirst"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("bar", readOnlyFirst.Bar);
+            writer.WriteString("baz", readOnlyFirst.Baz);
+
+            writer.WriteEndObject();
+        }
+    }
 }

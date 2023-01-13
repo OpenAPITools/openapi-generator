@@ -884,6 +884,7 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 200 | [ApiResponseFor200](#delete_coffee.ApiResponseFor200) | OK
+202 | [ApiResponseFor202](#delete_coffee.ApiResponseFor202) | header only
 default | [ApiResponseForDefault](#delete_coffee.ApiResponseForDefault) | Unexpected error
 
 #### delete_coffee.ApiResponseFor200
@@ -892,6 +893,28 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
+
+#### delete_coffee.ApiResponseFor202
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | ResponseHeadersFor202 |  |
+#### ResponseHeadersFor202
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+X-Rate-Limit | XRateLimitSchema | | optional
+
+# XRateLimitSchema
+
+calls per hour allowed by the user
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  | calls per hour allowed by the user | value must be numeric and storable in decimal.Decimal
+
 
 #### delete_coffee.ApiResponseForDefault
 Name | Type | Description  | Notes

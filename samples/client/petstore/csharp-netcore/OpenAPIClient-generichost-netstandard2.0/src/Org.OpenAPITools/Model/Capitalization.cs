@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,44 +26,64 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Capitalization
     /// </summary>
-    public partial class Capitalization : IEquatable<Capitalization>, IValidatableObject
+    public partial class Capitalization : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="smallCamel">smallCamel</param>
+        /// <param name="aTTNAME">Name of the pet </param>
         /// <param name="capitalCamel">capitalCamel</param>
-        /// <param name="smallSnake">smallSnake</param>
         /// <param name="capitalSnake">capitalSnake</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
-        /// <param name="aTTNAME">Name of the pet </param>
-        public Capitalization(string smallCamel = default, string capitalCamel = default, string smallSnake = default, string capitalSnake = default, string sCAETHFlowPoints = default, string aTTNAME = default)
+        /// <param name="smallCamel">smallCamel</param>
+        /// <param name="smallSnake">smallSnake</param>
+        [JsonConstructor]
+        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
-            SmallCamel = smallCamel;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (smallCamel == null)
+                throw new ArgumentNullException("smallCamel is a required property for Capitalization and cannot be null.");
+
+            if (capitalCamel == null)
+                throw new ArgumentNullException("capitalCamel is a required property for Capitalization and cannot be null.");
+
+            if (smallSnake == null)
+                throw new ArgumentNullException("smallSnake is a required property for Capitalization and cannot be null.");
+
+            if (capitalSnake == null)
+                throw new ArgumentNullException("capitalSnake is a required property for Capitalization and cannot be null.");
+
+            if (sCAETHFlowPoints == null)
+                throw new ArgumentNullException("sCAETHFlowPoints is a required property for Capitalization and cannot be null.");
+
+            if (aTTNAME == null)
+                throw new ArgumentNullException("aTTNAME is a required property for Capitalization and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            ATT_NAME = aTTNAME;
             CapitalCamel = capitalCamel;
-            SmallSnake = smallSnake;
             CapitalSnake = capitalSnake;
             SCAETHFlowPoints = sCAETHFlowPoints;
-            ATT_NAME = aTTNAME;
+            SmallCamel = smallCamel;
+            SmallSnake = smallSnake;
         }
 
         /// <summary>
-        /// Gets or Sets SmallCamel
+        /// Name of the pet 
         /// </summary>
-        [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get; set; }
+        /// <value>Name of the pet </value>
+        [JsonPropertyName("ATT_NAME")]
+        public string ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
         public string CapitalCamel { get; set; }
-
-        /// <summary>
-        /// Gets or Sets SmallSnake
-        /// </summary>
-        [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
@@ -79,17 +98,22 @@ namespace Org.OpenAPITools.Model
         public string SCAETHFlowPoints { get; set; }
 
         /// <summary>
-        /// Name of the pet 
+        /// Gets or Sets SmallCamel
         /// </summary>
-        /// <value>Name of the pet </value>
-        [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get; set; }
+        [JsonPropertyName("smallCamel")]
+        public string SmallCamel { get; set; }
+
+        /// <summary>
+        /// Gets or Sets SmallSnake
+        /// </summary>
+        [JsonPropertyName("small_Snake")]
+        public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -99,78 +123,16 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Capitalization {\n");
-            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
+            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
             sb.Append("  CapitalCamel: ").Append(CapitalCamel).Append("\n");
-            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
             sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
             sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
-            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
+            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
+            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Capitalization).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Capitalization instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Capitalization to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Capitalization input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.SmallCamel != null)
-                {
-                    hashCode = (hashCode * 59) + this.SmallCamel.GetHashCode();
-                }
-                if (this.CapitalCamel != null)
-                {
-                    hashCode = (hashCode * 59) + this.CapitalCamel.GetHashCode();
-                }
-                if (this.SmallSnake != null)
-                {
-                    hashCode = (hashCode * 59) + this.SmallSnake.GetHashCode();
-                }
-                if (this.CapitalSnake != null)
-                {
-                    hashCode = (hashCode * 59) + this.CapitalSnake.GetHashCode();
-                }
-                if (this.SCAETHFlowPoints != null)
-                {
-                    hashCode = (hashCode * 59) + this.SCAETHFlowPoints.GetHashCode();
-                }
-                if (this.ATT_NAME != null)
-                {
-                    hashCode = (hashCode * 59) + this.ATT_NAME.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -182,4 +144,96 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type Capitalization
+    /// </summary>
+    public class CapitalizationJsonConverter : JsonConverter<Capitalization>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Capitalization Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            int currentDepth = reader.CurrentDepth;
+
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = reader.TokenType;
+
+            string aTTNAME = default;
+            string capitalCamel = default;
+            string capitalSnake = default;
+            string sCAETHFlowPoints = default;
+            string smallCamel = default;
+            string smallSnake = default;
+
+            while (reader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                {
+                    string propertyName = reader.GetString();
+                    reader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "ATT_NAME":
+                            aTTNAME = reader.GetString();
+                            break;
+                        case "CapitalCamel":
+                            capitalCamel = reader.GetString();
+                            break;
+                        case "Capital_Snake":
+                            capitalSnake = reader.GetString();
+                            break;
+                        case "SCA_ETH_Flow_Points":
+                            sCAETHFlowPoints = reader.GetString();
+                            break;
+                        case "smallCamel":
+                            smallCamel = reader.GetString();
+                            break;
+                        case "small_Snake":
+                            smallSnake = reader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="capitalization"></param>
+        /// <param name="options"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
+            writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
+            writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
+            writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
+            writer.WriteString("smallCamel", capitalization.SmallCamel);
+            writer.WriteString("small_Snake", capitalization.SmallSnake);
+
+            writer.WriteEndObject();
+        }
+    }
 }

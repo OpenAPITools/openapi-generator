@@ -6,24 +6,17 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;{{#supportsRetry}}
-using Polly.Timeout;
-using Polly.Extensions.Http;
-using Polly;{{/supportsRetry}}
-using {{packageName}}.Api;{{#useCompareNetObjects}}
+using System.Text.RegularExpressions;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// Utility functions providing some benefit to API client consumers.
     /// </summary>
-    public static class ClientUtils
+    {{>visibility}} static class ClientUtils
     {
         {{#useCompareNetObjects}}
         /// <summary>
@@ -278,146 +271,5 @@ namespace {{packageName}}.Client
         /// The format to use for DateTime serialization
         /// </summary>
         public const string ISO8601_DATETIME_FORMAT = "o";
-
-        {{^hasAuthMethods}}
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
-        {
-            builder.ConfigureServices((context, services) => 
-            {
-                HostConfiguration config = new HostConfiguration(services);
-
-                Add{{apiName}}(services, config);
-            });
-
-            return builder;
-        }
-
-        {{/hasAuthMethods}}
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
-        {
-            builder.ConfigureServices((context, services) => 
-            {
-                HostConfiguration config = new HostConfiguration(services);
-
-                options(context, config);
-
-                Add{{apiName}}(services, config);
-            });
-
-            return builder;
-        }
-
-        {{^hasAuthMethods}}
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void Add{{apiName}}(this IServiceCollection services)
-        {
-            HostConfiguration config = new HostConfiguration(services);
-            Add{{apiName}}(services, config);
-        }
-
-        {{/hasAuthMethods}}
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration> options)
-        {
-            HostConfiguration config = new HostConfiguration(services);
-            options(config);
-            Add{{apiName}}(services, config);
-        }
-
-        private static void Add{{apiName}}(IServiceCollection services, HostConfiguration host)
-        {
-            if (!host.HttpClientsAdded)
-                host.Add{{apiName}}HttpClients();
-
-            // ensure that a token provider was provided for this token type
-            // if not, default to RateLimitProvider
-            var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
-                s.ServiceType.GetGenericTypeDefinition().IsAssignableFrom(typeof(TokenContainer<>))).ToArray();
-
-            foreach(var containerService in containerServices)
-            {
-                var tokenType = containerService.ServiceType.GenericTypeArguments[0];
-
-                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableFrom(typeof(TokenProvider<>).MakeGenericType(tokenType)));
-
-                if (provider == null)
-                {
-                    services.AddSingleton(typeof(RateLimitProvider<>).MakeGenericType(tokenType));
-                    services.AddSingleton(typeof(TokenProvider<>).MakeGenericType(tokenType), 
-                        s => s.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
-                }
-            }
-        }{{#supportsRetry}}
-
-        /// <summary>
-        /// Adds a Polly retry policy to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddRetryPolicy(this IHttpClientBuilder client, int retries)
-        {
-            client.AddPolicyHandler(RetryPolicy(retries));
-
-            return client;
-        }
-
-        /// <summary>
-        /// Adds a Polly timeout policy to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddTimeoutPolicy(this IHttpClientBuilder client, TimeSpan timeout)
-        {
-            client.AddPolicyHandler(TimeoutPolicy(timeout));
-
-            return client;
-        }
-
-        /// <summary>
-        /// Adds a Polly circiut breaker to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="handledEventsAllowedBeforeBreaking"></param>
-        /// <param name="durationOfBreak"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddCircuitBreakerPolicy(this IHttpClientBuilder client, int handledEventsAllowedBeforeBreaking, TimeSpan durationOfBreak)
-        {
-            client.AddTransientHttpErrorPolicy(builder => CircuitBreakerPolicy(builder, handledEventsAllowedBeforeBreaking, durationOfBreak));
-
-            return client;
-        }
-
-        private static Polly.Retry.AsyncRetryPolicy<HttpResponseMessage> RetryPolicy(int retries)
-            => HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .Or<TimeoutRejectedException>()
-                .RetryAsync(retries);
-
-        private static AsyncTimeoutPolicy<HttpResponseMessage> TimeoutPolicy(TimeSpan timeout)
-            => Policy.TimeoutAsync<HttpResponseMessage>(timeout);
-
-        private static Polly.CircuitBreaker.AsyncCircuitBreakerPolicy<HttpResponseMessage> CircuitBreakerPolicy(
-            PolicyBuilder<HttpResponseMessage> builder, int handledEventsAllowedBeforeBreaking, TimeSpan durationOfBreak)
-                => builder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking, durationOfBreak);{{/supportsRetry}}
     }
 }

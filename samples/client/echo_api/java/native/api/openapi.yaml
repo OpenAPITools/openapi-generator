@@ -11,6 +11,73 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
+  /path/string/{path_string}/integer/{path_integer}:
+    get:
+      description: Test path parameter(s)
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      parameters:
+      - explode: false
+        in: path
+        name: path_string
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: path_integer
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test path parameter(s)
+      tags:
+      - path
+      x-accepts: text/plain
+  /query/integer/boolean/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/integer/boolean/string
+      parameters:
+      - explode: true
+        in: query
+        name: integer_query
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: boolean_query
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/style_form/explode_true/array_string:
     get:
       description: Test query parameter(s)
@@ -57,9 +124,83 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /query/style_deepObject/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_deepObject/explode_true/object/allOf:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object/allOf
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /echo/body/Pet:
+    post:
+      description: Test body parameter(s)
+      operationId: test/echo/body/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: application/json
 components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
   schemas:
     Category:
+      example:
+        name: Dogs
+        id: 1
       properties:
         id:
           example: 1
@@ -72,6 +213,9 @@ components:
       xml:
         name: category
     Tag:
+      example:
+        name: name
+        id: 0
       properties:
         id:
           format: int64
@@ -82,6 +226,21 @@ components:
       xml:
         name: tag
     Pet:
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+        name: doggie
+        id: 10
+        category:
+          name: Dogs
+          id: 1
+        tags:
+        - name: name
+          id: 0
+        - name: name
+          id: 0
+        status: available
       properties:
         id:
           example: 10
@@ -160,6 +319,13 @@ components:
           nullable: true
           type: string
       type: object
+    Bird:
+      properties:
+        size:
+          type: string
+        color:
+          type: string
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -167,4 +333,8 @@ components:
             type: string
           type: array
       type: object
+    test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
+      allOf:
+      - $ref: '#/components/schemas/Bird'
+      - $ref: '#/components/schemas/Category'
 

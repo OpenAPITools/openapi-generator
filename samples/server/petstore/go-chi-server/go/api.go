@@ -68,7 +68,7 @@ type PetApiServicer interface {
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UploadFile(context.Context, int64, string, os.File) (ImplResponse, error)
 }
 
 

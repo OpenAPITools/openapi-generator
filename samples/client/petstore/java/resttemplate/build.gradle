@@ -102,7 +102,7 @@ ext {
     jackson_databind_version = "2.14.1"
     jackson_databind_nullable_version = "0.2.4"
     jakarta_annotation_version = "1.3.5"
-    spring_web_version = "5.3.18"
+    spring_web_version = "5.3.24"
     jodatime_version = "2.9.9"
     junit_version = "4.13.2"
 }

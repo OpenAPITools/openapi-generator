@@ -8,6 +8,18 @@
 {{/isEnum}}
 {{/allVars}}
 {{#allVars}}
+{{#validatable}}
+{{#hasValidation}}
+{{#isString}}
+    static let {{{name}}}Rule = StringRule(minLength: {{#minLength}}{{{.}}}{{/minLength}}{{^minLength}}nil{{/minLength}}, maxLength: {{#maxLength}}{{{.}}}{{/maxLength}}{{^maxLength}}nil{{/maxLength}}, pattern: {{#pattern}}"{{{.}}}"{{/pattern}}{{^pattern}}nil{{/pattern}})
+{{/isString}}
+{{#isNumeric}}
+    static let {{{name}}}Rule = NumericRule<{{{dataType}}}>(minimum: {{#minimum}}{{{.}}}{{/minimum}}{{^minimum}}nil{{/minimum}}, exclusiveMinimum: {{#exclusiveMinimum}}true{{/exclusiveMinimum}}{{^exclusiveMinimum}}false{{/exclusiveMinimum}}, maximum: {{#maximum}}{{{.}}}{{/maximum}}{{^maximum}}nil{{/maximum}}, exclusiveMaximum: {{#exclusiveMaximum}}true{{/exclusiveMaximum}}{{^exclusiveMaximum}}false{{/exclusiveMaximum}}, multipleOf: {{#multipleOf}}{{{.}}}{{/multipleOf}}{{^multipleOf}}nil{{/multipleOf}})
+{{/isNumeric}}
+{{/hasValidation}}
+{{/validatable}}
+{{/allVars}}
+{{#allVars}}
 {{#isEnum}}
     {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")

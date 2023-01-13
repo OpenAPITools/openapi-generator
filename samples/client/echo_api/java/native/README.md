@@ -74,21 +74,21 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 import org.openapitools.client.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.QueryApi;
+import org.openapitools.client.api.BodyApi;
 
-public class QueryApiExample {
+public class BodyApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
-        QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        BodyApi apiInstance = new BodyApi(defaultClient);
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            String result = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject);
+            Pet result = apiInstance.testEchoBodyPet(pet);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeTrueArrayString");
+            System.err.println("Exception when calling BodyApi#testEchoBodyPet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -105,6 +105,16 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
+*BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**testQueryIntegerBooleanStringWithHttpInfo**](docs/QueryApi.md#testQueryIntegerBooleanStringWithHttpInfo) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
@@ -113,10 +123,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
  - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

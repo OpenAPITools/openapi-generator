@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -38,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -215,5 +218,42 @@ public class ObjectWithDeprecatedFields {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      joiner.add(String.format("%s[uuid]=%s", prefix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `deprecatedRef` to the URL query string
+    if (getDeprecatedRef() != null) {
+      joiner.add(getDeprecatedRef().toUrlQueryString(prefix + "[deprecatedRef]"));
+    }
+
+    // add `bars` to the URL query string
+    if (getBars() != null) {
+      for (int i = 0; i < getBars().size(); i++) {
+        joiner.add(String.format("%s[bars][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getBars().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    return joiner.toString();
+  }
 }
 

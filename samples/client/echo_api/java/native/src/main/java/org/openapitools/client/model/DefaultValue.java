@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -42,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
   /**
    * Gets or Sets arrayStringEnumDefault
@@ -82,13 +85,13 @@ public class DefaultValue {
   }
 
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
+  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_STRING_DEFAULT = "array_string_default";
-  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
+  private List<String> arrayStringDefault = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_INTEGER_DEFAULT = "array_integer_default";
-  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
+  private List<Integer> arrayIntegerDefault = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
   private List<String> arrayString = new ArrayList<>();
@@ -241,7 +244,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
     if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
-      this.arrayStringNullable = JsonNullable.<List<String>>of(null);
+      this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
       this.arrayStringNullable.get().add(arrayStringNullableItem);
@@ -373,5 +376,60 @@ public class DefaultValue {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `array_string_enum_default` to the URL query string
+    if (getArrayStringEnumDefault() != null) {
+      for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
+        joiner.add(String.format("%s[array_string_enum_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringEnumDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_string_default` to the URL query string
+    if (getArrayStringDefault() != null) {
+      for (int i = 0; i < getArrayStringDefault().size(); i++) {
+        joiner.add(String.format("%s[array_string_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_integer_default` to the URL query string
+    if (getArrayIntegerDefault() != null) {
+      for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
+        joiner.add(String.format("%s[array_integer_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayIntegerDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_string` to the URL query string
+    if (getArrayString() != null) {
+      for (int i = 0; i < getArrayString().size(); i++) {
+        joiner.add(String.format("%s[array_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_string_nullable` to the URL query string
+    if (getArrayStringNullable() != null) {
+      for (int i = 0; i < getArrayStringNullable().size(); i++) {
+        joiner.add(String.format("%s[array_string_nullable][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `string_nullable` to the URL query string
+    if (getStringNullable() != null) {
+      joiner.add(String.format("%s[string_nullable]=%s", prefix, URLEncoder.encode(String.valueOf(getStringNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

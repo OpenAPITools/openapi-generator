@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,14 +28,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// EquilateralTriangle
     /// </summary>
-    public partial class EquilateralTriangle : IEquatable<EquilateralTriangle>, IValidatableObject
+    public partial class EquilateralTriangle : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
         /// <param name="shapeInterface"></param>
         /// <param name="triangleInterface"></param>
-        public EquilateralTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        [JsonConstructor]
+        internal EquilateralTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,44 +70,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as EquilateralTriangle).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if EquilateralTriangle instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EquilateralTriangle to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EquilateralTriangle? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -125,13 +87,6 @@ namespace Org.OpenAPITools.Model
     public class EquilateralTriangleJsonConverter : JsonConverter<EquilateralTriangle>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(EquilateralTriangle).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="reader"></param>
@@ -143,28 +98,35 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = reader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
+            JsonTokenType startingTokenType = reader.TokenType;
+
             Utf8JsonReader shapeInterfaceReader = reader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref reader, options, out ShapeInterface? shapeInterface);
 
             Utf8JsonReader triangleInterfaceReader = reader;
-            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref triangleInterfaceReader, options, out TriangleInterface? triangleInterface);
+            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref reader, options, out TriangleInterface? triangleInterface);
 
 
             while (reader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                    break;
+
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
 
                     switch (propertyName)
                     {
+                        default:
+                            break;
                     }
                 }
             }
@@ -179,6 +141,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="equilateralTriangle"></param>
         /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, EquilateralTriangle equilateralTriangle, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, EquilateralTriangle equilateralTriangle, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+
+            writer.WriteEndObject();
+        }
     }
 }

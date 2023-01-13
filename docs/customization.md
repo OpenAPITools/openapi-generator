@@ -451,3 +451,16 @@ Another useful option is `inlineSchemaNameDefaults`, which allows you to customi
 ```
 
 Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+
+## OpenAPI Normalizer
+
+OpenAPI Normalizer (off by default) transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. Here is a list of rules supported:
+
+- `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema)
+
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --additional-properties hideGenerationTimestamp="true" --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
+```
+

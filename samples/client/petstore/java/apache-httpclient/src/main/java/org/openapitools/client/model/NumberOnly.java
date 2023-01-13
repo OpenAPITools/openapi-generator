@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.StringJoiner;
 
 /**
  * NumberOnly
@@ -99,6 +102,29 @@ public class NumberOnly {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `JustNumber` to the URL query string
+    if (getJustNumber() != null) {
+      try {
+        joiner.add(String.format("%s[JustNumber]=%s", prefix, URLEncoder.encode(String.valueOf(getJustNumber()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    return joiner.toString();
   }
 
 }

@@ -1037,7 +1037,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    request_body = {'key': 'request_body_example'} # dict(str, str) | request body
+    request_body = {'key': 'request_body_example'} # dict[str, str] | request body
 
     try:
         # test inline additionalProperties
@@ -1050,7 +1050,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**dict(str, str)**](str.md)| request body | 
+ **request_body** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 
@@ -1167,7 +1167,7 @@ http = ['http_example'] # list[str] |
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
 allow_empty = 'allow_empty_example' # str | 
-language = {'key': 'language_example'} # dict(str, str) |  (optional)
+language = {'key': 'language_example'} # dict[str, str] |  (optional)
 
     try:
         api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
@@ -1185,7 +1185,7 @@ Name | Type | Description  | Notes
  **url** | [**list[str]**](str.md)|  | 
  **context** | [**list[str]**](str.md)|  | 
  **allow_empty** | **str**|  | 
- **language** | [**dict(str, str)**](str.md)|  | [optional] 
+ **language** | [**dict[str, str]**](str.md)|  | [optional] 
 
 ### Return type
 

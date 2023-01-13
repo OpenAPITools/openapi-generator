@@ -23,9 +23,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> AnyPublisher<Bool, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Bool, Error> { promise in
-            requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -35,7 +36,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -73,9 +74,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> AnyPublisher<OuterComposite, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<OuterComposite, Error> { promise in
-            requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -85,7 +87,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -123,9 +125,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil) -> AnyPublisher<Double, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Double, Error> { promise in
-            requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -135,7 +138,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -173,9 +176,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<String, Error> { promise in
-            requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -185,7 +189,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -223,9 +227,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -235,7 +240,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -274,9 +279,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -286,7 +292,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -328,9 +334,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testClientModelWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Client, Error> { promise in
-            requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -340,7 +347,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -393,9 +400,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -405,7 +413,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -553,9 +561,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -565,7 +574,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -631,9 +640,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -643,7 +653,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -695,9 +705,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -707,7 +718,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -747,9 +758,10 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -759,7 +771,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }

@@ -26,6 +26,9 @@ import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.StringJoiner;
 
 /**
  * ObjectWithDeprecatedFields
@@ -212,6 +215,53 @@ public class ObjectWithDeprecatedFields {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      try {
+        joiner.add(String.format("%s[uuid]=%s", prefix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `id` to the URL query string
+    if (getId() != null) {
+      try {
+        joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `deprecatedRef` to the URL query string
+    if (getDeprecatedRef() != null) {
+      joiner.add(getDeprecatedRef().toUrlQueryString(prefix + "[deprecatedRef]"));
+    }
+    // add `bars` to the URL query string
+    if (getBars() != null) {
+      for (int i = 0; i < getBars().size(); i++) {
+        try {
+          joiner.add(String.format("%s[bars][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getBars().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
+      }
+    }
+    return joiner.toString();
   }
 
 }

@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -269,11 +269,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("findPetsByStatus", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -297,11 +296,17 @@ public class PetApi {
     String localVarPath = "/pet/findByStatus";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "status", status));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -354,11 +359,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("findPetsByTags", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -382,11 +386,17 @@ public class PetApi {
     String localVarPath = "/pet/findByTags";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "tags";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "tags", tags));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -435,11 +445,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getPetById", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -671,11 +680,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("uploadFile", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -748,11 +756,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("uploadFileWithRequiredFile", localVarResponse);
         }
-        InputStream responseBody = localVarResponse.body();
         return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          responseBody == null || responseBody.available() < 1 ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -167,6 +167,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
+    // a map to store the rules in OpenAPI Normalizer
+    protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -468,6 +470,35 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            for (CodegenProperty property : model.allVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.vars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readWriteVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.optionalVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.parentVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.requiredVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readOnlyVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.nonNullableVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+        }
+
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
@@ -520,6 +551,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
+    }
+
+    private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
+        return model.parentModel == null
+            ? false
+            : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**
@@ -637,14 +674,29 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
-        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
-                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        // for allVars
+        final Map<String, List<CodegenProperty>> allVarsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getAllVars())));
 
-        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, allVarsDependencyMap));
+
+        // for vars
+        final Map<String, List<CodegenProperty>> varsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getVars())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, varsDependencyMap));
+
+        // for oneOf
+        final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
 
-    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
-        return model.getAllVars().stream()
+    private List<CodegenProperty> getModelDependencies( List<CodegenProperty> vars) {
+        return vars.stream()
                 .map(prop -> {
                     if (prop.isContainer) {
                         return prop.items.dataType == null ? null : prop;
@@ -1120,6 +1172,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> inlineSchemaNameDefault() {
         return inlineSchemaNameDefault;
+    }
+
+    @Override
+    public Map<String, String> openapiNormalizer() {
+        return openapiNormalizer;
     }
 
     @Override
@@ -4349,6 +4406,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> formParams = new ArrayList<>();
         List<CodegenParameter> requiredParams = new ArrayList<>();
         List<CodegenParameter> optionalParams = new ArrayList<>();
+        List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4458,6 +4516,10 @@ public class DefaultCodegen implements CodegenConfig {
                 optionalParams.add(cp.copy());
                 op.hasOptionalParams = true;
             }
+
+            if (cp.requiredAndNotNullable()) {
+                requiredAndNotNullableParams.add(cp.copy());
+            }
         }
 
         // add imports to operation import tag
@@ -4494,6 +4556,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.formParams = formParams;
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
+        op.requiredAndNotNullableParams = requiredAndNotNullableParams;
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
@@ -5020,7 +5083,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameterModelName != null) {
             codegenParameter.dataType = parameterModelName;
-            if (ModelUtils.isObjectSchema(parameterSchema)) {
+            if (ModelUtils.isObjectSchema(parameterSchema) || ModelUtils.isComposedSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
         } else {
@@ -6451,7 +6514,7 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
-    public void writePropertyBack(String propertyKey, boolean value) {
+    public void writePropertyBack(String propertyKey, Object value) {
         additionalProperties.put(propertyKey, value);
     }
 
@@ -7934,6 +7997,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseInlineModelResolver() { return true; }
+
+    @Override
+    public boolean getUseOpenAPINormalizer() { return true; }
 
     /*
     A function to convert yaml or json ingested strings like property names
