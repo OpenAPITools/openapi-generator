@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -117,7 +117,12 @@ public class ModelList {
     StringJoiner joiner = new StringJoiner("&");
     // add `123-list` to the URL query string
     if (get123list() != null) {
-      joiner.add(String.format("%s[123-list]=%s", prefix, URLEncoder.encode(String.valueOf(get123list()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[123-list]=%s", prefix, URLEncoder.encode(String.valueOf(get123list()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     return joiner.toString();
   }

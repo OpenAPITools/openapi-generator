@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -129,15 +129,30 @@ public class Dog extends Animal {
     StringJoiner joiner = new StringJoiner("&");
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%s[className]=%s", prefix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[className]=%s", prefix, URLEncoder.encode(String.valueOf(getClassName()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `color` to the URL query string
     if (getColor() != null) {
-      joiner.add(String.format("%s[color]=%s", prefix, URLEncoder.encode(String.valueOf(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[color]=%s", prefix, URLEncoder.encode(String.valueOf(getColor()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     // add `breed` to the URL query string
     if (getBreed() != null) {
-      joiner.add(String.format("%s[breed]=%s", prefix, URLEncoder.encode(String.valueOf(getBreed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      try {
+        joiner.add(String.format("%s[breed]=%s", prefix, URLEncoder.encode(String.valueOf(getBreed()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
     return joiner.toString();
   }

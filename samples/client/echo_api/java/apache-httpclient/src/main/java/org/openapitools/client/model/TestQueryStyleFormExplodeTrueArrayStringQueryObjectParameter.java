@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -128,7 +128,12 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     // add `values` to the URL query string
     if (getValues() != null) {
       for (int i = 0; i < getValues().size(); i++) {
-        joiner.add(String.format("%s[values][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getValues().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[values][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getValues().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     return joiner.toString();

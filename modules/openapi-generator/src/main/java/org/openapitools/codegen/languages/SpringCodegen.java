@@ -241,7 +241,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
             useSwaggerUI));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
-            "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).",
+            "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
             useSpringBoot3));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
@@ -473,6 +473,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
+            useJakartaEe=true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             applyJakartaPackage();
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
