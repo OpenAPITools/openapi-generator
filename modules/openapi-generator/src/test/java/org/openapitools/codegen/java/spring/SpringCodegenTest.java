@@ -25,6 +25,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -1434,6 +1435,35 @@ public class SpringCodegenTest {
                 .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
+    }
+
+    @Test
+    public void paramObjectImportForDifferentSpringBootVersions_issue14077() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .hasImports("org.springdoc.api.annotations.ParameterObject")
+            .assertMethod("findPetsByStatus")
+            .hasParameter("pageable").withType("Pageable")
+            .assertParameterAnnotations()
+            .containsWithName("ParameterObject");
+
+
+        // different import for SB3
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+        files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .hasImports("org.springdoc.core.annotations.ParameterObject")
+            .assertMethod("findPetsByStatus")
+            .hasParameter("pageable").withType("Pageable")
+            .assertParameterAnnotations()
+            .containsWithName("ParameterObject");
     }
 
     @Test
