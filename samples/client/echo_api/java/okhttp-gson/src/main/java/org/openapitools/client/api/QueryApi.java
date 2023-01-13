@@ -27,8 +27,8 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import org.openapitools.client.model.BirdAndCategory;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 import java.lang.reflect.Type;
@@ -345,7 +345,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(BirdAndCategory queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -394,7 +394,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(BirdAndCategory queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(queryObject, _callback);
 
     }
@@ -411,7 +411,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(BirdAndCategory queryObject) throws ApiException {
+    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -428,7 +428,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(BirdAndCategory queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -447,7 +447,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(BirdAndCategory queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
