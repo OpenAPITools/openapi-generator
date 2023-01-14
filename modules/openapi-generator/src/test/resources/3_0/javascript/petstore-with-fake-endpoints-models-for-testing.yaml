@@ -1977,3 +1977,8 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    StringOrBoolean:
+      description: String or boolean
+      oneOf:
+      - type: string
+      - type: boolean

@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -33,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
@@ -136,5 +139,30 @@ public class AllOfWithSingleRef {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `username` to the URL query string
+    if (getUsername() != null) {
+      joiner.add(String.format("%s[username]=%s", prefix, URLEncoder.encode(String.valueOf(getUsername()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `SingleRefType` to the URL query string
+    if (getSingleRefType() != null) {
+      joiner.add(getSingleRefType().toUrlQueryString(prefix + "[SingleRefType]"));
+    }
+
+    return joiner.toString();
+  }
 }
 

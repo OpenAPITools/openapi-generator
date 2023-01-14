@@ -30,6 +30,9 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.StringJoiner;
 
 /**
  * EnumTest
@@ -494,6 +497,92 @@ public class EnumTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    if (prefix == null) {
+      prefix = "";
+    }
+    StringJoiner joiner = new StringJoiner("&");
+    // add `enum_string` to the URL query string
+    if (getEnumString() != null) {
+      try {
+        joiner.add(String.format("%s[enum_string]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `enum_string_required` to the URL query string
+    if (getEnumStringRequired() != null) {
+      try {
+        joiner.add(String.format("%s[enum_string_required]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `enum_integer` to the URL query string
+    if (getEnumInteger() != null) {
+      try {
+        joiner.add(String.format("%s[enum_integer]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `enum_number` to the URL query string
+    if (getEnumNumber() != null) {
+      try {
+        joiner.add(String.format("%s[enum_number]=%s", prefix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `outerEnum` to the URL query string
+    if (getOuterEnum() != null) {
+      try {
+        joiner.add(String.format("%s[outerEnum]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `outerEnumInteger` to the URL query string
+    if (getOuterEnumInteger() != null) {
+      try {
+        joiner.add(String.format("%s[outerEnumInteger]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `outerEnumDefaultValue` to the URL query string
+    if (getOuterEnumDefaultValue() != null) {
+      try {
+        joiner.add(String.format("%s[outerEnumDefaultValue]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    // add `outerEnumIntegerDefaultValue` to the URL query string
+    if (getOuterEnumIntegerDefaultValue() != null) {
+      try {
+        joiner.add(String.format("%s[outerEnumIntegerDefaultValue]=%s", prefix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+    return joiner.toString();
   }
 
 }

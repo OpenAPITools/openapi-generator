@@ -8,7 +8,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
-      - samples/openapi3/client/petstore/java/native/**
+      - samples/openapi3/client/petstore/java/native**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -16,7 +16,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
-      - samples/openapi3/client/petstore/java/native/**
+      - samples/openapi3/client/petstore/java/native**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -29,6 +29,7 @@ jobs:
           - samples/client/petstore/jaxrs-cxf-client
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
+          - samples/client/petstore/java/native-jakarta
           - samples/client/petstore/java/retrofit2
           - samples/client/petstore/java/retrofit2rx2
           - samples/client/petstore/java/retrofit2rx3
