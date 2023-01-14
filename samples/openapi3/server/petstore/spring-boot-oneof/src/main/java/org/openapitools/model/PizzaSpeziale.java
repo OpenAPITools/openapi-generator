@@ -40,7 +40,7 @@ public class PizzaSpeziale extends Pizza {
    * @return toppings
   */
   
-  @Schema(name = "toppings", required = false)
+  @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getToppings() {
     return toppings;
   }
