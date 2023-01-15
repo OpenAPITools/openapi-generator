@@ -2179,14 +2179,3 @@ components:
           type: string
         prop2:
           type: object
-    StringOrEnumString:
-      anyOf:
-        - $ref: '#/components/schemas/RefToString'
-        - $ref: '#/components/schemas/RefToEnumString'
-    RefToString:
-      type: string
-    RefToEnumString:
-      type: string
-      enum:
-        - a
-        - b
