@@ -54,7 +54,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -87,7 +88,8 @@ import java.text.DateFormat
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -120,7 +122,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/findByStatus",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -153,7 +156,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/findByTags",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -185,7 +189,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -215,7 +220,8 @@ import java.text.DateFormat
             RequestMethod.PUT,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -251,7 +257,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return urlEncodedFormRequest(
@@ -288,7 +295,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return multipartFormRequest(

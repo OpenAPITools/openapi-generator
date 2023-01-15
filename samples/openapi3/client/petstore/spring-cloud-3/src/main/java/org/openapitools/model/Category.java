@@ -38,7 +38,7 @@ public class Category {
    * @return id
   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getId() {
     return id;
   }
@@ -57,7 +57,7 @@ public class Category {
    * @return name
   */
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
-  @Schema(name = "name", required = false)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
   }

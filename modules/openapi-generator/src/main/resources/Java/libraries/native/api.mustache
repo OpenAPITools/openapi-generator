@@ -338,7 +338,7 @@ public class {{classname}} {
 
     {{#hasQueryParams}}
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    {{javaUtilPrefix}}StringJoiner localVarQueryDeepObjectStringJoiner = new {{javaUtilPrefix}}StringJoiner("&");
     String localVarQueryParameterBaseName;
     {{#queryParams}}
     localVarQueryParameterBaseName = "{{{baseName}}}";

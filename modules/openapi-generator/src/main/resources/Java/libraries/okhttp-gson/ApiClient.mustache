@@ -65,6 +65,9 @@ import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.RetryingOAuth;
 import {{invokerPackage}}.auth.OAuthFlow;
 {{/hasOAuthMethods}}
+{{#withAWSV4Signature}}
+import {{invokerPackage}}.auth.AWS4Auth;
+{{/withAWSV4Signature}}
 
 /**
  * <p>ApiClient class.</p>
@@ -135,7 +138,8 @@ public class ApiClient {
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
+        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -154,7 +158,8 @@ public class ApiClient {
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
+        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -225,7 +230,8 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}{{#withAWSV4Signature}}
+        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -611,6 +617,28 @@ public class ApiClient {
         }
         {{/hasOAuthMethods}}
         throw new RuntimeException("No OAuth2 authentication configured!");
+    }
+
+    /**
+     * Helper method to set credentials for AWSV4 Signature
+     *
+     * @param accessKey Access Key
+     * @param secretKey Secret Key
+     * @param region Region
+     * @param service Service to access to
+     */
+    public void setAWS4Configuration(String accessKey, String secretKey, String region, String service) {
+        {{#withAWSV4Signature}}
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof AWS4Auth) {
+                ((AWS4Auth) auth).setCredentials(accessKey, secretKey);
+                ((AWS4Auth) auth).setRegion(region);
+                ((AWS4Auth) auth).setService(service);
+                return;
+            }
+        }
+        {{/withAWSV4Signature}}
+        throw new RuntimeException("No AWS4 authentication configured!");
     }
 
     /**

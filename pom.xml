@@ -1152,7 +1152,8 @@
             <modules>
                 <!-- comment out as newer version of qt needed in travis
                 <module>samples/client/petstore/cpp-qt</module>-->
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!--
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>-->
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
                 <!-- TODO: will move these to Github action
@@ -1161,7 +1162,7 @@
                 <module>samples/server/petstore/php-lumen</module>-->
                 <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>-->
                 <!--<module>samples/client/petstore/bash</module>-->
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
@@ -1191,7 +1192,6 @@
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
-                <module>samples/server/petstore/python-fastapi</module>
                 <module>samples/server/petstore/python-flask</module>
             </modules>
         </profile>
