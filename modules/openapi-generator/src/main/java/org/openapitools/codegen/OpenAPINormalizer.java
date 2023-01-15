@@ -265,6 +265,7 @@ public class OpenAPINormalizer {
      *
      * @param schema         Schema
      * @param visitedSchemas a set of visited schemas
+     * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (schema == null) {
@@ -458,6 +459,7 @@ public class OpenAPINormalizer {
      * then simply it to just string as many generators do not yet support anyOf.
      *
      * @param schema Schema
+     * @return Schema
      */
     private Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
         if (!simplifyAnyOfStringAndEnumString && !enableAll) {
