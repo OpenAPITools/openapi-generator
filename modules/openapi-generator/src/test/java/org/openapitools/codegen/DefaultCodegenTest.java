@@ -4324,4 +4324,21 @@ public class DefaultCodegenTest {
         Schema schema5 = openAPI.getComponents().getSchemas().get("Person");
         assertEquals(schema5.getExtensions().get("x-parent"), "abstract");
     }
+
+    @Test
+    public void testOpenAPINormalizerEnableKeepOnlyFirstTagInOperation() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("KEEP_ONLY_FIRST_TAG_IN_OPERATION", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "person");
+    }
 }

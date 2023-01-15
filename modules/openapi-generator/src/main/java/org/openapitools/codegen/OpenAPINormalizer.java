@@ -48,6 +48,9 @@ public class OpenAPINormalizer {
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     boolean enableRefAsParentInAllOf;
 
+    // when set to true, only keep the first tag in operation if there are more than one tag defined.
+    final String KEEP_ONLY_FIRST_TAG_IN_OPERATION = "KEEP_ONLY_FIRST_TAG_IN_OPERATION";
+    boolean enableKeepOnlyFirstTagInOperation;
     // ============= end of rules =============
 
     /**
@@ -78,6 +81,10 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REF_AS_PARENT_IN_ALLOF))) {
             enableRefAsParentInAllOf = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(KEEP_ONLY_FIRST_TAG_IN_OPERATION))) {
+            enableKeepOnlyFirstTagInOperation = true;
         }
     }
 
@@ -127,11 +134,21 @@ public class OpenAPINormalizer {
             }
 
             for (Operation operation : operations) {
+                normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation);
                 normalizeResponses(operation);
             }
         }
+    }
+
+    /**
+     * Normalizes operation
+     *
+     * @param operation Operation
+     */
+    private void normalizeOperation(Operation operation) {
+        processKeepOnlyFirstTagInOperation(operation);
     }
 
     /**
@@ -378,6 +395,19 @@ public class OpenAPINormalizer {
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
             }
+        }
+    }
+
+    private void processKeepOnlyFirstTagInOperation(Operation operation) {
+        if (!enableKeepOnlyFirstTagInOperation) {
+            return;
+        }
+
+        if (operation.getTags() != null && !operation.getTags().isEmpty() && operation.getTags().size() > 1) {
+            // has more than 1 tag
+            String firstTag = operation.getTags().get(0);
+            operation.setTags(null);
+            operation.addTagsItem(firstTag);
         }
     }
     // ===================== end of rules =====================
