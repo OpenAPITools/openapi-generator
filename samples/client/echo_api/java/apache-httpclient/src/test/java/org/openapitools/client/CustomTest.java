@@ -120,4 +120,37 @@ public class CustomTest {
         Assert.assertEquals("/query/integer/boolean/string?integer_query=1&boolean_query=true&string_query=Hello%20World", p.path);
     }
 
+    @Test
+    public void testArrayDefaultValues() {
+        // test array default values
+        DefaultValue d = new DefaultValue();
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
+
+        Assert.assertEquals(d.getArrayStringDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringDefault().get(0), "failure");
+        Assert.assertEquals(d.getArrayStringDefault().get(1), "skipped");
+
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 2);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
+        Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
+
+        Assert.assertNull(d.getArrayStringNullable());
+        Assert.assertEquals(d.getArrayString().size(), 0);
+
+        // test addItem
+        d.addArrayStringEnumDefaultItem(DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(2), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+
+        d.addArrayStringDefaultItem("new item");
+        Assert.assertEquals(d.getArrayStringDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringDefault().get(2), "new item");
+
+        d.addArrayIntegerDefaultItem(5);
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 3);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(2), Integer.valueOf(5));
+    }
+
 }
