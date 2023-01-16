@@ -142,6 +142,9 @@ public class CustomTest {
         Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
         Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
 
+        Assert.assertNull(d.getArrayStringNullable());
+        Assert.assertEquals(d.getArrayString().size(), 0);
+
         // test addItem
         d.addArrayStringEnumDefaultItem(DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
         Assert.assertEquals(d.getArrayStringEnumDefault().size(), 3);

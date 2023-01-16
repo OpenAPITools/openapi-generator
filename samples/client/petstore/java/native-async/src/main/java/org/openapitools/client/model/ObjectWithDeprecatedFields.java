@@ -53,7 +53,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars = null;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() { 
   }
