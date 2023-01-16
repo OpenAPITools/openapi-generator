@@ -26,11 +26,7 @@ import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
@@ -572,7 +568,7 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.toDefaultValue(dateSchema);
 
         // dateLibrary <> java8
-        Assert.assertNull(defaultValue);
+        Assert.assertEquals(defaultValue, "Fri Feb 15 00:00:00 HKT 2019");
 
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
@@ -581,7 +577,7 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.toDefaultValue(dateTimeSchema);
 
         // dateLibrary <> java8
-        Assert.assertNull(defaultValue);
+        Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-08:00");
     }
 
     @Test
@@ -592,7 +588,7 @@ public class AbstractJavaCodegenTest {
 
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertNull(defaultValue);
+        Assert.assertEquals(defaultValue, "null");
 
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
@@ -602,22 +598,22 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.toDefaultValue(schema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(schema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.toDefaultValue(schema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
         Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(schema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
         Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         // Test default value for date format
@@ -625,26 +621,26 @@ public class AbstractJavaCodegenTest {
         LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
-        defaultValue = codegen.toDefaultValue(dateSchema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateSchema);
         Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate.toString() + "\")");
 
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
         ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         dateTimeSchema.setDefault(defaultDateTime);
-        defaultValue = codegen.toDefaultValue(dateTimeSchema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateTimeSchema);
         Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime.toString()));
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
         Double doubleValue = 100.0;
         numberSchema.setDefault(doubleValue);
-        defaultValue = codegen.toDefaultValue(numberSchema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, "new BigDecimal(\"" + doubleValue + "\")");
 
         // Test default value for number with format set to double
         numberSchema.setFormat("double");
-        defaultValue = codegen.toDefaultValue(numberSchema);
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
     }
 
@@ -811,7 +807,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertNull(defaultValue);
+        Assert.assertEquals(defaultValue, "null");
     }
 
     @Test
@@ -827,7 +823,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
+        Assert.assertEquals(defaultValue, "null", "Expected string-string map aliased model to default to null since nullable is not set to true");
     }
 
     @Test
@@ -843,7 +839,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
+        Assert.assertEquals(defaultValue, "null", "Expected string-ref map aliased model to default to null since nullable is not set to tru");
     }
 
     @Test
