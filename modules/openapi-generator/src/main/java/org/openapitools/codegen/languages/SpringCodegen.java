@@ -485,6 +485,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
+        if (isUseSpringBoot3()) {
+            importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
+        }
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
