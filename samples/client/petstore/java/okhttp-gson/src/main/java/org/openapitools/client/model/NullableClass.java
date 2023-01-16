@@ -247,7 +247,7 @@ public class NullableClass {
 
   public NullableClass addArrayNullablePropItem(Object arrayNullablePropItem) {
     if (this.arrayNullableProp == null) {
-      this.arrayNullableProp = new ArrayList<>();
+      this.arrayNullableProp = null;
     }
     this.arrayNullableProp.add(arrayNullablePropItem);
     return this;
@@ -277,7 +277,7 @@ public class NullableClass {
 
   public NullableClass addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
     if (this.arrayAndItemsNullableProp == null) {
-      this.arrayAndItemsNullableProp = new ArrayList<>();
+      this.arrayAndItemsNullableProp = null;
     }
     this.arrayAndItemsNullableProp.add(arrayAndItemsNullablePropItem);
     return this;

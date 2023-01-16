@@ -126,6 +126,7 @@ Class | Method | HTTP request | Description
 
  - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
  - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
