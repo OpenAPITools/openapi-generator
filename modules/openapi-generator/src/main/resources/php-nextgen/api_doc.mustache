@@ -1,0 +1,104 @@
+# {{invokerPackage}}\{{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to {{basePath}}, except if the operation defines another base path.
+
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+{{#operations}}{{#operation}}| [**{{operationId}}()**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}} |
+{{/operation}}{{/operations}}{{#operations}}{{#operation}}
+
+## `{{{operationId}}}()`
+
+```php
+{{{operationId}}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{.}}}{{/returnType}}
+```
+{{#servers}}
+{{#-first}}
+### URI(s):
+{{/-first}}
+- {{{url}}} {{#description}}{{.}}{{/description}}{{#variables}}
+{{#-first}}
+    - Variables:
+{{/-first}}
+      - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+        - Allowed values:
+{{/-first}}
+          - {{{.}}}{{/enumValues}}{{#defaultValue}}
+        - Default value: {{{.}}}
+{{/defaultValue}}{{/variables}}{{/servers}}
+{{{summary}}}{{#notes}}
+
+{{{.}}}{{/notes}}
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+{{> php_doc_auth_partial}}
+$apiInstance = new {{invokerPackage}}\Api\{{classname}}(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(){{#hasAuthMethods}},
+    $config{{/hasAuthMethods}}
+);
+{{^vendorExtensions.x-group-parameters}}
+{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
+{{/allParams}}{{#servers}}{{#-first}}
+$hostIndex = 0;
+$variables = [{{#variables}}
+    '{{{name}}}' => '{{{default}}}{{^default}}YOUR_VALUE{{/default}}',{{/variables}}
+];
+{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}
+$associative_array = [
+{{#allParams}}    '{{paramName}}' => {{{example}}}, // {{{dataType}}}{{#description}} | {{{.}}}{{/description}}
+{{/allParams}}
+{{#servers}}{{#-first}}
+    'hostIndex' => 0,
+    $variables = [{{#variables}}
+        '{{{name}}}' => '{{{default}}}{{^default}}YOUR_VALUE{{/default}}',{{/variables}}
+    ],
+{{/-first}}{{/servers}}];
+{{/vendorExtensions.x-group-parameters}}
+
+try {
+    {{#returnType}}$result = {{/returnType}}$apiInstance->{{{operationId}}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}$hostIndex, $variables{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associate_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
+    print_r($result);{{/returnType}}
+} catch (Exception $e) {
+    echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+{{#vendorExtensions.x-group-parameters}}
+Note: the input parameter is an associative array with the keys listed as the parameter names below.
+
+{{/vendorExtensions.x-group-parameters}}
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |{{/-last}}{{/allParams}}
+{{#allParams}}| **{{paramName}}** | {{#isFile}}**{{{dataType}}}**{{/isFile}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{{dataType}}}**](../Model/{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}} |
+{{/allParams}}{{#servers}}{{#-first}}| hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
+| variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |{{/-first}}
+{{/servers}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**](../Model/{{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md){{/operation}}{{/operations}}
