@@ -85,13 +85,13 @@ public class DefaultValue {
   }
 
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>();
+  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
   public static final String JSON_PROPERTY_ARRAY_STRING_DEFAULT = "array_string_default";
-  private List<String> arrayStringDefault = new ArrayList<>();
+  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
 
   public static final String JSON_PROPERTY_ARRAY_INTEGER_DEFAULT = "array_integer_default";
-  private List<Integer> arrayIntegerDefault = new ArrayList<>();
+  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
   private List<String> arrayString = new ArrayList<>();
@@ -244,7 +244,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
     if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
-      this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
+      this.arrayStringNullable = JsonNullable.<List<String>>of(null);
     }
     try {
       this.arrayStringNullable.get().add(arrayStringNullableItem);
