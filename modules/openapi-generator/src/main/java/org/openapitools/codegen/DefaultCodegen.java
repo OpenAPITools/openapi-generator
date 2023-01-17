@@ -2195,9 +2195,10 @@ public class DefaultCodegen implements CodegenConfig {
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
      * @param schema Property schema
+     * @param codegenProperty Codegen property
      * @return string presentation of the default value of the property
      */
-    public String toDefaultValue(CodegenProperty cp, Schema schema) {
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
         // use toDefaultValue(schema) if generator has not overriden this method
         return toDefaultValue(schema);
     }
