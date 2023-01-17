@@ -669,6 +669,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             // if oneOf contains "null" type
+            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+                model.isNullable = true;
+                model.oneOf.remove("nil");
+            }
+
+            // if anyOf contains "null" type
             if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
                 model.isNullable = true;
                 model.anyOf.remove("nil");
