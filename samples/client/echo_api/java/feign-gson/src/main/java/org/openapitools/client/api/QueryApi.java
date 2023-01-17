@@ -4,8 +4,8 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
-import org.openapitools.client.model.BirdAndCategory;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 import java.util.ArrayList;
@@ -198,7 +198,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Param("queryObject") BirdAndCategory queryObject);
+  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Param("queryObject") TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
 
   /**
    * Test query parameter(s)
@@ -211,7 +211,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") BirdAndCategory queryObject);
+  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
 
 
   /**
@@ -259,7 +259,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> method in a fluent style.
    */
   public static class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(final BirdAndCategory value) {
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }

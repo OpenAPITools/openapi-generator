@@ -172,7 +172,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        BirdAndCategory queryObject = new BirdAndCategory(); // BirdAndCategory | 
+        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(); // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
         try {
             String result = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
             System.out.println(result);
@@ -192,7 +192,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **queryObject** | [**BirdAndCategory**](.md)|  | [optional] |
+| **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] |
 
 ### Return type
 

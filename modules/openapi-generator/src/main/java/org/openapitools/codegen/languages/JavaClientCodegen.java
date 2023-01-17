@@ -193,7 +193,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
-        cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
+        cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception. Only jersey, jersey2, jersey3, okhttp-gson, vertx, microprofile support this option."));
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
@@ -427,6 +427,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.webclientBlockingOperations = Boolean.parseBoolean(additionalProperties.get(WEBCLIENT_BLOCKING_OPERATIONS).toString());
         }
 
+        // add URL query deepObject support to native, apache-httpclient by default
+        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
+            additionalProperties.put("supportUrlQueryDeepObject", true);
+        } else {
+            additionalProperties.put("supportUrlQueryDeepObject", Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
@@ -469,11 +476,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (OKHTTP_GSON.equals(getLibrary()) && withAWSV4Signature) {
                 supportingFiles.add(new SupportingFile("auth/AWS4Auth.mustache", authFolder, "AWS4Auth.java"));
             }
-        }
-
-        // add URL query deepObject support to native, apache-httpclient by default
-        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
-            additionalProperties.put("supportUrlQueryDeepObject", true);
         }
 
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));

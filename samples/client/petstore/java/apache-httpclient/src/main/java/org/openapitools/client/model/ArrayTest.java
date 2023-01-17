@@ -25,8 +25,8 @@ import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 
 /**
@@ -208,20 +208,35 @@ public class ArrayTest {
     // add `array_of_string` to the URL query string
     if (getArrayOfString() != null) {
       for (int i = 0; i < getArrayOfString().size(); i++) {
-        joiner.add(String.format("%s[array_of_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_of_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `array_array_of_integer` to the URL query string
     if (getArrayArrayOfInteger() != null) {
       for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
-        joiner.add(String.format("%s[array_array_of_integer][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        try {
+          joiner.add(String.format("%s[array_array_of_integer][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
       }
     }
     // add `array_array_of_model` to the URL query string
     if (getArrayArrayOfModel() != null) {
       for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
         if (getArrayArrayOfModel().get(i) != null) {
-          joiner.add(String.format("%s[array_array_of_model][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          try {
+            joiner.add(String.format("%s[array_array_of_model][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+          } catch (UnsupportedEncodingException e) {
+            // Should never happen, UTF-8 is always supported
+            throw new RuntimeException(e);
+          }
         }
       }
     }

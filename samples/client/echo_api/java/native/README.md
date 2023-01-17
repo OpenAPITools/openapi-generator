@@ -124,10 +124,10 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Bird](docs/Bird.md)
- - [BirdAndCategory](docs/BirdAndCategory.md)
  - [Category](docs/Category.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

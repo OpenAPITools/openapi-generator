@@ -99,7 +99,7 @@ public class CustomTest {
      */
     @Test
     public void testQueryStyleDeepObjectExplodeTrueObjectAllOf() throws ApiException {
-        BirdAndCategory queryObject = new BirdAndCategory().id(12345L).name("Hello World").
+        TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter().id(12345L).name("Hello World").
                 color("red").size("small");
 
         Assert.assertEquals("query_object[size]=small&query_object[color]=red&query_object[id]=12345&query_object[name]=Hello%20World", queryObject.toUrlQueryString("query_object"));

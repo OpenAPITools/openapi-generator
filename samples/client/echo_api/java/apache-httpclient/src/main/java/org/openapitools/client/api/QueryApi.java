@@ -20,8 +20,8 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
-import org.openapitools.client.model.BirdAndCategory;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 
@@ -171,7 +171,7 @@ public class QueryApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(BirdAndCategory queryObject) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
