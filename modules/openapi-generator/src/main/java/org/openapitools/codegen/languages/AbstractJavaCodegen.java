@@ -1042,13 +1042,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     final String pattern;
                     if (ModelUtils.isSet(schema)) {
-                        String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
-                        pattern = "new " + mapInstantiationType + "<%s>()";
+                        String setInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
+                        pattern = "new " + setInstantiationType + "<>()";
                     } else {
                         String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
-                        pattern = "new " + arrInstantiationType + "<%s>()";
+                        pattern = "new " + arrInstantiationType + "<>()";
                     }
-                    return String.format(Locale.ROOT, pattern, "");
+                    return String.format(Locale.ROOT, pattern);
                 }
             } else { // has default value
                 return toArrayDefaultValue(cp, schema);
@@ -1062,14 +1062,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            String mapInstantiationType = instantiationTypes().getOrDefault("map", "HashMap");
-            final String pattern = "new " + mapInstantiationType + "<%s>()";
+            if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
+                return "null";
+            }
 
             if (getAdditionalProperties(schema) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, "");
+            return String.format(Locale.ROOT, "new %s<>()",
+                    instantiationTypes().getOrDefault("map", "HashMap"));
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {

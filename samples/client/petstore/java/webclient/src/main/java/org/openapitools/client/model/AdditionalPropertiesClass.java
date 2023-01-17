@@ -35,10 +35,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
-  private Map<String, String> mapProperty = new HashMap<>();
+  private Map<String, String> mapProperty = null;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public AdditionalPropertiesClass() {
   }
@@ -51,7 +51,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<>();
+      this.mapProperty = null;
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -85,7 +85,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<>();
+      this.mapOfMapProperty = null;
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;

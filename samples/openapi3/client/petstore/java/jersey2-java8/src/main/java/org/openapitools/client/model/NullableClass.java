@@ -427,7 +427,7 @@ public class NullableClass {
 
   public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
     if (this.objectNullableProp == null || !this.objectNullableProp.isPresent()) {
-      this.objectNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
+      this.objectNullableProp = JsonNullable.<Map<String, Object>>of(null);
     }
     try {
       this.objectNullableProp.get().put(key, objectNullablePropItem);
@@ -472,7 +472,7 @@ public class NullableClass {
 
   public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
     if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent()) {
-      this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(new HashMap<>());
+      this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(null);
     }
     try {
       this.objectAndItemsNullableProp.get().put(key, objectAndItemsNullablePropItem);

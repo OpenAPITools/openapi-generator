@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
@@ -75,13 +75,13 @@ public class MapTest {
   }
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = null;
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap = null;
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest() {
   }
@@ -94,7 +94,7 @@ public class MapTest {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<>();
+      this.mapMapOfString = null;
     }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
@@ -128,7 +128,7 @@ public class MapTest {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<>();
+      this.mapOfEnumString = null;
     }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
@@ -162,7 +162,7 @@ public class MapTest {
 
   public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
-      this.directMap = new HashMap<>();
+      this.directMap = null;
     }
     this.directMap.put(key, directMapItem);
     return this;
@@ -196,7 +196,7 @@ public class MapTest {
 
   public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<>();
+      this.indirectMap = null;
     }
     this.indirectMap.put(key, indirectMapItem);
     return this;

@@ -45,7 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
@@ -110,7 +110,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<>();
+      this.map = null;
     }
     this.map.put(key, mapItem);
     return this;
