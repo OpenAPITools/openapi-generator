@@ -48,6 +48,17 @@ public class OpenAPINormalizer {
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     boolean enableRefAsParentInAllOf;
 
+    // when set to true, complex composed schemas (a mix of oneOf/anyOf/anyOf and properties) with
+    // oneOf/anyOf containing only `required` and no properties (these are properties inter-dependency rules)
+    // are removed as most generators cannot handle such case at the moment
+    final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
+    boolean removeAnyOfOneOfAndKeepPropertiesOnly;
+
+    // when set to true, oneOf/anyOf with either string or enum string as sub schemas will be simplified
+    // to just string
+    final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
+    boolean simplifyAnyOfStringAndEnumString;
+
     // ============= end of rules =============
 
     /**
@@ -78,6 +89,14 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REF_AS_PARENT_IN_ALLOF))) {
             enableRefAsParentInAllOf = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY))) {
+            removeAnyOfOneOfAndKeepPropertiesOnly = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING))) {
+            simplifyAnyOfStringAndEnumString = true;
         }
     }
 
@@ -235,7 +254,8 @@ public class OpenAPINormalizer {
             if (schema == null) {
                 LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
             } else {
-                normalizeSchema(schema, new HashSet<>());
+                Schema result = normalizeSchema(schema, new HashSet<>());
+                schemas.put(schemaName, result);
             }
         }
     }
@@ -245,19 +265,20 @@ public class OpenAPINormalizer {
      *
      * @param schema         Schema
      * @param visitedSchemas a set of visited schemas
+     * @return Schema
      */
-    public void normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+    public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (schema == null) {
-            return;
+            return schema;
         }
 
         if (StringUtils.isNotEmpty(schema.get$ref())) {
             // not need to process $ref
-            return;
+            return schema;
         }
 
         if ((visitedSchemas.contains(schema))) {
-            return; // skip due to circular reference
+            return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
         }
@@ -267,38 +288,47 @@ public class OpenAPINormalizer {
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema m = (ComposedSchema) schema;
-            if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                normalizeAllOf(m, visitedSchemas);
+            ComposedSchema cs = (ComposedSchema) schema;
+
+            if (ModelUtils.isComplexComposedSchema(cs)) {
+                cs = (ComposedSchema) normalizeComplexComposedSchema(cs, visitedSchemas);
             }
 
-            if (m.getOneOf() != null && !m.getOneOf().isEmpty()) {
-                normalizeOneOf(m, visitedSchemas);
+            if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
+                return normalizeAllOf(cs, visitedSchemas);
             }
 
-            if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
-                normalizeAnyOf(m, visitedSchemas);
+            if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                return normalizeOneOf(cs, visitedSchemas);
             }
 
-            if (m.getProperties() != null && !m.getProperties().isEmpty()) {
-                normalizeProperties(m.getProperties(), visitedSchemas);
+            if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
+                return normalizeAnyOf(cs, visitedSchemas);
             }
 
-            if (m.getAdditionalProperties() != null) {
+            if (cs.getProperties() != null && !cs.getProperties().isEmpty()) {
+                normalizeProperties(cs.getProperties(), visitedSchemas);
+            }
+
+            if (cs.getAdditionalProperties() != null) {
                 // normalizeAdditionalProperties(m);
             }
+
+            return cs;
         } else if (schema.getNot() != null) {// not schema
             normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof Schema) {
-            normalizeNonComposedSchema(schema, visitedSchemas);
+            normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
             throw new RuntimeException("Unknown schema type found in normalizer: " + schema);
         }
+
+        return schema;
     }
 
-    private void normalizeNonComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
         // normalize non-composed schema (e.g. schema with only properties)
     }
 
@@ -312,7 +342,7 @@ public class OpenAPINormalizer {
         }
     }
 
-    private void normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
+    private Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -322,34 +352,55 @@ public class OpenAPINormalizer {
         }
         // process rules here
         processUseAllOfRefAsParent(schema);
+
+        return schema;
     }
 
-    private void normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAllOf()) {
+    private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        for (Object item : schema.getOneOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
             }
             // normalize oenOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
+        return schema;
     }
 
-    private void normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAllOf()) {
+    private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+        for (Object item : schema.getAnyOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
             }
             // normalize anyOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
+
+        // last rule to process as the schema may become String schema (not "anyOf") after the completion
+        return processSimplifyAnyOfStringAndEnumString(schema);
+    }
+
+    private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+
+        processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
+
+        return schema;
     }
 
     // ===================== a list of rules =====================
     // all rules (fuctions) start with the word "process"
+
+    /**
+     * Child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
+     *
+     * @param schema Schema
+     */
     private void processUseAllOfRefAsParent(Schema schema) {
-        if (!enableRefAsParentInAllOf) {
+        if (!enableRefAsParentInAllOf && !enableAll) {
             return;
         }
 
@@ -380,5 +431,65 @@ public class OpenAPINormalizer {
             }
         }
     }
+
+    /**
+     * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to
+     * ensure inter-dependency between properties. It's a workaround as such validation is not supported at the moment.
+     *
+     * @param schema Schema
+     */
+    private void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
+
+        if (!removeAnyOfOneOfAndKeepPropertiesOnly && !enableAll) {
+            return;
+        }
+
+        if (((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
+                || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) // has anyOf or oneOf
+                && (schema.getProperties() != null && !schema.getProperties().isEmpty()) // has properties
+                && schema.getAllOf() == null) { // not allOf
+            // clear oneOf, anyOf
+            schema.setOneOf(null);
+            schema.setAnyOf(null);
+        }
+    }
+
+    /**
+     * If the schema is anyOf and the sub-schemas are either string or enum of string,
+     * then simply it to just string as many generators do not yet support anyOf.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
+        if (!simplifyAnyOfStringAndEnumString && !enableAll) {
+            return schema;
+        }
+
+        Schema s0 = null, s1 = null;
+        if (schema.getAnyOf().size() == 2) {
+            s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
+            s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));
+        } else {
+            return schema;
+        }
+
+        s0 = ModelUtils.getReferencedSchema(openAPI, s0);
+        s1 = ModelUtils.getReferencedSchema(openAPI, s1);
+
+        // find the string schema (not enum)
+        if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
+            if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
+                return (StringSchema) s1;
+            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
+                return (StringSchema) s0;
+            } else { // both are string
+                return schema;
+            }
+        } else {
+            return schema;
+        }
+    }
+
     // ===================== end of rules =====================
 }
