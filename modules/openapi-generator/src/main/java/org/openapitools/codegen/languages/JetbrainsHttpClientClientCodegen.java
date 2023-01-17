@@ -45,13 +45,10 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         super();
 
         outputFolder = "generated-code" + File.separator + "jetbrains-http-client";
-//        modelTemplateFiles.put("model.mustache", ".http");
         apiTemplateFiles.put("api.mustache", ".http");
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
-//        modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("http-client.env.json.mustache", apiPackage, "http-client.env.json"));
     }
 
     @Override
@@ -74,43 +71,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> bundle) {
-
-        ApiInfoMap apiInfoMap = (ApiInfoMap) bundle.get("apiInfo");
-        ArrayList<OperationsMap> operationsMapsList = (ArrayList<OperationsMap>) apiInfoMap.get("apis");
-
-        List<OperationMap> operationsMap = operationsMapsList.stream()
-                .map(operationsMaps -> ((OperationMap) operationsMaps.get("operations")))
-                .collect(Collectors.toList());
-
-        List<CodegenOperation> operations = operationsMap.stream()
-                        .flatMap(operationMaps -> ((List<CodegenOperation>) operationMaps.get("operation")).stream())
-                        .collect(Collectors.toList());
-
-
-        // Path parameters
-        List<CodegenParameter> pathParameters = operations.stream()
-                        .filter(operation -> operation.pathParams != null)
-                        .flatMap(operation -> operation.pathParams.stream())
-                        .collect(Collectors.toList());
-
-        List<CodegenParameter> distinctPathParameters = pathParameters.stream()
-                .filter(distinctByKey(cgp -> cgp.baseName))
-                .collect(Collectors.toList());
-
-        // Adding this here for now to easily be exhaustive
-        bundle.put("distinctPathParameters", distinctPathParameters);
-
-        // Auth Methods
-        List<CodegenSecurity> authMethods = operations.stream()
-                .filter(operation -> operation.authMethods != null)
-                .flatMap(operation -> operation.authMethods.stream())
-                .collect(Collectors.toList());
-
-        List<CodegenSecurity> distinctAuthMethods = authMethods.stream()
-                .filter(distinctByKey(cgs -> cgs.type))
-                .collect(Collectors.toList());
-
-        bundle.put("distinctAuthMethods", distinctAuthMethods);
 
         return bundle;
     }

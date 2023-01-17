@@ -1,68 +1,39 @@
 ## PetApi
 
-
-
 ### Add a new pet to the store
-### 
 # @name addPet
 POST http://petstore.swagger.io/v2/pet
-
-Content-Type: application/jsonContent-Type: application/xml
-
+Content-Type: application/json
+Content-Type: application/xml
 
 ### Deletes a pet
-### 
 # @name deletePet
 DELETE http://petstore.swagger.io/v2/pet/{{petId}}
 
-
-
-
 ### Finds Pets by status
-### Multiple status values can be provided with comma separated strings
 # @name findPetsByStatus
 GET http://petstore.swagger.io/v2/pet/findByStatus
 
-
-
-
 ### Finds Pets by tags
-### Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 # @name findPetsByTags
 GET http://petstore.swagger.io/v2/pet/findByTags
 
-
-
-
 ### Find pet by ID
-### Returns a single pet
 # @name getPetById
 GET http://petstore.swagger.io/v2/pet/{{petId}}
-api_key: {{apiKey}}
-
-
 
 ### Update an existing pet
-### 
 # @name updatePet
 PUT http://petstore.swagger.io/v2/pet
-
-Content-Type: application/jsonContent-Type: application/xml
-
+Content-Type: application/json
+Content-Type: application/xml
 
 ### Updates a pet in the store with form data
-### 
 # @name updatePetWithForm
 POST http://petstore.swagger.io/v2/pet/{{petId}}
-
 Content-Type: application/x-www-form-urlencoded
 
-
 ### uploads an image
-### 
 # @name uploadFile
 POST http://petstore.swagger.io/v2/pet/{{petId}}/uploadImage
-
 Content-Type: multipart/form-data
-
-
