@@ -1042,13 +1042,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     final String pattern;
                     if (ModelUtils.isSet(schema)) {
-                        String setInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
-                        pattern = "new " + setInstantiationType + "<>()";
+                        return String.format(Locale.ROOT, "new %s<>()",
+                                instantiationTypes().getOrDefault("set", "LinkedHashSet"));
+
                     } else {
-                        String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
-                        pattern = "new " + arrInstantiationType + "<>()";
+                        return String.format(Locale.ROOT, "new %s<>()",
+                                instantiationTypes().getOrDefault("array", "ArrayList"));
                     }
-                    return String.format(Locale.ROOT, pattern);
                 }
             } else { // has default value
                 return toArrayDefaultValue(cp, schema);
