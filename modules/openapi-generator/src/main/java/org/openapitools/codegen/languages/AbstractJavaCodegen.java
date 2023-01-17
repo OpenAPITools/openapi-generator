@@ -85,6 +85,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
@@ -137,9 +138,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
-
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
+    protected boolean containerDefaultToNull = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -276,6 +277,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
+        cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -686,6 +688,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             applyJavaxPackage();
         }
+
+        if (additionalProperties.containsKey(CONTAINER_DEFAULT_TO_NULL)) {
+            this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
+        }
+        additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
     }
 
     @Override
@@ -1030,7 +1037,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
-                if (cp.isNullable) { // nullable
+                if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
                     return "null";
                 } else {
                     final String pattern;
@@ -1046,7 +1053,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else { // has default value
                 return toArrayDefaultValue(cp, schema);
             }
-
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
@@ -2029,6 +2035,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setUseJakartaEe(boolean useJakartaEe) {
         this.useJakartaEe = useJakartaEe;
+    }
+
+    public void setContainerDefaultToNull(boolean containerDefaultToNull) {
+        this.containerDefaultToNull = containerDefaultToNull;
     }
 
     @Override
