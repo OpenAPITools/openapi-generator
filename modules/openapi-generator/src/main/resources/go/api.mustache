@@ -39,7 +39,7 @@ type {{classname}} interface {
 	{{#isDeprecated}}
 	// Deprecated
 	{{/isDeprecated}}
-	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error)
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error)
 	{{/operation}}
 }
 {{/generateInterfaces}}
@@ -55,7 +55,7 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/stru
 	ApiService *{{classname}}Service
 {{/generateInterfaces}}
 {{#allParams}}
-	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+	{{paramName}} {{^isPathParam}}{{^isFile}}*{{/isFile}}{{/isPathParam}}{{{dataType}}}
 {{/allParams}}
 }
 
@@ -68,13 +68,13 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/stru
 // Deprecated
 {{/isDeprecated}}
 func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request {
-	r.{{paramName}} = &{{paramName}}
+	r.{{paramName}} = {{^isFile}}&{{/isFile}}{{paramName}}
 	return r
 }
 
 {{/isPathParam}}
 {{/allParams}}
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) Execute() ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) Execute() ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	return r.ApiService.{{nickname}}Execute(r)
 }
 
@@ -108,13 +108,13 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#pathParams
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
+func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.Method{{httpMethod}}
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		{{#returnType}}
-		localVarReturnValue  {{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}
+		localVarReturnValue  {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}
 		{{/returnType}}
 	)
 
@@ -258,27 +258,17 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 
 	{{paramName}}LocalVarFormFileName = "{{baseName}}"
 
-{{#required}}
+
 	{{paramName}}LocalVarFile := r.{{paramName}}
-{{/required}}
-{{^required}}
-	var {{paramName}}LocalVarFile *{{dataType}}
-	if r.{{paramName}} != nil {
-		{{paramName}}LocalVarFile = r.{{paramName}}
-	}
+
 	if {{paramName}}LocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
-		{{/required}}
-		{{#required}}
-				fbs, _ := ioutil.ReadAll({{paramName}}LocalVarFile)
-		{{/required}}
+
 		{{paramName}}LocalVarFileBytes = fbs
 		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
 		{{paramName}}LocalVarFile.Close()
-	{{^required}}
+		formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 	}
-	{{/required}}
-	formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 {{/isFile}}
 {{^isFile}}
 {{#required}}
