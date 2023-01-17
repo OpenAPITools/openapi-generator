@@ -89,6 +89,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         // Path parameters
         List<CodegenParameter> pathParameters = operations.stream()
+                        .filter(operation -> operation.pathParams != null)
                         .flatMap(operation -> operation.pathParams.stream())
                         .collect(Collectors.toList());
 
@@ -101,6 +102,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         // Auth Methods
         List<CodegenSecurity> authMethods = operations.stream()
+                .filter(operation -> operation.authMethods != null)
                 .flatMap(operation -> operation.authMethods.stream())
                 .collect(Collectors.toList());
 

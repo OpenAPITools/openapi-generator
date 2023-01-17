@@ -1,0 +1,36 @@
+## StoreApi
+
+
+
+### Delete purchase order by ID
+### For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+# @name deleteOrder
+DELETE http://petstore.swagger.io/v2/store/order/{{orderId}}
+
+
+
+
+### Returns pet inventories by status
+### Returns a map of status codes to quantities
+# @name getInventory
+GET http://petstore.swagger.io/v2/store/inventory
+api_key: {{apiKey}}
+
+
+
+### Find purchase order by ID
+### For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+# @name getOrderById
+GET http://petstore.swagger.io/v2/store/order/{{orderId}}
+
+
+
+
+### Place an order for a pet
+### 
+# @name placeOrder
+POST http://petstore.swagger.io/v2/store/order
+
+Content-Type: application/json
+
+
