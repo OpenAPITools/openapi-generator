@@ -1040,11 +1040,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
                     return "null";
                 } else {
-                    final String pattern;
                     if (ModelUtils.isSet(schema)) {
                         return String.format(Locale.ROOT, "new %s<>()",
                                 instantiationTypes().getOrDefault("set", "LinkedHashSet"));
-
                     } else {
                         return String.format(Locale.ROOT, "new %s<>()",
                                 instantiationTypes().getOrDefault("array", "ArrayList"));
