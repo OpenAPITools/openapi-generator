@@ -7,17 +7,15 @@
 * API basepath : [{{basePath}}]({{basePath}})
 * Version : {{version}}
 
-
-## Generated endpoints
+## Documentation for API Endpoints
 
 {{#generateApiDocs}}
-    ## Documentation for API Endpoints
-    All URIs are relative to *{{{basePath}}}*
+All URIs are relative to *{{{basePath}}}*, but will link to the `.http` file that contains the endpoint definition
 
-    Class | Method | HTTP request | Description
-    ------------ | ------------- | ------------- | -------------
-    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**](Apis/{{apiDocPath}}{{classname}}.http) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
-    {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**](Apis/{{apiDocPath}}{{classname}}.http#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 {{/generateApiDocs}}
 
 

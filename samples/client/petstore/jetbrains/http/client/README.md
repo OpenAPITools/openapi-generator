@@ -7,35 +7,33 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 * API basepath : [http://petstore.swagger.io/v2](http://petstore.swagger.io/v2)
 * Version : 1.0.0
 
+## Documentation for API Endpoints
 
-## Generated endpoints
+All URIs are relative to *http://petstore.swagger.io/v2*, but will link to the `.http` file that contains the endpoint definition
 
-    ## Documentation for API Endpoints
-    All URIs are relative to *http://petstore.swagger.io/v2*
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+*PetApi* | [**addPet**](Apis/PetApi.http#addpet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**deletePet**](Apis/PetApi.http#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**findPetsByStatus**](Apis/PetApi.http#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**findPetsByTags**](Apis/PetApi.http#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**getPetById**](Apis/PetApi.http#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**updatePet**](Apis/PetApi.http#updatepet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**updatePetWithForm**](Apis/PetApi.http#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**uploadFile**](Apis/PetApi.http#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*StoreApi* | [**deleteOrder**](Apis/StoreApi.http#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreApi* | [**getInventory**](Apis/StoreApi.http#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**getOrderById**](Apis/StoreApi.http#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreApi* | [**placeOrder**](Apis/StoreApi.http#placeorder) | **POST** /store/order | Place an order for a pet
+*UserApi* | [**createUser**](Apis/UserApi.http#createuser) | **POST** /user | Create user
+*UserApi* | [**createUsersWithArrayInput**](Apis/UserApi.http#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**createUsersWithListInput**](Apis/UserApi.http#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**deleteUser**](Apis/UserApi.http#deleteuser) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**getUserByName**](Apis/UserApi.http#getuserbyname) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**loginUser**](Apis/UserApi.http#loginuser) | **GET** /user/login | Logs user into the system
+*UserApi* | [**logoutUser**](Apis/UserApi.http#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**updateUser**](Apis/UserApi.http#updateuser) | **PUT** /user/{username} | Updated user
 
-    Class | Method | HTTP request | Description
-    ------------ | ------------- | ------------- | -------------
-    *PetApi* | [**addPet**](Apis/PetApi.http) | **POST** /pet | Add a new pet to the store
-    *PetApi* | [**deletePet**](Apis/PetApi.http) | **DELETE** /pet/{petId} | Deletes a pet
-    *PetApi* | [**findPetsByStatus**](Apis/PetApi.http) | **GET** /pet/findByStatus | Finds Pets by status
-    *PetApi* | [**findPetsByTags**](Apis/PetApi.http) | **GET** /pet/findByTags | Finds Pets by tags
-    *PetApi* | [**getPetById**](Apis/PetApi.http) | **GET** /pet/{petId} | Find pet by ID
-    *PetApi* | [**updatePet**](Apis/PetApi.http) | **PUT** /pet | Update an existing pet
-    *PetApi* | [**updatePetWithForm**](Apis/PetApi.http) | **POST** /pet/{petId} | Updates a pet in the store with form data
-    *PetApi* | [**uploadFile**](Apis/PetApi.http) | **POST** /pet/{petId}/uploadImage | uploads an image
-    *StoreApi* | [**deleteOrder**](Apis/StoreApi.http) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-    *StoreApi* | [**getInventory**](Apis/StoreApi.http) | **GET** /store/inventory | Returns pet inventories by status
-    *StoreApi* | [**getOrderById**](Apis/StoreApi.http) | **GET** /store/order/{orderId} | Find purchase order by ID
-    *StoreApi* | [**placeOrder**](Apis/StoreApi.http) | **POST** /store/order | Place an order for a pet
-    *UserApi* | [**createUser**](Apis/UserApi.http) | **POST** /user | Create user
-    *UserApi* | [**createUsersWithArrayInput**](Apis/UserApi.http) | **POST** /user/createWithArray | Creates list of users with given input array
-    *UserApi* | [**createUsersWithListInput**](Apis/UserApi.http) | **POST** /user/createWithList | Creates list of users with given input array
-    *UserApi* | [**deleteUser**](Apis/UserApi.http) | **DELETE** /user/{username} | Delete user
-    *UserApi* | [**getUserByName**](Apis/UserApi.http) | **GET** /user/{username} | Get user by user name
-    *UserApi* | [**loginUser**](Apis/UserApi.http) | **GET** /user/login | Logs user into the system
-    *UserApi* | [**logoutUser**](Apis/UserApi.http) | **GET** /user/logout | Logs out current logged in user session
-    *UserApi* | [**updateUser**](Apis/UserApi.http) | **PUT** /user/{username} | Updated user
-    
 
 
 _This client was generated by the jetbrains-http-client of OpenAPI Generator_
