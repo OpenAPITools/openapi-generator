@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the CatAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CatAllOf{}
+
 // CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
@@ -69,11 +72,19 @@ func (o *CatAllOf) SetDeclawed(v bool) {
 }
 
 func (o CatAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o CatAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Declawed) {
 		toSerialize["declawed"] = o.Declawed
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableCatAllOf struct {

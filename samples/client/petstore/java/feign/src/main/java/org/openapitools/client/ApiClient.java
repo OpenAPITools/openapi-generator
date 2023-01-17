@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import feign.okhttp.OkHttpClient;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -44,8 +43,8 @@ public class ApiClient {
   private Feign.Builder feignBuilder;
 
   public ApiClient() {
-    objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
@@ -147,6 +146,7 @@ public class ApiClient {
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
     }
   }
+
 
   public ObjectMapper getObjectMapper(){
     return objectMapper;

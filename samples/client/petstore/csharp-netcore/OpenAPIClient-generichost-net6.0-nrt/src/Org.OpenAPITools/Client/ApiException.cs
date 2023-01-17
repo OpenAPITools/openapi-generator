@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Client
         public string RawContent { get; }
         
         /// <summary>
-        /// Construct the ApiException from parts of the reponse
+        /// Construct the ApiException from parts of the response
         /// </summary>
         /// <param name="reasonPhrase"></param>
         /// <param name="statusCode"></param>

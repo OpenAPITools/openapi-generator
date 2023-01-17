@@ -66,7 +66,7 @@ is $get_pet_hash->{photoUrls}->[1], 'oop', 'get the proper photoUrl from get_pet
 
 
 my $update_pet_with_form = $api->update_pet_with_form(pet_id => $pet_id, name => 'test_name', status => 'sold');
-is $update_pet_with_form, undef, 'get the null response from update_pet_wth_form';
+is $update_pet_with_form, undef, 'get the null response from update_pet_with_form';
 
 my $get_pet_after_update = $api->get_pet_by_id(pet_id => $pet_id);
 is $get_pet_after_update->{status}, 'sold', 'get the updated status after update_pet_with_form';

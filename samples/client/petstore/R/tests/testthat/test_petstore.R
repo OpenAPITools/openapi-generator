@@ -265,7 +265,7 @@ test_that("Tests oneOf", {
   # class name test
   expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")
 
-  # test contructors
+  # test constructors
   pig2 <- Pig$new(instance = basque_pig$actual_instance)
   expect_equal(pig2$actual_type, "BasquePig")
   expect_equal(pig2$actual_instance$color, "red")

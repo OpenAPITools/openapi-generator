@@ -139,15 +139,15 @@ class {{{classname}}} {
           {{#isArray}}
             {{#items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] is List
-          ? (json[r'{{{baseName}}}'] as List).map(
+          ? (json[r'{{{baseName}}}'] as List).map((e) =>
               {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'])
+              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}}
               {{/items.complexType}}
               {{^items.complexType}}
-              (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
+              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const  <{{items.items.dataType}}>[]{{/items.isNullable}} : (e as List).cast<{{items.items.dataType}}>()
               {{/items.complexType}}
             ).toList()
-          : null,
+          :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
             {{/items.isArray}}
             {{^items.isArray}}
         {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},

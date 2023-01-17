@@ -58,7 +58,7 @@ module Petstore
         end
 
         unless response.success?
-          if response.status == 0
+          if response.status == 0 && response.respond_to?(:return_message)
             # Errors from libcurl will be made visible here
             fail ApiError.new(code: 0,
                               message: response.return_message)

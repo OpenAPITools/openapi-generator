@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Pet type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Pet{}
+
 // Pet struct for Pet
 type Pet struct {
 	Id *int64 `json:"id,omitempty"`
@@ -126,7 +129,7 @@ func (o *Pet) GetName() string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Name, true
 }
@@ -150,7 +153,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.PhotoUrls, true
 }
@@ -228,6 +231,14 @@ func (o *Pet) SetStatus(v string) {
 }
 
 func (o Pet) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Pet) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -235,12 +246,8 @@ func (o Pet) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Category) {
 		toSerialize["category"] = o.Category
 	}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["photoUrls"] = o.PhotoUrls
-	}
+	toSerialize["name"] = o.Name
+	toSerialize["photoUrls"] = o.PhotoUrls
 	if !isNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
@@ -252,7 +259,7 @@ func (o Pet) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Pet) UnmarshalJSON(bytes []byte) (err error) {

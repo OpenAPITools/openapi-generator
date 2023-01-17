@@ -62,6 +62,28 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
 )
+XRateLimitSchema = schemas.DecimalSchema
+ResponseHeadersFor202 = typing_extensions.TypedDict(
+    'ResponseHeadersFor202',
+    {
+        'X-Rate-Limit': XRateLimitSchema,
+    }
+)
+
+
+@dataclass
+class ApiResponseFor202(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    headers: ResponseHeadersFor202
+    body: schemas.Unset = schemas.unset
+
+
+_response_for_202 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor202,
+    headers=[
+        x_rate_limit_parameter,
+    ]
+)
 
 
 @dataclass
@@ -86,6 +108,7 @@ class BaseApi(api_client.Api):
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
     ]: ...
 
@@ -107,6 +130,7 @@ class BaseApi(api_client.Api):
         skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
@@ -162,7 +186,11 @@ class BaseApi(api_client.Api):
                     api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -179,6 +207,7 @@ class DeleteCoffee(BaseApi):
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
     ]: ...
 
@@ -200,6 +229,7 @@ class DeleteCoffee(BaseApi):
         skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
@@ -231,6 +261,7 @@ class ApiFordelete(BaseApi):
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
     ]: ...
 
@@ -252,6 +283,7 @@ class ApiFordelete(BaseApi):
         skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
+        ApiResponseFor202,
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...

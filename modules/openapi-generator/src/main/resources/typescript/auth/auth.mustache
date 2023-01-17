@@ -1,11 +1,4 @@
-{{#platforms}}
-{{#node}}
-// typings for btoa are incorrect
-//@ts-ignore
-import {{^supportsES6}}* as{{/supportsES6}} btoa from "btoa";
-{{/node}}
-{{/platforms}}
-import { RequestContext } from "../http/http{{extensionForDeno}}";
+import { RequestContext } from "../http/http{{importFileExtension}}";
 {{#useInversify}}
 import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";
@@ -92,8 +85,8 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
         context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}setQueryParam{{/isKeyInQuery}}{{#isKeyInCookie}}addCookie{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
         {{/isApiKey}}
         {{#isBasicBasic}}
-        let comb = this.username + ":" + this.password;
-        context.setHeaderParam("Authorization", "Basic " + btoa(comb));
+        let comb = Buffer.from(this.username + ":" + this.password, 'binary').toString('base64');
+        context.setHeaderParam("Authorization", "Basic " + comb);
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());

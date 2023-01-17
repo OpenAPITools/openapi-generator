@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the List type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &List{}
+
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
@@ -69,11 +72,19 @@ func (o *List) SetVar123List(v string) {
 }
 
 func (o List) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o List) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Var123List) {
 		toSerialize["123-list"] = o.Var123List
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableList struct {

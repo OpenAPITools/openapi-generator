@@ -52,6 +52,7 @@ The following generators are available:
 * [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
 * [python-legacy](generators/python-legacy.md)  
+* [python-nextgen (beta)](generators/python-nextgen.md)  
 * [python-prior](generators/python-prior.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  

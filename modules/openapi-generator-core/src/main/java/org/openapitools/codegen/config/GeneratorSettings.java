@@ -53,6 +53,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> schemaMappings;
     private final Map<String, String> inlineSchemaNameMappings;
     private final Map<String, String> inlineSchemaNameDefaults;
+    private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Map<String, String> reservedWordsMappings;
     private final Map<String, String> serverVariables;
@@ -265,6 +266,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets OpenAPI normalizer rules
+     *
+     * @return a map of rules
+     */
+    public Map<String, String> getOpenAPINormalizer() {
+        return openapiNormalizer;
+    }
+
+    /**
      * Gets language specific primitives. These are in addition to the "base" primitives defined in a generator.
      * <p>
      * In general, a primitive defined here will indicate to the generator:
@@ -382,6 +392,7 @@ public final class GeneratorSettings implements Serializable {
         schemaMappings = Collections.unmodifiableMap(builder.schemaMappings);
         inlineSchemaNameMappings = Collections.unmodifiableMap(builder.inlineSchemaNameMappings);
         inlineSchemaNameDefaults = Collections.unmodifiableMap(builder.inlineSchemaNameDefaults);
+        openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
         serverVariables = Collections.unmodifiableMap(builder.serverVariables);
@@ -455,6 +466,7 @@ public final class GeneratorSettings implements Serializable {
         schemaMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameDefaults = Collections.unmodifiableMap(new HashMap<>(0));
+        openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
         serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
@@ -515,6 +527,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getInlineSchemaNameDefaults() != null) {
             builder.inlineSchemaNameDefaults.putAll(copy.getInlineSchemaNameDefaults());
         }
+        if (copy.getOpenAPINormalizer() != null) {
+            builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
+        }
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
         }
@@ -557,6 +572,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> schemaMappings;
         private Map<String, String> inlineSchemaNameMappings;
         private Map<String, String> inlineSchemaNameDefaults;
+        private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordsMappings;
         private Map<String, String> serverVariables;
@@ -577,6 +593,7 @@ public final class GeneratorSettings implements Serializable {
             schemaMappings = new HashMap<>();
             inlineSchemaNameMappings = new HashMap<>();
             inlineSchemaNameDefaults = new HashMap<>();
+            openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordsMappings = new HashMap<>();
             serverVariables = new HashMap<>();
@@ -898,6 +915,32 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param openapiNormalizer the {@code openapiNormalizer} to set
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPINormalizer(Map<String, String> openapiNormalizer) {
+            this.openapiNormalizer = openapiNormalizer;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for the OpenAPI normalizer rule
+         * @param value The value of the OpenAPI normalizer rule
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPINormalizer(String key, String value) {
+            if (this.openapiNormalizer == null) {
+                this.openapiNormalizer = new HashMap<>();
+            }
+            this.openapiNormalizer.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code languageSpecificPrimitives} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param languageSpecificPrimitives the {@code languageSpecificPrimitives} to set
@@ -1085,6 +1128,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getSchemaMappings(), that.getSchemaMappings()) &&
                 Objects.equals(getInlineSchemaNameMappings(), that.getInlineSchemaNameMappings()) &&
                 Objects.equals(getInlineSchemaNameDefaults(), that.getInlineSchemaNameDefaults()) &&
+                Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
                 Objects.equals(getGitHost(), that.getGitHost()) &&
@@ -1116,6 +1160,7 @@ public final class GeneratorSettings implements Serializable {
                 getSchemaMappings(),
                 getInlineSchemaNameMappings(),
                 getInlineSchemaNameDefaults(),
+                getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordsMappings(),
                 getGitHost(),
