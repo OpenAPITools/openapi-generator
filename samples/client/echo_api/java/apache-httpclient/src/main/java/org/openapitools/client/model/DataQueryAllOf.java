@@ -31,12 +31,16 @@ import java.util.StringJoiner;
  * DataQueryAllOf
  */
 @JsonPropertyOrder({
+  DataQueryAllOf.JSON_PROPERTY_SUFFIX,
   DataQueryAllOf.JSON_PROPERTY_TEXT,
   DataQueryAllOf.JSON_PROPERTY_DATE
 })
 @JsonTypeName("DataQuery_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQueryAllOf {
+  public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  private String suffix;
+
   public static final String JSON_PROPERTY_TEXT = "text";
   private String text;
 
@@ -45,6 +49,32 @@ public class DataQueryAllOf {
 
   public DataQueryAllOf() {
   }
+
+  public DataQueryAllOf suffix(String suffix) {
+    
+    this.suffix = suffix;
+    return this;
+  }
+
+   /**
+   * test suffix
+   * @return suffix
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
 
   public DataQueryAllOf text(String text) {
     
@@ -107,19 +137,21 @@ public class DataQueryAllOf {
       return false;
     }
     DataQueryAllOf dataQueryAllOf = (DataQueryAllOf) o;
-    return Objects.equals(this.text, dataQueryAllOf.text) &&
+    return Objects.equals(this.suffix, dataQueryAllOf.suffix) &&
+        Objects.equals(this.text, dataQueryAllOf.text) &&
         Objects.equals(this.date, dataQueryAllOf.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, date);
+    return Objects.hash(suffix, text, date);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQueryAllOf {\n");
+    sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("}");
@@ -148,6 +180,15 @@ public class DataQueryAllOf {
       prefix = "";
     }
     StringJoiner joiner = new StringJoiner("&");
+    // add `suffix` to the URL query string
+    if (getSuffix() != null) {
+      try {
+        joiner.add(String.format("%s[suffix]=%s", prefix, URLEncoder.encode(String.valueOf(getSuffix()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
     // add `text` to the URL query string
     if (getText() != null) {
       try {

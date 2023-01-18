@@ -34,11 +34,15 @@ import java.util.StringJoiner;
  * DataQuery
  */
 @JsonPropertyOrder({
+  DataQuery.JSON_PROPERTY_SUFFIX,
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQuery extends Query {
+  public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  private String suffix;
+
   public static final String JSON_PROPERTY_TEXT = "text";
   private String text;
 
@@ -48,6 +52,32 @@ public class DataQuery extends Query {
   public DataQuery() {
 
   }
+
+  public DataQuery suffix(String suffix) {
+    
+    this.suffix = suffix;
+    return this;
+  }
+
+   /**
+   * test suffix
+   * @return suffix
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
 
   public DataQuery text(String text) {
     
@@ -110,14 +140,15 @@ public class DataQuery extends Query {
       return false;
     }
     DataQuery dataQuery = (DataQuery) o;
-    return Objects.equals(this.text, dataQuery.text) &&
+    return Objects.equals(this.suffix, dataQuery.suffix) &&
+        Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, date, super.hashCode());
+    return Objects.hash(suffix, text, date, super.hashCode());
   }
 
   @Override
@@ -125,6 +156,7 @@ public class DataQuery extends Query {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("}");
@@ -153,6 +185,15 @@ public class DataQuery extends Query {
       prefix = "";
     }
     StringJoiner joiner = new StringJoiner("&");
+    // add `suffix` to the URL query string
+    if (getSuffix() != null) {
+      try {
+        joiner.add(String.format("%s[suffix]=%s", prefix, URLEncoder.encode(String.valueOf(getSuffix()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
     // add `text` to the URL query string
     if (getText() != null) {
       try {

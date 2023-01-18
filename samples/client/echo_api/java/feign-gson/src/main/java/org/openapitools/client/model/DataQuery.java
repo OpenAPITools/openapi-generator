@@ -31,6 +31,10 @@ import org.openapitools.client.model.Query;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQuery extends Query {
+  public static final String SERIALIZED_NAME_SUFFIX = "suffix";
+  @SerializedName(SERIALIZED_NAME_SUFFIX)
+  private String suffix;
+
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
   private String text;
@@ -42,6 +46,28 @@ public class DataQuery extends Query {
   public DataQuery() {
 
   }
+
+  public DataQuery suffix(String suffix) {
+    
+    this.suffix = suffix;
+    return this;
+  }
+
+   /**
+   * test suffix
+   * @return suffix
+  **/
+  @javax.annotation.Nullable
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
 
   public DataQuery text(String text) {
     
@@ -96,14 +122,15 @@ public class DataQuery extends Query {
       return false;
     }
     DataQuery dataQuery = (DataQuery) o;
-    return Objects.equals(this.text, dataQuery.text) &&
+    return Objects.equals(this.suffix, dataQuery.suffix) &&
+        Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, date, super.hashCode());
+    return Objects.hash(suffix, text, date, super.hashCode());
   }
 
   @Override
@@ -111,6 +138,7 @@ public class DataQuery extends Query {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("}");

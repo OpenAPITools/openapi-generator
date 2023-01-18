@@ -52,6 +52,10 @@ import org.openapitools.client.JSON;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQuery extends Query {
+  public static final String SERIALIZED_NAME_SUFFIX = "suffix";
+  @SerializedName(SERIALIZED_NAME_SUFFIX)
+  private String suffix;
+
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
   private String text;
@@ -62,6 +66,28 @@ public class DataQuery extends Query {
 
   public DataQuery() {
   }
+
+  public DataQuery suffix(String suffix) {
+    
+    this.suffix = suffix;
+    return this;
+  }
+
+   /**
+   * test suffix
+   * @return suffix
+  **/
+  @javax.annotation.Nullable
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
 
   public DataQuery text(String text) {
     
@@ -117,14 +143,15 @@ public class DataQuery extends Query {
       return false;
     }
     DataQuery dataQuery = (DataQuery) o;
-    return Objects.equals(this.text, dataQuery.text) &&
+    return Objects.equals(this.suffix, dataQuery.suffix) &&
+        Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, date, super.hashCode());
+    return Objects.hash(suffix, text, date, super.hashCode());
   }
 
   @Override
@@ -132,6 +159,7 @@ public class DataQuery extends Query {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("}");
@@ -156,6 +184,7 @@ public class DataQuery extends Query {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
+    openapiFields.add("suffix");
     openapiFields.add("text");
     openapiFields.add("date");
     openapiFields.add("id");
@@ -184,6 +213,9 @@ public class DataQuery extends Query {
         if (!DataQuery.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
+      }
+      if ((jsonObj.get("suffix") != null && !jsonObj.get("suffix").isJsonNull()) && !jsonObj.get("suffix").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `suffix` to be a primitive type in the JSON string but got `%s`", jsonObj.get("suffix").toString()));
       }
       if ((jsonObj.get("text") != null && !jsonObj.get("text").isJsonNull()) && !jsonObj.get("text").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `text` to be a primitive type in the JSON string but got `%s`", jsonObj.get("text").toString()));

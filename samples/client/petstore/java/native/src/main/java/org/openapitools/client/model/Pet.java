@@ -339,9 +339,11 @@ public class Pet {
     String suffix = "";
     String containerSuffix = "";
     String containerPrefix = "";
-    if (prefix == null) { // style=form, explode=true
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
-    } else { // deepObject style
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
       prefix = prefix + "[";
       suffix = "]";
       containerSuffix = "]";
@@ -369,13 +371,6 @@ public class Pet {
     if (getPhotoUrls() != null) {
       int i = 0;
       for (String _item : getPhotoUrls()) {
-        String arrayQueryName;
-        if ("".equals(suffix)) {
-          arrayQueryName = null
-        } else {
-          arrayQueryName = String.format("%s%d%s", containerPrefix, i, containerSuffix);
-        }
-
         joiner.add(String.format("%sphotoUrls%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));

@@ -684,9 +684,11 @@ public class NullableClass extends HashMap<String, Object> {
     String suffix = "";
     String containerSuffix = "";
     String containerPrefix = "";
-    if (prefix == null) { // style=form, explode=true
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
-    } else { // deepObject style
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
       prefix = prefix + "[";
       suffix = "]";
       containerSuffix = "]";
@@ -756,8 +758,8 @@ public class NullableClass extends HashMap<String, Object> {
     if (getObjectNullableProp() != null) {
       for (String _key : getObjectNullableProp().keySet()) {
         joiner.add(String.format("%sobject_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            {getter}}().get(_key), URLEncoder.encode(String.valueOf(getObjectNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getObjectNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -765,8 +767,8 @@ public class NullableClass extends HashMap<String, Object> {
     if (getObjectAndItemsNullableProp() != null) {
       for (String _key : getObjectAndItemsNullableProp().keySet()) {
         joiner.add(String.format("%sobject_and_items_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            {getter}}().get(_key), URLEncoder.encode(String.valueOf(getObjectAndItemsNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getObjectAndItemsNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectAndItemsNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -774,8 +776,8 @@ public class NullableClass extends HashMap<String, Object> {
     if (getObjectItemsNullable() != null) {
       for (String _key : getObjectItemsNullable().keySet()) {
         joiner.add(String.format("%sobject_items_nullable%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            {getter}}().get(_key), URLEncoder.encode(String.valueOf(getObjectItemsNullable().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getObjectItemsNullable().get(_key), URLEncoder.encode(String.valueOf(getObjectItemsNullable().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

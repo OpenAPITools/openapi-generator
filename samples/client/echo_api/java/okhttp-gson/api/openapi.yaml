@@ -344,6 +344,9 @@ components:
       - $ref: '#/components/schemas/Category'
     DataQuery_allOf:
       properties:
+        suffix:
+          description: test suffix
+          type: string
         text:
           description: Some text containing white spaces
           example: Some text

@@ -28,6 +28,10 @@ import java.time.OffsetDateTime;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQueryAllOf {
+  public static final String SERIALIZED_NAME_SUFFIX = "suffix";
+  @SerializedName(SERIALIZED_NAME_SUFFIX)
+  private String suffix;
+
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
   private String text;
@@ -38,6 +42,28 @@ public class DataQueryAllOf {
 
   public DataQueryAllOf() {
   }
+
+  public DataQueryAllOf suffix(String suffix) {
+    
+    this.suffix = suffix;
+    return this;
+  }
+
+   /**
+   * test suffix
+   * @return suffix
+  **/
+  @javax.annotation.Nullable
+
+  public String getSuffix() {
+    return suffix;
+  }
+
+
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
 
   public DataQueryAllOf text(String text) {
     
@@ -92,19 +118,21 @@ public class DataQueryAllOf {
       return false;
     }
     DataQueryAllOf dataQueryAllOf = (DataQueryAllOf) o;
-    return Objects.equals(this.text, dataQueryAllOf.text) &&
+    return Objects.equals(this.suffix, dataQueryAllOf.suffix) &&
+        Objects.equals(this.text, dataQueryAllOf.text) &&
         Objects.equals(this.date, dataQueryAllOf.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, date);
+    return Objects.hash(suffix, text, date);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQueryAllOf {\n");
+    sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("}");

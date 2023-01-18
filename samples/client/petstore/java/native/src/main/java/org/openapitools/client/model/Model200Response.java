@@ -157,9 +157,11 @@ public class Model200Response {
     String suffix = "";
     String containerSuffix = "";
     String containerPrefix = "";
-    if (prefix == null) { // style=form, explode=true
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
-    } else { // deepObject style
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
       prefix = prefix + "[";
       suffix = "]";
       containerSuffix = "]";
