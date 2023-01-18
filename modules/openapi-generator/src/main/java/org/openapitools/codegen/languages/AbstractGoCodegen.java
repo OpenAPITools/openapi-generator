@@ -660,13 +660,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
-                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+                if ( !addedTimeImport && checkType(cp.dataType, "time.Time") || 
+                        (cp.items != null && checkType(cp.items.dataType, "time.Time") ) ) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
-                        (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
+                if ( !addedOSImport && checkType(cp.dataType, "os.File") || 
+                        (cp.items != null && checkType(cp.items.dataType, "os.File") ) ) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -709,6 +709,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         return postProcessModelsEnum(objs);
+    }
+    
+    boolean checkType( String value, String type ) {
+        return value != null && (value.equals( type ) || value.equals( "*"+type ));
     }
 
     @Override
