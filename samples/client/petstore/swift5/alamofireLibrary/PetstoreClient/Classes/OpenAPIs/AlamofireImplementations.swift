@@ -182,6 +182,20 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 }
 
             })
+        case is Data.Type:
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
+                cleanupRequest()
+
+                switch dataResponse.result {
+                case .success(let data):
+                    completion(.success(Response(response: dataResponse.response!, body: data as! T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
+                }
+
+            })
         default:
             fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
