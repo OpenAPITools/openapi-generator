@@ -371,7 +371,12 @@ public class {{classname}} {
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
+                {{#isModel}}
+    localVarQueryDeepObjectStringJoiner.add({{paramName}}.toUrlQueryString(null));
+                {{/isModel}}
+                {{^isModel}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                {{/isModel}}
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}

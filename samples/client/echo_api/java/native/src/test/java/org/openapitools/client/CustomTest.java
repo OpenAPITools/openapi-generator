@@ -79,6 +79,24 @@ public class CustomTest {
      * @throws ApiException if the Api call fails
      */
     @Test
+    public void testQueryStyleFormExplodeTrueObjectAllOfTest() throws ApiException {
+        DataQuery queryObject = new DataQuery().text("Hello World");
+        queryObject.setId(3487L);
+        queryObject.setOutcomes(Arrays.asList(Query.OutcomesEnum.SKIPPED, Query.OutcomesEnum.FAILURE));
+
+        String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/query/style_form/explode_true/object/allOf?text=Hello%20World&id=3487&outcomes=SKIPPED&outcomes=FAILURE", p.path);
+    }
+
+    /**
+     * Test query parameter(s)
+     * <p>
+     * Test query parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
     public void testQueryStyleDeepObjectExplodeTrueObject() throws ApiException {
         Pet queryObject = new Pet().id(12345L).name("Hello World").
                 photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));

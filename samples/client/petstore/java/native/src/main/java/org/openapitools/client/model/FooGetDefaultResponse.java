@@ -111,19 +111,36 @@ public class FooGetDefaultResponse {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
-    if (prefix == null) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) { // style=form, explode=true
       prefix = "";
+    } else { // deepObject style
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `string` to the URL query string
     if (getString() != null) {
-      joiner.add(getString().toUrlQueryString(prefix + "[string]"));
+      joiner.add(getString().toUrlQueryString(prefix + "string" + suffix));
     }
 
     return joiner.toString();

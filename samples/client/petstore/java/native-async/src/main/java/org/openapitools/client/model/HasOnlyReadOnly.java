@@ -131,24 +131,41 @@ public class HasOnlyReadOnly {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
-    if (prefix == null) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) { // style=form, explode=true
       prefix = "";
+    } else { // deepObject style
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%s[bar]=%s", prefix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `foo` to the URL query string
     if (getFoo() != null) {
-      joiner.add(String.format("%s[foo]=%s", prefix, URLEncoder.encode(String.valueOf(getFoo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfoo%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFoo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
