@@ -7,7 +7,7 @@ title: Documentation for the jetbrains-http-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | jetbrains-http-client | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Java | |
 | generator default templating engine | mustache | |

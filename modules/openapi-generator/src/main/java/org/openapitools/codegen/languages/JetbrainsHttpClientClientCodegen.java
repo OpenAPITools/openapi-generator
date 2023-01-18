@@ -17,6 +17,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -41,6 +43,10 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public JetbrainsHttpClientClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.EXPERIMENTAL)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "jetbrains-http-client";
         apiTemplateFiles.put("api.mustache", ".http");
