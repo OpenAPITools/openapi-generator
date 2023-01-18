@@ -190,7 +190,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
                 switch dataResponse.result {
                 case .success(let data):
-                    completion(.success(Response(response: dataResponse.response!, body: data as! T)))
+                    completion(.success(Response(response: dataResponse.response!, body: data as! T, bodyData: dataResponse.data)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }

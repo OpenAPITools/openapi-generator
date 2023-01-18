@@ -212,7 +212,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: (data ?? Data()) as! T)))
+            completion(.success(Response(response: httpResponse, body: (data ?? Data()) as! T, bodyData: data)))
 
         default:
             fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
