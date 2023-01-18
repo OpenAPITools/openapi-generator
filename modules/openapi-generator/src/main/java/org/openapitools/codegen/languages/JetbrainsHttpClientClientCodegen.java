@@ -27,8 +27,6 @@ import org.slf4j.LoggerFactory;
 public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "Jetbrains HTTP Client";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(JetbrainsHttpClientClientCodegen.class);
-
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
