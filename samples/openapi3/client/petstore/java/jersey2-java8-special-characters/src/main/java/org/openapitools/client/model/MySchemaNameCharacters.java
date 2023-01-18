@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Parent;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
@@ -39,7 +37,6 @@ import org.openapitools.client.JSON;
 /**
  * A schema name that has letters, numbers, punctuation and non-ASCII characters. The sanitization rules should make it possible to generate a language-specific classname with allowed characters in that programming language.
  */
-@ApiModel(description = "A schema name that has letters, numbers, punctuation and non-ASCII characters. The sanitization rules should make it possible to generate a language-specific classname with allowed characters in that programming language.")
 @JsonPropertyOrder({
   MySchemaNameCharacters.JSON_PROPERTY_PROP2
 })
@@ -68,7 +65,6 @@ public class MySchemaNameCharacters extends Parent {
    * @return prop2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROP2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -36,8 +36,8 @@ class AdditionalPropertiesClass(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'map_property': 'dict(str, str)',
-        'map_of_map_property': 'dict(str, dict(str, str))'
+        'map_property': 'dict[str, str]',
+        'map_of_map_property': 'dict[str, dict[str, str]]'
     }
 
     attribute_map = {
@@ -66,7 +66,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, str)
+        :rtype: dict[str, str]
         """
         return self._map_property
 
@@ -76,7 +76,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_property: The map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :type map_property: dict(str, str)
+        :type map_property: dict[str, str]
         """
 
         self._map_property = map_property
@@ -87,7 +87,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, str))
+        :rtype: dict[str, dict[str, str]]
         """
         return self._map_of_map_property
 
@@ -97,7 +97,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_of_map_property: The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :type map_of_map_property: dict(str, dict(str, str))
+        :type map_of_map_property: dict[str, dict[str, str]]
         """
 
         self._map_of_map_property = map_of_map_property

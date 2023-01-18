@@ -70,8 +70,8 @@ val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
 The above constructor for each api allows the following to be customized
 - A custom context, so either a singleton request queue or different scope can be created - see
 https://developer.android.com/training/volley/requestqueue#singleton
-- An overrideable request queue - which in turn can have a custom http url stack passed to it
-- An overrideable request factory constructor call, or a request factory that can be overridden by a custom template, with
+- An overridable request queue - which in turn can have a custom http url stack passed to it
+- An overridable request factory constructor call, or a request factory that can be overridden by a custom template, with
 custom header factory, request post processors and custom gson adapters injected.
 
 #### Overriding request generation

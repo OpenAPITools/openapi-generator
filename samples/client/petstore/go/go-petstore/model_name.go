@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Name type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Name{}
+
 // Name Model for testing model name same as property name
 type Name struct {
 	Name int32 `json:"name"`
@@ -54,7 +57,7 @@ func (o *Name) GetName() int32 {
 // and a boolean to check if the value has been set.
 func (o *Name) GetNameOk() (*int32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Name, true
 }
@@ -77,7 +80,7 @@ func (o *Name) GetSnakeCase() int32 {
 // and a boolean to check if the value has been set.
 func (o *Name) GetSnakeCaseOk() (*int32, bool) {
 	if o == nil || isNil(o.SnakeCase) {
-    return nil, false
+		return nil, false
 	}
 	return o.SnakeCase, true
 }
@@ -109,7 +112,7 @@ func (o *Name) GetProperty() string {
 // and a boolean to check if the value has been set.
 func (o *Name) GetPropertyOk() (*string, bool) {
 	if o == nil || isNil(o.Property) {
-    return nil, false
+		return nil, false
 	}
 	return o.Property, true
 }
@@ -141,7 +144,7 @@ func (o *Name) GetVar123Number() int32 {
 // and a boolean to check if the value has been set.
 func (o *Name) GetVar123NumberOk() (*int32, bool) {
 	if o == nil || isNil(o.Var123Number) {
-    return nil, false
+		return nil, false
 	}
 	return o.Var123Number, true
 }
@@ -161,20 +164,22 @@ func (o *Name) SetVar123Number(v int32) {
 }
 
 func (o Name) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Name) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if !isNil(o.SnakeCase) {
-		toSerialize["snake_case"] = o.SnakeCase
-	}
+	toSerialize["name"] = o.Name
+	// skip: snake_case is readOnly
 	if !isNil(o.Property) {
 		toSerialize["property"] = o.Property
 	}
-	if !isNil(o.Var123Number) {
-		toSerialize["123Number"] = o.Var123Number
-	}
-	return json.Marshal(toSerialize)
+	// skip: 123Number is readOnly
+	return toSerialize, nil
 }
 
 type NullableName struct {

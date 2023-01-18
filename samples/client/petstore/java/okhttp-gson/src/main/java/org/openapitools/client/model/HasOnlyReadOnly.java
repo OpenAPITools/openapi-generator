@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -76,7 +74,6 @@ public class HasOnlyReadOnly {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -90,7 +87,6 @@ public class HasOnlyReadOnly {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getFoo() {
     return foo;
@@ -235,7 +231,7 @@ public class HasOnlyReadOnly {
            public void write(JsonWriter out, HasOnlyReadOnly value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

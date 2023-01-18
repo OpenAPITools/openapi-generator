@@ -352,7 +352,7 @@
     },
     "securitySchemes" : {
       "petstore_token" : {
-        "description" : "security definition for using keycloak authentification with control site.",
+        "description" : "security definition for using keycloak authentication with control site.",
         "flows" : {
           "authorizationCode" : {
             "authorizationUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/auth",

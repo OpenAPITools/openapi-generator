@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the SpecialModelName type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SpecialModelName{}
+
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
@@ -49,7 +52,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
 	if o == nil || isNil(o.SpecialPropertyName) {
-    return nil, false
+		return nil, false
 	}
 	return o.SpecialPropertyName, true
 }
@@ -69,11 +72,19 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 }
 
 func (o SpecialModelName) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o SpecialModelName) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.SpecialPropertyName) {
 		toSerialize["$special[property.name]"] = o.SpecialPropertyName
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableSpecialModelName struct {

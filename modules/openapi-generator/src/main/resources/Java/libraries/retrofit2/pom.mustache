@@ -380,7 +380,12 @@
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}

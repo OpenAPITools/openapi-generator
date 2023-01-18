@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the MapTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MapTest{}
+
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
@@ -55,7 +58,7 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || isNil(o.MapMapOfString) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapMapOfString, true
 }
@@ -87,7 +90,7 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
 	if o == nil || isNil(o.MapOfEnumString) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapOfEnumString, true
 }
@@ -119,7 +122,7 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 	if o == nil || isNil(o.DirectMap) {
-    return nil, false
+		return nil, false
 	}
 	return o.DirectMap, true
 }
@@ -151,7 +154,7 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 	if o == nil || isNil(o.IndirectMap) {
-    return nil, false
+		return nil, false
 	}
 	return o.IndirectMap, true
 }
@@ -171,6 +174,14 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 }
 
 func (o MapTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o MapTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.MapMapOfString) {
 		toSerialize["map_map_of_string"] = o.MapMapOfString
@@ -189,7 +200,7 @@ func (o MapTest) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *MapTest) UnmarshalJSON(bytes []byte) (err error) {

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -83,7 +81,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public UUID getUuid() {
     return uuid;
@@ -106,7 +103,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -137,7 +133,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return map
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Animal> getMap() {
     return map;

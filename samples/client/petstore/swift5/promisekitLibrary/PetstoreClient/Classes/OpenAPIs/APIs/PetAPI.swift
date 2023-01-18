@@ -250,7 +250,7 @@ open class PetAPI {
      - GET /pet/{petId}
      - Returns a single pet
      - API Key:
-       - type: apiKey api_key 
+       - type: apiKey api_key (HEADER)
        - name: api_key
      - parameter petId: (path) ID of pet to return 
      - returns: RequestBuilder<Pet> 

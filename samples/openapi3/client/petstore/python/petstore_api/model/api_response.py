@@ -80,7 +80,7 @@ class ApiResponse(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         code: typing.Union[MetaOapg.properties.code, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
@@ -89,7 +89,7 @@ class ApiResponse(
     ) -> 'ApiResponse':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             code=code,
             type=type,
             message=message,

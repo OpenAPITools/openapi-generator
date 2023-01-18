@@ -333,11 +333,9 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setName($name)
     {
-
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-
         $this->container['name'] = $name;
 
         return $this;
@@ -362,11 +360,9 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setSnakeCase($snake_case)
     {
-
         if (is_null($snake_case)) {
             throw new \InvalidArgumentException('non-nullable snake_case cannot be null');
         }
-
         $this->container['snake_case'] = $snake_case;
 
         return $this;
@@ -391,11 +387,9 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setProperty($property)
     {
-
         if (is_null($property)) {
             throw new \InvalidArgumentException('non-nullable property cannot be null');
         }
-
         $this->container['property'] = $property;
 
         return $this;
@@ -420,11 +414,9 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function set123Number($_123_number)
     {
-
         if (is_null($_123_number)) {
             throw new \InvalidArgumentException('non-nullable _123_number cannot be null');
         }
-
         $this->container['_123_number'] = $_123_number;
 
         return $this;

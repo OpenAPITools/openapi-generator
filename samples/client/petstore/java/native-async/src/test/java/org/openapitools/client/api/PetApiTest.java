@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -47,9 +48,9 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws ApiException {
-        Pet body = null;
+        Pet pet = null;
         
-        CompletableFuture<Void> response = api.addPet(body);
+        CompletableFuture<Void> response = api.addPet(pet);
         
         // TODO: test validations
     }
@@ -133,9 +134,9 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws ApiException {
-        Pet body = null;
+        Pet pet = null;
         
-        CompletableFuture<Void> response = api.updatePet(body);
+        CompletableFuture<Void> response = api.updatePet(pet);
         
         // TODO: test validations
     }
@@ -171,9 +172,9 @@ public class PetApiTest {
     public void uploadFileTest() throws ApiException {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
+        File _file = null;
         CompletableFuture<ModelApiResponse> response = 
-        api.uploadFile(petId, additionalMetadata, file);
+        api.uploadFile(petId, additionalMetadata, _file);
         
         // TODO: test validations
     }

@@ -103,6 +103,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift5ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, "false")
                 .put(Swift5ClientCodegen.RETURN_DATA_INSTEAD_OF_VOID, "false")
+                .put(Swift5ClientCodegen.VALIDATABLE, "true")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();

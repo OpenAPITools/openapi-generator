@@ -75,6 +75,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
     public static final String RETURN_DATA_INSTEAD_OF_VOID = "returnDataInsteadOfVoid";
+    public static final String VALIDATABLE = "validatable";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String LIBRARY_VAPOR = "vapor";
@@ -101,6 +102,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean mapFileBinaryToData = false;
     protected boolean useCustomDateWithoutTime = false;
     protected boolean returnDataInsteadOfVoid = false;
+    protected boolean validatable = true;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -321,6 +323,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(RETURN_DATA_INSTEAD_OF_VOID,
             "Generated APIs will return Data instead of Void. This is useful when following redirects where response data from redirected location would otherwise be discarded by mapping to Void. (default: false)")
             .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(VALIDATABLE,
+            "Make validation rules and validator for model properies (default: true)")
+            .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -550,6 +556,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(USE_CLASSES, useClasses);
 
+        if (additionalProperties.containsKey(VALIDATABLE)) {
+            setValidatable(convertPropertyToBooleanAndWriteBack(VALIDATABLE));
+        }
+        additionalProperties.put(VALIDATABLE, validatable);
+
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
@@ -608,6 +619,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
+        if (validatable) {
+            supportingFiles.add(new SupportingFile("Validation.mustache",
+            sourceFolder,
+            "Validation.swift"));
+        }
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
@@ -1010,6 +1026,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setUseJsonEncodable(boolean useJsonEncodable) {
         this.useJsonEncodable = useJsonEncodable;
+    }
+
+    public void setValidatable(boolean validatable) {
+        this.validatable = validatable;
     }
 
     @Override

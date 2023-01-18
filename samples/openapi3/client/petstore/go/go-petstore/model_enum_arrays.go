@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the EnumArrays type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EnumArrays{}
+
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
@@ -53,7 +56,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
 	if o == nil || isNil(o.JustSymbol) {
-    return nil, false
+		return nil, false
 	}
 	return o.JustSymbol, true
 }
@@ -85,7 +88,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 	if o == nil || isNil(o.ArrayEnum) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayEnum, true
 }
@@ -105,6 +108,14 @@ func (o *EnumArrays) SetArrayEnum(v []string) {
 }
 
 func (o EnumArrays) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.JustSymbol) {
 		toSerialize["just_symbol"] = o.JustSymbol
@@ -117,7 +128,7 @@ func (o EnumArrays) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *EnumArrays) UnmarshalJSON(bytes []byte) (err error) {

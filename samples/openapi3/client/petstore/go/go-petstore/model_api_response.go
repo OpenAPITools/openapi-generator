@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ApiResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ApiResponse{}
+
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
@@ -54,7 +57,7 @@ func (o *ApiResponse) GetCode() int32 {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetCodeOk() (*int32, bool) {
 	if o == nil || isNil(o.Code) {
-    return nil, false
+		return nil, false
 	}
 	return o.Code, true
 }
@@ -86,7 +89,7 @@ func (o *ApiResponse) GetType() string {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetTypeOk() (*string, bool) {
 	if o == nil || isNil(o.Type) {
-    return nil, false
+		return nil, false
 	}
 	return o.Type, true
 }
@@ -118,7 +121,7 @@ func (o *ApiResponse) GetMessage() string {
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetMessageOk() (*string, bool) {
 	if o == nil || isNil(o.Message) {
-    return nil, false
+		return nil, false
 	}
 	return o.Message, true
 }
@@ -138,6 +141,14 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Code) {
 		toSerialize["code"] = o.Code
@@ -153,7 +164,7 @@ func (o ApiResponse) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {

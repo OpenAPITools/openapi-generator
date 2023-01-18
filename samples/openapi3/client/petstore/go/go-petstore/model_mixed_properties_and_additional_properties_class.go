@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the MixedPropertiesAndAdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MixedPropertiesAndAdditionalPropertiesClass{}
+
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
@@ -55,7 +58,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool) {
 	if o == nil || isNil(o.Uuid) {
-    return nil, false
+		return nil, false
 	}
 	return o.Uuid, true
 }
@@ -87,7 +90,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || isNil(o.DateTime) {
-    return nil, false
+		return nil, false
 	}
 	return o.DateTime, true
 }
@@ -119,7 +122,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
 	if o == nil || isNil(o.Map) {
-    return nil, false
+		return nil, false
 	}
 	return o.Map, true
 }
@@ -139,6 +142,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 }
 
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Uuid) {
 		toSerialize["uuid"] = o.Uuid
@@ -154,7 +165,7 @@ func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, erro
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *MixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {

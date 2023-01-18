@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Whale type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Whale{}
+
 // Whale struct for Whale
 type Whale struct {
 	HasBaleen *bool `json:"hasBaleen,omitempty"`
@@ -55,7 +58,7 @@ func (o *Whale) GetHasBaleen() bool {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasBaleenOk() (*bool, bool) {
 	if o == nil || isNil(o.HasBaleen) {
-    return nil, false
+		return nil, false
 	}
 	return o.HasBaleen, true
 }
@@ -87,7 +90,7 @@ func (o *Whale) GetHasTeeth() bool {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasTeethOk() (*bool, bool) {
 	if o == nil || isNil(o.HasTeeth) {
-    return nil, false
+		return nil, false
 	}
 	return o.HasTeeth, true
 }
@@ -120,7 +123,7 @@ func (o *Whale) GetClassName() string {
 // and a boolean to check if the value has been set.
 func (o *Whale) GetClassNameOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.ClassName, true
 }
@@ -131,6 +134,14 @@ func (o *Whale) SetClassName(v string) {
 }
 
 func (o Whale) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Whale) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.HasBaleen) {
 		toSerialize["hasBaleen"] = o.HasBaleen
@@ -138,15 +149,13 @@ func (o Whale) MarshalJSON() ([]byte, error) {
 	if !isNil(o.HasTeeth) {
 		toSerialize["hasTeeth"] = o.HasTeeth
 	}
-	if true {
-		toSerialize["className"] = o.ClassName
-	}
+	toSerialize["className"] = o.ClassName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Whale) UnmarshalJSON(bytes []byte) (err error) {
