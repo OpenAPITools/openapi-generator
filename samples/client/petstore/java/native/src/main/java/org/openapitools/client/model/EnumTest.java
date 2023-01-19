@@ -43,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_ENUM_STRING,
   EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
   EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER_ONLY,
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER,
@@ -170,6 +171,44 @@ public class EnumTest {
   private EnumIntegerEnum enumInteger;
 
   /**
+   * Gets or Sets enumIntegerOnly
+   */
+  public enum EnumIntegerOnlyEnum {
+    NUMBER_2(2),
+    
+    NUMBER_MINUS_2(-2);
+
+    private Integer value;
+
+    EnumIntegerOnlyEnum(Integer value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumIntegerOnlyEnum fromValue(Integer value) {
+      for (EnumIntegerOnlyEnum b : EnumIntegerOnlyEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ENUM_INTEGER_ONLY = "enum_integer_only";
+  private EnumIntegerOnlyEnum enumIntegerOnly;
+
+  /**
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
@@ -294,6 +333,31 @@ public class EnumTest {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
+  }
+
+
+  public EnumTest enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+    this.enumIntegerOnly = enumIntegerOnly;
+    return this;
+  }
+
+   /**
+   * Get enumIntegerOnly
+   * @return enumIntegerOnly
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public EnumIntegerOnlyEnum getEnumIntegerOnly() {
+    return enumIntegerOnly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEnumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+    this.enumIntegerOnly = enumIntegerOnly;
   }
 
 
@@ -445,6 +509,7 @@ public class EnumTest {
     return Objects.equals(this.enumString, enumTest.enumString) &&
         Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
         Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumIntegerOnly, enumTest.enumIntegerOnly) &&
         Objects.equals(this.enumNumber, enumTest.enumNumber) &&
         equalsNullable(this.outerEnum, enumTest.outerEnum) &&
         Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
@@ -458,7 +523,7 @@ public class EnumTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, hashCodeNullable(outerEnum), outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumIntegerOnly, enumNumber, hashCodeNullable(outerEnum), outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -475,6 +540,7 @@ public class EnumTest {
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
+    sb.append("    enumIntegerOnly: ").append(toIndentedString(enumIntegerOnly)).append("\n");
     sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
     sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
     sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
@@ -540,6 +606,11 @@ public class EnumTest {
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
       joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_integer_only` to the URL query string
+    if (getEnumIntegerOnly() != null) {
+      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_number` to the URL query string
