@@ -338,7 +338,7 @@ public class {{classname}} {
 
     {{#hasQueryParams}}
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
-    {{javaUtilPrefix}}StringJoiner localVarQueryDeepObjectStringJoiner = new {{javaUtilPrefix}}StringJoiner("&");
+    {{javaUtilPrefix}}StringJoiner localVarQueryStringJoiner = new {{javaUtilPrefix}}StringJoiner("&");
     String localVarQueryParameterBaseName;
     {{#queryParams}}
     localVarQueryParameterBaseName = "{{{baseName}}}";
@@ -350,11 +350,11 @@ public class {{classname}} {
     if ({{paramName}} != null) {
             {{#isArray}}
       for (int i=0; i < {{paramName}}.size(); i++) {
-        localVarQueryDeepObjectStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
       }
             {{/isArray}}
             {{^isArray}}
-      localVarQueryDeepObjectStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
             {{/isArray}}
     }
         {{/isDeepObject}}
@@ -371,7 +371,12 @@ public class {{classname}} {
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString(null));
+                {{/isModel}}
+                {{^isModel}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                {{/isModel}}
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
@@ -381,11 +386,11 @@ public class {{classname}} {
       {{/collectionFormat}}
     {{/queryParams}}
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       {{javaUtilPrefix}}StringJoiner queryJoiner = new {{javaUtilPrefix}}StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {

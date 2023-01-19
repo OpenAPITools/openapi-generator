@@ -62,7 +62,7 @@ import com.google.gson.stream.JsonWriter;
     }
     {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
-{{#supportUrlQueryDeepObject}}
+{{#supportUrlQuery}}
 
   /**
    * Convert the instance into URL query string.
@@ -77,7 +77,7 @@ import com.google.gson.stream.JsonWriter;
 
     return String.format("%s=%s", prefix, this.toString());
   }
-{{/supportUrlQueryDeepObject}}
+{{/supportUrlQuery}}
 
 {{#gson}}
 

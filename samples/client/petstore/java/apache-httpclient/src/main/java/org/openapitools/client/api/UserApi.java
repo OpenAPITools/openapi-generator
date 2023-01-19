@@ -67,7 +67,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -95,7 +95,7 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -123,7 +123,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/createWithArray";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -151,7 +151,7 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -179,7 +179,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/createWithList";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -207,7 +207,7 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -236,7 +236,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -264,7 +264,7 @@ public class UserApi {
         "DELETE",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -294,7 +294,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -323,7 +323,7 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -358,7 +358,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/login";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -389,7 +389,7 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -411,7 +411,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/logout";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -439,7 +439,7 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -474,7 +474,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -502,7 +502,7 @@ public class UserApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

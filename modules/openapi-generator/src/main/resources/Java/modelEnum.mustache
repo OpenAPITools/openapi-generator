@@ -98,7 +98,7 @@ import com.google.gson.stream.JsonWriter;
     }
   }
 {{/jsonb}}
-{{#supportUrlQueryDeepObject}}
+{{#supportUrlQuery}}
 
   /**
    * Convert the instance into URL query string.
@@ -113,5 +113,5 @@ import com.google.gson.stream.JsonWriter;
 
     return String.format("%s=%s", prefix, this.toString());
   }
-{{/supportUrlQueryDeepObject}}
+{{/supportUrlQuery}}
 }

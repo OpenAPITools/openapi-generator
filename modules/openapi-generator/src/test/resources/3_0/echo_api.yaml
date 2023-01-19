@@ -137,6 +137,27 @@ paths:
             text/plain:
               schema:
                 type: string
+  /query/style_form/explode_true/object/allOf:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object/allOf
+      parameters:
+      - in: query
+        name: query_object
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/DataQuery'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/style_deepObject/explode_true/object:
     get:
       tags:
@@ -274,3 +295,38 @@ components:
           type: string
         color:
           type: string
+    Query:
+      type: object
+      x-parent: true
+      properties:
+        id:
+          type: integer
+          description: Query
+          format: int64
+        outcomes:
+          type: array
+          items:
+            type: string
+            enum:
+            - SUCCESS
+            - FAILURE
+            - SKIPPED
+          default:
+            - SUCCESS
+            - FAILURE
+    DataQuery:
+      allOf:
+      - type: object
+        properties:
+          suffix:
+            type: string
+            description: test suffix
+          text:
+            type: string
+            description: Some text containing white spaces
+            example: "Some text"
+          date:
+            type: string
+            format: date-time
+            description: A date
+      - $ref: '#/components/schemas/Query'

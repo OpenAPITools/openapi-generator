@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.DataQuery;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
@@ -143,7 +144,7 @@ public class QueryApi {
     String localVarPath = "/query/integer/boolean/string";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "integer_query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("integer_query", integerQuery));
@@ -152,11 +153,11 @@ public class QueryApi {
     localVarQueryParameterBaseName = "string_query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("string_query", stringQuery));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -237,18 +238,18 @@ public class QueryApi {
     String localVarPath = "/query/style_deepObject/explode_true/object";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryDeepObjectStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
     }
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -329,18 +330,18 @@ public class QueryApi {
     String localVarPath = "/query/style_deepObject/explode_true/object/allOf";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryDeepObjectStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
     }
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -421,16 +422,16 @@ public class QueryApi {
     String localVarPath = "/query/style_form/explode_true/array_string";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "values", queryObject.getValues()));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -511,7 +512,7 @@ public class QueryApi {
     String localVarPath = "/query/style_form/explode_true/object";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("id", queryObject.getId()));
@@ -521,11 +522,101 @@ public class QueryApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "tags", queryObject.getTags()));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("status", queryObject.getStatus()));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "text/plain");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws ApiException {
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery queryObject) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testQueryStyleFormExplodeTrueObjectAllOfRequestBuilder(queryObject);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testQueryStyleFormExplodeTrueObjectAllOf", localVarResponse);
+        }
+        // for plain text response
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testQueryStyleFormExplodeTrueObjectAllOfRequestBuilder(DataQuery queryObject) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/query/style_form/explode_true/object/allOf";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "query_object";
+    localVarQueryStringJoiner.add(queryObject.toUrlQueryString(null));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {

@@ -69,7 +69,7 @@ public class PetApi {
     // create path and map variables
     String localVarPath = "/pet";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -97,7 +97,7 @@ public class PetApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -127,7 +127,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -157,7 +157,7 @@ public class PetApi {
         "DELETE",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -186,7 +186,7 @@ public class PetApi {
     // create path and map variables
     String localVarPath = "/pet/findByStatus";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -216,7 +216,7 @@ public class PetApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -247,7 +247,7 @@ public class PetApi {
     // create path and map variables
     String localVarPath = "/pet/findByTags";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -277,7 +277,7 @@ public class PetApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -307,7 +307,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -336,7 +336,7 @@ public class PetApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -364,7 +364,7 @@ public class PetApi {
     // create path and map variables
     String localVarPath = "/pet";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -392,7 +392,7 @@ public class PetApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -423,7 +423,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -455,7 +455,7 @@ if (status != null)
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -487,7 +487,7 @@ if (status != null)
     String localVarPath = "/pet/{petId}/uploadImage"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -520,7 +520,7 @@ if (_file != null)
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -557,7 +557,7 @@ if (_file != null)
     String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -590,7 +590,7 @@ if (requiredFile != null)
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

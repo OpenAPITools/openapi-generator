@@ -72,7 +72,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/health";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -101,7 +101,7 @@ public class FakeApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -131,7 +131,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/http-signature-test";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -162,7 +162,7 @@ public class FakeApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -186,7 +186,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/outer/boolean";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -215,7 +215,7 @@ public class FakeApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -239,7 +239,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -268,7 +268,7 @@ public class FakeApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -292,7 +292,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/outer/number";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -321,7 +321,7 @@ public class FakeApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -345,7 +345,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/outer/string";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -374,7 +374,7 @@ public class FakeApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -403,7 +403,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/property/enum-int";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -432,7 +432,7 @@ public class FakeApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -460,7 +460,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/body-with-binary";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -488,7 +488,7 @@ public class FakeApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -516,7 +516,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/body-with-file-schema";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -544,7 +544,7 @@ public class FakeApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -578,7 +578,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake/body-with-query-params";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -607,7 +607,7 @@ public class FakeApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -636,7 +636,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -665,7 +665,7 @@ public class FakeApi {
         "PATCH",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -721,7 +721,7 @@ public class FakeApi {
     // create path and map variables
     String localVarPath = "/fake";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -777,7 +777,7 @@ if (paramCallback != null)
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -808,7 +808,7 @@ if (paramCallback != null)
     // create path and map variables
     String localVarPath = "/fake";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -849,7 +849,7 @@ if (enumFormString != null)
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -892,7 +892,7 @@ if (enumFormString != null)
     // create path and map variables
     String localVarPath = "/fake";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -928,7 +928,7 @@ if (booleanGroup != null)
         "DELETE",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -956,7 +956,7 @@ if (booleanGroup != null)
     // create path and map variables
     String localVarPath = "/fake/inline-additionalProperties";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -984,7 +984,7 @@ if (booleanGroup != null)
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -1018,7 +1018,7 @@ if (booleanGroup != null)
     // create path and map variables
     String localVarPath = "/fake/jsonFormData";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1050,7 +1050,7 @@ if (param2 != null)
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -1109,7 +1109,7 @@ if (param2 != null)
     // create path and map variables
     String localVarPath = "/fake/test-query-parameters";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1144,7 +1144,7 @@ if (param2 != null)
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

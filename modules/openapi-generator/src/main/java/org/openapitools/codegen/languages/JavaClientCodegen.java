@@ -428,10 +428,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // add URL query deepObject support to native, apache-httpclient by default
-        if (!additionalProperties.containsKey("supportUrlQueryDeepObject") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
-            additionalProperties.put("supportUrlQueryDeepObject", true);
+        if (!additionalProperties.containsKey("supportUrlQuery") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
+            additionalProperties.put("supportUrlQuery", true);
         } else {
-            additionalProperties.put("supportUrlQueryDeepObject", Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+            additionalProperties.put("supportUrlQuery", Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");

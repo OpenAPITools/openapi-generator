@@ -336,7 +336,16 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     }
     return o.toString().replace("\n", "\n    ");
   }
-{{#supportUrlQueryDeepObject}}
+{{#supportUrlQuery}}
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
 
   /**
    * Convert the instance into URL query string.
@@ -345,10 +354,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     {{#allVars}}
     // add `{{baseName}}` to the URL query string
     {{#isArray}}
@@ -358,7 +379,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       int i = 0;
       for ({{items.dataType}} _item : {{getter}}()) {
         try {
-          joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
           throw new RuntimeException(e);
@@ -371,7 +394,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (int i = 0; i < {{getter}}().size(); i++) {
         try {
-          joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
           throw new RuntimeException(e);
@@ -387,7 +412,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       int i = 0;
       for ({{items.dataType}} _item : {{getter}}()) {
         if ({{getter}}().get(i) != null) {
-          joiner.add(_item.toUrlQueryString(String.format("%s[{{baseName}}][%d]", prefix, i)));
+          joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
       i++;
@@ -397,7 +423,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (int i = 0; i < {{getter}}().size(); i++) {
         if ({{getter}}().get(i) != null) {
-          joiner.add({{getter}}().get(i).toUrlQueryString(String.format("%s[{{baseName}}][%d]", prefix, i)));
+          joiner.add({{getter}}().get(i).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
@@ -410,7 +437,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{items.dataType}} _item : {{getter}}()) {
         if (_item != null) {
           try {
-            joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix)),
+                URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20"));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
             throw new RuntimeException(e);
@@ -425,7 +454,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < {{getter}}().size(); i++) {
         if ({{getter}}().get(i) != null) {
           try {
-            joiner.add(String.format("%s[{{baseName}}][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
             throw new RuntimeException(e);
@@ -443,7 +474,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         try {
-          joiner.add(String.format("%s[{{baseName}}][%s]=%s", prefix, {{getter}}().get(_key), URLEncoder.encode(String.valueOf({{getter}}().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+              {{getter}}().get(_key), URLEncoder.encode(String.valueOf({{getter}}().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
           throw new RuntimeException(e);
@@ -455,7 +488,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         if ({{getter}}().get(_key) != null) {
-          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s[{{baseName}}][%s]", prefix, _key)));
+          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }
@@ -465,7 +499,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#isPrimitiveType}}
     if ({{getter}}() != null) {
       try {
-        joiner.add(String.format("%s[{{{baseName}}}]=%s", prefix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -475,13 +509,13 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isPrimitiveType}}
     {{#isModel}}
     if ({{getter}}() != null) {
-      joiner.add({{getter}}().toUrlQueryString(prefix + "[{{{baseName}}}]"));
+      joiner.add({{getter}}().toUrlQueryString(prefix + "{{{baseName}}}" + suffix));
     }
     {{/isModel}}
     {{^isModel}}
     if ({{getter}}() != null) {
       try {
-        joiner.add(String.format("%s[{{{baseName}}}]=%s", prefix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -491,10 +525,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isPrimitiveType}}
     {{/isMap}}
     {{/isArray}}
+
     {{/allVars}}
     return joiner.toString();
   }
-{{/supportUrlQueryDeepObject}}
+{{/supportUrlQuery}}
 {{#parcelableModel}}
 
   public void writeToParcel(Parcel out, int flags) {

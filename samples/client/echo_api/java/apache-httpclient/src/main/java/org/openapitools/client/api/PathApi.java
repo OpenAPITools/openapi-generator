@@ -74,7 +74,7 @@ public class PathApi {
       .replaceAll("\\{" + "path_string" + "\\}", apiClient.escapeString(pathString.toString()))
       .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(pathInteger.toString()));
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -103,7 +103,7 @@ public class PathApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
