@@ -241,16 +241,16 @@ public class FakeApi {
     String localVarPath = "/fake/http-signature-test";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_1";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("query_1", query1));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -983,16 +983,16 @@ public class FakeApi {
     String localVarPath = "/fake/body-with-query-params";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("query", query));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -1306,7 +1306,7 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "enum_query_string_array";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
@@ -1319,11 +1319,11 @@ public class FakeApi {
     localVarQueryParameterBaseName = "enum_query_model_array";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "enum_query_model_array", enumQueryModelArray));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -1464,7 +1464,7 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "required_string_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("required_string_group", requiredStringGroup));
@@ -1475,11 +1475,11 @@ public class FakeApi {
     localVarQueryParameterBaseName = "int64_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("int64_group", int64Group));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -1843,7 +1843,7 @@ public class FakeApi {
     String localVarPath = "/fake/test-query-parameters";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "pipe";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("pipes", "pipe", pipe));
@@ -1860,11 +1860,11 @@ public class FakeApi {
     localVarQueryParameterBaseName = "allowEmpty";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("allowEmpty", allowEmpty));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryDeepObjectStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryDeepObjectStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryDeepObjectStringJoiner.toString());
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
       }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {

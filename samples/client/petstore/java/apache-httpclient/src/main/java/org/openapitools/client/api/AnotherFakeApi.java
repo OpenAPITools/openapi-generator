@@ -67,7 +67,7 @@ public class AnotherFakeApi {
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
 
-    StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -96,7 +96,7 @@ public class AnotherFakeApi {
         "PATCH",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

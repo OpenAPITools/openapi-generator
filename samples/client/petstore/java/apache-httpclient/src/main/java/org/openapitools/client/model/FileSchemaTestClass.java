@@ -149,26 +149,50 @@ public class FileSchemaTestClass {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     // add `file` to the URL query string
     if (getFile() != null) {
-      joiner.add(getFile().toUrlQueryString(prefix + "[file]"));
+      joiner.add(getFile().toUrlQueryString(prefix + "file" + suffix));
     }
+
     // add `files` to the URL query string
     if (getFiles() != null) {
       for (int i = 0; i < getFiles().size(); i++) {
         if (getFiles().get(i) != null) {
-          joiner.add(getFiles().get(i).toUrlQueryString(String.format("%s[files][%d]", prefix, i)));
+          joiner.add(getFiles().get(i).toUrlQueryString(String.format("%sfiles%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
+
     return joiner.toString();
   }
 
