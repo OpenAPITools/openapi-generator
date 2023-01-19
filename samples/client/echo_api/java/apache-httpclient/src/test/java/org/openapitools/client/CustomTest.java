@@ -97,6 +97,24 @@ public class CustomTest {
      * @throws ApiException if the Api call fails
      */
     @Test
+    public void testQueryStyleFormExplodeTrueObjectAllOfTest() throws ApiException {
+        DataQuery queryObject = new DataQuery().text("Hello World");
+        queryObject.setId(3487L);
+        queryObject.setOutcomes(Arrays.asList(Query.OutcomesEnum.SKIPPED, Query.OutcomesEnum.FAILURE));
+
+        String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/query/style_form/explode_true/object/allOf?text=Hello%20World&id=3487&outcomes=SKIPPED&outcomes=FAILURE", p.path);
+    }
+
+    /**
+     * Test query parameter(s)
+     * <p>
+     * Test query parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
     public void testQueryStyleFormExplodeTrueArrayString() throws ApiException {
         TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter q = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()
                 .values(Arrays.asList(new String[]{"hello world 1", "hello world 2"}));
