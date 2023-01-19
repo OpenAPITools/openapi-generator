@@ -9,6 +9,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
+| [**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 
 
 <a name="testQueryIntegerBooleanString"></a>
@@ -306,6 +307,68 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **queryObject** | [**Pet**](.md)|  | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+<a name="testQueryStyleFormExplodeTrueObjectAllOf"></a>
+# **testQueryStyleFormExplodeTrueObjectAllOf**
+> String testQueryStyleFormExplodeTrueObjectAllOf(queryObject)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost:3000");
+
+    QueryApi apiInstance = new QueryApi(defaultClient);
+    DataQuery queryObject = new DataQuery(); // DataQuery | 
+    try {
+      String result = apiInstance.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeTrueObjectAllOf");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **queryObject** | [**DataQuery**](.md)|  | [optional] |
 
 ### Return type
 

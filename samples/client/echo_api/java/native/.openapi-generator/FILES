@@ -8,8 +8,11 @@ build.sbt
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
+docs/DataQuery.md
+docs/DataQueryAllOf.md
 docs/PathApi.md
 docs/Pet.md
+docs/Query.md
 docs/QueryApi.md
 docs/Tag.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
@@ -38,7 +41,10 @@ src/main/java/org/openapitools/client/api/QueryApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/Bird.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/DataQuery.java
+src/main/java/org/openapitools/client/model/DataQueryAllOf.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/Query.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java

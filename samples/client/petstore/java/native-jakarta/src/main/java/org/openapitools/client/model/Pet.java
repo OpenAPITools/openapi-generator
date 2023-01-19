@@ -321,35 +321,56 @@ public class Pet {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%s[id]=%s", prefix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `category` to the URL query string
     if (getCategory() != null) {
-      joiner.add(getCategory().toUrlQueryString(prefix + "[category]"));
+      joiner.add(getCategory().toUrlQueryString(prefix + "category" + suffix));
     }
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%s[name]=%s", prefix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `photoUrls` to the URL query string
     if (getPhotoUrls() != null) {
       for (int i = 0; i < getPhotoUrls().size(); i++) {
-        joiner.add(String.format("%s[photoUrls][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getPhotoUrls().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sphotoUrls%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getPhotoUrls().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -357,14 +378,15 @@ public class Pet {
     if (getTags() != null) {
       for (int i = 0; i < getTags().size(); i++) {
         if (getTags().get(i) != null) {
-          joiner.add(getTags().get(i).toUrlQueryString(String.format("%s[tags][%d]", prefix, i)));
+          joiner.add(getTags().get(i).toUrlQueryString(String.format("%stags%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
     // add `status` to the URL query string
     if (getStatus() != null) {
-      joiner.add(String.format("%s[status]=%s", prefix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

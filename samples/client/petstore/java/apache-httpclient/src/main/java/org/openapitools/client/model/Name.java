@@ -190,50 +190,75 @@ public class Name {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     // add `name` to the URL query string
     if (getName() != null) {
       try {
-        joiner.add(String.format("%s[name]=%s", prefix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
       try {
-        joiner.add(String.format("%s[snake_case]=%s", prefix, URLEncoder.encode(String.valueOf(getSnakeCase()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSnakeCase()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `property` to the URL query string
     if (getProperty() != null) {
       try {
-        joiner.add(String.format("%s[property]=%s", prefix, URLEncoder.encode(String.valueOf(getProperty()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sproperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProperty()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `123Number` to the URL query string
     if (get123number() != null) {
       try {
-        joiner.add(String.format("%s[123Number]=%s", prefix, URLEncoder.encode(String.valueOf(get123number()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%s123Number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123number()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     return joiner.toString();
   }
 
