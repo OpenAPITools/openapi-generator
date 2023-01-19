@@ -236,13 +236,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     if (getMap() != null) {
       for (String _key : getMap().keySet()) {
         if (getMap().get(_key) != null) {
-          try {
-            joiner.add(getMap().get(_key).toUrlQueryString(String.format("%smap%s%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
-          } catch (UnsupportedEncodingException e) {
-            // Should never happen, UTF-8 is always supported
-            throw new RuntimeException(e);
-          }
+          joiner.add(getMap().get(_key).toUrlQueryString(String.format("%smap%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }

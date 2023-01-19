@@ -488,13 +488,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         if ({{getter}}().get(_key) != null) {
-          try {
-            joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
-          } catch (UnsupportedEncodingException e) {
-            // Should never happen, UTF-8 is always supported
-            throw new RuntimeException(e);
-          }
+          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }
