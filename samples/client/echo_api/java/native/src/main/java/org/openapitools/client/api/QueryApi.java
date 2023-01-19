@@ -610,7 +610,7 @@ public class QueryApi {
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
-    localVarQueryStringJoiner.add(queryObject.toUrlQueryString(null));
+    localVarQueryStringJoiner.add(queryObject.toUrlQueryString());
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
