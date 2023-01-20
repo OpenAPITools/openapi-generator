@@ -310,6 +310,7 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>

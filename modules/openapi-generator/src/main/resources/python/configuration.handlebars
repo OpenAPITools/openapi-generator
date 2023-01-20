@@ -162,17 +162,30 @@ conf = {{{packageName}}}.Configuration(
 
     _default = None
 
-    def __init__(self, host=None,
-                 api_key=None, api_key_prefix=None,
-                 username=None, password=None,
-                 discard_unknown_keys=False,
-                 disabled_client_side_validations="",
-{{#if hasHttpSignatureMethods}}
-                 signing_info=None,
+    def __init__(
+        self,
+        host=None,
+{{#if hasApiKeyMethods}}
+        api_key=None,
+        api_key_prefix=None,
 {{/if}}
-                 server_index=None, server_variables=None,
-                 server_operation_index=None, server_operation_variables=None,
-                 ):
+{{#if hasHttpBasicMethods}}
+        username=None,
+        password=None,
+{{/if}}
+        discard_unknown_keys=False,
+        disabled_client_side_validations="",
+{{#if hasHttpSignatureMethods}}
+        signing_info=None,
+{{/if}}
+        server_index=None,
+        server_variables=None,
+        server_operation_index=None,
+        server_operation_variables=None,
+{{#or hasOAuthMethods hasBearerMethods}}
+        access_token=None,
+{{/or}}
+    ):
         """Constructor
         """
         self._base_path = "{{{basePath}}}" if host is None else host
@@ -190,6 +203,7 @@ conf = {{{packageName}}}.Configuration(
         """Temp file folder for downloading files
         """
         # Authentication Settings
+{{#if hasApiKeyMethods}}
         self.api_key = {}
         if api_key:
             self.api_key = api_key
@@ -203,6 +217,8 @@ conf = {{{packageName}}}.Configuration(
         self.refresh_api_key_hook = None
         """function hook to refresh API key if expired
         """
+{{/if}}
+{{#if hasHttpBasicMethods}}
         self.username = username
         """Username for HTTP basic authentication
         """
@@ -210,6 +226,7 @@ conf = {{{packageName}}}.Configuration(
         """Password for HTTP basic authentication
         """
         self.discard_unknown_keys = discard_unknown_keys
+{{/if}}
         self.disabled_client_side_validations = disabled_client_side_validations
 {{#if hasHttpSignatureMethods}}
         if signing_info is not None:
@@ -218,18 +235,11 @@ conf = {{{packageName}}}.Configuration(
         """The HTTP signing configuration
         """
 {{/if}}
-{{#if hasOAuthMethods}}
+{{#or hasOAuthMethods hasBearerMethods}}
         self.access_token = None
         """access token for OAuth/Bearer
         """
-{{/if}}
-{{#unless hasOAuthMethods}}
-{{#if hasBearerMethods}}
-        self.access_token = None
-        """access token for OAuth/Bearer
-        """
-{{/if}}
-{{/unless}}
+{{/or}}
         self.logger = {}
         """Logging Settings
         """

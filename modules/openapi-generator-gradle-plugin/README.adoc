@@ -1,8 +1,8 @@
 = OpenAPI Generator Gradle Plugin
 
-This document describes the gradle plugin for OpenAPI Generator.
+This document describes the Gradle plugin for OpenAPI Generator.
 
-This gradle plugin offers a declarative DSL via _extensions_ (these are Gradle project extensions).
+This Gradle plugin offers a declarative DSL via _extensions_ (these are Gradle project extensions).
 These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugin. The plugin maps the extensions to a task of the same name to provide a clean API. If you're interested in the extension/task mapping concept from a high-level, you can https://docs.gradle.org/current/userguide/custom_plugins.html#sec:mapping_extension_properties_to_task_properties[check out Gradle's docs].
 
 == Tasks
@@ -37,7 +37,7 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
-All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your Gradle file, you may have multiple tasks.
 
 .One Extension, multiple tasks
 [source,groovy]
@@ -378,6 +378,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |mustache
 |Templating engine: "mustache" (default) or "handlebars" (beta)
+
+|cleanupOutput
+|Boolean
+|false
+|Defines whether the output directory should be cleaned up before generating the output.
 |===
 
 [NOTE]

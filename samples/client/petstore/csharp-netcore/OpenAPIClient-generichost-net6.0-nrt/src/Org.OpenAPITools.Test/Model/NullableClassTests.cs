@@ -18,7 +18,6 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,20 +56,36 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'IntegerProp'
+        /// Test the property 'ArrayItemsNullable'
         /// </summary>
         [Fact]
-        public void IntegerPropTest()
+        public void ArrayItemsNullableTest()
         {
-            // TODO unit test for the property 'IntegerProp'
+            // TODO unit test for the property 'ArrayItemsNullable'
         }
         /// <summary>
-        /// Test the property 'NumberProp'
+        /// Test the property 'ObjectItemsNullable'
         /// </summary>
         [Fact]
-        public void NumberPropTest()
+        public void ObjectItemsNullableTest()
         {
-            // TODO unit test for the property 'NumberProp'
+            // TODO unit test for the property 'ObjectItemsNullable'
+        }
+        /// <summary>
+        /// Test the property 'ArrayAndItemsNullableProp'
+        /// </summary>
+        [Fact]
+        public void ArrayAndItemsNullablePropTest()
+        {
+            // TODO unit test for the property 'ArrayAndItemsNullableProp'
+        }
+        /// <summary>
+        /// Test the property 'ArrayNullableProp'
+        /// </summary>
+        [Fact]
+        public void ArrayNullablePropTest()
+        {
+            // TODO unit test for the property 'ArrayNullableProp'
         }
         /// <summary>
         /// Test the property 'BooleanProp'
@@ -79,14 +94,6 @@ namespace Org.OpenAPITools.Test.Model
         public void BooleanPropTest()
         {
             // TODO unit test for the property 'BooleanProp'
-        }
-        /// <summary>
-        /// Test the property 'StringProp'
-        /// </summary>
-        [Fact]
-        public void StringPropTest()
-        {
-            // TODO unit test for the property 'StringProp'
         }
         /// <summary>
         /// Test the property 'DateProp'
@@ -105,36 +112,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'DatetimeProp'
         }
         /// <summary>
-        /// Test the property 'ArrayNullableProp'
+        /// Test the property 'IntegerProp'
         /// </summary>
         [Fact]
-        public void ArrayNullablePropTest()
+        public void IntegerPropTest()
         {
-            // TODO unit test for the property 'ArrayNullableProp'
+            // TODO unit test for the property 'IntegerProp'
         }
         /// <summary>
-        /// Test the property 'ArrayAndItemsNullableProp'
+        /// Test the property 'NumberProp'
         /// </summary>
         [Fact]
-        public void ArrayAndItemsNullablePropTest()
+        public void NumberPropTest()
         {
-            // TODO unit test for the property 'ArrayAndItemsNullableProp'
-        }
-        /// <summary>
-        /// Test the property 'ArrayItemsNullable'
-        /// </summary>
-        [Fact]
-        public void ArrayItemsNullableTest()
-        {
-            // TODO unit test for the property 'ArrayItemsNullable'
-        }
-        /// <summary>
-        /// Test the property 'ObjectNullableProp'
-        /// </summary>
-        [Fact]
-        public void ObjectNullablePropTest()
-        {
-            // TODO unit test for the property 'ObjectNullableProp'
+            // TODO unit test for the property 'NumberProp'
         }
         /// <summary>
         /// Test the property 'ObjectAndItemsNullableProp'
@@ -145,12 +136,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'ObjectAndItemsNullableProp'
         }
         /// <summary>
-        /// Test the property 'ObjectItemsNullable'
+        /// Test the property 'ObjectNullableProp'
         /// </summary>
         [Fact]
-        public void ObjectItemsNullableTest()
+        public void ObjectNullablePropTest()
         {
-            // TODO unit test for the property 'ObjectItemsNullable'
+            // TODO unit test for the property 'ObjectNullableProp'
+        }
+        /// <summary>
+        /// Test the property 'StringProp'
+        /// </summary>
+        [Fact]
+        public void StringPropTest()
+        {
+            // TODO unit test for the property 'StringProp'
         }
 
     }

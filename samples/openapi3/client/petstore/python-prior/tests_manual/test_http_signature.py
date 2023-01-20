@@ -19,6 +19,7 @@ import os
 import re
 import shutil
 import unittest
+from pathlib import Path
 from urllib.parse import urlencode, urlparse
 
 from Crypto.Hash import SHA256, SHA512
@@ -205,7 +206,7 @@ class PetApiTests(unittest.TestCase):
             cls.ec_p521_key_path,
         ]
         for file_path in file_paths:
-            os.unlink(file_path)
+            Path(file_path).unlink()
 
     @classmethod
     def setUpModels(cls):
@@ -226,22 +227,19 @@ class PetApiTests(unittest.TestCase):
 
     @classmethod
     def setUpFiles(cls):
-        cls.test_file_dir = os.path.join(
-            os.path.dirname(__file__), "..", "testfiles")
-        cls.test_file_dir = os.path.realpath(cls.test_file_dir)
-        if not os.path.exists(cls.test_file_dir):
-            os.mkdir(cls.test_file_dir)
+        cls.test_file_dir = Path(__file__, "..", "..", "testfiles").resolve()
+        cls.test_file_dir.mkdir(exist_ok=True)
 
-        cls.private_key_passphrase = 'test-passphrase'
-        cls.rsa_key_path = os.path.join(cls.test_file_dir, 'rsa.pem')
-        cls.rsa4096_key_path = os.path.join(cls.test_file_dir, 'rsa4096.pem')
-        cls.ec_p521_key_path = os.path.join(cls.test_file_dir, 'ecP521.pem')
+        cls.private_key_passphrase = "test-passphrase"
+        cls.rsa_key_path = cls.test_file_dir / "rsa.pem"
+        cls.rsa4096_key_path = cls.test_file_dir / "rsa4096.pem"
+        cls.ec_p521_key_path = cls.test_file_dir / "ecP521.pem"
 
-        if not os.path.exists(cls.rsa_key_path):
+        if not cls.rsa_key_path.exists():
             with open(cls.rsa_key_path, 'w') as f:
                 f.write(RSA_TEST_PRIVATE_KEY)
 
-        if not os.path.exists(cls.rsa4096_key_path):
+        if not cls.rsa4096_key_path.exists():
             key = RSA.generate(4096)
             private_key = key.export_key(
                 passphrase=cls.private_key_passphrase,
@@ -250,7 +248,7 @@ class PetApiTests(unittest.TestCase):
             with open(cls.rsa4096_key_path, "wb") as f:
                 f.write(private_key)
 
-        if not os.path.exists(cls.ec_p521_key_path):
+        if not cls.ec_p521_key_path.exists():
             key = ECC.generate(curve='P-521')
             private_key = key.export_key(
                 format='PEM',

@@ -59,8 +59,8 @@ public class PythonClientTest {
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
 
-    @Test
-    public void testSpecWithTooLowVersionThrowsException() throws RuntimeException {
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testSpecWithTooLowVersionThrowsException() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml");
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.preprocessOpenAPI(openAPI);
@@ -223,5 +223,40 @@ public class PythonClientTest {
         Assert.assertEquals(enumVars.size(), 2);
         Assert.assertEquals(enumVars.get(0).get("name"), "DIGIT_THREE_67B9C");
         Assert.assertEquals(enumVars.get(1).get("name"), "FFA5A4");
+    }
+
+    @Test(description = "format imports of models using a package containing dots")
+    public void testImportWithQualifiedPackageName() throws Exception {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setPackageName("openapi.client");
+
+        String importValue = codegen.toModelImport("model_name");
+        Assert.assertEquals(importValue, "from openapi.client.model.model_name import ModelName");
+    }
+
+    @Test
+    public void testIdenticalSchemasHaveDifferentBasenames() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        Schema objSchema = new Schema();
+        objSchema.setType("object");
+        Schema addProp = new Schema();
+        addProp.setType("object");
+        objSchema.setAdditionalProperties(addProp);
+
+        Schema arraySchema = new ArraySchema();
+        Schema items = new Schema();
+        items.setType("object");
+        arraySchema.setItems(items);
+
+        CodegenProperty objSchemaProp = codegen.fromProperty("objSchemaProp", objSchema, false, false);
+        CodegenProperty arraySchemaProp = codegen.fromProperty("arraySchemaProp", arraySchema, false, false);
+        Assert.assertEquals(objSchemaProp.getAdditionalProperties().baseName, "additional_properties");
+        Assert.assertEquals(arraySchemaProp.getItems().baseName, "items");
+
+        CodegenModel objSchemaModel = codegen.fromModel("objSchemaModel", objSchema);
+        CodegenModel arraySchemaModel = codegen.fromModel("arraySchemaModel", arraySchema);
+        Assert.assertEquals(objSchemaModel.getAdditionalProperties().baseName, "additional_properties");
+        Assert.assertEquals(arraySchemaModel.getItems().baseName, "items");
     }
 }

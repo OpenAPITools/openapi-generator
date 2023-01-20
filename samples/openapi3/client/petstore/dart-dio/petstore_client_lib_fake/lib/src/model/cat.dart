@@ -18,14 +18,12 @@ part 'cat.g.dart';
 /// * [declawed] 
 @BuiltValue()
 abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
-  static const String discriminatorFieldName = r'className';
-
   Cat._();
 
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)

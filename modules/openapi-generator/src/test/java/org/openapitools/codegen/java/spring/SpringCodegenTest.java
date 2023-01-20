@@ -25,10 +25,12 @@ import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -594,7 +596,7 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker")
+                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
                 .hasParameter("status").withType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
@@ -607,7 +609,47 @@ public class SpringCodegenTest {
                 .toParameter().toMethod()
                 .hasParameter("marker").withType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"marker\"", "required", "false"));
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
+                .toParameter().toMethod()
+                .hasParameter("statusArray").withType("List<MultipartMixedStatus>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+    }
+
+    @Test
+    public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_14418.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(SpringCodegen.IMPLICIT_HEADERS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+            .isInterface()
+            .hasImports("io.swagger.v3.oas.annotations.enums.ParameterIn")
+            .assertMethod("test")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("Parameters", ImmutableMap.of(
+                "value", "{ @Parameter(name = \"testHeader\", description = \"Test header\", required = true, in = ParameterIn.HEADER) }"
+                // in = ParameterIn.HEADER is missing?!
+            ));
     }
 
     // Helper function, intended to reduce boilerplate
@@ -1243,6 +1285,48 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldGenerateExternalDocs() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .printFileContent()
+            .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
+            .assertMethod("updatePet")
+            .assertMethodAnnotations()
+            .containsWithName("Operation")
+            .containsWithNameAndAttributes("Operation",
+                ImmutableMap.of(
+                    "operationId", "\"updatePet\"",
+                    //"security", "{ @SecurityRequirement(name = \"petstore_auth\", scopes = { \"write:pets\", \"read:pets\" }) }",
+                    "externalDocs", "@ExternalDocumentation(description = \"API documentation for the updatePet operation\", url = \"http://petstore.swagger.io/v2/doc/updatePet\")"
+                )
+                );
+    }
+
+    @Test
     public void testHandleDefaultValue_issue8535() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
@@ -1355,6 +1439,35 @@ public class SpringCodegenTest {
                 .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
+    }
+
+    @Test
+    public void paramObjectImportForDifferentSpringBootVersions_issue14077() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .hasImports("org.springdoc.api.annotations.ParameterObject")
+            .assertMethod("findPetsByStatus")
+            .hasParameter("pageable").withType("Pageable")
+            .assertParameterAnnotations()
+            .containsWithName("ParameterObject");
+
+
+        // different import for SB3
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+        files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .hasImports("org.springdoc.core.annotations.ParameterObject")
+            .assertMethod("findPetsByStatus")
+            .hasParameter("pageable").withType("Pageable")
+            .assertParameterAnnotations()
+            .containsWithName("ParameterObject");
     }
 
     @Test
@@ -1501,14 +1614,47 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent().assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
                                 !annotation.getNameAsString().equals("Pattern") ||
                                 !annotation.getNameAsString().equals("Email") ||
                                 !annotation.getNameAsString().equals("Size"));
+        javaFileAssert.hasImports("javax.validation.constraints.NotNull");
+    }
 
+    @Test
+    public void requiredFieldShouldIncludeNotNullAnnotationJakarta_issue13365_issue13885() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, "false");
+        codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
+        codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
+
+        //Assert that NotNull annotation exists alone with no other BeanValidation annotations
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+                .containsWithName("NotNull").anyMatch(annotation ->
+                        !annotation.getNameAsString().equals("Valid") ||
+                                !annotation.getNameAsString().equals("Pattern") ||
+                                !annotation.getNameAsString().equals("Email") ||
+                                !annotation.getNameAsString().equals("Size"));
+        javaFileAssert.hasImports("jakarta.validation.constraints.NotNull");
     }
 
     @Test
@@ -1517,8 +1663,8 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
-        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
         codegen.additionalProperties().put(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, "false");
         codegen.additionalProperties().put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false");
@@ -1529,9 +1675,30 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert.assertThat(files.get("Alien.java"))
-                .printFileContent().assertMethod("getName")
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
+        javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
+    }
+
+    @Test
+    public void requiredFieldShouldIncludeNotNullAnnotationWithBeanValidationTrue_issue14252() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
+
+        JavaFileAssert.assertThat(files.get("MyResponse.java"))
+            .printFileContent()
+            .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
+            .assertMethod("getMyPropTypeNumber")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("JsonSerialize", ImmutableMap.of(
+                "using", "ToStringSerializer.class"
+            ));
     }
 
     @Test
@@ -1552,10 +1719,13 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent().assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
+                .printFileContent();
+        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").containsWithName("Size").containsWithName("Email");
-
+        javaFileAssert
+            .hasNoImports("javax.validation.constraints.NotNull")
+            .hasImports("javax.validation.constraints");
     }
 
     public void shouldUseEqualsNullableForArrayWhenSetInConfig_issue13385() throws IOException {
@@ -1616,6 +1786,46 @@ public class SpringCodegenTest {
                 .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
+    }
+
+    @Test
+    public void shouldHandleSeparatelyInterfaceAndModelAdditionalAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_13917.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@marker.Class1;@marker.Class2;@marker.Common");
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "@marker.Interface1;@marker.Common");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PatchRequestInner.java"))
+            .isInterface()
+            .assertTypeAnnotations()
+            .containsWithName("marker.Interface1")
+            .containsWithName("marker.Common");
+
+        JavaFileAssert.assertThat(files.get("JSONPatchRequestRemove.java"))
+            .isNormalClass()
+            .assertTypeAnnotations()
+            .containsWithName("marker.Class1")
+            .containsWithName("marker.Class2")
+            .containsWithName("marker.Common");
     }
 
     @Test

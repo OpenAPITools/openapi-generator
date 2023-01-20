@@ -122,7 +122,7 @@ func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*http.Res
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.PathEscape(parameterToString(r.orderId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.PathEscape(parameterValueToString(r.orderId, "orderId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -329,7 +329,7 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.PathEscape(parameterToString(r.orderId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", url.PathEscape(parameterValueToString(r.orderId, "orderId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

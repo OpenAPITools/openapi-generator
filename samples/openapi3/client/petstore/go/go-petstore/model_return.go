@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Return type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Return{}
+
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
@@ -72,6 +75,14 @@ func (o *Return) SetReturn(v int32) {
 }
 
 func (o Return) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Return) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Return) {
 		toSerialize["return"] = o.Return
@@ -81,7 +92,7 @@ func (o Return) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Return) UnmarshalJSON(bytes []byte) (err error) {

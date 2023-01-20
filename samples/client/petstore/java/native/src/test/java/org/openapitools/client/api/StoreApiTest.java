@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -93,9 +94,9 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
+        Order order = null;
         Order response = 
-        api.placeOrder(body);
+        api.placeOrder(order);
         
         // TODO: test validations
     }

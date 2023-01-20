@@ -109,6 +109,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             path = "/enum",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

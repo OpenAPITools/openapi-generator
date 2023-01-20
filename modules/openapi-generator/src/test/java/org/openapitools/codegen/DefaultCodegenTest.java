@@ -56,7 +56,6 @@ import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 
-
 public class DefaultCodegenTest {
 
     @Test
@@ -1763,6 +1762,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/component-deprecated.yml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
 
         CodegenModel codegenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
         Assert.assertTrue(codegenPetModel.isDeprecated);
@@ -2592,7 +2592,7 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         modelName = "AdditionalPropertiesUnset";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -2615,7 +2615,7 @@ public class DefaultCodegenTest {
         modelName = "AdditionalPropertiesSchema";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         assertEquals(cm.getAdditionalProperties(), stringCp);
         assertFalse(cm.getAdditionalPropertiesIsAnyType());
     }
@@ -2630,8 +2630,8 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenProperty mapWithAddPropsUnset;
         CodegenProperty mapWithAddPropsTrue;
         CodegenProperty mapWithAddPropsFalse;
@@ -2691,8 +2691,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenParameter mapWithAddPropsUnset;
         CodegenParameter mapWithAddPropsTrue;
         CodegenParameter mapWithAddPropsFalse;
@@ -2752,8 +2752,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenResponse mapWithAddPropsUnset;
         CodegenResponse mapWithAddPropsTrue;
         CodegenResponse mapWithAddPropsFalse;
@@ -2808,7 +2808,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         Schema sc;
         CodegenModel cm;
@@ -4298,5 +4298,83 @@ public class DefaultCodegenTest {
         Assert.assertTrue(inlineEnumSchemaProperty.isString);
         Assert.assertFalse(inlineEnumSchemaProperty.isContainer);
         Assert.assertFalse(inlineEnumSchemaProperty.isPrimitiveType);
+    }
+
+    @Test
+    public void testOpenAPINormalizerRefAsParentInAllOf() {
+        // to test the rule REF_AS_PARENT_IN_ALLOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertNull(schema.getExtensions());
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema2.getExtensions().get("x-parent"), "abstract");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REF_AS_PARENT_IN_ALLOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertEquals(schema3.getExtensions().get("x-parent"), true);
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("AnotherParent");
+        assertEquals(schema4.getExtensions().get("x-parent"), true);
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema5.getExtensions().get("x-parent"), "abstract");
+    }
+
+    @Test
+    public void testOpenAPINormalizerEnableKeepOnlyFirstTagInOperation() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("KEEP_ONLY_FIRST_TAG_IN_OPERATION", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "person");
+    }
+
+    @Test
+    public void testOpenAPINormalizerRemoveAnyOfOneOfAndKeepPropertiesOnly() {
+        // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema.getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("Person");
+        assertNull(schema.getAnyOf());
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOfStringAndEnumString() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema.getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertNull(schema3.getAnyOf());
+        assertTrue(schema3 instanceof StringSchema);
     }
 }

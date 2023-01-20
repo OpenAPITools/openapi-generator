@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the XmlItem type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &XmlItem{}
+
 // XmlItem struct for XmlItem
 type XmlItem struct {
 	AttributeString *string `json:"attribute_string,omitempty"`
@@ -993,6 +996,14 @@ func (o *XmlItem) SetPrefixNsWrappedArray(v []int32) {
 }
 
 func (o XmlItem) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o XmlItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.AttributeString) {
 		toSerialize["attribute_string"] = o.AttributeString
@@ -1081,7 +1092,7 @@ func (o XmlItem) MarshalJSON() ([]byte, error) {
 	if !isNil(o.PrefixNsWrappedArray) {
 		toSerialize["prefix_ns_wrapped_array"] = o.PrefixNsWrappedArray
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableXmlItem struct {

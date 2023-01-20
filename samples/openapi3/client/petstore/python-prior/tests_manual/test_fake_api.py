@@ -11,10 +11,12 @@
 
 import sys
 from collections import namedtuple
-import os
 import json
 import unittest
+from pathlib import Path
 from unittest.mock import patch
+
+from urllib3.request import RequestMethods
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
@@ -378,9 +380,7 @@ class TestFakeApi(unittest.TestCase):
 
     def test_upload_file(self):
         # uploads a file
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles",  "1px_pic1.png").resolve()
 
         headers = {}
         def get_headers():
@@ -436,10 +436,8 @@ class TestFakeApi(unittest.TestCase):
             self.api.upload_file(file=file)
 
     def test_upload_files(self):
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
-        file_path2 = os.path.join(test_file_dir, "1px_pic2.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles",  "1px_pic1.png").resolve()
+        file_path2 = Path(__file__, "..", "..", "testfiles",  "1px_pic2.png").resolve()
 
         headers = {}
         def get_headers():
@@ -490,6 +488,48 @@ class TestFakeApi(unittest.TestCase):
         finally:
             file.close()
 
+    def test_upload_with_mime_type(self):
+        """Upload a file, while setting a MIME type for that file.
+
+        Verify that:
+
+        * ``post_params`` may contain a three-tuple in the form ``(file_name, file_handle,
+          file_mime_type)``
+        * This three-tuple is passed to urllib3 as a tuple, without being converted to a list.
+
+        See:
+
+        * https://github.com/OpenAPITools/openapi-generator/issues/14012
+        * https://urllib3.readthedocs.io/en/stable/reference/urllib3.request.html
+        """
+        file_path = Path(__file__, "..", "..", "testfiles", "1px_pic1.png").resolve()
+        file_mime_type = "image/png"
+        with patch.object(RequestMethods, 'request') as request:
+            with open(file_path, mode="rb") as file_handle:
+                request.return_value.status = 200
+                resp = self.api.api_client.call_api(
+                    resource_path="/fake/uploadFile",
+                    method="POST",
+                    header_params={"Content-Type": "multipart/form-data"},
+                    post_params={"file": (file_path.name, file_handle, file_mime_type)},
+                )
+
+        # a single multipart/form-data POST call was made, with a single form field
+        request.assert_called_once()
+        fields = request.call_args.kwargs['fields']
+        self.assertEqual(len(fields), 1, fields)
+        field = fields[0]
+
+        # it is in the form (form_field_name, (filename, filedata, mimetype))
+        self.assertEqual(field[0], "file")
+        self.assertEqual(field[1][0], file_path.name)
+        with open(file_path, mode="rb") as file_handle:
+            self.assertEqual(field[1][1], file_handle.read())
+        self.assertEqual(field[1][2], file_mime_type)
+
+        # the form field value wasn't cast to a list
+        self.assertIsInstance(fields[0][1], tuple)
+
     def test_download_attachment(self):
         """Ensures that file deserialization works"""
 
@@ -534,12 +574,10 @@ class TestFakeApi(unittest.TestCase):
                     self.assertEqual(file_object.read(), file_data.encode('utf-8'))
                 finally:
                     file_object.close()
-                    os.unlink(file_object.name)
+                    Path(file_object.name).unlink()
 
     def test_upload_download_file(self):
-        test_file_dir = os.path.realpath(
-            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
-        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path1 = Path(__file__, "..", "..", "testfiles", "1px_pic1.png").resolve()
 
         with open(file_path1, "rb") as f:
             expected_file_data = f.read()
@@ -578,7 +616,7 @@ class TestFakeApi(unittest.TestCase):
         finally:
             file1.close()
             downloaded_file.close()
-            os.unlink(downloaded_file.name)
+            Path(downloaded_file.name).unlink()
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema

@@ -14,9 +14,9 @@
 
 
 import type { Configuration } from './configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
 export const BASE_PATH = "http://petstore.swagger.io:80/v2".replace(/\/+$/, "");
@@ -65,8 +65,8 @@ export class BaseAPI {
  * @extends {Error}
  */
 export class RequiredError extends Error {
-    name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
+        this.name = "RequiredError"
     }
 }

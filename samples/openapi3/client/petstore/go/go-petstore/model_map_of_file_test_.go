@@ -15,6 +15,9 @@ import (
 	"os"
 )
 
+// checks if the MapOfFileTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MapOfFileTest{}
+
 // MapOfFileTest test map of file in a property
 type MapOfFileTest struct {
 	// a property to test map of file
@@ -74,6 +77,14 @@ func (o *MapOfFileTest) SetPropTest(v map[string]*os.File) {
 }
 
 func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.PropTest) {
 		toSerialize["prop_test"] = o.PropTest
@@ -83,7 +94,7 @@ func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {

@@ -59,6 +59,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/mergedev.jpeg" width="128" height="128">](https://www.merge.dev/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -876,6 +877,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-10-01 - [OpenAPI Generatorをカスタマイズしたコードを生成する（Swagger Codegenとほぼ同じ）](https://nainaistar.hatenablog.com/entry/2022/10/03/120000) by [きり丸](https://twitter.com/nainaistar)
 - 2022-10-21 - [Kotlin（Spring Boot）の API を OpenAPI Generator で自動生成](https://zenn.dev/msksgm/articles/20221021-kotlin-spring-openapi-generator) by [msksgm](https://zenn.dev/msksgm)
 - 2022-10-26 - [Quarkus Insights #106: Quarkiverse Extension Spotlight: OpenApi Generator](https://www.youtube.com/watch?v=_s_if69t2iQ) by [Quarkusio](https://www.youtube.com/c/Quarkusio)
+- 2022-11-28 - [The REST API implementation flow](https://tmsvr.com/openapi-code-generation-for-rest-apis/) by [Imre Tömösvári](https://tmsvr.com/author/imre/)
+- 2022-12-13 - [API-First with Spring WebFlux and OpenAPI Generator](https://boottechnologies-ci.medium.com/api-first-with-spring-webflux-and-openapi-generator-38b7804c4ed4) by [Eric Anicet](https://boottechnologies-ci.medium.com/)
 
 ## [6 - About Us](#table-of-contents)
 

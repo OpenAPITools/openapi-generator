@@ -75,6 +75,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
@@ -82,6 +83,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+    public static final String JAVAX_PACKAGE = "javaxPackage";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
@@ -126,6 +129,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
     protected String outputTestFolder = "";
@@ -135,6 +139,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String implicitHeadersRegex = null;
 
     protected boolean camelCaseDollarSign = false;
+    protected boolean useJakartaEe = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -265,10 +270,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -371,6 +378,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
             this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
+        }
+
+        if (additionalProperties.containsKey(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS)) {
+            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS).toString();
+            this.setAdditionalOneOfTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
         }
 
         if (additionalProperties.containsKey(ADDITIONAL_ENUM_TYPE_ANNOTATIONS)) {
@@ -648,6 +660,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("jsr310", "true");
             typeMapping.put("date", "LocalDate");
             importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalTime", "java.time.LocalTime");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
                 importMapping.put("LocalDateTime", "java.time.LocalDateTime");
@@ -662,6 +675,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
             setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
         }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            this.setUseJakartaEe(Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString()));
+        }
+        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+
+        if (useJakartaEe) {
+            applyJakartaPackage();
+        } else {
+            applyJavaxPackage();
+        }
     }
 
     @Override
@@ -671,14 +695,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, additionalModelTypeAnnotations);
+            }
+        }
+
+        if (!additionalOneOfTypeAnnotations.isEmpty()) {
+            for (String modelName : objs.keySet()) {
+                Map<String, Object> models = objs.get(modelName);
+                models.put(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, additionalOneOfTypeAnnotations);
             }
         }
 
         if (!additionalEnumTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
             }
         }
@@ -704,6 +735,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "javax");
+    }
+
+    protected void applyJakartaPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "jakarta");
     }
 
     @Override
@@ -1336,7 +1375,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (serializeBigDecimalAsString) {
-            if ("decimal".equals(property.baseType)) {
+            if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
                 property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
@@ -1921,6 +1960,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.camelCaseDollarSign = camelCaseDollarSign;
     }
 
+    public void setUseJakartaEe(boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -2073,6 +2116,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
+    }
+
+    public List<String> getAdditionalOneOfTypeAnnotations() {
+        return additionalOneOfTypeAnnotations;
+    }
+
+    public void setAdditionalOneOfTypeAnnotations(final List<String> additionalOneOfTypeAnnotations) {
+        this.additionalOneOfTypeAnnotations = additionalOneOfTypeAnnotations;
     }
 
     public void setAdditionalEnumTypeAnnotations(final List<String> additionalEnumTypeAnnotations) {

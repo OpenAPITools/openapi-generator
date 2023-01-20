@@ -315,11 +315,9 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function setMapProperty($map_property)
     {
-
         if (is_null($map_property)) {
             throw new \InvalidArgumentException('non-nullable map_property cannot be null');
         }
-
         $this->container['map_property'] = $map_property;
 
         return $this;
@@ -344,11 +342,9 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function setMapOfMapProperty($map_of_map_property)
     {
-
         if (is_null($map_of_map_property)) {
             throw new \InvalidArgumentException('non-nullable map_of_map_property cannot be null');
         }
-
         $this->container['map_of_map_property'] = $map_of_map_property;
 
         return $this;

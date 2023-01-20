@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -67,6 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 

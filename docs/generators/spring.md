@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
@@ -85,8 +86,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOptional|Use Optional container for optional parameters| |false|
-|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).| |true|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|

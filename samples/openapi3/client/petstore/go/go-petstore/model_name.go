@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Name type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Name{}
+
 // Name Model for testing model name same as property name
 type Name struct {
 	Name int32 `json:"name"`
@@ -164,25 +167,27 @@ func (o *Name) SetVar123Number(v int32) {
 }
 
 func (o Name) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Name) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if !isNil(o.SnakeCase) {
-		toSerialize["snake_case"] = o.SnakeCase
-	}
+	toSerialize["name"] = o.Name
+	// skip: snake_case is readOnly
 	if !isNil(o.Property) {
 		toSerialize["property"] = o.Property
 	}
-	if !isNil(o.Var123Number) {
-		toSerialize["123Number"] = o.Var123Number
-	}
+	// skip: 123Number is readOnly
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Name) UnmarshalJSON(bytes []byte) (err error) {
