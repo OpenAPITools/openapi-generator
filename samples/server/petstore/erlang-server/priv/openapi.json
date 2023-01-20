@@ -62,6 +62,10 @@
       },
       "put" : {
         "description" : "",
+        "externalDocs" : {
+          "description" : "API documentation for the updatePet operation",
+          "url" : "http://petstore.swagger.io/v2/doc/updatePet"
+        },
         "operationId" : "updatePet",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/Pet"

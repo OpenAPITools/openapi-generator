@@ -124,6 +124,75 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /query/style_form/explode_true/object/allOf:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_true/object/allOf
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/DataQuery'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_deepObject/explode_true/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_deepObject/explode_true/object/allOf:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_deepObject/explode_true/object/allOf
+      parameters:
+      - explode: true
+        in: query
+        name: query_object
+        required: false
+        schema:
+          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
+        style: deepObject
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
@@ -232,6 +301,36 @@ components:
       type: object
       xml:
         name: pet
+    Bird:
+      properties:
+        size:
+          type: string
+        color:
+          type: string
+      type: object
+    Query:
+      properties:
+        id:
+          description: Query
+          format: int64
+          type: integer
+        outcomes:
+          default:
+          - SUCCESS
+          - FAILURE
+          items:
+            enum:
+            - SUCCESS
+            - FAILURE
+            - SKIPPED
+            type: string
+          type: array
+      type: object
+      x-parent: true
+    DataQuery:
+      allOf:
+      - $ref: '#/components/schemas/DataQuery_allOf'
+      - $ref: '#/components/schemas/Query'
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -239,4 +338,23 @@ components:
             type: string
           type: array
       type: object
+    test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
+      allOf:
+      - $ref: '#/components/schemas/Bird'
+      - $ref: '#/components/schemas/Category'
+    DataQuery_allOf:
+      properties:
+        suffix:
+          description: test suffix
+          type: string
+        text:
+          description: Some text containing white spaces
+          example: Some text
+          type: string
+        date:
+          description: A date
+          format: date-time
+          type: string
+      type: object
+      example: null
 

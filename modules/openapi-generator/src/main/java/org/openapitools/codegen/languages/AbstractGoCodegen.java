@@ -121,9 +121,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
-        typeMapping.put("File", "os.File");
-        typeMapping.put("file", "os.File");
-        typeMapping.put("binary", "os.File");
+        typeMapping.put("File", "*os.File");
+        typeMapping.put("file", "*os.File");
+        typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
@@ -505,13 +505,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             // import "os" if the operation uses files
-            if (!addedOSImport && "os.File".equals(operation.returnType)) {
+            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
                 imports.add(createMapping("import", "os"));
                 addedOSImport = true;
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "os.File".equals(param.dataType)) {
+                if (!addedOSImport && "*os.File".equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -634,9 +634,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
             if (model.getComposedSchemas() != null) {
-                if (model.getComposedSchemas().getAllOf() != null) {
-                    inheritedProperties.addAll(model.getComposedSchemas().getAllOf());
-                }
                 if (model.getComposedSchemas().getAnyOf() != null) {
                     inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
                 }
@@ -646,39 +643,29 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if(model.getIsModel() || model.getComposedSchemas() == null) {
-                // If the model is a model, use model.vars as it only
-                // contains properties the generated struct will own itself.
-                // If model is no model and it has no composed schemas use
-                // model.vars.
+            if(model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
                 codegenProperties.addAll(model.vars);
             } else {
                 // If the model is no model, but is a
-                // allOf, anyOf or oneOf, add all first level options
-                // from allOf, anyOf or oneOf.
+                // anyOf or oneOf, add all first level options
+                // from anyOf or oneOf.
                 codegenProperties.addAll(inheritedProperties);
             }
 
             for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
-                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && ("os.File".equals(cp.dataType) ||
-                        (cp.items != null && "os.File".equals(cp.items.dataType)))) {
+                if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
+                        (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
             }
-
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
-            }
-
-            // if oneOf contains "time.Time" type
-            if (!addedTimeImport && model.oneOf != null && model.oneOf.contains("time.Time")) {
-                imports.add(createMapping("import", "time"));
             }
 
             // if oneOf contains "null" type

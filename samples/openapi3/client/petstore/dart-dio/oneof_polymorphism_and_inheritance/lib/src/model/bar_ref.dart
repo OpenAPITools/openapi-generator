@@ -19,14 +19,12 @@ part 'bar_ref.g.dart';
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
 abstract class BarRef implements EntityRef, Built<BarRef, BarRefBuilder> {
-  static const String discriminatorFieldName = r'@type';
-
   BarRef._();
 
   factory BarRef([void updates(BarRefBuilder b)]) = _$BarRef;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarRefBuilder b) => b;
+  static void _defaults(BarRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<BarRef> get serializer => _$BarRefSerializer();

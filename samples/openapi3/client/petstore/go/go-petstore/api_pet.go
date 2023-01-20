@@ -926,8 +926,8 @@ func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiU
 }
 
 // file to upload
-func (r ApiUploadFileRequest) File(file os.File) ApiUploadFileRequest {
-	r.file = &file
+func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
+	r.file = file
 	return r
 }
 
@@ -1000,17 +1000,17 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 
 	fileLocalVarFormFileName = "file"
 
-	var fileLocalVarFile *os.File
-	if r.file != nil {
-		fileLocalVarFile = r.file
-	}
+
+	fileLocalVarFile := r.file
+
 	if fileLocalVarFile != nil {
 		fbs, _ := ioutil.ReadAll(fileLocalVarFile)
+
 		fileLocalVarFileBytes = fbs
 		fileLocalVarFileName = fileLocalVarFile.Name()
 		fileLocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
 	}
-	formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1057,8 +1057,8 @@ type ApiUploadFileWithRequiredFileRequest struct {
 }
 
 // file to upload
-func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile os.File) ApiUploadFileWithRequiredFileRequest {
-	r.requiredFile = &requiredFile
+func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) ApiUploadFileWithRequiredFileRequest {
+	r.requiredFile = requiredFile
 	return r
 }
 
@@ -1140,12 +1140,17 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 
 	requiredFileLocalVarFormFileName = "requiredFile"
 
+
 	requiredFileLocalVarFile := r.requiredFile
-				fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
+
+	if requiredFileLocalVarFile != nil {
+		fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
+
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
 		requiredFileLocalVarFile.Close()
-	formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
+		formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

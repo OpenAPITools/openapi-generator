@@ -217,6 +217,8 @@ public class PetController {
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return Pet
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     @Operation(
         operationId = "updatePet",

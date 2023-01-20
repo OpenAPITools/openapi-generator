@@ -54,7 +54,7 @@ export class UserService {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -99,7 +99,7 @@ export class UserService {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -144,7 +144,7 @@ export class UserService {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -189,7 +189,7 @@ export class UserService {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -228,7 +228,7 @@ export class UserService {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -277,7 +277,7 @@ export class UserService {
             queryParameters.append('password', <any>password);
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -309,7 +309,7 @@ export class UserService {
     public logoutUser(): Observable<AxiosResponse<any>>;
     public logoutUser(): Observable<any> {
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -353,7 +353,7 @@ export class UserService {
             throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {

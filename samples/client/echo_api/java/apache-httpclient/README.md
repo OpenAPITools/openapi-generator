@@ -109,15 +109,23 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 ## Documentation for Models
 
+ - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
+ - [DataQuery](docs/DataQuery.md)
+ - [DataQueryAllOf](docs/DataQueryAllOf.md)
  - [Pet](docs/Pet.md)
+ - [Query](docs/Query.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

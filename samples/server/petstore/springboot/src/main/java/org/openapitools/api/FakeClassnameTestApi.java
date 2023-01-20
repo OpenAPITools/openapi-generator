@@ -5,7 +5,7 @@
  */
 package org.openapitools.api;
 
-import org.openapitools.model.Client;
+import org.openapitools.model.ClientDto;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,13 +43,13 @@ public interface FakeClassnameTestApi {
         value = "To test class name in snake case",
         nickname = "testClassname",
         notes = "To test class name in snake case",
-        response = Client.class,
+        response = ClientDto.class,
         authorizations = {
             @Authorization(value = "api_key_query")
          }
     )
     @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
+        @ApiResponse(code = 200, message = "successful operation", response = ClientDto.class)
     })
     @RequestMapping(
         method = RequestMethod.PATCH,
@@ -57,8 +57,8 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Client> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+    default ResponseEntity<ClientDto> testClassname(
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto body
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

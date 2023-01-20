@@ -228,6 +228,7 @@ import {{packageName}}.infrastructure.toMultiValue
             path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
             body = localVariableBody
         )
     }

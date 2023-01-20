@@ -41,15 +41,28 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
-class EnumStringModel 
+class EnumStringModel
 {
-        /**
-     * Constructor
-     * @param array|null $data Associated array of property values initializing the model
+    /**
+     * Possible values of this enum
      */
-    public function __construct(array $data = null)
+    const AVAILABLE = "available";
+    const PENDING = "pending";
+    const SOLD = "sold";
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public static function getAllowableEnumValues()
     {
+        return [
+            self::AVAILABLE,
+            self::PENDING,
+            self::SOLD,
+        ];
     }
 }
+
 
 

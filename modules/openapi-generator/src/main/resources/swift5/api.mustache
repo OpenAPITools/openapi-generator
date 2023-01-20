@@ -173,9 +173,10 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+        let requestTask = requestBuilder.requestTask
         return Future<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> { promise in
-            requestTask = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
@@ -191,7 +192,7 @@ extension {{projectName}}API {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -211,34 +212,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) async throws{{#returnType}} -> {{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{/returnType}} {
-        let requestBuilder = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
-        let requestTask = requestBuilder.requestTask
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestBuilder.execute { result in
-                    switch result {
-                    {{#returnType}}
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    {{/returnType}}
-                    {{^returnType}}
-                    case .success:
-                        continuation.resume(returning: ())
-                    {{/returnType}}
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: {
-            requestTask.cancel()
-        }
+        return try await {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute().body
     }
 {{/useAsyncAwait}}
 {{#useResult}}
