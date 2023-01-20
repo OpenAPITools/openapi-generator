@@ -48,6 +48,10 @@ public class OpenAPINormalizer {
     final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     boolean enableRefAsParentInAllOf;
 
+    // when set to true, only keep the first tag in operation if there are more than one tag defined.
+    final String KEEP_ONLY_FIRST_TAG_IN_OPERATION = "KEEP_ONLY_FIRST_TAG_IN_OPERATION";
+    boolean enableKeepOnlyFirstTagInOperation;
+
     // when set to true, complex composed schemas (a mix of oneOf/anyOf/anyOf and properties) with
     // oneOf/anyOf containing only `required` and no properties (these are properties inter-dependency rules)
     // are removed as most generators cannot handle such case at the moment
@@ -89,6 +93,10 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REF_AS_PARENT_IN_ALLOF))) {
             enableRefAsParentInAllOf = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(KEEP_ONLY_FIRST_TAG_IN_OPERATION))) {
+            enableKeepOnlyFirstTagInOperation = true;
         }
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY))) {
@@ -146,11 +154,21 @@ public class OpenAPINormalizer {
             }
 
             for (Operation operation : operations) {
+                normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation);
                 normalizeResponses(operation);
             }
         }
+    }
+
+    /**
+     * Normalizes operation
+     *
+     * @param operation Operation
+     */
+    private void normalizeOperation(Operation operation) {
+        processKeepOnlyFirstTagInOperation(operation);
     }
 
     /**
@@ -429,6 +447,25 @@ public class OpenAPINormalizer {
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
             }
+        }
+    }
+
+    /**
+     * Keep only first tag in the operation if the operation has more than
+     * one tag.
+     *
+     * @param operation Operation
+     */
+    private void processKeepOnlyFirstTagInOperation(Operation operation) {
+        if (!enableKeepOnlyFirstTagInOperation) {
+            return;
+        }
+
+        if (operation.getTags() != null && !operation.getTags().isEmpty() && operation.getTags().size() > 1) {
+            // has more than 1 tag
+            String firstTag = operation.getTags().get(0);
+            operation.setTags(null);
+            operation.addTagsItem(firstTag);
         }
     }
 

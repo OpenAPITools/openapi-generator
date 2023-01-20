@@ -4327,6 +4327,23 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOpenAPINormalizerEnableKeepOnlyFirstTagInOperation() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("KEEP_ONLY_FIRST_TAG_IN_OPERATION", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "person");
+    }
+
+    @Test
     public void testOpenAPINormalizerRemoveAnyOfOneOfAndKeepPropertiesOnly() {
         // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml");
@@ -4359,6 +4376,5 @@ public class DefaultCodegenTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
-
     }
 }
