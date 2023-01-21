@@ -1,8 +1,12 @@
 language: php
-# Bionic environment has preinstalled PHP from 7.1 to 7.4
-# https://docs.travis-ci.com/user/reference/bionic/#php-support
-dist: bionic
+# Jammy Jellyfish environment has preinstalled PHP 8.1
+# Focal Fossa doesn't fit since it contains preinstalled PHP 7.4 only
+# https://docs.travis-ci.com/user/reference/jammy/#php-support
+dist: jammy
+os:
+  - linux
 php:
-    - 7.4
+  - 8.0
+  - 8.1
 before_install: "composer install"
 script: "vendor/bin/phpunit"
