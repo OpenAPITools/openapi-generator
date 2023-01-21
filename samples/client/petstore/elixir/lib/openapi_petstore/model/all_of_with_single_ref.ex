@@ -14,7 +14,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
 
   @type t :: %__MODULE__{
     :username => String.t | nil,
-    :SingleRefType => SingleRefType | nil
+    :SingleRefType => any() | nil
   }
 end
 
