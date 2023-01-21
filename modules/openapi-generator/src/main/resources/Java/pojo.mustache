@@ -411,7 +411,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       int i = 0;
       for ({{items.dataType}} _item : {{getter}}()) {
-        if ({{getter}}().get(i) != null) {
+        if (_item != null) {
           joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
