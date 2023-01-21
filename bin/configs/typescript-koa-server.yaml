@@ -1,0 +1,7 @@
+generatorName: typescript-koa-server
+outputDir: samples/server/petstore/typescript-koa-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-koa-server/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-koa-server
+additionalProperties:
+  ngVersion: 15.0.3
+  supportsES6: true
