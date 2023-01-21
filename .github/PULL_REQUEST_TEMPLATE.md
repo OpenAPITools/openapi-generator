@@ -10,6 +10,7 @@
   ./mvnw clean package 
   ./bin/generate-samples.sh
   ./bin/utils/export_docs_generators.sh
+  ./bin/utils/export_generators_readme.sh
   ``` 
   Commit all changed files. 
   This is important, as CI jobs will verify _all_ generator outputs of your HEAD commit as it would merge with master. 
