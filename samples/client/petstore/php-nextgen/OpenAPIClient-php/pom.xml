@@ -40,6 +40,19 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>check-php-syntax</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>vendor/bin/phplint</executable>
+                            <arguments>
+                                <argument>--configuration=phplint.dist.yml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>bundle-test</id>
                         <phase>integration-test</phase>
                         <goals>

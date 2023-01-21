@@ -115,6 +115,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
+        supportingFiles.add(new SupportingFile(".phplint.mustache", "", ".phplint.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
     }
 }
