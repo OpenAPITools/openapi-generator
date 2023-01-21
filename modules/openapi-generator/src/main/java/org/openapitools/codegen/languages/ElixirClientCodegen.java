@@ -188,6 +188,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "List",
                         "Atom",
                         "Map",
+                        "AnyType",
                         "Tuple",
                         "PID",
                         "DateTime",
@@ -575,6 +576,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
+        } else if (p.getType() == null) {
+            return "any()";
         }
         return super.getTypeDeclaration(p);
     }
@@ -664,6 +667,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
+            }
+
+            if (this.baseType.equals("AnyType")){
+                return "%{}";
             }
             StringBuilder sb = new StringBuilder();
             if (isArray) {
@@ -785,8 +792,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         returnEntry.append(moduleName);
                         returnEntry.append(".Model.");
                     }
-                    returnEntry.append(exResponse.baseType);
-                    returnEntry.append(".t");
+
+                    if (exResponse.baseType.equals("AnyType")) {
+                        returnEntry.append("any()");
+                    }else {
+                        returnEntry.append(exResponse.baseType);
+                        returnEntry.append(".t");
+                    }
                 } else {
                     if (exResponse.containerType.equals("array") ||
                             exResponse.containerType.equals("set")) {
@@ -795,8 +807,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                             returnEntry.append(moduleName);
                             returnEntry.append(".Model.");
                         }
-                        returnEntry.append(exResponse.baseType);
-                        returnEntry.append(".t)");
+
+                        if (exResponse.baseType.equals("AnyType")) {
+                            returnEntry.append("any())");
+                        }else {
+                            returnEntry.append(exResponse.baseType);
+                            returnEntry.append(".t)");
+                        }
                     } else if (exResponse.containerType.equals("map")) {
                         returnEntry.append("map()");
                     }
