@@ -41,6 +41,11 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         return "Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html";
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HTTP;
+    }
+
     public JetbrainsHttpClientClientCodegen() {
         super();
 
