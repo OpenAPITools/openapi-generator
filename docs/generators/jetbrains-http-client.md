@@ -9,7 +9,7 @@ title: Documentation for the jetbrains-http-client Generator
 | generator name | jetbrains-http-client | pass this to the generate command after -g |
 | generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
-| generator language | Java | |
+| generator language | Jetbrains HTTP Client (HTTP/REST) | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html | |
 
