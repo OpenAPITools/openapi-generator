@@ -429,8 +429,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // add URL query deepObject support to native, apache-httpclient by default
-        if (!additionalProperties.containsKey(SUPPORT_URL_QUERY) && (isLibrary(NATIVE) || isLibrary(APACHE))) {
-            additionalProperties.put(SUPPORT_URL_QUERY, true);
+        if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
+            if (isLibrary(NATIVE) || isLibrary(APACHE)) {
+                // default to true for native and apache-httpclient
+                additionalProperties.put(SUPPORT_URL_QUERY, true);
+            }
         } else {
             additionalProperties.put(SUPPORT_URL_QUERY, Boolean.parseBoolean(additionalProperties.get(SUPPORT_URL_QUERY).toString()));
         }
