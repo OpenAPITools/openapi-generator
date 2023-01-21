@@ -475,27 +475,51 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (CodegenProperty property : model.allVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.vars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.readWriteVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.optionalVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.parentVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.requiredVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.readOnlyVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
             for (CodegenProperty property : model.nonNullableVars){
                 property.isNew = codegenPropertyIsNew(model, property);
+                if (property.isNew) {
+                    property.isInherited = true;
+                }
             }
         }
 
