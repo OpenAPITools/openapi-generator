@@ -385,4 +385,34 @@ public class KotlinSpringServerCodegenTest {
                 "@RestController(\"org.openapitools.api.PingApiController\")"
         );
     }
+
+    @Test(description = "jakarta java package in spring boot 3")
+    public void jakartaPackage() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/spring-boot-3.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileNotContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "import javax."
+        );
+        assertFileNotContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ApiUtil.kt"),
+                "import javax."
+        );
+        assertFileNotContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SomeComponent.kt"),
+                "import javax."
+        );
+    }
 }
