@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -226,7 +227,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
-     * Whether the selected {@link DocumentationProvider} requires us to bootstrap and
+     * Whether the selected {@link DocumentationProviderFeatures.DocumentationProvider} requires us to bootstrap and
      * configure swagger-ui by ourselves. Springdoc, for example ships its own swagger-ui integration.
      *
      * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
@@ -549,7 +550,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (SPRING_BOOT.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "ApiUtil.kt"));
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
         }
 
         if (this.serviceInterface) {
@@ -586,10 +587,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (!this.interfaceOnly) {
                 if (this.documentationProvider != DocumentationProvider.NONE) {
                     supportingFiles.add(new SupportingFile("homeController.mustache",
-                            (sourceFolder + File.separator + basePackage).replace(".", File.separator),
+                            (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                             "HomeController.kt"));
                     supportingFiles.add(new SupportingFile("openapi.mustache",
-                            resourcesFolder.replace("/", File.separator), "openapi.yaml"));
+                            resourcesFolder.replace("/", java.io.File.separator), "openapi.yaml"));
                 }
 
                 supportingFiles.add(new SupportingFile("application.mustache", resourcesFolder, "application.yaml"));
@@ -606,11 +607,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (!reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", File.separator),
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "SpringFoxConfiguration.kt"));
             } else if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", File.separator),
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "SpringDocConfiguration.kt"));
             }
         }
@@ -620,11 +621,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
-                (Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
-
-
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
 
     @Override
@@ -865,7 +864,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     // TODO could probably be made more generic, and moved to the `mustache` package if required by other components.
-    private static class EscapeLambda implements Lambda {
+    private static class EscapeLambda implements Mustache.Lambda {
         private final String from;
         private final String to;
 
