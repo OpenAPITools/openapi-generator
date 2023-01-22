@@ -1,8 +1,9 @@
 [package]
 name = "openapi-v3"
 version = "1.0.7"
-authors = []
+authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
+# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
 edition = "2018"
 
@@ -41,7 +42,7 @@ serde_json = "1.0"
 # Crates included if required by the API definition
 # TODO: this should be updated to point at the official crate once
 # https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-serde-xml-rs = {git = "git://github.com/Metaswitch/serde-xml-rs.git" , branch = "master"}
+serde-xml-rs = {git = "https://github.com/Metaswitch/serde-xml-rs" , branch = "master"}
 uuid = {version = "0.8", features = ["serde", "v4"]}
 
 # Common between server and client features

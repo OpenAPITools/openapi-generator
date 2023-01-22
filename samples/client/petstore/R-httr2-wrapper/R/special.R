@@ -43,12 +43,10 @@ Special <- R6::R6Class(
     #' @param 123_number 123_number
     #' @param array[test] array[test]
     #' @param empty_string empty_string
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`set_test`)) {
         stopifnot(is.vector(`set_test`), length(`set_test`) != 0)
         sapply(`set_test`, function(x) stopifnot(is.character(x)))
@@ -58,27 +56,39 @@ Special <- R6::R6Class(
         self$`set_test` <- `set_test`
       }
       if (!is.null(`item_self`)) {
-        stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
+        if (!(is.numeric(`item_self`) && length(`item_self`) == 1)) {
+          stop(paste("Error! Invalid data for `item_self`. Must be an integer:", `item_self`))
+        }
         self$`item_self` <- `item_self`
       }
       if (!is.null(`item_private`)) {
-        stopifnot(is.character(`item_private`), length(`item_private`) == 1)
+        if (!(is.character(`item_private`) && length(`item_private`) == 1)) {
+          stop(paste("Error! Invalid data for `item_private`. Must be a string:", `item_private`))
+        }
         self$`item_private` <- `item_private`
       }
       if (!is.null(`item_super`)) {
-        stopifnot(is.character(`item_super`), length(`item_super`) == 1)
+        if (!(is.character(`item_super`) && length(`item_super`) == 1)) {
+          stop(paste("Error! Invalid data for `item_super`. Must be a string:", `item_super`))
+        }
         self$`item_super` <- `item_super`
       }
       if (!is.null(`123_number`)) {
-        stopifnot(is.character(`123_number`), length(`123_number`) == 1)
+        if (!(is.character(`123_number`) && length(`123_number`) == 1)) {
+          stop(paste("Error! Invalid data for `123_number`. Must be a string:", `123_number`))
+        }
         self$`123_number` <- `123_number`
       }
       if (!is.null(`array[test]`)) {
-        stopifnot(is.character(`array[test]`), length(`array[test]`) == 1)
+        if (!(is.character(`array[test]`) && length(`array[test]`) == 1)) {
+          stop(paste("Error! Invalid data for `array[test]`. Must be a string:", `array[test]`))
+        }
         self$`array[test]` <- `array[test]`
       }
       if (!is.null(`empty_string`)) {
-        stopifnot(is.character(`empty_string`), length(`empty_string`) == 1)
+        if (!(is.character(`empty_string`) && length(`empty_string`) == 1)) {
+          stop(paste("Error! Invalid data for `empty_string`. Must be a string:", `empty_string`))
+        }
         self$`empty_string` <- `empty_string`
       }
       if (!is.null(additional_properties)) {
@@ -328,18 +338,19 @@ Special <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Special$unlock()
+# Special$unlock()
 #
-## Below is an example to define the print fnuction
-#Special$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+## Below is an example to define the print function
+# Special$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Special$lock()
+# Special$lock()
 

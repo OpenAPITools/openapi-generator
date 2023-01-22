@@ -1051,6 +1051,42 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineSchemaSkipReuseSetToFalse() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        //inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "false"); // default is false
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        // mega_200_response is NOT created since meta_200_response is reused
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertNull(schema2);
+    }
+
+    @Test
+    public void testInlineSchemaSkipReuseSetToTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "true");
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertTrue(schema2.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema2.getProperties().get("id") instanceof IntegerSchema);
+    }
+
+    @Test
     public void resolveInlineRequestBodyAllOf() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);

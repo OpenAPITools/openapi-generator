@@ -184,6 +184,26 @@ func TestDeletePet(t *testing.T) {
 	}
 }
 
+// test deep object query parameter and verify via tcpdump
+func TestDeepObjectQuery(t *testing.T) {
+	newPet := sw.Pet{
+		Id: sw.PtrInt64(12830), Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: []sw.Tag{{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}},
+	}
+
+	newCategory := sw.Category{Id: sw.PtrInt64(12830), Name: "cat"}
+	configuration := sw.NewConfiguration()
+	apiClient := sw.NewAPIClient(configuration)
+	r, err := apiClient.FakeApi.TestQueryDeepObject(context.Background()).TestPet(newPet).InputOptions(newCategory).Execute()
+	if err != nil {
+		// for sure this will fail as the endpoint is fake
+	}
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+}
+
 /*
 // Test we can concurrently create, retrieve, update, and delete.
 func TestConcurrency(t *testing.T) {

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -40,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -49,7 +48,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -92,7 +90,6 @@ public class Name implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
     return name;
@@ -109,7 +106,6 @@ public class Name implements Parcelable {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -129,7 +125,6 @@ public class Name implements Parcelable {
    * @return property
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getProperty() {
     return property;
@@ -146,7 +141,6 @@ public class Name implements Parcelable {
    * @return _123number
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer get123number() {
     return _123number;
@@ -251,9 +245,7 @@ public class Name implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Name.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Name.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Name is not found in the empty JSON string", Name.openapiRequiredFields.toString()));
         }
       }

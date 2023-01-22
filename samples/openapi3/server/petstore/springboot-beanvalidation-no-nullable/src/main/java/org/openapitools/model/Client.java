@@ -33,7 +33,7 @@ public class Client {
    * @return client
   */
   
-  @Schema(name = "client", required = false)
+  @Schema(name = "client", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getClient() {
     return client;
   }

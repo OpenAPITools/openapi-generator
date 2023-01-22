@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayOfNumberOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayOfNumberOnly{}
+
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
 	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
@@ -41,7 +44,7 @@ func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
 
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
-	if o == nil || o.ArrayNumber == nil {
+	if o == nil || isNil(o.ArrayNumber) {
 		var ret []float32
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
-	if o == nil || o.ArrayNumber == nil {
+	if o == nil || isNil(o.ArrayNumber) {
 		return nil, false
 	}
 	return o.ArrayNumber, true
@@ -59,7 +62,7 @@ func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-	if o != nil && o.ArrayNumber != nil {
+	if o != nil && !isNil(o.ArrayNumber) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 }
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ArrayNumber != nil {
+	if !isNil(o.ArrayNumber) {
 		toSerialize["ArrayNumber"] = o.ArrayNumber
 	}
 
@@ -81,7 +92,7 @@ func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {

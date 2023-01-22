@@ -381,7 +381,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -666,7 +666,13 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -1108,6 +1114,29 @@ paths:
                 $ref: '#/components/schemas/HealthCheckResult'
           description: The instance started successfully
       summary: Health check endpoint
+      tags:
+      - fake
+  /fake/deep_object_test:
+    get:
+      operationId: test_query_deep_object
+      parameters:
+      - explode: true
+        in: query
+        name: test_pet
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      - explode: true
+        in: query
+        name: inputOptions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Category'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
       tags:
       - fake
 components:
@@ -1936,7 +1965,9 @@ components:
     NullableAllOf:
       properties:
         child:
-          $ref: '#/components/schemas/NullableAllOf_child'
+          allOf:
+          - $ref: '#/components/schemas/NullableAllOfChild'
+          nullable: true
       type: object
     OneOfPrimitiveType:
       oneOf:
@@ -1978,6 +2009,14 @@ components:
           description: a property to test map of file
           type: object
       type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - $ref: '#/components/schemas/AllOfPrimitiveTypes_allOf'
     _foo_get_default_response:
       example:
         string:
@@ -2133,14 +2172,17 @@ components:
           type: boolean
       type: object
       example: null
-    NullableAllOf_child:
-      allOf:
-      - $ref: '#/components/schemas/NullableAllOfChild'
-      nullable: true
     DuplicatedPropChild_allOf:
       properties:
         dup-prop:
           description: A discriminator value
+          type: string
+      type: object
+      example: null
+    AllOfPrimitiveTypes_allOf:
+      properties:
+        test:
+          format: date-time
           type: string
       type: object
       example: null

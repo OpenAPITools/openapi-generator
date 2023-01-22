@@ -6,7 +6,7 @@ import {{invokerPackage}}.ApiResponse;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
-import javax.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -173,7 +173,7 @@ public class {{classname}} {
 
   public class API{{operationId}}Request {
     {{#allParams}}
-    private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{paramName}};
+    private {{{dataType}}} {{paramName}};
     {{/allParams}}
 
     private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) {

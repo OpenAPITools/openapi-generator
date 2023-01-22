@@ -35,7 +35,7 @@ public class File {
    * @return sourceURI
   */
   
-  @Schema(name = "sourceURI", description = "Test capitalization", required = false)
+  @Schema(name = "sourceURI", description = "Test capitalization", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getSourceURI() {
     return sourceURI;
   }

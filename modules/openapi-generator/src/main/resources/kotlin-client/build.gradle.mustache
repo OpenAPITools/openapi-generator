@@ -9,9 +9,9 @@ wrapper {
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.7.21'
     {{#jvm-ktor}}
-    ext.ktor_version = '2.0.3'
+    ext.ktor_version = '2.1.3'
     {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
@@ -25,6 +25,9 @@ buildscript {
     {{#useRxJava3}}
     ext.rxJava3Version = '3.0.12'
     {{/useRxJava3}}
+    {{#jvm-vertx}}
+    ext.vertx_version = "4.3.3"
+    {{/jvm-vertx}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -50,6 +53,7 @@ apply plugin: 'kotlinx-serialization'
 {{#idea}}
 apply plugin: 'idea'
 {{/idea}}
+apply plugin: 'maven-publish'
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -72,7 +76,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
     {{#useCoroutines}}
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     {{/useCoroutines}}
     {{/doNotUseRxAndCoroutines}}
     {{#moshi}}
@@ -96,7 +100,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
     {{/jackson}}
     {{#kotlinx_serialization}}
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
     {{/kotlinx_serialization}}
     {{#jvm-ktor}}
     implementation "io.ktor:ktor-client-core:$ktor_version"
@@ -149,6 +153,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    {{#jvm-vertx}}
+    implementation "io.vertx:vertx-web-client:$vertx_version"
+    implementation "io.vertx:vertx-core:$vertx_version"
+    implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
+    implementation "io.vertx:vertx-uri-template:$vertx_version"
+    {{#useCoroutines}}
+    implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
+    {{/useCoroutines}}
+    {{/jvm-vertx}}
 }
 {{#kotlinx_serialization}}
 

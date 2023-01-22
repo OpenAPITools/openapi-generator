@@ -143,6 +143,7 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](docs/Model/ApiResponse.md)
  - [Category](docs/Model/Category.md)
+ - [EnumStringModel](docs/Model/EnumStringModel.md)
  - [Order](docs/Model/Order.md)
  - [Pet](docs/Model/Pet.md)
  - [Tag](docs/Model/Tag.md)

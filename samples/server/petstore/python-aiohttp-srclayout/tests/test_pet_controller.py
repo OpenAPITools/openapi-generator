@@ -9,7 +9,7 @@ from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 
 
-@pytest.mark.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
+@pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_add_pet(client):
     """Test case for add_pet
 
@@ -117,7 +117,7 @@ async def test_get_pet_by_id(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-@pytest.mark.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
+@pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_update_pet(client):
     """Test case for update_pet
 

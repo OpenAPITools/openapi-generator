@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the DuplicatedPropChildAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DuplicatedPropChildAllOf{}
+
 // DuplicatedPropChildAllOf struct for DuplicatedPropChildAllOf
 type DuplicatedPropChildAllOf struct {
 	// A discriminator value
@@ -42,7 +45,7 @@ func NewDuplicatedPropChildAllOfWithDefaults() *DuplicatedPropChildAllOf {
 
 // GetDupProp returns the DupProp field value if set, zero value otherwise.
 func (o *DuplicatedPropChildAllOf) GetDupProp() string {
-	if o == nil || o.DupProp == nil {
+	if o == nil || isNil(o.DupProp) {
 		var ret string
 		return ret
 	}
@@ -52,7 +55,7 @@ func (o *DuplicatedPropChildAllOf) GetDupProp() string {
 // GetDupPropOk returns a tuple with the DupProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DuplicatedPropChildAllOf) GetDupPropOk() (*string, bool) {
-	if o == nil || o.DupProp == nil {
+	if o == nil || isNil(o.DupProp) {
 		return nil, false
 	}
 	return o.DupProp, true
@@ -60,7 +63,7 @@ func (o *DuplicatedPropChildAllOf) GetDupPropOk() (*string, bool) {
 
 // HasDupProp returns a boolean if a field has been set.
 func (o *DuplicatedPropChildAllOf) HasDupProp() bool {
-	if o != nil && o.DupProp != nil {
+	if o != nil && !isNil(o.DupProp) {
 		return true
 	}
 
@@ -73,8 +76,16 @@ func (o *DuplicatedPropChildAllOf) SetDupProp(v string) {
 }
 
 func (o DuplicatedPropChildAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o DuplicatedPropChildAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.DupProp != nil {
+	if !isNil(o.DupProp) {
 		toSerialize["dup-prop"] = o.DupProp
 	}
 
@@ -82,7 +93,7 @@ func (o DuplicatedPropChildAllOf) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *DuplicatedPropChildAllOf) UnmarshalJSON(bytes []byte) (err error) {

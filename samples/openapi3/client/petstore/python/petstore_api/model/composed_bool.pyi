@@ -54,11 +54,11 @@ class ComposedBool(
 
     def __new__(
         cls,
-        *args: typing.Union[bool, ],
+        *_args: typing.Union[bool, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'ComposedBool':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
         )
