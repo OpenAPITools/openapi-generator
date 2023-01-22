@@ -89,8 +89,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)    #");
+        System.out.println("################################################################################");
     }
 }
