@@ -1,7 +1,7 @@
 {
-  "name": "{{{npmName}}}",
-  "version": "{{{npmVersion}}}",
-  "license": "Unlicense",
+  "name": "Petstore",
+  "version": "0.0.1",
+  "license": "MIT",
   "main": "app.ts",
   "scripts": {
     "dev": "export NODE_ENV=development; ts-node-dev -r tsconfig-paths/register app.ts",
@@ -11,15 +11,7 @@
     "prod:build": "node ./build.js",
     "prod:start": "prisma generate && prisma migrate deploy && export NODE_ENV=production; node ./dist/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
-  },
-  "keywords": [
-    "koa",
-    "openapi-server",
-    "openapi-generator"
-  ],
+  "repository": "git@github.com:unix/koa-ts.git",
   "engines": {
     "node": ">= 14.x"
   },

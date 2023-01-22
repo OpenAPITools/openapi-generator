@@ -1,226 +1,107 @@
-## @
+### koa-ts
 
-### Building
+The best practice of building Koa2 with TypeScript. [中文](/README_CN.md)
 
-To install the required dependencies and to build the typescript sources run:
-```
-npm install
-npm run build
-```
+---
 
-### publishing
+#### Usage
 
-First build the package then run ```npm publish dist``` (don't forget to specify the `dist` folder!)
+1. Run `npm init koa-ts`
 
-### consuming
+2. Install dependencies: `yarn`
 
-Navigate to the folder of your consuming project and run one of next commands.
+3. Rename `.env.example` to `.env`, and run `prisma db push` to synchronize the data model
 
-_published:_
+4. Start the server: `yarn dev`. visit: http://127.0.0.1:3000/apis/sessions
 
-```
-npm install @ --save
-```
+> **(Optional)** the project has built-in a docker compose, run `yarn dev:db` to run database automatic.
 
-_without publishing (not recommended):_
+---
+
+#### Project Layout
 
 ```
-npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
+├── app
+│   ├── controllers         ---  server controllers
+│   ├── helpers             ---  helper func (interceptor / error handler / validator...)
+│   ├── jobs                ---  task (periodic task / trigger task / email server...)
+│   ├── entities            ---  database entities/models
+│   └── services            ---  adhesive controller and model
+├── config
+│   ├── constants        ---  environment variable
+│   ├── koa.middlewares     ---  middlewares for Koa
+│   ├── routing.middlewares ---  middlewares for Routing Controller
+│   ├── routing.options     ---  configs for Routing Controller
+│   ├── bootstrap           ---  lifecycle
+│   └── interceptors        ---  global interceptor
+│   └── utils               ---  pure functions for help
+└── test                    ---  utils for testcase
+├── .env           ---  environment file
 ```
 
-_It's important to take the tgz file, otherwise you'll get trouble with links on windows_
+---
 
-_using `npm link`:_
+#### Feature
 
-In PATH_TO_GENERATED_PACKAGE/dist:
-```
-npm link
-```
+- Separation configuration and business logic.
 
-In your project:
-```
-npm link 
-```
+- Export scheme model and interface, follow style of TypeScript.
 
-__Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
-Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
-Published packages are not effected by this issue.
+- Test cases and lint configuration.
 
+- The best practice for Dependency Injection in Koa project.
 
-#### General usage
+- Get constraints on your data model with Prisma.
 
-In your Angular project:
+- TypeScript hotload.
 
+---
 
-```
-// without configuring providers
-import { ApiModule } from '';
-import { HttpClientModule } from '@angular/common/http';
+#### Lifecycle
 
-@NgModule({
-    imports: [
-        ApiModule,
-        // make sure to import the HttpClientModule in the AppModule only,
-        // see https://github.com/angular/angular/issues/20575
-        HttpClientModule
-    ],
-    declarations: [ AppComponent ],
-    providers: [],
-    bootstrap: [ AppComponent ]
-})
-export class AppModule {}
-```
+1. `app.ts` -> collect env vars `constants` -> collect env files `variables.env`
 
-```
-// configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '';
+2. envs ready, call `bootstrap.before()`
 
-export function apiConfigFactory (): Configuration {
-  const params: ConfigurationParameters = {
-    // set configuration parameters here.
-  }
-  return new Configuration(params);
-}
+3. lift `routing-controllers` -> lift Koa middlewares -> register `Container` for DI
 
-@NgModule({
-    imports: [ ApiModule.forRoot(apiConfigFactory) ],
-    declarations: [ AppComponent ],
-    providers: [],
-    bootstrap: [ AppComponent ]
-})
-export class AppModule {}
-```
+4. start Koa &amp; invoke `bootstrap.after()` after startup
 
-```
-// configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from '';
+---
 
-@NgModule({
-    imports: [ ApiModule ],
-    declarations: [ AppComponent ],
-    providers: [
-      {
-        provide: Configuration,
-        useFactory: (authService: AuthService) => new Configuration(
-          {
-            basePath: environment.apiUrl,
-            accessToken: authService.getAccessToken.bind(authService)
-          }
-        ),
-        deps: [AuthService],
-        multi: false
-      }
-    ],
-    bootstrap: [ AppComponent ]
-})
-export class AppModule {}
-```
+#### Databases
 
-```
-import { DefaultApi } from '';
+The project uses Prisma as the intelligent ORM tool by default. Supports `PostgreSQL`, `MySQL` and `SQLite`.
 
-export class AppComponent {
-    constructor(private apiGateway: DefaultApi) { }
-}
-```
+- You can change the data type and connection method in the `.env` file
+- After each modification to file `/prisma/schema.prisma`, you need to run `prisma migrate dev` to migrate the database.
+- After each modification to file `/prisma/schema.prisma`, you need to run `prisma generate` to sync types.
 
-Note: The ApiModule is restricted to being instantiated once app wide.
-This is to ensure that all services are treated as singletons.
+---
 
-#### Using multiple OpenAPI files / APIs / ApiModules
-In order to use multiple `ApiModules` generated from different OpenAPI files,
-you can create an alias name when importing the modules
-in order to avoid naming conflicts:
-```
-import { ApiModule } from 'my-api-path';
-import { ApiModule as OtherApiModule } from 'my-other-api-path';
-import { HttpClientModule } from '@angular/common/http';
+#### About Environments
 
-@NgModule({
-  imports: [
-    ApiModule,
-    OtherApiModule,
-    // make sure to import the HttpClientModule in the AppModule only,
-    // see https://github.com/angular/angular/issues/20575
-    HttpClientModule
-  ]
-})
-export class AppModule {
+When nodejs is running, `ENV` does not mean `NODE_ENV`:
 
-}
-```
+- After NodeJS project is built, we always run it as `NODE_ENV=PRODUCTION`, which may affect some framework optimizations.
+- `NODE_ENV` only identifies the NodeJS runtime, independent of the business.
+- You should use `ENV` to identify the environment.
 
+For the data settings of each environment, you can refer to the following:
 
-### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service.
+- **Development Mode** (`ENV=development`): read configurations from `configs/constants/development.ts` file, but it will still be overwritten by `.env` file.
 
-```
-import { BASE_PATH } from '';
+- **Production Mode** (`ENV=production`): read configurations from `configs/constants/production.ts` file, but it will still be overwritten by `.env` file.
 
-bootstrap(AppComponent, [
-    { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
-]);
-```
-or
+---
 
-```
-import { BASE_PATH } from '';
+#### Reference
 
-@NgModule({
-    imports: [],
-    declarations: [ AppComponent ],
-    providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
-    bootstrap: [ AppComponent ]
-})
-export class AppModule {}
-```
+- [routing-controllers](https://github.com/typestack/routing-controllers)
+- [Prisma](https://www.prisma.io/docs/concepts)
 
+---
 
-#### Using @angular/cli
-First extend your `src/environments/*.ts` files by adding the corresponding base path:
+#### LICENSE
 
-```
-export const environment = {
-  production: false,
-  API_BASE_PATH: 'http://127.0.0.1:8080'
-};
-```
-
-In the src/app/app.module.ts:
-```
-import { BASE_PATH } from '';
-import { environment } from '../environments/environment';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [ ],
-  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
-  bootstrap: [ AppComponent ]
-})
-export class AppModule { }
-```
-
-### Customizing path parameter encoding
-
-Without further customization, only [path-parameters][parameter-locations-url] of [style][style-values-url] 'simple'
-and Dates for format 'date-time' are encoded correctly.
-
-Other styles (e.g. "matrix") are not that easy to encode
-and thus are best delegated to other libraries (e.g.: [@honoluluhenk/http-param-expander]).
-
-To implement your own parameter encoding (or call another library),
-pass an arrow-function or method-reference to the `encodeParam` property of the Configuration-object
-(see [General Usage](#general-usage) above).
-
-Example value for use in your Configuration-Provider:
-```typescript
-new Configuration({
-    encodeParam: (param: Param) => myFancyParamEncoder(param),
-})
-```
-
-[parameter-locations-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations
-[style-values-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
-[@honoluluhenk/http-param-expander]: https://www.npmjs.com/package/@honoluluhenk/http-param-expander
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more info.

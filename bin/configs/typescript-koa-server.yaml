@@ -1,5 +1,6 @@
 generatorName: typescript-koa-server
 outputDir: samples/server/petstore/typescript-koa-server
+#outputDir: /Users/williamcheng/Code/typescript/PetStore
 inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-koa-server/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-koa-server
 additionalProperties:

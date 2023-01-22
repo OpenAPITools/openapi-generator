@@ -126,7 +126,6 @@ public class TypeScriptKoaServerCodegen extends AbstractTypeScriptClientCodegen 
         providedInOptions.put(PROVIDED_IN_LEVEL.any.toString(), "Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.");
         providedInCliOpt.setEnum(providedInOptions);
         this.cliOptions.add(providedInCliOpt);
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 9.0.0)").defaultValue(this.ngVersion));
         this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
@@ -167,81 +166,46 @@ public class TypeScriptKoaServerCodegen extends AbstractTypeScriptClientCodegen 
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
 
-        supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
-        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
-        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
-        supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
-        supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
+        // app/session folder
+        supportingFiles.add(new SupportingFile("sessions.service.ts.mustache", "app" + File.separator + "services", "sessions.service.ts"));
+        supportingFiles.add(new SupportingFile("sessions.index.ts.mustache", "app" + File.separator + "ervices", "index.ts"));
+
+        // app/helpers folder
+        supportingFiles.add(new SupportingFile("client.ts.mustache", "app" + File.separator + "helpers", "client.ts"));
+
+        // app/jobs folder
+        supportingFiles.add(new SupportingFile("jobs.README.mustache", "app" + File.separator + "jobs", "README.md"));
+
+        // app/controllers
+        supportingFiles.add(new SupportingFile("index.ts.mustache", "app" + File.separator + "controllers", "index.ts"));
+        supportingFiles.add(new SupportingFile("sessions.controller.ts.mustache", "app" + File.separator + "controllers", "sessions.controller.ts"));
+
+        // app/controllers/__tests__
+        supportingFiles.add(new SupportingFile("session.test.js.mustache", "app" + File.separator + "controllers" + File.separator + "__tests__", "session.test.js"));
+
+        // configs
+        supportingFiles.add(new SupportingFile("application.ts.mustache", "configs", "application.ts"));
+        supportingFiles.add(new SupportingFile("bootstrap.ts.mustache", "configs", "bootstrap.ts"));
+        supportingFiles.add(new SupportingFile("interceptors.ts.mustache", "configs", "interceptors.ts"));
+        supportingFiles.add(new SupportingFile("koa.middlewares.ts.mustache", "configs", "koa.middlewares.ts"));
+        supportingFiles.add(new SupportingFile("routing.middlewares.ts.mustache", "configs", "routing.middlewares.ts"));
+        supportingFiles.add(new SupportingFile("routing.options.ts.mustache", "configs", "routing.options.ts"));
+        supportingFiles.add(new SupportingFile("utils.ts.mustache", "configs", "utils.ts"));
+
+        // configs/constants
+        supportingFiles.add(new SupportingFile("development.ts.mustache", "configs" + File.separator + "constants", "development.ts"));
+        supportingFiles.add(new SupportingFile("envs.ts.mustache", "configs" + File.separator + "constants", "envs.ts"));
+        supportingFiles.add(new SupportingFile("configs.constants.index.ts.mustache", "configs" + File.separator + "constants", "index.ts"));
+        supportingFiles.add(new SupportingFile("production.ts.mustache", "configs" + File.separator + "constants", "production.ts"));
+        supportingFiles.add(new SupportingFile("staging.ts.mustache", "configs" + File.separator + "constants", "staging.ts"));
+
+        // prisma
+        supportingFiles.add(new SupportingFile("schema.prisma.mustache", "prisma", "schema.prisma"));
+
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
-
-        // determine NG version
-        SemVer ngVersion;
-        if (additionalProperties.containsKey(NG_VERSION)) {
-            ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
-        } else {
-            ngVersion = new SemVer(this.ngVersion);
-            LOGGER.info("generating code for Angular {} ...", ngVersion);
-            LOGGER.info("  (you can select the angular version by setting the additionalProperties (--additional-properties in CLI) ngVersion)");
-        }
-
-        if (!ngVersion.atLeast("9.0.0")) {
-            throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
-        }
-
-        if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
-            additionalProperties.put("stringEnums", getStringEnums());
-            if (getStringEnums()) {
-                classEnumSeparator = "";
-            }
-        }
-
-        if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
-            if (withInterfaces) {
-                apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
-            }
-        }
-
-        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
-            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
-        }
-        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
-
-        if (additionalProperties.containsKey(TAGGED_UNIONS)) {
-            taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
-        }
-
-        if (additionalProperties.containsKey(PROVIDED_IN)) {
-            setProvidedIn(additionalProperties.get(PROVIDED_IN).toString());
-        }
-        additionalProperties.put("providedIn", providedIn);
-        additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
-
-        additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
-
-        if (ngVersion.atLeast("12.0.0")) {
-            additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
-        }
-
-        additionalProperties.put(NG_VERSION, ngVersion);
-
-        if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
-            String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
-            validateClassPrefixArgument("ApiModule", apiModulePrefix);
-
-            additionalProperties.put("apiModuleClassName", apiModulePrefix + "ApiModule");
-        } else {
-            additionalProperties.put("apiModuleClassName", "ApiModule");
-        }
         if (additionalProperties.containsKey(CONFIGURATION_PREFIX)) {
             String configurationPrefix = additionalProperties.get(CONFIGURATION_PREFIX).toString();
             validateClassPrefixArgument("Configuration", configurationPrefix);
@@ -252,32 +216,6 @@ public class TypeScriptKoaServerCodegen extends AbstractTypeScriptClientCodegen 
             additionalProperties.put("configurationClassName", "Configuration");
             additionalProperties.put("configurationParametersInterfaceName", "ConfigurationParameters");
         }
-        if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
-            serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
-            validateClassSuffixArgument("Service", serviceSuffix);
-        }
-        if (additionalProperties.containsKey(SERVICE_FILE_SUFFIX)) {
-            serviceFileSuffix = additionalProperties.get(SERVICE_FILE_SUFFIX).toString();
-            validateFileSuffixArgument("Service", serviceFileSuffix);
-        }
-        if (additionalProperties.containsKey(MODEL_SUFFIX)) {
-            modelSuffix = additionalProperties.get(MODEL_SUFFIX).toString();
-            validateClassSuffixArgument("Model", modelSuffix);
-        }
-        if (additionalProperties.containsKey(MODEL_FILE_SUFFIX)) {
-            modelFileSuffix = additionalProperties.get(MODEL_FILE_SUFFIX).toString();
-            validateFileSuffixArgument("Model", modelFileSuffix);
-        }
-        if (additionalProperties.containsKey(FILE_NAMING)) {
-            this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
-        }
-
-        if (additionalProperties.containsKey(QUERY_PARAM_OBJECT_FORMAT)) {
-            setQueryParamObjectFormat((String) additionalProperties.get(QUERY_PARAM_OBJECT_FORMAT));
-        }
-        additionalProperties.put("isQueryParamObjectFormatDot", getQueryParamObjectFormatDot());
-        additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
-        additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
 
     }
 
