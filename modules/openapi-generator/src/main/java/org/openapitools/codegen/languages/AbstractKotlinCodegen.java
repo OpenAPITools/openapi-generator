@@ -49,6 +49,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public static final String MODEL_MUTABLE = "modelMutable";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
 
@@ -68,6 +70,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
+    protected boolean useJakartaEe = false;
 
     protected boolean nonPublicApi = false;
 
@@ -266,6 +269,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "Whether to use Jakarta EE namespace instead of javax", false));
     }
 
     @Override
@@ -276,6 +280,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String apiFileFolder() {
         return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    protected void applyJakartaPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "jakarta");
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "javax");
     }
 
     @Override
@@ -311,7 +323,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the naming convention for Kotlin enum properties
      *
-     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
      */
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {
         try {
@@ -329,7 +341,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      * Sets the serialization engine for Kotlin
      *
      * @param enumSerializationLibrary The string representation of the serialization library as defined by
-     *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
+     *                                 {@link SERIALIZATION_LIBRARY_TYPE}
      */
     public void setSerializationLibrary(final String enumSerializationLibrary) {
         try {
@@ -543,6 +555,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             typeMapping.put("list", "kotlin.collections.MutableList");
             typeMapping.put("set", "kotlin.collections.MutableSet");
             typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            this.setUseJakartaEe(Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString()));
+        }
+        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+
+        if (useJakartaEe) {
+            applyJakartaPackage();
+        } else {
+            applyJavaxPackage();
         }
     }
 
@@ -1126,5 +1149,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
+    }
+
+    public void setUseJakartaEe(boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
     }
 }

@@ -17,7 +17,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -67,6 +66,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
     public static final String REACTIVE = "reactive";
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
@@ -84,6 +84,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean serviceImplementation = false;
     private boolean reactive = false;
     private boolean interfaceOnly = false;
+    protected boolean useSpringBoot3 = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
@@ -143,6 +144,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
         addSwitch(USE_SWAGGER_UI, "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies", useSwaggerUI);
+        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
                 "cases this option would be used to update an existing project, so not to override implementations. " +
                 "Useful to help facilitate the generation gap pattern", serviceInterface);
@@ -224,7 +226,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
-     * Whether the selected {@link DocumentationProviderFeatures.DocumentationProvider} requires us to bootstrap and
+     * Whether the selected {@link DocumentationProvider} requires us to bootstrap and
      * configure swagger-ui by ourselves. Springdoc, for example ships its own swagger-ui integration.
      *
      * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
@@ -249,6 +251,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
+
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
+    }
+
+    public void setUseSpringBoot3(boolean useSpringBoot3) {
+        this.useSpringBoot3 = useSpringBoot3;
+    }
+
+
 
     public String getServerPort() {
         return this.serverPort;
@@ -439,6 +451,26 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(BASE_PACKAGE, basePackage);
         }
 
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (isUseSpringBoot3()) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            useJakartaEe=true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            applyJakartaPackage();
+        }
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
+
+        if (isUseSpringBoot3()) {
+            importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
+        }
+
         if (additionalProperties.containsKey(SERVER_PORT)) {
             this.setServerPort((String) additionalProperties.get(SERVER_PORT));
         } else {
@@ -517,7 +549,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (SPRING_BOOT.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
+                    (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "ApiUtil.kt"));
         }
 
         if (this.serviceInterface) {
@@ -554,10 +586,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (!this.interfaceOnly) {
                 if (this.documentationProvider != DocumentationProvider.NONE) {
                     supportingFiles.add(new SupportingFile("homeController.mustache",
-                            (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                            (sourceFolder + File.separator + basePackage).replace(".", File.separator),
                             "HomeController.kt"));
                     supportingFiles.add(new SupportingFile("openapi.mustache",
-                            resourcesFolder.replace("/", java.io.File.separator), "openapi.yaml"));
+                            resourcesFolder.replace("/", File.separator), "openapi.yaml"));
                 }
 
                 supportingFiles.add(new SupportingFile("application.mustache", resourcesFolder, "application.yaml"));
@@ -574,11 +606,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (!reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        (sourceFolder + File.separator + basePackage).replace(".", File.separator),
                         "SpringFoxConfiguration.kt"));
             } else if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        (sourceFolder + File.separator + basePackage).replace(".", File.separator),
                         "SpringDocConfiguration.kt"));
             }
         }
@@ -588,9 +620,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+                (Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
+                (Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
+
+
     }
 
     @Override
@@ -831,7 +865,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     // TODO could probably be made more generic, and moved to the `mustache` package if required by other components.
-    private static class EscapeLambda implements Mustache.Lambda {
+    private static class EscapeLambda implements Lambda {
         private final String from;
         private final String to;
 
