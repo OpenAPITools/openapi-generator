@@ -88,6 +88,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType
+                )
         );
 
         // set the output folder here
@@ -192,7 +195,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "Tuple",
                         "PID",
                         "DateTime",
-                        "map()" // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
+                        "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
+                        "any()"
                 )
         );
 
