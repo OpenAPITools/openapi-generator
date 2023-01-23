@@ -35,14 +35,8 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 {{#useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.Valid
-import jakarta.validation.constraints.*
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.constraints.*
-import javax.validation.Valid
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.constraints.*
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 
 {{#reactive}}

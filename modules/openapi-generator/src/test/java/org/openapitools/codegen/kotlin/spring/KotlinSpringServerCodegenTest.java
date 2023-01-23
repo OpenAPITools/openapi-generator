@@ -394,7 +394,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SPRING_BOOT_3, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13578_use_springboot3_jakarta_extension.yaml"))

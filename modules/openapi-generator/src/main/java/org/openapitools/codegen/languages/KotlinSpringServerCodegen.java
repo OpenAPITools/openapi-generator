@@ -72,8 +72,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
-    public static final String USE_JAKARTA_EE = "useJakartaEe";
-    public static final String SPRING_BOOT_3 = "SpringBoot3";
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
 
     private String basePackage;
     private String invokerPackage;
@@ -91,8 +90,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
 
-    protected boolean useJakartaExtension = false;
-    protected boolean isSpringBoot3 = false;
+    protected boolean useSpringBoot3 = false;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
@@ -162,7 +160,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
-        addSwitch(SPRING_BOOT_3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).", isSpringBoot3);
+        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -323,16 +321,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useTags = useTags;
     }
 
-    public void setUseJakartaExtension(boolean useJakartaExtension) {
-        this.useJakartaExtension = useJakartaExtension;
+    public void setUseSpringBoot3(boolean isSpringBoot3) {
+        this.useSpringBoot3 = isSpringBoot3;
     }
 
-    public void setSpringBoot3(boolean isSpringBoot3) {
-        this.isSpringBoot3 = isSpringBoot3;
-    }
-
-    public boolean isSpringBoot3() {
-        return isSpringBoot3;
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
     }
 
     @Override
@@ -523,21 +517,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
 
-        if (additionalProperties.containsKey(SPRING_BOOT_3)) {
-            this.setSpringBoot3(convertPropertyToBoolean(SPRING_BOOT_3));
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
         }
-        if (isSpringBoot3()) {
+        if (isUseSpringBoot3()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
-            writePropertyBack(USE_JAKARTA_EE, true);
-        } else {
-            writePropertyBack(USE_JAKARTA_EE, false);
+            useJakartaEe=true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            applyJakartaPackage();
         }
-        writePropertyBack(SPRING_BOOT_3, isSpringBoot3());
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
@@ -580,14 +574,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
-            if (isSpringBoot3()) {
+            if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
             } else {
                 supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             }
 
             if (this.gradleBuildFile) {
-                if (isSpringBoot3()) {
+                if (isUseSpringBoot3()) {
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "", "build.gradle.kts"));
                 } else {
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));

@@ -4,14 +4,8 @@ import java.util.Objects
 {{#imports}}import {{import}}
 {{/imports}}
 {{#useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.Valid
-import jakarta.validation.constraints.*
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.constraints.*
-import javax.validation.Valid
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.constraints.*
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 {{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.media.Schema

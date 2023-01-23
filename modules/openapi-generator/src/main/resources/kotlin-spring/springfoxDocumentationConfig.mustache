@@ -13,12 +13,7 @@ import springfox.documentation.spring.web.paths.Paths
 import springfox.documentation.spring.web.paths.RelativePathProvider
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-{{#useJakartaEe}}
-import jakarta.servlet.ServletContext
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.servlet.ServletContext
-{{/useJakartaEe}}
+import {{javaxPackage}}.servlet.ServletContext
 
 
 {{>generatedAnnotation}}
