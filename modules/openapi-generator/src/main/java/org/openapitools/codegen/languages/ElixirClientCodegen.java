@@ -672,10 +672,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
-
-            if (this.baseType.equals("AnyType")){
-                return "%{}";
-            }
             StringBuilder sb = new StringBuilder();
             if (isArray) {
                 sb.append("[");
