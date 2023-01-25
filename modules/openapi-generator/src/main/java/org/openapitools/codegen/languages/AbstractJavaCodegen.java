@@ -1345,6 +1345,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.imports.add("JsonTypeInfo");
             codegenModel.imports.add("JsonIgnoreProperties");
         }
+        if (codegenModel.getIsClassnameSanitized() && additionalProperties.containsKey(JACKSON) && !codegenModel.isEnum) {
+            codegenModel.imports.add("JsonTypeName");
+        }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
@@ -1370,10 +1373,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if (model.getIsClassnameSanitized() && additionalProperties.containsKey(JACKSON)) {
-            model.imports.add("JsonTypeName");
-        }
-
         if (serializeBigDecimalAsString) {
             if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
