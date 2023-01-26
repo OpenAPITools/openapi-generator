@@ -35,7 +35,7 @@ export class {{classname}} {
 {{/withInterfaces}}
 
     protected basePath = '{{{basePath}}}';
-    public defaultHeaders: AxiosRequestHeaders = {};
+    public defaultHeaders: Record<string, string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
