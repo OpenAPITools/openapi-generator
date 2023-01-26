@@ -903,6 +903,7 @@ export interface PetApiInterface {
  * @extends {BaseAPI}
  */
 export class PetApi extends BaseAPI implements PetApiInterface {
+    protected fp = PetApiFp(this.configuration);
     /**
      * 
      * @summary Add a new pet to the store
@@ -912,7 +913,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public addPet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.addPet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -925,7 +926,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -937,7 +938,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -950,7 +951,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -962,7 +963,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public getPetById(petId: number, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getPetById(petId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -974,7 +975,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public updatePet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePet(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -988,7 +989,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1002,7 +1003,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @memberof PetApi
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1309,6 +1310,7 @@ export interface StoreApiInterface {
  * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI implements StoreApiInterface {
+    protected fp = StoreApiFp(this.configuration);
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -1318,7 +1320,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1329,7 +1331,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @memberof StoreApi
      */
     public getInventory(options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1341,7 +1343,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1353,7 +1355,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @memberof StoreApi
      */
     public placeOrder(body: Order, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1943,6 +1945,7 @@ export interface UserApiInterface {
  * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI implements UserApiInterface {
+    protected fp = UserApiFp(this.configuration);
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -1952,7 +1955,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public createUser(body: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUser(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUser(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1964,7 +1967,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public createUsersWithArrayInput(body: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithArrayInput(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUsersWithArrayInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1976,7 +1979,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public createUsersWithListInput(body: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithListInput(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUsersWithListInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1988,7 +1991,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public deleteUser(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deleteUser(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2000,7 +2003,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public getUserByName(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getUserByName(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2013,7 +2016,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public loginUser(username: string, password: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2024,7 +2027,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public logoutUser(options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.logoutUser(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2037,7 +2040,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @memberof UserApi
      */
     public updateUser(username: string, body: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
