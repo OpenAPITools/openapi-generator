@@ -34,7 +34,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
@@ -168,7 +168,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
@@ -234,7 +234,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order = petstore_api.Order() # Order | order placed for purchasing the pet

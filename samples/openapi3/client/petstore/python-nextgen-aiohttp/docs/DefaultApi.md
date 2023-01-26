@@ -29,7 +29,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.DefaultApi(api_client)
 
