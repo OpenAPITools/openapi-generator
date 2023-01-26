@@ -1672,26 +1672,122 @@ public class JavaClientCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
-                .setAdditionalProperties(additionalProperties)
-                .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
-                .setOutputDir(output.getAbsolutePath()
-                        .replace("\\", "/"));
+            .setAdditionalProperties(additionalProperties)
+            .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
+            .setOutputDir(output.getAbsolutePath()
+                .replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+            .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("DefaultApi.java"))
-                .assertMethod("operationWithHttpInfo")
-                    .hasParameter("requestBody")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull")
-                .toParameter().toMethod()
-                    .hasParameter("xNonNullHeaderParameter")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull");
+            .assertMethod("operationWithHttpInfo")
+            .hasParameter("requestBody")
+            .assertParameterAnnotations()
+            .containsWithName("NotNull")
+            .toParameter().toMethod()
+            .hasParameter("xNonNullHeaderParameter")
+            .assertParameterAnnotations()
+            .containsWithName("NotNull");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13784
+     */
+    @Test
+    public void testSingleInheritanceAliasesGetResolved() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+            .setInputSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml")
+            // Adding a suffix allows us to detect confusion between String and StringApiDto
+            .setModelNameSuffix("ApiDto")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Assert Model
+        File entityFile = files.get("EntityWithIdApiDto.java");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getId")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdAnyOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdAllOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdOneOfDeepReference")
+            .hasReturnType("String");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getUuidReference")
+            .hasReturnType("UUID");
+
+        // Assert API
+        File apiFile = files.get("DefaultApi.java");
+        JavaFileAssert.assertThat(apiFile)
+            .assertMethod("aliasedParameterAndReturnTypeGet")
+            .hasParameter("id")
+            .withType("String");
+        JavaFileAssert.assertThat(apiFile)
+            .assertMethod("aliasedParameterAndReturnTypeGet")
+            .hasReturnType("String");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13784
+     */
+    @Test
+    public void testSingleInheritanceAliasesGetResolvedInArraysAndObjects() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+            .setInputSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml")
+            // Adding a suffix allows us to detect confusion between String and StringApiDto
+            .setModelNameSuffix("ApiDto")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Assert Model
+        File entityFile = files.get("EntityWithIdApiDto.java");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdReferenceArray")
+            .hasReturnType("List<String>");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdReferenceAnyOfArray")
+            .hasReturnType("List<String>");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdReferenceArrayInPlace")
+            .hasReturnType("List<String>");
+        JavaFileAssert.assertThat(entityFile)
+            .assertMethod("getIdReferenceArrayInPlace2")
+            .hasReturnType("List<String>");
+
+        File subscriptionFile = files.get("ObjectTypeReferenceApiDto.java");
+        JavaFileAssert.assertThat(subscriptionFile)
+            .assertMethod("prop1")
+            .hasParameter("prop1")
+            .withType("ObjectTypeApiDto");
+        JavaFileAssert.assertThat(subscriptionFile)
+            .assertMethod("prop2")
+            .hasParameter("prop2")
+            .withType("ObjectTypeApiDto");
     }
 
     @Test

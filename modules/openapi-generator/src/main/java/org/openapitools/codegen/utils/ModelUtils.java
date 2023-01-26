@@ -1264,6 +1264,18 @@ public class ModelUtils {
                             schemaMappings);
                 }
             } else if (isComposedSchema(ref)) {
+                ComposedSchema composedRef = (ComposedSchema) ref;
+                List<Schema> parentTypes = ModelUtils.getInterfaces(composedRef);
+                // Arrays with a single subtype behave like an alias to that type
+                if (parentTypes.size() == 1
+                    // the following conditions exclude special-cases, that make the schema non-exchangeable with the referenced schema
+                    && (composedRef.getProperties() == null || composedRef.getProperties().isEmpty())
+                    && (composedRef.getRequired() == null || composedRef.getRequired().isEmpty())
+                    && (composedRef.getAdditionalProperties() == null || composedRef.getAdditionalProperties() == Boolean.TRUE)) {
+                    return new Schema<>()
+                        .$ref(parentTypes.get(0).get$ref())
+                        .nullable(composedRef.getNullable());
+                }
                 return schema;
             } else if (isMapSchema(ref)) {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property

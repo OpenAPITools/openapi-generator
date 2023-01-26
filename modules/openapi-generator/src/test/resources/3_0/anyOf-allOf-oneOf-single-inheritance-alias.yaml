@@ -1,0 +1,114 @@
+openapi: 3.0.2
+info:
+  title: Test that single-inheritance (allOf/anyOf/oneOf with a single subtype) act as aliases to primitive types
+  version: 1.0.0
+  description: todo
+paths:
+  /aliasedParameterAndReturnType:
+    description: Query for Entity
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/IdReference'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/IdReference'
+          description: Entity
+components:
+  schemas:
+    Id:
+      description: An id.
+      type: string
+      minLength: 16
+      maxLength: 128
+      example: 9d158f59-80b7-4c11-9c0c-8a2b4d936b2d
+    IdReference:
+      description: An id that is used for Entities
+      anyOf:
+          - $ref: '#/components/schemas/Id'
+    UuidAlias:
+      type: string
+      format: uuid
+    IdReferenceArray:
+      type: array
+      items:
+        anyOf:
+          - $ref:  '#/components/schemas/IdReference'
+    EntityWithId:
+      description: Entity with id
+      type: object
+      properties:
+        id:
+          # Here we can't add a description to this property
+          $ref: '#/components/schemas/Id'
+
+        # This should be equivalent, and we can add a description.
+        idReference:
+          description: id, populated only when the third party system provided it
+          anyOf:
+            - $ref: '#/components/schemas/Id'
+
+        # Same, but more than one indirection
+        idAnyOfDeepReference:
+          anyOf:
+            - $ref: '#/components/schemas/IdReference'
+
+        # Same for allOf
+        idAllOfDeepReference:
+          allOf:
+            - $ref: '#/components/schemas/IdReference'
+
+        # Same for oneOf
+        idOneOfDeepReference:
+          oneOf:
+            - $ref: '#/components/schemas/IdReference'
+
+        # same, but for UUIDs
+        uuidReference:
+          anyOf:
+            - $ref: '#/components/schemas/UuidAlias'
+
+        # An array of an alias is an array of string
+        idReferenceArray:
+          $ref:  '#/components/schemas/IdReferenceArray'
+
+        # An array of an alias is an array of string
+        idReferenceAnyOfArray:
+          anyOf:
+            - $ref:  '#/components/schemas/IdReferenceArray'
+
+        # An array of an alias is an array of string
+        idReferenceArrayInPlace:
+          type: array
+          items:
+            $ref:  '#/components/schemas/IdReference'
+
+        # An array of an 'in place' alias is an array of string
+        idReferenceArrayInPlace2:
+          type: array
+          items:
+            anyOf:
+              - $ref:  '#/components/schemas/IdReference'
+
+    ObjectType:
+      type: object
+      properties:
+        name:
+          type: string
+    # The properties of this type should be aliases for 'ObjectType'
+    ObjectTypeReference:
+      type: object
+      properties:
+        prop1:
+          anyOf:
+            - $ref: '#/components/schemas/ObjectType'
+        prop2:
+          allOf:
+            - $ref: '#/components/schemas/ObjectType'

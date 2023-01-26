@@ -244,7 +244,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
-    protected Map<String, String> typeAliases = Collections.emptyMap();
+    protected Map<String, Schema> typeAliases = Collections.emptyMap();
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -2302,6 +2302,13 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public Schema unaliasSchema(Schema schema) {
+        if(schema != null && schema.get$ref() != null) {
+            String schemaName = ModelUtils.getSimpleRef(schema.get$ref());
+            // Explicit schema mapping wins, otherwise we use the primitive type alias
+            if(!schemaMapping.containsKey(schemaName) && typeAliases.containsKey(schemaName)) {
+                return typeAliases.get(schemaName);
+            }
+        }
         return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
     }
 
@@ -2480,8 +2487,8 @@ public class DefaultCodegen implements CodegenConfig {
      * for this type, then returns the input type name.
      */
     public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
+        if (typeAliases.containsKey(name)) {
+            return getPrimitiveType(typeAliases.get(name));
         }
         return name;
     }
@@ -5748,21 +5755,44 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schemas The complete set of model definitions (schemas).
      * @return A mapping from model name to type alias
      */
-    Map<String, String> getAllAliases(Map<String, Schema> schemas) {
+    Map<String, Schema> getAllAliases(Map<String, Schema> schemas) {
         if (schemas == null || schemas.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<String, String> aliases = new HashMap<>();
+        // First, add all root types
+        Map<String, Schema> aliases = new HashMap<>();
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
             Schema schema = entry.getValue();
             if (isAliasOfSimpleTypes(schema)) {
                 String oasName = entry.getKey();
-                String schemaType = getPrimitiveType(schema);
-                aliases.put(oasName, schemaType);
+                aliases.put(oasName, schema);
             }
 
         }
+
+        // Then find all types, that are aliases to a base type
+        boolean foundNewAlias;
+        do {
+            foundNewAlias = false;
+            for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
+                if (aliases.containsKey(entry.getKey())) {
+                    continue;
+                }
+                Schema schema = entry.getValue();
+                if(!(schema instanceof ComposedSchema)) {
+                    continue;
+                }
+                List<Schema> subTypes = ModelUtils.getInterfaces((ComposedSchema)schema);
+                if (subTypes.size() == 1) {
+                    String aliasType = ModelUtils.getSimpleRef(subTypes.get(0).get$ref());
+                    if (aliases.containsKey(aliasType)) {
+                        aliases.put(entry.getKey(), aliases.get(aliasType));
+                        foundNewAlias = true;
+                    }
+                }
+            }
+        } while (foundNewAlias);
 
         return aliases;
     }

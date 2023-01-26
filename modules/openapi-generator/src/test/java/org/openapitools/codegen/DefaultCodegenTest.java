@@ -229,9 +229,64 @@ public class DefaultCodegenTest {
 
         };
 
-        Map<String, String> aliases = codegen.getAllAliases(schemas);
+        Map<String, Schema> aliases = codegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
+    }
+
+    @Test
+    public void testSingleInheritanceAliasesGetResolved() throws Exception {
+        // See Issue #13784
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // Assert Model
+        Assert.assertEquals(codegen.getAlias("EntityWithId"), "EntityWithId");
+
+        Assert.assertEquals(codegen.getAlias("Id"), "string");
+        Assert.assertEquals(codegen.getAlias("IdReference"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idReference"), "string");
+        // This is instead of EntityWithId_idAnyOfDeepReference, because that type is equivalent to the path's parameter type
+        Assert.assertEquals(codegen.getAlias("_aliasedParameterAndReturnType_get_id_parameter"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idAllOfDeepReference"), "string");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_idOneOfDeepReference"), "string");
+        Assert.assertEquals(codegen.getAlias("UuidAlias"), "UUID");
+        Assert.assertEquals(codegen.getAlias("EntityWithId_uuidReference"), "UUID");
+
+        // Assert Path Return Type
+        String path = "/aliasedParameterAndReturnType";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation co = codegen.fromOperation(path, "GET", operation, null);
+        assertEquals(co.returnType, "String");
+
+        // Assert Path Parameter
+        CodegenParameter parameter = co.pathParams.get(0);
+        assertEquals(parameter.dataType, "String");
+        assertEquals(parameter.isPrimitiveType, true);
+        assertEquals(parameter.isString, true);
+        assertEquals(parameter.isAnyType, false);
+    }
+
+    @Test
+    public void testSingleInheritanceArraysAndObjectsGetResolved() {
+        // See Issue #13784
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf-allOf-oneOf-single-inheritance-alias.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        CodegenModel codegenEntityModel = codegen.fromModel("EntityWithId", schemas.get("EntityWithId"));
+        Map<String, CodegenProperty> entityParameters = codegenEntityModel.getVars().stream().collect(Collectors.toMap(CodegenProperty::getBaseName, (x) -> x));
+        Assert.assertEquals(entityParameters.get("idReferenceArray").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceAnyOfArray").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceArrayInPlace").complexType, "string");
+        Assert.assertEquals(entityParameters.get("idReferenceArrayInPlace2").complexType, "string");
+
+        CodegenModel codegenObjectModel = codegen.fromModel("ObjectTypeReference", schemas.get("ObjectTypeReference"));
+        Map<String, CodegenProperty> objectParameters = codegenObjectModel.getVars().stream().collect(Collectors.toMap(CodegenProperty::getBaseName, (x) -> x));
+        Assert.assertEquals(objectParameters.get("prop1").baseType, "ObjectType");
+        Assert.assertEquals(objectParameters.get("prop2").baseType, "ObjectType");
     }
 
     @Test
@@ -3422,12 +3477,11 @@ public class DefaultCodegenTest {
         for (CodegenProperty var : cm.getVars()) {
             boolean hasRequired = var.getHasRequired();
             if (modelNamesWithoutRequired.contains(var.name)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, var.name + " should not be required");
             } else if (modelNamesWithRequired.contains(var.name)) {
-                assertTrue(hasRequired);
+                assertTrue(hasRequired, var.name + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
@@ -3472,12 +3526,11 @@ public class DefaultCodegenTest {
         for (CodegenParameter param : co.pathParams) {
             boolean hasRequired = param.getHasRequired();
             if (modelNamesWithoutRequired.contains(param.baseName)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, param.baseName + " should not be required");
             } else if (modelNamesWithRequired.contains(param.baseName)) {
-                assertTrue(hasRequired);
+                assertFalse(hasRequired, param.baseName + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
@@ -3522,12 +3575,11 @@ public class DefaultCodegenTest {
         for (CodegenResponse cr : co.responses) {
             boolean hasRequired = cr.getHasRequired();
             if (modelNamesWithoutRequired.contains(cr.message)) {
-                assertFalse(hasRequired);
+                assertFalse(hasRequired, cr.message + " should not be required");
             } else if (modelNamesWithRequired.contains(cr.message)) {
-                assertTrue(hasRequired);
+                assertTrue(hasRequired, cr.message + " should be required");
             } else {
-                // All variables must be in the above sets
-                fail();
+                fail("All variables must be in the above sets");
             }
         }
     }
