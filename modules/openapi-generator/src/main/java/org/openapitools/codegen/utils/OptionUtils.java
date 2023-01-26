@@ -52,7 +52,6 @@ public class OptionUtils {
 
         if(input != null && !input.isEmpty()) {
             String[] tokens = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-//            for (String value : input.split(",")) {
             for (String value : tokens) {
                 if(isNotEmpty(value))
                 results.add(value);
