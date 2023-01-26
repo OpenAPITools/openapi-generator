@@ -351,16 +351,7 @@ export class {{classname}} extends BaseAPI implements {{classname}}Interface {
 {{^withInterfaces}}
 export class {{classname}} extends BaseAPI {
 {{/withInterfaces}}
-	protected fp: ReturnType<typeof {{classname}}Fp>;
-	constructor(
-		configuration?: Configuration,
-		basePath?: string,
-		axios?: AxiosInstance,
-	) {
-		super(configuration, basePath, axios);
-
-		this.fp = {{classname}}Fp(this.configuration);
-	}
+    protected fp = {{classname}}Fp(this.configuration);
     {{#operation}}
     /**
      * {{&notes}}
