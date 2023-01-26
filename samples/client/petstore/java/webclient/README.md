@@ -211,6 +211,16 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 Authentication schemes defined for the API:
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
+
 ### api_key
 
 
@@ -225,12 +235,12 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-### bearer_test
+### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
-### http_basic_test
+### bearer_test
 
 
 - **Type**: HTTP basic authentication
@@ -239,16 +249,6 @@ Authentication schemes defined for the API:
 
 
 - **Type**: HTTP basic authentication
-
-### petstore_auth
-
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 
 
 ## Recommendation
