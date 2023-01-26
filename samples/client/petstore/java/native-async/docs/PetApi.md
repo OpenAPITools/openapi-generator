@@ -50,10 +50,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -84,7 +84,7 @@ CompletableFuture<void> (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -122,10 +122,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -165,7 +165,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -358,10 +358,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
@@ -393,7 +393,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -432,10 +432,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
@@ -476,7 +476,7 @@ CompletableFuture<ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -515,10 +515,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
@@ -550,7 +550,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -589,10 +589,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
@@ -633,7 +633,7 @@ CompletableFuture<ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -833,10 +833,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -867,7 +867,7 @@ CompletableFuture<void> (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -907,10 +907,10 @@ public class Example {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
-
         // Configure OAuth2 access token for authorization: petstore_auth
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -950,7 +950,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

@@ -553,6 +553,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -560,12 +566,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] contentTypes = new string[] {
                         "application/json",
@@ -883,6 +883,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -890,12 +896,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] accepts = new string[] { 
                         "application/xml", 
@@ -1056,6 +1056,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -1063,12 +1069,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] accepts = new string[] { 
                         "application/xml", 
@@ -1381,6 +1381,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -1388,12 +1394,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] contentTypes = new string[] {
                         "application/json",

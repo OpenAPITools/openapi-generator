@@ -128,20 +128,20 @@ public class ApiClient extends JavaTimeFormatter {
     authentications = new HashMap<String, Authentication>();
     Authentication auth = null;
     if (authMap != null) {
-      auth = authMap.get("api_key");
-    }
-    if (auth instanceof ApiKeyAuth) {
-      authentications.put("api_key", auth);
-    } else {
-      authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    }
-    if (authMap != null) {
       auth = authMap.get("petstore_auth");
     }
     if (auth instanceof OAuth) {
       authentications.put("petstore_auth", auth);
     } else {
       authentications.put("petstore_auth", new OAuth(basePath, ""));
+    }
+    if (authMap != null) {
+      auth = authMap.get("api_key");
+    }
+    if (auth instanceof ApiKeyAuth) {
+      authentications.put("api_key", auth);
+    } else {
+      authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
