@@ -429,6 +429,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
 
+    public String getDiscriminatorBaseName() {
+        return discriminator == null ? null : discriminator.getPropertyBaseName();
+    }
+
     public ExternalDocumentation getExternalDocumentation() {
         return externalDocumentation;
     }
