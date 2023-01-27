@@ -24,17 +24,13 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Escapes the desired character if not escaped already, e.g. $ => \$.
+ * Escapes the desired character if not escaped already, e.g. {@code $ => \$}.
  *
  * Register:
- * <pre>
- * additionalProperties.put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
- * </pre>
+ * {@code additionalProperties.put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$")); }
  *
  * Use:
- * <pre>
- * {{#lambda.escapeDollar}}{{name}}{{/lambda.escapeDollar}}
- * </pre>
+ * {@code {{#lambda.escapeDollar}}{{name}}{{/lambda.escapeDollar}} }
  */
 public class EscapeChar implements Mustache.Lambda {
     private String matchPattern;
@@ -42,6 +38,9 @@ public class EscapeChar implements Mustache.Lambda {
 
     /**
      * Constructs a new instance of {@link EscapeChar}, with the desired character to escape
+     * 
+     * @param matchPattern the character to escape
+     * @param replacement the escaped character
      */
     public EscapeChar(String matchPattern, String replacement) {
         this.matchPattern = matchPattern;
