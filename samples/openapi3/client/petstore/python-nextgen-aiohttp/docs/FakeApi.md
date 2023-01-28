@@ -44,7 +44,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
 
@@ -232,7 +232,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
@@ -295,7 +295,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
@@ -358,7 +358,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 3.4 # float | Input number as post body (optional)
@@ -421,7 +421,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
@@ -484,7 +484,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
@@ -547,7 +547,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | image to upload
@@ -608,7 +608,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
@@ -667,7 +667,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
@@ -730,7 +730,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     client = petstore_api.Client() # Client | client model
@@ -976,7 +976,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     request_body = {'key': 'request_body_example'} # Dict[str, str] | request body
@@ -1038,7 +1038,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1
@@ -1102,7 +1102,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     pipe = ['pipe_example'] # List[str] | 

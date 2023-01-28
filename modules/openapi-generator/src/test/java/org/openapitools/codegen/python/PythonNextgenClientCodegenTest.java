@@ -18,17 +18,28 @@
 package org.openapitools.codegen.python;
 
 import com.google.common.collect.Sets;
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonNextgenClientCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileExists;
+import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PythonNextgenClientCodegenTest {
 
@@ -381,5 +392,35 @@ public class PythonNextgenClientCodegenTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, null);
         Assert.assertEquals(cm.imports.size(), 0);
+    }
+    @Test(description ="check API example has input param(configuration) when it creates api_client")
+    public void apiExampleDocTest() throws Exception {
+        final DefaultCodegen codegen = new PythonNextgenClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        final Path p = Paths.get(outputPath + "docs/DefaultApi.md");
+
+        assertFileExists(p);
+        assertFileContains(p, "openapi_client.ApiClient(configuration) as api_client");
+    }
+
+    // Helper function, intended to reduce boilerplate
+    static private String generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        Assert.assertTrue(files.size() > 0);
+        return outputPath + "/";
     }
 }
