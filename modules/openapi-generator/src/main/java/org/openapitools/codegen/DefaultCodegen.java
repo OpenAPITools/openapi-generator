@@ -7236,7 +7236,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
+            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
                 if (addSchemaImportsFromV3SpecLocations) {
