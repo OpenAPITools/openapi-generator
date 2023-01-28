@@ -1482,7 +1482,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         for (CodegenModel cm : allModels) {
             cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
-            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
 
             if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
                 cm.getComposedSchemas().getAllOf().forEach(allOf -> {
