@@ -446,19 +446,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override EnumTest Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override EnumTest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             EnumTest.EnumIntegerEnum enumInteger = default;
             EnumTest.EnumIntegerOnlyEnum enumIntegerOnly = default;
@@ -470,52 +470,52 @@ namespace Org.OpenAPITools.Model
             OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default;
             OuterEnum? outerEnum = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "enum_integer":
-                            enumInteger = (EnumTest.EnumIntegerEnum) reader.GetInt32();
+                            enumInteger = (EnumTest.EnumIntegerEnum) utf8JsonReader.GetInt32();
                             break;
                         case "enum_integer_only":
-                            enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum) reader.GetInt32();
+                            enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum) utf8JsonReader.GetInt32();
                             break;
                         case "enum_number":
-                            enumNumber = (EnumTest.EnumNumberEnum) reader.GetInt32();
+                            enumNumber = (EnumTest.EnumNumberEnum) utf8JsonReader.GetInt32();
                             break;
                         case "enum_string":
-                            string enumStringRawValue = reader.GetString();
+                            string enumStringRawValue = utf8JsonReader.GetString();
                             enumString = EnumTest.EnumStringEnumFromString(enumStringRawValue);
                             break;
                         case "enum_string_required":
-                            string enumStringRequiredRawValue = reader.GetString();
+                            string enumStringRequiredRawValue = utf8JsonReader.GetString();
                             enumStringRequired = EnumTest.EnumStringRequiredEnumFromString(enumStringRequiredRawValue);
                             break;
                         case "outerEnumDefaultValue":
-                            string outerEnumDefaultValueRawValue = reader.GetString();
+                            string outerEnumDefaultValueRawValue = utf8JsonReader.GetString();
                             outerEnumDefaultValue = OuterEnumDefaultValueConverter.FromString(outerEnumDefaultValueRawValue);
                             break;
                         case "outerEnumInteger":
-                            string outerEnumIntegerRawValue = reader.GetString();
+                            string outerEnumIntegerRawValue = utf8JsonReader.GetString();
                             outerEnumInteger = OuterEnumIntegerConverter.FromString(outerEnumIntegerRawValue);
                             break;
                         case "outerEnumIntegerDefaultValue":
-                            string outerEnumIntegerDefaultValueRawValue = reader.GetString();
+                            string outerEnumIntegerDefaultValueRawValue = utf8JsonReader.GetString();
                             outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValueConverter.FromString(outerEnumIntegerDefaultValueRawValue);
                             break;
                         case "outerEnum":
-                            string outerEnumRawValue = reader.GetString();
+                            string outerEnumRawValue = utf8JsonReader.GetString();
                             outerEnum = OuterEnumConverter.FromStringOrDefault(outerEnumRawValue);
                             break;
                         default:
@@ -532,9 +532,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="enumTest"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
