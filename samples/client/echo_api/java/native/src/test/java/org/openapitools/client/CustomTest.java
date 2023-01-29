@@ -15,8 +15,6 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.*;
 import org.openapitools.client.model.*;
@@ -25,7 +23,6 @@ import org.junit.Ignore;
 
 import java.io.IOException;
 import java.util.*;
-
 
 /**
  * API tests for QueryApi
