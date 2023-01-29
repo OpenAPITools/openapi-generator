@@ -33,24 +33,38 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
-        /// <param name="shapeInterface"></param>
-        /// <param name="triangleInterface"></param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        internal IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        public IsoscelesTriangle(string shapeType, string triangleType)
         {
-            ShapeInterface = shapeInterface;
-            TriangleInterface = triangleInterface;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (shapeType == null)
+                throw new ArgumentNullException("shapeType is a required property for IsoscelesTriangle and cannot be null.");
+
+            if (triangleType == null)
+                throw new ArgumentNullException("triangleType is a required property for IsoscelesTriangle and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            ShapeType = shapeType;
+            TriangleType = triangleType;
         }
 
         /// <summary>
-        /// Gets or Sets ShapeInterface
+        /// Gets or Sets ShapeType
         /// </summary>
-        public ShapeInterface ShapeInterface { get; set; }
+        [JsonPropertyName("shapeType")]
+        public string ShapeType { get; set; }
 
         /// <summary>
-        /// Gets or Sets TriangleInterface
+        /// Gets or Sets TriangleType
         /// </summary>
-        public TriangleInterface TriangleInterface { get; set; }
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,6 +74,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class IsoscelesTriangle {\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,12 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader shapeInterfaceReader = reader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref reader, options, out ShapeInterface? shapeInterface);
-
-            Utf8JsonReader triangleInterfaceReader = reader;
-            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref reader, options, out TriangleInterface? triangleInterface);
-
+            string shapeType = default;
+            string triangleType = default;
 
             while (reader.Read())
             {
@@ -118,13 +130,19 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "shapeType":
+                            shapeType = reader.GetString();
+                            break;
+                        case "triangleType":
+                            triangleType = reader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            return new IsoscelesTriangle(shapeInterface, triangleInterface);
+            return new IsoscelesTriangle(shapeType, triangleType);
         }
 
         /// <summary>
@@ -138,6 +156,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
+            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
 
             writer.WriteEndObject();
         }

@@ -33,26 +33,35 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
-        /// <param name="dictionary"></param>
-        /// <param name="catAllOf"></param>
         /// <param name="className">className</param>
+        /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = "red") : base(className, color)
+        public Cat(string className, bool declawed, string color = "red") : base(className, color)
         {
-            Dictionary = dictionary;
-            CatAllOf = catAllOf;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (declawed == null)
+                throw new ArgumentNullException("declawed is a required property for Cat and cannot be null.");
+
+            if (className == null)
+                throw new ArgumentNullException("className is a required property for Cat and cannot be null.");
+
+            if (color == null)
+                throw new ArgumentNullException("color is a required property for Cat and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            Declawed = declawed;
         }
 
         /// <summary>
-        /// Gets or Sets Dictionary
+        /// Gets or Sets Declawed
         /// </summary>
-        public Dictionary<string, int> Dictionary { get; set; }
-
-        /// <summary>
-        /// Gets or Sets CatAllOf
-        /// </summary>
-        public CatAllOf CatAllOf { get; set; }
+        [JsonPropertyName("declawed")]
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -63,6 +72,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,13 +100,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = reader.TokenType;
 
-            Utf8JsonReader dictionaryReader = reader;
-            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref reader, options, out Dictionary<string, int>? dictionary);
-
-            Utf8JsonReader catAllOfReader = reader;
-            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref reader, options, out CatAllOf? catAllOf);
-
             string className = default;
+            bool declawed = default;
             string color = default;
 
             while (reader.Read())
@@ -117,6 +122,9 @@ namespace Org.OpenAPITools.Model
                         case "className":
                             className = reader.GetString();
                             break;
+                        case "declawed":
+                            declawed = reader.GetBoolean();
+                            break;
                         case "color":
                             color = reader.GetString();
                             break;
@@ -126,7 +134,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Cat(dictionary, catAllOf, className, color);
+            return new Cat(className, declawed, color);
         }
 
         /// <summary>
@@ -141,6 +149,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("className", cat.ClassName);
+            writer.WriteBoolean("declawed", cat.Declawed);
             writer.WriteString("color", cat.Color);
 
             writer.WriteEndObject();
