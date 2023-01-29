@@ -243,7 +243,15 @@
             {{/isMap}}
             {{/isEnum}}
             {{#isUuid}}
+            {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
+            {{/isNullable}}
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
+                writer.WriteNull("{{baseName}}");
+            else
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
+            {{/isNullable}}
             {{/isUuid}}
             {{^isUuid}}
             {{^isEnum}}
