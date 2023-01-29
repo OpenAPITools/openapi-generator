@@ -21,10 +21,11 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -35,10 +36,6 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Collections;
 
 public class AbstractJavaCodegenTest {
 
@@ -555,33 +552,37 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toDefaultValueDateTimeLegacyTest() {
+    public void toDefaultValueDateTimeLegacyTest() throws ParseException {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setDateLibrary("legacy");
         String defaultValue;
 
-        // Test default value for date format
+        // Test default value for date format (DateSchema)
         DateSchema dateSchema = new DateSchema();
-        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
-        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = isoFormat.parse("2021-05-23T09:01:02");
+        Assert.assertEquals(date.toString(), "Sun May 23 09:01:02 UTC 2021");
+
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
 
         // dateLibrary <> java8
-        if (defaultValue.contains("HKT")) {
-            Assert.assertEquals(defaultValue, "Fri Feb 15 00:00:00 HKT 2019");
-        }
+        Assert.assertEquals(defaultValue, "Sun May 23 09:01:02 UTC 2021");
 
+        // Test default value for date format (DateTimeSchema)
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
-        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
+
+        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-09:00");
         ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
+        Assert.assertEquals(defaultDateTime.toString(), "1984-12-19T03:39:57-09:00");
+
         dateTimeSchema.setDefault(defaultDateTime);
         defaultValue = codegen.toDefaultValue(dateTimeSchema);
 
         // dateLibrary <> java8
-        if (defaultValue.contains("08:00")) {
-            Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-08:00");
-        }
+        Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
     }
 
     @Test
