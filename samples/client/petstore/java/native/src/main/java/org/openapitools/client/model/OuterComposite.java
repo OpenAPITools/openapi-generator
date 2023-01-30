@@ -173,29 +173,48 @@ public class OuterComposite {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `my_number` to the URL query string
     if (getMyNumber() != null) {
-      joiner.add(String.format("%s[my_number]=%s", prefix, URLEncoder.encode(String.valueOf(getMyNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `my_string` to the URL query string
     if (getMyString() != null) {
-      joiner.add(String.format("%s[my_string]=%s", prefix, URLEncoder.encode(String.valueOf(getMyString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `my_boolean` to the URL query string
     if (getMyBoolean() != null) {
-      joiner.add(String.format("%s[my_boolean]=%s", prefix, URLEncoder.encode(String.valueOf(getMyBoolean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

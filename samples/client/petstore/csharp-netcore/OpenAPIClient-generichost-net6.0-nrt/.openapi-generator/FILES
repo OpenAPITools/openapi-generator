@@ -59,6 +59,7 @@ docs/models/Model200Response.md
 docs/models/ModelClient.md
 docs/models/Name.md
 docs/models/NullableClass.md
+docs/models/NullableGuidClass.md
 docs/models/NullableShape.md
 docs/models/NumberOnly.md
 docs/models/ObjectWithDeprecatedFields.md
@@ -174,6 +175,7 @@ src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
+src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs

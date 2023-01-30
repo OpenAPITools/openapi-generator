@@ -119,41 +119,65 @@ public class Cat extends Animal {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     // add `className` to the URL query string
     if (getClassName() != null) {
       try {
-        joiner.add(String.format("%s[className]=%s", prefix, URLEncoder.encode(String.valueOf(getClassName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `color` to the URL query string
     if (getColor() != null) {
       try {
-        joiner.add(String.format("%s[color]=%s", prefix, URLEncoder.encode(String.valueOf(getColor()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getColor()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `declawed` to the URL query string
     if (getDeclawed() != null) {
       try {
-        joiner.add(String.format("%s[declawed]=%s", prefix, URLEncoder.encode(String.valueOf(getDeclawed()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sdeclawed%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDeclawed()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     return joiner.toString();
   }
 

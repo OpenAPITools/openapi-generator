@@ -91,7 +91,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "wrappedArray")
   @XmlElementWrapper(name = "wrapped_array")
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   @XmlElement(name = "xml_name_string")
@@ -114,7 +114,7 @@ public class XmlItem {
   // items.name=nameArray items.baseName=nameArray items.xmlName=xml_name_array_item items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_array_item")
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   // Is a container wrapped=true
@@ -122,7 +122,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_wrapped_array_item")
   @XmlElementWrapper(name = "xml_name_wrapped_array")
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   @XmlElement(name = "prefix_string")
@@ -145,7 +145,7 @@ public class XmlItem {
   // items.name=prefixArray items.baseName=prefixArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "prefixArray")
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   // Is a container wrapped=true
@@ -153,7 +153,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(name = "prefixWrappedArray")
   @XmlElementWrapper(name = "prefix_wrapped_array")
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   @XmlElement(namespace="http://a.com/schema", name = "namespace_string")
@@ -176,7 +176,7 @@ public class XmlItem {
   // items.name=namespaceArray items.baseName=namespaceArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "namespaceArray")
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   // Is a container wrapped=true
@@ -184,7 +184,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "namespaceWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "namespace_wrapped_array")
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   @XmlElement(namespace="http://a.com/schema", name = "prefix_ns_string")
@@ -207,7 +207,7 @@ public class XmlItem {
   // items.name=prefixNsArray items.baseName=prefixNsArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "prefixNsArray")
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   // Is a container wrapped=true
@@ -215,7 +215,7 @@ public class XmlItem {
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "prefixNsWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
   }

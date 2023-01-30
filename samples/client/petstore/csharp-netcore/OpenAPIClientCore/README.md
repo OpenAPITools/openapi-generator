@@ -209,6 +209,7 @@ Class | Method | HTTP request | Description
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
  - [Model.NullableClass](docs/NullableClass.md)
+ - [Model.NullableGuidClass](docs/NullableGuidClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
