@@ -7,7 +7,7 @@ title: Documentation for the julia-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | julia-client | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Julia | |
 | generator default templating engine | mustache | |

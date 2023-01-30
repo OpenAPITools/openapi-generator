@@ -1,10 +1,28 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 
-public class JuliaClientCodegen extends AbstractJuliaCodegen {    
+public class JuliaClientCodegen extends AbstractJuliaCodegen {
     /**
      * Configures the type of generator.
      *
@@ -38,6 +56,10 @@ public class JuliaClientCodegen extends AbstractJuliaCodegen {
     public JuliaClientCodegen() {
         super();
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "julia-client";
         modelTemplateFiles.put("model.mustache", ".jl");
         apiTemplateFiles.put("api.mustache", ".jl");
@@ -61,8 +83,7 @@ public class JuliaClientCodegen extends AbstractJuliaCodegen {
         super.processOpts();
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("APIClient");
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
