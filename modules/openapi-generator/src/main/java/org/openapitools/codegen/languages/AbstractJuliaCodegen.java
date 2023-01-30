@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
@@ -12,6 +28,7 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 
 import java.io.File;
 import java.util.*;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -19,6 +36,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 
 import org.apache.commons.lang3.StringUtils;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import org.openapitools.codegen.utils.CamelizeOption;
@@ -50,42 +68,42 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         super();
 
         modifyFeatureSet(features -> features
-            .includeDocumentationFeatures(DocumentationFeature.Readme)
-            .includeSchemaSupportFeatures(
-                SchemaSupportFeature.Union, SchemaSupportFeature.allOf,
-                SchemaSupportFeature.anyOf, SchemaSupportFeature.oneOf
-            )
-            .excludeWireFormatFeatures(
-                WireFormatFeature.XML
-            )
-            .excludeSecurityFeatures(
-                SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-            )
-            .excludeParameterFeatures(
-                ParameterFeature.Cookie
-            )
-            .excludeGlobalFeatures(
-                GlobalFeature.Callbacks, GlobalFeature.Examples,
-                GlobalFeature.Produces, GlobalFeature.Consumes
-            )
-            .includeClientModificationFeatures(
-                ClientModificationFeature.BasePath, ClientModificationFeature.UserAgent
-            )
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Union, SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.anyOf, SchemaSupportFeature.oneOf
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML
+                )
+                .excludeSecurityFeatures(
+                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.Callbacks, GlobalFeature.Examples,
+                        GlobalFeature.Produces, GlobalFeature.Consumes
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath, ClientModificationFeature.UserAgent
+                )
         );
 
-        reservedWords = new HashSet<String> (
-            Arrays.asList(
-                "if", "else", "elseif", "while", "for", "begin", "end", "quote",
-                "try", "catch", "return", "local", "function", "macro", "ccall", "finally", "break", "continue",
-                "global", "module", "using", "import", "export", "const", "let", "do", "baremodule",
-                "Type", "Enum", "Any", "DataType", "Base"
-            )
+        reservedWords = new HashSet<String>(
+                Arrays.asList(
+                        "if", "else", "elseif", "while", "for", "begin", "end", "quote",
+                        "try", "catch", "return", "local", "function", "macro", "ccall", "finally", "break", "continue",
+                        "global", "module", "using", "import", "export", "const", "let", "do", "baremodule",
+                        "Type", "Enum", "Any", "DataType", "Base"
+                )
         );
 
         // Language Specific Primitives.  These types will not trigger imports by the client generator
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList("Integer", "Int128", "Int64", "Int32", "Int16", "Int8", "UInt128", "UInt64", "UInt32", "UInt16", "UInt8", "Float64", "Float32", "Float16", "Char", "Vector", "Dict", "Vector{UInt8}", "Bool", "String", "Date", "DateTime", "ZonedDateTime", "Nothing", "Any")
+                Arrays.asList("Integer", "Int128", "Int64", "Int32", "Int16", "Int8", "UInt128", "UInt64", "UInt32", "UInt16", "UInt8", "Float64", "Float32", "Float16", "Char", "Vector", "Dict", "Vector{UInt8}", "Bool", "String", "Date", "DateTime", "ZonedDateTime", "Nothing", "Any")
         );
 
         typeMapping.clear();
@@ -141,7 +159,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reseved words
-     * 
+     *
      * @return the escaped term
      */
     @Override
@@ -331,7 +349,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if(languageSpecificPrimitives.contains(type)) {
+            if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
@@ -343,6 +361,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     /**
      * Return the default value of the property
+     *
      * @param schema OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -381,7 +400,8 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     /**
-     * Escape single and/or double quote to avoid code injection 
+     * Escape single and/or double quote to avoid code injection
+     *
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
@@ -425,7 +445,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param schema   OAS property schema
      * @param required true if the property is required in the next higher object schema, false otherwise
      * @return Codegen Property object
-     */    
+     */
     @Override
     public CodegenProperty fromProperty(String name, Schema schema, boolean required) {
         CodegenProperty property = super.fromProperty(name, schema, required);
@@ -464,7 +484,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             }
         }
     }
-    
+
     /**
      * Convert OAS Operation object to Codegen Operation object
      *

@@ -7,7 +7,7 @@ title: Documentation for the julia-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | julia-server | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Julia | |
 | generator default templating engine | mustache | |

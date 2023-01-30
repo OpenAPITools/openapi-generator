@@ -961,6 +961,7 @@ Here is a list of template creators:
    * JavaScript (Closure-annotated Angular) @achew22
    * JavaScript (Flow types) @jaypea
    * JMeter: @davidkiss
+   * Julia: @tanmaykm
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (MultiPlatform): @andrewemery
    * Kotlin (Volley): @alisters
@@ -1028,6 +1029,7 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
+   * Julia: @tanmaykm
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (Spring Boot): @dr4ke616
    * Kotlin (Vertx): @Wooyme
@@ -1120,6 +1122,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10)                        |
 | Java Spring             | @cachescrubber (2022/02) @welshm (2022/02) @MelleD (2022/02) @atextor (2022/02) @manedev79 (2022/02) @javisst (2022/02) @borsch (2022/02) @banlevente (2022/02) @Zomzog (2022/09)                   |
 | JMeter               | @kannkyo (2021/01)                                                                                                                                                                                                            |
+| Julia          |  @tanmaykm (2023/01)                                                                                                                                                                                                                                  |
 | Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |
 | Nim               |                                                                                                                                                                                                                                   |
