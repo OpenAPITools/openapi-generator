@@ -21,8 +21,6 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -552,7 +550,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toDefaultValueDateTimeLegacyTest() throws ParseException {
+    public void toDefaultValueDateTimeLegacyTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setDateLibrary("legacy");
         String defaultValue;
@@ -561,21 +559,20 @@ public class AbstractJavaCodegenTest {
         DateSchema dateSchema = new DateSchema();
 
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        Date date = isoFormat.parse("2021-05-23T09:01:02");
-        Assert.assertEquals(date.toString(), "Sun May 23 09:01:02 UTC 2021");
+        LocalDate defaultLocalDate = LocalDate.of(2021, 5, 23);
+        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Assert.assertEquals(date.toString(), "Sun May 23 00:00:00 UTC 2021");
 
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
 
         // dateLibrary <> java8
-        Assert.assertEquals(defaultValue, "Sun May 23 09:01:02 UTC 2021");
+        Assert.assertEquals(defaultValue, "Sun May 23 00:00:00 UTC 2021");
 
         // Test default value for date format (DateTimeSchema)
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
 
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-09:00");
-        ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         Assert.assertEquals(defaultDateTime.toString(), "1984-12-19T03:39:57-09:00");
 
         dateTimeSchema.setDefault(defaultDateTime);
