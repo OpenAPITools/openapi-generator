@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -61,7 +62,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
     if (this.nullSet == null || !this.nullSet.isPresent()) {
-      this.nullSet = JsonNullable.of(new LinkedHashSet<>());
+      this.nullSet = JsonNullable.of(null);
     }
     this.nullSet.get().add(nullSetItem);
     return this;
@@ -72,7 +73,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
   */
   
-  @Schema(name = "nullSet", required = false)
+  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
   }
@@ -99,7 +100,7 @@ public class ObjectWithUniqueItems {
    * @return notNullSet
   */
   
-  @Schema(name = "notNullSet", required = false)
+  @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Set<String> getNotNullSet() {
     return notNullSet;
   }
@@ -116,7 +117,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
     if (this.nullList == null || !this.nullList.isPresent()) {
-      this.nullList = JsonNullable.of(new ArrayList<>());
+      this.nullList = JsonNullable.of(null);
     }
     this.nullList.get().add(nullListItem);
     return this;
@@ -127,7 +128,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
   */
   
-  @Schema(name = "nullList", required = false)
+  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<List<String>> getNullList() {
     return nullList;
   }
@@ -154,7 +155,7 @@ public class ObjectWithUniqueItems {
    * @return notNullList
   */
   
-  @Schema(name = "notNullList", required = false)
+  @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<String> getNotNullList() {
     return notNullList;
   }
@@ -173,7 +174,7 @@ public class ObjectWithUniqueItems {
    * @return notNullDateField
   */
   @Valid 
-  @Schema(name = "notNullDateField", required = false)
+  @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
@@ -192,7 +193,7 @@ public class ObjectWithUniqueItems {
    * @return nullDateField
   */
   @Valid 
-  @Schema(name = "nullDateField", required = false)
+  @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OffsetDateTime getNullDateField() {
     return nullDateField;
   }
@@ -210,9 +211,9 @@ public class ObjectWithUniqueItems {
       return false;
     }
     ObjectWithUniqueItems objectWithUniqueItems = (ObjectWithUniqueItems) o;
-    return Objects.equals(this.nullSet, objectWithUniqueItems.nullSet) &&
+    return equalsNullable(this.nullSet, objectWithUniqueItems.nullSet) &&
         Objects.equals(this.notNullSet, objectWithUniqueItems.notNullSet) &&
-        Objects.equals(this.nullList, objectWithUniqueItems.nullList) &&
+        equalsNullable(this.nullList, objectWithUniqueItems.nullList) &&
         Objects.equals(this.notNullList, objectWithUniqueItems.notNullList) &&
         Objects.equals(this.notNullDateField, objectWithUniqueItems.notNullDateField) &&
         Objects.equals(this.nullDateField, objectWithUniqueItems.nullDateField);
@@ -224,7 +225,7 @@ public class ObjectWithUniqueItems {
 
   @Override
   public int hashCode() {
-    return Objects.hash(nullSet, notNullSet, nullList, notNullList, notNullDateField, nullDateField);
+    return Objects.hash(hashCodeNullable(nullSet), notNullSet, hashCodeNullable(nullList), notNullList, notNullDateField, nullDateField);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

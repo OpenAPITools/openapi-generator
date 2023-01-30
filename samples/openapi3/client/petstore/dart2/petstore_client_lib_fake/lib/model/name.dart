@@ -64,18 +64,24 @@ class Name {
   String toString() => 'Name[name=$name, snakeCase=$snakeCase, property=$property, n123number=$n123number]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'name'] = name;
-    if (snakeCase != null) {
-      _json[r'snake_case'] = snakeCase;
+    final json = <String, dynamic>{};
+      json[r'name'] = this.name;
+    if (this.snakeCase != null) {
+      json[r'snake_case'] = this.snakeCase;
+    } else {
+      json[r'snake_case'] = null;
     }
-    if (property != null) {
-      _json[r'property'] = property;
+    if (this.property != null) {
+      json[r'property'] = this.property;
+    } else {
+      json[r'property'] = null;
     }
-    if (n123number != null) {
-      _json[r'123Number'] = n123number;
+    if (this.n123number != null) {
+      json[r'123Number'] = this.n123number;
+    } else {
+      json[r'123Number'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Name] instance and imports its values from

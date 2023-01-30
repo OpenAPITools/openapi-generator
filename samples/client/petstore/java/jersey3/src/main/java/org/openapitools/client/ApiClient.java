@@ -531,6 +531,22 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Helper method to set the credentials of a public client for the first OAuth2 authentication.
+   *
+   * @param clientId the client ID
+   * @return a {@link org.openapitools.client.ApiClient} object.
+   */
+  public ApiClient setOauthCredentialsForPublicClient(String clientId) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setCredentialsForPublicClient(clientId, isDebugging());
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
    * Helper method to set the password flow for the first OAuth2 authentication.
    *
    * @param username the user name

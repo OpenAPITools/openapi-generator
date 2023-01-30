@@ -26,13 +26,13 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.IOException;
 
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
+import {{javaxPackage}}.validation.ConstraintViolation;
+import {{javaxPackage}}.validation.Validation;
+import {{javaxPackage}}.validation.ValidatorFactory;
+import {{javaxPackage}}.validation.executable.ExecutableValidator;
 import java.util.Set;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -51,7 +51,7 @@ import java.util.Map;
 import java.io.InputStream;
 {{/supportStreaming}}
 {{/fullJavaUtil}}
-import javax.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#operations}}
 public class {{classname}} {
@@ -137,7 +137,7 @@ public class {{classname}} {
         // create path and map variables
         {{^dynamicOperations}}
         String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll("\\{" + "{{baseName}}" + "\\}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
+            .replace("{" + "{{baseName}}" + "}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
         {{/dynamicOperations}}
         {{#dynamicOperations}}
         ApiOperation apiOperation = localVarApiClient.getOperationLookupMap().get("{{{operationId}}}");
@@ -193,7 +193,9 @@ public class {{classname}} {
 
         {{/dynamicOperations}}
         final String[] localVarAccepts = {
-            {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
+            {{#produces}}
+            "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/produces}}
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -201,14 +203,16 @@ public class {{classname}} {
         }
 
         final String[] localVarContentTypes = {
-            {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
+            {{#consumes}}
+            "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/consumes}}
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+        String[] localVarAuthNames = new String[] { {{#withAWSV4Signature}}"AWS4Auth"{{/withAWSV4Signature}}{{#authMethods}}{{#-first}}{{#withAWSV4Signature}}, {{/withAWSV4Signature}}{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
         return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -218,15 +222,16 @@ public class {{classname}} {
     @SuppressWarnings("rawtypes")
     private okhttp3.Call {{operationId}}ValidateBeforeCall({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback _callback) throws ApiException {
         {{^performBeanValidation}}
-        {{#allParams}}{{#required}}
+        {{#allParams}}
+        {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new ApiException("Missing the required parameter '{{paramName}}' when calling {{operationId}}(Async)");
         }
-        {{/required}}{{/allParams}}
 
-        okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
-        return localVarCall;
+        {{/required}}
+        {{/allParams}}
+        return {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
 
         {{/performBeanValidation}}
         {{#performBeanValidation}}
@@ -240,9 +245,7 @@ public class {{classname}} {
                     parameterValues);
 
             if (violations.size() == 0) {
-                okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
-                return localVarCall;
-
+                return {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
             } else {
                 throw new BeanValidationException((Set) violations);
             }
@@ -253,7 +256,6 @@ public class {{classname}} {
             e.printStackTrace();
             throw new ApiException(e.getMessage());
         }
-
         {{/performBeanValidation}}
     }
 
@@ -472,10 +474,17 @@ public class {{classname}} {
         {{#isDeprecated}}
         @Deprecated
         {{/isDeprecated}}
+        {{^vendorExtensions.x-streaming}}
         public {{{returnType}}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
             {{#returnType}}ApiResponse<{{{.}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
             return localVarResp.getData();{{/returnType}}
         }
+        {{/vendorExtensions.x-streaming}}
+        {{#vendorExtensions.x-streaming}}
+        public InputStream execute() throws ApiException {
+            return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        }
+        {{/vendorExtensions.x-streaming}}
 
         /**
          * Execute {{operationId}} request with HTTP info returned
@@ -497,9 +506,16 @@ public class {{classname}} {
         {{#isDeprecated}}
         @Deprecated
         {{/isDeprecated}}
+        {{^vendorExtensions.x-streaming}}
         public ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
             return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         }
+        {{/vendorExtensions.x-streaming}}
+        {{#vendorExtensions.x-streaming}}
+        public InputStream executeWithHttpInfo() throws ApiException {
+            return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        }
+        {{/vendorExtensions.x-streaming}}
 
         /**
          * Execute {{operationId}} request (asynchronously)

@@ -11,16 +11,19 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springDocDocumentationProvider}}
-        <springdoc.version>2.0.0-M2</springdoc.version>
+        <springdoc.version>2.0.2</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>}2.2.0</swagger-annotations.version>
+        <swagger-annotations.version>}2.2.7</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>4.8.1</swagger-ui.version>
+        <swagger-ui.version>4.15.5</swagger-ui.version>
         {{/useSwaggerUI}}
+        {{#virtualService}}
+        <virtualan.version>2.5.2</virtualan.version>
+        {{/virtualService}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -33,7 +36,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-M3</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -45,6 +48,12 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -53,8 +62,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- the maven plugin doesn't necessarily match the parent if using a milestone release. -->
-                <version>2.7.0</version>
                 {{#classifier}}
                 <configuration>
                   <classifier>{{{classifier}}}</classifier>
@@ -194,13 +201,12 @@
         <dependency>
             <groupId>io.virtualan</groupId>
             <artifactId>virtualan-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>${virtualan.version}</version>
         </dependency>
         <!-- HyperSQL DB -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.0</version>
         </dependency>
     <!-- END Virtual Service API support -->
 {{/virtualService}}

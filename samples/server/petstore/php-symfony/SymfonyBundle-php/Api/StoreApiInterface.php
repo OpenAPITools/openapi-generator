@@ -46,23 +46,24 @@ interface StoreApiInterface
     /**
      * Sets authentication method api_key
      *
-     * @param string $value Value of the api_key authentication method.
+     * @param string|null $value Value of the api_key authentication method.
      *
      * @return void
      */
-    public function setapi_key($value);
+    public function setapi_key(?string $value): void;
 
     /**
      * Operation deleteOrder
      *
      * Delete purchase order by ID
      *
-     * @param  \string $orderId  ID of the order that needs to be deleted (required)
-     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  string $orderId  ID of the order that needs to be deleted (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      */
-    public function deleteOrder($orderId, &$responseCode, array &$responseHeaders): void;
+    public function deleteOrder(string $orderId, int &$responseCode, array &$responseHeaders): void;
 
 
     /**
@@ -70,11 +71,12 @@ interface StoreApiInterface
      *
      * Returns pet inventories by status
      *
-     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return \int
+     * @return array|object|null
      */
-    public function getInventory(&$responseCode, array &$responseHeaders): array|\int;
+    public function getInventory(int &$responseCode, array &$responseHeaders): array|object|null;
 
 
     /**
@@ -82,12 +84,13 @@ interface StoreApiInterface
      *
      * Find purchase order by ID
      *
-     * @param  \int $orderId  ID of pet that needs to be fetched (required)
-     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  int $orderId  ID of pet that needs to be fetched (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return \OpenAPI\Server\Model\Order
+     * @return array|object|null
      */
-    public function getOrderById($orderId, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order;
+    public function getOrderById(int $orderId, int &$responseCode, array &$responseHeaders): array|object|null;
 
 
     /**
@@ -95,11 +98,12 @@ interface StoreApiInterface
      *
      * Place an order for a pet
      *
-     * @param  \OpenAPI\Server\Model\Order $order  order placed for purchasing the pet (required)
-     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  Order $order  order placed for purchasing the pet (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return \OpenAPI\Server\Model\Order
+     * @return array|object|null
      */
-    public function placeOrder(Order $order, &$responseCode, array &$responseHeaders): array|\OpenAPI\Server\Model\Order;
+    public function placeOrder(Order $order, int &$responseCode, array &$responseHeaders): array|object|null;
 
 }

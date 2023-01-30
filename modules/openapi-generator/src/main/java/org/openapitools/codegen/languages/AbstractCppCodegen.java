@@ -161,6 +161,14 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name) {
+        String sanitizedName = super.sanitizeName(name);
+        sanitizedName = sanitizedName.replaceAll("-", "");
+        return sanitizedName;
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
@@ -188,7 +196,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            sanitizedName = sanitizedName.replaceFirst("^([^_a-zA-Z])", reservedWordPrefix + "$1");
+            return sanitizedName;
         }
     }
 
@@ -251,8 +261,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @SuppressWarnings("rawtypes")
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty property = super.fromProperty(name, p, required);
         String nameInCamelCase = property.nameInCamelCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));

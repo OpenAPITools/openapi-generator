@@ -14,8 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Order,
+import type {
+  Order,
 } from '../models';
 
 export interface DeleteOrderRequest {
@@ -99,7 +99,7 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
     async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
@@ -122,7 +122,7 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
     async getOrderById(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order> {

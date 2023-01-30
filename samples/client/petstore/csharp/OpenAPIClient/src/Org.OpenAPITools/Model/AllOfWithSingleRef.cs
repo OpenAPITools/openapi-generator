@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SingleRefType
         /// </summary>
-        [DataMember(Name="SingleRefType", EmitDefaultValue=true)]
+        [DataMember(Name="SingleRefType", EmitDefaultValue=false)]
         public SingleRefType? SingleRefType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="AllOfWithSingleRef" /> class.
@@ -42,7 +42,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="singleRefType">singleRefType.</param>
         public AllOfWithSingleRef(string username = default(string), SingleRefType? singleRefType = default(SingleRefType?))
         {
-            this.SingleRefType = singleRefType;
             this.Username = username;
             this.SingleRefType = singleRefType;
         }

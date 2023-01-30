@@ -53,6 +53,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|
 |LocalTime|org.joda.time.*|
+|Seq|scala.collection.immutable.Seq|
+|Set|scala.collection.immutable.Set|
 |Timestamp|java.sql.Timestamp|
 |URI|java.net.URI|
 |UUID|java.util.UUID|

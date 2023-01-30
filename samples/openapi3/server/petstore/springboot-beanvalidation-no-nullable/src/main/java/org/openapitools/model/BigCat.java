@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -79,7 +78,7 @@ public class BigCat extends Cat {
    * @return kind
   */
   
-  @Schema(name = "kind", required = false)
+  @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public KindEnum getKind() {
     return kind;
   }

@@ -41,7 +41,7 @@ public class OuterComposite {
    * @return myNumber
   */
   @Valid 
-  @Schema(name = "my_number", required = false)
+  @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -60,7 +60,7 @@ public class OuterComposite {
    * @return myString
   */
   
-  @Schema(name = "my_string", required = false)
+  @Schema(name = "my_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getMyString() {
     return myString;
   }
@@ -79,7 +79,7 @@ public class OuterComposite {
    * @return myBoolean
   */
   
-  @Schema(name = "my_boolean", required = false)
+  @Schema(name = "my_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getMyBoolean() {
     return myBoolean;
   }

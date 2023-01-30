@@ -35,6 +35,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        [RegularExpression("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
 

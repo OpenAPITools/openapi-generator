@@ -2,6 +2,7 @@
 {{#oneOf}}
 import {
     {{{.}}},
+    instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
@@ -51,7 +52,14 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
     }
 {{/discriminator}}
+
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(value)) {
+        return {{{.}}}ToJSON(value as {{{.}}});
+    }
+    {{/oneOf}}
+
+    return {};
 {{/discriminator}}
 }

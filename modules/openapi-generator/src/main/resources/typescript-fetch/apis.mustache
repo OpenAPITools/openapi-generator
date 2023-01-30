@@ -4,15 +4,19 @@
 
 import * as runtime from '../runtime';
 {{#imports.0}}
+import type {
+  {{#imports}}
+  {{className}},
+  {{/imports}}
+} from '../models';
+{{^withoutRuntimeChecks}}
 import {
     {{#imports}}
-    {{className}},
-    {{^withoutRuntimeChecks}}
     {{className}}FromJSON,
     {{className}}ToJSON,
-    {{/withoutRuntimeChecks}}
     {{/imports}}
 } from '../models';
+{{/withoutRuntimeChecks}}
 {{/imports.0}}
 
 {{#operations}}
@@ -119,17 +123,17 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
-            {{#isDateTime}}
+            {{#isDateTimeType}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
+            {{/isDateTimeType}}
+            {{^isDateTimeType}}
+            {{#isDateType}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
-            {{/isDate}}
-            {{^isDate}}
+            {{/isDateType}}
+            {{^isDateType}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
-            {{/isDate}}
-            {{/isDateTime}}
+            {{/isDateType}}
+            {{/isDateTimeType}}
         }
 
         {{/isArray}}

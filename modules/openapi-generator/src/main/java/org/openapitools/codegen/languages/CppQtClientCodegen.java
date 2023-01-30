@@ -108,7 +108,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
         typeMapping.put("file", PREFIX + "HttpFileElement");
+        typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
+        importMapping.put("QJsonValue", "#include <QJsonValue>");
     }
 
     @Override
@@ -140,7 +142,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
 
 
             typeMapping.put("file", modelNamePrefix + "HttpFileElement");
+            typeMapping.put("AnyType", "QJsonValue");
             importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
+            importMapping.put("QJsonValue", "#include <QJsonValue>");
             if (optionalProjectFileFlag) {
                 supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
             }

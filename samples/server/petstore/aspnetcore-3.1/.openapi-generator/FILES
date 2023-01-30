@@ -5,6 +5,7 @@ build.sh
 src/Org.OpenAPITools/.gitignore
 src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
 src/Org.OpenAPITools/Authentication/ApiAuthentication.cs
+src/Org.OpenAPITools/Controllers/FakeApi.cs
 src/Org.OpenAPITools/Controllers/PetApi.cs
 src/Org.OpenAPITools/Controllers/StoreApi.cs
 src/Org.OpenAPITools/Controllers/UserApi.cs

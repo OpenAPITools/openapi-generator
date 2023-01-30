@@ -17,24 +17,25 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 
 /**
- * Gradle project level extension object definition for the generate task
+ * Gradle project level extension object definition for the `generate` task
  *
  * @author Jim Schubert
  */
 open class OpenApiGeneratorGenerateExtension(project: Project) {
-
     /**
      * The verbosity of generation
      */
     val verbose = project.objects.property<Boolean>()
 
     /**
-     * Whether or not an input specification should be validated upon generation.
+     * Whether an input specification should be validated upon generation.
      */
     val validateSpec = project.objects.property<Boolean>()
 
@@ -52,6 +53,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * The Open API 2.0/3.x specification location.
      */
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
+    val remoteInputSpec = project.objects.property<String>()
 
     /**
      * The template directory holding a custom template.
@@ -142,9 +148,24 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between a given schema and the new one
+     */
+    val schemaMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings between an inline schema name and the new name
      */
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies default values for inline schema naming convention
+     */
+    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings (rules) in OpenAPI normalizer
+     */
+    val openapiNormalizer = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -152,17 +173,17 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val invokerPackage = project.objects.property<String>()
 
     /**
-     * GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * GroupId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     val groupId = project.objects.property<String>()
 
     /**
-     * ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * ArtifactId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     val id = project.objects.property<String>()
 
     /**
-     * Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * Artifact version in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     val version = project.objects.property<String>()
 
@@ -237,7 +258,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * Supporting files are those related to projects/frameworks which may be modified
+     * Supporting files are those related to `projects/frameworks` which may be modified
      * by consumers.
      *
      * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
@@ -247,7 +268,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
-     * Defines whether or not model-related _test_ files should be generated.
+     * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.
      *
@@ -257,7 +278,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not model-related _documentation_ files should be generated.
+     * Defines whether model-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _documentation_ files.
      *
@@ -267,7 +288,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _test_ files should be generated.
+     * Defines whether api-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _test_ files.
      *
@@ -277,7 +298,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _documentation_ files should be generated.
+     * Defines whether api-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _documentation_ files.
      *
@@ -327,6 +348,12 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val engine = project.objects.property<String?>()
 
+    /**
+     * Defines whether the output dir should be cleaned up before generating the output.
+     *
+     */
+    val cleanupOutput = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -348,5 +375,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         enablePostProcessFile.set(false)
         skipValidateSpec.set(false)
         generateAliasAsModel.set(false)
+        cleanupOutput.set(false)
     }
 }

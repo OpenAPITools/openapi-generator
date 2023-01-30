@@ -12,6 +12,8 @@ api_user.go
 client.go
 configuration.go
 docs/AdditionalPropertiesClass.md
+docs/AllOfPrimitiveTypes.md
+docs/AllOfPrimitiveTypesAllOf.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -31,6 +33,9 @@ docs/Client.md
 docs/DefaultApi.md
 docs/Dog.md
 docs/DogAllOf.md
+docs/DuplicatedPropChild.md
+docs/DuplicatedPropChildAllOf.md
+docs/DuplicatedPropParent.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
@@ -48,6 +53,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
 docs/Mammal.md
+docs/MapOfFileTest.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -58,6 +64,7 @@ docs/NullableClass.md
 docs/NumberOnly.md
 docs/OneOfPrimitiveType.md
 docs/OneOfPrimitiveTypeChild.md
+docs/OneOfPrimitiveTypes.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -83,6 +90,8 @@ model_200_response.go
 model__foo_get_default_response.go
 model__special_model_name_.go
 model_additional_properties_class.go
+model_all_of_primitive_types.go
+model_all_of_primitive_types_all_of.go
 model_animal.go
 model_api_response.go
 model_apple.go
@@ -100,6 +109,9 @@ model_class_model.go
 model_client.go
 model_dog.go
 model_dog_all_of.go
+model_duplicated_prop_child.go
+model_duplicated_prop_child_all_of.go
+model_duplicated_prop_parent.go
 model_enum_arrays.go
 model_enum_class.go
 model_enum_test_.go
@@ -114,6 +126,7 @@ model_has_only_read_only.go
 model_health_check_result.go
 model_list.go
 model_mammal.go
+model_map_of_file_test_.go
 model_map_test_.go
 model_mixed_properties_and_additional_properties_class.go
 model_name.go
@@ -123,6 +136,7 @@ model_nullable_class.go
 model_number_only.go
 model_one_of_primitive_type.go
 model_one_of_primitive_type_child.go
+model_one_of_primitive_types.go
 model_order.go
 model_outer_composite.go
 model_outer_enum.go

@@ -201,3 +201,26 @@ import { environment } from '../environments/environment';
 })
 export class AppModule { }
 ```
+
+### Customizing path parameter encoding
+
+Without further customization, only [path-parameters][parameter-locations-url] of [style][style-values-url] 'simple'
+and Dates for format 'date-time' are encoded correctly.
+
+Other styles (e.g. "matrix") are not that easy to encode
+and thus are best delegated to other libraries (e.g.: [@honoluluhenk/http-param-expander]).
+
+To implement your own parameter encoding (or call another library),
+pass an arrow-function or method-reference to the `encodeParam` property of the Configuration-object
+(see [General Usage](#general-usage) above).
+
+Example value for use in your Configuration-Provider:
+```typescript
+new Configuration({
+    encodeParam: (param: Param) => myFancyParamEncoder(param),
+})
+```
+
+[parameter-locations-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations
+[style-values-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
+[@honoluluhenk/http-param-expander]: https://www.npmjs.com/package/@honoluluhenk/http-param-expander

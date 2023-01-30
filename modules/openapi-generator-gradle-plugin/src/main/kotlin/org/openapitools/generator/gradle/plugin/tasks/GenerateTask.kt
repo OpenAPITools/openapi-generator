@@ -21,6 +21,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -51,7 +52,6 @@ import org.openapitools.codegen.config.GlobalSettings
 @Suppress("UnstableApiUsage")
 @CacheableTask
 open class GenerateTask : DefaultTask() {
-
     /**
      * The verbosity of generation
      */
@@ -60,7 +60,7 @@ open class GenerateTask : DefaultTask() {
     val verbose = project.objects.property<Boolean>()
 
     /**
-     * Whether or not an input specification should be validated upon generation.
+     * Whether an input specification should be validated upon generation.
      */
     @Optional
     @Input
@@ -91,15 +91,24 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
     /**
+     * The remote Open API 2.0/3.x specification URL location.
+     */
+    @Input
+    @Optional
+    val remoteInputSpec = project.objects.property<String>()
+
+    /**
      * The template directory holding a custom template.
      */
     @Optional
-    @Input
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     val templateDir = project.objects.property<String?>()
 
     /**
@@ -123,7 +132,8 @@ open class GenerateTask : DefaultTask() {
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val configFile = project.objects.property<String>()
 
     /**
@@ -220,11 +230,32 @@ open class GenerateTask : DefaultTask() {
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between a given schema and the new one.
+     */
+    @Optional
+    @Input
+    val schemaMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings between the inline scheme name and the new name
      */
     @Optional
     @Input
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies default values for inline schema naming convention
+     */
+    @Optional
+    @Input
+    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings (rules) in OpenAPI normalizer
+     */
+    @Optional
+    @Input
+    val openapiNormalizer = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -234,21 +265,21 @@ open class GenerateTask : DefaultTask() {
     val invokerPackage = project.objects.property<String>()
 
     /**
-     * GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * GroupId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
     val groupId = project.objects.property<String>()
 
     /**
-     * ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * ArtifactId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
     val id = project.objects.property<String>()
 
     /**
-     * Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+     * Artifact version in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @Optional
     @Input
@@ -307,7 +338,8 @@ open class GenerateTask : DefaultTask() {
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
     @Optional
-    @Input
+    @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val ignoreFileOverride = project.objects.property<String?>()
 
     /**
@@ -351,7 +383,7 @@ open class GenerateTask : DefaultTask() {
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * Supporting files are those related to projects/frameworks which may be modified
+     * Supporting files are those related to `projects/frameworks` which may be modified
      * by consumers.
      *
      * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
@@ -363,7 +395,7 @@ open class GenerateTask : DefaultTask() {
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
-     * Defines whether or not model-related _test_ files should be generated.
+     * Defines whether model-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _test_ files.
      *
@@ -375,7 +407,7 @@ open class GenerateTask : DefaultTask() {
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not model-related _documentation_ files should be generated.
+     * Defines whether model-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL model-related _documentation_ files.
      *
@@ -387,7 +419,7 @@ open class GenerateTask : DefaultTask() {
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _test_ files should be generated.
+     * Defines whether api-related _test_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _test_ files.
      *
@@ -399,7 +431,7 @@ open class GenerateTask : DefaultTask() {
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
-     * Defines whether or not api-related _documentation_ files should be generated.
+     * Defines whether api-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _documentation_ files.
      *
@@ -465,6 +497,14 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
+    /**
+     * Defines whether the output dir should be cleaned up before generating the output.
+     *
+     */
+    @Optional
+    @Input
+    val cleanupOutput = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -482,12 +522,23 @@ open class GenerateTask : DefaultTask() {
         }
     }
 
+    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
+        cleanupOutput.ifNotEmpty { cleanup ->
+            if (cleanup) {
+                project.delete(outputDir)
+                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+                out.withStyle(StyledTextOutput.Style.Success)
+                out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
+            }
+        }
+
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
-        } else CodegenConfigurator()
+        } else createDefaultCodegenConfigurator()
 
         try {
             if (globalProperties.isPresent) {
@@ -497,7 +548,10 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(
+                    CodegenConstants.SUPPORTING_FILES,
+                    supportingFilesConstrainedTo.get().joinToString(",")
+                )
             } else {
                 GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
@@ -534,6 +588,10 @@ open class GenerateTask : DefaultTask() {
                 GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
+            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
+                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
+            }
+
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -548,6 +606,10 @@ open class GenerateTask : DefaultTask() {
             }
 
             inputSpec.ifNotEmpty { value ->
+                configurator.setInputSpec(value)
+            }
+
+            remoteInputSpec.ifNotEmpty { value ->
                 configurator.setInputSpec(value)
             }
 
@@ -685,9 +747,27 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            if (schemaMappings.isPresent) {
+                schemaMappings.get().forEach { entry ->
+                    configurator.addSchemaMapping(entry.key, entry.value)
+                }
+            }
+
             if (inlineSchemaNameMappings.isPresent) {
                 inlineSchemaNameMappings.get().forEach { entry ->
                     configurator.addInlineSchemaNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (inlineSchemaNameDefaults.isPresent) {
+                inlineSchemaNameDefaults.get().forEach { entry ->
+                    configurator.addInlineSchemaNameDefault(entry.key, entry.value)
+                }
+            }
+
+            if (openapiNormalizer.isPresent) {
+                openapiNormalizer.get().forEach { entry ->
+                    configurator.addOpenAPINormalizer(entry.key, entry.value)
                 }
             }
 
@@ -722,11 +802,11 @@ open class GenerateTask : DefaultTask() {
             }
 
             val clientOptInput = configurator.toClientOptInput()
-            val codgenConfig = clientOptInput.config
+            val codegenConfig = clientOptInput.config
 
             if (configOptions.isPresent) {
                 val userSpecifiedConfigOptions = configOptions.get()
-                codgenConfig.cliOptions().forEach {
+                codegenConfig.cliOptions().forEach {
                     if (userSpecifiedConfigOptions.containsKey(it.opt)) {
                         clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
                     }

@@ -3,7 +3,7 @@
      * {{.}}
      *
     {{/description}}
-     * @var {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
+     * @var {{{vendorExtensions.x-comment-type}}}
      * @SerializedName("{{baseName}}")
 {{#required}}
      * @Assert\NotNull()
@@ -77,10 +77,10 @@
     {{/minimum}}
     {{#maximum}}
     {{#exclusiveMaximum}}
-     * @Assert\LessThan({{minimum}})
+     * @Assert\LessThan({{maximum}})
     {{/exclusiveMaximum}}
     {{^exclusiveMaximum}}
-     * @Assert\LessThanOrEqual({{minimum}})
+     * @Assert\LessThanOrEqual({{maximum}})
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}
@@ -98,4 +98,4 @@
     {{/minItems}}
 {{/hasValidation}}
      */
-    protected ${{name}};
+    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = null;

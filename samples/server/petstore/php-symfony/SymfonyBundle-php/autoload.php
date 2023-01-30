@@ -16,7 +16,7 @@
  *
  * After registering this autoload function with SPL, the following line
  * would cause the function to attempt to load the \OpenAPI\Server\Baz\Qux class
- * from /path/to/project/./Baz/Qux.php:
+ * from /path/to/project/Baz/Qux.php:
  *
  *      new \OpenAPI\Server\Baz\Qux;
  *
@@ -30,7 +30,7 @@ spl_autoload_register(function ($class) {
     $prefix = 'OpenAPI\\Server\\';
 
     // base directory for the namespace prefix
-    $base_dir = __DIR__ . '/./';
+    $base_dir = __DIR__ . '/';
 
     // does the class use the namespace prefix?
     $len = strlen($prefix);

@@ -17,24 +17,46 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
-  {{#vars}}{{#isEnum}}{{^isContainer}}
-
-{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
-
-{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  {{#vars}}
+  {{#isEnum}}
+  {{^isContainer}}
+  {{>enumClass}}
+  {{/isContainer}}
+  {{#isContainer}}
+  {{#mostInnerItems}}
+  {{>enumClass}}
+  {{/mostInnerItems}}
+  {{/isContainer}}
+  {{/isEnum}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}{{#generateBuilders}}{{^additionalProperties}}
+  {{#isContainer}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#required}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}}{{#isNullable}} = null{{/isNullable}}{{/required}}{{^required}} = null{{/required}};
+  {{/isContainer}}
+  {{^isContainer}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/isContainer}}
+  {{/vars}}
+  {{#generateBuilders}}
+  {{^additionalProperties}}
 
   protected {{classname}}({{classname}}Builder<?, ?> b) {
-  {{#parent}}super(b);
-  {{/parent}}{{#vars}}this.{{name}} = b.{{name}};{{/vars}}
+    {{#parent}}
+    super(b);
+    {{/parent}}
+    {{#vars}}
+    this.{{name}} = b.{{name}};
+    {{/vars}}
   }
 
-  public {{classname}}() { }{{/additionalProperties}}{{/generateBuilders}}
+  public {{classname}}() {
+  }
+  {{/additionalProperties}}
+  {{/generateBuilders}}
 
-  {{#vars}}/**
+  {{#vars}}
+  /**
    {{#description}}
    * {{.}}
    {{/description}}
@@ -110,7 +132,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
         {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
@@ -118,7 +140,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override

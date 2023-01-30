@@ -72,7 +72,7 @@ async def get_inventory(
 async def get_order_by_id(
     orderId: int = Path(None, description="ID of pet that needs to be fetched", ge=1, le=5),
 ) -> Order:
-    """For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions"""
+    """For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions"""
     ...
 
 

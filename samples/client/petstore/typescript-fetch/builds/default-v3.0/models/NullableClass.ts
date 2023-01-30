@@ -94,6 +94,15 @@ export interface NullableClass {
     objectItemsNullable?: { [key: string]: object; };
 }
 
+/**
+ * Check if a given object implements the NullableClass interface.
+ */
+export function instanceOfNullableClass(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function NullableClassFromJSON(json: any): NullableClass {
     return NullableClassFromJSONTyped(json, false);
 }

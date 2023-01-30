@@ -53,9 +53,9 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #./configure --enable-optimizations
   #sudo make altinstall
   pyenv install --list 
-  pyenv install 3.6.3
+  pyenv install 3.7.12
   pyenv install 2.7.14
-  pyenv global 3.6.3
+  pyenv global 3.7.12
 
   # Install node@stable (for angular 6)
   set +e
@@ -79,7 +79,8 @@ elif [ "$NODE_INDEX" = "4" ]; then
 
   #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   (cd samples/openapi3/client/petstore/python && make test)
-  (cd samples/openapi3/client/petstore/python-experimental && make test)
+  (cd samples/openapi3/client/petstore/python-prior && make test)
+  (cd samples/openapi3/client/3_0_3_unit_test/python && make test)
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
