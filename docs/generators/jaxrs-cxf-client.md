@@ -65,7 +65,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/gen/java|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
-|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk.| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|

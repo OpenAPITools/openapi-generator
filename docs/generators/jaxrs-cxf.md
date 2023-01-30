@@ -73,7 +73,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/gen/java|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
-|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk.| |false|
 |useAnnotatedBasePath|Use @Path annotations for basePath| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useBeanValidationFeature|Use BeanValidation Feature| |false|
