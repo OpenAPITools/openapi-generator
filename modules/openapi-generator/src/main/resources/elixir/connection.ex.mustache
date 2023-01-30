@@ -284,7 +284,7 @@ defmodule {{moduleName}}.Connection do
   def authorization(token, scopes \\ @default_scopes)
 
   def authorization(token, _scopes) when is_binary(token) do
-    {Tesla.Middlware.Headers, ["authorization", token]}
+    {Tesla.Middleware.Headers, ["authorization", token]}
   end
 
   def authorization({module, function}, scopes) when is_atom(module) and is_atom(function) do

@@ -272,12 +272,31 @@ public class MapTest {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
@@ -285,28 +304,36 @@ public class MapTest {
     // add `map_map_of_string` to the URL query string
     if (getMapMapOfString() != null) {
       for (String _key : getMapMapOfString().keySet()) {
-        joiner.add(String.format("%s[map_map_of_string][%s]=%s", prefix, getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%smap_map_of_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `map_of_enum_string` to the URL query string
     if (getMapOfEnumString() != null) {
       for (String _key : getMapOfEnumString().keySet()) {
-        joiner.add(String.format("%s[map_of_enum_string][%s]=%s", prefix, getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%smap_of_enum_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `direct_map` to the URL query string
     if (getDirectMap() != null) {
       for (String _key : getDirectMap().keySet()) {
-        joiner.add(String.format("%s[direct_map][%s]=%s", prefix, getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sdirect_map%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `indirect_map` to the URL query string
     if (getIndirectMap() != null) {
       for (String _key : getIndirectMap().keySet()) {
-        joiner.add(String.format("%s[indirect_map][%s]=%s", prefix, getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sindirect_map%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

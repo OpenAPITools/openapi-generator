@@ -38,7 +38,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = petstore_api.User() # User | Created user object
@@ -100,7 +100,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = [petstore_api.User()] # List[User] | List of user object
@@ -162,7 +162,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     user = [petstore_api.User()] # List[User] | List of user object
@@ -224,7 +224,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be deleted
@@ -287,7 +287,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
@@ -353,7 +353,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The user name for login
@@ -420,7 +420,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
 
@@ -478,7 +478,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient() as api_client:
+async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted

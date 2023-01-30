@@ -24,8 +24,10 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -48,6 +50,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -1439,6 +1442,24 @@ public class SpringCodegenTest {
                 .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
+    }
+
+    @Test
+    public void testResponseWithArray_issue12524() throws Exception {
+        GlobalSettings.setProperty("skipFormModel", "true");
+
+        try {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
+            additionalProperties.put(ANNOTATION_LIBRARY, "none");
+            additionalProperties.put(RETURN_SUCCESS_CODE, "true");
+            Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12524.json", SPRING_BOOT, additionalProperties);
+
+            JavaFileAssert.assertThat(files.get("API01ListOfStuff.java"))
+                .hasImports("com.fasterxml.jackson.annotation.JsonTypeName");
+        } finally {
+            GlobalSettings.reset();
+        }
     }
 
     @Test

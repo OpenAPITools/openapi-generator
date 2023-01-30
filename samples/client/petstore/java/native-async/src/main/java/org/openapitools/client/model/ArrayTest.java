@@ -199,12 +199,31 @@ public class ArrayTest {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
@@ -212,14 +231,18 @@ public class ArrayTest {
     // add `array_of_string` to the URL query string
     if (getArrayOfString() != null) {
       for (int i = 0; i < getArrayOfString().size(); i++) {
-        joiner.add(String.format("%s[array_of_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_of_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `array_array_of_integer` to the URL query string
     if (getArrayArrayOfInteger() != null) {
       for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
-        joiner.add(String.format("%s[array_array_of_integer][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_array_of_integer%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -227,7 +250,9 @@ public class ArrayTest {
     if (getArrayArrayOfModel() != null) {
       for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
         if (getArrayArrayOfModel().get(i) != null) {
-          joiner.add(String.format("%s[array_array_of_model][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%sarray_array_of_model%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
       }
     }

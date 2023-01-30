@@ -379,12 +379,31 @@ public class DefaultValue {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
@@ -392,41 +411,51 @@ public class DefaultValue {
     // add `array_string_enum_default` to the URL query string
     if (getArrayStringEnumDefault() != null) {
       for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
-        joiner.add(String.format("%s[array_string_enum_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringEnumDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_string_enum_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayStringEnumDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `array_string_default` to the URL query string
     if (getArrayStringDefault() != null) {
       for (int i = 0; i < getArrayStringDefault().size(); i++) {
-        joiner.add(String.format("%s[array_string_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_string_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayStringDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `array_integer_default` to the URL query string
     if (getArrayIntegerDefault() != null) {
       for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
-        joiner.add(String.format("%s[array_integer_default][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayIntegerDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_integer_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayIntegerDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `array_string` to the URL query string
     if (getArrayString() != null) {
       for (int i = 0; i < getArrayString().size(); i++) {
-        joiner.add(String.format("%s[array_string][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `array_string_nullable` to the URL query string
     if (getArrayStringNullable() != null) {
       for (int i = 0; i < getArrayStringNullable().size(); i++) {
-        joiner.add(String.format("%s[array_string_nullable][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_string_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `string_nullable` to the URL query string
     if (getStringNullable() != null) {
-      joiner.add(String.format("%s[string_nullable]=%s", prefix, URLEncoder.encode(String.valueOf(getStringNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

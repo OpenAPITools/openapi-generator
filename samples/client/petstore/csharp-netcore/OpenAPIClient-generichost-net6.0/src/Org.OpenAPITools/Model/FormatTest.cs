@@ -366,19 +366,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override FormatTest Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override FormatTest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             System.IO.Stream binary = default;
             byte[] byteProperty = default;
@@ -397,68 +397,68 @@ namespace Org.OpenAPITools.Model
             string stringProperty = default;
             Guid uuid = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "binary":
-                            binary = JsonSerializer.Deserialize<System.IO.Stream>(ref reader, options);
+                            binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "byte":
-                            byteProperty = JsonSerializer.Deserialize<byte[]>(ref reader, options);
+                            byteProperty = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "date":
-                            date = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "decimal":
-                            decimalProperty = JsonSerializer.Deserialize<decimal>(ref reader, options);
+                            decimalProperty = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "double":
-                            doubleProperty = reader.GetDouble();
+                            doubleProperty = utf8JsonReader.GetDouble();
                             break;
                         case "float":
-                            floatProperty = (float)reader.GetDouble();
+                            floatProperty = (float)utf8JsonReader.GetDouble();
                             break;
                         case "int32":
-                            int32 = reader.GetInt32();
+                            int32 = utf8JsonReader.GetInt32();
                             break;
                         case "int64":
-                            int64 = reader.GetInt64();
+                            int64 = utf8JsonReader.GetInt64();
                             break;
                         case "integer":
-                            integer = reader.GetInt32();
+                            integer = utf8JsonReader.GetInt32();
                             break;
                         case "number":
-                            number = reader.GetInt32();
+                            number = utf8JsonReader.GetInt32();
                             break;
                         case "password":
-                            password = reader.GetString();
+                            password = utf8JsonReader.GetString();
                             break;
                         case "pattern_with_digits":
-                            patternWithDigits = reader.GetString();
+                            patternWithDigits = utf8JsonReader.GetString();
                             break;
                         case "pattern_with_digits_and_delimiter":
-                            patternWithDigitsAndDelimiter = reader.GetString();
+                            patternWithDigitsAndDelimiter = utf8JsonReader.GetString();
                             break;
                         case "string":
-                            stringProperty = reader.GetString();
+                            stringProperty = utf8JsonReader.GetString();
                             break;
                         case "uuid":
-                            uuid = reader.GetGuid();
+                            uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -474,22 +474,22 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="formatTest"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
             writer.WritePropertyName("binary");
-            JsonSerializer.Serialize(writer, formatTest.Binary, options);
+            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WritePropertyName("byte");
-            JsonSerializer.Serialize(writer, formatTest.ByteProperty, options);
+            JsonSerializer.Serialize(writer, formatTest.ByteProperty, jsonSerializerOptions);
             writer.WritePropertyName("date");
-            JsonSerializer.Serialize(writer, formatTest.Date, options);
+            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
             writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, formatTest.DateTime, options);
+            JsonSerializer.Serialize(writer, formatTest.DateTime, jsonSerializerOptions);
             writer.WritePropertyName("decimal");
-            JsonSerializer.Serialize(writer, formatTest.DecimalProperty, options);
+            JsonSerializer.Serialize(writer, formatTest.DecimalProperty, jsonSerializerOptions);
             writer.WriteNumber("double", formatTest.DoubleProperty);
             writer.WriteNumber("float", formatTest.FloatProperty);
             writer.WriteNumber("int32", formatTest.Int32);

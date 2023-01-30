@@ -117,20 +117,43 @@ public class ArrayOfNumberOnly {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     // add `ArrayNumber` to the URL query string
     if (getArrayNumber() != null) {
       for (int i = 0; i < getArrayNumber().size(); i++) {
         if (getArrayNumber().get(i) != null) {
           try {
-            joiner.add(String.format("%s[ArrayNumber][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
             throw new RuntimeException(e);
@@ -138,6 +161,7 @@ public class ArrayOfNumberOnly {
         }
       }
     }
+
     return joiner.toString();
   }
 

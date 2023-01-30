@@ -69,7 +69,7 @@ public interface {{classname}}  {
     })
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{^vendorExtensions.x-java-is-response-void}}, response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}{{/vendorExtensions.x-java-is-response-void}}){{^-last}},{{/-last}}{{/responses}} })
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{^vendorExtensions.x-java-is-response-void}}, response = {{#isFile}}{{#useAbstractionForFiles}}InputStream{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{baseType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{baseType}}}{{/isFile}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}{{/vendorExtensions.x-java-is-response-void}}){{^-last}},{{/-last}}{{/responses}} })
     public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}
 }

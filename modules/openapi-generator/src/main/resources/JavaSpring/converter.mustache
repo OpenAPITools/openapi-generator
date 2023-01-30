@@ -18,7 +18,7 @@ public class EnumConverterConfiguration {
 {{#models}}
 {{#model}}
 {{#isEnum}}
-    @Bean
+    @Bean(name = "{{configPackage}}.EnumConverterConfiguration.{{classVarName}}Converter")
     Converter<{{{dataType}}}, {{classname}}> {{classVarName}}Converter() {
         return new Converter<{{{dataType}}}, {{classname}}>() {
             @Override

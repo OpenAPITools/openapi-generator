@@ -218,34 +218,59 @@ public class EnumArrays {
   /**
    * Convert the instance into URL query string.
    *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
    * @param prefix prefix of the query string
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
+
     StringJoiner joiner = new StringJoiner("&");
+
     // add `just_symbol` to the URL query string
     if (getJustSymbol() != null) {
       try {
-        joiner.add(String.format("%s[just_symbol]=%s", prefix, URLEncoder.encode(String.valueOf(getJustSymbol()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sjust_symbol%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getJustSymbol()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
       }
     }
+
     // add `array_enum` to the URL query string
     if (getArrayEnum() != null) {
       for (int i = 0; i < getArrayEnum().size(); i++) {
         try {
-          joiner.add(String.format("%s[array_enum][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+          joiner.add(String.format("%sarray_enum%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
           throw new RuntimeException(e);
         }
       }
     }
+
     return joiner.toString();
   }
 
