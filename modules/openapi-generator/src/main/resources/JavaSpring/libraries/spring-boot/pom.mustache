@@ -14,7 +14,7 @@
         <springfox.version>2.9.2</springfox.version>
         {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
-        <springdoc.version>1.6.8</springdoc.version>
+        <springdoc.version>1.6.14</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
@@ -22,7 +22,7 @@
         <swagger-annotations.version>1.6.6</swagger-annotations.version>
         {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>}2.1.13</swagger-annotations.version>
+        <swagger-annotations.version>}2.2.7</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
@@ -30,7 +30,7 @@
         <virtualan.version>2.5.2</virtualan.version>
         {{/virtualService}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>4.10.3</swagger-ui.version>
+        <swagger-ui.version>4.15.5</swagger-ui.version>
         {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
@@ -44,7 +44,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.14{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.7.0{{/springFoxDocumentationProvider}}</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.14{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.7.6{{/springFoxDocumentationProvider}}</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}

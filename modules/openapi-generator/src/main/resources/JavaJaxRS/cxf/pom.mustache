@@ -218,7 +218,12 @@
 {{/useBeanValidation}}
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
-    <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

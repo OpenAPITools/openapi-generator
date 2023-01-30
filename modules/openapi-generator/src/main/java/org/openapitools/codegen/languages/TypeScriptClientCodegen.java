@@ -73,6 +73,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PLATFORM_SWITCH = "platform";
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = { "browser", "node", "deno" };
+    private static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
+    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.";
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
@@ -198,6 +200,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
@@ -835,8 +838,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
-        if ("deno".equals(propPlatform)) {
-            additionalProperties.put("extensionForDeno", ".ts");
+        Object fileExtension = additionalProperties.get(IMPORT_FILE_EXTENSION_SWITCH);
+        if (fileExtension == null && "deno".equals(propPlatform)) {
+            additionalProperties.put(IMPORT_FILE_EXTENSION_SWITCH, ".ts");
         }
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);

@@ -111,17 +111,29 @@ Class | Method | HTTP request | Description
 *PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanStringWithHttpInfo**](docs/QueryApi.md#testQueryIntegerBooleanStringWithHttpInfo) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo**](docs/QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectWithHttpInfo) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 ## Documentation for Models
 
+ - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
+ - [DataQuery](docs/DataQuery.md)
+ - [DataQueryAllOf](docs/DataQueryAllOf.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
+ - [Query](docs/Query.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

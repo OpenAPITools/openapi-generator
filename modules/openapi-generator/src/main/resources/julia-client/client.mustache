@@ -1,0 +1,24 @@
+{{>partial_header}}
+module {{packageName}}
+
+using Dates, TimeZones
+using OpenAPI
+using OpenAPI.Clients
+
+const API_VERSION = "{{appVersion}}"
+
+include("modelincludes.jl")
+{{#apiInfo}}{{#apis}}
+include("apis/api_{{classname}}.jl"){{/apis}}{{/apiInfo}}
+
+{{#exportModels}}
+# export models
+{{#models}}{{#model}}export {{classname}}
+{{/model}}{{/models}}
+{{/exportModels}}
+{{#exportOperations}}
+# export operations
+{{#apiInfo}}{{#apis}}export {{classname}}
+{{/apis}}{{/apiInfo}}
+{{/exportOperations}}
+end # module {{packageName}}

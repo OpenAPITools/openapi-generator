@@ -206,14 +206,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/deprecated}}
 {{#required}}
 {{#isNullable}}
-  @jakarta.annotation.Nullable
+  @{{javaxPackage}}.annotation.Nullable
 {{/isNullable}}
 {{^isNullable}}
-  @jakarta.annotation.Nonnull
+  @{{javaxPackage}}.annotation.Nonnull
 {{/isNullable}}
 {{/required}}
 {{^required}}
-  @jakarta.annotation.Nullable
+  @{{javaxPackage}}.annotation.Nullable
 {{/required}}
 {{#useBeanValidation}}
 {{>beanValidation}}

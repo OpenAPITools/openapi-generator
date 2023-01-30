@@ -1,6 +1,3 @@
-// typings for btoa are incorrect
-//@ts-ignore
-import * as btoa from "btoa";
 import { RequestContext } from "../http/http";
 import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";

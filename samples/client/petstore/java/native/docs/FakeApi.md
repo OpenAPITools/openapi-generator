@@ -6,8 +6,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |------------- | ------------- | -------------|
 | [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeHealthGetWithHttpInfo**](FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint |
-| [**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
-| [**fakeHttpSignatureTestWithHttpInfo**](FakeApi.md#fakeHttpSignatureTestWithHttpInfo) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterBooleanSerializeWithHttpInfo**](FakeApi.md#fakeOuterBooleanSerializeWithHttpInfo) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
@@ -16,10 +14,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterNumberSerializeWithHttpInfo**](FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakeOuterStringSerializeWithHttpInfo**](FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string |  |
-| [**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
-| [**fakePropertyEnumIntegerSerializeWithHttpInfo**](FakeApi.md#fakePropertyEnumIntegerSerializeWithHttpInfo) | **POST** /fake/property/enum-int |  |
-| [**testBodyWithBinary**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
-| [**testBodyWithBinaryWithHttpInfo**](FakeApi.md#testBodyWithBinaryWithHttpInfo) | **PUT** /fake/body-with-binary |  |
+| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getArrayOfEnumsWithHttpInfo**](FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithFileSchemaWithHttpInfo**](FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -156,146 +152,6 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
-
-
-## fakeHttpSignatureTest
-
-> void fakeHttpSignatureTest(pet, query1, header1)
-
-test http signature authentication
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-        
-
-        FakeApi apiInstance = new FakeApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
-        String query1 = "query1_example"; // String | query parameter
-        String header1 = "header1_example"; // String | header parameter
-        try {
-            apiInstance.fakeHttpSignatureTest(pet, query1, header1);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#fakeHttpSignatureTest");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
-| **query1** | **String**| query parameter | [optional] |
-| **header1** | **String**| header parameter | [optional] |
-
-### Return type
-
-
-null (empty response body)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
-
-## fakeHttpSignatureTestWithHttpInfo
-
-> ApiResponse<Void> fakeHttpSignatureTest fakeHttpSignatureTestWithHttpInfo(pet, query1, header1)
-
-test http signature authentication
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.ApiResponse;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-        
-
-        FakeApi apiInstance = new FakeApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
-        String query1 = "query1_example"; // String | query parameter
-        String header1 = "header1_example"; // String | header parameter
-        try {
-            ApiResponse<Void> response = apiInstance.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1);
-            System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders());
-        } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#fakeHttpSignatureTest");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            System.err.println("Reason: " + e.getResponseBody());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
-| **query1** | **String**| query parameter | [optional] |
-| **header1** | **String**| header parameter | [optional] |
-
-### Return type
-
-
-ApiResponse<Void>
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -839,13 +695,11 @@ No authorization required
 | **200** | Output string |  -  |
 
 
-## fakePropertyEnumIntegerSerialize
+## getArrayOfEnums
 
-> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+> List<OuterEnum> getArrayOfEnums()
 
-
-
-Test serialization of enum (int) properties with examples
+Array of Enums
 
 ### Example
 
@@ -863,12 +717,11 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterObjectWithEnumProperty outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
         try {
-            OuterObjectWithEnumProperty result = apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+            List<OuterEnum> result = apiInstance.getArrayOfEnums();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#fakePropertyEnumIntegerSerialize");
+            System.err.println("Exception when calling FakeApi#getArrayOfEnums");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -880,14 +733,11 @@ public class Example {
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | |
+This endpoint does not need any parameter.
 
 ### Return type
 
-[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
+[**List&lt;OuterEnum&gt;**](OuterEnum.md)
 
 
 ### Authorization
@@ -896,21 +746,19 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Output enum (int) |  -  |
+| **200** | Got named array of enums |  -  |
 
-## fakePropertyEnumIntegerSerializeWithHttpInfo
+## getArrayOfEnumsWithHttpInfo
 
-> ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty)
+> ApiResponse<List<OuterEnum>> getArrayOfEnums getArrayOfEnumsWithHttpInfo()
 
-
-
-Test serialization of enum (int) properties with examples
+Array of Enums
 
 ### Example
 
@@ -929,14 +777,13 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterObjectWithEnumProperty outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
         try {
-            ApiResponse<OuterObjectWithEnumProperty> response = apiInstance.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+            ApiResponse<List<OuterEnum>> response = apiInstance.getArrayOfEnumsWithHttpInfo();
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#fakePropertyEnumIntegerSerialize");
+            System.err.println("Exception when calling FakeApi#getArrayOfEnums");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -948,14 +795,11 @@ public class Example {
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | |
+This endpoint does not need any parameter.
 
 ### Return type
 
-ApiResponse<[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)>
+ApiResponse<[**List&lt;OuterEnum&gt;**](OuterEnum.md)>
 
 
 ### Authorization
@@ -964,145 +808,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Output enum (int) |  -  |
-
-
-## testBodyWithBinary
-
-> void testBodyWithBinary(body)
-
-
-
-For this test, the body has to be a binary file.
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-
-        FakeApi apiInstance = new FakeApi(defaultClient);
-        File body = new File("/path/to/file"); // File | image to upload
-        try {
-            apiInstance.testBodyWithBinary(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#testBodyWithBinary");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **body** | **File**| image to upload | |
-
-### Return type
-
-
-null (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: image/png
-- **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Success |  -  |
-
-## testBodyWithBinaryWithHttpInfo
-
-> ApiResponse<Void> testBodyWithBinary testBodyWithBinaryWithHttpInfo(body)
-
-
-
-For this test, the body has to be a binary file.
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.ApiResponse;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-
-        FakeApi apiInstance = new FakeApi(defaultClient);
-        File body = new File("/path/to/file"); // File | image to upload
-        try {
-            ApiResponse<Void> response = apiInstance.testBodyWithBinaryWithHttpInfo(body);
-            System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders());
-        } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#testBodyWithBinary");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            System.err.println("Reason: " + e.getResponseBody());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **body** | **File**| image to upload | |
-
-### Return type
-
-
-ApiResponse<Void>
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: image/png
-- **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Success |  -  |
+| **200** | Got named array of enums |  -  |
 
 
 ## testBodyWithFileSchema
@@ -1111,7 +823,7 @@ No authorization required
 
 
 
-For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
 
@@ -1175,7 +887,7 @@ No authorization required
 
 
 
-For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
 
@@ -1544,7 +1256,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -1576,7 +1288,7 @@ public class Example {
 | **string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
 | **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 
@@ -1642,7 +1354,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -1676,7 +1388,7 @@ public class Example {
 | **string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
 | **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 
@@ -1703,7 +1415,7 @@ ApiResponse<Void>
 
 ## testEnumParameters
 
-> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
+> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -1731,11 +1443,10 @@ public class Example {
         String enumQueryString = "_abc"; // String | Query parameter enum test (string)
         Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
         Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
-        List<EnumClass> enumQueryModelArray = Arrays.asList(-efg); // List<EnumClass> | 
         List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
         String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
-            apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+            apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
             System.err.println("Status code: " + e.getCode());
@@ -1758,7 +1469,6 @@ public class Example {
 | **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 | **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2] |
 | **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
-| **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] |
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 
@@ -1784,7 +1494,7 @@ No authorization required
 
 ## testEnumParametersWithHttpInfo
 
-> ApiResponse<Void> testEnumParameters testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
+> ApiResponse<Void> testEnumParameters testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -1813,11 +1523,10 @@ public class Example {
         String enumQueryString = "_abc"; // String | Query parameter enum test (string)
         Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
         Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
-        List<EnumClass> enumQueryModelArray = Arrays.asList(-efg); // List<EnumClass> | 
         List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
         String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
-            ApiResponse<Void> response = apiInstance.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+            ApiResponse<Void> response = apiInstance.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -1842,7 +1551,6 @@ public class Example {
 | **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 | **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2] |
 | **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
-| **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] |
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 
@@ -2320,7 +2028,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> void testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
+> void testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
 
 
 
@@ -2347,10 +2055,8 @@ public class Example {
         List<String> http = Arrays.asList(); // List<String> | 
         List<String> url = Arrays.asList(); // List<String> | 
         List<String> context = Arrays.asList(); // List<String> | 
-        String allowEmpty = "allowEmpty_example"; // String | 
-        Map<String, String> language = new HashMap(); // Map<String, String> | 
         try {
-            apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
+            apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());
@@ -2372,8 +2078,6 @@ public class Example {
 | **http** | [**List&lt;String&gt;**](String.md)|  | |
 | **url** | [**List&lt;String&gt;**](String.md)|  | |
 | **context** | [**List&lt;String&gt;**](String.md)|  | |
-| **allowEmpty** | **String**|  | |
-| **language** | [**Map&lt;String, String&gt;**](String.md)|  | [optional] |
 
 ### Return type
 
@@ -2396,7 +2100,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormatWithHttpInfo
 
-> ApiResponse<Void> testQueryParameterCollectionFormat testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language)
+> ApiResponse<Void> testQueryParameterCollectionFormat testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
 
 
 
@@ -2424,10 +2128,8 @@ public class Example {
         List<String> http = Arrays.asList(); // List<String> | 
         List<String> url = Arrays.asList(); // List<String> | 
         List<String> context = Arrays.asList(); // List<String> | 
-        String allowEmpty = "allowEmpty_example"; // String | 
-        Map<String, String> language = new HashMap(); // Map<String, String> | 
         try {
-            ApiResponse<Void> response = apiInstance.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language);
+            ApiResponse<Void> response = apiInstance.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -2451,8 +2153,6 @@ public class Example {
 | **http** | [**List&lt;String&gt;**](String.md)|  | |
 | **url** | [**List&lt;String&gt;**](String.md)|  | |
 | **context** | [**List&lt;String&gt;**](String.md)|  | |
-| **allowEmpty** | **String**|  | |
-| **language** | [**Map&lt;String, String&gt;**](String.md)|  | [optional] |
 
 ### Return type
 

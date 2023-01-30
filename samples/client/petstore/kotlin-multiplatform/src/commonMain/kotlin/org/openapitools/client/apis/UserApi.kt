@@ -53,7 +53,8 @@ open class UserApi(
             RequestMethod.POST,
             "/user",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(
@@ -84,7 +85,8 @@ open class UserApi(
             RequestMethod.POST,
             "/user/createWithArray",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(
@@ -124,7 +126,8 @@ open class UserApi(
             RequestMethod.POST,
             "/user/createWithList",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(
@@ -165,7 +168,8 @@ open class UserApi(
             RequestMethod.DELETE,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -197,7 +201,8 @@ open class UserApi(
             RequestMethod.GET,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -232,7 +237,8 @@ open class UserApi(
             RequestMethod.GET,
             "/user/login",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -262,7 +268,8 @@ open class UserApi(
             RequestMethod.GET,
             "/user/logout",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -293,7 +300,8 @@ open class UserApi(
             RequestMethod.PUT,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(

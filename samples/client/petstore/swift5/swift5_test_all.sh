@@ -6,6 +6,7 @@ DIRECTORY=`dirname $0`
 
 # example project with unit tests
 mvn -f $DIRECTORY/alamofireLibrary/SwaggerClientTests/pom.xml integration-test
+mvn -f $DIRECTORY/asyncAwaitLibrary/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/default/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/promisekitLibrary/SwaggerClientTests/pom.xml integration-test

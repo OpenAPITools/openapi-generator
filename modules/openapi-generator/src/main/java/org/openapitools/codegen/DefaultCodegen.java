@@ -167,6 +167,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
+    // a map to store the rules in OpenAPI Normalizer
+    protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
@@ -468,6 +470,35 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            for (CodegenProperty property : model.allVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.vars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readWriteVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.optionalVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.parentVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.requiredVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.readOnlyVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+            for (CodegenProperty property : model.nonNullableVars){
+                property.isNew = codegenPropertyIsNew(model, property);
+            }
+        }
+
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
@@ -520,6 +551,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
+    }
+
+    private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
+        return model.parentModel == null
+            ? false
+            : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**
@@ -637,14 +674,29 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
-        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
-                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        // for allVars
+        final Map<String, List<CodegenProperty>> allVarsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getAllVars())));
 
-        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, allVarsDependencyMap));
+
+        // for vars
+        final Map<String, List<CodegenProperty>> varsDependencyMap = models.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue().getVars())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, varsDependencyMap));
+
+        // for oneOf
+        final Map<String, List<CodegenProperty>> oneOfDependencyMap = models.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(
+                            (entry.getValue().getComposedSchemas() != null && entry.getValue().getComposedSchemas().getOneOf() != null)
+                            ? entry.getValue().getComposedSchemas().getOneOf() : new ArrayList<CodegenProperty>())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, oneOfDependencyMap));
     }
 
-    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
-        return model.getAllVars().stream()
+    private List<CodegenProperty> getModelDependencies( List<CodegenProperty> vars) {
+        return vars.stream()
                 .map(prop -> {
                     if (prop.isContainer) {
                         return prop.items.dataType == null ? null : prop;
@@ -1120,6 +1172,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> inlineSchemaNameDefault() {
         return inlineSchemaNameDefault;
+    }
+
+    @Override
+    public Map<String, String> openapiNormalizer() {
+        return openapiNormalizer;
     }
 
     @Override
@@ -2129,6 +2186,21 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toDefaultValueWithParam(String name, Schema schema) {
         return " = data." + name + ";";
+    }
+
+    /**
+     * Return the default value of the property
+     * <p>
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param schema Property schema
+     * @param codegenProperty Codegen property
+     * @return string presentation of the default value of the property
+     */
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        // use toDefaultValue(schema) if generator has not overriden this method
+        return toDefaultValue(schema);
     }
 
     /**
@@ -3729,8 +3801,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
-        property.defaultValue = toDefaultValue(p);
-        property.defaultValueWithParam = toDefaultValueWithParam(name, p);
+
         property.jsonSchema = Json.pretty(p);
 
         if (p.getDeprecated() != null) {
@@ -3881,6 +3952,10 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
         }
+
+        // set the default value
+        property.defaultValue = toDefaultValue(property, p);
+        property.defaultValueWithParam = toDefaultValueWithParam(name, p);
 
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
@@ -5009,7 +5084,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameterModelName != null) {
             codegenParameter.dataType = parameterModelName;
-            if (ModelUtils.isObjectSchema(parameterSchema)) {
+            if (ModelUtils.isObjectSchema(parameterSchema) || ModelUtils.isComposedSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
         } else {
@@ -6440,7 +6515,7 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
-    public void writePropertyBack(String propertyKey, boolean value) {
+    public void writePropertyBack(String propertyKey, Object value) {
         additionalProperties.put(propertyKey, value);
     }
 
@@ -7179,7 +7254,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
+            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
                 if (addSchemaImportsFromV3SpecLocations) {
@@ -7923,6 +7998,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseInlineModelResolver() { return true; }
+
+    @Override
+    public boolean getUseOpenAPINormalizer() { return true; }
 
     /*
     A function to convert yaml or json ingested strings like property names

@@ -32,14 +32,12 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   @BuiltValueField(wireName: r'barPropA')
   String? get barPropA;
 
-  static const String discriminatorFieldName = r'@type';
-
   Bar._();
 
   factory Bar([void updates(BarBuilder b)]) = _$Bar;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarBuilder b) => b;
+  static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Bar> get serializer => _$BarSerializer();

@@ -129,7 +129,7 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
