@@ -2189,6 +2189,21 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the default value of the property
+     * <p>
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param schema Property schema
+     * @param codegenProperty Codegen property
+     * @return string presentation of the default value of the property
+     */
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        // use toDefaultValue(schema) if generator has not overriden this method
+        return toDefaultValue(schema);
+    }
+
+    /**
      * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
      *
      * @param schema property schema
@@ -3786,8 +3801,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
-        property.defaultValue = toDefaultValue(p);
-        property.defaultValueWithParam = toDefaultValueWithParam(name, p);
+
         property.jsonSchema = Json.pretty(p);
 
         if (p.getDeprecated() != null) {
@@ -3938,6 +3952,10 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
         }
+
+        // set the default value
+        property.defaultValue = toDefaultValue(property, p);
+        property.defaultValueWithParam = toDefaultValueWithParam(name, p);
 
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);

@@ -13,6 +13,7 @@
 
 package org.openapitools.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Assert;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.*;
@@ -20,6 +21,7 @@ import org.openapitools.client.model.*;
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -136,6 +138,108 @@ public class CustomTest {
         String response = api.testQueryIntegerBooleanString(1, true, "Hello World");
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
         Assert.assertEquals("/query/integer/boolean/string?integer_query=1&boolean_query=true&string_query=Hello%20World", p.path);
+    }
+
+    @Test
+    public void testArrayDefaultValues() {
+        // test array default values
+        DefaultValue d = new DefaultValue();
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
+
+        Assert.assertEquals(d.getArrayStringDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringDefault().get(0), "failure");
+        Assert.assertEquals(d.getArrayStringDefault().get(1), "skipped");
+
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 2);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
+        Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
+
+        Assert.assertNull(d.getArrayStringNullable());
+        Assert.assertEquals(d.getArrayString().size(), 0);
+
+        // test addItem
+        d.addArrayStringEnumDefaultItem(DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(2), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+
+        d.addArrayStringDefaultItem("new item");
+        Assert.assertEquals(d.getArrayStringDefault().size(), 3);
+        Assert.assertEquals(d.getArrayStringDefault().get(2), "new item");
+
+        d.addArrayIntegerDefaultItem(5);
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 3);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(2), Integer.valueOf(5));
+
+    }
+
+    @Test
+    public void testDefaultValuesSerializationWithEmptyPayload() throws IOException {
+        ApiClient apiClient = new ApiClient();
+
+        String str = "{}";
+
+        DefaultValue d = apiClient.getObjectMapper().readValue(str, new TypeReference<DefaultValue>() {
+        });
+
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
+
+        Assert.assertEquals(d.getArrayStringDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringDefault().get(0), "failure");
+        Assert.assertEquals(d.getArrayStringDefault().get(1), "skipped");
+
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 2);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
+        Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
+
+        Assert.assertNull(d.getArrayStringNullable());
+        Assert.assertEquals(d.getArrayString().size(), 0);
+
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
+    }
+
+    @Test
+    public void testDefaultValuesSerializationWithJSONString() throws IOException {
+        ApiClient apiClient = new ApiClient();
+
+        String str = "{ \"array_string_enum_default\": [\"unclassified\"], \"array_string_default\": [\"failure\"] }";
+
+        DefaultValue d = apiClient.getObjectMapper().readValue(str, new TypeReference<DefaultValue>() {
+        });
+
+        Assert.assertEquals(d.getArrayStringEnumDefault().size(), 1);
+        Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
+
+        Assert.assertEquals(d.getArrayStringDefault().size(), 1);
+        Assert.assertEquals(d.getArrayStringDefault().get(0), "failure");
+
+        Assert.assertEquals(d.getArrayIntegerDefault().size(), 2);
+        Assert.assertEquals(d.getArrayIntegerDefault().get(0), Integer.valueOf(1));
+        Assert.assertEquals(d.getArrayIntegerDefault().get(1), Integer.valueOf(3));
+
+        Assert.assertNull(d.getArrayStringNullable());
+        Assert.assertEquals(d.getArrayString().size(), 0);
+
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
+    }
+
+    @Test
+    public void testDefaultValuesSerializationWithIncorrectDefaultValues() throws IOException {
+        ApiClient apiClient = new ApiClient();
+
+        String str = "{ \"array_string_enum_default\": [\"invalid\"] }";
+
+        try {
+            DefaultValue d = apiClient.getObjectMapper().readValue(str, new TypeReference<DefaultValue>() {
+            });
+            Assert.assertTrue(false); // the test should not reach this line
+        } catch (com.fasterxml.jackson.databind.exc.ValueInstantiationException e) {
+            Assert.assertEquals(e.getMessage(), "Cannot construct instance of `org.openapitools.client.model.DefaultValue$ArrayStringEnumDefaultEnum`, problem: Unexpected value 'invalid'\n" +
+                    " at [Source: (String)\"{ \"array_string_enum_default\": [\"invalid\"] }\"; line: 1, column: 33] (through reference chain: org.openapitools.client.model.DefaultValue[\"array_string_enum_default\"]->java.util.ArrayList[0])");
+        }
     }
 
 }

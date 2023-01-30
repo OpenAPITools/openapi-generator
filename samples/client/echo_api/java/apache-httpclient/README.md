@@ -122,6 +122,7 @@ Class | Method | HTTP request | Description
  - [Category](docs/Category.md)
  - [DataQuery](docs/DataQuery.md)
  - [DataQueryAllOf](docs/DataQueryAllOf.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
  - [Query](docs/Query.md)
  - [Tag](docs/Tag.md)

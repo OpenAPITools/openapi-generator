@@ -301,6 +301,47 @@ components:
       type: object
       xml:
         name: pet
+    DefaultValue:
+      description: to test the default value of properties
+      properties:
+        array_string_enum_default:
+          default:
+          - success
+          - failure
+          items:
+            enum:
+            - success
+            - failure
+            - unclassified
+            type: string
+          type: array
+        array_string_default:
+          default:
+          - failure
+          - skipped
+          items:
+            type: string
+          type: array
+        array_integer_default:
+          default:
+          - 1
+          - 3
+          items:
+            type: integer
+          type: array
+        array_string:
+          items:
+            type: string
+          type: array
+        array_string_nullable:
+          items:
+            type: string
+          nullable: true
+          type: array
+        string_nullable:
+          nullable: true
+          type: string
+      type: object
     Bird:
       properties:
         size:
