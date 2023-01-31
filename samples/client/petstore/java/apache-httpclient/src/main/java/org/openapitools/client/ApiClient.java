@@ -846,7 +846,15 @@ public class ApiClient extends JavaTimeFormatter {
     String mimeType = getResponseMimeType(response);
     if (mimeType == null || isJsonMime(mimeType)) {
       // Assume json if no mime type
-      return objectMapper.readValue(entity.getContent(), valueType);
+      // convert input stream to string
+      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
+      String content = (String) (s.hasNext() ? s.next() : "");
+
+      if ("".equals(content)) { // returns null for empty body
+        return null;
+      }
+
+      return objectMapper.readValue(content, valueType);
     } else if ("text/plain".equalsIgnoreCase(mimeType)) {
       // convert input stream to string
       java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
@@ -1085,7 +1093,7 @@ public class ApiClient extends JavaTimeFormatter {
       }
     } else {
       // for empty body
-      builder.setEntity(serialize(null, null, contentTypeObj));
+      builder.setEntity(new StringEntity("", contentTypeObj));
     }
 
     try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
