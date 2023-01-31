@@ -14,13 +14,16 @@ env:
 jobs:
   build:
     name: Build cpp qt client
-    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         qt-version:
           - '5.15.2'
           - '6.4.2'
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: jurplel/install-qt-action@v3
