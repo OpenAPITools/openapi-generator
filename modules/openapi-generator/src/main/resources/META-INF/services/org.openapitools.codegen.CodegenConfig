@@ -74,7 +74,10 @@ org.openapitools.codegen.languages.JavascriptClientCodegen
 org.openapitools.codegen.languages.JavascriptApolloClientCodegen
 org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
+org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
+org.openapitools.codegen.languages.JuliaClientCodegen
+org.openapitools.codegen.languages.JuliaServerCodegen
 org.openapitools.codegen.languages.K6ClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
@@ -138,6 +141,3 @@ org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
-org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen
-org.openapitools.codegen.languages.JuliaClientCodegen
-org.openapitools.codegen.languages.JuliaServerCodegen
