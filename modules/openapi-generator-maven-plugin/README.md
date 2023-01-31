@@ -138,6 +138,35 @@ Notice that some of these environment variable options may overwrite or conflict
 
 The difference here is that you may define `generateModels` and `modelsToGenerate` as properties, while `globalProperties` may only be configured as a configuration node.
 
+### Type and import mappings
+
+To override the mappings between OpenAPI spec types and the types used in the generated code, set `typeMappings`.
+
+```xml
+<configuration>
+    <typeMappings>
+        <!-- convert Double to BigDecimal -->
+        <typeMapping>Double=java.math.BigDecimal</typeMapping>
+    </typeMappings>
+</configuration>
+```
+
+For types that are not already included in the generator configuration, you may need to add a corresponding `importMapping` too.
+
+```xml
+<configuration>
+    <!-- convert file/binary to JAX-RS StreamingOutput -->
+    <typeMappings>
+        <typeMapping>binary=StreamingOutput</typeMapping>
+        <typeMapping>file=StreamingOutput</typeMapping>
+    </typeMappings>
+    <importMappings>
+        <importMapping>StreamingOutput=javax.ws.rs.core.StreamingOutput</importMapping>
+    </importMappings>
+</configuration>
+```
+
+
 ### Custom Generator
 
 Specifying a custom generator is a bit different. It doesn't support the classpath:/ syntax, but it does support the fully qualified name of the package. You can also specify your custom templates, which also get pulled in. Notice the dependency on a project, in the plugin scope. That would be your generator/template jar.
