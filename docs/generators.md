@@ -39,6 +39,7 @@ The following generators are available:
 * [javascript-closure-angular](generators/javascript-closure-angular.md)  
 * [javascript-flowtyped](generators/javascript-flowtyped.md)  
 * [jaxrs-cxf-client](generators/jaxrs-cxf-client.md)  
+* [jetbrains-http-client (experimental)](generators/jetbrains-http-client.md)  
 * [jmeter](generators/jmeter.md)  
 * [julia-client (beta)](generators/julia-client.md)  
 * [k6 (beta)](generators/k6.md)  
