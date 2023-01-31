@@ -56,7 +56,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
     if (this.nullSet == null || !this.nullSet.isPresent()) {
-      this.nullSet = JsonNullable.of(new LinkedHashSet<>());
+      this.nullSet = JsonNullable.of(null);
     }
     this.nullSet.get().add(nullSetItem);
     return this;
@@ -67,7 +67,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
   */
   
-  @Schema(name = "nullSet", required = false)
+  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
@@ -95,7 +95,7 @@ public class ObjectWithUniqueItems {
    * @return notNullSet
   */
   
-  @Schema(name = "notNullSet", required = false)
+  @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullSet")
   public Set<String> getNotNullSet() {
     return notNullSet;
@@ -113,7 +113,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
     if (this.nullList == null || !this.nullList.isPresent()) {
-      this.nullList = JsonNullable.of(new ArrayList<>());
+      this.nullList = JsonNullable.of(null);
     }
     this.nullList.get().add(nullListItem);
     return this;
@@ -124,7 +124,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
   */
   
-  @Schema(name = "nullList", required = false)
+  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
     return nullList;
@@ -152,7 +152,7 @@ public class ObjectWithUniqueItems {
    * @return notNullList
   */
   
-  @Schema(name = "notNullList", required = false)
+  @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullList")
   public List<String> getNotNullList() {
     return notNullList;
@@ -172,7 +172,7 @@ public class ObjectWithUniqueItems {
    * @return notNullDateField
   */
   @Valid 
-  @Schema(name = "notNullDateField", required = false)
+  @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
   public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
@@ -192,7 +192,7 @@ public class ObjectWithUniqueItems {
    * @return nullDateField
   */
   @Valid 
-  @Schema(name = "nullDateField", required = false)
+  @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
   public OffsetDateTime getNullDateField() {
     return nullDateField;

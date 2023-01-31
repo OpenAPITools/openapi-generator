@@ -15,7 +15,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooGetDefaultResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -38,7 +38,7 @@ public class DefaultApiTest {
      */
     @Test
     public void fooGetTest() throws ApiException {
-        //InlineResponseDefault response = api.fooGet();
+        //FooGetDefaultResponse response = api.fooGet();
         // TODO: test validations
     }
 

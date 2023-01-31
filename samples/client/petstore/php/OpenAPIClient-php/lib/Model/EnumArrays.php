@@ -354,8 +354,11 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setJustSymbol($just_symbol)
     {
+        if (is_null($just_symbol)) {
+            throw new \InvalidArgumentException('non-nullable just_symbol cannot be null');
+        }
         $allowedValues = $this->getJustSymbolAllowableValues();
-        if (!is_null($just_symbol) && !in_array($just_symbol, $allowedValues, true)) {
+        if (!in_array($just_symbol, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for 'just_symbol', must be one of '%s'",
@@ -364,11 +367,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
-        if (is_null($just_symbol)) {
-            throw new \InvalidArgumentException('non-nullable just_symbol cannot be null');
-        }
-
         $this->container['just_symbol'] = $just_symbol;
 
         return $this;
@@ -393,8 +391,11 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setArrayEnum($array_enum)
     {
+        if (is_null($array_enum)) {
+            throw new \InvalidArgumentException('non-nullable array_enum cannot be null');
+        }
         $allowedValues = $this->getArrayEnumAllowableValues();
-        if (!is_null($array_enum) && array_diff($array_enum, $allowedValues)) {
+        if (array_diff($array_enum, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'array_enum', must be one of '%s'",
@@ -402,11 +403,6 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
                 )
             );
         }
-
-        if (is_null($array_enum)) {
-            throw new \InvalidArgumentException('non-nullable array_enum cannot be null');
-        }
-
         $this->container['array_enum'] = $array_enum;
 
         return $this;

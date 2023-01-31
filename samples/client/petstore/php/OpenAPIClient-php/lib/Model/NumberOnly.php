@@ -308,11 +308,9 @@ class NumberOnly implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setJustNumber($just_number)
     {
-
         if (is_null($just_number)) {
             throw new \InvalidArgumentException('non-nullable just_number cannot be null');
         }
-
         $this->container['just_number'] = $just_number;
 
         return $this;

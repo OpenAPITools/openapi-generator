@@ -280,6 +280,20 @@ describe('Petstore', function() {
       expect(JSON.stringify(result)).to.be(nested_one_of_json);
     });
 
+    it('should serialize and deserialize StringOrBoolean correctly', function() {
+      // string
+      var json = '"Hello World"'
+      var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(json), OpenAPIPetstore.StringOrBoolean);
+      expect(result).to.be.a(OpenAPIPetstore.StringOrBoolean);
+      expect(JSON.stringify(result)).to.be(json);
+
+      // boolean
+      json = 'true'
+      result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(json), OpenAPIPetstore.StringOrBoolean);
+      expect(result).to.be.a(OpenAPIPetstore.StringOrBoolean);
+      expect(JSON.stringify(result)).to.be(json);
+    });
+
   });
 });
 

@@ -33,7 +33,7 @@ public class NumberOnly {
    * @return justNumber
   */
   @Valid 
-  @Schema(name = "JustNumber", required = false)
+  @Schema(name = "JustNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;

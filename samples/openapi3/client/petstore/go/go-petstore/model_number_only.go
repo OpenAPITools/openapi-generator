@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the NumberOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NumberOnly{}
+
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
@@ -52,7 +55,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 	if o == nil || isNil(o.JustNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.JustNumber, true
 }
@@ -72,6 +75,14 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 }
 
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.JustNumber) {
 		toSerialize["JustNumber"] = o.JustNumber
@@ -81,7 +92,7 @@ func (o NumberOnly) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *NumberOnly) UnmarshalJSON(bytes []byte) (err error) {

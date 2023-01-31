@@ -78,14 +78,14 @@ class GrandparentAnimal(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         pet_type: typing.Union[MetaOapg.properties.pet_type, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             pet_type=pet_type,
             _configuration=_configuration,
             **kwargs,

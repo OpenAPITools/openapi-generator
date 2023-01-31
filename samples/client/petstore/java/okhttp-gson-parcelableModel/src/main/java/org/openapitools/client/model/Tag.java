@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -74,7 +72,6 @@ public class Tag implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -97,7 +94,6 @@ public class Tag implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;

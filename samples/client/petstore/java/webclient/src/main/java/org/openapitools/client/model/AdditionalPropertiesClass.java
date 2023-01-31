@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -53,7 +51,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<>();
+      this.mapProperty = null;
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -64,7 +62,6 @@ public class AdditionalPropertiesClass {
    * @return mapProperty
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -88,7 +85,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<>();
+      this.mapOfMapProperty = null;
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
@@ -99,7 +96,6 @@ public class AdditionalPropertiesClass {
    * @return mapOfMapProperty
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

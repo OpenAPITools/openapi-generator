@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ArrayTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArrayTest{}
+
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
 	ArrayOfString []string `json:"array_of_string,omitempty"`
@@ -51,7 +54,7 @@ func (o *ArrayTest) GetArrayOfString() []string {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || isNil(o.ArrayOfString) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayOfString, true
 }
@@ -83,7 +86,7 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || isNil(o.ArrayArrayOfInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayArrayOfInteger, true
 }
@@ -115,7 +118,7 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 // and a boolean to check if the value has been set.
 func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || isNil(o.ArrayArrayOfModel) {
-    return nil, false
+		return nil, false
 	}
 	return o.ArrayArrayOfModel, true
 }
@@ -135,6 +138,14 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 }
 
 func (o ArrayTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ArrayTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.ArrayOfString) {
 		toSerialize["array_of_string"] = o.ArrayOfString
@@ -145,7 +156,7 @@ func (o ArrayTest) MarshalJSON() ([]byte, error) {
 	if !isNil(o.ArrayArrayOfModel) {
 		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableArrayTest struct {

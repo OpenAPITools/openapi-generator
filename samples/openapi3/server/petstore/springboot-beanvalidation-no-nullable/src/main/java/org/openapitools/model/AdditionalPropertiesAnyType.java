@@ -34,7 +34,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
    * @return name
   */
   
-  @Schema(name = "name", required = false)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;

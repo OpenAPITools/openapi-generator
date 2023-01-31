@@ -32,7 +32,7 @@ public class Client {
    * @return client
   */
   
-  @Schema(name = "client", required = false)
+  @Schema(name = "client", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("client")
   public String getClient() {
     return client;

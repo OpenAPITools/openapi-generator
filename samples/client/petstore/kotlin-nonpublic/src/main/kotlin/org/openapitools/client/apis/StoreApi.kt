@@ -108,6 +108,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -175,13 +176,14 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
             path = "/store/inventory",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
      * @return Order
      * @throws IllegalStateException If the request is not correctly configured
@@ -212,7 +214,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
      * @return ApiResponse<Order?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -245,6 +247,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -315,6 +318,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
             path = "/store/order",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

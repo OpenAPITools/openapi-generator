@@ -61,7 +61,7 @@ public class EntityRef {
    * @return name
   */
   
-  @Schema(name = "name", description = "Name of the related entity.", required = false)
+  @Schema(name = "name", description = "Name of the related entity.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -81,7 +81,7 @@ public class EntityRef {
    * @return atReferredType
   */
   
-  @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", required = false)
+  @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@referredType")
   public String getAtReferredType() {
     return atReferredType;
@@ -101,7 +101,7 @@ public class EntityRef {
    * @return href
   */
   
-  @Schema(name = "href", description = "Hyperlink reference", required = false)
+  @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
     return href;
@@ -121,7 +121,7 @@ public class EntityRef {
    * @return id
   */
   
-  @Schema(name = "id", description = "unique identifier", required = false)
+  @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
     return id;
@@ -141,7 +141,7 @@ public class EntityRef {
    * @return atSchemaLocation
   */
   
-  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
+  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
     return atSchemaLocation;
@@ -161,7 +161,7 @@ public class EntityRef {
    * @return atBaseType
   */
   
-  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
+  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
   public String getAtBaseType() {
     return atBaseType;
@@ -181,7 +181,7 @@ public class EntityRef {
    * @return atType
   */
   @NotNull 
-  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
+  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {
     return atType;

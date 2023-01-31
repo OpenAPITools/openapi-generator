@@ -34,7 +34,7 @@ public class Category {
    * @return id
   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -54,7 +54,7 @@ public class Category {
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", required = true)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;

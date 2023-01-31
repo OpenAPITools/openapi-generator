@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -122,7 +120,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, String> getMapString() {
     return mapString;
@@ -153,7 +150,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -184,7 +180,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -215,7 +210,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -246,7 +240,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -277,7 +270,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -308,7 +300,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -339,7 +330,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -362,7 +352,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Object getAnytype1() {
     return anytype1;
@@ -385,7 +374,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Object getAnytype2() {
     return anytype2;
@@ -408,7 +396,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Object getAnytype3() {
     return anytype3;

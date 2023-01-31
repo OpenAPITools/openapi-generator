@@ -215,6 +215,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 

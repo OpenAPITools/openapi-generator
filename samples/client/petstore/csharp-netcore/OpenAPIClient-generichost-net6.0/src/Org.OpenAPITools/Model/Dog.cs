@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,15 +26,16 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Dog
     /// </summary>
-    public partial class Dog : Animal, IEquatable<Dog>
+    public partial class Dog : Animal, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="dogAllOf"></param>
-        /// <param name="className">className (required)</param>
+        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        [JsonConstructor]
+        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
         {
             DogAllOf = dogAllOf;
         }
@@ -57,40 +57,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Dog).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Dog instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Dog to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Dog input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                return hashCode;
-            }
-        }
-
     }
 
     /// <summary>
@@ -99,50 +65,50 @@ namespace Org.OpenAPITools.Model
     public class DogJsonConverter : JsonConverter<Dog>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Dog).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Dog Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Dog Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            Utf8JsonReader dogAllOfReader = reader;
-            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref dogAllOfReader, options, out DogAllOf dogAllOf);
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            Utf8JsonReader dogAllOfReader = utf8JsonReader;
+            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref utf8JsonReader, jsonSerializerOptions, out DogAllOf dogAllOf);
 
             string className = default;
             string color = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "className":
-                            className = reader.GetString();
+                            className = utf8JsonReader.GetString();
                             break;
                         case "color":
-                            color = reader.GetString();
+                            color = utf8JsonReader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -156,8 +122,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dog"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("className", dog.ClassName);
+            writer.WriteString("color", dog.Color);
+
+            writer.WriteEndObject();
+        }
     }
 }

@@ -26,13 +26,13 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.IOException;
 
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
+import {{javaxPackage}}.validation.ConstraintViolation;
+import {{javaxPackage}}.validation.Validation;
+import {{javaxPackage}}.validation.ValidatorFactory;
+import {{javaxPackage}}.validation.executable.ExecutableValidator;
 import java.util.Set;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -51,7 +51,7 @@ import java.util.Map;
 import java.io.InputStream;
 {{/supportStreaming}}
 {{/fullJavaUtil}}
-import javax.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#operations}}
 public class {{classname}} {
@@ -212,7 +212,7 @@ public class {{classname}} {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+        String[] localVarAuthNames = new String[] { {{#withAWSV4Signature}}"AWS4Auth"{{/withAWSV4Signature}}{{#authMethods}}{{#-first}}{{#withAWSV4Signature}}, {{/withAWSV4Signature}}{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
         return localVarApiClient.buildCall(basePath, localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 

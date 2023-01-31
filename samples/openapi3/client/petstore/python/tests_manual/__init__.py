@@ -91,7 +91,8 @@ class ApiTestMixin(unittest.TestCase):
         status: int = 200,
         content_type: str = json_content_type,
         headers: typing.Optional[typing.Dict[str, str]] = None,
-        preload_content: bool = True
+        preload_content: bool = True,
+        reason: typing.Optional[str] = None
     ) -> urllib3.HTTPResponse:
         if headers is None:
             headers = {}
@@ -100,7 +101,8 @@ class ApiTestMixin(unittest.TestCase):
             body,
             headers=headers,
             status=status,
-            preload_content=preload_content
+            preload_content=preload_content,
+            reason=reason
         )
 
     @staticmethod

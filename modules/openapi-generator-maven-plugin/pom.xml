@@ -27,23 +27,23 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.8.5</version>
+            <version>3.8.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
-            <version>3.8.5</version>
+            <version>3.8.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-compat</artifactId>
-            <version>3.8.5</version>
+            <version>3.8.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.8.5</version>
+            <version>3.8.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.apache.maven.shared</groupId>
             <artifactId>maven-verifier</artifactId>
-            <version>1.7.2</version>
+            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>3.3.0</version>
+            <version>3.5.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

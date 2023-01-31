@@ -623,7 +623,7 @@ No authorization required
 
 <a name="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (string username, User user)
+> void UpdateUser (User user, string username)
 
 Updated user
 
@@ -646,13 +646,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
+            var username = "username_example";  // string | name that need to be deleted
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, user);
+                apiInstance.UpdateUser(user, username);
             }
             catch (ApiException  e)
             {
@@ -672,7 +672,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Updated user
-    apiInstance.UpdateUserWithHttpInfo(username, user);
+    apiInstance.UpdateUserWithHttpInfo(user, username);
 }
 catch (ApiException e)
 {
@@ -686,8 +686,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **username** | **string** | name that need to be deleted |  |
 | **user** | [**User**](User.md) | Updated user object |  |
+| **username** | **string** | name that need to be deleted |  |
 
 ### Return type
 

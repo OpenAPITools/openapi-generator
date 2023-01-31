@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesClass{}
+
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapString *map[string]string `json:"map_string,omitempty"`
@@ -59,7 +62,7 @@ func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapStringOk() (*map[string]string, bool) {
 	if o == nil || isNil(o.MapString) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapString, true
 }
@@ -91,7 +94,7 @@ func (o *AdditionalPropertiesClass) GetMapNumber() map[string]float32 {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapNumberOk() (*map[string]float32, bool) {
 	if o == nil || isNil(o.MapNumber) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapNumber, true
 }
@@ -123,7 +126,7 @@ func (o *AdditionalPropertiesClass) GetMapInteger() map[string]int32 {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapIntegerOk() (*map[string]int32, bool) {
 	if o == nil || isNil(o.MapInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapInteger, true
 }
@@ -155,7 +158,7 @@ func (o *AdditionalPropertiesClass) GetMapBoolean() map[string]bool {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapBooleanOk() (*map[string]bool, bool) {
 	if o == nil || isNil(o.MapBoolean) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapBoolean, true
 }
@@ -187,7 +190,7 @@ func (o *AdditionalPropertiesClass) GetMapArrayInteger() map[string][]int32 {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapArrayIntegerOk() (*map[string][]int32, bool) {
 	if o == nil || isNil(o.MapArrayInteger) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapArrayInteger, true
 }
@@ -219,7 +222,7 @@ func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (*map[string][]map[string]interface{}, bool) {
 	if o == nil || isNil(o.MapArrayAnytype) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapArrayAnytype, true
 }
@@ -251,7 +254,7 @@ func (o *AdditionalPropertiesClass) GetMapMapString() map[string]map[string]stri
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapMapStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || isNil(o.MapMapString) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapMapString, true
 }
@@ -283,7 +286,7 @@ func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (*map[string]map[string]map[string]interface{}, bool) {
 	if o == nil || isNil(o.MapMapAnytype) {
-    return nil, false
+		return nil, false
 	}
 	return o.MapMapAnytype, true
 }
@@ -315,7 +318,7 @@ func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype1Ok() (map[string]interface{}, bool) {
 	if o == nil || isNil(o.Anytype1) {
-    return map[string]interface{}{}, false
+		return map[string]interface{}{}, false
 	}
 	return o.Anytype1, true
 }
@@ -347,7 +350,7 @@ func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{} {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype2Ok() (map[string]interface{}, bool) {
 	if o == nil || isNil(o.Anytype2) {
-    return map[string]interface{}{}, false
+		return map[string]interface{}{}, false
 	}
 	return o.Anytype2, true
 }
@@ -379,7 +382,7 @@ func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{} {
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetAnytype3Ok() (map[string]interface{}, bool) {
 	if o == nil || isNil(o.Anytype3) {
-    return map[string]interface{}{}, false
+		return map[string]interface{}{}, false
 	}
 	return o.Anytype3, true
 }
@@ -399,6 +402,14 @@ func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 }
 
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.MapString) {
 		toSerialize["map_string"] = o.MapString
@@ -433,7 +444,7 @@ func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Anytype3) {
 		toSerialize["anytype_3"] = o.Anytype3
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableAdditionalPropertiesClass struct {

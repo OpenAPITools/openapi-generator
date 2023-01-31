@@ -436,7 +436,7 @@ class ObjectSerializer
         }
 
         if ($class === '\DateTime') {
-            // Some API's return an invalid, empty string as a
+            // Some APIs return an invalid, empty string as a
             // date-time property. DateTime::__construct() will return
             // the current time for empty input which is probably not
             // what is meant. The invalid empty string is probably to
@@ -446,7 +446,7 @@ class ObjectSerializer
                 try {
                     return new \DateTime($data);
                 } catch (\Exception $exception) {
-                    // Some API's return a date-time with too high nanosecond
+                    // Some APIs return a date-time with too high nanosecond
                     // precision for php's DateTime to handle.
                     // With provided regexp 6 digits of microseconds saved
                     return new \DateTime(self::sanitizeTimestamp($data));

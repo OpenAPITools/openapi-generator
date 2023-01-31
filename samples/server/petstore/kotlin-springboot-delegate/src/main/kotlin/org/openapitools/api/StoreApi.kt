@@ -77,7 +77,7 @@ interface StoreApi {
     @Operation(
         summary = "Find purchase order by ID",
         operationId = "getOrderById",
-        description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Order::class))]),
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),

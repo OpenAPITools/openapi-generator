@@ -35,7 +35,7 @@ public class ModelReturn {
    * @return _return
   */
   
-  @Schema(name = "return", required = false)
+  @Schema(name = "return", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("return")
   public Integer getReturn() {
     return _return;

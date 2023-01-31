@@ -994,6 +994,35 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void shouldGenerateBlockingAndNoBlockingOperationsForWebClient() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.WEBCLIENT_BLOCKING_OPERATIONS, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.WEBCLIENT)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("StoreApi.java"))
+            .assertMethod("getInventory").hasReturnType("Mono<Map<String, Integer>>") //explicit 'x-webclient-blocking: false' which overrides global config
+            .toFileAssert()
+            .assertMethod("placeOrder").hasReturnType("Order"); // use global config
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .assertMethod("findPetsByStatus").hasReturnType("List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
+    }
+
+    @Test
     public void testAllowModelWithNoProperties() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
@@ -1687,5 +1716,40 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
             "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
         );
+    }
+
+    @Test
+    public void testJdkHttpClientWithAndWithoutParentExtension() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                // use default `okhttp-gson`
+                //.setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 30);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Child.java"),
+                "public class Child extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Adult.java"),
+                "public class Adult extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/AnotherChild.java"),
+                "public class AnotherChild {");
     }
 }

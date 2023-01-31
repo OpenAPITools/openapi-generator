@@ -6,14 +6,17 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +47,7 @@ public interface FakeClassnameTestApi {
     @Operation(
         operationId = "testClassname",
         summary = "To test class name in snake case",
+        description = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

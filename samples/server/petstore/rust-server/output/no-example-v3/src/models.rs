@@ -7,17 +7,16 @@ use crate::header;
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OpGetRequest {
-    #[serde(rename = "propery")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub propery: Option<String>,
+    #[serde(rename = "property")]
+    pub property: String,
 
 }
 
 impl OpGetRequest {
     #[allow(clippy::new_without_default)]
-    pub fn new() -> OpGetRequest {
+    pub fn new(property: String, ) -> OpGetRequest {
         OpGetRequest {
-            propery: None,
+            property,
         }
     }
 }
@@ -29,12 +28,8 @@ impl std::string::ToString for OpGetRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
 
-            self.propery.as_ref().map(|propery| {
-                vec![
-                    "propery".to_string(),
-                    propery.to_string(),
-                ].join(",")
-            }),
+            Some("property".to_string()),
+            Some(self.property.to_string()),
 
         ];
 
@@ -53,7 +48,7 @@ impl std::str::FromStr for OpGetRequest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub propery: Vec<String>,
+            pub property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -72,7 +67,7 @@ impl std::str::FromStr for OpGetRequest {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing OpGetRequest".to_string())
                 }
             }
@@ -83,7 +78,7 @@ impl std::str::FromStr for OpGetRequest {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(OpGetRequest {
-            propery: intermediate_rep.propery.into_iter().next(),
+            property: intermediate_rep.property.into_iter().next().ok_or_else(|| "property missing in OpGetRequest".to_string())?,
         })
     }
 }

@@ -38,7 +38,7 @@ public class Pasta extends Entity {
    * @return vendor
   */
   
-  @Schema(name = "vendor", required = false)
+  @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("vendor")
   public String getVendor() {
     return vendor;

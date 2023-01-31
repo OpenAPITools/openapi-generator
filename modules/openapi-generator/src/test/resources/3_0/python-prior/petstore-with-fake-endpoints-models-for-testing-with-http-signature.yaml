@@ -300,7 +300,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -787,7 +787,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/refs/number:
     post:
       tags:
@@ -2290,7 +2290,7 @@ components:
         - $ref: '#/components/schemas/banana'
     fruitReq:
       description: a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas
-        also, this schem accepts null as a value
+        also, this scheme accepts null as a value
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'

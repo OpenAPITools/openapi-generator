@@ -51,7 +51,7 @@ public class Animal {
    * @return className
   */
   @NotNull 
-  @Schema(name = "className", required = true)
+  @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("className")
   public String getClassName() {
     return className;
@@ -71,7 +71,7 @@ public class Animal {
    * @return color
   */
   
-  @Schema(name = "color", required = false)
+  @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("color")
   public String getColor() {
     return color;

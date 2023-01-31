@@ -16,6 +16,9 @@ import (
 	"time"
 )
 
+// checks if the FormatTest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FormatTest{}
+
 // FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer *int32 `json:"integer,omitempty"`
@@ -68,7 +71,7 @@ func (o *FormatTest) GetInteger() int32 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetIntegerOk() (*int32, bool) {
 	if o == nil || isNil(o.Integer) {
-    return nil, false
+		return nil, false
 	}
 	return o.Integer, true
 }
@@ -100,7 +103,7 @@ func (o *FormatTest) GetInt32() int32 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetInt32Ok() (*int32, bool) {
 	if o == nil || isNil(o.Int32) {
-    return nil, false
+		return nil, false
 	}
 	return o.Int32, true
 }
@@ -132,7 +135,7 @@ func (o *FormatTest) GetInt64() int64 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetInt64Ok() (*int64, bool) {
 	if o == nil || isNil(o.Int64) {
-    return nil, false
+		return nil, false
 	}
 	return o.Int64, true
 }
@@ -165,7 +168,7 @@ func (o *FormatTest) GetNumber() float32 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetNumberOk() (*float32, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Number, true
 }
@@ -188,7 +191,7 @@ func (o *FormatTest) GetFloat() float32 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetFloatOk() (*float32, bool) {
 	if o == nil || isNil(o.Float) {
-    return nil, false
+		return nil, false
 	}
 	return o.Float, true
 }
@@ -220,7 +223,7 @@ func (o *FormatTest) GetDouble() float64 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDoubleOk() (*float64, bool) {
 	if o == nil || isNil(o.Double) {
-    return nil, false
+		return nil, false
 	}
 	return o.Double, true
 }
@@ -252,7 +255,7 @@ func (o *FormatTest) GetString() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetStringOk() (*string, bool) {
 	if o == nil || isNil(o.String) {
-    return nil, false
+		return nil, false
 	}
 	return o.String, true
 }
@@ -285,7 +288,7 @@ func (o *FormatTest) GetByte() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetByteOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Byte, true
 }
@@ -308,7 +311,7 @@ func (o *FormatTest) GetBinary() *os.File {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
 	if o == nil || isNil(o.Binary) {
-    return nil, false
+		return nil, false
 	}
 	return o.Binary, true
 }
@@ -341,7 +344,7 @@ func (o *FormatTest) GetDate() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDateOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Date, true
 }
@@ -364,7 +367,7 @@ func (o *FormatTest) GetDateTime() time.Time {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || isNil(o.DateTime) {
-    return nil, false
+		return nil, false
 	}
 	return o.DateTime, true
 }
@@ -396,7 +399,7 @@ func (o *FormatTest) GetUuid() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetUuidOk() (*string, bool) {
 	if o == nil || isNil(o.Uuid) {
-    return nil, false
+		return nil, false
 	}
 	return o.Uuid, true
 }
@@ -429,7 +432,7 @@ func (o *FormatTest) GetPassword() string {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetPasswordOk() (*string, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return &o.Password, true
 }
@@ -452,7 +455,7 @@ func (o *FormatTest) GetBigDecimal() float64 {
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetBigDecimalOk() (*float64, bool) {
 	if o == nil || isNil(o.BigDecimal) {
-    return nil, false
+		return nil, false
 	}
 	return o.BigDecimal, true
 }
@@ -472,6 +475,14 @@ func (o *FormatTest) SetBigDecimal(v float64) {
 }
 
 func (o FormatTest) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.Integer) {
 		toSerialize["integer"] = o.Integer
@@ -482,9 +493,7 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if !isNil(o.Int64) {
 		toSerialize["int64"] = o.Int64
 	}
-	if true {
-		toSerialize["number"] = o.Number
-	}
+	toSerialize["number"] = o.Number
 	if !isNil(o.Float) {
 		toSerialize["float"] = o.Float
 	}
@@ -494,28 +503,22 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if !isNil(o.String) {
 		toSerialize["string"] = o.String
 	}
-	if true {
-		toSerialize["byte"] = o.Byte
-	}
+	toSerialize["byte"] = o.Byte
 	if !isNil(o.Binary) {
 		toSerialize["binary"] = o.Binary
 	}
-	if true {
-		toSerialize["date"] = o.Date
-	}
+	toSerialize["date"] = o.Date
 	if !isNil(o.DateTime) {
 		toSerialize["dateTime"] = o.DateTime
 	}
 	if !isNil(o.Uuid) {
 		toSerialize["uuid"] = o.Uuid
 	}
-	if true {
-		toSerialize["password"] = o.Password
-	}
+	toSerialize["password"] = o.Password
 	if !isNil(o.BigDecimal) {
 		toSerialize["BigDecimal"] = o.BigDecimal
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableFormatTest struct {

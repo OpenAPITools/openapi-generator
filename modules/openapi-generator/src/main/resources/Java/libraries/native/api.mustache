@@ -185,8 +185,9 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -236,12 +237,33 @@ public class {{classname}} {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("{{operationId}}", localVarResponse);
         }
+        {{#vendorExtensions.x-java-text-plain-string}}
+        // for plain text response
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+        {{/vendorExtensions.x-java-text-plain-string}}
+        {{^vendorExtensions.x-java-text-plain-string}}
         return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
-          {{^returnType}}null{{/returnType}}
+          {{#returnType}}
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          {{/returnType}}
+          {{^returnType}}
+          null
+          {{/returnType}}
         );
+        {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
         {{^returnType}}
         // Drain the InputStream
@@ -273,11 +295,12 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<{{{returnType}}}>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -315,21 +338,24 @@ public class {{classname}} {
 
     {{#hasQueryParams}}
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
+    {{javaUtilPrefix}}StringJoiner localVarQueryStringJoiner = new {{javaUtilPrefix}}StringJoiner("&");
+    String localVarQueryParameterBaseName;
     {{#queryParams}}
+    localVarQueryParameterBaseName = "{{{baseName}}}";
       {{#collectionFormat}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
       {{/collectionFormat}}
       {{^collectionFormat}}
         {{#isDeepObject}}
     if ({{paramName}} != null) {
-          {{#items.vars}}
-              {{#isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{baseName}}", {{paramName}}.{{getter}}()));
-              {{/isArray}}
-              {{^isArray}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
-              {{/isArray}}
-          {{/items.vars}}
+            {{#isArray}}
+      for (int i=0; i < {{paramName}}.size(); i++) {
+        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      }
+            {{/isArray}}
+            {{^isArray}}
+      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+            {{/isArray}}
     }
         {{/isDeepObject}}
         {{^isDeepObject}}
@@ -345,7 +371,12 @@ public class {{classname}} {
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString());
+                {{/isModel}}
+                {{^isModel}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                {{/isModel}}
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
@@ -355,9 +386,12 @@ public class {{classname}} {
       {{/collectionFormat}}
     {{/queryParams}}
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       {{javaUtilPrefix}}StringJoiner queryJoiner = new {{javaUtilPrefix}}StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));

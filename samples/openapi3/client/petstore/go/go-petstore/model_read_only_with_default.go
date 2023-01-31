@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ReadOnlyWithDefault type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ReadOnlyWithDefault{}
+
 // ReadOnlyWithDefault struct for ReadOnlyWithDefault
 type ReadOnlyWithDefault struct {
 	Prop1 *string `json:"prop1,omitempty"`
@@ -70,7 +73,7 @@ func (o *ReadOnlyWithDefault) GetProp1() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp1Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop1) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop1, true
 }
@@ -102,7 +105,7 @@ func (o *ReadOnlyWithDefault) GetProp2() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp2Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop2) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop2, true
 }
@@ -134,7 +137,7 @@ func (o *ReadOnlyWithDefault) GetProp3() string {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetProp3Ok() (*string, bool) {
 	if o == nil || isNil(o.Prop3) {
-    return nil, false
+		return nil, false
 	}
 	return o.Prop3, true
 }
@@ -166,7 +169,7 @@ func (o *ReadOnlyWithDefault) GetBoolProp1() bool {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetBoolProp1Ok() (*bool, bool) {
 	if o == nil || isNil(o.BoolProp1) {
-    return nil, false
+		return nil, false
 	}
 	return o.BoolProp1, true
 }
@@ -198,7 +201,7 @@ func (o *ReadOnlyWithDefault) GetBoolProp2() bool {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetBoolProp2Ok() (*bool, bool) {
 	if o == nil || isNil(o.BoolProp2) {
-    return nil, false
+		return nil, false
 	}
 	return o.BoolProp2, true
 }
@@ -230,7 +233,7 @@ func (o *ReadOnlyWithDefault) GetIntProp1() float32 {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetIntProp1Ok() (*float32, bool) {
 	if o == nil || isNil(o.IntProp1) {
-    return nil, false
+		return nil, false
 	}
 	return o.IntProp1, true
 }
@@ -262,7 +265,7 @@ func (o *ReadOnlyWithDefault) GetIntProp2() float32 {
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyWithDefault) GetIntProp2Ok() (*float32, bool) {
 	if o == nil || isNil(o.IntProp2) {
-    return nil, false
+		return nil, false
 	}
 	return o.IntProp2, true
 }
@@ -282,25 +285,25 @@ func (o *ReadOnlyWithDefault) SetIntProp2(v float32) {
 }
 
 func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Prop1) {
-		toSerialize["prop1"] = o.Prop1
-	}
-	if !isNil(o.Prop2) {
-		toSerialize["prop2"] = o.Prop2
-	}
+	// skip: prop1 is readOnly
+	// skip: prop2 is readOnly
 	if !isNil(o.Prop3) {
 		toSerialize["prop3"] = o.Prop3
 	}
-	if !isNil(o.BoolProp1) {
-		toSerialize["boolProp1"] = o.BoolProp1
-	}
+	// skip: boolProp1 is readOnly
 	if !isNil(o.BoolProp2) {
 		toSerialize["boolProp2"] = o.BoolProp2
 	}
-	if !isNil(o.IntProp1) {
-		toSerialize["intProp1"] = o.IntProp1
-	}
+	// skip: intProp1 is readOnly
 	if !isNil(o.IntProp2) {
 		toSerialize["intProp2"] = o.IntProp2
 	}
@@ -309,7 +312,7 @@ func (o ReadOnlyWithDefault) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {

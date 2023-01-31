@@ -33,7 +33,7 @@ public enum GeneratorLanguage {
     OBJECTIVE_C("Objective-C"), OCAML("OCaml"), PERL("Perl"), PHP("PHP"),
     POWERSHELL("PowerShell"), PROTOBUF("Protocol Buffers (Protobuf)"), PYTHON("Python"),
     R("R"), RUBY("Ruby"), RUST("Rust"), SCALA("Scala"), SWIFT("Swift"),
-    WSDL("Web Services Description Language (WSDL)");
+    WSDL("Web Services Description Language (WSDL)"), JULIA("Julia");
 
     private final String label;
 
