@@ -2051,3 +2051,10 @@ components:
       - type: string
       - format: date-time
         type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - type: object
+        properties: 
+          test: 
+            type: string
+            format: date-time

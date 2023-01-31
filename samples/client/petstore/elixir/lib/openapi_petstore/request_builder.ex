@@ -103,7 +103,12 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
 
   def add_param(request, :headers, key, value) do
-    Tesla.put_header(request, key, value)
+    headers =
+      request
+      |> Map.get(:headers, [])
+      |> List.keystore(key, 0, {key, value})
+
+    Map.put(request, :headers, headers)
   end
 
   def add_param(request, :file, name, path) do

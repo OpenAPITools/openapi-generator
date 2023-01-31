@@ -20,28 +20,7 @@ open class AnotherFakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(body: Client) async throws -> Client {
-        let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestBuilder.execute { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: {
-            requestTask.cancel()
-        }
+        return try await call123testSpecialTagsWithRequestBuilder(body: body).execute().body
     }
 
     /**

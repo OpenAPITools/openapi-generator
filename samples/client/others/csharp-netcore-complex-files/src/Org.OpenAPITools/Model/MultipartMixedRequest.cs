@@ -49,7 +49,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">status (required).</param>
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
-        public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream))
+        /// <param name="statusArray">statusArray.</param>
+        public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>))
         {
             this.Status = status;
             // to ensure "file" is required (not null)
@@ -59,6 +60,7 @@ namespace Org.OpenAPITools.Model
             }
             this.File = file;
             this.Marker = marker;
+            this.StatusArray = statusArray;
         }
 
         /// <summary>
@@ -75,6 +77,12 @@ namespace Org.OpenAPITools.Model
         public System.IO.Stream File { get; set; }
 
         /// <summary>
+        /// Gets or Sets StatusArray
+        /// </summary>
+        [DataMember(Name = "statusArray", EmitDefaultValue = false)]
+        public List<MultipartMixedStatus> StatusArray { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -85,6 +93,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Marker: ").Append(Marker).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  StatusArray: ").Append(StatusArray).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -135,6 +144,10 @@ namespace Org.OpenAPITools.Model
                 if (this.File != null)
                 {
                     hashCode = (hashCode * 59) + this.File.GetHashCode();
+                }
+                if (this.StatusArray != null)
+                {
+                    hashCode = (hashCode * 59) + this.StatusArray.GetHashCode();
                 }
                 return hashCode;
             }

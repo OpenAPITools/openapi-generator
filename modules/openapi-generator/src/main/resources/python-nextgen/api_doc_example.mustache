@@ -1,0 +1,28 @@
+```python
+from __future__ import print_function
+import time
+import os
+import {{{packageName}}}
+from {{{packageName}}}.rest import ApiException
+from pprint import pprint
+{{> python_doc_auth_partial}}
+# Enter a context with an instance of the API client
+{{#asyncio}}async {{/asyncio}}with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+    {{#allParams}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{/allParams}}
+
+    try:
+        {{#summary}}
+        # {{{.}}}
+        {{/summary}}
+        {{#returnType}}api_response = {{/returnType}}{{#asyncio}}await {{/asyncio}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#returnType}}
+        print("The response of {{classname}}->{{operationId}}:\n")
+        pprint(api_response)
+        {{/returnType}}
+    except Exception as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+```

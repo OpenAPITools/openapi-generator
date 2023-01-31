@@ -24,7 +24,7 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
   /// One Of [Bar], [BarRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Bar': Bar,
@@ -40,6 +40,29 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
 
   @BuiltValueSerializer(custom: true)
   static Serializer<BarRefOrValue> get serializer => _$BarRefOrValueSerializer();
+}
+
+extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        return null;
+    }
+}
+extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        return null;
+    }
 }
 
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
@@ -82,14 +105,14 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
-      case 'Bar':
+      case r'Bar':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(Bar),
         ) as Bar;
         oneOfType = Bar;
         break;
-      case 'BarRef':
+      case r'BarRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(BarRef),

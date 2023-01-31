@@ -49,7 +49,7 @@ public class TypeHolderDefault {
    * @return stringItem
   */
   @NotNull 
-  @Schema(name = "string_item", required = true)
+  @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getStringItem() {
     return stringItem;
   }
@@ -68,7 +68,7 @@ public class TypeHolderDefault {
    * @return numberItem
   */
   @NotNull @Valid 
-  @Schema(name = "number_item", required = true)
+  @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -87,7 +87,7 @@ public class TypeHolderDefault {
    * @return integerItem
   */
   @NotNull 
-  @Schema(name = "integer_item", required = true)
+  @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -106,7 +106,7 @@ public class TypeHolderDefault {
    * @return boolItem
   */
   @NotNull 
-  @Schema(name = "bool_item", required = true)
+  @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -133,7 +133,7 @@ public class TypeHolderDefault {
    * @return arrayItem
   */
   @NotNull 
-  @Schema(name = "array_item", required = true)
+  @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

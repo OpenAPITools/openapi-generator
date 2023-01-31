@@ -58,7 +58,7 @@ public class ModelApiResponse {
      * @return code
      **/
     @Nullable
-    @Schema(name = "code", required = false)
+    @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_CODE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getCode() {
@@ -81,7 +81,7 @@ public class ModelApiResponse {
      * @return type
      **/
     @Nullable
-    @Schema(name = "type", required = false)
+    @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getType() {
@@ -104,7 +104,7 @@ public class ModelApiResponse {
      * @return message
      **/
     @Nullable
-    @Schema(name = "message", required = false)
+    @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_MESSAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getMessage() {

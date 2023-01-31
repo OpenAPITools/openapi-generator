@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**UserAPI_getUserByName**](UserAPI.md#UserAPI_getUserByName) | **GET** /user/{username} | Get user by user name
 [**UserAPI_loginUser**](UserAPI.md#UserAPI_loginUser) | **GET** /user/login | Logs user into the system
 [**UserAPI_logoutUser**](UserAPI.md#UserAPI_logoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**UserAPI_testIntAndBool**](UserAPI.md#UserAPI_testIntAndBool) | **GET** /user/testIntAndBool | test integer and boolean query parameters in API
 [**UserAPI_updateUser**](UserAPI.md#UserAPI_updateUser) | **PUT** /user/{username} | Updated user
 
 
@@ -201,6 +202,37 @@ void UserAPI_logoutUser(apiClient_t *apiClient);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
+
+### Return type
+
+void
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **UserAPI_testIntAndBool**
+```c
+// test integer and boolean query parameters in API
+//
+// This can test integer and boolean query parameters in API.
+//
+void UserAPI_testIntAndBool(apiClient_t *apiClient, int keep, int keepDay);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**keep** | **int** | Whether to keep user data after deletion | [optional] 
+**keepDay** | **int** | how many days user data is kept after deletion | [optional] 
 
 ### Return type
 

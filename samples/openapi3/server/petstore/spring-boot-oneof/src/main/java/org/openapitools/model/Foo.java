@@ -42,7 +42,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * @return fooPropA
   */
   
-  @Schema(name = "fooPropA", required = false)
+  @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getFooPropA() {
     return fooPropA;
   }
@@ -61,7 +61,7 @@ public class Foo extends Entity implements FooRefOrValue {
    * @return fooPropB
   */
   
-  @Schema(name = "fooPropB", required = false)
+  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getFooPropB() {
     return fooPropB;
   }

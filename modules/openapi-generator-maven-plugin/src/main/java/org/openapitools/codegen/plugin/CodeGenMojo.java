@@ -316,6 +316,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameDefaults;
 
     /**
+     * A set of rules for OpenAPI normalizer
+     */
+    @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
+    private List<String> openapiNormalizer;
+
+    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -700,6 +706,12 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> openapi-normalizer
+                if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
+                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
@@ -751,6 +763,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Inline Schema Name Defaults
             if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
                 applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+            }
+
+            // Apply OpenAPI normalizer rules
+            if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
+                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings
