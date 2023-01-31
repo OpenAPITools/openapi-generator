@@ -14,4 +14,12 @@ public class ApiInfoMap extends HashMap<String, Object> {
         return (List<OperationsMap>) get("apis");
     }
 
+    public void setUniqueOperations(OperationsMap uniqueOperations) {
+        put("uniqueOperations", uniqueOperations);
+    }
+
+    @SuppressWarnings("unchecked")
+    public OperationsMap getUniqueOperations() {
+        return (OperationsMap) get("uniqueOperations");
+    }
 }

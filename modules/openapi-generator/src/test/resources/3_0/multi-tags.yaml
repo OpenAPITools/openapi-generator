@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Test API
+  description: Multi Tags Test
+  version: 1.0.0
+servers:
+  - url: 'http://api.company.xyz/v2'
+paths:
+  /both:
+    get:
+      tags:
+        - tag1
+        - tag2
+      operationId: both
+      responses:
+        '200':
+          description: Ok
+  /tag1:
+    get:
+      tags:
+        - tag1
+      operationId: tag1
+      responses:
+        '200':
+          description: Ok
+  /tag2:
+    get:
+      tags:
+        - tag2
+      operationId: tag2
+      responses:
+        '200':
+          description: Ok
+  /none:
+    get:
+      operationId: none
+      responses:
+        '200':
+          description: Ok

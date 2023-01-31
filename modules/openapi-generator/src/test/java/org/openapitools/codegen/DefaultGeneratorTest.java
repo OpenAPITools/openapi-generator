@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
@@ -26,6 +27,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
 
 public class DefaultGeneratorTest {
 
@@ -664,7 +668,7 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
-    
+
     @Test
     public void testHandlesRelativeUrlsInServers() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
@@ -765,5 +769,65 @@ public class DefaultGeneratorTest {
         // The bug causes a StackOverflowError when calling generateModels
         generator.generateModels(files, allModels, filteredSchemas);
         // all fine, we have passed
+    }
+
+    @Test
+    public void testUniqueOperations() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        File templates = Files.createTempDirectory("templates").toFile();
+
+        try {
+            // Create custom template, which uses the uniqueOperations property to list all unique operation ids
+            File customTemplate = new File(templates, "uniqueOperations.mustache");
+            new File(customTemplate.getParent()).mkdirs();
+            Files.write(customTemplate.toPath(),
+                    ("{{#apiInfo}}\n" +
+                            "{{#uniqueOperations}}\n" +
+                            "{{#operations}}\n" +
+                            "{{#operation}}\n" +
+                            "{{operationId}}\n" +
+                            "{{/operation}}\n" +
+                            "{{/operations}}\n" +
+                            "{{/uniqueOperations}}\n" +
+                            "{{/apiInfo}}").getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            // Configure with the multi-tags.yaml spec so that some operations are repeated in multiple tags
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/multi-tags.yaml")
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                    .setTemplateDir(templates.toPath().toAbsolutePath().toString())
+                    .setSkipOverwrite(false);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            clientOptInput.userDefinedTemplates(Collections.singletonList(new TemplateDefinition("uniqueOperations.mustache", "UniqueOperationIds.txt")));
+            DefaultGenerator generator = new DefaultGenerator();
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            // Ensure the custom supporting file is generated
+            TestUtils.ensureContainsFile(files, output, "UniqueOperationIds.txt");
+            File uniqueOperationIds = new File(output, "UniqueOperationIds.txt");
+            Assert.assertTrue(uniqueOperationIds.exists());
+
+            String operationIds = new String(Files.readAllBytes(uniqueOperationIds.toPath()), StandardCharsets.UTF_8);
+
+            // Check that the operation ids are only included once, despite being part of multiple apis
+            assertEquals(
+                    Arrays.asList("both", "none", "tag1", "tag2"),
+                    Arrays.stream(operationIds.split("\n")).sorted().collect(Collectors.toList()));
+        } finally {
+            output.delete();
+            templates.delete();
+        }
     }
 }

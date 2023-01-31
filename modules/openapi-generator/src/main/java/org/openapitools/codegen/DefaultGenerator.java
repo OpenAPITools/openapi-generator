@@ -788,6 +788,7 @@ public class DefaultGenerator implements Generator {
 
         ApiInfoMap apis = new ApiInfoMap();
         apis.setApis(allOperations);
+        apis.setUniqueOperations(getUniqueOperationsForAllApis(allOperations));
 
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
 
@@ -833,6 +834,48 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(bundle);
         }
         return bundle;
+    }
+
+    /**
+     * Build a single operations map which includes a single copy of each unique operation (by operationId) across all
+     * apis, for use in the supporting files bundle.
+     * @param allOperations all operations for all apis
+     * @return a single operations map containing all unique operations
+     */
+    private OperationsMap getUniqueOperationsForAllApis(List<OperationsMap> allOperations) {
+        // Build a list of unique operations, preserving api and operation order
+        Set<String> seenOperationIds = new HashSet<>();
+        List<CodegenOperation> uniqueOperations = new ArrayList<>();
+        for (CodegenOperation op : allOperations.stream().flatMap(op -> op.getOperations().getOperation().stream()).collect(Collectors.toList())) {
+            if (!seenOperationIds.contains(op.operationId)) {
+                seenOperationIds.add(op.operationId);
+                uniqueOperations.add(op);
+            }
+        }
+
+        // Build a list of unique imports across all operations
+        Set<String> seenImports = new HashSet<>();
+        List<Map<String, String>> uniqueImports = new ArrayList<>();
+        try {
+            for (Map<String, String> im : allOperations.stream().flatMap(op -> op.getImports().stream()).collect(Collectors.toList())) {
+                if (im.containsKey("import") && !seenImports.contains(im.get("import"))) {
+                    seenImports.add(im.get("import"));
+                    uniqueImports.add(im);
+                }
+            }
+        } catch (ClassCastException e) {
+            // dart-dio writes imports as a List<String> rather than a List<Map<String, String>>
+            LOGGER.warn("Imports do not conform to the standard structure for generator '{}'. uniqueOperations.imports will be empty.", config.getName());
+        }
+
+        // NB: classname and pathPrefix are not set since these may differ between apis
+        OperationMap uniqueOperationMap = new OperationMap();
+        uniqueOperationMap.setOperation(uniqueOperations);
+
+        OperationsMap uniqueOperationsMap = new OperationsMap();
+        uniqueOperationsMap.setOperation(uniqueOperationMap);
+        uniqueOperationsMap.setImports(uniqueImports);
+        return uniqueOperationsMap;
     }
 
     /**
