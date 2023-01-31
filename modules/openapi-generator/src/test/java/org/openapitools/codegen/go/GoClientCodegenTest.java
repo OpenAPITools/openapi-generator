@@ -50,6 +50,7 @@ public class GoClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
+        Assert.assertNull(codegen.additionalProperties().get(GoClientCodegen.MODEL_FILE_FOLDER));
     }
 
     @Test
@@ -203,6 +204,15 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetApiAddPetRequest struct");
     }
 
+    @Test
+    public void testAdditionalPropertiesModelFileFolder() throws Exception {
+        final GoClientCodegen codegen = new GoClientCodegen();
+        codegen.additionalProperties().put(GoClientCodegen.MODEL_FILE_FOLDER, "model_dir");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/");
+    }
+    
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
