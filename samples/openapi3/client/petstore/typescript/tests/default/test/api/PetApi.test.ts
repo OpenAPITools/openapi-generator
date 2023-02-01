@@ -77,7 +77,7 @@ describe("PetApi", () => {
     })
 
     it("findPetsByStatus", async () => {
-        const pets = await petApi.findPetsByStatus([petstore.PetStatusEnum.Available]);
+        const pets = await petApi.findPetsByStatus(["available"]);
         expect(pets.length).to.be.at.least(1);
     })
 
