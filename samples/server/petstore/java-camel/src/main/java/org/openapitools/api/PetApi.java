@@ -74,7 +74,7 @@ public class PetApi extends RouteBuilder {
                     .description("Pet id to delete")
                 .endParam()
                 .param()
-                    .name("apiKey")
+                    .name("api_key")
                     .type(RestParamType.header)
                     .required(false)
                 .endParam()
