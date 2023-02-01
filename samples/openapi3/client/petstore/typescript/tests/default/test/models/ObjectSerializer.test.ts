@@ -80,7 +80,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = petstore.Pet.Available
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             expect(ObjectSerializer.serialize(pet, "Pet", "")).to.deep.equal({
@@ -91,7 +91,7 @@ describe("ObjectSerializer", () => {
                     "name": category.name
                 },
                 "photoUrls": [ "url", "other url"],
-                "status": petstore.Pet.Available,
+                "status": petstore.PetStatusEnum.Available,
                 "tags": tagResult
             })
         })
@@ -162,7 +162,7 @@ describe("ObjectSerializer", () => {
 
         it ("Enum", () => {
             const input = "available"
-            expect(ObjectSerializer.deserialize(petstore.Pet.Available, "Pet.StatusEnum", "")).to.equal(input)
+            expect(ObjectSerializer.deserialize(petstore.PetStatusEnum.Available, "Pet.StatusEnum", "")).to.equal(input)
         })
 
         it("Complex Class", () => {
@@ -187,7 +187,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = petstore.Pet.Available
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             const deserialized = ObjectSerializer.deserialize({
@@ -198,7 +198,7 @@ describe("ObjectSerializer", () => {
                     "name": category.name
                 },
                 "photoUrls": [ "url", "other url"],
-                "status": petstore.Pet.Available,
+                "status": petstore.PetStatusEnum.Available,
                 "tags": tagResult
             }, "Pet", "") as petstore.Pet
 

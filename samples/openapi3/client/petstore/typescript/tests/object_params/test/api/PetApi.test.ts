@@ -15,7 +15,7 @@ const pet = new petstore.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
-pet.status = petstore.Pet.Available
+pet.status = petstore.PetStatusEnum.Available
 pet.tags = [ tag ]
 
 describe("PetApi", () =>{ 
@@ -48,7 +48,7 @@ describe("PetApi", () =>{
 
     it("findPetsByStatus", (done) => {
         petApi.addPet({ pet: pet}).then(() => {
-            return petApi.findPetsByStatus({ status: [petstore.Pet.Available]})
+            return petApi.findPetsByStatus({ status: [petstore.PetStatusEnum.Available]})
         }).then((pets: petstore.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();

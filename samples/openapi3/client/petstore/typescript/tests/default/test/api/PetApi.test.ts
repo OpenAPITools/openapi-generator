@@ -18,7 +18,7 @@ describe("PetApi", () => {
         pet.id = Math.floor(Math.random() * 100000)
         pet.name = "PetName"
         pet.photoUrls = []
-        pet.status = petstore.Pet.Available
+        pet.status = petstore.PetStatusEnum.Available
         pet.tags = [ tag ]
 
         await petApi.addPet(pet);
@@ -77,7 +77,7 @@ describe("PetApi", () => {
     })
 
     it("findPetsByStatus", async () => {
-        const pets = await petApi.findPetsByStatus([petstore.Pet.Available]);
+        const pets = await petApi.findPetsByStatus([petstore.PetStatusEnum.Available]);
         expect(pets.length).to.be.at.least(1);
     })
 
