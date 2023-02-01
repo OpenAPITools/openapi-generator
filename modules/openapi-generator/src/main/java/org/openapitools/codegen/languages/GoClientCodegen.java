@@ -317,7 +317,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if(modelFileFolder != null) {
             modelFileFolderPath = modelFileFolderPath + modelFileFolder + File.separator;
         }
-        return modelFileFolderPath;
+        return modelFileFolderPath.replace("/", File.separator);
     }
 
     @Override
