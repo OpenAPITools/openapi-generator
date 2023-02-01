@@ -16,7 +16,7 @@ const pet = new petstore.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
-pet.status = 'available'
+pet.status = petstore.Pet.Available
 pet.tags = [ tag ]
 
 QUnit.module("PetApi")
@@ -49,7 +49,7 @@ QUnit.test("deletePet", (assert: any) => {
 
 QUnit.test("findPetsByStatus", (assert: any) => {
     return petApi.addPet(pet).then(() => {
-        return petApi.findPetsByStatus(["available"])
+        return petApi.findPetsByStatus([petstore.Pet.Available])
     }).then((pets: petstore.Pet[]) => {
         assert.ok(pets.length >= 1, "Found at least one pet.");
     })

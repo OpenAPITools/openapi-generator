@@ -17,7 +17,7 @@ const petId = Math.floor(Math.random() * 100000);
 pet.id = petId;
 pet.name = "PetName";
 pet.photoUrls = [];
-pet.status = "available";
+pet.status = petstore.Pet.Available;
 pet.tags = [tag];
 
 Deno.test({
@@ -51,7 +51,7 @@ Deno.test({
   fn: async () => {
     try {
       await petApi.addPet(pet);
-      const pets = await petApi.findPetsByStatus(["available"]);
+      const pets = await petApi.findPetsByStatus([petstore.Pet.Available]);
       assert(pets.length > 0);
     } catch (err) {
       fail(err);

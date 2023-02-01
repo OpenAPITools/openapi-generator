@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import { ServerConfiguration, createConfiguration, PetApi, Tag, Pet, ApiException, RequiredError } from 'ts-petstore-client'
+import { ServerConfiguration, createConfiguration, PetApi, Tag, Pet, PetStatusEnum, ApiException, RequiredError } from 'ts-petstore-client'
 import image from "./pet";
 
 const configuration = createConfiguration({
@@ -20,7 +20,7 @@ function createPet() {
     pet.id = Math.floor(Math.random() * 100000)
     pet.name = "PetName"
     pet.photoUrls = []
-    pet.status = 'available'
+    pet.status = PetStatusEnum.Available
     pet.tags = [ tag ]
     return pet as Required<Pet>;
 }
