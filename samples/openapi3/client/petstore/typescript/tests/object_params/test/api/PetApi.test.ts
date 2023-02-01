@@ -48,7 +48,7 @@ describe("PetApi", () =>{
 
     it("findPetsByStatus", (done) => {
         petApi.addPet({ pet: pet}).then(() => {
-            return petApi.findPetsByStatus({ status: [petstore.PetStatusEnum.Available]})
+            return petApi.findPetsByStatus({ status: ["available"]})
         }).then((pets: petstore.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();

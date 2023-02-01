@@ -49,7 +49,7 @@ QUnit.test("deletePet", (assert: any) => {
 
 QUnit.test("findPetsByStatus", (assert: any) => {
     return petApi.addPet(pet).then(() => {
-        return petApi.findPetsByStatus([petstore.PetStatusEnum.Available])
+        return petApi.findPetsByStatus(["available"])
     }).then((pets: petstore.Pet[]) => {
         assert.ok(pets.length >= 1, "Found at least one pet.");
     })

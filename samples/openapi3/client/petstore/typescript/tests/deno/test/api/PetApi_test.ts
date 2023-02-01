@@ -51,7 +51,7 @@ Deno.test({
   fn: async () => {
     try {
       await petApi.addPet(pet);
-      const pets = await petApi.findPetsByStatus([petstore.PetStatusEnum.Available]);
+      const pets = await petApi.findPetsByStatus(["available"]);
       assert(pets.length > 0);
     } catch (err) {
       fail(err);
