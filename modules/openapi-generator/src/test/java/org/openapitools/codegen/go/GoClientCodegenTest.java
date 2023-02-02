@@ -210,7 +210,7 @@ public class GoClientCodegenTest {
         codegen.additionalProperties().put(GoClientCodegen.MODEL_FILE_FOLDER, "model_dir");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/");
+        Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
     }
     
     @Test
