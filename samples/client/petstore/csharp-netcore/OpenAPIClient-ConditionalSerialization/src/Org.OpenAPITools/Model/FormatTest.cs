@@ -43,94 +43,94 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
-        /// <param name="integer">integer.</param>
-        /// <param name="int32">int32.</param>
-        /// <param name="int64">int64.</param>
-        /// <param name="number">number (required).</param>
-        /// <param name="_float">_float.</param>
-        /// <param name="_double">_double.</param>
-        /// <param name="_decimal">_decimal.</param>
-        /// <param name="_string">_string.</param>
-        /// <param name="_byte">_byte (required).</param>
-        /// <param name="binary">binary.</param>
-        /// <param name="date">date (required).</param>
-        /// <param name="dateTime">dateTime.</param>
-        /// <param name="uuid">uuid.</param>
-        /// <param name="password">password (required).</param>
-        /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
-        /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        /// <param name="Integer">Integer.</param>
+        /// <param name="Int32">Int32.</param>
+        /// <param name="Int64">Int64.</param>
+        /// <param name="Number">Number (required).</param>
+        /// <param name="Float">Float.</param>
+        /// <param name="Double">Double.</param>
+        /// <param name="Decimal">Decimal.</param>
+        /// <param name="String">String.</param>
+        /// <param name="Byte">Byte (required).</param>
+        /// <param name="Binary">Binary.</param>
+        /// <param name="Date">Date (required).</param>
+        /// <param name="DateTime">DateTime.</param>
+        /// <param name="Uuid">Uuid.</param>
+        /// <param name="Password">Password (required).</param>
+        /// <param name="PatternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
+        /// <param name="PatternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
+        public FormatTest( int Integer = default(int), int Int32 = default(int), long Int64 = default(long), decimal Number = default(decimal), float Float = default(float), double Double = default(double), decimal Decimal = default(decimal), string String = default(string), byte[] Byte = default(byte[]), System.IO.Stream Binary = default(System.IO.Stream), DateTime Date = default(DateTime), DateTime DateTime = default(DateTime), Guid Uuid = default(Guid), string Password = default(string), string PatternWithDigits = default(string), string PatternWithDigitsAndDelimiter = default(string))
         {
-            this._Number = number;
-            // to ensure "_byte" is required (not null)
-            if (_byte == null)
+            this._Number = Number;
+            // to ensure "Byte" is required (not null)
+            if (Byte == null)
             {
-                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("Byte is a required property for FormatTest and cannot be null");
             }
-            this._Byte = _byte;
-            this._Date = date;
-            // to ensure "password" is required (not null)
-            if (password == null)
+            this._Byte = Byte;
+            this._Date = Date;
+            // to ensure "Password" is required (not null)
+            if (Password == null)
             {
-                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("Password is a required property for FormatTest and cannot be null");
             }
-            this._Password = password;
-            this._Integer = integer;
+            this._Password = Password;
+            this._Integer = Integer;
             if (this.Integer != null)
             {
                 this._flagInteger = true;
             }
-            this._Int32 = int32;
+            this._Int32 = Int32;
             if (this.Int32 != null)
             {
                 this._flagInt32 = true;
             }
-            this._Int64 = int64;
+            this._Int64 = Int64;
             if (this.Int64 != null)
             {
                 this._flagInt64 = true;
             }
-            this._Float = _float;
+            this._Float = Float;
             if (this.Float != null)
             {
                 this._flagFloat = true;
             }
-            this._Double = _double;
+            this._Double = Double;
             if (this.Double != null)
             {
                 this._flagDouble = true;
             }
-            this._Decimal = _decimal;
+            this._Decimal = Decimal;
             if (this.Decimal != null)
             {
                 this._flagDecimal = true;
             }
-            this._String = _string;
+            this._String = String;
             if (this.String != null)
             {
                 this._flagString = true;
             }
-            this._Binary = binary;
+            this._Binary = Binary;
             if (this.Binary != null)
             {
                 this._flagBinary = true;
             }
-            this._DateTime = dateTime;
+            this._DateTime = DateTime;
             if (this.DateTime != null)
             {
                 this._flagDateTime = true;
             }
-            this._Uuid = uuid;
+            this._Uuid = Uuid;
             if (this.Uuid != null)
             {
                 this._flagUuid = true;
             }
-            this._PatternWithDigits = patternWithDigits;
+            this._PatternWithDigits = PatternWithDigits;
             if (this.PatternWithDigits != null)
             {
                 this._flagPatternWithDigits = true;
             }
-            this._PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            this._PatternWithDigitsAndDelimiter = PatternWithDigitsAndDelimiter;
             if (this.PatternWithDigitsAndDelimiter != null)
             {
                 this._flagPatternWithDigitsAndDelimiter = true;

@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
-        /// <param name="lengthCm">lengthCm.</param>
-        public Banana(decimal lengthCm = default(decimal))
+        /// <param name="LengthCm">LengthCm.</param>
+        public Banana( decimal LengthCm = default(decimal))
         {
-            this.LengthCm = lengthCm;
+            this.LengthCm = LengthCm;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

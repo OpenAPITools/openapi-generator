@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>
-        /// <param name="breed">breed.</param>
-        public DogAllOf(string breed = default(string))
+        /// <param name="Breed">Breed.</param>
+        public DogAllOf( string Breed = default(string))
         {
-            this.Breed = breed;
+            this.Breed = Breed;
         }
 
         /// <summary>

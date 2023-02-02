@@ -35,22 +35,22 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        /// <param name="arrayOfString">arrayOfString.</param>
-        /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
-        /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        /// <param name="ArrayOfString">ArrayOfString.</param>
+        /// <param name="ArrayArrayOfInteger">ArrayArrayOfInteger.</param>
+        /// <param name="ArrayArrayOfModel">ArrayArrayOfModel.</param>
+        public ArrayTest( List<string> ArrayOfString = default(List<string>), List<List<long>> ArrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> ArrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
-            this._ArrayOfString = arrayOfString;
+            this._ArrayOfString = ArrayOfString;
             if (this.ArrayOfString != null)
             {
                 this._flagArrayOfString = true;
             }
-            this._ArrayArrayOfInteger = arrayArrayOfInteger;
+            this._ArrayArrayOfInteger = ArrayArrayOfInteger;
             if (this.ArrayArrayOfInteger != null)
             {
                 this._flagArrayArrayOfInteger = true;
             }
-            this._ArrayArrayOfModel = arrayArrayOfModel;
+            this._ArrayArrayOfModel = ArrayArrayOfModel;
             if (this.ArrayArrayOfModel != null)
             {
                 this._flagArrayArrayOfModel = true;

@@ -75,11 +75,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
         /// </summary>
-        /// <param name="name">name.</param>
-        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
-        public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
+        /// <param name="Name">Name.</param>
+        /// <param name="PetType">PetType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCatAllOf( string Name = default(string), PetTypeEnum? PetType = PetTypeEnum.ChildCat)
         {
-            this._Name = name;
+            this._Name = Name;
             if (this.Name != null)
             {
                 this._flagName = true;

@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="smallCamel">smallCamel.</param>
-        /// <param name="capitalCamel">capitalCamel.</param>
-        /// <param name="smallSnake">smallSnake.</param>
-        /// <param name="capitalSnake">capitalSnake.</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
-        /// <param name="aTTNAME">Name of the pet .</param>
-        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
+        /// <param name="SmallCamel">SmallCamel.</param>
+        /// <param name="CapitalCamel">CapitalCamel.</param>
+        /// <param name="SmallSnake">SmallSnake.</param>
+        /// <param name="CapitalSnake">CapitalSnake.</param>
+        /// <param name="SCAETHFlowPoints">SCAETHFlowPoints.</param>
+        /// <param name="ATT_NAME">Name of the pet .</param>
+        public Capitalization( string SmallCamel = default(string), string CapitalCamel = default(string), string SmallSnake = default(string), string CapitalSnake = default(string), string SCAETHFlowPoints = default(string), string ATT_NAME = default(string))
         {
-            this._SmallCamel = smallCamel;
+            this._SmallCamel = SmallCamel;
             if (this.SmallCamel != null)
             {
                 this._flagSmallCamel = true;
             }
-            this._CapitalCamel = capitalCamel;
+            this._CapitalCamel = CapitalCamel;
             if (this.CapitalCamel != null)
             {
                 this._flagCapitalCamel = true;
             }
-            this._SmallSnake = smallSnake;
+            this._SmallSnake = SmallSnake;
             if (this.SmallSnake != null)
             {
                 this._flagSmallSnake = true;
             }
-            this._CapitalSnake = capitalSnake;
+            this._CapitalSnake = CapitalSnake;
             if (this.CapitalSnake != null)
             {
                 this._flagCapitalSnake = true;
             }
-            this._SCAETHFlowPoints = sCAETHFlowPoints;
+            this._SCAETHFlowPoints = SCAETHFlowPoints;
             if (this.SCAETHFlowPoints != null)
             {
                 this._flagSCAETHFlowPoints = true;
             }
-            this._ATT_NAME = aTTNAME;
+            this._ATT_NAME = ATT_NAME;
             if (this.ATT_NAME != null)
             {
                 this._flagATT_NAME = true;

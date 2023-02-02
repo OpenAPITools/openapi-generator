@@ -57,12 +57,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        /// <param name="name">name.</param>
-        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat) : base()
+        /// <param name="Name">Name.</param>
+        /// <param name="PetType">PetType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat( string Name = default(string), PetTypeEnum? PetType = PetTypeEnum.ChildCat) : base()
         {
-            this.Name = name;
-            this.PetType = petType;
+            this.Name = Name;
+            this.PetType = PetType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Activity" /> class.
         /// </summary>
-        /// <param name="activityOutputs">activityOutputs.</param>
-        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>))
+        /// <param name="ActivityOutputs">ActivityOutputs.</param>
+        public Activity( Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>))
         {
-            this.ActivityOutputs = activityOutputs;
+            this.ActivityOutputs = ActivityOutputs;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

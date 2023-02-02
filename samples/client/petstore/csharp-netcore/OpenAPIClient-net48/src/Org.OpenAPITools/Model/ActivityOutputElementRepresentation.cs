@@ -35,12 +35,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivityOutputElementRepresentation" /> class.
         /// </summary>
-        /// <param name="prop1">prop1.</param>
-        /// <param name="prop2">prop2.</param>
-        public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
+        /// <param name="Prop1">Prop1.</param>
+        /// <param name="Prop2">Prop2.</param>
+        public ActivityOutputElementRepresentation( string Prop1 = default(string), Object Prop2 = default(Object))
         {
-            this.Prop1 = prop1;
-            this.Prop2 = prop2;
+            this.Prop1 = Prop1;
+            this.Prop2 = Prop2;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

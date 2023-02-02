@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>
-        /// <param name="declawed">declawed.</param>
-        public CatAllOf(bool declawed = default(bool))
+        /// <param name="Declawed">Declawed.</param>
+        public CatAllOf( bool Declawed = default(bool))
         {
-            this._Declawed = declawed;
+            this._Declawed = Declawed;
             if (this.Declawed != null)
             {
                 this._flagDeclawed = true;

@@ -36,12 +36,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Apple" /> class.
         /// </summary>
-        /// <param name="cultivar">cultivar.</param>
-        /// <param name="origin">origin.</param>
-        public Apple(string cultivar = default(string), string origin = default(string))
+        /// <param name="Cultivar">Cultivar.</param>
+        /// <param name="Origin">Origin.</param>
+        public Apple( string Cultivar = default(string), string Origin = default(string))
         {
-            this.Cultivar = cultivar;
-            this.Origin = origin;
+            this.Cultivar = Cultivar;
+            this.Origin = Origin;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

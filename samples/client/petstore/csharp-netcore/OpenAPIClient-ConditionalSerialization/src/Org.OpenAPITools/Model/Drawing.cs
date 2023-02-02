@@ -35,28 +35,28 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
         /// </summary>
-        /// <param name="mainShape">mainShape.</param>
-        /// <param name="shapeOrNull">shapeOrNull.</param>
-        /// <param name="nullableShape">nullableShape.</param>
-        /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
+        /// <param name="MainShape">MainShape.</param>
+        /// <param name="ShapeOrNull">ShapeOrNull.</param>
+        /// <param name="NullableShape">NullableShape.</param>
+        /// <param name="Shapes">Shapes.</param>
+        public Drawing( Shape MainShape = default(Shape), ShapeOrNull ShapeOrNull = default(ShapeOrNull), NullableShape NullableShape = default(NullableShape), List<Shape> Shapes = default(List<Shape>)) : base()
         {
-            this._MainShape = mainShape;
+            this._MainShape = MainShape;
             if (this.MainShape != null)
             {
                 this._flagMainShape = true;
             }
-            this._ShapeOrNull = shapeOrNull;
+            this._ShapeOrNull = ShapeOrNull;
             if (this.ShapeOrNull != null)
             {
                 this._flagShapeOrNull = true;
             }
-            this._NullableShape = nullableShape;
+            this._NullableShape = NullableShape;
             if (this.NullableShape != null)
             {
                 this._flagNullableShape = true;
             }
-            this._Shapes = shapes;
+            this._Shapes = Shapes;
             if (this.Shapes != null)
             {
                 this._flagShapes = true;

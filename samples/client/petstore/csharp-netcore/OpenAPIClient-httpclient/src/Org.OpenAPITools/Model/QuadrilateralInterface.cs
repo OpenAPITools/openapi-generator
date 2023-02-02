@@ -44,15 +44,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
-        /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        public QuadrilateralInterface(string quadrilateralType = default(string))
+        /// <param name="QuadrilateralType">QuadrilateralType (required).</param>
+        public QuadrilateralInterface( string QuadrilateralType = default(string))
         {
-            // to ensure "quadrilateralType" is required (not null)
-            if (quadrilateralType == null)
+            // to ensure "QuadrilateralType" is required (not null)
+            if (QuadrilateralType == null)
             {
-                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
+                throw new ArgumentNullException("QuadrilateralType is a required property for QuadrilateralInterface and cannot be null");
             }
-            this.QuadrilateralType = quadrilateralType;
+            this.QuadrilateralType = QuadrilateralType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

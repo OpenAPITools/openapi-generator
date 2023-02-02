@@ -203,26 +203,26 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="enumString">enumString.</param>
-        /// <param name="enumStringRequired">enumStringRequired (required).</param>
-        /// <param name="enumInteger">enumInteger.</param>
-        /// <param name="enumIntegerOnly">enumIntegerOnly.</param>
-        /// <param name="enumNumber">enumNumber.</param>
-        /// <param name="outerEnum">outerEnum.</param>
-        /// <param name="outerEnumInteger">outerEnumInteger.</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        /// <param name="EnumString">EnumString.</param>
+        /// <param name="EnumStringRequired">EnumStringRequired (required).</param>
+        /// <param name="EnumInteger">EnumInteger.</param>
+        /// <param name="EnumIntegerOnly">EnumIntegerOnly.</param>
+        /// <param name="EnumNumber">EnumNumber.</param>
+        /// <param name="OuterEnum">OuterEnum.</param>
+        /// <param name="OuterEnumInteger">OuterEnumInteger.</param>
+        /// <param name="OuterEnumDefaultValue">OuterEnumDefaultValue.</param>
+        /// <param name="OuterEnumIntegerDefaultValue">OuterEnumIntegerDefaultValue.</param>
+        public EnumTest( EnumStringEnum? EnumString = default(EnumStringEnum?), EnumStringRequiredEnum EnumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? EnumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? EnumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? EnumNumber = default(EnumNumberEnum?), OuterEnum? OuterEnum = default(OuterEnum?), OuterEnumInteger? OuterEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? OuterEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
-            this.EnumStringRequired = enumStringRequired;
-            this.EnumString = enumString;
-            this.EnumInteger = enumInteger;
-            this.EnumIntegerOnly = enumIntegerOnly;
-            this.EnumNumber = enumNumber;
-            this.OuterEnum = outerEnum;
-            this.OuterEnumInteger = outerEnumInteger;
-            this.OuterEnumDefaultValue = outerEnumDefaultValue;
-            this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            this.EnumStringRequired = EnumStringRequired;
+            this.EnumString = EnumString;
+            this.EnumInteger = EnumInteger;
+            this.EnumIntegerOnly = EnumIntegerOnly;
+            this.EnumNumber = EnumNumber;
+            this.OuterEnum = OuterEnum;
+            this.OuterEnumInteger = OuterEnumInteger;
+            this.OuterEnumDefaultValue = OuterEnumDefaultValue;
+            this.OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

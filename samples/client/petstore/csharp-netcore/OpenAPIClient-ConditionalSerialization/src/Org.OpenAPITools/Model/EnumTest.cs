@@ -383,54 +383,54 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="enumString">enumString.</param>
-        /// <param name="enumStringRequired">enumStringRequired (required).</param>
-        /// <param name="enumInteger">enumInteger.</param>
-        /// <param name="enumIntegerOnly">enumIntegerOnly.</param>
-        /// <param name="enumNumber">enumNumber.</param>
-        /// <param name="outerEnum">outerEnum.</param>
-        /// <param name="outerEnumInteger">outerEnumInteger.</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        /// <param name="EnumString">EnumString.</param>
+        /// <param name="EnumStringRequired">EnumStringRequired (required).</param>
+        /// <param name="EnumInteger">EnumInteger.</param>
+        /// <param name="EnumIntegerOnly">EnumIntegerOnly.</param>
+        /// <param name="EnumNumber">EnumNumber.</param>
+        /// <param name="OuterEnum">OuterEnum.</param>
+        /// <param name="OuterEnumInteger">OuterEnumInteger.</param>
+        /// <param name="OuterEnumDefaultValue">OuterEnumDefaultValue.</param>
+        /// <param name="OuterEnumIntegerDefaultValue">OuterEnumIntegerDefaultValue.</param>
+        public EnumTest( EnumStringEnum? EnumString = default(EnumStringEnum?), EnumStringRequiredEnum EnumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? EnumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? EnumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? EnumNumber = default(EnumNumberEnum?), OuterEnum? OuterEnum = default(OuterEnum?), OuterEnumInteger? OuterEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? OuterEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
-            this._EnumStringRequired = enumStringRequired;
-            this._EnumString = enumString;
+            this._EnumStringRequired = EnumStringRequired;
+            this._EnumString = EnumString;
             if (this.EnumString != null)
             {
                 this._flagEnumString = true;
             }
-            this._EnumInteger = enumInteger;
+            this._EnumInteger = EnumInteger;
             if (this.EnumInteger != null)
             {
                 this._flagEnumInteger = true;
             }
-            this._EnumIntegerOnly = enumIntegerOnly;
+            this._EnumIntegerOnly = EnumIntegerOnly;
             if (this.EnumIntegerOnly != null)
             {
                 this._flagEnumIntegerOnly = true;
             }
-            this._EnumNumber = enumNumber;
+            this._EnumNumber = EnumNumber;
             if (this.EnumNumber != null)
             {
                 this._flagEnumNumber = true;
             }
-            this._OuterEnum = outerEnum;
+            this._OuterEnum = OuterEnum;
             if (this.OuterEnum != null)
             {
                 this._flagOuterEnum = true;
             }
-            this._OuterEnumInteger = outerEnumInteger;
+            this._OuterEnumInteger = OuterEnumInteger;
             if (this.OuterEnumInteger != null)
             {
                 this._flagOuterEnumInteger = true;
             }
-            this._OuterEnumDefaultValue = outerEnumDefaultValue;
+            this._OuterEnumDefaultValue = OuterEnumDefaultValue;
             if (this.OuterEnumDefaultValue != null)
             {
                 this._flagOuterEnumDefaultValue = true;
             }
-            this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            this._OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue;
             if (this.OuterEnumIntegerDefaultValue != null)
             {
                 this._flagOuterEnumIntegerDefaultValue = true;

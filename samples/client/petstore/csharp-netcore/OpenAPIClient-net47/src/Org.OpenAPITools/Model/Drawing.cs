@@ -35,16 +35,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
         /// </summary>
-        /// <param name="mainShape">mainShape.</param>
-        /// <param name="shapeOrNull">shapeOrNull.</param>
-        /// <param name="nullableShape">nullableShape.</param>
-        /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
+        /// <param name="MainShape">MainShape.</param>
+        /// <param name="ShapeOrNull">ShapeOrNull.</param>
+        /// <param name="NullableShape">NullableShape.</param>
+        /// <param name="Shapes">Shapes.</param>
+        public Drawing( Shape MainShape = default(Shape), ShapeOrNull ShapeOrNull = default(ShapeOrNull), NullableShape NullableShape = default(NullableShape), List<Shape> Shapes = default(List<Shape>)) : base()
         {
-            this.MainShape = mainShape;
-            this.ShapeOrNull = shapeOrNull;
-            this.NullableShape = nullableShape;
-            this.Shapes = shapes;
+            this.MainShape = MainShape;
+            this.ShapeOrNull = ShapeOrNull;
+            this.NullableShape = NullableShape;
+            this.Shapes = Shapes;
         }
 
         /// <summary>

@@ -44,18 +44,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="className">className (required).</param>
-        /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        /// <param name="ClassName">ClassName (required).</param>
+        /// <param name="Color">Color (default to &quot;red&quot;).</param>
+        public Animal( string ClassName = default(string), string Color = "red")
         {
-            // to ensure "className" is required (not null)
-            if (className == null)
+            // to ensure "ClassName" is required (not null)
+            if (ClassName == null)
             {
-                throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+                throw new ArgumentNullException("ClassName is a required property for Animal and cannot be null");
             }
-            this.ClassName = className;
-            // use default value if no "color" provided
-            this.Color = color ?? "red";
+            this.ClassName = ClassName;
+            // use default value if no "Color" provided
+            this.Color = Color ?? "red";
         }
 
         /// <summary>

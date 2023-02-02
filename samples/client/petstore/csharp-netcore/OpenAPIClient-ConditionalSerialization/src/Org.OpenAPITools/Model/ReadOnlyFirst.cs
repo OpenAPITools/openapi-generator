@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
-        /// <param name="baz">baz.</param>
-        public ReadOnlyFirst(string baz = default(string))
+        /// <param name="Baz">Baz.</param>
+        public ReadOnlyFirst( string Baz = default(string))
         {
-            this._Baz = baz;
+            this._Baz = Baz;
             if (this.Baz != null)
             {
                 this._flagBaz = true;

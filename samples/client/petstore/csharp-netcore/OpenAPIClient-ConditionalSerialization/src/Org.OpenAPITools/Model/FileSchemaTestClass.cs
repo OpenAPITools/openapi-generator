@@ -35,16 +35,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
         /// </summary>
-        /// <param name="file">file.</param>
-        /// <param name="files">files.</param>
-        public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
+        /// <param name="File">File.</param>
+        /// <param name="Files">Files.</param>
+        public FileSchemaTestClass( File File = default(File), List<File> Files = default(List<File>))
         {
-            this._File = file;
+            this._File = File;
             if (this.File != null)
             {
                 this._flagFile = true;
             }
-            this._Files = files;
+            this._Files = Files;
             if (this.Files != null)
             {
                 this._flagFiles = true;

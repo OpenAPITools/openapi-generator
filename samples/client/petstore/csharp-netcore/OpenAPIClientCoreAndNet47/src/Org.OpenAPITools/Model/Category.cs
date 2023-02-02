@@ -35,12 +35,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        public Category(long id = default(long), string name = default(string))
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+        public Category( long Id = default(long), string Name = default(string))
         {
-            this.Id = id;
-            this.Name = name;
+            this.Id = Id;
+            this.Name = Name;
         }
 
         /// <summary>

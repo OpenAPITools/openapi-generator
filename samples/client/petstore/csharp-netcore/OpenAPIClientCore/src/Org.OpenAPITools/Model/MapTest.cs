@@ -55,16 +55,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
-        /// <param name="mapMapOfString">mapMapOfString.</param>
-        /// <param name="mapOfEnumString">mapOfEnumString.</param>
-        /// <param name="directMap">directMap.</param>
-        /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
+        /// <param name="MapMapOfString">MapMapOfString.</param>
+        /// <param name="MapOfEnumString">MapOfEnumString.</param>
+        /// <param name="DirectMap">DirectMap.</param>
+        /// <param name="IndirectMap">IndirectMap.</param>
+        public MapTest( Dictionary<string, Dictionary<string, string>> MapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> MapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> DirectMap = default(Dictionary<string, bool>), Dictionary<string, bool> IndirectMap = default(Dictionary<string, bool>))
         {
-            this.MapMapOfString = mapMapOfString;
-            this.MapOfEnumString = mapOfEnumString;
-            this.DirectMap = directMap;
-            this.IndirectMap = indirectMap;
+            this.MapMapOfString = MapMapOfString;
+            this.MapOfEnumString = MapOfEnumString;
+            this.DirectMap = DirectMap;
+            this.IndirectMap = IndirectMap;
         }
 
         /// <summary>

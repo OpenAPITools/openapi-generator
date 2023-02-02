@@ -36,10 +36,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return.</param>
-        public Return(int _return = default(int))
+        /// <param name="Return">Return.</param>
+        public Return( int Return = default(int))
         {
-            this._Return = _return;
+            this._Return = _Return;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

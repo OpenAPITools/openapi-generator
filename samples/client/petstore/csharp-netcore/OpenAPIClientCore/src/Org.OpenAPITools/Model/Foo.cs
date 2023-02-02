@@ -35,11 +35,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
-        /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar = "bar")
+        /// <param name="Bar">Bar (default to &quot;bar&quot;).</param>
+        public Foo( string Bar = "bar")
         {
-            // use default value if no "bar" provided
-            this.Bar = bar ?? "bar";
+            // use default value if no "Bar" provided
+            this.Bar = Bar ?? "bar";
         }
 
         /// <summary>

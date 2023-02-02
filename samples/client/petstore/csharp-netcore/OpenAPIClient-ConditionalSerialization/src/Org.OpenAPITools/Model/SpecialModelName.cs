@@ -35,16 +35,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
-        /// <param name="specialPropertyName">specialPropertyName.</param>
-        /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        /// <param name="SpecialPropertyName">SpecialPropertyName.</param>
+        /// <param name="SpecialModelName">SpecialModelName.</param>
+        public SpecialModelName( long SpecialPropertyName = default(long), string SpecialModelName = default(string))
         {
-            this._SpecialPropertyName = specialPropertyName;
+            this._SpecialPropertyName = SpecialPropertyName;
             if (this.SpecialPropertyName != null)
             {
                 this._flagSpecialPropertyName = true;
             }
-            this.__SpecialModelName = specialModelName;
+            this.__SpecialModelName = _SpecialModelName;
             if (this._SpecialModelName != null)
             {
                 this._flag_SpecialModelName = true;
