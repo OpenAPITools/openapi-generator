@@ -17,7 +17,6 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
-import org.openapitools.client.model.Pet;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +37,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class BodyApi {
+public class HeaderApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -47,11 +46,11 @@ public class BodyApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  public BodyApi() {
+  public HeaderApi() {
     this(new ApiClient());
   }
 
-  public BodyApi(ApiClient apiClient) {
+  public HeaderApi(ApiClient apiClient) {
     memberVarHttpClient = apiClient.getHttpClient();
     memberVarObjectMapper = apiClient.getObjectMapper();
     memberVarBaseUri = apiClient.getBaseUri();
@@ -75,99 +74,30 @@ public class BodyApi {
   }
 
   /**
-   * Test body parameter(s)
-   * Test body parameter(s)
-   * @param pet Pet object that needs to be added to the store (optional)
-   * @return Pet
-   * @throws ApiException if fails to make API call
-   */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
-    ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet);
-    return localVarResponse.getData();
-  }
-
-  /**
-   * Test body parameter(s)
-   * Test body parameter(s)
-   * @param pet Pet object that needs to be added to the store (optional)
-   * @return ApiResponse&lt;Pet&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetRequestBuilder(pet);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testEchoBodyPet", localVarResponse);
-        }
-        return new ApiResponse<Pet>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder testEchoBodyPetRequestBuilder(Pet pet) throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/echo/body/Pet";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Content-Type", "application/json");
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-  /**
-   * Test empty response body
-   * Test empty response body
-   * @param pet Pet object that needs to be added to the store (optional)
+   * Test header parameter(s)
+   * Test header parameter(s)
+   * @param integerHeader  (optional)
+   * @param booleanHeader  (optional)
+   * @param stringHeader  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
-    ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet);
+  public String testHeaderIntegerBooleanString(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
+    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringWithHttpInfo(integerHeader, booleanHeader, stringHeader);
     return localVarResponse.getData();
   }
 
   /**
-   * Test empty response body
-   * Test empty response body
-   * @param pet Pet object that needs to be added to the store (optional)
+   * Test header parameter(s)
+   * Test header parameter(s)
+   * @param integerHeader  (optional)
+   * @param booleanHeader  (optional)
+   * @param stringHeader  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetResponseStringRequestBuilder(pet);
+  public ApiResponse<String> testHeaderIntegerBooleanStringWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringRequestBuilder(integerHeader, booleanHeader, stringHeader);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -177,7 +107,7 @@ public class BodyApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testEchoBodyPetResponseString", localVarResponse);
+          throw getApiException("testHeaderIntegerBooleanString", localVarResponse);
         }
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
@@ -203,23 +133,26 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyPetResponseStringRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testHeaderIntegerBooleanStringRequestBuilder(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/echo/body/Pet/response_string";
+    String localVarPath = "/header/integer/boolean/string";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
-    localVarRequestBuilder.header("Content-Type", "application/json");
+    if (integerHeader != null) {
+      localVarRequestBuilder.header("integer_header", integerHeader.toString());
+    }
+    if (booleanHeader != null) {
+      localVarRequestBuilder.header("boolean_header", booleanHeader.toString());
+    }
+    if (stringHeader != null) {
+      localVarRequestBuilder.header("string_header", stringHeader.toString());
+    }
     localVarRequestBuilder.header("Accept", "text/plain");
 
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
