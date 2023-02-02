@@ -31,7 +31,7 @@ configuration = petstore_api.Configuration(
 
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.AnotherFakeApi(api_client)
     client = petstore_api.Client() # Client | client model

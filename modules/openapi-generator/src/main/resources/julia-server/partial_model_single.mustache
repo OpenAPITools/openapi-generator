@@ -1,0 +1,91 @@
+@doc raw"""{{#description}}{{description}}
+{{/description}}
+
+    {{classname}}(;
+{{#allVars}}
+        {{{name}}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}},
+{{/allVars}}
+    )
+
+{{#allVars}}
+    - {{{name}}}::{{datatype}}{{#description}} : {{description}}{{/description}}
+{{/allVars}}
+"""
+Base.@kwdef mutable struct {{classname}} <: OpenAPI.APIModel
+{{#allVars}}
+    {{{name}}}{{#isPrimitiveType}}::Union{Nothing, {{{datatype}}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isContainer}}::Union{Nothing, {{#isMap}}Dict{{/isMap}}{{^isMap}}Vector{{/isMap}}}{{/isContainer}}{{/isPrimitiveType}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}}{{^isPrimitiveType}} # spec type: Union{ Nothing, {{datatype}} }{{/isPrimitiveType}}
+{{/allVars}}
+
+    function {{classname}}({{#allVars}}{{{name}}}, {{/allVars}})
+        {{#allVars}}
+        OpenAPI.validate_property({{classname}}, Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"), {{{name}}})
+        {{/allVars}}
+        return new({{#allVars}}{{{name}}}, {{/allVars}})
+    end
+end # type {{classname}}
+
+const _property_types_{{classname}} = Dict{Symbol,String}({{#allVars}}Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")=>"{{datatype}}", {{/allVars}})
+OpenAPI.property_type(::Type{ {{classname}} }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_{{classname}}[name]))}
+
+function check_required(o::{{classname}})
+{{#allVars}}
+{{#required}}
+    o.{{{name}}} === nothing && (return false)
+{{/required}}
+{{/allVars}}
+    true
+end
+
+function OpenAPI.validate_property(::Type{ {{classname}} }, name::Symbol, val)
+{{#allVars}}
+{{#isEnum}}
+    if name === Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+        OpenAPI.validate_param(name, "{{classname}}", :enum, val, [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+    end
+{{/isEnum}}
+{{^isEnum}}
+{{#format}}
+    if name === Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+        OpenAPI.validate_param(name, "{{classname}}", :format, val, "{{format}}")
+    end
+{{/format}}
+{{#hasValidation}}
+    if name === Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+{{#maxLength}}
+        OpenAPI.validate_param(name, "{{classname}}", :maxLength, val, {{maxLength}})
+{{/maxLength}}
+{{#minLength}}
+        OpenAPI.validate_param(name, "{{classname}}", :minLength, val, {{minLength}})
+{{/minLength}}
+{{#maximum}}
+        OpenAPI.validate_param(name, "{{classname}}", :maximum, val, {{maximum}}, {{#exclusiveMaximum}}true{{/exclusiveMaximum}}{{^exclusiveMaximum}}false{{/exclusiveMaximum}})
+{{/maximum}}
+{{#minimum}}
+        OpenAPI.validate_param(name, "{{classname}}", :minimum, val, {{minimum}}, {{#exclusiveMinimum}}true{{/exclusiveMinimum}}{{^exclusiveMinimum}}false{{/exclusiveMinimum}})
+{{/minimum}}
+{{#maxItems}}
+        OpenAPI.validate_param(name, "{{classname}}", :maxItems, val, {{maxItems}})
+{{/maxItems}}
+{{#minItems}}
+        OpenAPI.validate_param(name, "{{classname}}", :minItems, val, {{minItems}})
+{{/minItems}}
+{{#uniqueItems}}
+        OpenAPI.validate_param(name, "{{classname}}", :uniqueItems, val, {{uniqueItems}})
+{{/uniqueItems}}
+{{#maxProperties}}
+        OpenAPI.validate_param(name, "{{classname}}", :maxProperties, val, {{maxProperties}})
+{{/maxProperties}}
+{{#minProperties}}
+        OpenAPI.validate_param(name, "{{classname}}", :minProperties, val, {{minProperties}})
+{{/minProperties}}
+{{#pattern}}
+        OpenAPI.validate_param(name, "{{classname}}", :pattern, val, r"{{{pattern}}}")
+{{/pattern}}
+{{#multipleOf}}
+        OpenAPI.validate_param(name, "{{classname}}", :multipleOf, val, {{multipleOf}})
+{{/multipleOf}}
+    end
+{{/hasValidation}}
+{{/isEnum}}
+{{/allVars}}
+end

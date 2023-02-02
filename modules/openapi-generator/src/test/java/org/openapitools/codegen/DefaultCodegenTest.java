@@ -4189,6 +4189,9 @@ public class DefaultCodegenTest {
         assertEquals(cp.complexType, "coordinates");
         assertEquals(cp.baseName, "SchemaFor201ResponseBodyApplicationJson");
 
+        assertNotNull(mt.getExamples());
+        assertEquals(mt.getExamples().size(), 2);
+
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();

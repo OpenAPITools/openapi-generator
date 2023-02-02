@@ -19,11 +19,11 @@ public class NullableClass extends HashMap<String, Object>  {
     private String stringProp;
     private LocalDate dateProp;
     private OffsetDateTime datetimeProp;
-    private List<Object> arrayNullableProp = new ArrayList<>();
-    private List<Object> arrayAndItemsNullableProp = new ArrayList<>();
+    private List<Object> arrayNullableProp = null;
+    private List<Object> arrayAndItemsNullableProp = null;
     private List<Object> arrayItemsNullable = new ArrayList<>();
-    private Map<String, Object> objectNullableProp = new HashMap<>();
-    private Map<String, Object> objectAndItemsNullableProp = new HashMap<>();
+    private Map<String, Object> objectNullableProp = null;
+    private Map<String, Object> objectAndItemsNullableProp = null;
     private Map<String, Object> objectItemsNullable = new HashMap<>();
 
     /**

@@ -68,6 +68,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
+    public static final String SUPPORT_URL_QUERY = "supportUrlQuery";
     public static final String GRADLE_PROPERTIES = "gradleProperties";
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
@@ -428,10 +429,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // add URL query deepObject support to native, apache-httpclient by default
-        if (!additionalProperties.containsKey("supportUrlQuery") && (isLibrary(NATIVE) || isLibrary(APACHE))) {
-            additionalProperties.put("supportUrlQuery", true);
+        if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
+            if (isLibrary(NATIVE) || isLibrary(APACHE)) {
+                // default to true for native and apache-httpclient
+                additionalProperties.put(SUPPORT_URL_QUERY, true);
+            }
         } else {
-            additionalProperties.put("supportUrlQuery", Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+            additionalProperties.put(SUPPORT_URL_QUERY, Boolean.parseBoolean(additionalProperties.get(SUPPORT_URL_QUERY).toString()));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");

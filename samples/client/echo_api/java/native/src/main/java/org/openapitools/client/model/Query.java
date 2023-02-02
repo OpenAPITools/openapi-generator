@@ -80,7 +80,7 @@ public class Query {
   }
 
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
-  private List<OutcomesEnum> outcomes = null;
+  private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() { 
   }

@@ -125,45 +125,45 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override PolymorphicProperty Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override PolymorphicProperty Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader _boolReader = reader;
-            bool _boolDeserialized = Client.ClientUtils.TryDeserialize<bool>(ref _boolReader, options, out bool _bool);
+            Utf8JsonReader _boolReader = utf8JsonReader;
+            bool _boolDeserialized = Client.ClientUtils.TryDeserialize<bool>(ref _boolReader, jsonSerializerOptions, out bool _bool);
 
-            Utf8JsonReader _stringReader = reader;
-            bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, options, out string _string);
+            Utf8JsonReader _stringReader = utf8JsonReader;
+            bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string _string);
 
-            Utf8JsonReader _objectReader = reader;
-            bool _objectDeserialized = Client.ClientUtils.TryDeserialize<Object>(ref _objectReader, options, out Object _object);
+            Utf8JsonReader _objectReader = utf8JsonReader;
+            bool _objectDeserialized = Client.ClientUtils.TryDeserialize<Object>(ref _objectReader, jsonSerializerOptions, out Object _object);
 
-            Utf8JsonReader liststringReader = reader;
-            bool liststringDeserialized = Client.ClientUtils.TryDeserialize<List<string>>(ref liststringReader, options, out List<string> liststring);
+            Utf8JsonReader liststringReader = utf8JsonReader;
+            bool liststringDeserialized = Client.ClientUtils.TryDeserialize<List<string>>(ref liststringReader, jsonSerializerOptions, out List<string> liststring);
 
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
@@ -193,9 +193,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="polymorphicProperty"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 

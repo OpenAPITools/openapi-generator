@@ -43,6 +43,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
 
+    public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
+
     protected boolean useBeanValidation = false;
 
     protected boolean useGenericResponse = false;
@@ -52,6 +54,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     protected boolean useLoggingFeatureForTests = false;
 
     private boolean useJackson = false;
+
+    protected boolean useAbstractionForFiles = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -90,6 +94,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
+        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
     }
 
     @Override
@@ -114,6 +119,10 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(JACKSON)) {
             useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
+        }
+
+        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
+            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
         }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
@@ -217,5 +226,9 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public boolean isUseJackson() {
         return useJackson;
+    }
+
+    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
+        this.useAbstractionForFiles = useAbstractionForFiles;
     }
 }
