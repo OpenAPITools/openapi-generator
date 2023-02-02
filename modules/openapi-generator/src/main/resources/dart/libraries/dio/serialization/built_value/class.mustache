@@ -10,7 +10,9 @@ part '{{classFilename}}.g.dart';
 {{>serialization/built_value/class_header}} {
 {{>serialization/built_value/class_members}}
 }
-
+{{#discriminator}}{{#hasDiscriminatorWithNonEmptyMapping}}
+{{>serialization/built_value/class_discriminator}}
+{{/hasDiscriminatorWithNonEmptyMapping}}{{/discriminator}}
 {{>serialization/built_value/class_serializer}}{{#vendorExtensions.x-is-parent}}
 
 {{>serialization/built_value/class_concrete}}{{/vendorExtensions.x-is-parent}}

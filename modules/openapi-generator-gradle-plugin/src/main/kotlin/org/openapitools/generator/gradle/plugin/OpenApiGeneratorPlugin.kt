@@ -118,6 +118,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     schemaMappings.set(generate.schemaMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaNameDefaults.set(generate.inlineSchemaNameDefaults)
+                    openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
                     id.set(generate.id)

@@ -333,7 +333,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{#items.vars}}
                 if ({{paramName}}.{{name}} != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{paramName}}[{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}]", {{paramName}}.{{name}}));
                 }
                 {{/items.vars}}
                 {{^items}}

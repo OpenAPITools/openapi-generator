@@ -8,3 +8,4 @@ additionalProperties:
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
   camelCaseDollarSign: "true"
+  modelNameSuffix: 'Dto'

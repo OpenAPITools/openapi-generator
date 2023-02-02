@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -51,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -584,5 +587,119 @@ public class FormatTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `integer` to the URL query string
+    if (getInteger() != null) {
+      joiner.add(String.format("%sinteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `int32` to the URL query string
+    if (getInt32() != null) {
+      joiner.add(String.format("%sint32%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt32()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `int64` to the URL query string
+    if (getInt64() != null) {
+      joiner.add(String.format("%sint64%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `number` to the URL query string
+    if (getNumber() != null) {
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `float` to the URL query string
+    if (getFloat() != null) {
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `double` to the URL query string
+    if (getDouble() != null) {
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `decimal` to the URL query string
+    if (getDecimal() != null) {
+      joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDecimal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `string` to the URL query string
+    if (getString() != null) {
+      joiner.add(String.format("%sstring%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `byte` to the URL query string
+    if (getByte() != null) {
+      joiner.add(String.format("%sbyte%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getByte()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `binary` to the URL query string
+    if (getBinary() != null) {
+      joiner.add(String.format("%sbinary%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBinary()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `date` to the URL query string
+    if (getDate() != null) {
+      joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `dateTime` to the URL query string
+    if (getDateTime() != null) {
+      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `password` to the URL query string
+    if (getPassword() != null) {
+      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `pattern_with_digits` to the URL query string
+    if (getPatternWithDigits() != null) {
+      joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigits()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `pattern_with_digits_and_delimiter` to the URL query string
+    if (getPatternWithDigitsAndDelimiter() != null) {
+      joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigitsAndDelimiter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

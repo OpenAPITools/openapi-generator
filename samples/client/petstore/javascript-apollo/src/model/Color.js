@@ -84,15 +84,15 @@ class Color {
 
         // Hex color string, such as #00FF00.
         try {
-            // validate array of string
+            // validate string
             if (!(typeof instance === 'string')) {
-                throw new Error("Invalid input. Must be string. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid value. Must be string. Input: " + JSON.stringify(instance));
             }
             if (!/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(instance)) {
-                throw new Error("Invalid string value in an array items. Must conform to /^#(?:[0-9a-fA-F]{3}){1,2}$/. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Must conform to /^#(?:[0-9a-fA-F]{3}){1,2}$/. Input: " + JSON.stringify(instance));
             }
             if (instance.length > 7 && instance.length < 7) {
-                throw new Error("Invalid string value in an array items. Max. length: 7. Min. length: 7. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Max. length: 7. Min. length: 7. Input: " + JSON.stringify(instance));
             }
             this.actualInstance = instance;
             match++;

@@ -163,6 +163,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings (rules) in OpenAPI normalizer
+     */
+    val openapiNormalizer = project.objects.mapProperty<String, String>()
+
+    /**
      * Root package for generated code.
      */
     val invokerPackage = project.objects.property<String>()

@@ -263,6 +263,7 @@ public class AbstractKotlinCodegenTest {
     public void testEnumPropertyWithDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
         final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);

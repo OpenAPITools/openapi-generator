@@ -34,6 +34,10 @@ extension Double: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
 
+extension Decimal: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
 extension String: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }

@@ -17,10 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -445,4 +448,18 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
     @Override
     public String generatorLanguageVersion() { return "2.7 and 3.4+"; };
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = getAdditionalProperties(p);
+
+            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+        }
+        return super.getTypeDeclaration(p);
+    }
 }
