@@ -170,6 +170,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    this.serverIndex = null;
     return this;
   }
 
