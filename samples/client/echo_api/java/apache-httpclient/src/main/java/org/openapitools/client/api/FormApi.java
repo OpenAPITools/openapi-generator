@@ -20,7 +20,6 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
-import org.openapitools.client.model.Pet;
 
 
 import java.util.ArrayList;
@@ -30,14 +29,14 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class BodyApi {
+public class FormApi {
   private ApiClient apiClient;
 
-  public BodyApi() {
+  public FormApi() {
     this(Configuration.getDefaultApiClient());
   }
 
-  public BodyApi(ApiClient apiClient) {
+  public FormApi(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
 
@@ -50,70 +49,19 @@ public class BodyApi {
   }
 
   /**
-   * Test body parameter(s)
-   * Test body parameter(s)
-   * @param pet Pet object that needs to be added to the store (optional)
-   * @return Pet
-   * @throws ApiException if fails to make API call
-   */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
-    
-    // create path and map variables
-    String localVarPath = "/echo/body/Pet";
-
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    TypeReference<Pet> localVarReturnType = new TypeReference<Pet>() {};
-    return apiClient.invokeAPI(
-        localVarPath,
-        "POST",
-        localVarQueryParams,
-        localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
-        localVarPostBody,
-        localVarHeaderParams,
-        localVarCookieParams,
-        localVarFormParams,
-        localVarAccept,
-        localVarContentType,
-        localVarAuthNames,
-        localVarReturnType
-    );
-  }
-  /**
-   * Test empty response body
-   * Test empty response body
-   * @param pet Pet object that needs to be added to the store (optional)
+   * Test form parameter(s)
+   * Test form parameter(s)
+   * @param integerForm  (optional)
+   * @param booleanForm  (optional)
+   * @param stringForm  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
+  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+    Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/echo/body/Pet/response_string";
+    String localVarPath = "/form/integer/boolean/string";
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -125,14 +73,20 @@ public class BodyApi {
 
     
     
-    
+    if (integerForm != null)
+      localVarFormParams.put("integer_form", integerForm);
+if (booleanForm != null)
+      localVarFormParams.put("boolean_form", booleanForm);
+if (stringForm != null)
+      localVarFormParams.put("string_form", stringForm);
+
     final String[] localVarAccepts = {
       "text/plain"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      "application/x-www-form-urlencoded"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
