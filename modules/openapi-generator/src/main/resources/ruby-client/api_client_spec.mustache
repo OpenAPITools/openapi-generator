@@ -102,7 +102,7 @@ describe {{moduleName}}::ApiClient do
       config.proxy = proxy_uri.to_s
 
       connection = api_client.build_connection
-      configured_proxy = connection.proxy_for_request('/test)
+      configured_proxy = connection.proxy_for_request('/test')
 
       expect(configured_proxy).not_to be_nil
       expect(configured_proxy.uri.to_s).to eq proxy_uri.to_s
@@ -112,7 +112,7 @@ describe {{moduleName}}::ApiClient do
       config.proxy = { uri: proxy_uri }
 
       connection = api_client.build_connection
-      configured_proxy = connection.proxy_for_request('/test)
+      configured_proxy = connection.proxy_for_request('/test')
 
       expect(configured_proxy).not_to be_nil
       expect(configured_proxy.uri).to eq proxy_uri
