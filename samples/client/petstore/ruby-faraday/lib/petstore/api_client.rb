@@ -183,6 +183,7 @@ module Petstore
         config.configure_middleware(conn)
         yield(conn) if block_given?
         conn.adapter(Faraday.default_adapter)
+        config.configure_connection(conn)
       end
     end
 
