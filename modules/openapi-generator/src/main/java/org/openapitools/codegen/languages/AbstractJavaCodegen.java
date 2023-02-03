@@ -979,7 +979,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * Return null if there's no default value.
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
-     * @param cp Codegen property
+     * @param cp     Codegen property
      * @param schema Property schema
      * @return string presentation of the default value of the property
      */
@@ -1163,11 +1163,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (defaultValue instanceof ArrayNode) {
                 ArrayNode array = (ArrayNode) defaultValue;
                 return StreamSupport.stream(array.spliterator(), false)
-                    .map(JsonNode::toString)
-                    // remove wrapper quotes
-                    .map(item -> StringUtils.removeStart(item, "\""))
-                    .map(item -> StringUtils.removeEnd(item, "\""))
-                    .collect(Collectors.joining(","));
+                        .map(JsonNode::toString)
+                        // remove wrapper quotes
+                        .map(item -> StringUtils.removeStart(item, "\""))
+                        .map(item -> StringUtils.removeEnd(item, "\""))
+                        .collect(Collectors.joining(","));
             }
         }
         // escape quotes
@@ -2231,8 +2231,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     /**
      * Search for property by {@link CodegenProperty#name}
-     * @param name - name to search for
-     * @param properties - list of properties
+     *
+     * @param name       name to search for
+     * @param properties list of properties
      * @return either found property or {@link Optional#empty()} if nothing has been found
      */
     protected Optional<CodegenProperty> findByName(String name, List<CodegenProperty> properties) {
@@ -2241,8 +2242,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         return properties.stream()
-            .filter(p -> p.name.equals(name))
-            .findFirst();
+                .filter(p -> p.name.equals(name))
+                .findFirst();
     }
 
     /**
@@ -2284,6 +2285,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
     }
+
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
@@ -2309,6 +2311,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return addImports;
     }
+
     public static void addImports(List<Map<String, String>> imports, CodegenModel cm, Map<String, String> imports2Classnames) {
         for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
             cm.imports.add(entry.getKey());

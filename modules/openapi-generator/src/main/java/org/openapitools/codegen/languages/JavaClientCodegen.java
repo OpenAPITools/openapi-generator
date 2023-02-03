@@ -65,7 +65,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
-	public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
+    public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
@@ -983,7 +983,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // TODO: inverse logic. Do not add the imports unconditionally in the first place.
-        if (! AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+        if (!AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
             // Remove io.swagger.annotations.* imports
             codegenModel.imports.remove("ApiModel");
             codegenModel.imports.remove("ApiModelProperty");
@@ -1139,7 +1139,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.microprofileMutiny = microprofileMutiny;
     }
 
-	public void setConfigKey(String configKey) {
+    public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }
 
