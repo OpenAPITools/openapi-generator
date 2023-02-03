@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Model200Response  implements Serializable {
-  private @Valid Integer name;
-  private @Valid String propertyClass;
+  private Integer name;
+  private String propertyClass;
 
   /**
    **/

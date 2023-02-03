@@ -66,7 +66,7 @@ public class BigCatAllOf  implements Serializable {
     }
 }
 
-  private @Valid KindEnum kind;
+  private KindEnum kind;
 
   /**
    **/
