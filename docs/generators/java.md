@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive. Available on okhttp-gson, jersey2 libraries| |false|
 |configKey|Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option.| |null|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
@@ -83,14 +84,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
 |useReflectionEqualsHashCode|Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact.| |false|
-|useRuntimeException|Use RuntimeException instead of Exception| |false|
+|useRuntimeException|Use RuntimeException instead of Exception. Only jersey, jersey2, jersey3, okhttp-gson, vertx, microprofile support this option.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option.| |false|
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
+|withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## SUPPORTED VENDOR EXTENSIONS

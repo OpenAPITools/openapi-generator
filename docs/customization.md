@@ -451,3 +451,29 @@ Another useful option is `inlineSchemaNameDefaults`, which allows you to customi
 ```
 
 Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+
+## OpenAPI Normalizer
+
+OpenAPI Normalizer (off by default) transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. Here is a list of rules supported:
+
+- `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
+
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
+```
+
+- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true
+```
+
+- `SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING`: when set to `true`, simplify anyOf schema with string and enum of string to just `string`
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
+```

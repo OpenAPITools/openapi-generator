@@ -415,6 +415,8 @@ public class PetApi {
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+   * API documentation for the updatePet operation
+   * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
    */
   public Pet updatePet(Pet pet) throws ApiException {
     return updatePetWithHttpInfo(pet).getData();
@@ -434,6 +436,8 @@ public class PetApi {
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+   * API documentation for the updatePet operation
+   * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
    */
   public ApiResponse<Pet> updatePetWithHttpInfo(Pet pet) throws ApiException {
     Object localVarPostBody = pet;

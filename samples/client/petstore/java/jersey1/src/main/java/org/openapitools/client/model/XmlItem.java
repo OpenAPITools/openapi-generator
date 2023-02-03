@@ -75,7 +75,7 @@ public class XmlItem {
   private Boolean attributeBoolean;
 
   public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   private String nameString;
@@ -90,10 +90,10 @@ public class XmlItem {
   private Boolean nameBoolean;
 
   public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   private String prefixString;
@@ -108,10 +108,10 @@ public class XmlItem {
   private Boolean prefixBoolean;
 
   public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   private String namespaceString;
@@ -126,10 +126,10 @@ public class XmlItem {
   private Boolean namespaceBoolean;
 
   public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   private String prefixNsString;
@@ -144,10 +144,10 @@ public class XmlItem {
   private Boolean prefixNsBoolean;
 
   public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
   }

@@ -8,14 +8,17 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
@@ -50,14 +53,8 @@ import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
 
 {{#useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 import java.util.List;
 import java.util.Map;
@@ -72,12 +69,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
+import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
 {{#useBeanValidation}}
@@ -159,9 +151,9 @@ public interface {{classname}} {
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
+            @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
-                @Content(mediaType = "{{{mediaType}}}", schema = @Schema(implementation = {{{baseType}}}.class)){{^-last}},{{/-last}}
+                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
                 {{/produces}}
             }{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
@@ -170,7 +162,8 @@ public interface {{classname}} {
             {{#authMethods}}
             @SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/isOAuth}}){{^-last}},{{/-last}}
             {{/authMethods}}
-        }{{/hasAuthMethods}}
+        }{{/hasAuthMethods}}{{#externalDocs}},
+        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
     )
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}

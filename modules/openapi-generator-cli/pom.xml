@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.3.0-SNAPSHOT</version>
+        <version>6.4.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -125,7 +125,7 @@
         <dependency>
             <groupId>io.airlift</groupId>
             <artifactId>airline</artifactId>
-            <version>0.8</version>
+            <version>0.9</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.lambdaj</groupId>
@@ -135,12 +135,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
+            <version>1.2.11</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.9</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

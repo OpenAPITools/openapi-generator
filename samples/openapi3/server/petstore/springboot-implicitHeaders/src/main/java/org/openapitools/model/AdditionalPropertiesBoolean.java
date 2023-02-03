@@ -36,7 +36,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
    * @return name
   */
   
-  @Schema(name = "name", required = false)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
   }

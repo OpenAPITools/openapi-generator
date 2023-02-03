@@ -457,16 +457,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
+                        fieldCustomization.add("lt=" + cp.getMaximum());
                     } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
+                        fieldCustomization.add("le=" + cp.getMaximum());
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
+                        fieldCustomization.add("gt=" + cp.getMinimum());
                     } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
+                        fieldCustomization.add("ge=" + cp.getMinimum());
                     }
                 }
                 if (cp.getMultipleOf() != null) {

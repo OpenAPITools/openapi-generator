@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -31,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   private String _123list;
@@ -104,5 +107,44 @@ public class ModelList {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `123-list` to the URL query string
+    if (get123list() != null) {
+      joiner.add(String.format("%s123-list%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123list()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

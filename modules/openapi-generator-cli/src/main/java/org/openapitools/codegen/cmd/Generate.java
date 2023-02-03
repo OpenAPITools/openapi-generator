@@ -181,6 +181,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameDefaults = new ArrayList<>();
 
     @Option(
+            name = {"--openapi-normalizer"},
+            title = "OpenAPI normalizer rules",
+            description = "specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> openapiNormalizer = new ArrayList<>();
+
+    @Option(
             name = {"--server-variables"},
             title = "server variables",
             description = "sets server variables overrides for spec documents which support variable templating of servers.")
@@ -447,6 +454,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
         applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);

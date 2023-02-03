@@ -801,7 +801,7 @@ components:
       properties:
         uuid:
           type: string
-          format: uuid 
+          format: uuid
     ActionContainer:
       required:
       - action
@@ -878,3 +878,38 @@ components:
         required_nullable:
           type: string
           nullable: true
+    EnumArrayTesting:
+      description: Test of enum array
+      type: object
+      required:
+        - required_enums
+      properties:
+        required_enums:
+          type: array
+          items:
+            type: string
+            enum: ["A", "B", "C"]
+    ArrayRefItem:
+      description: Helper object for the array item ref test
+      type: array
+      items:
+        type: string
+    ObjectRefItem:
+      description: Helper object for the array item ref test
+      type: object
+      additionalProperties: true
+    ArrayItemRefTest:
+      description: Test handling of object reference in arrays
+      type: object
+      required:
+        - list_with_array_ref
+        - list_with_object_ref
+      properties:
+        list_with_array_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrayRefItem'
+        list_with_object_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectRefItem'
