@@ -28,7 +28,7 @@ public class EchoServerResponseParser {
             throw new RuntimeException("Echo server response cannot be null");
         }
 
-        String[] lines = response.split("\n");
+        Iterable<String> lines = response.lines()::iterator;
         boolean firstLine = true;
         boolean bodyStart = false;
         StringBuilder bodyBuilder = new StringBuilder();
