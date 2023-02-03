@@ -99,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
+    public static final String SPRING_HTTP_INTERFACE = "spring-http-interface";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -247,6 +248,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
             "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+        supportedLibraries.put(SPRING_HTTP_INTERFACE, "Spring 6 HTTP interfaces (testing)");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
@@ -272,7 +274,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public DocumentationProvider defaultDocumentationProvider() {
-        return DocumentationProvider.SPRINGDOC;
+        return SPRING_HTTP_INTERFACE.equals(library) ? DocumentationProvider.NONE : DocumentationProvider.SPRINGDOC;
     }
 
     public List<DocumentationProvider> supportedDocumentationProvider() {
@@ -343,6 +345,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
+        if (SPRING_HTTP_INTERFACE.equals(library)) {
+            documentationProvider = DocumentationProvider.NONE;
+            annotationLibrary = AnnotationLibrary.NONE;
+            useJakartaEe=true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            applyJakartaPackage();
+        }
+
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
         }
@@ -402,8 +412,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!SPRING_BOOT.equals(library)) {
-                throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
+                throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
             }
             this.setReactive(Boolean.parseBoolean(additionalProperties.get(REACTIVE).toString()));
         }
@@ -537,7 +547,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 // @RequestMapping not supported with spring cloud openfeign.
                 setRequestMappingMode(RequestMappingMode.none);
                 additionalProperties.put(USE_FEIGN_CLIENT, "true");
-            } else {
+            } else if (SPRING_BOOT.equals(library)) {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 if (containsEnums()) {
                     supportingFiles.add(new SupportingFile("converter.mustache",
@@ -561,10 +571,14 @@ public class SpringCodegen extends AbstractJavaCodegen
                             "SpringFoxConfiguration.java"));
                     }
                 }
+            } else if (SPRING_HTTP_INTERFACE.equals(library)) {
+                supportingFiles.add(new SupportingFile("httpInterfacesConfiguration.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
+                writePropertyBack(USE_BEANVALIDATION, false);
             }
         }
 
-        if (!SPRING_CLOUD_LIBRARY.equals(library)) {
+        if (SPRING_BOOT.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
