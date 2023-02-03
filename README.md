@@ -131,6 +131,8 @@ OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
 For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
 
+For decomissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
+
 ## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
 You can find our released artifacts on maven central:
