@@ -23,7 +23,6 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/textproto"
 	"os"
@@ -203,7 +202,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 		err = file.Close()
 	}()
 	var priv []byte
-	priv, err = ioutil.ReadAll(file)
+	priv, err = io.ReadAll(file)
 	if err != nil {
 		return err
 	}
