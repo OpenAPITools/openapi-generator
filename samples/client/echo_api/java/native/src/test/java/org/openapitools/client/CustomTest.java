@@ -265,6 +265,6 @@ public class CustomTest {
 
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
         Assert.assertEquals("/form/integer/boolean/string", p.path);
-        // how to assert echo response for form data?
+        Assert.assertTrue(p.body.contains("Hello%20World"));
     }
 }
