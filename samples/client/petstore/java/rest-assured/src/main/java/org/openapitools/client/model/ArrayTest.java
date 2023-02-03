@@ -35,15 +35,15 @@ import org.hibernate.validator.constraints.*;
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }

@@ -157,6 +157,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isSelfReference;
     public boolean isCircularReference;
     public boolean isDiscriminator;
+    public boolean isNew; // true when this property overrides an inherited property
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     // If 'additionalProperties' is not set, items is null.
@@ -505,7 +506,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return required;
     }
 
-    public boolean compulsory() {
+    public boolean requiredAndNotNullable() {
         return getRequired() && !isNullable;
     }
 
@@ -1063,6 +1064,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isSelfReference=").append(isSelfReference);
         sb.append(", isCircularReference=").append(isCircularReference);
         sb.append(", isDiscriminator=").append(isDiscriminator);
+        sb.append(", isNew=").append(isNew);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -1153,6 +1155,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isSelfReference == that.isSelfReference &&
                 isCircularReference == that.isCircularReference &&
                 isDiscriminator == that.isDiscriminator &&
+                isNew == that.isNew &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -1230,7 +1233,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isArray, isMap, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
-                isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, _enum,
+                isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,

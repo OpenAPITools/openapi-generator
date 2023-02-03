@@ -54,7 +54,7 @@ export class StoreService {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -83,7 +83,7 @@ export class StoreService {
     public getInventory(): Observable<AxiosResponse<{ [key: string]: number; }>>;
     public getInventory(): Observable<any> {
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -123,7 +123,7 @@ export class StoreService {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -159,7 +159,7 @@ export class StoreService {
             throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [

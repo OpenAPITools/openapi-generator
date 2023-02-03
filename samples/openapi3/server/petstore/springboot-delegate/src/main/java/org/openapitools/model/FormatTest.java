@@ -85,7 +85,7 @@ public class FormatTest {
    * @return integer
   */
   @Min(10) @Max(100) 
-  @Schema(name = "integer", required = false)
+  @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getInteger() {
     return integer;
   }
@@ -106,7 +106,7 @@ public class FormatTest {
    * @return int32
   */
   @Min(20) @Max(200) 
-  @Schema(name = "int32", required = false)
+  @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Integer getInt32() {
     return int32;
   }
@@ -125,7 +125,7 @@ public class FormatTest {
    * @return int64
   */
   
-  @Schema(name = "int64", required = false)
+  @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getInt64() {
     return int64;
   }
@@ -146,7 +146,7 @@ public class FormatTest {
    * @return number
   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
-  @Schema(name = "number", required = true)
+  @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   public BigDecimal getNumber() {
     return number;
   }
@@ -167,7 +167,7 @@ public class FormatTest {
    * @return _float
   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
-  @Schema(name = "float", required = false)
+  @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Float getFloat() {
     return _float;
   }
@@ -188,7 +188,7 @@ public class FormatTest {
    * @return _double
   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
-  @Schema(name = "double", required = false)
+  @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Double getDouble() {
     return _double;
   }
@@ -207,7 +207,7 @@ public class FormatTest {
    * @return string
   */
   @Pattern(regexp = "/[a-z]/i") 
-  @Schema(name = "string", required = false)
+  @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getString() {
     return string;
   }
@@ -226,7 +226,7 @@ public class FormatTest {
    * @return _byte
   */
   @NotNull 
-  @Schema(name = "byte", required = true)
+  @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   public byte[] getByte() {
     return _byte;
   }
@@ -245,7 +245,7 @@ public class FormatTest {
    * @return binary
   */
   @Valid 
-  @Schema(name = "binary", required = false)
+  @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
@@ -264,7 +264,7 @@ public class FormatTest {
    * @return date
   */
   @NotNull @Valid 
-  @Schema(name = "date", required = true)
+  @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   public LocalDate getDate() {
     return date;
   }
@@ -283,7 +283,7 @@ public class FormatTest {
    * @return dateTime
   */
   @Valid 
-  @Schema(name = "dateTime", required = false)
+  @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -302,7 +302,7 @@ public class FormatTest {
    * @return uuid
   */
   @Valid 
-  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", required = false)
+  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public UUID getUuid() {
     return uuid;
   }
@@ -321,7 +321,7 @@ public class FormatTest {
    * @return password
   */
   @NotNull @Size(min = 10, max = 64) 
-  @Schema(name = "password", required = true)
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getPassword() {
     return password;
   }
@@ -340,7 +340,7 @@ public class FormatTest {
    * @return bigDecimal
   */
   @Valid 
-  @Schema(name = "BigDecimal", required = false)
+  @Schema(name = "BigDecimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

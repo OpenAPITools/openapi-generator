@@ -24,13 +24,10 @@ public struct APIHelper {
         return source.reduce(into: [String: String]()) { result, item in
             if let collection = item.value as? [Any?] {
                 result[item.key] = collection
-                    .compactMap { value in
-                        guard let value = value else { return nil }
-                        return "\(value)"
-                    }
+                    .compactMap { value in convertAnyToString(value) }
                     .joined(separator: ",")
             } else if let value: Any = item.value {
-                result[item.key] = "\(value)"
+                result[item.key] = convertAnyToString(value)
             }
         }
     }
@@ -50,13 +47,19 @@ public struct APIHelper {
         }
     }
 
+    public static func convertAnyToString(_ value: Any?) -> String? {
+        guard let value = value else { return nil }
+        if let value = value as? any RawRepresentable {
+            return "\(value.rawValue)"
+        } else {
+            return "\(value)"
+        }
+    }
+
     public static func mapValueToPathItem(_ source: Any) -> Any {
         if let collection = source as? [Any?] {
             return collection
-                .compactMap { value in
-                    guard let value = value else { return nil }
-                    return "\(value)"
-                }
+                .compactMap { value in convertAnyToString(value) }
                 .joined(separator: ",")
         }
         return source
@@ -69,10 +72,7 @@ public struct APIHelper {
         let destination = source.filter { $0.value.wrappedValue != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value.wrappedValue as? [Any?] {
 
-                let collectionValues: [String] = collection.compactMap { value in
-                    guard let value = value else { return nil }
-                    return "\(value)"
-                }
+                let collectionValues: [String] = collection.compactMap { value in convertAnyToString(value) }
 
                 if !item.value.isExplode {
                     result.append(URLQueryItem(name: item.key, value: collectionValues.joined(separator: ",")))
@@ -84,7 +84,7 @@ public struct APIHelper {
                 }
 
             } else if let value = item.value.wrappedValue {
-                result.append(URLQueryItem(name: item.key, value: "\(value)"))
+                result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
             }
         }
 
@@ -101,16 +101,13 @@ public struct APIHelper {
         let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value as? [Any?] {
                 collection
-                    .compactMap { value in
-                        guard let value = value else { return nil }
-                        return "\(value)"
-                    }
+                    .compactMap { value in convertAnyToString(value) }
                     .forEach { value in
                         result.append(URLQueryItem(name: item.key, value: value))
                     }
 
             } else if let value = item.value {
-                result.append(URLQueryItem(name: item.key, value: "\(value)"))
+                result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
             }
         }
 

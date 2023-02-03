@@ -104,9 +104,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -218,9 +218,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -404,9 +404,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -598,9 +598,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -912,9 +912,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1034,9 +1034,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1159,9 +1159,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -1293,9 +1293,9 @@ configuration = petstore_api.Configuration(
 
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class

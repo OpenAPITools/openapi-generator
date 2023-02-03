@@ -196,11 +196,16 @@ public class InlineModelResolver {
             // allOf, anyOf, oneOf
             ComposedSchema m = (ComposedSchema) schema;
 
-            if (m.getAllOf() != null && m.getAllOf().size() == 1 && m.getReadOnly() != null && m.getReadOnly()) {
-                // Check if this composed schema only contains an allOf and a readOnly.
+            boolean isSingleAllOf = m.getAllOf() != null && m.getAllOf().size() == 1;
+            boolean isReadOnly = m.getReadOnly() != null && m.getReadOnly();
+            boolean isNullable = m.getNullable() != null && m.getNullable();
+
+            if (isSingleAllOf && (isReadOnly || isNullable)) {
+                // Check if this composed schema only contains an allOf and a readOnly or nullable.
                 ComposedSchema c = new ComposedSchema();
                 c.setAllOf(m.getAllOf());
-                c.setReadOnly(true);
+                c.setReadOnly(m.getReadOnly());
+                c.setNullable(m.getNullable());
                 if (m.equals(c)) {
                     return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
                 }

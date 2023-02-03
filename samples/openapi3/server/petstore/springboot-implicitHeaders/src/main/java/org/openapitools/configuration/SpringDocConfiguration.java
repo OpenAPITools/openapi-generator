@@ -13,7 +13,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @Configuration
 public class SpringDocConfiguration {
 
-    @Bean
+    @Bean(name = "org.openapitools.configuration.SpringDocConfiguration.apiInfo")
     OpenAPI apiInfo() {
         return new OpenAPI()
                 .info(

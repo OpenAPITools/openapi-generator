@@ -12,22 +12,11 @@ import java.io.Serializable;
 {{/serializableModel}}
 import java.time.OffsetDateTime;
 {{#useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 {{^useBeanValidation}}
-{{#useJakartaEe}}
-import jakarta.validation.constraints.NotNull;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.validation.constraints.NotNull;
-{{/useJakartaEe}}
+import {{javaxPackage}}.validation.constraints.NotNull;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
@@ -43,7 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 {{/swagger2AnnotationLibrary}}
 
 {{#withXml}}
-import javax.xml.bind.annotation.*;
+import {{javaxPackage}}.xml.bind.annotation.*;
 {{/withXml}}
 {{^parent}}
 {{#hateoas}}
@@ -52,12 +41,7 @@ import org.springframework.hateoas.RepresentationModel;
 {{/parent}}
 
 import java.util.*;
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
+import {{javaxPackage}}.annotation.Generated;
 
 {{#models}}
 {{#model}}

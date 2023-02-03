@@ -110,6 +110,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -181,6 +182,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -263,6 +265,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/findByStatus",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -341,6 +344,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/findByTags",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -411,6 +415,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -479,6 +484,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -554,6 +560,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -632,6 +639,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
             path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }

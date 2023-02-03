@@ -19,10 +19,13 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -44,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -275,7 +279,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
     }
-
+    
     private void configureDateLibrary(String srcFolder) {
         switch (dateLibrary) {
             case DATE_LIBRARY_TIME_MACHINE:
@@ -400,6 +404,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
     private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
     private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    private final String kParentDiscriminator = "x-parent-discriminator";
     
     // adapts codegen models and property to dart rules of inheritance
     private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
@@ -449,6 +454,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsChild, isChild);
             cm.vendorExtensions.put(kIsParent, isParent);
             cm.vendorExtensions.put(kIsPure, isPure);
+            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
+                //discriminator has no meaning here
+                if (cm.discriminator!=null) {
+                    cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
+                    cm.discriminator=null;
+                }
+
+            }
             // when pure:
             // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
             // ancestorOnlyProps = empty
@@ -539,6 +552,30 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             interfaceImports.addAll(cm.anyOf);
             cm.imports.addAll(rewriteImports(interfaceImports, true));
         }
+    }
+
+    /// override the default behavior of createDiscriminator 
+    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false) 
+    /// this ensures 1-1 schema mapping instead of 1-many
+    @Override
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {        
+        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);
+        Discriminator originalDiscriminator = schema.getDiscriminator();
+        if (originalDiscriminator!=null) {
+            Map<String,String> originalMapping = originalDiscriminator.getMapping();
+            if (originalMapping != null && !originalMapping.isEmpty()) {
+                //we already have a discriminator mapping, remove everything else
+                for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
+                    if (originalMapping.containsKey(currentMappings.getMappingName())) {
+                        //all good
+                    } else {
+                        sub.getMapping().remove(currentMappings.getMappingName());
+                        sub.getMappedModels().remove(currentMappings);
+                    }
+                }
+            }
+        }        
+        return sub;
     }
 
     @Override

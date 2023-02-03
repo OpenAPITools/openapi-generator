@@ -1,12 +1,12 @@
 {{#models}}
 {{#model}}
-export * from '{{{ importPath }}}{{extensionForDeno}}';
+export * from '{{{ importPath }}}{{importFileExtension}}';
 {{/model}}
 {{/models}}
 
 {{#models}}
 {{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from '{{{ importPath }}}{{extensionForDeno}}';
+import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from '{{{ importPath }}}{{importFileExtension}}';
 {{/model}}
 {{/models}}
 

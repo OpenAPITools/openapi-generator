@@ -3,14 +3,7 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 import javax.validation.Valid
 
 /**
@@ -24,17 +17,17 @@ import javax.validation.Valid
  */
 data class Order(
 
-    @field:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @field:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
 
-    @field:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
-    @field:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-    @field:JsonProperty("status") val status: Order.Status? = null,
+    @get:JsonProperty("status") val status: Order.Status? = null,
 
-    @field:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 
     /**
