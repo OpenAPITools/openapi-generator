@@ -89,6 +89,8 @@ describe DynamicServers::ApiClient do
     end
   end
 
+
+
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = DynamicServers::ApiClient.new

@@ -178,7 +178,7 @@ module Petstore
     end
 
     def build_connection
-      Faraday.new(url: config.base_url, ssl: ssl_options) do |conn|
+      Faraday.new(url: config.base_url, ssl: ssl_options, proxy: config.proxy) do |conn|
         basic_auth(conn)
         config.configure_middleware(conn)
         yield(conn) if block_given?
