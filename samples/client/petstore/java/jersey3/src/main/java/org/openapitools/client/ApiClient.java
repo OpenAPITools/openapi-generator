@@ -1176,7 +1176,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     String targetURL;
     List<ServerConfiguration> serverConfigurations;
-    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) !) null) {
+    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
       int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
       Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
       if (index < 0 || index >= serverConfigurations.size()) {
