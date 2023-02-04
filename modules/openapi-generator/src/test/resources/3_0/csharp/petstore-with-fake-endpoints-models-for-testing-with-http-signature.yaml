@@ -2187,3 +2187,10 @@ components:
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"

@@ -366,6 +366,11 @@ namespace Org.OpenAPITools.Model
     public class FormatTestJsonConverter : JsonConverter<FormatTest>
     {
         /// <summary>
+        /// The format to use to serialize Date
+        /// </summary>
+        public string DateFormat { get; set; } = "yyyy-MM-dd";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -486,8 +491,7 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.ByteProperty, jsonSerializerOptions);
-            writer.WritePropertyName("date");
-            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
+            writer.WriteString("date", formatTest.Date.ToString(this.DateFormat));
             writer.WritePropertyName("dateTime");
             JsonSerializer.Serialize(writer, formatTest.DateTime, jsonSerializerOptions);
             writer.WritePropertyName("decimal");
