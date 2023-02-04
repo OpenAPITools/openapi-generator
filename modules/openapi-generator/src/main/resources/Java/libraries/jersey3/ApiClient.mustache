@@ -1067,11 +1067,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       return file;
     }
 
-    String contentType = null;
-    List<Object> contentTypes = response.getHeaders().get("Content-Type");
-    if (contentTypes != null && !contentTypes.isEmpty())
-      contentType = String.valueOf(contentTypes.get(0));
-
     // read the entity stream multiple times
     response.bufferEntity();
 
