@@ -343,7 +343,12 @@
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.4</jackson-databind-nullable-version>
         {{/openApiNullable}}
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
         {{#useBeanValidation}}
         <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useBeanValidation}}

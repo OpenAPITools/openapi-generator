@@ -107,7 +107,8 @@ open class DefaultApi(
             RequestMethod.POST,
             "/test".replace("{" + "pi0" + "}", "$pi0").replace("{" + "pi1" + "}", "$pi1").replace("{" + "pn0" + "}", "$pn0").replace("{" + "pn1" + "}", "$pn1"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return multipartFormRequest(

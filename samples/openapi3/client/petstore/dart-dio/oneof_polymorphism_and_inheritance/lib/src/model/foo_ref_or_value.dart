@@ -42,6 +42,29 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
   static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
 }
 
+extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
+    String? get discriminatorValue {
+        if (this is Foo) {
+            return r'Foo';
+        }
+        if (this is FooRef) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is FooBuilder) {
+            return r'Foo';
+        }
+        if (this is FooRefBuilder) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
   @override
   final Iterable<Type> types = const [FooRefOrValue, _$FooRefOrValue];

@@ -105,43 +105,43 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override ActivityOutputElementRepresentation Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override ActivityOutputElementRepresentation Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string prop1 = default;
             Object prop2 = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "prop1":
-                            prop1 = reader.GetString();
+                            prop1 = utf8JsonReader.GetString();
                             break;
                         case "prop2":
-                            prop2 = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            prop2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -157,15 +157,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
             writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
             writer.WritePropertyName("prop2");
-            JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, options);
+            JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
 
             writer.WriteEndObject();
         }

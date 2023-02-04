@@ -18,14 +18,12 @@ part 'dog.g.dart';
 /// * [breed] 
 @BuiltValue()
 abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
-  static const String discriminatorFieldName = r'className';
-
   Dog._();
 
   factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DogBuilder b) => b
+  static void _defaults(DogBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)

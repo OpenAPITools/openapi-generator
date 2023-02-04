@@ -23,14 +23,12 @@ abstract class FooRef implements EntityRef, Built<FooRef, FooRefBuilder> {
   @BuiltValueField(wireName: r'foorefPropA')
   String? get foorefPropA;
 
-  static const String discriminatorFieldName = r'@type';
-
   FooRef._();
 
   factory FooRef([void updates(FooRefBuilder b)]) = _$FooRef;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FooRefBuilder b) => b;
+  static void _defaults(FooRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<FooRef> get serializer => _$FooRefSerializer();

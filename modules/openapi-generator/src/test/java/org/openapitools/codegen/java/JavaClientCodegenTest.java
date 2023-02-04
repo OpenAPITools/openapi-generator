@@ -1717,4 +1717,39 @@ public class JavaClientCodegenTest {
             "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
         );
     }
+
+    @Test
+    public void testJdkHttpClientWithAndWithoutParentExtension() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                // use default `okhttp-gson`
+                //.setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 30);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Child.java"),
+                "public class Child extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Adult.java"),
+                "public class Adult extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/AnotherChild.java"),
+                "public class AnotherChild {");
+    }
 }

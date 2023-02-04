@@ -41,6 +41,53 @@ abstract class Entity implements Addressable, Extensible {
   static Serializer<Entity> get serializer => _$EntitySerializer();
 }
 
+extension EntityDiscriminatorExt on Entity {
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarCreate) {
+            return r'Bar_Create';
+        }
+        if (this is Foo) {
+            return r'Foo';
+        }
+        if (this is Pasta) {
+            return r'Pasta';
+        }
+        if (this is Pizza) {
+            return r'Pizza';
+        }
+        if (this is PizzaSpeziale) {
+            return r'PizzaSpeziale';
+        }
+        return null;
+    }
+}
+extension EntityBuilderDiscriminatorExt on EntityBuilder {
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarCreateBuilder) {
+            return r'Bar_Create';
+        }
+        if (this is FooBuilder) {
+            return r'Foo';
+        }
+        if (this is PastaBuilder) {
+            return r'Pasta';
+        }
+        if (this is PizzaBuilder) {
+            return r'Pizza';
+        }
+        if (this is PizzaSpezialeBuilder) {
+            return r'PizzaSpeziale';
+        }
+        return null;
+    }
+}
+
 class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   @override
   final Iterable<Type> types = const [Entity];

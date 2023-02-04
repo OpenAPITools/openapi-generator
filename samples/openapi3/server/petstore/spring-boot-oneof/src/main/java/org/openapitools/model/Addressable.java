@@ -38,7 +38,7 @@ public class Addressable {
    * @return href
   */
   
-  @Schema(name = "href", description = "Hyperlink reference", required = false)
+  @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getHref() {
     return href;
   }
@@ -57,7 +57,7 @@ public class Addressable {
    * @return id
   */
   
-  @Schema(name = "id", description = "unique identifier", required = false)
+  @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getId() {
     return id;
   }

@@ -77,7 +77,7 @@ public class User {
      * @return id
      **/
     @Nullable
-    @Schema(name = "id", required = false)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -100,7 +100,7 @@ public class User {
      * @return username
      **/
     @Nullable
-    @Schema(name = "username", required = false)
+    @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getUsername() {
@@ -123,7 +123,7 @@ public class User {
      * @return firstName
      **/
     @Nullable
-    @Schema(name = "firstName", required = false)
+    @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getFirstName() {
@@ -146,7 +146,7 @@ public class User {
      * @return lastName
      **/
     @Nullable
-    @Schema(name = "lastName", required = false)
+    @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getLastName() {
@@ -169,7 +169,7 @@ public class User {
      * @return email
      **/
     @Nullable
-    @Schema(name = "email", required = false)
+    @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getEmail() {
@@ -192,7 +192,7 @@ public class User {
      * @return password
      **/
     @Nullable
-    @Schema(name = "password", required = false)
+    @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPassword() {
@@ -215,7 +215,7 @@ public class User {
      * @return phone
      **/
     @Nullable
-    @Schema(name = "phone", required = false)
+    @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getPhone() {
@@ -238,7 +238,7 @@ public class User {
      * @return userStatus
      **/
     @Nullable
-    @Schema(name = "userStatus", description = "User Status", required = false)
+    @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getUserStatus() {

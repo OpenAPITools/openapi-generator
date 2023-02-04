@@ -79,6 +79,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
 
+    Map<String, ModelsMap> enumRefs = new HashMap<>();
+
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -261,14 +263,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     @SuppressWarnings("unchecked")
     private void postProcessUpdateImports(final Map<String, ModelsMap> models) {
         final String prefix = modelPackage() + ".";
-        Map<String, ModelsMap> enumRefs = new HashMap<>();
-        for (String key : models.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(key, models);
-            if (model.isEnum) {
-                ModelsMap objs = models.get(key);
-                enumRefs.put(key, objs);
-            }
-        }
+
+        enumRefs = getEnumRefs(models);
 
         for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
@@ -276,6 +272,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
                 continue;
             }
+
             ModelsMap objs = models.get(openAPIName);
             List<Map<String, String>> imports = objs.getImports();
             if (imports == null || imports.isEmpty()) {
@@ -285,23 +282,33 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             Iterator<Map<String, String>> iterator = imports.iterator();
             while (iterator.hasNext()) {
                 String importPath = iterator.next().get("import");
+                Map<String, String> item = new HashMap<>();
                 if (importPath.startsWith(prefix)) {
-                     if (isEnumClass(importPath, enumRefs)) {
-                         Map<String, String> item = new HashMap<>();
-                         item.put("import", importPath.concat("._"));
-                         newImports.add(item);
-                     }
-                 }
-                 else {
-                      Map<String, String> item = new HashMap<>();
-                      item.put("import", importPath);
-                      newImports.add(item);
-                 }
-
+                    if (isEnumClass(importPath, enumRefs)) {
+                        item.put("import", importPath.concat("._"));
+                        newImports.add(item);
+                    }
+                }
+                else {
+                    item.put("import", importPath);
+                    newImports.add(item);
+                }
             }
             // reset imports
             objs.setImports(newImports);
         }
+    }
+
+    private Map<String, ModelsMap> getEnumRefs(final Map<String, ModelsMap> models) {
+        Map<String, ModelsMap> enums = new HashMap<>();
+        for (String key : models.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, models);
+            if (model.isEnum) {
+                ModelsMap objs = models.get(key);
+                enums.put(key, objs);
+            }
+        }
+        return enums;
     }
 
     private boolean isEnumClass(final String importPath, final Map<String, ModelsMap> enumModels) {
@@ -351,6 +358,26 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 LOGGER.error("Unable to find operations List", e);
             }
         }
+
+        // update imports for enum class
+        List<Map<String, String>> newImports = new ArrayList<>();
+        List<Map<String, String>> imports = objs.getImports();
+        if (imports != null && !imports.isEmpty()) {
+            Iterator<Map<String, String>> iterator = imports.iterator();
+            while (iterator.hasNext()) {
+                String importPath = iterator.next().get("import");
+                Map<String, String> item = new HashMap<>();
+                if (isEnumClass(importPath, enumRefs)) {
+                    item.put("import", importPath.concat("._"));
+                }
+                else {
+                    item.put("import", importPath);
+                }
+                newImports.add(item);
+            }
+        }
+        objs.setImports(newImports);
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 

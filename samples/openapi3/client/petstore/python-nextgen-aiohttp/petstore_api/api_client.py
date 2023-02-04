@@ -522,6 +522,11 @@ class ApiClient(object):
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if isinstance(v, (int, float)):
+                v = str(v)
+            if isinstance(v, bool):
+                v = str(v).lower()
+
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':

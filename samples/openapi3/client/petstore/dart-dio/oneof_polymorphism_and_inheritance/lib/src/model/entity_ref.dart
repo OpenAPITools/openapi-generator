@@ -43,6 +43,29 @@ abstract class EntityRef implements Addressable, Extensible {
   static Serializer<EntityRef> get serializer => _$EntityRefSerializer();
 }
 
+extension EntityRefDiscriminatorExt on EntityRef {
+    String? get discriminatorValue {
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        if (this is FooRef) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+extension EntityRefBuilderDiscriminatorExt on EntityRefBuilder {
+    String? get discriminatorValue {
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        if (this is FooRefBuilder) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+
 class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
   @override
   final Iterable<Type> types = const [EntityRef];
