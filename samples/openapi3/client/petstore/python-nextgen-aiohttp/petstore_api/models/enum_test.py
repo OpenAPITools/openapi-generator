@@ -18,7 +18,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
@@ -33,7 +33,7 @@ class EnumTest(BaseModel):
     enum_string: Optional[StrictStr] = None
     enum_string_required: StrictStr = ...
     enum_integer: Optional[StrictInt] = None
-    enum_number: Optional[StrictFloat] = None
+    enum_number: Optional[float] = None
     outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")

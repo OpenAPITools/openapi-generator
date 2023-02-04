@@ -29,12 +29,12 @@ class FormatTest(BaseModel):
     integer: Optional[conint(strict=True, le=100, ge=10)] = None
     int32: Optional[conint(strict=True, le=200, ge=20)] = None
     int64: Optional[StrictInt] = None
-    number: confloat(strict=True, le=543.2, ge=32.1) = ...
-    float: Optional[confloat(strict=True, le=987.6, ge=54.3)] = None
-    double: Optional[confloat(strict=True, le=123.4, ge=67.8)] = None
+    number: confloat(le=543.2, ge=32.1, strict=True) = ...
+    float: Optional[confloat(le=987.6, ge=54.3, strict=True)] = None
+    double: Optional[confloat(le=123.4, ge=67.8, strict=True)] = None
     decimal: Optional[condecimal()] = None
     string: Optional[constr(strict=True)] = None
-    byte: StrictBytes = ...
+    byte: Optional[StrictBytes] = None
     binary: Optional[StrictBytes] = None
     var_date: date = Field(..., alias="date")
     date_time: Optional[datetime] = Field(None, alias="dateTime")
