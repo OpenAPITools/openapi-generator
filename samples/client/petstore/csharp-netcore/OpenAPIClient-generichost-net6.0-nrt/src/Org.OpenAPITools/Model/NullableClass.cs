@@ -187,6 +187,11 @@ namespace Org.OpenAPITools.Model
     public class NullableClassJsonConverter : JsonConverter<NullableClass>
     {
         /// <summary>
+        /// The format to use to serialize DateProp
+        /// </summary>
+        public string DatePropFormat { get; set; } = "yyyy-MM-dd";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -301,8 +306,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
             else
                 writer.WriteNull("boolean_prop");
-            writer.WritePropertyName("date_prop");
-            JsonSerializer.Serialize(writer, nullableClass.DateProp, jsonSerializerOptions);
+            if (nullableClass.DateProp != null)
+                writer.WriteString("date_prop", nullableClass.DateProp.Value.ToString(this.DatePropFormat));
+            else
+                writer.WriteNull("date_prop");
             writer.WritePropertyName("datetime_prop");
             JsonSerializer.Serialize(writer, nullableClass.DatetimeProp, jsonSerializerOptions);
             if (nullableClass.IntegerProp != null)
