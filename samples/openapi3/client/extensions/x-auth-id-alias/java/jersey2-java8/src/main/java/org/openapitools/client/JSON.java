@@ -19,18 +19,18 @@ public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
   public JSON() {
-    mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    JsonMapper.builder().configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-    mapper.setDateFormat(new RFC3339DateFormat());
-    mapper.registerModule(new JavaTimeModule());
-    JsonNullableModule jnm = new JsonNullableModule();
-    mapper.registerModule(jnm);
+    mapper = JsonMapper.builder()
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
+            .configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+            .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+            .defaultDateFormat(new RFC3339DateFormat())
+            .addModule(new JavaTimeModule())
+            .addModule(new JsonNullableModule())
+            .build();
   }
 
   /**
