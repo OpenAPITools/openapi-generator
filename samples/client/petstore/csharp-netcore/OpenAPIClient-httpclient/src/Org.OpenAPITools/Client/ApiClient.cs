@@ -535,7 +535,7 @@ namespace Org.OpenAPITools.Client
                 if (timeoutTokenSource != null && timeoutTokenSource.IsCancellationRequested)
                 {
                     throw new TaskCanceledException($"[{req.Method}] {req.RequestUri} was timeout.",
-                        new TimeoutException(original.Message, original), original.CancellationToken);
+                        new TimeoutException(original.Message, original));
                 }
                 throw;
             }
