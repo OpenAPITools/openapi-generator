@@ -18,7 +18,6 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,12 +56,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'MapProperty'
+        /// Test the property 'EmptyMap'
         /// </summary>
         [Fact]
-        public void MapPropertyTest()
+        public void EmptyMapTest()
         {
-            // TODO unit test for the property 'MapProperty'
+            // TODO unit test for the property 'EmptyMap'
         }
         /// <summary>
         /// Test the property 'MapOfMapProperty'
@@ -73,12 +72,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'MapOfMapProperty'
         }
         /// <summary>
-        /// Test the property 'Anytype1'
+        /// Test the property 'MapProperty'
         /// </summary>
         [Fact]
-        public void Anytype1Test()
+        public void MapPropertyTest()
         {
-            // TODO unit test for the property 'Anytype1'
+            // TODO unit test for the property 'MapProperty'
         }
         /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesAnytype1'
@@ -105,20 +104,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'MapWithUndeclaredPropertiesAnytype3'
         }
         /// <summary>
-        /// Test the property 'EmptyMap'
-        /// </summary>
-        [Fact]
-        public void EmptyMapTest()
-        {
-            // TODO unit test for the property 'EmptyMap'
-        }
-        /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesString'
         /// </summary>
         [Fact]
         public void MapWithUndeclaredPropertiesStringTest()
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesString'
+        }
+        /// <summary>
+        /// Test the property 'Anytype1'
+        /// </summary>
+        [Fact]
+        public void Anytype1Test()
+        {
+            // TODO unit test for the property 'Anytype1'
         }
 
     }

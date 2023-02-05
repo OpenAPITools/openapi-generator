@@ -64,14 +64,14 @@ class ObjectWithOptionalTestProp(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         test: typing.Union[MetaOapg.properties.test, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithOptionalTestProp':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             test=test,
             _configuration=_configuration,
             **kwargs,

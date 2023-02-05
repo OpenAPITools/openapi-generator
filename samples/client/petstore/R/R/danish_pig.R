@@ -28,7 +28,7 @@ DanishPig <- R6::R6Class(
     #'
     #' @param className className
     #' @param size size
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`className`, `size`, additional_properties = NULL, ...) {
@@ -247,7 +247,7 @@ DanishPig <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # DanishPig$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # DanishPig$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

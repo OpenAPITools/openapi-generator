@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the HasOnlyReadOnly type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &HasOnlyReadOnly{}
+
 // HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar *string `json:"bar,omitempty"`
@@ -102,14 +105,18 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 }
 
 func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if !isNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
-	}
-	if !isNil(o.Foo) {
-		toSerialize["foo"] = o.Foo
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o HasOnlyReadOnly) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	// skip: bar is readOnly
+	// skip: foo is readOnly
+	return toSerialize, nil
 }
 
 type NullableHasOnlyReadOnly struct {

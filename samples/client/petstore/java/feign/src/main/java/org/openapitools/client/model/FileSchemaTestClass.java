@@ -39,7 +39,7 @@ public class FileSchemaTestClass {
   private File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<File> files = null;
+  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }

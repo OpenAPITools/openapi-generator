@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the EnumArrays type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EnumArrays{}
+
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
@@ -102,6 +105,14 @@ func (o *EnumArrays) SetArrayEnum(v []string) {
 }
 
 func (o EnumArrays) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !isNil(o.JustSymbol) {
 		toSerialize["just_symbol"] = o.JustSymbol
@@ -109,7 +120,7 @@ func (o EnumArrays) MarshalJSON() ([]byte, error) {
 	if !isNil(o.ArrayEnum) {
 		toSerialize["array_enum"] = o.ArrayEnum
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableEnumArrays struct {

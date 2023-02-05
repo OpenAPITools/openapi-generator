@@ -157,7 +157,7 @@ func writeRandomTestEcdsaPemKey(t *testing.T, filePath string) {
 
 // TestHttpSignaturePrivateKeys creates private keys of various sizes, serialization format,
 // clear-text and password encrypted.
-// Test unmarshaling of the private key.
+// Test unmarshalling of the private key.
 func TestHttpSignaturePrivateKeys(t *testing.T) {
 	var err error
 	var dir string

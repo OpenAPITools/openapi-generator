@@ -34,7 +34,7 @@ public class ClassModel {
    * @return propertyClass
   */
   
-  @Schema(name = "_class", required = false)
+  @Schema(name = "_class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getPropertyClass() {
     return propertyClass;
   }

@@ -3,7 +3,7 @@ package {{configPackage}};
 {{#models}}
     {{#model}}
         {{#isEnum}}
-import {{modelPackage}}.{{name}};
+import {{modelPackage}}.{{classname}};
         {{/isEnum}}
     {{/model}}
 {{/models}}
@@ -18,12 +18,12 @@ public class EnumConverterConfiguration {
 {{#models}}
 {{#model}}
 {{#isEnum}}
-    @Bean
-    Converter<{{{dataType}}}, {{name}}> {{classVarName}}Converter() {
-        return new Converter<{{{dataType}}}, {{name}}>() {
+    @Bean(name = "{{configPackage}}.EnumConverterConfiguration.{{classVarName}}Converter")
+    Converter<{{{dataType}}}, {{classname}}> {{classVarName}}Converter() {
+        return new Converter<{{{dataType}}}, {{classname}}>() {
             @Override
-            public {{name}} convert({{{dataType}}} source) {
-                return {{name}}.fromValue(source);
+            public {{classname}} convert({{{dataType}}} source) {
+                return {{classname}}.fromValue(source);
             }
         };
     }

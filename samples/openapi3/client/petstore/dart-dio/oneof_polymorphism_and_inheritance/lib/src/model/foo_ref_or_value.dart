@@ -24,7 +24,7 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
   /// One Of [Foo], [FooRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Foo': Foo,
@@ -40,6 +40,29 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
 
   @BuiltValueSerializer(custom: true)
   static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
+}
+
+extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
+    String? get discriminatorValue {
+        if (this is Foo) {
+            return r'Foo';
+        }
+        if (this is FooRef) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is FooBuilder) {
+            return r'Foo';
+        }
+        if (this is FooRefBuilder) {
+            return r'FooRef';
+        }
+        return null;
+    }
 }
 
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
@@ -82,14 +105,14 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
-      case 'Foo':
+      case r'Foo':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(Foo),
         ) as Foo;
         oneOfType = Foo;
         break;
-      case 'FooRef':
+      case r'FooRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(FooRef),

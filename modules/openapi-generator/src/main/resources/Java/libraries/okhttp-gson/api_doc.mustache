@@ -33,6 +33,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("{{{basePath}}}");
+    {{#withAWSV4Signature}}
+    // Configure AWS Signature V4 authorization
+    defaultClient.setAWS4Configuration("YOUR_ACCESS_KEY", "YOUR_SECRET_KEY", "REGION", "SERVICE")
+    {{/withAWSV4Signature}}
     {{#hasAuthMethods}}
     {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
     // Configure HTTP basic authorization: {{{name}}}

@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>6.2.1</version>
+    <version>6.3.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -137,6 +137,35 @@ Notice that some of these environment variable options may overwrite or conflict
 ```
 
 The difference here is that you may define `generateModels` and `modelsToGenerate` as properties, while `globalProperties` may only be configured as a configuration node.
+
+### Type and import mappings
+
+To override the mappings between OpenAPI spec types and the types used in the generated code, set `typeMappings`.
+
+```xml
+<configuration>
+    <typeMappings>
+        <!-- convert Double to BigDecimal -->
+        <typeMapping>Double=java.math.BigDecimal</typeMapping>
+    </typeMappings>
+</configuration>
+```
+
+For types that are not already included in the generator configuration, you may need to add a corresponding `importMapping` too.
+
+```xml
+<configuration>
+    <!-- convert file/binary to JAX-RS StreamingOutput -->
+    <typeMappings>
+        <typeMapping>binary=StreamingOutput</typeMapping>
+        <typeMapping>file=StreamingOutput</typeMapping>
+    </typeMappings>
+    <importMappings>
+        <importMapping>StreamingOutput=javax.ws.rs.core.StreamingOutput</importMapping>
+    </importMappings>
+</configuration>
+```
+
 
 ### Custom Generator
 

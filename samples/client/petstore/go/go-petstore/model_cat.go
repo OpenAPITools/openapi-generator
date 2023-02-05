@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Cat type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Cat{}
+
 // Cat struct for Cat
 type Cat struct {
 	Animal
@@ -73,19 +76,27 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 func (o Cat) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Cat) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	if !isNil(o.Declawed) {
 		toSerialize["declawed"] = o.Declawed
 	}
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 type NullableCat struct {

@@ -4,12 +4,12 @@ package {{package}};
 {{/imports}}
 import {{package}}.{{classname}}Service;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.ws.rs.core.Context;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import {{javaxPackage}}.enterprise.context.RequestScoped;
+import {{javaxPackage}}.inject.Inject;
 
 import io.swagger.annotations.*;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import java.util.Map;
 import java.util.List;
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 @Path("{{commonPath}}")
 @RequestScoped

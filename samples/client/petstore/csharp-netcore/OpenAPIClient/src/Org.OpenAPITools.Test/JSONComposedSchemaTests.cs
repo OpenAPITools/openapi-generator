@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test additonal properties
+        /// Test additional properties
         /// </summary>
         [Fact]
         public void TestAdditionalProperties()

@@ -39,7 +39,7 @@ class PathValues(str, enum.Enum):
     ANOTHERFAKE_DUMMY = "/another-fake/dummy"
     FAKE_BODYWITHFILESCHEMA = "/fake/body-with-file-schema"
     FAKE_CASESENSITIVEPARAMS = "/fake/case-sensitive-params"
-    FAKE_TESTQUERYPARAMTERS = "/fake/test-query-paramters"
+    FAKE_TESTQUERYPARAMETERS = "/fake/test-query-parameters"
     FAKE_PET_ID_UPLOAD_IMAGE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile"
     FAKE_PARAMETER_COLLISIONS_1_A_B_AB_SELF_AB_ = "/fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/"
     FAKE_UPLOAD_FILE = "/fake/uploadFile"

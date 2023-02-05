@@ -54,7 +54,8 @@ open class PetApi(
             RequestMethod.POST,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return jsonRequest(
@@ -88,7 +89,8 @@ open class PetApi(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return request(
@@ -121,7 +123,8 @@ open class PetApi(
             RequestMethod.GET,
             "/pet/findByStatus",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return request(
@@ -164,7 +167,8 @@ open class PetApi(
             RequestMethod.GET,
             "/pet/findByTags",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return request(
@@ -206,7 +210,8 @@ open class PetApi(
             RequestMethod.GET,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return request(
@@ -236,7 +241,8 @@ open class PetApi(
             RequestMethod.PUT,
             "/pet",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return jsonRequest(
@@ -273,7 +279,8 @@ open class PetApi(
             RequestMethod.POST,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return urlEncodedFormRequest(
@@ -310,7 +317,8 @@ open class PetApi(
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return multipartFormRequest(

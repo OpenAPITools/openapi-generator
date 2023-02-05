@@ -796,14 +796,14 @@ class MediaType:
 @dataclass
 class ApiResponse:
     response: urllib3.HTTPResponse
-    body: typing.Union[Unset, Schema]
-    headers: typing.Union[Unset, typing.List[HeaderParameter]]
+    body: typing.Union[Unset, Schema] = unset
+    headers: typing.Union[Unset, typing.Dict[str, Schema]] = unset
 
     def __init__(
         self,
         response: urllib3.HTTPResponse,
-        body: typing.Union[Unset, typing.Type[Schema]],
-        headers: typing.Union[Unset, typing.List[HeaderParameter]]
+        body: typing.Union[Unset, Schema] = unset,
+        headers: typing.Union[Unset, typing.Dict[str, Schema]] = unset
     ):
         """
         pycharm needs this to prevent 'Unexpected argument' warnings
@@ -1250,9 +1250,9 @@ class ApiClient:
                     # The HTTP signature scheme requires multiple HTTP headers
                     # that are calculated dynamically.
                     signing_info = self.configuration.signing_info
-                    querys = tuple()
+                    queries = tuple()
                     auth_headers = signing_info.get_http_signature_headers(
-                                        resource_path, method, headers, body, querys)
+                                        resource_path, method, headers, body, queries)
                     for key, value in auth_headers.items():
                         headers.add(key, value)
 {{/if}}

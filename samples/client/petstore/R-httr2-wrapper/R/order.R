@@ -40,7 +40,7 @@ Order <- R6::R6Class(
     #' @param shipDate shipDate
     #' @param status Order Status
     #' @param complete complete. Default to FALSE.
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, additional_properties = NULL, ...) {
@@ -320,7 +320,7 @@ Order <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Order$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Order$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

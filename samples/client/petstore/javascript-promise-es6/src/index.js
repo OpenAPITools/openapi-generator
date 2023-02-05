@@ -63,6 +63,7 @@ import Pig from './model/Pig';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
+import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
@@ -411,6 +412,12 @@ export {
      * @property {module:model/SpecialModelName}
      */
     SpecialModelName,
+
+    /**
+     * The StringOrBoolean model constructor.
+     * @property {module:model/StringOrBoolean}
+     */
+    StringOrBoolean,
 
     /**
      * The Tag model constructor.

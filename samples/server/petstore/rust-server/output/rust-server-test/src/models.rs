@@ -197,9 +197,9 @@ pub struct AllOfObject {
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_property: Option<String>,
 
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
 
@@ -208,7 +208,7 @@ impl AllOfObject {
     pub fn new() -> AllOfObject {
         AllOfObject {
             sample_property: None,
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -228,10 +228,10 @@ impl std::string::ToString for AllOfObject {
             }),
 
 
-            self.sample_base_propery.as_ref().map(|sample_base_propery| {
+            self.sample_base_property.as_ref().map(|sample_base_property| {
                 vec![
-                    "sampleBasePropery".to_string(),
-                    sample_base_propery.to_string(),
+                    "sampleBaseProperty".to_string(),
+                    sample_base_property.to_string(),
                 ].join(",")
             }),
 
@@ -253,7 +253,7 @@ impl std::str::FromStr for AllOfObject {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub sample_property: Vec<String>,
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -274,7 +274,7 @@ impl std::str::FromStr for AllOfObject {
                     #[allow(clippy::redundant_clone)]
                     "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
             }
@@ -286,7 +286,7 @@ impl std::str::FromStr for AllOfObject {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(AllOfObject {
             sample_property: intermediate_rep.sample_property.into_iter().next(),
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }
@@ -333,9 +333,9 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
 
@@ -343,7 +343,7 @@ impl BaseAllOf {
     #[allow(clippy::new_without_default)]
     pub fn new() -> BaseAllOf {
         BaseAllOf {
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -355,10 +355,10 @@ impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
 
-            self.sample_base_propery.as_ref().map(|sample_base_propery| {
+            self.sample_base_property.as_ref().map(|sample_base_property| {
                 vec![
-                    "sampleBasePropery".to_string(),
-                    sample_base_propery.to_string(),
+                    "sampleBaseProperty".to_string(),
+                    sample_base_property.to_string(),
                 ].join(",")
             }),
 
@@ -379,7 +379,7 @@ impl std::str::FromStr for BaseAllOf {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -398,7 +398,7 @@ impl std::str::FromStr for BaseAllOf {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing BaseAllOf".to_string())
                 }
             }
@@ -409,7 +409,7 @@ impl std::str::FromStr for BaseAllOf {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(BaseAllOf {
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }

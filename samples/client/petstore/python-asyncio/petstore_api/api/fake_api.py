@@ -1779,7 +1779,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param param: request body (required)
-        :type param: dict(str, str)
+        :type param: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1808,7 +1808,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param param: request body (required)
-        :type param: dict(str, str)
+        :type param: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code

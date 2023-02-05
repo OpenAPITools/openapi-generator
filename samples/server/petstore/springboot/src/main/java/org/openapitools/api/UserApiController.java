@@ -2,7 +2,7 @@ package org.openapitools.api;
 
 import java.util.List;
 import java.time.OffsetDateTime;
-import org.openapitools.model.User;
+import org.openapitools.model.UserDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
