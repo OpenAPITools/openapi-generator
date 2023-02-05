@@ -46,12 +46,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_bird.py
-test/test_data_query.py
-test/test_data_query_all_of.py
-test/test_default_value.py
-test/test_form_api.py
-test/test_header_api.py
-test/test_query.py
-test/test_test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.py
 tox.ini

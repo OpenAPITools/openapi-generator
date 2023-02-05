@@ -99,6 +99,45 @@ paths:
       tags:
       - header
       x-accepts: text/plain
+  /query/datetime/date/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/datetime/date/string
+      parameters:
+      - explode: true
+        in: query
+        name: datetime_query
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: date_query
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/integer/boolean/string:
     get:
       description: Test query parameter(s)
