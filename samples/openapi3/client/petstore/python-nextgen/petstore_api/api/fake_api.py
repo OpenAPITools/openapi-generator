@@ -21,7 +21,7 @@ from datetime import date, datetime
 
 from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, confloat, conint, constr, validator
 
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 from petstore_api.models.client import Client
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -1678,7 +1678,7 @@ class FakeApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_date_time_query_parameter(self, date_time_query : Union[datetime, StrictStr], str_query : StrictStr, **kwargs) -> None:  # noqa: E501
+    def test_date_time_query_parameter(self, date_time_query : datetime, str_query : StrictStr, **kwargs) -> None:  # noqa: E501
         """test_date_time_query_parameter  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1710,7 +1710,7 @@ class FakeApi(object):
         return self.test_date_time_query_parameter_with_http_info(date_time_query, str_query, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_date_time_query_parameter_with_http_info(self, date_time_query : Union[datetime, StrictStr], str_query : StrictStr, **kwargs):  # noqa: E501
+    def test_date_time_query_parameter_with_http_info(self, date_time_query : datetime, str_query : StrictStr, **kwargs):  # noqa: E501
         """test_date_time_query_parameter  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1820,7 +1820,7 @@ class FakeApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[Union[date, StrictStr]], Field(description="None")] = None, date_time : Annotated[Optional[Union[datetime, StrictStr]], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -1877,7 +1877,7 @@ class FakeApi(object):
         return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, ge=100, le=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, ge=200, le=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[Union[date, StrictStr]], Field(description="None")] = None, date_time : Annotated[Optional[Union[datetime, StrictStr]], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
+    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(strict=True, ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501

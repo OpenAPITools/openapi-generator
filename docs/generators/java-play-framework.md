@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |controllerOnly|Whether to generate only API interface stubs without the server files.| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
@@ -73,6 +74,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |openapi-java-playframework|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useInterfaces|Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec| |true|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useSwaggerUI|Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |wrapCalls|Add a wrapper to each controller function to handle things like metrics, response modification, etc..| |true|

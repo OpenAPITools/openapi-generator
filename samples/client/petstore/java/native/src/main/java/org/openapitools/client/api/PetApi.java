@@ -20,13 +20,24 @@ import org.openapitools.client.Pair;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.http.HttpRequest;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -40,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -296,11 +307,17 @@ public class PetApi {
     String localVarPath = "/pet/findByStatus";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "status", status));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -321,13 +338,13 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Set&lt;Pet&gt;
+   * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
-    ApiResponse<Set<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags);
+  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+    ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags);
     return localVarResponse.getData();
   }
 
@@ -335,12 +352,12 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return ApiResponse&lt;Set&lt;Pet&gt;&gt;
+   * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -353,10 +370,10 @@ public class PetApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("findPetsByTags", localVarResponse);
         }
-        return new ApiResponse<Set<Pet>>(
+        return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -369,7 +386,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByTagsRequestBuilder(Set<String> tags) throws ApiException {
+  private HttpRequest.Builder findPetsByTagsRequestBuilder(List<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -380,11 +397,17 @@ public class PetApi {
     String localVarPath = "/pet/findByTags";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "tags";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "tags", tags));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -623,7 +646,20 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    formValues.add(new BasicNameValuePair("name", name.toString()));
+    formValues.add(new BasicNameValuePair("status", status.toString()));
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("POST", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -699,7 +735,41 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
+    boolean hasFiles = false;
+    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    multiPartBuilder.addBinaryBody("file", _file);
+    hasFiles = true;
+    HttpEntity entity = multiPartBuilder.build();
+    HttpRequest.BodyPublisher formDataPublisher;
+    if (hasFiles) {
+        Pipe pipe;
+        try {
+            pipe = Pipe.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(() -> {
+            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
+                entity.writeTo(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        formDataPublisher = HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source()));
+    } else {
+        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+        try {
+            entity.writeTo(formOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        formDataPublisher = HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("POST", formDataPublisher);
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -779,7 +849,41 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
+    boolean hasFiles = false;
+    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    multiPartBuilder.addBinaryBody("requiredFile", requiredFile);
+    hasFiles = true;
+    HttpEntity entity = multiPartBuilder.build();
+    HttpRequest.BodyPublisher formDataPublisher;
+    if (hasFiles) {
+        Pipe pipe;
+        try {
+            pipe = Pipe.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(() -> {
+            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
+                entity.writeTo(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        formDataPublisher = HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source()));
+    } else {
+        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+        try {
+            entity.writeTo(formOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        formDataPublisher = HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("POST", formDataPublisher);
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

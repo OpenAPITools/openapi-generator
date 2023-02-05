@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.3.0-SNAPSHOT</version>
+        <version>6.4.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -333,7 +333,7 @@
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
-            <version>3.24.0</version>
+            <version>3.24.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -356,7 +356,7 @@
         <dependency>
            <groupId>org.commonmark</groupId>
            <artifactId>commonmark</artifactId>
-           <version>0.20.0</version>
+           <version>0.21.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

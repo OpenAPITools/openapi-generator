@@ -35,6 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
@@ -57,7 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd></dl>|spring-boot|
+|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-http-interface**</dt><dd>Spring 6 HTTP interfaces (testing)</dd></dl>|spring-boot|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
@@ -86,8 +87,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOptional|Use Optional container for optional parameters| |false|
-|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports).| |true|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|

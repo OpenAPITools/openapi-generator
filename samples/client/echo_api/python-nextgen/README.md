@@ -83,18 +83,30 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BodyApi* | [**test_echo_body_pet**](docs/BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
+*BodyApi* | [**test_echo_body_pet_response_string**](docs/BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
+*FormApi* | [**test_form_integer_boolean_string**](docs/FormApi.md#test_form_integer_boolean_string) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*HeaderApi* | [**test_header_integer_boolean_string**](docs/HeaderApi.md#test_header_integer_boolean_string) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *PathApi* | [**tests_path_string_path_string_integer_path_integer**](docs/PathApi.md#tests_path_string_path_string_integer_path_integer) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**test_query_datetime_date_string**](docs/QueryApi.md#test_query_datetime_date_string) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**test_query_integer_boolean_string**](docs/QueryApi.md#test_query_integer_boolean_string) | **GET** /query/integer/boolean/string | Test query parameter(s)
+*QueryApi* | [**test_query_style_deep_object_explode_true_object**](docs/QueryApi.md#test_query_style_deep_object_explode_true_object) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
+*QueryApi* | [**test_query_style_deep_object_explode_true_object_all_of**](docs/QueryApi.md#test_query_style_deep_object_explode_true_object_all_of) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 *QueryApi* | [**test_query_style_form_explode_true_array_string**](docs/QueryApi.md#test_query_style_form_explode_true_array_string) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**test_query_style_form_explode_true_object**](docs/QueryApi.md#test_query_style_form_explode_true_object) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
+*QueryApi* | [**test_query_style_form_explode_true_object_all_of**](docs/QueryApi.md#test_query_style_form_explode_true_object_all_of) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 ## Documentation For Models
 
+ - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
+ - [DataQuery](docs/DataQuery.md)
+ - [DataQueryAllOf](docs/DataQueryAllOf.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
+ - [Query](docs/Query.md)
  - [Tag](docs/Tag.md)
+ - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 
@@ -105,14 +117,5 @@ Class | Method | HTTP request | Description
 ## Author
 
 team@openapitools.org
-
-
-
-
-
-
-
-
-
 
 

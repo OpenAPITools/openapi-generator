@@ -19,6 +19,8 @@ __version__ = "1.0.0"
 
 # import apis into sdk package
 from openapi_client.api.body_api import BodyApi
+from openapi_client.api.form_api import FormApi
+from openapi_client.api.header_api import HeaderApi
 from openapi_client.api.path_api import PathApi
 from openapi_client.api.query_api import QueryApi
 
@@ -32,7 +34,13 @@ from openapi_client.exceptions import ApiKeyError
 from openapi_client.exceptions import ApiAttributeError
 from openapi_client.exceptions import ApiException
 # import models into sdk package
+from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category
+from openapi_client.models.data_query import DataQuery
+from openapi_client.models.data_query_all_of import DataQueryAllOf
+from openapi_client.models.default_value import DefaultValue
 from openapi_client.models.pet import Pet
+from openapi_client.models.query import Query
 from openapi_client.models.tag import Tag
+from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter

@@ -31,7 +31,7 @@ configuration = openapi_client.Configuration(
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient() as api_client:
+with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.PathApi(api_client)
     path_string = 'path_string_example' # str | 

@@ -25,6 +25,7 @@ docs/ChildCatAllOf.md
 docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
+docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -56,6 +57,7 @@ docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
 docs/NullableClass.md
+docs/NullableGuidClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -137,6 +139,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs
@@ -165,6 +168,7 @@ src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
+src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs

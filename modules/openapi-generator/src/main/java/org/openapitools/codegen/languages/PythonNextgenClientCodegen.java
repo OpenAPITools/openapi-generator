@@ -465,16 +465,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
+                        fieldCustomization.add("lt=" + cp.getMaximum());
                     } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
+                        fieldCustomization.add("le=" + cp.getMaximum());
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
+                        fieldCustomization.add("gt=" + cp.getMinimum());
                     } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
+                        fieldCustomization.add("ge=" + cp.getMinimum());
                     }
                 }
                 if (cp.getMultipleOf() != null) {
@@ -989,7 +989,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 codegenProperties = model.vars;
             }
 
-            //loop through properties/schemas to setup typing, pydantic
+            //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
                 List<String> fields = new ArrayList<>();
@@ -1035,7 +1035,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     if (cp.defaultValue == null) {
                         fieldCustomization = "None";
                     } else {
-                        fieldCustomization = cp.defaultValue;
+                        if (cp.isArray || cp.isMap) {
+                            // TODO handle default value for array/map
+                            fieldCustomization = "None";
+                        } else {
+                            fieldCustomization = cp.defaultValue;
+                        }
                     }
                 } else { // required field
                     fieldCustomization = firstField;
