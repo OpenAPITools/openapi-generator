@@ -997,6 +997,26 @@ paths:
                 type: string
         description: request body
         required: true
+  /fake/date-time-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testDateTimeQueryParameter
+      parameters:
+        - name: date_time_query
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: str_query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
   /fake/body-with-query-params:
     put:
       tags:
