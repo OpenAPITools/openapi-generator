@@ -1,7 +1,6 @@
 .github/workflows/python.yml
 .gitignore
 .gitlab-ci.yml
-.openapi-generator-ignore
 .travis.yml
 README.md
 docs/BodyApi.md
@@ -31,11 +30,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_body_api.py
-test/test_category.py
-test/test_path_api.py
-test/test_pet.py
-test/test_query_api.py
-test/test_tag.py
-test/test_test_query_style_form_explode_true_array_string_query_object_parameter.py
 tox.ini
