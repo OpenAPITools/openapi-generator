@@ -30,7 +30,7 @@ jobs:
           (cd http-echo-server && npm install && npm start &)
       - name: Install 
         working-directory: ${{ matrix.sample }}
-        run: pip install -r dev-requirements.txt
+        run: pip install -r requirements.txt
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: pytest
