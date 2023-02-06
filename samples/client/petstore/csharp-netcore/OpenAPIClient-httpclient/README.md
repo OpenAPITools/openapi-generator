@@ -194,6 +194,7 @@ Class | Method | HTTP request | Description
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [Model.DanishPig](docs/DanishPig.md)
+ - [Model.DateOnlyClass](docs/DateOnlyClass.md)
  - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)

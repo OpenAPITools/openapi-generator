@@ -89,6 +89,8 @@ describe Petstore::ApiClient do
     end
   end
 
+
+
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = Petstore::ApiClient.new

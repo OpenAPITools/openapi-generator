@@ -3,6 +3,15 @@
     /// </summary>
     {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
+        {{#allVars}}
+        {{#isDate}}
+        /// <summary>
+        /// The format to use to serialize {{name}}
+        /// </summary>
+        public string {{name}}Format { get; set; } = "yyyy-MM-dd";
+
+        {{/isDate}}
+        {{/allVars}}
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -208,8 +217,15 @@
             {{/isNumeric}}
             {{/isEnum}}
             {{#isDate}}
-            writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, jsonSerializerOptions);
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString(this.{{name}}Format));
+            else
+                writer.WriteNull("{{baseName}}");
+            {{/isNullable}}
+            {{^isNullable}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString(this.{{name}}Format));
+            {{/isNullable}}
             {{/isDate}}
             {{#isDateTime}}
             writer.WritePropertyName("{{baseName}}");

@@ -159,6 +159,7 @@ module Petstore
       @ssl_client_cert = nil
       @ssl_client_key = nil
       @middlewares = Hash.new { |h, k| h[k] = [] }
+      @configure_connection_blocks = []
       @timeout = 60
       # return data as binary instead of file
       @return_binary_data = false
@@ -419,6 +420,32 @@ module Petstore
       end
 
       url
+    end
+
+    # Configure Faraday connection directly.
+    #
+    # ```
+    # c.configure_faraday_connection do |conn|
+    #   conn.use Faraday::HttpCache, shared_cache: false, logger: logger
+    #   conn.response :logger, nil, headers: true, bodies: true, log_level: :debug do |logger|
+    #     logger.filter(/(Authorization: )(.*)/, '\1[REDACTED]')
+    #   end
+    # end
+    #
+    # c.configure_faraday_connection do |conn|
+    #   conn.adapter :typhoeus
+    # end
+    # ```
+    #
+    # @param block [Proc] `#call`able object that takes one arg, the connection
+    def configure_faraday_connection(&block)
+      @configure_connection_blocks << block
+    end
+
+    def configure_connection(conn)
+      @configure_connection_blocks.each do |block|
+        block.call(conn)
+      end
     end
 
     # Adds middleware to the stack

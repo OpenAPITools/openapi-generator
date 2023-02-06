@@ -20,7 +20,6 @@
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
-[![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
 
 [7.0.x](https://github.com/OpenAPITools/openapi-generator/tree/7.0.x) (`7.0.x`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/7.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
@@ -130,6 +129,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
 For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
+
+For decomissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
 
 ## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
@@ -885,6 +886,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-10-26 - [Quarkus Insights #106: Quarkiverse Extension Spotlight: OpenApi Generator](https://www.youtube.com/watch?v=_s_if69t2iQ) by [Quarkusio](https://www.youtube.com/c/Quarkusio)
 - 2022-11-28 - [The REST API implementation flow](https://tmsvr.com/openapi-code-generation-for-rest-apis/) by [Imre Tömösvári](https://tmsvr.com/author/imre/)
 - 2022-12-13 - [API-First with Spring WebFlux and OpenAPI Generator](https://boottechnologies-ci.medium.com/api-first-with-spring-webflux-and-openapi-generator-38b7804c4ed4) by [Eric Anicet](https://boottechnologies-ci.medium.com/)
+- 2023-01-06 - [Major Improvements with Helidon and OpenAPI](https://medium.com/helidon/major-improvements-with-helidon-and-openapi-f76a0951508e) by [Tim Quinn](https://medium.com/@tquinno600)
+- 2023-02-02 - [Replacing Postman with the Jetbrains HTTP Client](https://lengrand.fr/replacing-postman-in-seconds-with-the-jetbrains-http-client/) by [julien Lengrand-Lambert](https://github.com/jlengrand)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -1134,7 +1137,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl                  | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                                                   |
 | PHP                   | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                                                                                      |
 | PowerShell            | @wing328 (2020/05)                                                                                                                                                                                                                                    |
-| Python                | @spacether (2019/11) [:heart:][spacether sponsorship]                                                                                                                                                                                                 |
+| Python                | @spacether (2019/11) [:heart:][spacether sponsorship] @krjakbrjak (2023/02)                                                                                                                                                                                                 |
 | R                     | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                                           |
 | Ruby                  | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                                                  |
 | Rust                  | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05) @jacob-pro (2022/10)                                                                                                                                                |
