@@ -369,7 +369,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            Schema items = ((ArraySchema) p).getItems();
+            Schema items = ModelUtils.getArrayItems(p);
             String inner = getSchemaType(items);
             if (ModelUtils.isSet(p)) {
                 return "Set.empty[" + inner + "]";

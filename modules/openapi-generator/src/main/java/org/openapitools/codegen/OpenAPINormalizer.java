@@ -301,8 +301,9 @@ public class OpenAPINormalizer {
             visitedSchemas.add(schema);
         }
 
-        if (schema instanceof ArraySchema) {
-            normalizeSchema(schema.getItems(), visitedSchemas);
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema itemsSchema = ModelUtils.getArrayItems(schema);
+            normalizeSchema(itemsSchema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {

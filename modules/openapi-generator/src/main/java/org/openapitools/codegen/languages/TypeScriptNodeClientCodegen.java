@@ -333,7 +333,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         Schema additionalProperties = getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
-            codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
+            codegenModel.additionalPropertiesType += '<' + getSchemaType(ModelUtils.getArrayItems(additionalProperties)) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }

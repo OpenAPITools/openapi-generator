@@ -248,7 +248,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
             Schema parameterSchema = ModelUtils.getReferencedSchema(openAPI, queryParameter.getSchema());
             // array
             if (ModelUtils.isArraySchema(parameterSchema)) {
-                Schema itemSchema = ((ArraySchema) parameterSchema).getItems();
+                Schema itemSchema = ModelUtils.getArrayItems(parameterSchema);
                 ArraySchema arraySchema = new ArraySchema();
                 arraySchema.setMinItems(parameterSchema.getMinItems());
                 arraySchema.setMaxItems(parameterSchema.getMaxItems());
@@ -390,7 +390,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
                 //Recursively process schema of array items
-                generateContainerSchemas(openAPI, ((ArraySchema) schema).getItems());
+                generateContainerSchemas(openAPI, ModelUtils.getArrayItems(schema));
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
                 //Recursively process schema of map items

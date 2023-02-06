@@ -451,8 +451,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
         if (ModelUtils.isMapSchema(p)) {

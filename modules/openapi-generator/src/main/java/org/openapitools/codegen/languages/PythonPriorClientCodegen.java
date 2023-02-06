@@ -894,8 +894,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
             Schema inner = getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
             if (inner == null) {
                 // In OAS 3.0.x, the array "items" attribute is required.
                 // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
@@ -1238,8 +1237,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
@@ -1388,8 +1386,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;

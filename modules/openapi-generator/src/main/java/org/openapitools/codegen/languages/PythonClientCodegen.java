@@ -1607,8 +1607,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                 // TODO add code here to add property values too if they exist
             }
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
             if (inner == null) {
                 // In OAS 3.0.x, the array "items" attribute is required.
                 // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
@@ -1965,8 +1964,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                 // complex composed array type schemas not yet handled and the code returns early
                 return fullPrefix + "[]" + closeChars;
             }
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             String itemModelName = getModelName(itemSchema);
             if(includedSchemas.contains(schema)) {
                 return "";
@@ -2129,8 +2127,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;

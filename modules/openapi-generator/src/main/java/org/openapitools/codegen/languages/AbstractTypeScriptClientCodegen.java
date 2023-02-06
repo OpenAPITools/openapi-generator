@@ -601,7 +601,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems((ArraySchema) p);
+            Schema<?> items = getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
@@ -1120,8 +1120,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
+                Schema inner = ModelUtils.getArrayItems(schema);
                 schemaType = schemaType + "<" + getSchemaType(inner) + ">";
             }
             return schemaType;

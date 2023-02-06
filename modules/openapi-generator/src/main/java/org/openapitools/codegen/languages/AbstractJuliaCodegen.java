@@ -317,8 +317,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema ap = (ArraySchema) schema;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(schema);
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isSet(schema)) {
             Schema inner = getAdditionalProperties(schema);

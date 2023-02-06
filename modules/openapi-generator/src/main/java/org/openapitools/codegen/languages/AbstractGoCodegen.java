@@ -345,8 +345,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
             // In OAS 3.0.x, the array "items" attribute is required.
             // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
             // specification is aligned with the JSON schema specification.

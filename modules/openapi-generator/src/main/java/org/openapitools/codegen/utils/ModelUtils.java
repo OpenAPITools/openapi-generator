@@ -349,8 +349,8 @@ public class ModelUtils {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
                 }
             }
-        } else if (schema instanceof ArraySchema) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+        } else if (isArraySchema(schema)) {
+            Schema itemsSchema = getArrayItems(schema);
             if (itemsSchema != null) {
                 visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
             }
@@ -568,13 +568,63 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the specified schema is a json schema.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Json schema.
+     */
+    public static boolean isJsonSchema(Schema schema) {
+        return (schema instanceof JsonSchema);
+    }
+
+    /**
+     * Return the type defined in a JsonSchema
+     * Since swagger-core 2.2.0, getTypes can be defined for OpenAPI 3.1.0
+     * https://github.com/swagger-api/swagger-core/blob/v2.2.4/modules/swagger-models/src/main/java/io/swagger/v3/oas/models/media/Schema.java#L453-L460
+     * https://github.com/swagger-api/swagger-parser/blob/v2.1.8/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/ResolverFully.java#L383-L390
+     * Return the first element of types if schema is a JsonFormat and it only contains one type like it is currently done in swagger-parser since 2.1.8:
+     * https://github.com/swagger-api/swagger-parser/blob/v2.1.8/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/ResolverFully.java#L469-L477
+     *
+     * @param schema the schema that we are checking
+     * @return String
+     */
+    public static String getJsonSchemaOneTypeOnly(Schema schema) {
+        if (isJsonSchema(schema) && schema.getTypes() != null && schema.getTypes().size() == 1) {
+            return (String)schema.getTypes().iterator().next();
+        }
+        return null;
+    }
+
+    /**
      * Return true if the specified schema is an array of items.
+     * It can be an instance of ArraySchema
+     *  or with OpenAPI3.1, it can be a JsonSchema with a type "array" 
      *
      * @param schema the OAS schema
      * @return true if the specified schema is an Array schema.
      */
     public static boolean isArraySchema(Schema schema) {
-        return (schema instanceof ArraySchema);
+        if (schema instanceof ArraySchema) {
+            return true;
+        }
+
+        return StringUtils.equals(getJsonSchemaOneTypeOnly(schema), "array");
+    }
+
+    /**
+     * Return items in the array schema
+     *
+     * @param schema the OAS schema
+     * @return Schema
+     */
+    public static Schema getArrayItems(Schema schema) {
+        Schema itemsSchema = null;
+        if (schema instanceof ArraySchema) {
+            itemsSchema = ((ArraySchema) schema).getItems();
+        } else if (isJsonSchema(schema)) {
+            itemsSchema = ((JsonSchema) schema).getItems();
+        }
+        return itemsSchema;
     }
 
     public static boolean isSet(Schema schema) {
@@ -1191,7 +1241,7 @@ public class ModelUtils {
                 }
             }
         } else if (isArraySchema(schema)) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            Schema itemsSchema = getArrayItems(schema);
             if (itemsSchema != null) {
                 return hasSelfReference(openAPI, itemsSchema, visitedSchemaNames);
             }

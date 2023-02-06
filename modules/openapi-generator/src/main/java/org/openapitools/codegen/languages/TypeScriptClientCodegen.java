@@ -882,7 +882,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String getTypeDeclaration(Schema p) {
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
+            inner = ModelUtils.getArrayItems(p);
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = getSchemaAdditionalProperties(p);
@@ -1183,8 +1183,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
@@ -1315,8 +1314,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getArrayItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;
@@ -1520,8 +1518,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
+                Schema inner = ModelUtils.getArrayItems(schema);
                 schemaType = schemaType + "<" + getSchemaType(inner) + ">";
             }
             return schemaType;

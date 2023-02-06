@@ -188,10 +188,9 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
             if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined", ap.getName());
+                LOGGER.warn("{}(array property) does not have a proper inner type defined", p.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -318,7 +317,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         if (ModelUtils.isArraySchema(p)) {
             example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                    ((ArraySchema) p).getItems()) + "}";
+                    ModelUtils.getArrayItems(p)) + "}";
         } else if (ModelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
         } else if (ModelUtils.isByteArraySchema(p)) {

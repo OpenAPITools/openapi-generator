@@ -407,7 +407,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String getTypeDeclaration(Schema schema) {
         /* comment out below as we'll do it in the template instead
         if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ((ArraySchema) schema).getItems();
+            Schema inner = ModelUtils.getArrayItems(schema);
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();

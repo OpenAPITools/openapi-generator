@@ -165,9 +165,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ModelUtils.getArrayItems(p);
 
             return "(s/coll-of " + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(p)) {

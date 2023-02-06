@@ -124,8 +124,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getArrayItems(p);
 
             // IMPORTANT NOTE we add the braces within template because there we have the possibility to differentiate
             // between some specific types for GraphQL:

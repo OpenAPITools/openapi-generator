@@ -19,7 +19,6 @@ package org.openapitools.codegen.examples;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -79,10 +78,9 @@ public class ExampleGenerator {
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
-            ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null) { // array of primitive types
+            if (ModelUtils.getArrayItems(responseSchema) != null) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<>(producesInfo), as);
+                        new ArrayList<>(producesInfo), responseSchema);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -229,9 +227,9 @@ public class ExampleGenerator {
             }
             return Boolean.TRUE;
         } else if (ModelUtils.isArraySchema(property)) {
-            Schema innerType = ((ArraySchema) property).getItems();
+            Schema innerType = ModelUtils.getArrayItems(property);
             if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                int arrayLength = null == property.getMaxItems() ? 2 : property.getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
