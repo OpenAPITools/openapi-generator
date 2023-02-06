@@ -1929,7 +1929,7 @@ public class DefaultCodegen implements CodegenConfig {
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            String inner = getSchemaType(getSchemaItems(schema));
+            String inner = getSchemaType(ModelUtils.getArrayItems(schema));
             String parentType;
             if (ModelUtils.isSet(schema)) {
                 parentType = "set";
@@ -2234,20 +2234,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         return getSingleSchemaType(schema);
 
-    }
-
-    protected Schema<?> getSchemaItems(Schema schema) {
-        if (!ModelUtils.isArraySchema(schema)) {
-            LOGGER.error("Schema `{}` is not an array.", schema.getName());
-            return null;
-        }
-        Schema<?> items = schema.getItems();
-        if (items == null) {
-            LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
-            items = new StringSchema().description("TODO default missing array inner type to string");
-            schema.setItems(items);
-        }
-        return items;
     }
 
     protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
@@ -3927,7 +3913,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // handle inner property
             String itemName = getItemsName(p, name);
-            Schema innerSchema = unaliasSchema(getSchemaItems(p));
+            Schema innerSchema = unaliasSchema(ModelUtils.getArrayItems(p));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
@@ -4187,7 +4173,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cm = fromProperty("response", responseSchema, false);
 
             if (ModelUtils.isArraySchema(responseSchema)) {
-                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(responseSchema), false);
+                CodegenProperty innerProperty = fromProperty("response", ModelUtils.getArrayItems(responseSchema), false);
                 op.returnBaseType = innerProperty.baseType;
             } else if (ModelUtils.isMapSchema(responseSchema)) {
                 CodegenProperty innerProperty = fromProperty("response", getAdditionalProperties(responseSchema), false);
@@ -4681,7 +4667,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = false;
             r.isArray = true;
             r.containerType = cp.containerType;
-            CodegenProperty items = fromProperty("response", getSchemaItems(responseSchema), false);
+            CodegenProperty items = fromProperty("response", ModelUtils.getArrayItems(responseSchema), false);
             r.setItems(items);
             CodegenProperty innerCp = items;
 
@@ -5054,7 +5040,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
         } else if (ModelUtils.isArraySchema(parameterSchema)) {
-            Schema inner = getSchemaItems(parameterSchema);
+            Schema inner = ModelUtils.getArrayItems(parameterSchema);
 
             collectionFormat = getCollectionFormat(parameter);
             // default to csv:
@@ -6822,7 +6808,7 @@ public class DefaultCodegen implements CodegenConfig {
             // any schema with no type set, composed schemas often do this
             ;
         } else if (ModelUtils.isArraySchema(ps)) {
-            Schema inner = getSchemaItems(ps);
+            Schema inner = ModelUtils.getArrayItems(ps);
             CodegenProperty arrayInnerProperty = fromProperty("inner", inner, false);
             codegenParameter.items = arrayInnerProperty;
             codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
@@ -7091,7 +7077,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
-            Schema inner = getSchemaItems(schema);
+            Schema inner = ModelUtils.getArrayItems(schema);
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
             if (codegenProperty == null) {
                throw new RuntimeException("CodegenProperty cannot be null. schema for debugging: " + schema);

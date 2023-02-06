@@ -601,7 +601,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems(p);
+            Schema<?> items = ModelUtils.getArrayItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);

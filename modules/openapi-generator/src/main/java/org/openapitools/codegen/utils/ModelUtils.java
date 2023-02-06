@@ -617,14 +617,17 @@ public class ModelUtils {
      * @param schema the OAS schema
      * @return Schema
      */
-    public static Schema getArrayItems(Schema schema) {
-        Schema itemsSchema = null;
-        if (schema instanceof ArraySchema) {
-            itemsSchema = ((ArraySchema) schema).getItems();
-        } else if (isJsonSchema(schema)) {
-            itemsSchema = ((JsonSchema) schema).getItems();
+    public static Schema<?> getArrayItems(Schema schema) {
+        if (!ModelUtils.isArraySchema(schema)) {
+            LOGGER.error("Schema `{}` is not an array.", schema.getName());
         }
-        return itemsSchema;
+        Schema<?> items = schema.getItems();
+        if (items == null) {
+            LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
+            items = new StringSchema().description("TODO default missing array inner type to string");
+            schema.setItems(items);
+        }
+        return items;
     }
 
     public static boolean isSet(Schema schema) {
