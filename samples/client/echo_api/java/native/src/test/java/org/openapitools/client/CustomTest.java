@@ -31,6 +31,7 @@ public class CustomTest {
 
     private final QueryApi api = new QueryApi();
     private final BodyApi bodyApi = new BodyApi();
+    private final FormApi formApi = new FormApi();
 
 
     /**
@@ -244,5 +245,25 @@ public class CustomTest {
             Assert.assertEquals(e.getMessage(), "Cannot construct instance of `org.openapitools.client.model.DefaultValue$ArrayStringEnumDefaultEnum`, problem: Unexpected value 'invalid'\n" +
                     " at [Source: (String)\"{ \"array_string_enum_default\": [\"invalid\"] }\"; line: 1, column: 33] (through reference chain: org.openapitools.client.model.DefaultValue[\"array_string_enum_default\"]->java.util.ArrayList[0])");
         }
+    }
+
+
+    /**
+     * Test form parameter(s)
+     *
+     * Test form parameter(s)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testFormIntegerBooleanStringTest() throws ApiException {
+        Integer integerForm = 1337;
+        Boolean booleanForm = true;
+        String stringForm = "Hello World";
+        String response = formApi.testFormIntegerBooleanString(integerForm, booleanForm, stringForm);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/form/integer/boolean/string", p.path);
+        Assert.assertEquals("3b\ninteger_form=1337&boolean_form=true&string_form=Hello+World\n0\n\n", p.body);
     }
 }

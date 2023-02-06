@@ -1809,6 +1809,38 @@ public class SpringCodegenTest {
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
 
+
+    @Test
+    public void useBeanValidationGenerateAnnotationsForRequestBody_issue13932() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13932.yml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("AddApi.java"))
+                .printFileContent()
+                .assertMethod("addPost")
+                .hasParameter("body")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
+    }
+    
     @Test
     public void shouldHandleSeparatelyInterfaceAndModelAdditionalAnnotations() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

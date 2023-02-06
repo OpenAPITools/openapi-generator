@@ -56,6 +56,20 @@ public class CustomTest {
     }
 
     /**
+     * Test body parameter(s)
+     * <p>
+     * Test body parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testEchoBodyPetResponseString() throws ApiException {
+        // response is empty body
+        String p2 = bodyApi.testEchoBodyPetResponseString(null);
+        Assert.assertNull(p2);
+    }
+
+    /**
      * Test query parameter(s)
      * <p>
      * Test query parameter(s)
