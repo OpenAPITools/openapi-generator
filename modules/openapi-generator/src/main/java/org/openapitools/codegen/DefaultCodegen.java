@@ -2346,12 +2346,17 @@ public class DefaultCodegen implements CodegenConfig {
      * @return type
      */
     private String getPrimitiveType(Schema schema) {
+        String type = schema.getType();
+        if (type == null) {
+            type = ModelUtils.getJsonSchemaOneTypeOnly(schema);
+        }
+
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
-        } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
+        } else if (typeMapping.containsKey(type + "+" + schema.getFormat())) {
             // allows custom type_format mapping.
             // use {type}+{format}
-            return typeMapping.get(schema.getType() + "+" + schema.getFormat());
+            return typeMapping.get(type + "+" + schema.getFormat());
         } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -2386,7 +2391,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isLongSchema(schema)) {
                 return "long";
             } else {
-                return schema.getType(); // integer
+                return type; // integer
             }
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
@@ -2419,11 +2424,11 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
-        } else if (StringUtils.isNotEmpty(schema.getType())) {
-            if (!schemaMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", schema.getType());
+        } else if (StringUtils.isNotEmpty(type)) {
+            if (!schemaMapping.containsKey(type)) {
+                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", type);
             }
-            return schema.getType();
+            return type;
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
         // can be an arbitrary type, e.g. integer, string, object, array, number...

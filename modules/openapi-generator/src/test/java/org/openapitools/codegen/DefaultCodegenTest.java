@@ -4413,4 +4413,21 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.queryParams.get(0).baseType, "String");
         Assert.assertTrue(co.queryParams.get(0).items.isString);
     }
+
+    @Test
+    public void testOpenAPI310JsonSchemaInteger() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/parameter-integer.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String path = "/elements";
+
+        final Operation operation = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation co = codegen.fromOperation(path, "get", operation, null);
+
+        Assert.assertTrue(co.queryParams.get(0).isInteger);
+        Assert.assertTrue(co.queryParams.get(0).isUnboundedInteger);
+        Assert.assertEquals(co.queryParams.get(0).dataType, "Integer");
+        Assert.assertEquals(co.queryParams.get(0).baseType, null);
+    }
 }
