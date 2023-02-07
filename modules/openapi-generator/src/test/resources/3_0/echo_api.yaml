@@ -365,10 +365,23 @@ components:
             - sold
       xml:
         name: pet
+    StringEnumRef:
+      type: string
+      enum:
+      - success
+      - failure
+      - unclassified
     DefaultValue:
       type: object
       description: to test the default value of properties
       properties:
+        array_string_enum_ref_default:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringEnumRef'
+          default:
+            - success
+            - failure
         array_string_enum_default:
           type: array
           items:
