@@ -377,9 +377,22 @@ components:
       type: object
       xml:
         name: pet
+    StringEnumRef:
+      enum:
+      - success
+      - failure
+      - unclassified
+      type: string
     DefaultValue:
       description: to test the default value of properties
       properties:
+        array_string_enum_ref_default:
+          default:
+          - success
+          - failure
+          items:
+            $ref: '#/components/schemas/StringEnumRef'
+          type: array
         array_string_enum_default:
           default:
           - success

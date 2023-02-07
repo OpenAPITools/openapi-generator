@@ -8,6 +8,7 @@ to test the default value of properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
+|**arrayStringEnumRefDefault** | **List&lt;StringEnumRef&gt;** |  |  [optional] |
 |**arrayStringEnumDefault** | [**List&lt;ArrayStringEnumDefaultEnum&gt;**](#List&lt;ArrayStringEnumDefaultEnum&gt;) |  |  [optional] |
 |**arrayStringDefault** | **List&lt;String&gt;** |  |  [optional] |
 |**arrayIntegerDefault** | **List&lt;Integer&gt;** |  |  [optional] |
