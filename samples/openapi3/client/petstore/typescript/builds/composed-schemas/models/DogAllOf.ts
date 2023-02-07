@@ -42,9 +42,9 @@ export class DogAllOf {
 
 
 export enum DogAllOfBreedEnum {
-    Dingo = <any> 'Dingo',
-    Husky = <any> 'Husky',
-    Retriever = <any> 'Retriever',
-    Shepherd = <any> 'Shepherd'
+    Dingo = 'Dingo',
+    Husky = 'Husky',
+    Retriever = 'Retriever',
+    Shepherd = 'Shepherd'
 }
 

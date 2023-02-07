@@ -74,7 +74,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 export enum {{classname}}{{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
-    {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
 }
@@ -87,7 +87,7 @@ export enum {{classname}}{{enumName}} {
 export enum {{classname}} {
     {{#allowableValues}}
     {{#enumVars}}
-    {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
 }

@@ -42,7 +42,7 @@ export class PetByType {
 
 
 export enum PetByTypePetTypeEnum {
-    Cat = <any> 'Cat',
-    Dog = <any> 'Dog'
+    Cat = 'Cat',
+    Dog = 'Dog'
 }
 

@@ -58,7 +58,7 @@ export class PetsFilteredPatchRequest {
 
 
 export enum PetsFilteredPatchRequestPetTypeEnum {
-    Cat = <any> 'Cat',
-    Dog = <any> 'Dog'
+    Cat = 'Cat',
+    Dog = 'Dog'
 }
 
