@@ -1004,7 +1004,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                 String defaultValue = "";
 
-                if (cp.items.isEnum) { // enum
+                if (cp.items.getIsEnumOrRef()) { // inline or ref enum
                     List<String> defaultValues = new ArrayList<>();
                     for (String _value : _values) {
                         defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));

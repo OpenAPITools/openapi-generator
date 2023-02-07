@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
@@ -30,6 +31,10 @@ import org.openapitools.jackson.nullable.JsonNullable;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
+  public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
+  @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
+  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+
   /**
    * Gets or Sets arrayStringEnumDefault
    */
@@ -105,6 +110,36 @@ public class DefaultValue {
 
   public DefaultValue() {
   }
+
+  public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+    
+    this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
+    return this;
+  }
+
+  public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
+    if (this.arrayStringEnumRefDefault == null) {
+      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+    }
+    this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
+    return this;
+  }
+
+   /**
+   * Get arrayStringEnumRefDefault
+   * @return arrayStringEnumRefDefault
+  **/
+  @javax.annotation.Nullable
+
+  public List<StringEnumRef> getArrayStringEnumRefDefault() {
+    return arrayStringEnumRefDefault;
+  }
+
+
+  public void setArrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+    this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
+  }
+
 
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     
@@ -287,7 +322,8 @@ public class DefaultValue {
       return false;
     }
     DefaultValue defaultValue = (DefaultValue) o;
-    return Objects.equals(this.arrayStringEnumDefault, defaultValue.arrayStringEnumDefault) &&
+    return Objects.equals(this.arrayStringEnumRefDefault, defaultValue.arrayStringEnumRefDefault) &&
+        Objects.equals(this.arrayStringEnumDefault, defaultValue.arrayStringEnumDefault) &&
         Objects.equals(this.arrayStringDefault, defaultValue.arrayStringDefault) &&
         Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
@@ -301,7 +337,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, arrayStringNullable, stringNullable);
+    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, arrayStringNullable, stringNullable);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -315,6 +351,7 @@ public class DefaultValue {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DefaultValue {\n");
+    sb.append("    arrayStringEnumRefDefault: ").append(toIndentedString(arrayStringEnumRefDefault)).append("\n");
     sb.append("    arrayStringEnumDefault: ").append(toIndentedString(arrayStringEnumDefault)).append("\n");
     sb.append("    arrayStringDefault: ").append(toIndentedString(arrayStringDefault)).append("\n");
     sb.append("    arrayIntegerDefault: ").append(toIndentedString(arrayIntegerDefault)).append("\n");

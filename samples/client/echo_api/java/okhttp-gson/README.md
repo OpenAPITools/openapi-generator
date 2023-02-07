@@ -135,6 +135,7 @@ Class | Method | HTTP request | Description
  - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
  - [Query](docs/Query.md)
+ - [StringEnumRef](docs/StringEnumRef.md)
  - [Tag](docs/Tag.md)
  - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
