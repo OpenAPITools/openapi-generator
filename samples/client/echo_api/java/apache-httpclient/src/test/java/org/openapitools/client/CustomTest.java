@@ -158,6 +158,10 @@ public class CustomTest {
     public void testArrayDefaultValues() {
         // test array default values
         DefaultValue d = new DefaultValue();
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(0), StringEnumRef.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(1), StringEnumRef.FAILURE);
+
         Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
@@ -197,6 +201,10 @@ public class CustomTest {
         DefaultValue d = apiClient.getObjectMapper().readValue(str, new TypeReference<DefaultValue>() {
         });
 
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(0), StringEnumRef.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(1), StringEnumRef.FAILURE);
+
         Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
@@ -212,17 +220,20 @@ public class CustomTest {
         Assert.assertNull(d.getArrayStringNullable());
         Assert.assertEquals(d.getArrayString().size(), 0);
 
-        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
     }
 
     @Test
     public void testDefaultValuesSerializationWithJSONString() throws IOException {
         ApiClient apiClient = new ApiClient();
 
-        String str = "{ \"array_string_enum_default\": [\"unclassified\"], \"array_string_default\": [\"failure\"] }";
+        String str = "{ \"array_string_enum_ref_default\": [\"unclassified\"], \"array_string_enum_default\": [\"unclassified\"], \"array_string_default\": [\"failure\"] }";
 
         DefaultValue d = apiClient.getObjectMapper().readValue(str, new TypeReference<DefaultValue>() {
         });
+
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().size(), 1);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(0), StringEnumRef.UNCLASSIFIED);
 
         Assert.assertEquals(d.getArrayStringEnumDefault().size(), 1);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
@@ -237,7 +248,7 @@ public class CustomTest {
         Assert.assertNull(d.getArrayStringNullable());
         Assert.assertEquals(d.getArrayString().size(), 0);
 
-        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[],\"array_string_nullable\":{\"present\":false},\"string_nullable\":{\"present\":false}}");
     }
 
     @Test

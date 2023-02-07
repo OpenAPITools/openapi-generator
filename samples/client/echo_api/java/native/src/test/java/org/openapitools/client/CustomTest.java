@@ -150,6 +150,10 @@ public class CustomTest {
     public void testArrayDefaultValues() {
         // test array default values
         DefaultValue d = new DefaultValue();
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().size(), 2);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(0), StringEnumRef.SUCCESS);
+        Assert.assertEquals(d.getArrayStringEnumRefDefault().get(1), StringEnumRef.FAILURE);
+
         Assert.assertEquals(d.getArrayStringEnumDefault().size(), 2);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(0), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS);
         Assert.assertEquals(d.getArrayStringEnumDefault().get(1), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE);
