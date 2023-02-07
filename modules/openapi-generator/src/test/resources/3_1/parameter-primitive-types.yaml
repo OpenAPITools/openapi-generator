@@ -1,0 +1,92 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  description: Specification with integer parameters
+  title: Specification with integer parameters
+paths:
+  /elements:
+    get:
+      parameters:
+      - in: query
+        name: boolean
+        schema:
+          type: boolean
+      - in: query
+        name: integer
+        schema:
+          type: integer
+      - in: query
+        name: integerint32
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: integerint64
+        schema:
+          type: integer
+          format: int64
+      - in: query
+        name: number
+        schema:
+          type: number
+      - in: query
+        name: numberfloat
+        schema:
+          type: number
+          format: float
+      - in: query
+        name: numberdouble
+        schema:
+          type: number
+          format: double
+      - in: query
+        name: string
+        schema:
+          type: string
+      - in: query
+        name: stringdate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: stringdate-time
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: stringpassword
+        schema:
+          type: string
+          format: password
+      - in: query
+        name: stringbyte
+        schema:
+          type: string
+          format: byte
+      - in: query
+        name: stringbinary
+        schema:
+          type: string
+          format: binary
+      - in: query
+        name: stringuuid
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: stringuri
+        schema:
+          type: string
+          format: uri
+      - in: query
+        name: stringnumber
+        schema:
+          type: string
+          format: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean

@@ -4414,9 +4414,18 @@ public class DefaultCodegenTest {
         Assert.assertTrue(co.queryParams.get(0).items.isString);
     }
 
+    public CodegenParameter getQueryParamsByName(List<CodegenParameter> queryParams, String baseName) {
+        for (CodegenParameter param : queryParams) {
+            if (param.baseName.equals(baseName)) {
+                return param;
+            }
+        }
+        return null;
+    }
+
     @Test
-    public void testOpenAPI310JsonSchemaInteger() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/parameter-integer.yaml");
+    public void testOpenAPI310JsonSchemaPrimitivesTypes() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/parameter-primitive-types.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -4424,10 +4433,115 @@ public class DefaultCodegenTest {
 
         final Operation operation = openAPI.getPaths().get(path).getGet();
         final CodegenOperation co = codegen.fromOperation(path, "get", operation, null);
+        String name = "";
 
-        Assert.assertTrue(co.queryParams.get(0).isInteger);
-        Assert.assertTrue(co.queryParams.get(0).isUnboundedInteger);
-        Assert.assertEquals(co.queryParams.get(0).dataType, "Integer");
-        Assert.assertEquals(co.queryParams.get(0).baseType, null);
+        name = "boolean";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isBoolean);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Boolean");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "integer";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isInteger);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isUnboundedInteger);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Integer");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "integerint32";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isInteger);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isShort);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Integer");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "int32");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "integerint64";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isInteger);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isLong);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Long");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "int64");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "number";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isNumber);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "BigDecimal");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "numberfloat";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isNumber);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isFloat);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Float");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "float");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "numberdouble";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isNumber);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isDouble);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Double");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "double");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "string";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "String");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringdate";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isDate);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "date");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "date");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringdate-time";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isDateTime);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "Date");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "date-time");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringpassword";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "String");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "password");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringbyte";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isByteArray);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "byte[]");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "byte");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringbinary";
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isFile);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isBinary);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "File");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "binary");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringuuid";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isUuid);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "UUID");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "uuid");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringuri";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isString);
+        // Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isUri);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "URI");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "uri");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringnumber";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isDecimal);
+        Assert.assertFalse(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "BigDecimal");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "number");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
     }
 }
