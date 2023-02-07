@@ -83,6 +83,11 @@ paths:
         schema:
           type: string
           format: number
+      - in: query
+        name: stringenum
+        schema:
+          type: string
+          enum: [enum1, enum2, enum3]
       responses:
         '200':
           description: OK

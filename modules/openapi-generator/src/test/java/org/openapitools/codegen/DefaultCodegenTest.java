@@ -4543,5 +4543,15 @@ public class DefaultCodegenTest {
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "BigDecimal");
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, "number");
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+
+        name = "stringenum";
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isEnum);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name).isString);
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name)._enum.contains("enum1"));
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name)._enum.contains("enum2"));
+        Assert.assertTrue(getQueryParamsByName(co.queryParams, name)._enum.contains("enum3"));
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "String");
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
+        Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
     }
 }
