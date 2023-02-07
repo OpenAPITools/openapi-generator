@@ -2413,6 +2413,8 @@ public class DefaultCodegen implements CodegenConfig {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
             // it must be a map of string to values.
             return "object";
+        } else if (ModelUtils.isJsonSchema(schema) && ModelUtils.getJsonSchemaOneTypeOnly(schema) != null) {
+            return ModelUtils.getJsonSchemaOneTypeOnly(schema);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
@@ -7804,7 +7806,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
-        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null && schema.getTypes() == null &&
                 (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
                 schema.getAdditionalProperties() == null && schema.getNot() == null &&
                 schema.getEnum() == null) {

@@ -420,7 +420,7 @@ public class ModelUtils {
         if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
             return true;
         }
-        return false;
+        return SchemaTypeUtil.OBJECT_TYPE.equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     /**
@@ -452,6 +452,10 @@ public class ModelUtils {
 
         // must not be a map
         if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
+            return true;
+        }
+
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(getJsonSchemaOneTypeOnly(schema))) {
             return true;
         }
 
@@ -608,7 +612,7 @@ public class ModelUtils {
             return true;
         }
 
-        return StringUtils.equals(getJsonSchemaOneTypeOnly(schema), "array");
+        return "array".equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     /**
@@ -638,7 +642,7 @@ public class ModelUtils {
         if (schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(schema.getType())) {
             return true;
         }
-        return false;
+        return SchemaTypeUtil.STRING_TYPE.equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     public static boolean isIntegerSchema(Schema schema) {
@@ -648,11 +652,11 @@ public class ModelUtils {
         if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
             return true;
         }
-        return false;
+        return SchemaTypeUtil.INTEGER_TYPE.equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     public static boolean isShortSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+        if (isIntegerSchema(schema) // type: integer
                 && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
             return true;
         }
@@ -660,7 +664,7 @@ public class ModelUtils {
     }
 
     public static boolean isLongSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+        if (isIntegerSchema(schema) // type: integer
                 && SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) { // format: long (int64)
             return true;
         }
@@ -674,7 +678,7 @@ public class ModelUtils {
         if (SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType())) {
             return true;
         }
-        return false;
+        return SchemaTypeUtil.BOOLEAN_TYPE.equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     public static boolean isNumberSchema(Schema schema) {
@@ -684,11 +688,11 @@ public class ModelUtils {
         if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())) {
             return true;
         }
-        return false;
+        return SchemaTypeUtil.NUMBER_TYPE.equals(getJsonSchemaOneTypeOnly(schema));
     }
 
     public static boolean isFloatSchema(Schema schema) {
-        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+        if (isNumberSchema(schema)
                 && SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) { // format: float
             return true;
         }
@@ -696,7 +700,7 @@ public class ModelUtils {
     }
 
     public static boolean isDoubleSchema(Schema schema) {
-        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+        if (isNumberSchema(schema)
                 && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) { // format: double
             return true;
         }
@@ -708,7 +712,7 @@ public class ModelUtils {
             return true;
         }
 
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat())) { // format: date
             return true;
         }
@@ -719,7 +723,7 @@ public class ModelUtils {
         if (schema instanceof DateTimeSchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat())) { // format: date-time
             return true;
         }
@@ -730,7 +734,7 @@ public class ModelUtils {
         if (schema instanceof PasswordSchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat())) { // double
             return true;
         }
@@ -741,7 +745,7 @@ public class ModelUtils {
         if (schema instanceof ByteArraySchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat())) { // format: byte
             return true;
         }
@@ -752,7 +756,7 @@ public class ModelUtils {
         if (schema instanceof BinarySchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat())) { // format: binary
             return true;
         }
@@ -771,7 +775,7 @@ public class ModelUtils {
         if (schema instanceof UUIDSchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat())) { // format: uuid
             return true;
         }
@@ -779,7 +783,7 @@ public class ModelUtils {
     }
 
     public static boolean isURISchema(Schema schema) {
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && URI_FORMAT.equals(schema.getFormat())) { // format: uri
             return true;
         }
@@ -790,7 +794,7 @@ public class ModelUtils {
         if (schema instanceof EmailSchema) {
             return true;
         }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+        if (isStringSchema(schema)
                 && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat())) { // format: email
             return true;
         }
@@ -798,7 +802,7 @@ public class ModelUtils {
     }
 
     public static boolean isDecimalSchema(Schema schema) {
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+        if (isStringSchema(schema) // type: string
                 && "number".equals(schema.getFormat())) { // format: number
             return true;
         }
@@ -910,7 +914,7 @@ public class ModelUtils {
         }
 
         // has at least one property
-        if ("object".equals(schema.getType())) {
+        if ("object".equals(schema.getType()) || "object".equals(getJsonSchemaOneTypeOnly(schema))) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(openAPI, schema);
@@ -936,7 +940,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.getTypes() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }
@@ -1726,7 +1730,7 @@ public class ModelUtils {
      * @return true if the schema is the 'null' type
      */
     public static boolean isNullType(Schema schema) {
-        if ("null".equals(schema.getType())) {
+        if ("null".equals(schema.getType()) || "null".equals(getJsonSchemaOneTypeOnly(schema))) {
             return true;
         }
         return false;
@@ -1745,7 +1749,7 @@ public class ModelUtils {
         // TODO remove the ref check here, or pass in the spec version
         // openapi 3.1.0 specs allow ref to be adjacent to any keyword
         // openapi 3.0.3 and earlier do not allow adjacent keywords to refs
-        return (schema.get$ref() == null && schema.getType() == null);
+        return (schema.get$ref() == null && schema.getType() == null && schema.getTypes() == null);
     }
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
