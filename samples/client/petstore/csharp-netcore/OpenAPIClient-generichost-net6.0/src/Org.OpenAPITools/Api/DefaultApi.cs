@@ -48,6 +48,30 @@ namespace Org.OpenAPITools.IApi
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;FooGetDefaultResponse&gt;</returns>
         Task<FooGetDefaultResponse> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> GetCountryWithHttpInfoAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
+        Task<object> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -250,6 +274,160 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFooGet(e, "/foo", uriBuilder.Path);
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
+        public async Task<object> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            ApiResponse<object> result = await GetCountryWithHttpInfoAsync(country, cancellationToken).ConfigureAwait(false);
+
+            if (result.Content == null)
+                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+
+            return result.Content;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
+        public async Task<object> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            ApiResponse<object> result = null;
+            try 
+            {
+                result = await GetCountryWithHttpInfoAsync(country, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+            }
+
+            return result != null && result.IsSuccessStatusCode
+                ? result.Content
+                : null;
+        }
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="country"></param>
+        /// <returns></returns>
+        protected virtual string OnGetCountry(string country)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (country == null)
+                throw new ArgumentNullException(nameof(country));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return country;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="country"></param>
+        protected virtual void AfterGetCountry(ApiResponse<object> apiResponse, string country)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="country"></param>
+        protected virtual void OnErrorGetCountry(Exception exception, string pathFormat, string path, string country)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> GetCountryWithHttpInfoAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            UriBuilder uriBuilder = new UriBuilder();
+
+            try
+            {
+                country = OnGetCountry(country);
+
+                using (HttpRequestMessage request = new HttpRequestMessage())
+                {
+                    uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/country";
+
+                    MultipartContent multipartContent = new MultipartContent();
+
+                    request.Content = multipartContent;
+
+                    List<KeyValuePair<string, string>> formParams = new List<KeyValuePair<string, string>>();
+
+                    multipartContent.Add(new FormUrlEncodedContent(formParams));
+
+                    formParams.Add(new KeyValuePair<string, string>("country", ClientUtils.ParameterToString(country)));
+
+
+
+                    request.RequestUri = uriBuilder.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/x-www-form-urlencoded" 
+                    };
+
+                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentType != null)
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        
+                    request.Method = HttpMethod.Post;
+
+                    DateTime requestedAt = DateTime.UtcNow;
+
+                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    {
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/country", uriBuilder.Path));
+
+                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
+
+                        if (apiResponse.IsSuccessStatusCode)
+                        {
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetCountry(apiResponse, country);
+                        }
+
+                        return apiResponse;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorGetCountry(e, "/country", uriBuilder.Path, country);
                 throw;
             }
         }

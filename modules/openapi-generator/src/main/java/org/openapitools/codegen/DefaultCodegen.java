@@ -6722,6 +6722,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                } else if (!codegenParameter.required) {
+                    // Set 'required' flag for properties declared inside the allOf
+                    codegenParameter.required = allRequired.stream().anyMatch(r -> r.equals(codegenParameter.paramName));
                 }
 
                 parameters.add(codegenParameter);
