@@ -35,7 +35,7 @@ interface StoreApi {
     @Operation(
         summary = "Delete purchase order by ID",
         operationId = "deleteOrder",
-        description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+        description = """For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors""",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             ApiResponse(responseCode = "404", description = "Order not found")
@@ -52,7 +52,7 @@ interface StoreApi {
     @Operation(
         summary = "Returns pet inventories by status",
         operationId = "getInventory",
-        description = "Returns a map of status codes to quantities",
+        description = """Returns a map of status codes to quantities""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.collections.Map::class))])
         ],
@@ -70,7 +70,7 @@ interface StoreApi {
     @Operation(
         summary = "Find purchase order by ID",
         operationId = "getOrderById",
-        description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
+        description = """For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Order::class))]),
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -89,7 +89,7 @@ interface StoreApi {
     @Operation(
         summary = "Place an order for a pet",
         operationId = "placeOrder",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Order::class))]),
             ApiResponse(responseCode = "400", description = "Invalid Order")
