@@ -45,7 +45,7 @@ func NewAdditionalPropertiesClassWithDefaults() *AdditionalPropertiesClass {
 
 // GetMapProperty returns the MapProperty field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
-	if o == nil || isNil(o.MapProperty) {
+	if o == nil || IsNil(o.MapProperty) {
 		var ret map[string]string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 // GetMapPropertyOk returns a tuple with the MapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool) {
-	if o == nil || isNil(o.MapProperty) {
+	if o == nil || IsNil(o.MapProperty) {
 		return nil, false
 	}
 	return o.MapProperty, true
@@ -63,7 +63,7 @@ func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool
 
 // HasMapProperty returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapProperty() bool {
-	if o != nil && !isNil(o.MapProperty) {
+	if o != nil && !IsNil(o.MapProperty) {
 		return true
 	}
 
@@ -77,7 +77,7 @@ func (o *AdditionalPropertiesClass) SetMapProperty(v map[string]string) {
 
 // GetMapOfMapProperty returns the MapOfMapProperty field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string {
-	if o == nil || isNil(o.MapOfMapProperty) {
+	if o == nil || IsNil(o.MapOfMapProperty) {
 		var ret map[string]map[string]string
 		return ret
 	}
@@ -87,7 +87,7 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]
 // GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool) {
-	if o == nil || isNil(o.MapOfMapProperty) {
+	if o == nil || IsNil(o.MapOfMapProperty) {
 		return nil, false
 	}
 	return o.MapOfMapProperty, true
@@ -95,7 +95,7 @@ func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[str
 
 // HasMapOfMapProperty returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapOfMapProperty() bool {
-	if o != nil && !isNil(o.MapOfMapProperty) {
+	if o != nil && !IsNil(o.MapOfMapProperty) {
 		return true
 	}
 
@@ -117,10 +117,10 @@ func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 
 func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.MapProperty) {
+	if !IsNil(o.MapProperty) {
 		toSerialize["map_property"] = o.MapProperty
 	}
-	if !isNil(o.MapOfMapProperty) {
+	if !IsNil(o.MapOfMapProperty) {
 		toSerialize["map_of_map_property"] = o.MapOfMapProperty
 	}
 
