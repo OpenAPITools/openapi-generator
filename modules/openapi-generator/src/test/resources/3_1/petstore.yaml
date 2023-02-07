@@ -49,9 +49,6 @@ paths:
       summary: Update an existing pet
       description: ''
       operationId: updatePet
-      externalDocs:
-        url: "http://petstore.swagger.io/v2/doc/updatePet"
-        description: "API documentation for the updatePet operation"
       responses:
         '200':
           description: successful operation
@@ -127,7 +124,7 @@ paths:
         tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
-        - name: tagssss
+        - name: tags
           in: query
           description: Tags to filter by
           required: true
