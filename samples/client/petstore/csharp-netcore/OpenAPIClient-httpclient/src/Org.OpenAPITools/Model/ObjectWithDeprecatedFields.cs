@@ -36,16 +36,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFields" /> class.
         /// </summary>
-        /// <param name="uuid">uuid.</param>
-        /// <param name="id">id.</param>
-        /// <param name="deprecatedRef">deprecatedRef.</param>
-        /// <param name="bars">bars.</param>
-        public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        /// <param name="Uuid">Uuid.</param>
+        /// <param name="Id">Id.</param>
+        /// <param name="DeprecatedRef">DeprecatedRef.</param>
+        /// <param name="Bars">Bars.</param>
+        public ObjectWithDeprecatedFields( string Uuid = default(string), decimal Id = default(decimal), DeprecatedObject DeprecatedRef = default(DeprecatedObject), List<string> Bars = default(List<string>))
         {
-            this.Uuid = uuid;
-            this.Id = id;
-            this.DeprecatedRef = deprecatedRef;
-            this.Bars = bars;
+            this.Uuid = Uuid;
+            this.Id = Id;
+            this.DeprecatedRef = DeprecatedRef;
+            this.Bars = Bars;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

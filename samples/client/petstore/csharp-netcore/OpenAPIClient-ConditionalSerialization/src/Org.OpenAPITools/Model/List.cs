@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list.</param>
-        public List(string _123list = default(string))
+        /// <param name="_123List">_123List.</param>
+        public List( string _123List = default(string))
         {
-            this.__123List = _123list;
+            this.__123List = _123List;
             if (this._123List != null)
             {
                 this._flag_123List = true;

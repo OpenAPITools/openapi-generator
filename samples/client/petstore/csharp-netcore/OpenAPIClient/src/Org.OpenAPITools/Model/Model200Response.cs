@@ -35,12 +35,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="name">name.</param>
-        /// <param name="_class">_class.</param>
-        public Model200Response(int name = default(int), string _class = default(string))
+        /// <param name="Name">Name.</param>
+        /// <param name="Class">Class.</param>
+        public Model200Response( int Name = default(int), string Class = default(string))
         {
-            this.Name = name;
-            this.Class = _class;
+            this.Name = Name;
+            this.Class = Class;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

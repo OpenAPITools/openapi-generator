@@ -41,17 +41,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleReq" /> class.
         /// </summary>
-        /// <param name="cultivar">cultivar (required).</param>
-        /// <param name="mealy">mealy.</param>
-        public AppleReq(string cultivar = default(string), bool mealy = default(bool))
+        /// <param name="Cultivar">Cultivar (required).</param>
+        /// <param name="Mealy">Mealy.</param>
+        public AppleReq( string Cultivar = default(string), bool Mealy = default(bool))
         {
-            // to ensure "cultivar" is required (not null)
-            if (cultivar == null)
+            // to ensure "Cultivar" is required (not null)
+            if (Cultivar == null)
             {
-                throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+                throw new ArgumentNullException("Cultivar is a required property for AppleReq and cannot be null");
             }
-            this.Cultivar = cultivar;
-            this.Mealy = mealy;
+            this.Cultivar = Cultivar;
+            this.Mealy = Mealy;
         }
 
         /// <summary>

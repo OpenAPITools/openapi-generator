@@ -35,76 +35,76 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
         /// </summary>
-        /// <param name="integerProp">integerProp.</param>
-        /// <param name="numberProp">numberProp.</param>
-        /// <param name="booleanProp">booleanProp.</param>
-        /// <param name="stringProp">stringProp.</param>
-        /// <param name="dateProp">dateProp.</param>
-        /// <param name="datetimeProp">datetimeProp.</param>
-        /// <param name="arrayNullableProp">arrayNullableProp.</param>
-        /// <param name="arrayAndItemsNullableProp">arrayAndItemsNullableProp.</param>
-        /// <param name="arrayItemsNullable">arrayItemsNullable.</param>
-        /// <param name="objectNullableProp">objectNullableProp.</param>
-        /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
-        /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
+        /// <param name="IntegerProp">IntegerProp.</param>
+        /// <param name="NumberProp">NumberProp.</param>
+        /// <param name="BooleanProp">BooleanProp.</param>
+        /// <param name="StringProp">StringProp.</param>
+        /// <param name="DateProp">DateProp.</param>
+        /// <param name="DatetimeProp">DatetimeProp.</param>
+        /// <param name="ArrayNullableProp">ArrayNullableProp.</param>
+        /// <param name="ArrayAndItemsNullableProp">ArrayAndItemsNullableProp.</param>
+        /// <param name="ArrayItemsNullable">ArrayItemsNullable.</param>
+        /// <param name="ObjectNullableProp">ObjectNullableProp.</param>
+        /// <param name="ObjectAndItemsNullableProp">ObjectAndItemsNullableProp.</param>
+        /// <param name="ObjectItemsNullable">ObjectItemsNullable.</param>
+        public NullableClass( int? IntegerProp = default(int?), decimal? NumberProp = default(decimal?), bool? BooleanProp = default(bool?), string StringProp = default(string), DateTime? DateProp = default(DateTime?), DateTime? DatetimeProp = default(DateTime?), List<Object> ArrayNullableProp = default(List<Object>), List<Object> ArrayAndItemsNullableProp = default(List<Object>), List<Object> ArrayItemsNullable = default(List<Object>), Dictionary<string, Object> ObjectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> ObjectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> ObjectItemsNullable = default(Dictionary<string, Object>)) : base()
         {
-            this._IntegerProp = integerProp;
+            this._IntegerProp = IntegerProp;
             if (this.IntegerProp != null)
             {
                 this._flagIntegerProp = true;
             }
-            this._NumberProp = numberProp;
+            this._NumberProp = NumberProp;
             if (this.NumberProp != null)
             {
                 this._flagNumberProp = true;
             }
-            this._BooleanProp = booleanProp;
+            this._BooleanProp = BooleanProp;
             if (this.BooleanProp != null)
             {
                 this._flagBooleanProp = true;
             }
-            this._StringProp = stringProp;
+            this._StringProp = StringProp;
             if (this.StringProp != null)
             {
                 this._flagStringProp = true;
             }
-            this._DateProp = dateProp;
+            this._DateProp = DateProp;
             if (this.DateProp != null)
             {
                 this._flagDateProp = true;
             }
-            this._DatetimeProp = datetimeProp;
+            this._DatetimeProp = DatetimeProp;
             if (this.DatetimeProp != null)
             {
                 this._flagDatetimeProp = true;
             }
-            this._ArrayNullableProp = arrayNullableProp;
+            this._ArrayNullableProp = ArrayNullableProp;
             if (this.ArrayNullableProp != null)
             {
                 this._flagArrayNullableProp = true;
             }
-            this._ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            this._ArrayAndItemsNullableProp = ArrayAndItemsNullableProp;
             if (this.ArrayAndItemsNullableProp != null)
             {
                 this._flagArrayAndItemsNullableProp = true;
             }
-            this._ArrayItemsNullable = arrayItemsNullable;
+            this._ArrayItemsNullable = ArrayItemsNullable;
             if (this.ArrayItemsNullable != null)
             {
                 this._flagArrayItemsNullable = true;
             }
-            this._ObjectNullableProp = objectNullableProp;
+            this._ObjectNullableProp = ObjectNullableProp;
             if (this.ObjectNullableProp != null)
             {
                 this._flagObjectNullableProp = true;
             }
-            this._ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            this._ObjectAndItemsNullableProp = ObjectAndItemsNullableProp;
             if (this.ObjectAndItemsNullableProp != null)
             {
                 this._flagObjectAndItemsNullableProp = true;
             }
-            this._ObjectItemsNullable = objectItemsNullable;
+            this._ObjectItemsNullable = ObjectItemsNullable;
             if (this.ObjectItemsNullable != null)
             {
                 this._flagObjectItemsNullable = true;

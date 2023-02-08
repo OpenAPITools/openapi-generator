@@ -75,17 +75,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="type">type.</param>
-        /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        /// <param name="Type">Type.</param>
+        /// <param name="ClassName">ClassName (required).</param>
+        public Zebra( TypeEnum? Type = default(TypeEnum?), string ClassName = default(string)) : base()
         {
-            // to ensure "className" is required (not null)
-            if (className == null)
+            // to ensure "ClassName" is required (not null)
+            if (ClassName == null)
             {
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+                throw new ArgumentNullException("ClassName is a required property for Zebra and cannot be null");
             }
-            this.ClassName = className;
-            this.Type = type;
+            this.ClassName = ClassName;
+            this.Type = Type;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

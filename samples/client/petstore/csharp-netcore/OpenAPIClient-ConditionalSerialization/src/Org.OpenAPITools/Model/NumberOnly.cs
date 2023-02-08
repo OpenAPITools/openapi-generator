@@ -38,10 +38,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
-        /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal justNumber = default(decimal))
+        /// <param name="JustNumber">JustNumber.</param>
+        public NumberOnly( decimal JustNumber = default(decimal))
         {
-            this._JustNumber = justNumber;
+            this._JustNumber = JustNumber;
             if (this.JustNumber != null)
             {
                 this._flagJustNumber = true;

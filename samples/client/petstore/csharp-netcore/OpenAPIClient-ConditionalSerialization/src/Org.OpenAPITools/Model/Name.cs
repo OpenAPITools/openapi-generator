@@ -43,12 +43,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="name">name (required).</param>
-        /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        /// <param name="Name">Name (required).</param>
+        /// <param name="Property">Property.</param>
+        public Name( int Name = default(int), string Property = default(string))
         {
-            this.__Name = name;
-            this._Property = property;
+            this.__Name = _Name;
+            this._Property = Property;
             if (this.Property != null)
             {
                 this._flagProperty = true;

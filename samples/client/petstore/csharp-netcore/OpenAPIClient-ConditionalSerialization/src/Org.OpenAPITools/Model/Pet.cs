@@ -97,42 +97,42 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="category">category.</param>
-        /// <param name="name">name (required).</param>
-        /// <param name="photoUrls">photoUrls (required).</param>
-        /// <param name="tags">tags.</param>
-        /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        /// <param name="Id">Id.</param>
+        /// <param name="Category">Category.</param>
+        /// <param name="Name">Name (required).</param>
+        /// <param name="PhotoUrls">PhotoUrls (required).</param>
+        /// <param name="Tags">Tags.</param>
+        /// <param name="Status">pet status in the store.</param>
+        public Pet( long Id = default(long), Category Category = default(Category), string Name = default(string), List<string> PhotoUrls = default(List<string>), List<Tag> Tags = default(List<Tag>), StatusEnum? Status = default(StatusEnum?))
         {
-            // to ensure "name" is required (not null)
-            if (name == null)
+            // to ensure "Name" is required (not null)
+            if (Name == null)
             {
-                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("Name is a required property for Pet and cannot be null");
             }
-            this._Name = name;
-            // to ensure "photoUrls" is required (not null)
-            if (photoUrls == null)
+            this._Name = Name;
+            // to ensure "PhotoUrls" is required (not null)
+            if (PhotoUrls == null)
             {
-                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("PhotoUrls is a required property for Pet and cannot be null");
             }
-            this._PhotoUrls = photoUrls;
-            this._Id = id;
+            this._PhotoUrls = PhotoUrls;
+            this._Id = Id;
             if (this.Id != null)
             {
                 this._flagId = true;
             }
-            this._Category = category;
+            this._Category = Category;
             if (this.Category != null)
             {
                 this._flagCategory = true;
             }
-            this._Tags = tags;
+            this._Tags = Tags;
             if (this.Tags != null)
             {
                 this._flagTags = true;
             }
-            this._Status = status;
+            this._Status = Status;
             if (this.Status != null)
             {
                 this._flagStatus = true;

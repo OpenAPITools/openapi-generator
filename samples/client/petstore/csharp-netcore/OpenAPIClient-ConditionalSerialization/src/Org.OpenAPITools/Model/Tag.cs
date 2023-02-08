@@ -35,16 +35,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        public Tag(long id = default(long), string name = default(string))
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+        public Tag( long Id = default(long), string Name = default(string))
         {
-            this._Id = id;
+            this._Id = Id;
             if (this.Id != null)
             {
                 this._flagId = true;
             }
-            this._Name = name;
+            this._Name = Name;
             if (this.Name != null)
             {
                 this._flagName = true;

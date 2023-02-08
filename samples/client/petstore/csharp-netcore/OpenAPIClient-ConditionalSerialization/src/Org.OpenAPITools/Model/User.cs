@@ -35,76 +35,76 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="username">username.</param>
-        /// <param name="firstName">firstName.</param>
-        /// <param name="lastName">lastName.</param>
-        /// <param name="email">email.</param>
-        /// <param name="password">password.</param>
-        /// <param name="phone">phone.</param>
-        /// <param name="userStatus">User Status.</param>
-        /// <param name="objectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value..</param>
-        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
-        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
-        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        /// <param name="Id">Id.</param>
+        /// <param name="Username">Username.</param>
+        /// <param name="FirstName">FirstName.</param>
+        /// <param name="LastName">LastName.</param>
+        /// <param name="Email">Email.</param>
+        /// <param name="Password">Password.</param>
+        /// <param name="Phone">Phone.</param>
+        /// <param name="UserStatus">User Status.</param>
+        /// <param name="ObjectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value..</param>
+        /// <param name="ObjectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
+        /// <param name="AnyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
+        /// <param name="AnyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
+        public User( long Id = default(long), string Username = default(string), string FirstName = default(string), string LastName = default(string), string Email = default(string), string Password = default(string), string Phone = default(string), int UserStatus = default(int), Object ObjectWithNoDeclaredProps = default(Object), Object ObjectWithNoDeclaredPropsNullable = default(Object), Object AnyTypeProp = default(Object), Object AnyTypePropNullable = default(Object))
         {
-            this._Id = id;
+            this._Id = Id;
             if (this.Id != null)
             {
                 this._flagId = true;
             }
-            this._Username = username;
+            this._Username = Username;
             if (this.Username != null)
             {
                 this._flagUsername = true;
             }
-            this._FirstName = firstName;
+            this._FirstName = FirstName;
             if (this.FirstName != null)
             {
                 this._flagFirstName = true;
             }
-            this._LastName = lastName;
+            this._LastName = LastName;
             if (this.LastName != null)
             {
                 this._flagLastName = true;
             }
-            this._Email = email;
+            this._Email = Email;
             if (this.Email != null)
             {
                 this._flagEmail = true;
             }
-            this._Password = password;
+            this._Password = Password;
             if (this.Password != null)
             {
                 this._flagPassword = true;
             }
-            this._Phone = phone;
+            this._Phone = Phone;
             if (this.Phone != null)
             {
                 this._flagPhone = true;
             }
-            this._UserStatus = userStatus;
+            this._UserStatus = UserStatus;
             if (this.UserStatus != null)
             {
                 this._flagUserStatus = true;
             }
-            this._ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            this._ObjectWithNoDeclaredProps = ObjectWithNoDeclaredProps;
             if (this.ObjectWithNoDeclaredProps != null)
             {
                 this._flagObjectWithNoDeclaredProps = true;
             }
-            this._ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            this._ObjectWithNoDeclaredPropsNullable = ObjectWithNoDeclaredPropsNullable;
             if (this.ObjectWithNoDeclaredPropsNullable != null)
             {
                 this._flagObjectWithNoDeclaredPropsNullable = true;
             }
-            this._AnyTypeProp = anyTypeProp;
+            this._AnyTypeProp = AnyTypeProp;
             if (this.AnyTypeProp != null)
             {
                 this._flagAnyTypeProp = true;
             }
-            this._AnyTypePropNullable = anyTypePropNullable;
+            this._AnyTypePropNullable = AnyTypePropNullable;
             if (this.AnyTypePropNullable != null)
             {
                 this._flagAnyTypePropNullable = true;

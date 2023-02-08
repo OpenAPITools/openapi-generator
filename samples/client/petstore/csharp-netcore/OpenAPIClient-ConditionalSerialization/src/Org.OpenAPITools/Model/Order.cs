@@ -89,35 +89,35 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="petId">petId.</param>
-        /// <param name="quantity">quantity.</param>
-        /// <param name="shipDate">shipDate.</param>
-        /// <param name="status">Order Status.</param>
-        /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        /// <param name="Id">Id.</param>
+        /// <param name="PetId">PetId.</param>
+        /// <param name="Quantity">Quantity.</param>
+        /// <param name="ShipDate">ShipDate.</param>
+        /// <param name="Status">Order Status.</param>
+        /// <param name="Complete">Complete (default to false).</param>
+        public Order( long Id = default(long), long PetId = default(long), int Quantity = default(int), DateTime ShipDate = default(DateTime), StatusEnum? Status = default(StatusEnum?), bool Complete = false)
         {
-            this._Id = id;
+            this._Id = Id;
             if (this.Id != null)
             {
                 this._flagId = true;
             }
-            this._PetId = petId;
+            this._PetId = PetId;
             if (this.PetId != null)
             {
                 this._flagPetId = true;
             }
-            this._Quantity = quantity;
+            this._Quantity = Quantity;
             if (this.Quantity != null)
             {
                 this._flagQuantity = true;
             }
-            this._ShipDate = shipDate;
+            this._ShipDate = ShipDate;
             if (this.ShipDate != null)
             {
                 this._flagShipDate = true;
             }
-            this._Status = status;
+            this._Status = Status;
             if (this.Status != null)
             {
                 this._flagStatus = true;

@@ -47,15 +47,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
-        /// <param name="petType">petType (required).</param>
-        public GrandparentAnimal(string petType = default(string))
+        /// <param name="PetType">PetType (required).</param>
+        public GrandparentAnimal( string PetType = default(string))
         {
-            // to ensure "petType" is required (not null)
-            if (petType == null)
+            // to ensure "PetType" is required (not null)
+            if (PetType == null)
             {
-                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+                throw new ArgumentNullException("PetType is a required property for GrandparentAnimal and cannot be null");
             }
-            this._PetType = petType;
+            this._PetType = PetType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

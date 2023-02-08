@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        public HasOnlyReadOnly()
+        public HasOnlyReadOnly( )
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }

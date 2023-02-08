@@ -43,22 +43,22 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="triangleType">triangleType (required).</param>
-        public EquilateralTriangle(string shapeType = default(string), string triangleType = default(string))
+        /// <param name="ShapeType">ShapeType (required).</param>
+        /// <param name="TriangleType">TriangleType (required).</param>
+        public EquilateralTriangle( string ShapeType = default(string), string TriangleType = default(string))
         {
-            // to ensure "shapeType" is required (not null)
-            if (shapeType == null)
+            // to ensure "ShapeType" is required (not null)
+            if (ShapeType == null)
             {
-                throw new ArgumentNullException("shapeType is a required property for EquilateralTriangle and cannot be null");
+                throw new ArgumentNullException("ShapeType is a required property for EquilateralTriangle and cannot be null");
             }
-            this._ShapeType = shapeType;
-            // to ensure "triangleType" is required (not null)
-            if (triangleType == null)
+            this._ShapeType = ShapeType;
+            // to ensure "TriangleType" is required (not null)
+            if (TriangleType == null)
             {
-                throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
+                throw new ArgumentNullException("TriangleType is a required property for EquilateralTriangle and cannot be null");
             }
-            this._TriangleType = triangleType;
+            this._TriangleType = TriangleType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

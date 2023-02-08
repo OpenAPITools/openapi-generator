@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
         /// </summary>
-        /// <param name="arrayNumber">arrayNumber.</param>
-        public ArrayOfNumberOnly(List<decimal> arrayNumber = default(List<decimal>))
+        /// <param name="ArrayNumber">ArrayNumber.</param>
+        public ArrayOfNumberOnly( List<decimal> ArrayNumber = default(List<decimal>))
         {
-            this._ArrayNumber = arrayNumber;
+            this._ArrayNumber = ArrayNumber;
             if (this.ArrayNumber != null)
             {
                 this._flagArrayNumber = true;

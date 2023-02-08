@@ -35,22 +35,22 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>
-        /// <param name="code">code.</param>
-        /// <param name="type">type.</param>
-        /// <param name="message">message.</param>
-        public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
+        /// <param name="Code">Code.</param>
+        /// <param name="Type">Type.</param>
+        /// <param name="Message">Message.</param>
+        public ApiResponse( int Code = default(int), string Type = default(string), string Message = default(string))
         {
-            this._Code = code;
+            this._Code = Code;
             if (this.Code != null)
             {
                 this._flagCode = true;
             }
-            this._Type = type;
+            this._Type = Type;
             if (this.Type != null)
             {
                 this._flagType = true;
             }
-            this._Message = message;
+            this._Message = Message;
             if (this.Message != null)
             {
                 this._flagMessage = true;

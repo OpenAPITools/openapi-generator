@@ -35,24 +35,24 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
         /// </summary>
-        /// <param name="mapProperty">mapProperty.</param>
-        /// <param name="mapOfMapProperty">mapOfMapProperty.</param>
-        /// <param name="anytype1">anytype1.</param>
-        /// <param name="mapWithUndeclaredPropertiesAnytype1">mapWithUndeclaredPropertiesAnytype1.</param>
-        /// <param name="mapWithUndeclaredPropertiesAnytype2">mapWithUndeclaredPropertiesAnytype2.</param>
-        /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
-        /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
-        /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        /// <param name="MapProperty">MapProperty.</param>
+        /// <param name="MapOfMapProperty">MapOfMapProperty.</param>
+        /// <param name="Anytype1">Anytype1.</param>
+        /// <param name="MapWithUndeclaredPropertiesAnytype1">MapWithUndeclaredPropertiesAnytype1.</param>
+        /// <param name="MapWithUndeclaredPropertiesAnytype2">MapWithUndeclaredPropertiesAnytype2.</param>
+        /// <param name="MapWithUndeclaredPropertiesAnytype3">MapWithUndeclaredPropertiesAnytype3.</param>
+        /// <param name="EmptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
+        /// <param name="MapWithUndeclaredPropertiesString">MapWithUndeclaredPropertiesString.</param>
+        public AdditionalPropertiesClass( Dictionary<string, string> MapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> MapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object Anytype1 = default(Object), Object MapWithUndeclaredPropertiesAnytype1 = default(Object), Object MapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object EmptyMap = default(Object), Dictionary<string, string> MapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
-            this.MapProperty = mapProperty;
-            this.MapOfMapProperty = mapOfMapProperty;
-            this.Anytype1 = anytype1;
-            this.MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
-            this.MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
-            this.MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
-            this.EmptyMap = emptyMap;
-            this.MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+            this.MapProperty = MapProperty;
+            this.MapOfMapProperty = MapOfMapProperty;
+            this.Anytype1 = Anytype1;
+            this.MapWithUndeclaredPropertiesAnytype1 = MapWithUndeclaredPropertiesAnytype1;
+            this.MapWithUndeclaredPropertiesAnytype2 = MapWithUndeclaredPropertiesAnytype2;
+            this.MapWithUndeclaredPropertiesAnytype3 = MapWithUndeclaredPropertiesAnytype3;
+            this.EmptyMap = EmptyMap;
+            this.MapWithUndeclaredPropertiesString = MapWithUndeclaredPropertiesString;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

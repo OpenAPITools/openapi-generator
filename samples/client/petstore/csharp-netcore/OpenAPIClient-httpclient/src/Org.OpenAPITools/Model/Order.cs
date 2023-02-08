@@ -70,20 +70,20 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="petId">petId.</param>
-        /// <param name="quantity">quantity.</param>
-        /// <param name="shipDate">shipDate.</param>
-        /// <param name="status">Order Status.</param>
-        /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        /// <param name="Id">Id.</param>
+        /// <param name="PetId">PetId.</param>
+        /// <param name="Quantity">Quantity.</param>
+        /// <param name="ShipDate">ShipDate.</param>
+        /// <param name="Status">Order Status.</param>
+        /// <param name="Complete">Complete (default to false).</param>
+        public Order( long Id = default(long), long PetId = default(long), int Quantity = default(int), DateTime ShipDate = default(DateTime), StatusEnum? Status = default(StatusEnum?), bool Complete = false)
         {
-            this.Id = id;
-            this.PetId = petId;
-            this.Quantity = quantity;
-            this.ShipDate = shipDate;
-            this.Status = status;
-            this.Complete = complete;
+            this.Id = Id;
+            this.PetId = PetId;
+            this.Quantity = Quantity;
+            this.ShipDate = ShipDate;
+            this.Status = Status;
+            this.Complete = Complete;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

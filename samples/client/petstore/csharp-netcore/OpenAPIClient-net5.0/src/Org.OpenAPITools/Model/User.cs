@@ -35,32 +35,32 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="username">username.</param>
-        /// <param name="firstName">firstName.</param>
-        /// <param name="lastName">lastName.</param>
-        /// <param name="email">email.</param>
-        /// <param name="password">password.</param>
-        /// <param name="phone">phone.</param>
-        /// <param name="userStatus">User Status.</param>
-        /// <param name="objectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value..</param>
-        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
-        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
-        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        /// <param name="Id">Id.</param>
+        /// <param name="Username">Username.</param>
+        /// <param name="FirstName">FirstName.</param>
+        /// <param name="LastName">LastName.</param>
+        /// <param name="Email">Email.</param>
+        /// <param name="Password">Password.</param>
+        /// <param name="Phone">Phone.</param>
+        /// <param name="UserStatus">User Status.</param>
+        /// <param name="ObjectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value..</param>
+        /// <param name="ObjectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
+        /// <param name="AnyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
+        /// <param name="AnyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
+        public User( long Id = default(long), string Username = default(string), string FirstName = default(string), string LastName = default(string), string Email = default(string), string Password = default(string), string Phone = default(string), int UserStatus = default(int), Object ObjectWithNoDeclaredProps = default(Object), Object ObjectWithNoDeclaredPropsNullable = default(Object), Object AnyTypeProp = default(Object), Object AnyTypePropNullable = default(Object))
         {
-            this.Id = id;
-            this.Username = username;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.Password = password;
-            this.Phone = phone;
-            this.UserStatus = userStatus;
-            this.ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            this.ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            this.AnyTypeProp = anyTypeProp;
-            this.AnyTypePropNullable = anyTypePropNullable;
+            this.Id = Id;
+            this.Username = Username;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Password = Password;
+            this.Phone = Phone;
+            this.UserStatus = UserStatus;
+            this.ObjectWithNoDeclaredProps = ObjectWithNoDeclaredProps;
+            this.ObjectWithNoDeclaredPropsNullable = ObjectWithNoDeclaredPropsNullable;
+            this.AnyTypeProp = AnyTypeProp;
+            this.AnyTypePropNullable = AnyTypePropNullable;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -46,21 +46,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipartMixedRequest" /> class.
         /// </summary>
-        /// <param name="status">status (required).</param>
-        /// <param name="marker">marker.</param>
-        /// <param name="file">a file (required).</param>
-        /// <param name="statusArray">statusArray.</param>
-        public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>))
+        /// <param name="Status">Status (required).</param>
+        /// <param name="Marker">Marker.</param>
+        /// <param name="File">a file (required).</param>
+        /// <param name="StatusArray">StatusArray.</param>
+        public MultipartMixedRequest( MultipartMixedStatus Status = default(MultipartMixedStatus), MultipartMixedRequestMarker Marker = default(MultipartMixedRequestMarker), System.IO.Stream File = default(System.IO.Stream), List<MultipartMixedStatus> StatusArray = default(List<MultipartMixedStatus>))
         {
-            this.Status = status;
-            // to ensure "file" is required (not null)
-            if (file == null)
+            this.Status = Status;
+            // to ensure "File" is required (not null)
+            if (File == null)
             {
-                throw new ArgumentNullException("file is a required property for MultipartMixedRequest and cannot be null");
+                throw new ArgumentNullException("File is a required property for MultipartMixedRequest and cannot be null");
             }
-            this.File = file;
-            this.Marker = marker;
-            this.StatusArray = statusArray;
+            this.File = File;
+            this.Marker = Marker;
+            this.StatusArray = StatusArray;
         }
 
         /// <summary>

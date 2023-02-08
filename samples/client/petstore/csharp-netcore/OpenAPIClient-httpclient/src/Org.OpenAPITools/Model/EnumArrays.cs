@@ -82,12 +82,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
-        /// <param name="justSymbol">justSymbol.</param>
-        /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+        /// <param name="JustSymbol">JustSymbol.</param>
+        /// <param name="ArrayEnum">ArrayEnum.</param>
+        public EnumArrays( JustSymbolEnum? JustSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> ArrayEnum = default(List<ArrayEnumEnum>))
         {
-            this.JustSymbol = justSymbol;
-            this.ArrayEnum = arrayEnum;
+            this.JustSymbol = JustSymbol;
+            this.ArrayEnum = ArrayEnum;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

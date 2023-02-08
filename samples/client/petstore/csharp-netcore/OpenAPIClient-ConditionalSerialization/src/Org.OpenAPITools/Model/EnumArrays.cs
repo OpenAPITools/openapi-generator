@@ -101,16 +101,16 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
-        /// <param name="justSymbol">justSymbol.</param>
-        /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+        /// <param name="JustSymbol">JustSymbol.</param>
+        /// <param name="ArrayEnum">ArrayEnum.</param>
+        public EnumArrays( JustSymbolEnum? JustSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> ArrayEnum = default(List<ArrayEnumEnum>))
         {
-            this._JustSymbol = justSymbol;
+            this._JustSymbol = JustSymbol;
             if (this.JustSymbol != null)
             {
                 this._flagJustSymbol = true;
             }
-            this._ArrayEnum = arrayEnum;
+            this._ArrayEnum = ArrayEnum;
             if (this.ArrayEnum != null)
             {
                 this._flagArrayEnum = true;

@@ -40,12 +40,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="BananaReq" /> class.
         /// </summary>
-        /// <param name="lengthCm">lengthCm (required).</param>
-        /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        /// <param name="LengthCm">LengthCm (required).</param>
+        /// <param name="Sweet">Sweet.</param>
+        public BananaReq( decimal LengthCm = default(decimal), bool Sweet = default(bool))
         {
-            this._LengthCm = lengthCm;
-            this._Sweet = sweet;
+            this._LengthCm = LengthCm;
+            this._Sweet = Sweet;
             if (this.Sweet != null)
             {
                 this._flagSweet = true;

@@ -35,28 +35,28 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFields" /> class.
         /// </summary>
-        /// <param name="uuid">uuid.</param>
-        /// <param name="id">id.</param>
-        /// <param name="deprecatedRef">deprecatedRef.</param>
-        /// <param name="bars">bars.</param>
-        public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        /// <param name="Uuid">Uuid.</param>
+        /// <param name="Id">Id.</param>
+        /// <param name="DeprecatedRef">DeprecatedRef.</param>
+        /// <param name="Bars">Bars.</param>
+        public ObjectWithDeprecatedFields( string Uuid = default(string), decimal Id = default(decimal), DeprecatedObject DeprecatedRef = default(DeprecatedObject), List<string> Bars = default(List<string>))
         {
-            this._Uuid = uuid;
+            this._Uuid = Uuid;
             if (this.Uuid != null)
             {
                 this._flagUuid = true;
             }
-            this._Id = id;
+            this._Id = Id;
             if (this.Id != null)
             {
                 this._flagId = true;
             }
-            this._DeprecatedRef = deprecatedRef;
+            this._DeprecatedRef = DeprecatedRef;
             if (this.DeprecatedRef != null)
             {
                 this._flagDeprecatedRef = true;
             }
-            this._Bars = bars;
+            this._Bars = Bars;
             if (this.Bars != null)
             {
                 this._flagBars = true;

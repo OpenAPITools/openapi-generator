@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="_string">_string.</param>
-        public FooGetDefaultResponse(Foo _string = default(Foo))
+        /// <param name="String">String.</param>
+        public FooGetDefaultResponse( Foo String = default(Foo))
         {
-            this.String = _string;
+            this.String = String;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

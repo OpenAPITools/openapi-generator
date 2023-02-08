@@ -44,19 +44,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
-        /// <param name="hasBaleen">hasBaleen.</param>
-        /// <param name="hasTeeth">hasTeeth.</param>
-        /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
+        /// <param name="HasBaleen">HasBaleen.</param>
+        /// <param name="HasTeeth">HasTeeth.</param>
+        /// <param name="ClassName">ClassName (required).</param>
+        public Whale( bool HasBaleen = default(bool), bool HasTeeth = default(bool), string ClassName = default(string))
         {
-            // to ensure "className" is required (not null)
-            if (className == null)
+            // to ensure "ClassName" is required (not null)
+            if (ClassName == null)
             {
-                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+                throw new ArgumentNullException("ClassName is a required property for Whale and cannot be null");
             }
-            this.ClassName = className;
-            this.HasBaleen = hasBaleen;
-            this.HasTeeth = hasTeeth;
+            this.ClassName = ClassName;
+            this.HasBaleen = HasBaleen;
+            this.HasTeeth = HasTeeth;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

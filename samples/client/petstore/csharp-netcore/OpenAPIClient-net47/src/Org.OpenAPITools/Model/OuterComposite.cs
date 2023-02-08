@@ -35,14 +35,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
-        /// <param name="myNumber">myNumber.</param>
-        /// <param name="myString">myString.</param>
-        /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
+        /// <param name="MyNumber">MyNumber.</param>
+        /// <param name="MyString">MyString.</param>
+        /// <param name="MyBoolean">MyBoolean.</param>
+        public OuterComposite( decimal MyNumber = default(decimal), string MyString = default(string), bool MyBoolean = default(bool))
         {
-            this.MyNumber = myNumber;
-            this.MyString = myString;
-            this.MyBoolean = myBoolean;
+            this.MyNumber = MyNumber;
+            this.MyString = MyString;
+            this.MyBoolean = MyBoolean;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
