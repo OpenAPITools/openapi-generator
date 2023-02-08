@@ -1085,21 +1085,21 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAllOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
 
         return String.join(" & ", types);

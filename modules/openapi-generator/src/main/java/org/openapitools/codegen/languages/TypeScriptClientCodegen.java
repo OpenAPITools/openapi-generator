@@ -1221,7 +1221,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             return example;
         } else if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema cm = (ComposedSchema) schema;
+            Schema cm = schema;
             List<Schema> ls = cm.getOneOf();
             if (ls != null && !ls.isEmpty()) {
                 return fullPrefix + toExampleValue(ls.get(0)) + closeChars;
@@ -1483,21 +1483,21 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAllOfName(List<String> names, Schema<?> composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
 
         return String.join(" & ", types);

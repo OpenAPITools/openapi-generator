@@ -307,10 +307,10 @@ public class OpenAPINormalizer {
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema cs = (ComposedSchema) schema;
+            Schema<?> cs = schema;
 
             if (ModelUtils.isComplexComposedSchema(cs)) {
-                cs = (ComposedSchema) normalizeComplexComposedSchema(cs, visitedSchemas);
+                cs = normalizeComplexComposedSchema(cs, visitedSchemas);
             }
 
             if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {

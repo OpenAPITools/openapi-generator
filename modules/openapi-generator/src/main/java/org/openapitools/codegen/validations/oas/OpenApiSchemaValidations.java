@@ -69,8 +69,8 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         Schema schema = schemaWrapper.getSchema();
         ValidationRule.Result result = ValidationRule.Pass.empty();
 
-        if (schema instanceof ComposedSchema) {
-            final ComposedSchema composed = (ComposedSchema) schema;
+        if (ModelUtils.isComposedSchema(schema)) {
+            final Schema<?> composed = schema;
             // check for loosely defined oneOf extension requirements.
             // This is a recommendation because the 3.0.x spec is not clear enough on usage of oneOf.
             // see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.

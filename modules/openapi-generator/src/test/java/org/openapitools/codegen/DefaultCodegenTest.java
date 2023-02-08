@@ -45,6 +45,8 @@ import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -57,6 +59,7 @@ import java.util.stream.Collectors;
 import static org.testng.Assert.*;
 
 public class DefaultCodegenTest {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultCodegenTest.class);
 
     @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
@@ -4553,5 +4556,247 @@ public class DefaultCodegenTest {
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataType, "String");
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).dataFormat, null);
         Assert.assertEquals(getQueryParamsByName(co.queryParams, name).baseType, null);
+    }
+
+    @Test
+    public void testOpenAPI310JsonSchemaComposedSchemaOneOf() {
+        // Test should have the same result for OpenAPI 3.0 and OpenAPI 3.1
+        List<String> files = Arrays.asList(
+            "src/test/resources/3_0/oas31-composed-schemas.yaml",
+            "src/test/resources/3_1/oas31-composed-schemas.yaml"
+        );
+        for (String file : files) {
+            LOG.info("Process file: {}", file);
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec(file);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            // From path
+            Operation operation = openAPI.getPaths().get("/state").getGet();
+            Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromResponse(operation.getResponses().get("200")));
+            String type = codegen.getSchemaType(schema);
+
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "oneOf<ObjA,ObjB,ObjC>");
+
+            // From components
+            schema = openAPI.getComponents().getSchemas().get("CustomOneOfSchema");
+            CodegenModel model = codegen.fromModel("CustomOneOfSchema", schema);
+            Assert.assertEquals(model.dataType, "oneOf<ObjA,ObjB,ObjC>");
+            Assert.assertEquals(model.oneOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            schema = openAPI.getComponents().getSchemas().get("CustomOneOfSchemaInline");
+            model = codegen.fromModel("CustomOneOfSchemaInline", schema);
+            Assert.assertEquals(model.dataType, "oneOf<ObjA,ObjB,ObjC,CustomOneOfSchemaInline_oneOf,AnyType>");
+            Assert.assertEquals(model.oneOf.size(), 5);
+            Assert.assertEquals(model.vars.size(), 7);
+
+            schema = openAPI.getComponents().getSchemas().get("CustomOneOfSchemaDiscriminator");
+            model = codegen.fromModel("CustomOneOfSchemaDiscriminator", schema);
+            Assert.assertEquals(model.getHasDiscriminatorWithNonEmptyMapping(), true);
+            Assert.assertEquals(model.dataType, "oneOf<ObjA,ObjB,ObjC>");
+            Assert.assertEquals(model.oneOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            Map<String, String> mapping = new HashMap<>();
+            mapping.put("a-type", "#/components/schemas/ObjA");
+            mapping.put("b-type", "#/components/schemas/ObjB");
+            mapping.put("c-type", "#/components/schemas/ObjC");
+            Assert.assertEquals(model.getDiscriminator().getMapping(), mapping);
+
+            java.util.LinkedHashSet mappedModels = new LinkedHashSet<>();
+            mappedModels.add(new CodegenDiscriminator.MappedModel("a-type", codegen.toModelName("ObjA")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("b-type", codegen.toModelName("ObjB")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("c-type", codegen.toModelName("ObjC")));
+            Assert.assertEquals(model.getDiscriminator().getMappedModels(), mappedModels);
+
+            CodegenDiscriminator testDiscriminator = new CodegenDiscriminator();
+            testDiscriminator.setPropertyName("realtype");
+            testDiscriminator.setPropertyBaseName("realtype");
+            testDiscriminator.setMapping(mapping);
+            testDiscriminator.setMappedModels(mappedModels);
+            Assert.assertEquals(model.getDiscriminator(), testDiscriminator);
+        }
+    }
+
+    @Test
+    public void testOpenAPI310JsonSchemaComposedSchemaAnyOf() {
+        // Test should have the same result for OpenAPI 3.0 and OpenAPI 3.1
+        List<String> files = Arrays.asList(
+            "src/test/resources/3_0/oas31-composed-schemas.yaml",
+            "src/test/resources/3_1/oas31-composed-schemas.yaml"
+        );
+        for (String file : files) {
+            LOG.info("Process file: {}", file);
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec(file);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            Operation operation = openAPI.getPaths().get("/state").getPost();
+            Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromRequestBody(operation.getRequestBody()));
+            String type = codegen.getSchemaType(schema);
+
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "anyOf<ObjA,ObjB,ObjD>");
+
+            // From components
+            schema = openAPI.getComponents().getSchemas().get("CustomAnyOfSchema");
+            CodegenModel model = codegen.fromModel("CustomAnyOfSchema", schema);
+            Assert.assertEquals(model.dataType, "anyOf<ObjA,ObjB,ObjD>");
+            Assert.assertEquals(model.anyOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            schema = openAPI.getComponents().getSchemas().get("CustomAnyOfSchemaInline");
+            model = codegen.fromModel("CustomAnyOfSchemaInline", schema);
+            Assert.assertEquals(model.dataType, "anyOf<ObjA,ObjB,ObjD,CustomOneOfSchemaInline_oneOf,AnyType>");
+            Assert.assertEquals(model.anyOf.size(), 5);
+            Assert.assertEquals(model.vars.size(), 7);
+
+
+            schema = openAPI.getComponents().getSchemas().get("CustomAnyOfSchemaDiscriminator");
+            model = codegen.fromModel("CustomAnyOfSchemaDiscriminator", schema);
+            Assert.assertEquals(model.getHasDiscriminatorWithNonEmptyMapping(), true);
+            Assert.assertEquals(model.dataType, "anyOf<ObjA,ObjB,ObjD>");
+            Assert.assertEquals(model.anyOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            Map<String, String> mapping = new HashMap<>();
+            mapping.put("a-type", "#/components/schemas/ObjA");
+            mapping.put("b-type", "#/components/schemas/ObjB");
+            mapping.put("d-type", "#/components/schemas/ObjD");
+            Assert.assertEquals(model.getDiscriminator().getMapping(), mapping);
+
+            java.util.LinkedHashSet mappedModels = new LinkedHashSet<>();
+            mappedModels.add(new CodegenDiscriminator.MappedModel("a-type", codegen.toModelName("ObjA")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("b-type", codegen.toModelName("ObjB")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("d-type", codegen.toModelName("ObjD")));
+            Assert.assertEquals(model.getDiscriminator().getMappedModels(), mappedModels);
+
+            CodegenDiscriminator testDiscriminator = new CodegenDiscriminator();
+            testDiscriminator.setPropertyName("realtype");
+            testDiscriminator.setPropertyBaseName("realtype");
+            testDiscriminator.setMapping(mapping);
+            testDiscriminator.setMappedModels(mappedModels);
+            Assert.assertEquals(model.getDiscriminator(), testDiscriminator);
+        }
+    }
+
+    @Test
+    public void testOpenAPI310JsonSchemaComposedSchemaAllOf() {
+        // Test should have the same result for OpenAPI 3.0 and OpenAPI 3.1
+        List<String> files = Arrays.asList(
+            "src/test/resources/3_0/oas31-composed-schemas.yaml",
+            "src/test/resources/3_1/oas31-composed-schemas.yaml"
+        );
+        for (String file : files) {
+            LOG.info("Process file: {}", file);
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec(file);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            Operation operation = openAPI.getPaths().get("/states").getGet();
+            Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromResponse(operation.getResponses().get("200")));
+            String type = codegen.getSchemaType(schema);
+
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "ObjB");
+
+            // From components
+            schema = openAPI.getComponents().getSchemas().get("CustomAllOfSchema");
+            CodegenModel model = codegen.fromModel("CustomAllOfSchema", schema);
+            // Only return first element
+            Assert.assertEquals(model.dataType, "ObjB");
+            Assert.assertEquals(model.allOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            schema = openAPI.getComponents().getSchemas().get("CustomAllOfSchemaInline");
+            model = codegen.fromModel("CustomAllOfSchemaInline", schema);
+            Assert.assertEquals(model.dataType, "ObjB");
+            Assert.assertEquals(model.allOf.size(), 4);
+            Assert.assertEquals(model.vars.size(), 7);
+
+            schema = openAPI.getComponents().getSchemas().get("CustomAllOfSchemaDiscriminator");
+            model = codegen.fromModel("CustomAllOfSchemaDiscriminator", schema);
+            Assert.assertEquals(model.getHasDiscriminatorWithNonEmptyMapping(), true);
+            Assert.assertEquals(model.dataType, "ObjB");
+            Assert.assertEquals(model.allOf.size(), 3);
+            Assert.assertEquals(model.vars.size(), 5);
+
+            Map<String, String> mapping = new HashMap<>();
+            mapping.put("b-type", "#/components/schemas/ObjB");
+            mapping.put("c-type", "#/components/schemas/ObjC");
+            mapping.put("d-type", "#/components/schemas/ObjD");
+            Assert.assertEquals(model.getDiscriminator().getMapping(), mapping);
+
+            java.util.LinkedHashSet mappedModels = new LinkedHashSet<>();
+            mappedModels.add(new CodegenDiscriminator.MappedModel("b-type", codegen.toModelName("ObjB")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("c-type", codegen.toModelName("ObjC")));
+            mappedModels.add(new CodegenDiscriminator.MappedModel("d-type", codegen.toModelName("ObjD")));
+            Assert.assertEquals(model.getDiscriminator().getMappedModels(), mappedModels);
+
+            CodegenDiscriminator testDiscriminator = new CodegenDiscriminator();
+            testDiscriminator.setPropertyName("realtype");
+            testDiscriminator.setPropertyBaseName("realtype");
+            testDiscriminator.setMapping(mapping);
+            testDiscriminator.setMappedModels(mappedModels);
+            Assert.assertEquals(model.getDiscriminator(), testDiscriminator);
+        }
+    }
+
+    @Test
+    public void testOpenAPI310JsonSchemaMapSchema() {
+        // Test should have the same result for OpenAPI 3.0 and OpenAPI 3.1
+        List<String> files = Arrays.asList(
+            "src/test/resources/3_0/oas31-map-schemas.yaml",
+            "src/test/resources/3_1/oas31-map-schemas.yaml"
+        );
+        for (String file : files) {
+            LOG.info("Process file: {}", file);
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec(file);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            // From path
+            Operation operation = openAPI.getPaths().get("/state").getGet();
+            Schema schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromResponse(operation.getResponses().get("200")));
+            String type = codegen.getSchemaType(schema);
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "map");
+
+            operation = openAPI.getPaths().get("/state").getPost();
+            schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromRequestBody(operation.getRequestBody()));
+            type = codegen.getSchemaType(schema);
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "map");
+
+            operation = openAPI.getPaths().get("/states").getGet();
+            schema = ModelUtils.getReferencedSchema(openAPI,
+                    ModelUtils.getSchemaFromResponse(operation.getResponses().get("200")));
+            type = codegen.getSchemaType(schema);
+            Assert.assertNotNull(type);
+            Assert.assertEquals(type, "ObjA");
+
+            // From Components
+            schema = openAPI.getComponents().getSchemas().get("ObjC");
+            CodegenModel model = codegen.fromModel("ObjC", schema);
+            Assert.assertTrue(model.isMap);
+            Assert.assertEquals(model.dataType, "map");
+
+            schema = openAPI.getComponents().getSchemas().get("ObjD");
+            model = codegen.fromModel("ObjD", schema);
+            Assert.assertTrue(model.isMap);
+            Assert.assertEquals(model.dataType, "map");
+
+            schema = openAPI.getComponents().getSchemas().get("ObjE");
+            model = codegen.fromModel("ObjE", schema);
+            Assert.assertTrue(model.isMap);
+            Assert.assertEquals(model.dataType, "ObjA");
+        }
     }
 }

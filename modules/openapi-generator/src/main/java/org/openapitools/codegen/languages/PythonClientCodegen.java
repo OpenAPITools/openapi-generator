@@ -685,8 +685,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         if (ModelUtils.isAnyType(schema) && supportsAdditionalPropertiesWithComposedSchema) {
             // if anyType schema has properties then add them
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                if (schema instanceof ComposedSchema) {
-                    ComposedSchema cs = (ComposedSchema) schema;
+                if (ModelUtils.isComposedSchema(schema)) {
+                    Schema<?> cs = schema;
                     if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
                         LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
                                 "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
@@ -1822,7 +1822,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                     // or items + properties, both a ist and a dict could be accepted as payloads
                     return fullPrefix + "{}" + closeChars;
                 }
-                ComposedSchema cs = (ComposedSchema) schema;
+                Schema<?> cs = schema;
                 Integer allOfExists = 0;
                 if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
                     allOfExists = 1;
@@ -1992,7 +1992,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                     // what if this composed schema defined properties + allOf?
                     return fullPrefix + closeChars;
                 }
-                ComposedSchema cs = (ComposedSchema) schema;
+                Schema<?> cs = schema;
                 Integer allOfExists = 0;
                 if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
                     allOfExists = 1;
@@ -2425,7 +2425,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
-        final ComposedSchema composed = (ComposedSchema) schema;
+        final Schema<?> composed = schema;
 
         // TODO revise the logic below to set discriminator, xml attributes
         if (composed.getAllOf() != null) {

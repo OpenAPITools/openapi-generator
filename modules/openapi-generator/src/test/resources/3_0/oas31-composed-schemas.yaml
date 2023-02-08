@@ -1,0 +1,202 @@
+openapi: 3.0.1
+info:
+  title: oneOf/anyOf/allOf test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /state:
+    get:
+      operationId: getState
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                  - $ref: '#/components/schemas/ObjC'
+    post:
+      operationId: createState
+      requestBody:
+        content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                  - $ref: '#/components/schemas/ObjD'
+        required: true
+      responses:
+        '201':
+          description: OK
+  /states:
+    get:
+      operationId: getStates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjB'
+                  - $ref: '#/components/schemas/ObjC'
+                  - $ref: '#/components/schemas/ObjD'
+components:
+  schemas:
+    ObjA:
+      type: object
+      properties:
+        realtype:
+          type: string
+        message:
+          type: string
+    ObjB:
+      type: object
+      properties:
+        realtype:
+          type: string
+        description:
+          type: string
+        code:
+          type: integer
+          format: int32
+    ObjC:
+      type: object
+      properties:
+        realtype:
+          type: string
+        state:
+          type: string
+    ObjD:
+      type: object
+      properties:
+        realtype:
+          type: string
+        color:
+          type: string
+
+    CustomOneOfSchema:
+      oneOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+      discriminator:
+        propertyName: realtype
+        mapping:
+          a-type: '#/components/schemas/ObjA'
+          b-type: '#/components/schemas/ObjB'
+          c-type: '#/components/schemas/ObjC'
+    CustomOneOfSchemaInline:
+      oneOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+        # This field will not match to any type.
+        - description: Dog information
+    CustomOneOfSchemaDiscriminator:
+      oneOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+      discriminator:
+        propertyName: realtype
+        mapping:
+          a-type: '#/components/schemas/ObjA'
+          b-type: '#/components/schemas/ObjB'
+          c-type: '#/components/schemas/ObjC'
+    CustomOneOfArraySchema:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/ObjA'
+          - $ref: '#/components/schemas/ObjB'
+          - $ref: '#/components/schemas/ObjC'
+
+
+    CustomAnyOfSchema:
+      anyOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjD'
+    CustomAnyOfSchemaInline:
+      anyOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjD'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+        # This field will not match to any type.
+        - description: Dog information
+    CustomAnyOfSchemaDiscriminator:
+      anyOf:
+        - $ref: '#/components/schemas/ObjA'
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjD'
+      discriminator:
+        propertyName: realtype
+        mapping:
+          a-type: '#/components/schemas/ObjA'
+          b-type: '#/components/schemas/ObjB'
+          d-type: '#/components/schemas/ObjD'
+    CustomOnyOfArraySchema:
+      type: array
+      items:
+        anyOf:
+          - $ref: '#/components/schemas/ObjA'
+          - $ref: '#/components/schemas/ObjB'
+          - $ref: '#/components/schemas/ObjD'
+
+
+    CustomAllOfSchema:
+      allOf:
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+        - $ref: '#/components/schemas/ObjD'
+    CustomAllOfSchemaInline:
+      allOf:
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+        - $ref: '#/components/schemas/ObjD'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+        # This field will not match to any type.
+        - description: Dog information
+    CustomAllOfSchemaDiscriminator:
+      allOf:
+        - $ref: '#/components/schemas/ObjB'
+        - $ref: '#/components/schemas/ObjC'
+        - $ref: '#/components/schemas/ObjD'
+      discriminator:
+        propertyName: realtype
+        mapping:
+          b-type: '#/components/schemas/ObjB'
+          c-type: '#/components/schemas/ObjC'
+          d-type: '#/components/schemas/ObjD'
+    CustomAllOfArraySchema:
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/ObjB'
+          - $ref: '#/components/schemas/ObjC'
+          - $ref: '#/components/schemas/ObjD'

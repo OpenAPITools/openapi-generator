@@ -282,7 +282,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         if (ModelUtils.isArraySchema(schema)) {
             Schema itemsSchema = ModelUtils.getArrayItems(schema);
             collectEnumSchemas(parentName, sName, itemsSchema);
-        } else if (schema instanceof MapSchema && schema.getAdditionalProperties() instanceof Schema) {
+        } else if (ModelUtils.isMapSchema(schema) && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
             String h = hashEnum(schema);

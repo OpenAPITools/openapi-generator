@@ -616,7 +616,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
         // but they should not be required because if we have ComposedSchema: oneOf -schemaA -schemaB
         // and the required props are only in schemaB, we do not need to use them when making an instance of
         // ComposedSchema + schemaA
-        ComposedSchema cs = (ComposedSchema) schema;
+        Schema<?> cs = schema;
 
         // these are the properties that are from properties in self cs or cs allOf
         Map<String, Schema> selfProperties = new LinkedHashMap<>();
@@ -1511,7 +1511,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
     public String generatorLanguageVersion() { return ">=3.6"; };
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName ) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

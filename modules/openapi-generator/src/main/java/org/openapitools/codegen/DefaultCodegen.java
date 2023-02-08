@@ -1000,23 +1000,23 @@ public class DefaultCodegen implements CodegenConfig {
                 if (ModelUtils.isComposedSchema(s)) {
                     if (e.getKey().contains("/")) {
                         // if this is property schema, we also need to generate the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf, openAPI);
+                        addOneOfNameExtension(s, nOneOf);
+                        addOneOfInterfaceModel(s, nOneOf, openAPI);
                     } else {
                         // else this is a component schema, so we will just use that as the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, n);
+                        addOneOfNameExtension(s, n);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ModelUtils.getArrayItems(s);
                     if (ModelUtils.isComposedSchema(items)) {
-                        addOneOfNameExtension((ComposedSchema) items, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf, openAPI);
+                        addOneOfNameExtension(items, nOneOf);
+                        addOneOfInterfaceModel(items, nOneOf, openAPI);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
                     Schema addProps = getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
-                        addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf, openAPI);
+                        addOneOfNameExtension(addProps, nOneOf);
+                        addOneOfInterfaceModel(addProps, nOneOf, openAPI);
                     }
                 }
             }
@@ -2210,8 +2210,8 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
-        if (schema instanceof ComposedSchema) { // composed schema
-            ComposedSchema cs = (ComposedSchema) schema;
+        if (ModelUtils.isComposedSchema(schema)) { // composed schema
+            Schema<?> cs = schema;
             // Get the interfaces, i.e. the set of elements under 'allOf', 'anyOf' or 'oneOf'.
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
 
@@ -2254,7 +2254,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return name of the allOf schema
      */
     @SuppressWarnings("static-method")
-    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAllOfName(List<String> names, Schema<?> composedSchema) {
+        if (!ModelUtils.isComposedSchema(composedSchema)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", composedSchema.getName());
+        }
         Map<String, Object> exts = composedSchema.getExtensions();
         if (exts != null && exts.containsKey("x-all-of-name")) {
             return (String) exts.get("x-all-of-name");
@@ -2278,7 +2281,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return name of the anyOf schema
      */
     @SuppressWarnings("static-method")
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema<?> composedSchema) {
+        if (!ModelUtils.isComposedSchema(composedSchema)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", composedSchema.getName());
+        }
         return "anyOf<" + String.join(",", names) + ">";
     }
 
@@ -2296,7 +2302,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return name of the oneOf schema
      */
     @SuppressWarnings("static-method")
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema<?> composedSchema) {
+        if (!ModelUtils.isComposedSchema(composedSchema)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", composedSchema.getName());
+        }
         Map<String, Object> exts = composedSchema.getExtensions();
         if (exts != null && exts.containsKey("x-one-of-name")) {
             return (String) exts.get("x-one-of-name");
@@ -2418,8 +2427,6 @@ public class DefaultCodegen implements CodegenConfig {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
             // it must be a map of string to values.
             return "object";
-        } else if (ModelUtils.isJsonSchema(schema) && ModelUtils.getJsonSchemaOneTypeOnly(schema) != null) {
-            return ModelUtils.getJsonSchemaOneTypeOnly(schema);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
@@ -2597,7 +2604,10 @@ public class DefaultCodegen implements CodegenConfig {
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<>();
 
     protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
-        final ComposedSchema composed = (ComposedSchema) schema;
+        if (!ModelUtils.isComposedSchema(schema)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", schema.getName());
+        }
+        final Schema<?> composed = schema;
         Map<String, Schema> properties = new LinkedHashMap<>();
         List<String> required = new ArrayList<>();
         Map<String, Schema> allProperties = new LinkedHashMap<>();
@@ -2788,7 +2798,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateModelForObject(CodegenModel m, Schema schema) {
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
@@ -2817,7 +2827,7 @@ public class DefaultCodegen implements CodegenConfig {
             addAdditionPropertiesToCodeGenModel(m, schema);
             m.isMap = true;
         }
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
@@ -3026,7 +3036,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.setRef(schema.get$ref());
         }
 
-        if (schema instanceof ComposedSchema) {
+        if (ModelUtils.isComposedSchema(schema)) {
             updateModelForComposedSchema(m, schema, allDefinitions);
         }
 
@@ -3153,7 +3163,7 @@ public class DefaultCodegen implements CodegenConfig {
             return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {
-            ComposedSchema composedSchema = (ComposedSchema) refSchema;
+            Schema<?> composedSchema = refSchema;
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Schema allOf : composedSchema.getAllOf()) {
@@ -3233,7 +3243,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         Discriminator disc = new Discriminator();
         if (ModelUtils.isComposedSchema(refSchema)) {
-            ComposedSchema composedSchema = (ComposedSchema) refSchema;
+            Schema<?> composedSchema = refSchema;
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Schema allOf : composedSchema.getAllOf()) {
@@ -3321,7 +3331,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param openAPI            The OpenAPI spec that we are using
      * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
      */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c, OpenAPI openAPI) {
+    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, Schema<?> c, OpenAPI openAPI) {
+        if (!ModelUtils.isComposedSchema(c)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", c.getName());
+        }
         ArrayList<List<Schema>> listOLists = new ArrayList<>();
         listOLists.add(c.getOneOf());
         listOLists.add(c.getAnyOf());
@@ -3369,7 +3382,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
-                Schema cs = ModelUtils.getSchema(openAPI, modelName);
+                Schema<?> cs = ModelUtils.getSchema(openAPI, modelName);
                 if (cs == null) { // cannot lookup the model based on the name
                     LOGGER.error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
                 } else {
@@ -3401,10 +3414,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 Schema child = schemas.get(childName);
                 if (ModelUtils.isComposedSchema(child)) {
-                    ComposedSchema composedChild = (ComposedSchema) child;
+                    Schema<?> composedChild = child;
                     List<Schema> parents = composedChild.getAllOf();
                     if (parents != null) {
-                        for (Schema parent : parents) {
+                        for (Schema<?> parent : parents) {
                             String ref = parent.get$ref();
                             if (ref == null) {
                                 // for schemas with no ref, it is not possible to build the discriminator map
@@ -3430,7 +3443,7 @@ public class DefaultCodegen implements CodegenConfig {
             currentSchemaName = queue.remove(0);
             MappedModel mm = new MappedModel(currentSchemaName, toModelName(currentSchemaName));
             descendentSchemas.add(mm);
-            Schema cs = schemas.get(currentSchemaName);
+            Schema<?> cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
             if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
@@ -3502,7 +3515,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
+            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, schema, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
                     uniqueDescendants.add(otherDescendant);
@@ -3539,8 +3552,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (!visitedSchemas.add(schema)) {
             return;
         }
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema composedSchema = (ComposedSchema) schema;
+        if (ModelUtils.isComposedSchema(schema)) {
+            Schema<?> composedSchema = schema;
 
             if (composedSchema.getAllOf() != null) {
                 for (Schema component : composedSchema.getAllOf()) {
@@ -3639,8 +3652,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.FALSE.equals(p.getNullable())) {
             LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
         }
-        ComposedSchema composedSchema = p instanceof ComposedSchema
-            ? (ComposedSchema) p
+        Schema<?> composedSchema = ModelUtils.isComposedSchema(p)
+            ? p
             : null;
         property.isNullable = property.isNullable || composedSchema == null || composedSchema.getAllOf() == null || composedSchema.getAllOf().size() == 0;
         if (languageSpecificPrimitives.contains(property.dataType)) {
@@ -5558,7 +5571,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param model codegen model
      * @param modelName model name
      */
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+    protected void addImport(Schema<?> composed, Schema childSchema, CodegenModel model, String modelName ) {
+        if (!ModelUtils.isComposedSchema(composed)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", composed.getName());
+        }
         // import only if it's not allOf composition schema (without discriminator)
         if (!(composed.getAllOf() != null && childSchema.getDiscriminator() == null)) {
             addImport(model, modelName);
@@ -7675,7 +7691,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param s    schema to add the extension to
      * @param name name of the parent oneOf schema
      */
-    public void addOneOfNameExtension(ComposedSchema s, String name) {
+    public void addOneOfNameExtension(Schema<?> s, String name) {
+        if (!ModelUtils.isComposedSchema(s)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", s.getName());
+        }
         if (s.getOneOf() != null && s.getOneOf().size() > 0) {
             s.addExtension("x-one-of-name", name);
         }
@@ -7688,7 +7707,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param type    name to use for the generated interface model
      * @param openAPI OpenAPI spec that we are using
      */
-    public void addOneOfInterfaceModel(ComposedSchema cs, String type, OpenAPI openAPI) {
+    public void addOneOfInterfaceModel(Schema<?> cs, String type, OpenAPI openAPI) {
+        if (!ModelUtils.isComposedSchema(cs)) {
+            LOGGER.error("Schema `{}` is not a ComposedSchema.", cs.getName());
+        }
         if (cs.getOneOf() == null) {
             return;
         }
@@ -7931,7 +7953,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
-        if (!(schema instanceof ComposedSchema) && schema.getNot()==null) {
+        if (!(ModelUtils.isComposedSchema(schema)) && schema.getNot()==null) {
             return null;
         }
         Schema notSchema = schema.getNot();
@@ -7942,8 +7964,8 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenProperty> allOf = new ArrayList<>();
         List<CodegenProperty> oneOf = new ArrayList<>();
         List<CodegenProperty> anyOf = new ArrayList<>();
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema cs = (ComposedSchema) schema;
+        if (ModelUtils.isComposedSchema(schema)) {
+            Schema<?> cs = schema;
             allOf = getComposedProperties(cs.getAllOf(), "all_of");
             oneOf = getComposedProperties(cs.getOneOf(), "one_of");
             anyOf = getComposedProperties(cs.getAnyOf(), "any_of");
