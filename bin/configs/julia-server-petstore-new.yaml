@@ -1,0 +1,7 @@
+generatorName: julia-server
+outputDir: samples/server/petstore/julia
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/julia-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: PetStoreServer

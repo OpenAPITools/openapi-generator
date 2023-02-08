@@ -15,11 +15,11 @@ package org.openapitools.client.model;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() { 
   }
@@ -118,6 +118,14 @@ public class ArrayOfNumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
 
   /**
    * Convert the instance into URL query string.
@@ -126,8 +134,18 @@ public class ArrayOfNumberOnly {
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
@@ -136,7 +154,9 @@ public class ArrayOfNumberOnly {
     if (getArrayNumber() != null) {
       for (int i = 0; i < getArrayNumber().size(); i++) {
         if (getArrayNumber().get(i) != null) {
-          joiner.add(String.format("%s[ArrayNumber][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
       }
     }

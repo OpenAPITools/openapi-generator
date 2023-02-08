@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
@@ -150,7 +151,7 @@ public interface {{classname}} {
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
+            @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
                 {{/produces}}

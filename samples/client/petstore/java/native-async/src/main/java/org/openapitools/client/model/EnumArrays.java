@@ -15,11 +15,11 @@ package org.openapitools.client.model;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -113,7 +113,7 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() { 
   }
@@ -218,6 +218,14 @@ public class EnumArrays {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
 
   /**
    * Convert the instance into URL query string.
@@ -226,21 +234,33 @@ public class EnumArrays {
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `just_symbol` to the URL query string
     if (getJustSymbol() != null) {
-      joiner.add(String.format("%s[just_symbol]=%s", prefix, URLEncoder.encode(String.valueOf(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjust_symbol%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `array_enum` to the URL query string
     if (getArrayEnum() != null) {
       for (int i = 0; i < getArrayEnum().size(); i++) {
-        joiner.add(String.format("%s[array_enum][%d]=%s", prefix, i, URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format("%sarray_enum%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

@@ -15,11 +15,11 @@ package org.openapitools.client.model;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.StringJoiner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -190,6 +190,14 @@ public class Name {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
 
   /**
    * Convert the instance into URL query string.
@@ -198,30 +206,40 @@ public class Name {
    * @return URL query string
    */
   public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
     if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
       prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
     StringJoiner joiner = new StringJoiner("&");
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%s[name]=%s", prefix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
-      joiner.add(String.format("%s[snake_case]=%s", prefix, URLEncoder.encode(String.valueOf(getSnakeCase()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSnakeCase()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `property` to the URL query string
     if (getProperty() != null) {
-      joiner.add(String.format("%s[property]=%s", prefix, URLEncoder.encode(String.valueOf(getProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sproperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `123Number` to the URL query string
     if (get123number() != null) {
-      joiner.add(String.format("%s[123Number]=%s", prefix, URLEncoder.encode(String.valueOf(get123number()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s123Number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123number()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

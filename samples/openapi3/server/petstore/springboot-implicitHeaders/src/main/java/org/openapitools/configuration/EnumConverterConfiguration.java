@@ -10,7 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 @Configuration
 public class EnumConverterConfiguration {
 
-    @Bean
+    @Bean(name = "org.openapitools.configuration.EnumConverterConfiguration.enumClassConverter")
     Converter<String, EnumClass> enumClassConverter() {
         return new Converter<String, EnumClass>() {
             @Override
@@ -19,7 +19,7 @@ public class EnumConverterConfiguration {
             }
         };
     }
-    @Bean
+    @Bean(name = "org.openapitools.configuration.EnumConverterConfiguration.outerEnumConverter")
     Converter<String, OuterEnum> outerEnumConverter() {
         return new Converter<String, OuterEnum>() {
             @Override

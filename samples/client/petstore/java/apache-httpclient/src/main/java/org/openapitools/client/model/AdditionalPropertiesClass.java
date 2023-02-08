@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.StringJoiner;
 
 /**
  * AdditionalPropertiesClass
@@ -35,10 +38,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
-  private Map<String, String> mapProperty = null;
+  private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass() {
   }
@@ -148,6 +151,69 @@ public class AdditionalPropertiesClass {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `map_property` to the URL query string
+    if (getMapProperty() != null) {
+      for (String _key : getMapProperty().keySet()) {
+        try {
+          joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+              getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
+      }
+    }
+
+    // add `map_of_map_property` to the URL query string
+    if (getMapOfMapProperty() != null) {
+      for (String _key : getMapOfMapProperty().keySet()) {
+        try {
+          joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+              getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
+      }
+    }
+
+    return joiner.toString();
   }
 
 }

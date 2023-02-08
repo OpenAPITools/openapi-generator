@@ -1125,6 +1125,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /country:
+    post:
+      operationId: getCountry
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+              - required:
+                - country
+                type: object
+                properties:
+                  country:
+                    type: string
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2191,3 +2208,18 @@ components:
           type: string
         prop2:
           type: object
+    NullableGuidClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"

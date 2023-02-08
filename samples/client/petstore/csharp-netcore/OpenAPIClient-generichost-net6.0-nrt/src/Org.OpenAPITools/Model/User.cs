@@ -221,19 +221,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override User Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override User Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string email = default;
             string firstName = default;
@@ -248,56 +248,56 @@ namespace Org.OpenAPITools.Model
             Object anyTypePropNullable = default;
             Object objectWithNoDeclaredPropsNullable = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "email":
-                            email = reader.GetString();
+                            email = utf8JsonReader.GetString();
                             break;
                         case "firstName":
-                            firstName = reader.GetString();
+                            firstName = utf8JsonReader.GetString();
                             break;
                         case "id":
-                            id = reader.GetInt64();
+                            id = utf8JsonReader.GetInt64();
                             break;
                         case "lastName":
-                            lastName = reader.GetString();
+                            lastName = utf8JsonReader.GetString();
                             break;
                         case "objectWithNoDeclaredProps":
-                            objectWithNoDeclaredProps = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            objectWithNoDeclaredProps = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "password":
-                            password = reader.GetString();
+                            password = utf8JsonReader.GetString();
                             break;
                         case "phone":
-                            phone = reader.GetString();
+                            phone = utf8JsonReader.GetString();
                             break;
                         case "userStatus":
-                            userStatus = reader.GetInt32();
+                            userStatus = utf8JsonReader.GetInt32();
                             break;
                         case "username":
-                            username = reader.GetString();
+                            username = utf8JsonReader.GetString();
                             break;
                         case "anyTypeProp":
-                            anyTypeProp = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            anyTypeProp = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "anyTypePropNullable":
-                            anyTypePropNullable = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            anyTypePropNullable = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "objectWithNoDeclaredPropsNullable":
-                            objectWithNoDeclaredPropsNullable = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            objectWithNoDeclaredPropsNullable = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -313,9 +313,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
@@ -324,17 +324,17 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", user.Id);
             writer.WriteString("lastName", user.LastName);
             writer.WritePropertyName("objectWithNoDeclaredProps");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, options);
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
             writer.WriteString("password", user.Password);
             writer.WriteString("phone", user.Phone);
             writer.WriteNumber("userStatus", user.UserStatus);
             writer.WriteString("username", user.Username);
             writer.WritePropertyName("anyTypeProp");
-            JsonSerializer.Serialize(writer, user.AnyTypeProp, options);
+            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);
             writer.WritePropertyName("anyTypePropNullable");
-            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, options);
+            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);
             writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, options);
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
 
             writer.WriteEndObject();
         }

@@ -54,7 +54,8 @@ open class StoreApi(
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -85,7 +86,8 @@ open class StoreApi(
             RequestMethod.GET,
             "/store/inventory",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
         )
 
         return request(
@@ -127,7 +129,8 @@ open class StoreApi(
             RequestMethod.GET,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return request(
@@ -158,7 +161,8 @@ open class StoreApi(
             RequestMethod.POST,
             "/store/order",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(
