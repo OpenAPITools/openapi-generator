@@ -88,7 +88,7 @@ public class StringHelpersTest {
     public void endsWithSectionalTest() throws IOException {
         HashMap<String, Object> data = new HashMap<String, Object>() {{
             put("asdf", "asdf");
-            put("f", "f");
+            put("df", "df");
             put("b", "b");
         }};
 
