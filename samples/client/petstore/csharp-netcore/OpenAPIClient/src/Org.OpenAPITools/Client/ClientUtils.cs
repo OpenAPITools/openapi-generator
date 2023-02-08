@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -116,7 +117,16 @@ namespace Org.OpenAPITools.Client
             if (obj is bool boolean)
                 return boolean ? "true" : "false";
             if (obj is ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+            {
+                var stringParameterList = new List<string>();
+                foreach (var item in collection)
+                {
+                    stringParameterList.Add(ParameterToString(item, configuration));
+                }
+
+
+                return string.Join(",", stringParameterList);
+            }
             if (obj is Enum && HasEnumMemberAttrValue(obj))
                 return GetEnumMemberAttrValue(obj);
 
