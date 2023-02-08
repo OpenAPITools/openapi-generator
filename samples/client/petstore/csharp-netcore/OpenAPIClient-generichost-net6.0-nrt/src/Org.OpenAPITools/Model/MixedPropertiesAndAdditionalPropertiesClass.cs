@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
                             uuid = utf8JsonReader.GetGuid();
                             break;
                         case "uuid_with_pattern":
-                            uuidWithPattern = reader.GetGuid();
+                            uuidWithPattern = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
