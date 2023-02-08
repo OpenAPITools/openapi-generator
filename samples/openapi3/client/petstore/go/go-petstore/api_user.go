@@ -695,8 +695,8 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *http.
 		return localVarReturnValue, nil, reportError("password is required and must be specified")
 	}
 
-	parameterAddToQuery(localVarQueryParams, "username", r.username, "")
-	parameterAddToQuery(localVarQueryParams, "password", r.password, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "username", r.username, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "password", r.password, "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

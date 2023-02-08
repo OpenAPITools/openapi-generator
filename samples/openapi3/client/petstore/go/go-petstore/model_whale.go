@@ -47,7 +47,7 @@ func NewWhaleWithDefaults() *Whale {
 
 // GetHasBaleen returns the HasBaleen field value if set, zero value otherwise.
 func (o *Whale) GetHasBaleen() bool {
-	if o == nil || isNil(o.HasBaleen) {
+	if o == nil || IsNil(o.HasBaleen) {
 		var ret bool
 		return ret
 	}
@@ -57,7 +57,7 @@ func (o *Whale) GetHasBaleen() bool {
 // GetHasBaleenOk returns a tuple with the HasBaleen field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasBaleenOk() (*bool, bool) {
-	if o == nil || isNil(o.HasBaleen) {
+	if o == nil || IsNil(o.HasBaleen) {
 		return nil, false
 	}
 	return o.HasBaleen, true
@@ -65,7 +65,7 @@ func (o *Whale) GetHasBaleenOk() (*bool, bool) {
 
 // HasHasBaleen returns a boolean if a field has been set.
 func (o *Whale) HasHasBaleen() bool {
-	if o != nil && !isNil(o.HasBaleen) {
+	if o != nil && !IsNil(o.HasBaleen) {
 		return true
 	}
 
@@ -79,7 +79,7 @@ func (o *Whale) SetHasBaleen(v bool) {
 
 // GetHasTeeth returns the HasTeeth field value if set, zero value otherwise.
 func (o *Whale) GetHasTeeth() bool {
-	if o == nil || isNil(o.HasTeeth) {
+	if o == nil || IsNil(o.HasTeeth) {
 		var ret bool
 		return ret
 	}
@@ -89,7 +89,7 @@ func (o *Whale) GetHasTeeth() bool {
 // GetHasTeethOk returns a tuple with the HasTeeth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Whale) GetHasTeethOk() (*bool, bool) {
-	if o == nil || isNil(o.HasTeeth) {
+	if o == nil || IsNil(o.HasTeeth) {
 		return nil, false
 	}
 	return o.HasTeeth, true
@@ -97,7 +97,7 @@ func (o *Whale) GetHasTeethOk() (*bool, bool) {
 
 // HasHasTeeth returns a boolean if a field has been set.
 func (o *Whale) HasHasTeeth() bool {
-	if o != nil && !isNil(o.HasTeeth) {
+	if o != nil && !IsNil(o.HasTeeth) {
 		return true
 	}
 
@@ -143,10 +143,10 @@ func (o Whale) MarshalJSON() ([]byte, error) {
 
 func (o Whale) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.HasBaleen) {
+	if !IsNil(o.HasBaleen) {
 		toSerialize["hasBaleen"] = o.HasBaleen
 	}
-	if !isNil(o.HasTeeth) {
+	if !IsNil(o.HasTeeth) {
 		toSerialize["hasTeeth"] = o.HasTeeth
 	}
 	toSerialize["className"] = o.ClassName

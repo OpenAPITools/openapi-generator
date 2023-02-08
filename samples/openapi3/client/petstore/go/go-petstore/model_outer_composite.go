@@ -46,7 +46,7 @@ func NewOuterCompositeWithDefaults() *OuterComposite {
 
 // GetMyNumber returns the MyNumber field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyNumber() float32 {
-	if o == nil || isNil(o.MyNumber) {
+	if o == nil || IsNil(o.MyNumber) {
 		var ret float32
 		return ret
 	}
@@ -56,7 +56,7 @@ func (o *OuterComposite) GetMyNumber() float32 {
 // GetMyNumberOk returns a tuple with the MyNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
-	if o == nil || isNil(o.MyNumber) {
+	if o == nil || IsNil(o.MyNumber) {
 		return nil, false
 	}
 	return o.MyNumber, true
@@ -64,7 +64,7 @@ func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
 
 // HasMyNumber returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyNumber() bool {
-	if o != nil && !isNil(o.MyNumber) {
+	if o != nil && !IsNil(o.MyNumber) {
 		return true
 	}
 
@@ -78,7 +78,7 @@ func (o *OuterComposite) SetMyNumber(v float32) {
 
 // GetMyString returns the MyString field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyString() string {
-	if o == nil || isNil(o.MyString) {
+	if o == nil || IsNil(o.MyString) {
 		var ret string
 		return ret
 	}
@@ -88,7 +88,7 @@ func (o *OuterComposite) GetMyString() string {
 // GetMyStringOk returns a tuple with the MyString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyStringOk() (*string, bool) {
-	if o == nil || isNil(o.MyString) {
+	if o == nil || IsNil(o.MyString) {
 		return nil, false
 	}
 	return o.MyString, true
@@ -96,7 +96,7 @@ func (o *OuterComposite) GetMyStringOk() (*string, bool) {
 
 // HasMyString returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyString() bool {
-	if o != nil && !isNil(o.MyString) {
+	if o != nil && !IsNil(o.MyString) {
 		return true
 	}
 
@@ -110,7 +110,7 @@ func (o *OuterComposite) SetMyString(v string) {
 
 // GetMyBoolean returns the MyBoolean field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyBoolean() bool {
-	if o == nil || isNil(o.MyBoolean) {
+	if o == nil || IsNil(o.MyBoolean) {
 		var ret bool
 		return ret
 	}
@@ -120,7 +120,7 @@ func (o *OuterComposite) GetMyBoolean() bool {
 // GetMyBooleanOk returns a tuple with the MyBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
-	if o == nil || isNil(o.MyBoolean) {
+	if o == nil || IsNil(o.MyBoolean) {
 		return nil, false
 	}
 	return o.MyBoolean, true
@@ -128,7 +128,7 @@ func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
 
 // HasMyBoolean returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyBoolean() bool {
-	if o != nil && !isNil(o.MyBoolean) {
+	if o != nil && !IsNil(o.MyBoolean) {
 		return true
 	}
 
@@ -150,13 +150,13 @@ func (o OuterComposite) MarshalJSON() ([]byte, error) {
 
 func (o OuterComposite) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.MyNumber) {
+	if !IsNil(o.MyNumber) {
 		toSerialize["my_number"] = o.MyNumber
 	}
-	if !isNil(o.MyString) {
+	if !IsNil(o.MyString) {
 		toSerialize["my_string"] = o.MyString
 	}
-	if !isNil(o.MyBoolean) {
+	if !IsNil(o.MyBoolean) {
 		toSerialize["my_boolean"] = o.MyBoolean
 	}
 
