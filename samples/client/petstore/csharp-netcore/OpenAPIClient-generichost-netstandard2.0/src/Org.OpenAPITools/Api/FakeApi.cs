@@ -128,10 +128,11 @@ namespace Org.OpenAPITools.IApi
         /// Test serialization of outer string types
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;string&gt;&gt;</returns>
-        Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -140,10 +141,11 @@ namespace Org.OpenAPITools.IApi
         /// Test serialization of outer string types
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;string&gt;</returns>
-        Task<string> FakeOuterStringSerializeAsync(string body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Array of Enums
@@ -1056,12 +1058,13 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="string"/>&gt;</returns>
-        public async Task<string> FakeOuterStringSerializeAsync(string body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<string> result = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> result = await FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
 
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             if (result.Content == null)
@@ -1074,19 +1077,30 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        protected virtual string OnFakeOuterStringSerialize(string body)
+        protected virtual (Guid, string) OnFakeOuterStringSerialize(Guid requiredStringUuid, string body)
         {
-            return body;
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (requiredStringUuid == null)
+                throw new ArgumentNullException(nameof(requiredStringUuid));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return (requiredStringUuid, body);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponse"></param>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponse, string body)
+        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponse, Guid requiredStringUuid, string body)
         {
         }
 
@@ -1096,8 +1110,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, string body)
+        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -1106,16 +1121,19 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             UriBuilder uriBuilder = new UriBuilder();
 
             try
             {
-                body = OnFakeOuterStringSerialize(body);
+                var validatedParameters = OnFakeOuterStringSerialize(requiredStringUuid, body);
+                requiredStringUuid = validatedParameters.Item1;
+                body = validatedParameters.Item2;
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
@@ -1123,6 +1141,12 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/string";
+
+                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryString["required_string_uuid"] = Uri.EscapeDataString(requiredStringUuid.ToString());
+                    
+                    uriBuilder.Query = parseQueryString.ToString();
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
@@ -1165,7 +1189,7 @@ namespace Org.OpenAPITools.Api
                         if (apiResponse.IsSuccessStatusCode)
                         {
                             apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterStringSerialize(apiResponse, body);
+                            AfterFakeOuterStringSerialize(apiResponse, requiredStringUuid, body);
                         }
 
                         return apiResponse;
@@ -1174,7 +1198,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, body);
+                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, requiredStringUuid, body);
                 throw;
             }
         }

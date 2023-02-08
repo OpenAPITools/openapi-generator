@@ -848,6 +848,14 @@ paths:
         - fake
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
+      parameters:
+        - name: required_string_uuid
+          in: query
+          description: Required UUID String
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Output string
@@ -1621,6 +1629,10 @@ components:
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
+        uuid_with_pattern:
+          type: string
+          format: uuid
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         uuid:
           type: string
           format: uuid
