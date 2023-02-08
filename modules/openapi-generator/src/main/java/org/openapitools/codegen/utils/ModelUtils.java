@@ -460,8 +460,8 @@ public class ModelUtils {
         //       properties:
         //           bark:
         //           type: boolean
-        // Instead of using getJsonSchemaOneTypeOnly, get the type without checking the kind of Schema
-        if (schema != null && schema.getTypes() != null && schema.getTypes().size() == 1 && SchemaTypeUtil.OBJECT_TYPE.equals((String)schema.getTypes().iterator().next())) {
+        // Instead of using getJsonSchemaOneTypeOnly, get the type without checking the kind of Schema but still check that schema is not a MapSchema
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(getTypesOnlyOneType(schema)) && !(schema instanceof MapSchema)) {
             return true;
         }
 
@@ -592,6 +592,19 @@ public class ModelUtils {
      * Since swagger-core 2.2.0, getTypes can be defined for OpenAPI 3.1.0
      * https://github.com/swagger-api/swagger-core/blob/v2.2.4/modules/swagger-models/src/main/java/io/swagger/v3/oas/models/media/Schema.java#L453-L460
      * https://github.com/swagger-api/swagger-parser/blob/v2.1.8/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/ResolverFully.java#L383-L390
+     *
+     * @param schema the schema that we are checking
+     * @return String
+     */
+    public static String getTypesOnlyOneType(Schema schema) {
+        if (schema != null && schema.getTypes() != null && schema.getTypes().size() == 1) {
+            return (String)schema.getTypes().iterator().next();
+        }
+        return null;
+    }
+
+    /**
+     * Return the first and only type defined in the field "types" if the schema is JsonSchema
      * Use the same way it is currently done in swagger-parser since 2.1.8:
      * https://github.com/swagger-api/swagger-parser/blob/v2.1.8/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/ResolverFully.java#L469-L477
      *
@@ -599,8 +612,8 @@ public class ModelUtils {
      * @return String
      */
     public static String getJsonSchemaOneTypeOnly(Schema schema) {
-        if (schema != null && isJsonSchema(schema) && schema.getTypes() != null && schema.getTypes().size() == 1) {
-            return (String)schema.getTypes().iterator().next();
+        if (isJsonSchema(schema)) {
+            return getTypesOnlyOneType(schema);
         }
         return null;
     }
@@ -831,8 +844,8 @@ public class ModelUtils {
             return true;
         }
 
-        // composed schema is a model, consider very simple ObjectSchema a model
-        return isComposedSchema(schema) || schema instanceof ObjectSchema || "object".equals(getJsonSchemaOneTypeOnly(schema));
+        // composed schema or object is a model
+        return isComposedSchema(schema) || isObjectSchema(schema);
     }
 
     /**
@@ -919,7 +932,7 @@ public class ModelUtils {
         }
 
         // has at least one property
-        if ("object".equals(schema.getType()) || "object".equals(getJsonSchemaOneTypeOnly(schema))) {
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) || SchemaTypeUtil.OBJECT_TYPE.equals(getJsonSchemaOneTypeOnly(schema))) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(openAPI, schema);
