@@ -1,0 +1,31 @@
+
+/**
+ * Implemented by client
+ */
+export public interface ~FetchExecuterI {
+    public <R, E> async run(
+        path: string,
+        query: ~Object=,
+        reqInit: ~Object=) : Promise<R, Object | ApiError<E>>;
+}
+
+export public interface ~ApiError<T> {
+    public body?: T;
+}
+
+export public function checkArguments(apiName: string, args: ~Object+) : void {
+    for (const key of Object.keys(args)) {
+        const arg = args[key];
+        if (arg == null) {
+            throw new Error('Required parameter ' + key + ' was null or undefined when calling ' + apiName + '.');
+        }
+    }
+}
+
+export public function <T> cleanCopyBody(t : T+, ...properties: string) : ~T {
+    const copy : ~T+ = {};
+    for (const prop in properties) {
+        copy[prop] = t.prop;
+    }
+    return copy;
+}

@@ -1,0 +1,53 @@
+{{>licenseInfo}}
+
+import { FetchExecuterI, ApiError{{#checkRequiredBodyPropsNotNull}}, checkArguments{{/checkRequiredBodyPropsNotNull}}{{#checkSuperfluousBodyProps}}{{#needImportCleanCopyBody}}, cleanCopyBody{{/needImportCleanCopyBody}}{{/checkSuperfluousBodyProps}} } from "{{{apiPackage}}}/ApiHelper"
+{{#imports}}
+import { {{classname}} } from '{{filename}}';
+{{/imports}}
+
+
+{{#operations}}
+{{#description}}
+/**
+* {{&description}}
+*/
+{{/description}}
+export public class {{{classname}}} {
+    const basePathName = '{{basePath}}';
+
+{{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     * @param fei Callback interface that runs the fetch query
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     {{#responses}}
+     * @response {{code}} [{{#dataType}}{{.}}{{/dataType}}{{^dataType}}undefined{{/dataType}}] {{message}}
+     {{/responses}}
+     */
+    @Final public static async {{{nickname}}}(fei : FetchExecuterI, {{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}={{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Promise<{{#returnType}}{{.}}{{/returnType}}{{^returnType}}undefined{{/returnType}}, Object{{#vendorExtensions}}{{#errResponses.size}} | ApiError<{{#errResponses}}{{^-last}} | {{/-last}}{{{.}}}{{/errResponses}}>{{/errResponses.size}}{{/vendorExtensions}}> {
+        {{#checkRequiredBodyPropsNotNull}}checkArguments('{{{nickname}}}', { {{#allParams}}{{#required}}'{{{paramName}}}': {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} });
+        
+        {{/checkRequiredBodyPropsNotNull}}const _pathname = this.basePathName + '{{{path}}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{{paramName}}}))){{/pathParams}};
+
+        {{#returnType}}return {{/returnType}}await fei.{{#returnType}}<{{.}}, {{#vendorExtensions}}{{^errResponses.size}}undefined{{/errResponses.size}}{{#errResponses.size}}{{#errResponses}}{{{.}}}{{^-last}} | {{/-last}}{{/errResponses}}{{/errResponses.size}}{{/vendorExtensions}}>{{/returnType}}run(_pathname, {}, {
+            method: '{{httpMethod}}',
+            Object headers: { {{#produces.0}}
+                ['content-type']: '{{mediaType}}'
+           {{/produces.0}} },
+            {{#bodyParam}}
+            body: JSON.stringify({{#vars.empty}}{{{paramName}}}{{/vars.empty}}{{^vars.empty}}{{#checkSuperfluousBodyProps}}cleanCopyBody({{{paramName}}}{{#vars}}, '{{{baseName}}}'{{/vars}}){{/checkSuperfluousBodyProps}}{{^checkRequiredBodyPropsNotNull}}{{{paramName}}}{{/checkRequiredBodyPropsNotNull}}{{/vars.empty}})
+            {{/bodyParam}}
+        });
+    }
+
+{{/operation}}
+}
+{{/operations}}
