@@ -1,18 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>{{groupId}}</groupId>
-  <artifactId>{{artifactId}}</artifactId>
-  <packaging>{{#interfaceOnly}}jar{{/interfaceOnly}}{{^interfaceOnly}}war{{/interfaceOnly}}</packaging>
-  <name>{{artifactId}}</name>
-  <version>{{artifactVersion}}</version>
+  <groupId>org.openapitools</groupId>
+  <artifactId>jaxrs-spec-petstore-server-jakarta</artifactId>
+  <packaging>war</packaging>
+  <name>jaxrs-spec-petstore-server-jakarta</name>
+  <version>1.0.0</version>
 
-{{#parentOverridden}}
-  <parent>
-    <groupId>{{parentGroupId}}</groupId>
-    <artifactId>{{parentArtifactId}}</artifactId>
-    <version>{{parentVersion}}</version>
-  </parent>
-{{/parentOverridden}}
 
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -36,14 +29,6 @@
           </execution>
         </executions>
       </plugin>
-      {{#interfaceOnly}}
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-      {{/interfaceOnly}}
-      {{^interfaceOnly}}
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -64,7 +49,6 @@
           </execution>
         </executions>
       </plugin>
-      {{/interfaceOnly}}
     </plugins>
   </build>
   <dependencies>
@@ -89,28 +73,17 @@
       <artifactId>joda-time</artifactId>
       <version>${joda-version}</version>
     </dependency>
-    {{#useJakartaEe}}
     <dependency>
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
       <version>${javax.annotation-api-version}</version>
     </dependency>
-    {{/useJakartaEe}}
-    {{^useJakartaEe}}
-    <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <version>${javax.annotation-api-version}</version>
-    </dependency>
-    {{/useJakartaEe}}
-    {{#useSwaggerAnnotations}}
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
       <scope>provided</scope>
       <version>1.5.3</version>
     </dependency>
-    {{/useSwaggerAnnotations}}
     <!-- @Nullable annotation -->
     <dependency>
         <groupId>com.google.code.findbugs</groupId>
@@ -123,7 +96,6 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
-    {{^interfaceOnly}}
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -144,8 +116,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    {{/interfaceOnly}}
-    {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>jakarta.validation</groupId>
@@ -153,7 +123,6 @@
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
-{{/useBeanValidation}}
   </dependencies>
   <properties>
     <java.version>1.8</java.version>
@@ -163,25 +132,8 @@
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
-{{#useJakartaEe}}
     <javax.annotation-api-version>2.1.1</javax.annotation-api-version>
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-    <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
-{{/useJakartaEe}}
-{{#useBeanValidation}}
-{{#useJakartaEe}}
     <beanvalidation-version>3.0.2</beanvalidation-version>
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-    <beanvalidation-version>2.0.2</beanvalidation-version>
-{{/useJakartaEe}}
-{{/useBeanValidation}}
-{{#useJakartaEe}}
     <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-    <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
-{{/useJakartaEe}}
   </properties>
 </project>
