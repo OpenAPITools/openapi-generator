@@ -44,7 +44,7 @@ func NewDogAllOfWithDefaults() *DogAllOf {
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *DogAllOf) GetBreed() string {
-	if o == nil || isNil(o.Breed) {
+	if o == nil || IsNil(o.Breed) {
 		var ret string
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *DogAllOf) GetBreed() string {
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DogAllOf) GetBreedOk() (*string, bool) {
-	if o == nil || isNil(o.Breed) {
+	if o == nil || IsNil(o.Breed) {
 		return nil, false
 	}
 	return o.Breed, true
@@ -62,7 +62,7 @@ func (o *DogAllOf) GetBreedOk() (*string, bool) {
 
 // HasBreed returns a boolean if a field has been set.
 func (o *DogAllOf) HasBreed() bool {
-	if o != nil && !isNil(o.Breed) {
+	if o != nil && !IsNil(o.Breed) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o DogAllOf) MarshalJSON() ([]byte, error) {
 
 func (o DogAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Breed) {
+	if !IsNil(o.Breed) {
 		toSerialize["breed"] = o.Breed
 	}
 

@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=ModelFile
   @XmlElement(name = "files")
-  private List<ModelFile> files = null;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }

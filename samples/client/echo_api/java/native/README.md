@@ -107,6 +107,12 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
+*BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyPetResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetResponseStringWithHttpInfo) | **POST** /echo/body/Pet/response_string | Test empty response body
+*FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*HeaderApi* | [**testHeaderIntegerBooleanString**](docs/HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s)
+*HeaderApi* | [**testHeaderIntegerBooleanStringWithHttpInfo**](docs/HeaderApi.md#testHeaderIntegerBooleanStringWithHttpInfo) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
@@ -119,13 +125,19 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObjectWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectWithHttpInfo) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 ## Documentation for Models
 
  - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
+ - [DataQuery](docs/DataQuery.md)
+ - [DefaultValue](docs/DefaultValue.md)
  - [Pet](docs/Pet.md)
+ - [Query](docs/Query.md)
+ - [StringEnumRef](docs/StringEnumRef.md)
  - [Tag](docs/Tag.md)
  - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)

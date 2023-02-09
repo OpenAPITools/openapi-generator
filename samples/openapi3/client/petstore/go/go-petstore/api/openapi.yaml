@@ -2014,6 +2014,9 @@ components:
       - type: string
       - format: date-time
         type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - $ref: '#/components/schemas/AllOfPrimitiveTypes_allOf'
     _foo_get_default_response:
       example:
         string:
@@ -2175,6 +2178,14 @@ components:
       properties:
         dup-prop:
           description: A discriminator value
+          type: string
+      type: object
+      x-oag-internal-only: true
+      example: null
+    AllOfPrimitiveTypes_allOf:
+      properties:
+        test:
+          format: date-time
           type: string
       type: object
       x-oag-internal-only: true

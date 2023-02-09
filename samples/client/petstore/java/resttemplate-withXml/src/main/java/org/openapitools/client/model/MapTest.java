@@ -48,7 +48,7 @@ public class MapTest {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -94,21 +94,21 @@ public class MapTest {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest() {
   }

@@ -477,6 +477,43 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the specified schema is composed with more than one of the following:
+     * 'oneOf', 'anyOf' or 'allOf'.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Composed schema.
+     */
+    public static boolean isComplexComposedSchema(Schema schema) {
+        if (!(schema instanceof ComposedSchema)) {
+            return false;
+        }
+
+        int count = 0;
+
+        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            count++;
+        }
+
+        if (count > 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Return true if the specified 'schema' is an object that can be extended with additional properties.
      * Additional properties means a Schema should support all explicitly defined properties plus any
      * undeclared properties.

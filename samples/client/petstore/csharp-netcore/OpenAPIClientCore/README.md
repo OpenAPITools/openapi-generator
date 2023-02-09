@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -179,6 +180,7 @@ Class | Method | HTTP request | Description
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [Model.DanishPig](docs/DanishPig.md)
+ - [Model.DateOnlyClass](docs/DateOnlyClass.md)
  - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.Drawing](docs/Drawing.md)
@@ -206,6 +208,7 @@ Class | Method | HTTP request | Description
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
  - [Model.NullableClass](docs/NullableClass.md)
+ - [Model.NullableGuidClass](docs/NullableGuidClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)

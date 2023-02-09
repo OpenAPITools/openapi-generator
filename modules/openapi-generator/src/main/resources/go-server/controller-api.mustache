@@ -124,7 +124,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"))
+	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
 		w.WriteHeader(500)
 		return

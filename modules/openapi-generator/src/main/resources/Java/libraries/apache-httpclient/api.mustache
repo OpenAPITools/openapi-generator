@@ -76,7 +76,7 @@ public class {{classname}} {
     String localVarPath = "{{{path}}}"{{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
-    {{javaUtilPrefix}}StringJoiner localVarQueryDeepObjectStringJoiner = new StringJoiner("&");
+    {{javaUtilPrefix}}StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
     {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
@@ -89,11 +89,11 @@ public class {{classname}} {
     localVarQueryParameterBaseName = "{{{baseName}}}";
           {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {
-      localVarQueryDeepObjectStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
     }
           {{/isArray}}
           {{^isArray}}
-    localVarQueryDeepObjectStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
           {{/isArray}}
         {{/isDeepObject}}
         {{^isDeepObject}}
@@ -109,7 +109,12 @@ public class {{classname}} {
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString());
+                {{/isModel}}
+                {{^isModel}}
     {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+                {{/isModel}}
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
@@ -152,7 +157,7 @@ public class {{classname}} {
         "{{httpMethod}}",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryDeepObjectStringJoiner.toString(),
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

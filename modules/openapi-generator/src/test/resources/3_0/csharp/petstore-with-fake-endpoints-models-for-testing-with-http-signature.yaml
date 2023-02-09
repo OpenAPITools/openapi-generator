@@ -848,6 +848,14 @@ paths:
         - fake
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
+      parameters:
+        - name: required_string_uuid
+          in: query
+          description: Required UUID String
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Output string
@@ -1117,6 +1125,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /country:
+    post:
+      operationId: getCountry
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+              - required:
+                - country
+                type: object
+                properties:
+                  country:
+                    type: string
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1604,6 +1629,10 @@ components:
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
+        uuid_with_pattern:
+          type: string
+          format: uuid
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         uuid:
           type: string
           format: uuid
@@ -2179,3 +2208,18 @@ components:
           type: string
         prop2:
           type: object
+    NullableGuidClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"

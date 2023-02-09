@@ -13,7 +13,7 @@ package petstore
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -225,9 +225,9 @@ func (a *PetApiService) AddPetExecute(r ApiAddPetRequest) (*http.Response, error
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -312,7 +312,7 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.apiKey != nil {
-		parameterAddToQuery(localVarQueryParams, "api_key", r.apiKey, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "api_key", r.apiKey, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -324,9 +324,9 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -397,7 +397,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 		return localVarReturnValue, nil, reportError("status is required and must be specified")
 	}
 
-	parameterAddToQuery(localVarQueryParams, "status", r.status, "csv")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "csv")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -425,9 +425,9 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -510,7 +510,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 		return localVarReturnValue, nil, reportError("tags is required and must be specified")
 	}
 
-	parameterAddToQuery(localVarQueryParams, "tags", r.tags, "csv")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "tags", r.tags, "csv")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -538,9 +538,9 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -655,9 +655,9 @@ func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.R
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -762,9 +762,9 @@ func (a *PetApiService) UpdatePetExecute(r ApiUpdatePetRequest) (*http.Response,
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -857,10 +857,10 @@ func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.name != nil {
-		parameterAddToQuery(localVarFormParams, "name", r.name, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "")
 	}
 	if r.status != nil {
-		parameterAddToQuery(localVarFormParams, "status", r.status, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "status", r.status, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -872,9 +872,9 @@ func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -905,8 +905,8 @@ func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiU
 }
 
 // file to upload
-func (r ApiUploadFileRequest) File(file os.File) ApiUploadFileRequest {
-	r.file = &file
+func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
+	r.file = file
 	return r
 }
 
@@ -969,7 +969,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.additionalMetadata != nil {
-		parameterAddToQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
 	}
 	var fileLocalVarFormFileName string
 	var fileLocalVarFileName     string
@@ -977,17 +977,17 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 
 	fileLocalVarFormFileName = "file"
 
-	var fileLocalVarFile *os.File
-	if r.file != nil {
-		fileLocalVarFile = r.file
-	}
+
+	fileLocalVarFile := r.file
+
 	if fileLocalVarFile != nil {
-		fbs, _ := ioutil.ReadAll(fileLocalVarFile)
+		fbs, _ := io.ReadAll(fileLocalVarFile)
+
 		fileLocalVarFileBytes = fbs
 		fileLocalVarFileName = fileLocalVarFile.Name()
 		fileLocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
 	}
-	formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -998,9 +998,9 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1034,8 +1034,8 @@ type ApiUploadFileWithRequiredFileRequest struct {
 }
 
 // file to upload
-func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile os.File) ApiUploadFileWithRequiredFileRequest {
-	r.requiredFile = &requiredFile
+func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) ApiUploadFileWithRequiredFileRequest {
+	r.requiredFile = requiredFile
 	return r
 }
 
@@ -1107,7 +1107,7 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.additionalMetadata != nil {
-		parameterAddToQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
 	}
 	var requiredFileLocalVarFormFileName string
 	var requiredFileLocalVarFileName     string
@@ -1115,12 +1115,17 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 
 	requiredFileLocalVarFormFileName = "requiredFile"
 
+
 	requiredFileLocalVarFile := r.requiredFile
-				fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
+
+	if requiredFileLocalVarFile != nil {
+		fbs, _ := io.ReadAll(requiredFileLocalVarFile)
+
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
 		requiredFileLocalVarFile.Close()
-	formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
+		formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1131,9 +1136,9 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

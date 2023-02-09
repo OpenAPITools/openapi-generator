@@ -123,6 +123,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AllOfPrimitiveTypes](docs/AllOfPrimitiveTypes.md)
  - [Animal](docs/Animal.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)

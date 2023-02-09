@@ -59,7 +59,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
   @XmlElement(name = "inner")
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
