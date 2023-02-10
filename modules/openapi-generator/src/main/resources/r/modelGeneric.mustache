@@ -111,7 +111,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{^isPrimitiveType}}sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x))){{/isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -183,7 +183,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{^isPrimitiveType}}sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x))){{/isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {

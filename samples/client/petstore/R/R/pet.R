@@ -52,7 +52,7 @@ Pet <- R6::R6Class(
       }
       if (!missing(`photoUrls`)) {
         stopifnot(is.vector(`photoUrls`), length(`photoUrls`) != 0)
-        sapply(`photoUrls`, function(x) stopifnot(is.character(x)))
+        
         self$`photoUrls` <- `photoUrls`
       }
       if (!is.null(`id`)) {
