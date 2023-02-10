@@ -438,8 +438,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if (_item != null) {
           try {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix)),
-                URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20"));
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
             throw new RuntimeException(e);
