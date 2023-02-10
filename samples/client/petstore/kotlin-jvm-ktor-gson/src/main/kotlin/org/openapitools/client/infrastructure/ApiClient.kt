@@ -48,8 +48,8 @@ open class ApiClient(
 
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf(
-                "api_key" to ApiKeyAuth("header", "api_key"), 
-                "petstore_auth" to OAuth())
+                "petstore_auth" to OAuth(), 
+                "api_key" to ApiKeyAuth("header", "api_key"))
     }
 
     companion object {

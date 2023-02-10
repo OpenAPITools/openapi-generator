@@ -5303,14 +5303,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // sort auth methods to maintain the same order
-        Collections.sort(codegenSecurities, new Comparator<CodegenSecurity>() {
-            @Override
-            public int compare(CodegenSecurity one, CodegenSecurity another) {
-                return ObjectUtils.compare(one.name, another.name);
-            }
-        });
-
         return codegenSecurities;
     }
 

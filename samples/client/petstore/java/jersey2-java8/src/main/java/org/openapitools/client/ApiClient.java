@@ -128,6 +128,14 @@ public class ApiClient extends JavaTimeFormatter {
     authentications = new HashMap<String, Authentication>();
     Authentication auth = null;
     if (authMap != null) {
+      auth = authMap.get("petstore_auth");
+    }
+    if (auth instanceof OAuth) {
+      authentications.put("petstore_auth", auth);
+    } else {
+      authentications.put("petstore_auth", new OAuth(basePath, ""));
+    }
+    if (authMap != null) {
       auth = authMap.get("api_key");
     }
     if (auth instanceof ApiKeyAuth) {
@@ -150,14 +158,6 @@ public class ApiClient extends JavaTimeFormatter {
       authentications.put("http_basic_test", auth);
     } else {
       authentications.put("http_basic_test", new HttpBasicAuth());
-    }
-    if (authMap != null) {
-      auth = authMap.get("petstore_auth");
-    }
-    if (auth instanceof OAuth) {
-      authentications.put("petstore_auth", auth);
-    } else {
-      authentications.put("petstore_auth", new OAuth(basePath, ""));
     }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
