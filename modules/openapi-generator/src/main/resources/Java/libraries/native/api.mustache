@@ -12,11 +12,14 @@ import {{import}};
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+{{#hasFormParams}}
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+{{/hasFormParams}}
 
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
