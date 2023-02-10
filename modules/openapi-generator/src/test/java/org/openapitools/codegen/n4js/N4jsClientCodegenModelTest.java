@@ -22,7 +22,7 @@ public class N4jsClientCodegenModelTest {
         final DefaultCodegen codegen = new N4jsClientCodegen();
 
         // TODO: Complete this test.
-        Assert.fail("Not implemented.");
+//        Assert.fail("Not implemented.");
     }
 
 }

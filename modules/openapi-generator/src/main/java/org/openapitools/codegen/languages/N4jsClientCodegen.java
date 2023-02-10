@@ -1,5 +1,10 @@
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.API_PACKAGE_DESC;
+import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE_DESC;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
@@ -41,16 +45,17 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
 public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
-	public static final String PROJECT_NAME = "projectName";
-    public static final String CHECK_REQUIRED_BODY_PROPS_NOT_NULL = "checkRequiredBodyPropsNotNull";
+    public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
     public static final String CHECK_SUPERFLUOUS_BODY_PROPS = "checkSuperfluousBodyProps";
+    public static final String GENERATE_DEFAULT_API_EXECUTER = "generateDefaultApiExecuter";
 
-	static final Logger LOGGER = LoggerFactory.getLogger(N4jsClientCodegen.class);
+	final Logger LOGGER = LoggerFactory.getLogger(N4jsClientCodegen.class);
 
 	final Set<String> forbiddenChars = new HashSet<>();
 	
 	private boolean checkRequiredBodyPropsNotNull = true;
 	private boolean checkSuperfluousBodyProps = true;
+	private boolean generateDefaultApiExecuter = true;
 
 	public CodegenType getTag() {
 		return CodegenType.CLIENT;
@@ -73,8 +78,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		modelTemplateFiles.put("model.mustache", ".n4jsd");
 		apiTemplateFiles.put("api.mustache", ".n4js");
 		embeddedTemplateDir = templateDir = "n4js";
-		apiPackage = "api";
-		modelPackage = "model";
+		apiPackage = "";
+		modelPackage = "";
 
 		typeMapping = new HashMap<String, String>();
 		typeMapping.put("Set", "Set");
@@ -130,10 +135,12 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		
 		forbiddenChars.add("@");
 
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CHECK_REQUIRED_BODY_PROPS_NOT_NULL, "Iff true null-checks are performed for required parameters."));
+		cliOptions.clear();
+        cliOptions.add(new CliOption(API_PACKAGE, API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(MODEL_PACKAGE, MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CHECK_REQUIRED_PARAMS_NOT_NULL, "Iff true null-checks are performed for required parameters."));
         cliOptions.add(new CliOption(CHECK_SUPERFLUOUS_BODY_PROPS, "Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
+        cliOptions.add(new CliOption(GENERATE_DEFAULT_API_EXECUTER, "Iff true a default implementation of the api executer interface is generated."));
 	}
 
     @Override
@@ -143,12 +150,34 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 		supportingFiles.add(new SupportingFile("ApiHelper.mustache", apiPackage, "ApiHelper.n4js"));
 
-        if (additionalProperties.containsKey(CHECK_REQUIRED_BODY_PROPS_NOT_NULL)) {
-        	checkRequiredBodyPropsNotNull = Boolean.getBoolean(CHECK_REQUIRED_BODY_PROPS_NOT_NULL);
+        if (additionalProperties.get(CHECK_REQUIRED_PARAMS_NOT_NULL) instanceof Boolean) {
+        	checkRequiredBodyPropsNotNull = (Boolean) additionalProperties.get(CHECK_REQUIRED_PARAMS_NOT_NULL);
+        } else {
+        	additionalProperties.put(CHECK_REQUIRED_PARAMS_NOT_NULL, String.valueOf(checkRequiredBodyPropsNotNull));
         }
         
-        if (additionalProperties.containsKey(CHECK_SUPERFLUOUS_BODY_PROPS)) {
-        	checkSuperfluousBodyProps = Boolean.getBoolean(CHECK_SUPERFLUOUS_BODY_PROPS);
+        if (additionalProperties.get(CHECK_SUPERFLUOUS_BODY_PROPS) instanceof Boolean) {
+        	checkSuperfluousBodyProps = (Boolean) additionalProperties.get(CHECK_SUPERFLUOUS_BODY_PROPS);
+        } else {
+        	additionalProperties.put(CHECK_SUPERFLUOUS_BODY_PROPS, String.valueOf(checkSuperfluousBodyProps));
+        }
+        
+        if (additionalProperties.get(GENERATE_DEFAULT_API_EXECUTER) instanceof Boolean) {
+        	generateDefaultApiExecuter = (Boolean) additionalProperties.get(GENERATE_DEFAULT_API_EXECUTER);
+        } else {
+        	additionalProperties.put(GENERATE_DEFAULT_API_EXECUTER, String.valueOf(generateDefaultApiExecuter));
+        }
+        
+        if (additionalProperties.get(API_PACKAGE) instanceof String) {
+        	apiPackage = additionalProperties.get(API_PACKAGE).toString();
+        } else {
+        	additionalProperties.put(API_PACKAGE, apiPackage);
+        }
+        
+        if (additionalProperties.get(MODEL_PACKAGE) instanceof String) {
+        	modelPackage = additionalProperties.get(MODEL_PACKAGE).toString();
+        } else {
+        	additionalProperties.put(MODEL_PACKAGE, modelPackage);
         }
     }
     
@@ -167,6 +196,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     
     public boolean checkSuperfluousBodyProps() {
     	return checkSuperfluousBodyProps;
+    }
+    
+    public boolean generateDefaultApiExecuter() {
+    	return generateDefaultApiExecuter;
     }
 
     @Override
