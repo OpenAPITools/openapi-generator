@@ -312,7 +312,7 @@ FormatTest <- R6::R6Class(
         if (!is.null(self$`number`)) {
           sprintf(
           '"number":
-            %d
+            %f
                     ',
           self$`number`
           )
@@ -320,7 +320,7 @@ FormatTest <- R6::R6Class(
         if (!is.null(self$`float`)) {
           sprintf(
           '"float":
-            %d
+            %f
                     ',
           self$`float`
           )
@@ -328,7 +328,7 @@ FormatTest <- R6::R6Class(
         if (!is.null(self$`double`)) {
           sprintf(
           '"double":
-            %d
+            %f
                     ',
           self$`double`
           )
