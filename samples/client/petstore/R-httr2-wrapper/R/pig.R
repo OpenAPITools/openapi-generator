@@ -90,10 +90,10 @@ Pig <- R6::R6Class(
         error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for Pig. Error message: %s. JSON input: %s", oneof_lookup_result["message"], input))
       }
 
-      BasquePig_result <- tryCatch({
-          BasquePig$public_methods$validateJSON(input)
-          BasquePig_instance <- BasquePig$new()
-          instance <- BasquePig_instance$fromJSON(input)
+      `BasquePig_result` <- tryCatch({
+          `BasquePig`$public_methods$validateJSON(input)
+          `BasquePig_instance` <- `BasquePig`$new()
+          instance <- `BasquePig_instance`$fromJSON(input)
           instance_type <- "BasquePig"
           matched_schemas <- append(matched_schemas, "BasquePig")
           matched <- matched + 1
@@ -101,14 +101,14 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(BasquePig_result["error"])) {
-        error_messages <- append(error_messages, BasquePig_result["message"])
+      if (!is.null(`BasquePig_result`["error"])) {
+        error_messages <- append(error_messages, `BasquePig_result`["message"])
       }
 
-      DanishPig_result <- tryCatch({
-          DanishPig$public_methods$validateJSON(input)
-          DanishPig_instance <- DanishPig$new()
-          instance <- DanishPig_instance$fromJSON(input)
+      `DanishPig_result` <- tryCatch({
+          `DanishPig`$public_methods$validateJSON(input)
+          `DanishPig_instance` <- `DanishPig`$new()
+          instance <- `DanishPig_instance`$fromJSON(input)
           instance_type <- "DanishPig"
           matched_schemas <- append(matched_schemas, "DanishPig")
           matched <- matched + 1
@@ -116,8 +116,8 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(DanishPig_result["error"])) {
-        error_messages <- append(error_messages, DanishPig_result["message"])
+      if (!is.null(`DanishPig_result`["error"])) {
+        error_messages <- append(error_messages, `DanishPig_result`["message"])
       }
 
       if (matched == 1) {
