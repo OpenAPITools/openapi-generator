@@ -248,11 +248,13 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{#hasFormParamsInSpec}}
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>${httpmime-version}</version>
         </dependency>
+        {{/hasFormParamsInSpec}}
 
         <!-- test dependencies -->
         <dependency>
@@ -278,7 +280,9 @@
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         {{/useJakartaEe}}
+        {{#hasFormParamsInSpec}}
         <httpmime-version>4.5.13</httpmime-version>
+        {{/hasFormParamsInSpec}}
         <junit-version>4.13.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>
