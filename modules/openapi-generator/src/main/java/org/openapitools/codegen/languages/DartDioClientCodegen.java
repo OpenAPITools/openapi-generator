@@ -672,7 +672,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            resultImports.addAll(rewriteImports(op.imports, false));
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
