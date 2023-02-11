@@ -54,18 +54,6 @@ Class | Method
 
 ## Authorization
 
-## api_key
-- **Type**: API key
-
-Example
-```
-    using OpenAPI
-    using OpenAPI.Clients
-    import OpenAPI.Clients: Client
-    client = Client(server_uri)
-    api = MyApi(client)
-    result = callApi(api, args...; api_key)
-```
 ## petstore_auth
 - **Type**: OAuth
 - **Flow**: implicit
@@ -81,6 +69,18 @@ Example
     import OpenAPI.Clients: Client, set_header
     client = Client(server_uri)
     set_header(client, "Authorization", "Bearer $bearer_auth")
+    api = MyApi(client)
+    result = callApi(api, args...; api_key)
+```
+## api_key
+- **Type**: API key
+
+Example
+```
+    using OpenAPI
+    using OpenAPI.Clients
+    import OpenAPI.Clients: Client
+    client = Client(server_uri)
     api = MyApi(client)
     result = callApi(api, args...; api_key)
 ```
