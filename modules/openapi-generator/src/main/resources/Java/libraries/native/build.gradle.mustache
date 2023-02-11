@@ -72,9 +72,9 @@ ext {
     jackson_version = "2.14.1"
     jakarta_annotation_version = "1.3.5"
     junit_version = "4.13.2"
-    {{#hasFormParams}}
+    {{#hasFormParamsInSpec}}
     httpmime_version = "4.5.13"
-    {{/hasFormParams}}
+    {{/hasFormParamsInSpec}}
 }
 
 dependencies {
@@ -88,9 +88,9 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:0.2.1"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    {{#hasFormParams}}
+    {{#hasFormParamsInSpec}}
     implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
-    {{/hasFormParams}}
+    {{/hasFormParamsInSpec}}
     testImplementation "junit:junit:$junit_version"
 }
 

@@ -1542,6 +1542,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
+            // check if the operation has form parameters
+            if (op.getHasFormParams()) {
+                additionalProperties.put("hasFormParamsInSpec", true);
+            }
             Collection<String> operationImports = new ConcurrentSkipListSet<>();
             for (CodegenParameter p : op.allParams) {
                 if (importMapping.containsKey(p.dataType)) {
@@ -1552,6 +1556,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
         }
+
         return objs;
     }
 
