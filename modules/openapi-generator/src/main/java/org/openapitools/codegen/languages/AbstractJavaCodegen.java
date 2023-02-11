@@ -1545,6 +1545,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             // check if the operation has form parameters
             if (op.getHasFormParams()) {
                 additionalProperties.put("hasFormParamsInSpec", true);
+                operations.
             }
             Collection<String> operationImports = new ConcurrentSkipListSet<>();
             for (CodegenParameter p : op.allParams) {
