@@ -21,29 +21,28 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.cookie.Cookie;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
+import org.apache.hc.client5.http.cookie.Cookie;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.cookie.BasicClientCookie;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.FileEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -66,6 +65,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
@@ -751,7 +751,7 @@ public class ApiClient extends JavaTimeFormatter {
   private ContentType getContentType(String headerValue) throws ApiException {
     try {
       return ContentType.parse(headerValue);
-    } catch (ParseException e) {
+    } catch (UnsupportedCharsetException e) {
       throw new ApiException("Could not parse content type " + headerValue);
     }
   }
@@ -832,7 +832,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @throws IOException IO exception
    */
   @SuppressWarnings("unchecked")
-  public <T> T deserialize(HttpResponse response, TypeReference<T> valueType) throws ApiException, IOException {
+  public <T> T deserialize(CloseableHttpResponse response, TypeReference<T> valueType) throws ApiException, IOException, ParseException {
     if (valueType == null) {
       return null;
     }
@@ -862,14 +862,14 @@ public class ApiClient extends JavaTimeFormatter {
     } else {
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
-          response.getStatusLine().getStatusCode(),
+          response.getCode(),
           responseHeaders,
           EntityUtils.toString(entity)
       );
     }
   }
 
-  private File downloadFileFromResponse(HttpResponse response) throws IOException {
+  private File downloadFileFromResponse(CloseableHttpResponse response) throws IOException {
     Header contentDispositionHeader = response.getFirstHeader("Content-Disposition");
     String contentDisposition = contentDispositionHeader == null ? null : contentDispositionHeader.getValue();
     File file = prepareDownloadFile(contentDisposition);
@@ -994,13 +994,13 @@ public class ApiClient extends JavaTimeFormatter {
     return cookie;
   }
 
-  protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException {
-    statusCode = response.getStatusLine().getStatusCode();
+  protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
+    statusCode = response.getCode();
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
 
-    responseHeaders = transformResponseHeaders(response.getAllHeaders());
+    responseHeaders = transformResponseHeaders(response.getHeaders());
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
     } else {
@@ -1050,13 +1050,8 @@ public class ApiClient extends JavaTimeFormatter {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
     final String url = buildUrl(path, queryParams, collectionQueryParams, urlQueryDeepObject);
 
-    RequestBuilder builder = RequestBuilder.create(method);
+    ClassicRequestBuilder builder = ClassicRequestBuilder.create(method);
     builder.setUri(url);
-
-    RequestConfig config = RequestConfig.custom()
-      .setConnectionRequestTimeout(connectionTimeout)
-      .build();
-    builder.setConfig(config);
 
     if (accept != null) {
       builder.addHeader("Accept", accept);
@@ -1098,7 +1093,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
       return processResponse(response, returnType);
-    } catch (IOException e) {
+    } catch (IOException | ParseException e) {
       throw new ApiException(e);
     }
   }

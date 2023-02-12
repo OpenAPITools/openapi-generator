@@ -1423,11 +1423,6 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testExtraAnnotationsApache5() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.APACHE_5);
-    }
-
-    @Test
     public void testDefaultMicroprofileRestClientVersion() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
