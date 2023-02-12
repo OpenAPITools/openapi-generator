@@ -4,6 +4,8 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s) |
+| [**testQueryDatetimeDateStringWithHttpInfo**](QueryApi.md#testQueryDatetimeDateStringWithHttpInfo) | **GET** /query/datetime/date/string | Test query parameter(s) |
 | [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s) |
 | [**testQueryIntegerBooleanStringWithHttpInfo**](QueryApi.md#testQueryIntegerBooleanStringWithHttpInfo) | **GET** /query/integer/boolean/string | Test query parameter(s) |
 | [**testQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s) |
@@ -17,6 +19,148 @@ All URIs are relative to *http://localhost:3000*
 | [**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 
+
+
+## testQueryDatetimeDateString
+
+> String testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        LocalDate dateQuery = LocalDate.now(); // LocalDate | 
+        String stringQuery = "stringQuery_example"; // String | 
+        try {
+            String result = apiInstance.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryDatetimeDateString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **dateQuery** | **LocalDate**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testQueryDatetimeDateStringWithHttpInfo
+
+> ApiResponse<String> testQueryDatetimeDateString testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        LocalDate dateQuery = LocalDate.now(); // LocalDate | 
+        String stringQuery = "stringQuery_example"; // String | 
+        try {
+            ApiResponse<String> response = apiInstance.testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryDatetimeDateString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **dateQuery** | **LocalDate**|  | [optional] |
+| **stringQuery** | **String**|  | [optional] |
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
 
 
 ## testQueryIntegerBooleanString
