@@ -57,7 +57,7 @@ val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthSer
             clientId = settings.property("auth.oauth.petstore_auth.clientId").getString(),
             clientSecret = settings.property("auth.oauth.petstore_auth.clientSecret").getString(),
             defaultScopes = listOf("write:pets", "read:pets")
-        )
+        ),
 //        OAuthServerSettings.OAuth2ServerSettings(
 //                name = "facebook",
 //                authorizeUrl = "https://graph.facebook.com/oauth/authorize",

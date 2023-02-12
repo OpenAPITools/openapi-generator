@@ -1541,7 +1541,6 @@ components:
       type: object
       required:
         - number
-        - byte
         - date
         - password
       properties:

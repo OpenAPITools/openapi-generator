@@ -5,6 +5,7 @@ to test the default value of properties
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**array_string_enum_ref_default** | [**List[StringEnumRef]**](StringEnumRef.md) |  | [optional] [default to ["success","failure"]]
 **array_string_enum_default** | **List[str]** |  | [optional] [default to ["success","failure"]]
 **array_string_default** | **List[str]** |  | [optional] [default to ["failure","skipped"]]
 **array_integer_default** | **List[int]** |  | [optional] [default to [1,3]]

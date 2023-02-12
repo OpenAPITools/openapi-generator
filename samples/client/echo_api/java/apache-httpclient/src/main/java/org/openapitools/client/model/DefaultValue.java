@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -36,6 +37,7 @@ import java.util.StringJoiner;
  * to test the default value of properties
  */
 @JsonPropertyOrder({
+  DefaultValue.JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_INTEGER_DEFAULT,
@@ -45,6 +47,9 @@ import java.util.StringJoiner;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
+  public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
+  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+
   /**
    * Gets or Sets arrayStringEnumDefault
    */
@@ -102,6 +107,40 @@ public class DefaultValue {
 
   public DefaultValue() {
   }
+
+  public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+    
+    this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
+    return this;
+  }
+
+  public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
+    if (this.arrayStringEnumRefDefault == null) {
+      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+    }
+    this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
+    return this;
+  }
+
+   /**
+   * Get arrayStringEnumRefDefault
+   * @return arrayStringEnumRefDefault
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<StringEnumRef> getArrayStringEnumRefDefault() {
+    return arrayStringEnumRefDefault;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+    this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
+  }
+
 
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     
@@ -328,7 +367,8 @@ public class DefaultValue {
       return false;
     }
     DefaultValue defaultValue = (DefaultValue) o;
-    return Objects.equals(this.arrayStringEnumDefault, defaultValue.arrayStringEnumDefault) &&
+    return Objects.equals(this.arrayStringEnumRefDefault, defaultValue.arrayStringEnumRefDefault) &&
+        Objects.equals(this.arrayStringEnumDefault, defaultValue.arrayStringEnumDefault) &&
         Objects.equals(this.arrayStringDefault, defaultValue.arrayStringDefault) &&
         Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
@@ -342,7 +382,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(stringNullable));
+    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(stringNullable));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -356,6 +396,7 @@ public class DefaultValue {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DefaultValue {\n");
+    sb.append("    arrayStringEnumRefDefault: ").append(toIndentedString(arrayStringEnumRefDefault)).append("\n");
     sb.append("    arrayStringEnumDefault: ").append(toIndentedString(arrayStringEnumDefault)).append("\n");
     sb.append("    arrayStringDefault: ").append(toIndentedString(arrayStringDefault)).append("\n");
     sb.append("    arrayIntegerDefault: ").append(toIndentedString(arrayIntegerDefault)).append("\n");
@@ -408,6 +449,22 @@ public class DefaultValue {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `array_string_enum_ref_default` to the URL query string
+    if (getArrayStringEnumRefDefault() != null) {
+      for (int i = 0; i < getArrayStringEnumRefDefault().size(); i++) {
+        if (getArrayStringEnumRefDefault().get(i) != null) {
+          try {
+            joiner.add(String.format("%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf(getArrayStringEnumRefDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+          } catch (UnsupportedEncodingException e) {
+            // Should never happen, UTF-8 is always supported
+            throw new RuntimeException(e);
+          }
+        }
+      }
+    }
 
     // add `array_string_enum_default` to the URL query string
     if (getArrayStringEnumDefault() != null) {

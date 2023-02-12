@@ -409,6 +409,13 @@ conf = petstore_api.Configuration(
         :return: The Auth Settings information dict.
         """
         auth = {}
+        if self.access_token is not None:
+            auth['petstore_auth'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
         if 'api_key' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
@@ -433,13 +440,6 @@ conf = petstore_api.Configuration(
                 'in': 'header',
                 'key': 'Authorization',
                 'value': self.get_basic_auth_token()
-            }
-        if self.access_token is not None:
-            auth['petstore_auth'] = {
-                'type': 'oauth2',
-                'in': 'header',
-                'key': 'Authorization',
-                'value': 'Bearer ' + self.access_token
             }
         return auth
 

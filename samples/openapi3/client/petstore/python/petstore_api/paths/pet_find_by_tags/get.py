@@ -78,8 +78,8 @@ request_query_tags = api_client.QueryParameter(
     required=True,
 )
 _auth = [
-    'http_signature_test',
     'petstore_auth',
+    'http_signature_test',
 ]
 
 
