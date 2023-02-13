@@ -5,14 +5,20 @@ description: OpenAPI API Dart DIO client tests for petstore_client_lib_fake
 publish_to: none
 
 environment:
-  sdk: '>=2.10.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 
 dev_dependencies:
   built_collection: 5.1.1
-  built_value: 8.4.0
-  dio: 4.0.6
-  http_mock_adapter: 0.3.2
-  mockito: 5.0.11
+  built_value: 8.4.3
+  dio: 5.0.0
+  http_mock_adapter: 0.3.3
+  mockito: 5.3.2
   openapi:
     path: ../petstore_client_lib_fake
-  test: 1.17.4
+  test: 1.23.1
+
+dependency_overrides:
+  http_mock_adapter:
+    git:
+      url: https://github.com/SebastianKlaiber/http-mock-adapter
+      ref: ef8f8898eed56fe7c3a75e3587e7bf3e1ce0102f

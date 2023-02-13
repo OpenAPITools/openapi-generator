@@ -7,8 +7,8 @@ import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 void main() {
-  Openapi client;
-  DioAdapter tester;
+  late Openapi client;
+  late DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
@@ -97,7 +97,7 @@ void main() {
           (server) => server.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': Matchers.listParam<Object>(
+            'enum_form_string_array': Matchers.listParam<Object?>(
               ListParam(
                 ['foo', 'bar'],
                 ListFormat.csv,
@@ -110,6 +110,7 @@ void main() {
           headers: <String, dynamic>{
             'enum_header_string': '-efg',
             'content-type': 'application/x-www-form-urlencoded',
+            'content-length': Matchers.integer,
           },
         );
 
