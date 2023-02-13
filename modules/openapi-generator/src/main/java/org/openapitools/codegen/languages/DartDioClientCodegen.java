@@ -145,7 +145,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio(X) client library with null-safety.";
+        return "Generates a Dart Dio client library.";
     }
 
     @Override
