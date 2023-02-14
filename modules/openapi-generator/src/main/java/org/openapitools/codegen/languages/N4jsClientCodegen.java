@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -346,14 +347,19 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 			if (op.bodyParam != null && !op.bodyParam.vars.isEmpty()) {
 				needImportCleanCopyBody = true;
 			}
-			if (op.responses != null && op.responses.size() > 1) {
-				Set<String> errResponses = new HashSet<>();
+			if (op.responses != null && op.responses.size() > 0) {
+				Map<String, CodegenResponse> responses2xx = new LinkedHashMap<>();
+				Map<String, CodegenResponse> responses4xx = new LinkedHashMap<>();
 				for (CodegenResponse response : op.responses) {
+					if (response.is2xx) {
+						responses2xx.put(response.baseType, response);
+					}
 					if (response.is4xx) {
-						errResponses.add(response.baseType);
+						responses4xx.put(response.baseType, response);
 					}
 				}
-				op.vendorExtensions.put("errResponses", errResponses);
+				op.vendorExtensions.put("responses2xx", new ArrayList<>(responses2xx.values()));
+				op.vendorExtensions.put("responses4xx", new ArrayList<>(responses4xx.values()));
 			}
 		}
 
