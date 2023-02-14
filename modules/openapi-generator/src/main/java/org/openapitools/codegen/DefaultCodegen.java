@@ -6314,6 +6314,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (var.mostInnerItems != null) {
             allowableValues = var.mostInnerItems.allowableValues;
         }
+        
+        // handle typical referenced enum type with default specified in var
+        if (allowableValues == null && var.getComposedSchemas() != null && var.getComposedSchemas().getAllOf() != null
+                && var.getComposedSchemas().getAllOf().size() == 1) {
+            allowableValues = var.getComposedSchemas().getAllOf().get(0).getAllowableValues();
+        }
 
         if (allowableValues == null) {
             return;
