@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Api
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Scheme = HttpClient.BaseAddress!.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
 
 
@@ -400,7 +400,7 @@ namespace Org.OpenAPITools.Api
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Scheme = HttpClient.BaseAddress!.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/country";
 
                     MultipartContent multipartContent = new MultipartContent();
