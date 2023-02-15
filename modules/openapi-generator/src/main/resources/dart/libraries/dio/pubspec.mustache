@@ -4,15 +4,10 @@ description: {{pubDescription}}
 homepage: {{pubHomepage}}
 
 environment:
-{{#useBuiltValue}}
-  sdk: '>=2.12.0 <3.0.0'
-{{/useBuiltValue}}
-{{#useJsonSerializable}}
-  sdk: '>=2.14.0 <3.0.0'
-{{/useJsonSerializable}}
+  sdk: '>=2.15.0 <3.0.0'
 
 dependencies:
-  dio: '>=4.0.1 <5.0.0'
+  dio: '^5.0.0'
 {{#useBuiltValue}}
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'

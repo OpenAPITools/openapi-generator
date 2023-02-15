@@ -1,6 +1,5 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/src/parameter.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:openapi/openapi.dart';
@@ -10,8 +9,8 @@ void main() {
   const photo1 = 'https://localhost/photo1.jpg';
   const photo2 = 'https://localhost/photo2.jpg';
 
-  Openapi client;
-  DioAdapter tester;
+  late Openapi client;
+  late DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
@@ -56,13 +55,13 @@ void main() {
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.id, 5);
-        expect(response.data.name, 'Paula');
-        expect(response.data.status, PetStatusEnum.sold);
-        expect(response.data.category.id, 1);
-        expect(response.data.category.name, 'dog');
-        expect(response.data.photoUrls.length, 2);
-        expect(response.data.tags.length, 2);
+        expect(response.data!.id, 5);
+        expect(response.data!.name, 'Paula');
+        expect(response.data!.status, PetStatusEnum.sold);
+        expect(response.data!.category?.id, 1);
+        expect(response.data!.category?.name, 'dog');
+        expect(response.data!.photoUrls, hasLength(2));
+        expect(response.data!.tags, hasLength(2));
       });
 
       test('minimal', () async {
@@ -79,12 +78,12 @@ void main() {
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.id, 5);
-        expect(response.data.name, 'Paula');
-        expect(response.data.status, isNull);
-        expect(response.data.category, isNull);
-        expect(response.data.photoUrls, isNotNull);
-        expect(response.data.photoUrls, isEmpty);
+        expect(response.data!.id, 5);
+        expect(response.data!.name, 'Paula');
+        expect(response.data!.status, isNull);
+        expect(response.data!.category, isNull);
+        expect(response.data!.photoUrls, isNotNull);
+        expect(response.data!.photoUrls, isEmpty);
       });
     });
 
@@ -207,13 +206,13 @@ void main() {
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.length, 2);
-        expect(response.data[0].id, 5);
-        expect(response.data[0].name, 'Paula');
-        expect(response.data[0].status, PetStatusEnum.sold);
-        expect(response.data[1].id, 1);
-        expect(response.data[1].name, 'Mickey');
-        expect(response.data[1].status, PetStatusEnum.available);
+        expect(response.data, hasLength(2));
+        expect(response.data![0].id, 5);
+        expect(response.data![0].name, 'Paula');
+        expect(response.data![0].status, PetStatusEnum.sold);
+        expect(response.data![1].id, 1);
+        expect(response.data![1].name, 'Mickey');
+        expect(response.data![1].status, PetStatusEnum.available);
       });
     });
 
@@ -252,7 +251,7 @@ void main() {
             );
 
         expect(response.statusCode, 200);
-        expect(response.data.message, 'File uploaded');
+        expect(response.data?.message, 'File uploaded');
       });
 
       test('uploadFileWithRequiredFile & additionalMetadata', () async {
@@ -291,7 +290,7 @@ void main() {
             );
 
         expect(response.statusCode, 200);
-        expect(response.data.message, 'File uploaded');
+        expect(response.data?.message, 'File uploaded');
       });
     });
   });
