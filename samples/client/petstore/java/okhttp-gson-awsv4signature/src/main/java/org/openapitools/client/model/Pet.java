@@ -70,7 +70,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
