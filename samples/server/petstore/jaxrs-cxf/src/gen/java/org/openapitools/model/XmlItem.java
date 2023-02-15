@@ -27,7 +27,7 @@ public class XmlItem  {
   private Boolean attributeBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String nameString;
@@ -43,10 +43,10 @@ public class XmlItem  {
   private Boolean nameBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixString;
@@ -62,10 +62,10 @@ public class XmlItem  {
   private Boolean prefixBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String namespaceString;
@@ -81,10 +81,10 @@ public class XmlItem  {
   private Boolean namespaceBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixNsString;
@@ -100,10 +100,10 @@ public class XmlItem  {
   private Boolean prefixNsBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
  /**
    * Get attributeString
    * @return attributeString
