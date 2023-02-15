@@ -132,6 +132,11 @@ namespace Org.OpenAPITools.Model
     public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
         /// <summary>
+        /// The format to use to serialize DateTime
+        /// </summary>
+        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -200,8 +205,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTime, jsonSerializerOptions);
+            writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("map");
             JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);

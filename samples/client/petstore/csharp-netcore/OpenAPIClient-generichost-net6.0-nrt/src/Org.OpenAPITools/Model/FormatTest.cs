@@ -368,7 +368,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize Date
         /// </summary>
-        public string DateFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateFormat { get; set; } = "yyyy-MM-dd";
+
+        /// <summary>
+        /// The format to use to serialize DateTime
+        /// </summary>
+        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// A Json reader.
@@ -491,9 +496,8 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.ByteProperty, jsonSerializerOptions);
-            writer.WriteString("date", formatTest.Date.ToString(this.DateFormat));
-            writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, formatTest.DateTime, jsonSerializerOptions);
+            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            writer.WriteString("dateTime", formatTest.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("decimal");
             JsonSerializer.Serialize(writer, formatTest.DecimalProperty, jsonSerializerOptions);
             writer.WriteNumber("double", formatTest.DoubleProperty);
