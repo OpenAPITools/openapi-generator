@@ -282,7 +282,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
     if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
-      this.arrayStringNullable = JsonNullable.<List<String>>of(null);
+      this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
       this.arrayStringNullable.get().add(arrayStringNullableItem);
