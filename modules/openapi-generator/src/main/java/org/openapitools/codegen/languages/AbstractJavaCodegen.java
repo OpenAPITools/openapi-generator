@@ -1038,7 +1038,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
                 if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                    return "null";
+                    return null;
                 } else {
                     if (ModelUtils.isSet(schema)) {
                         return String.format(Locale.ROOT, "new %s<>()",
@@ -1061,7 +1061,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                return "null";
+                return null;
             }
 
             if (getAdditionalProperties(schema) == null) {
