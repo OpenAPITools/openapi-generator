@@ -131,6 +131,18 @@ public class StringUtils {
      * @return camelized string
      */
     public static String camelize(final String inputWord, CamelizeOption camelizeOption) {
+        return camelize(inputWord, camelizeOption, true);
+    }
+
+    /**
+     * Camelize name (parameter, property, method, etc)
+     *
+     * @param inputWord string to be camelize
+     * @param camelizeOption option for the camelize result
+     * @param removeUnderscores remove leftover underscores after camelization
+     * @return camelized string
+     */
+    public static String camelize(final String inputWord, CamelizeOption camelizeOption, boolean removeUnderscores) {
         Pair<String, CamelizeOption> key = new ImmutablePair<>(inputWord, camelizeOption);
 
         return camelizedWordsCache.get(key, pair -> {
@@ -197,7 +209,9 @@ public class StringUtils {
             }
 
             // remove all underscore
-            word = camelizeSimpleUnderscorePattern.matcher(word).replaceAll("");
+            if (removeUnderscores) {
+                word = camelizeSimpleUnderscorePattern.matcher(word).replaceAll("");
+            }
             return word;
         });
     }

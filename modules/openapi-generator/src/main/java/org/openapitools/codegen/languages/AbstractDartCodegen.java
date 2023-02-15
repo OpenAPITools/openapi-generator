@@ -355,25 +355,31 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
-        // always need to replace leading underscores first
-        name = name.replaceAll("^_", "");
+        // Move leading underscores to the end.
+        // It is common in API specs to have fields like "_id" AND "id"
+        // If we just remove the leading underscore, we will have a missing
+        // field because both are reduced to "id".
+        name = name.replaceAll("^(_+)(.*)", "$2$1");
 
         // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
+        // Safe this before sanitization so we know when not to strip trailing underscores
+        boolean endsWithUnderscore = name.endsWith("_");
+
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
         if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
-            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
+            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "-");
         }
         // remove the rest
         name = sanitizeName(name);
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_LETTER);
+        name = camelize(name, LOWERCASE_FIRST_LETTER, !endsWithUnderscore);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
