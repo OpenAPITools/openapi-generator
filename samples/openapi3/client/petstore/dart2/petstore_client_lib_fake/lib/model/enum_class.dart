@@ -23,14 +23,14 @@ class EnumClass {
 
   String toJson() => value;
 
-  static const abc = EnumClass._(r'_abc');
-  static const efg = EnumClass._(r'-efg');
+  static const abc_ = EnumClass._(r'_abc');
+  static const efg_ = EnumClass._(r'-efg');
   static const leftParenthesisXyzRightParenthesis = EnumClass._(r'(xyz)');
 
   /// List of all possible values in this [enum][EnumClass].
   static const values = <EnumClass>[
-    abc,
-    efg,
+    abc_,
+    efg_,
     leftParenthesisXyzRightParenthesis,
   ];
 
@@ -70,8 +70,8 @@ class EnumClassTypeTransformer {
   EnumClass? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'_abc': return EnumClass.abc;
-        case r'-efg': return EnumClass.efg;
+        case r'_abc': return EnumClass.abc_;
+        case r'-efg': return EnumClass.efg_;
         case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
         default:
           if (!allowNull) {
