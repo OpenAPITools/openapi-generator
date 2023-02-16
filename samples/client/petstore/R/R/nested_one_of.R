@@ -85,9 +85,9 @@ NestedOneOf <- R6::R6Class(
         self$`size` <- this_object$`size`
       }
       if (!is.null(this_object$`nested_pig`)) {
-        nested_pig_object <- Pig$new()
-        nested_pig_object$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
-        self$`nested_pig` <- nested_pig_object
+        `nested_pig_object` <- Pig$new()
+        `nested_pig_object`$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
+        self$`nested_pig` <- `nested_pig_object`
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -143,7 +143,7 @@ NestedOneOf <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`size` <- this_object$`size`
-      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
+      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
