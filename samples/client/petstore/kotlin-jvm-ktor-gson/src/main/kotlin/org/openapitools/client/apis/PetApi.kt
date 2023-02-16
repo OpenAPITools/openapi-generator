@@ -245,8 +245,8 @@ import java.text.DateFormat
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        name?.apply { it.append("name", name.toString()) }
-                        status?.apply { it.append("status", status.toString()) }
+                        name?.apply { it.append("name", name) }
+                        status?.apply { it.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -283,8 +283,8 @@ import java.text.DateFormat
 
             val localVariableBody = 
                         formData {
-                        additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                        file?.apply { append("file", file) }
+                        additionalMetadata?.apply { it.append("additionalMetadata", additionalMetadata) }
+                        file?.apply { it.append("file", file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
