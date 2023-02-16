@@ -281,8 +281,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableBody = 
                         formData {
-                        additionalMetadata?.apply { it.append("additionalMetadata", additionalMetadata) }
-                        file?.apply { it.append("file", file) }
+                        additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
+                        file?.apply { append("file", file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
