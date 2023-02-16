@@ -19,6 +19,7 @@ Rscript -e "install.packages('rlang', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('rjson', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('devtools', repos='$REPO', lib='$R_LIBS_USER')"
 Rscript -e "install.packages('stringr', repos='$REPO', lib='$R_LIBS_USER')"
+Rscript -e "install.packages('lifecycle', repos='$REPO', lib='$R_LIBS_USER')"
 
 rm petstore_1.0.0.tar.gz || true
 
