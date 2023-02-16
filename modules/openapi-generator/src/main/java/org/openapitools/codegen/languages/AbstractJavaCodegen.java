@@ -1013,6 +1013,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     if (cp.items.isString) { // array item is string
                         defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                    } else if (cp.items.isNumeric) {
+                        defaultValue = _values.stream()
+                                .map(v -> {
+                                    if ("BigInteger".equals(cp.items.dataType)) {
+                                        return "new BigInteger(\"" + v + "\")";
+                                    } else if ("BigDecimal".equals(cp.items.dataType)) {
+                                        return "new BigDecimal(\"" + v + "\")";
+                                    } else if (cp.items.isFloat) {
+                                        return v + "f";
+                                    } else {
+                                        return v;
+                                    }
+                                })
+                                .collect(Collectors.joining(", "));
                     } else { // array item is non-string, e.g. integer
                         defaultValue = StringUtils.join(_values, ", ");
                     }
