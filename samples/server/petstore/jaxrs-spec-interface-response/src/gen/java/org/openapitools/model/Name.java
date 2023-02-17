@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Name  implements Serializable {
   private @Valid Integer name;
   private @Valid Integer snakeCase;
   private @Valid String property;
@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -47,14 +45,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -68,14 +64,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.snakeCase = snakeCase;
   }
 
-/**
+  /**
    **/
   public Name property(String property) {
     this.property = property;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -89,14 +83,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.property = property;
   }
 
-/**
+  /**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

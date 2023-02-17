@@ -50,8 +50,10 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> typeMappings;
     private final Map<String, Object> additionalProperties;
     private final Map<String, String> importMappings;
+    private final Map<String, String> schemaMappings;
     private final Map<String, String> inlineSchemaNameMappings;
     private final Map<String, String> inlineSchemaNameDefaults;
+    private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Map<String, String> reservedWordsMappings;
     private final Map<String, String> serverVariables;
@@ -237,6 +239,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets schema mappings between a schema and the new name.
+     *
+     * @return the schema mappings
+     */
+    public Map<String, String> getSchemaMappings() {
+        return schemaMappings;
+    }
+
+    /**
      * Gets inline schema name mappings between an inline schema name and the new name.
      *
      * @return the inline schema name mappings
@@ -252,6 +263,15 @@ public final class GeneratorSettings implements Serializable {
      */
     public Map<String, String> getInlineSchemaNameDefaults() {
         return inlineSchemaNameDefaults;
+    }
+
+    /**
+     * Gets OpenAPI normalizer rules
+     *
+     * @return a map of rules
+     */
+    public Map<String, String> getOpenAPINormalizer() {
+        return openapiNormalizer;
     }
 
     /**
@@ -369,8 +389,10 @@ public final class GeneratorSettings implements Serializable {
         instantiationTypes = Collections.unmodifiableMap(builder.instantiationTypes);
         typeMappings = Collections.unmodifiableMap(builder.typeMappings);
         importMappings = Collections.unmodifiableMap(builder.importMappings);
+        schemaMappings = Collections.unmodifiableMap(builder.schemaMappings);
         inlineSchemaNameMappings = Collections.unmodifiableMap(builder.inlineSchemaNameMappings);
         inlineSchemaNameDefaults = Collections.unmodifiableMap(builder.inlineSchemaNameDefaults);
+        openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
         serverVariables = Collections.unmodifiableMap(builder.serverVariables);
@@ -441,8 +463,10 @@ public final class GeneratorSettings implements Serializable {
         typeMappings = Collections.unmodifiableMap(new HashMap<>(0));
         additionalProperties = Collections.unmodifiableMap(new HashMap<>(0));
         importMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        schemaMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameDefaults = Collections.unmodifiableMap(new HashMap<>(0));
+        openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
         serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
@@ -494,11 +518,17 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getImportMappings() != null) {
             builder.importMappings.putAll(copy.getImportMappings());
         }
+        if (copy.getSchemaMappings() != null) {
+            builder.schemaMappings.putAll(copy.getSchemaMappings());
+        }
         if (copy.getInlineSchemaNameMappings() != null) {
             builder.inlineSchemaNameMappings.putAll(copy.getInlineSchemaNameMappings());
         }
         if (copy.getInlineSchemaNameDefaults() != null) {
             builder.inlineSchemaNameDefaults.putAll(copy.getInlineSchemaNameDefaults());
+        }
+        if (copy.getOpenAPINormalizer() != null) {
+            builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
         }
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
@@ -539,8 +569,10 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> typeMappings;
         private Map<String, Object> additionalProperties;
         private Map<String, String> importMappings;
+        private Map<String, String> schemaMappings;
         private Map<String, String> inlineSchemaNameMappings;
         private Map<String, String> inlineSchemaNameDefaults;
+        private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordsMappings;
         private Map<String, String> serverVariables;
@@ -558,8 +590,10 @@ public final class GeneratorSettings implements Serializable {
             typeMappings = new HashMap<>();
             additionalProperties = new HashMap<>();
             importMappings = new HashMap<>();
+            schemaMappings = new HashMap<>();
             inlineSchemaNameMappings = new HashMap<>();
             inlineSchemaNameDefaults = new HashMap<>();
+            openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordsMappings = new HashMap<>();
             serverVariables = new HashMap<>();
@@ -777,6 +811,32 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code schemaMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param schemaMappings the {@code schemaMappings} to set
+         * @return a reference to this Builder
+         */
+        public Builder withSchemaMappings(Map<String, String> schemaMappings) {
+            this.schemaMappings = schemaMappings;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code schemaMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some schema mapping
+         * @param value The value of some schema mapping
+         * @return a reference to this Builder
+         */
+        public Builder withSchemaMapping(String key, String value) {
+            if (this.schemaMappings == null) {
+                this.schemaMappings = new HashMap<>();
+            }
+            this.schemaMappings.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code importMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param importMappings the {@code importMappings} to set
@@ -851,6 +911,32 @@ public final class GeneratorSettings implements Serializable {
                 this.inlineSchemaNameMappings = new HashMap<>();
             }
             this.inlineSchemaNameMappings.put(key, value);
+            return this;
+        }
+
+        /**
+         * Sets the {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param openapiNormalizer the {@code openapiNormalizer} to set
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPINormalizer(Map<String, String> openapiNormalizer) {
+            this.openapiNormalizer = openapiNormalizer;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for the OpenAPI normalizer rule
+         * @param value The value of the OpenAPI normalizer rule
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPINormalizer(String key, String value) {
+            if (this.openapiNormalizer == null) {
+                this.openapiNormalizer = new HashMap<>();
+            }
+            this.openapiNormalizer.put(key, value);
             return this;
         }
 
@@ -1039,8 +1125,10 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getTypeMappings(), that.getTypeMappings()) &&
                 Objects.equals(getAdditionalProperties(), that.getAdditionalProperties()) &&
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
+                Objects.equals(getSchemaMappings(), that.getSchemaMappings()) &&
                 Objects.equals(getInlineSchemaNameMappings(), that.getInlineSchemaNameMappings()) &&
                 Objects.equals(getInlineSchemaNameDefaults(), that.getInlineSchemaNameDefaults()) &&
+                Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
                 Objects.equals(getGitHost(), that.getGitHost()) &&
@@ -1069,8 +1157,10 @@ public final class GeneratorSettings implements Serializable {
                 getTypeMappings(),
                 getAdditionalProperties(),
                 getImportMappings(),
+                getSchemaMappings(),
                 getInlineSchemaNameMappings(),
                 getInlineSchemaNameDefaults(),
+                getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordsMappings(),
                 getGitHost(),

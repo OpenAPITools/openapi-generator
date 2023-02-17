@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// A token constructed with OAuth.
     /// </summary>
-    public class OAuthToken : TokenBase
+    {{>visibility}} class OAuthToken : TokenBase
     {
         private string _raw;
 

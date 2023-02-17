@@ -46,12 +46,12 @@ class MapTest {
   String toString() => 'MapTest[mapMapOfString=$mapMapOfString, mapOfEnumString=$mapOfEnumString, directMap=$directMap, indirectMap=$indirectMap]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'map_map_of_string'] = mapMapOfString;
-      _json[r'map_of_enum_string'] = mapOfEnumString;
-      _json[r'direct_map'] = directMap;
-      _json[r'indirect_map'] = indirectMap;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'map_map_of_string'] = this.mapMapOfString;
+      json[r'map_of_enum_string'] = this.mapOfEnumString;
+      json[r'direct_map'] = this.directMap;
+      json[r'indirect_map'] = this.indirectMap;
+    return json;
   }
 
   /// Returns a new [MapTest] instance and imports its values from
@@ -186,7 +186,7 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
         case r'lower': return MapTestMapOfEnumStringEnum.lower;
         default:

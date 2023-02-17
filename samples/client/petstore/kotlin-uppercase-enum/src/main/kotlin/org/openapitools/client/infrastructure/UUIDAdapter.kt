@@ -1,13 +1,23 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
 import java.util.UUID
 
-class UUIDAdapter {
-    @ToJson
-    fun toJson(uuid: UUID) = uuid.toString()
+@Serializer(forClass = UUID::class)
+object UUIDAdapter : KSerializer<UUID> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
 
-    @FromJson
-    fun fromJson(s: String): UUID = UUID.fromString(s)
+    override fun serialize(encoder: Encoder, value: UUID) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): UUID {
+        return UUID.fromString(decoder.decodeString())
+    }
 }

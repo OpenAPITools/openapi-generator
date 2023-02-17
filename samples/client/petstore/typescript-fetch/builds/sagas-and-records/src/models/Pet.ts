@@ -13,26 +13,26 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Category } from './Category';
 import {
-    Category,
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
 } from './Category';
+import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
-    DeploymentRequestStatus,
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
 } from './DeploymentRequestStatus';
+import type { Tag } from './Tag';
 import {
-    Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
 } from './Tag';
+import type { WarningCode } from './WarningCode';
 import {
-    WarningCode,
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,

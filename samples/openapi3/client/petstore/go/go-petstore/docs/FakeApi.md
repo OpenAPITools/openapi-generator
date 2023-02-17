@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
+[**TestQueryDeepObject**](FakeApi.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
 [**TestQueryParameterCollectionFormat**](FakeApi.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
 [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeApi.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-parameters | 
 
@@ -37,7 +38,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -98,7 +99,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -164,7 +165,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -230,7 +231,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -296,7 +297,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -362,7 +363,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -370,7 +371,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(fileSchemaTestClass).Execute()
+    r, err := apiClient.FakeApi.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(fileSchemaTestClass).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -424,7 +425,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -433,7 +434,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).User(user).Execute()
+    r, err := apiClient.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).User(user).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -490,7 +491,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -557,7 +558,7 @@ import (
     "fmt"
     "os"
     "time"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -578,7 +579,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
+    r, err := apiClient.FakeApi.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -647,7 +648,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -662,7 +663,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+    r, err := apiClient.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -725,7 +726,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -738,7 +739,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+    r, err := apiClient.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -775,7 +776,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -799,7 +800,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -807,7 +808,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestInlineAdditionalProperties(context.Background()).RequestBody(requestBody).Execute()
+    r, err := apiClient.FakeApi.TestInlineAdditionalProperties(context.Background()).RequestBody(requestBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -863,7 +864,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -872,7 +873,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
+    r, err := apiClient.FakeApi.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -912,6 +913,70 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## TestQueryDeepObject
+
+> TestQueryDeepObject(ctx).TestPet(testPet).InputOptions(inputOptions).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+    testPet := map[string][]openapiclient.Pet{"key": map[string]interface{}{ ... }} // Pet |  (optional)
+    inputOptions := map[string][]openapiclient.Category{"key": map[string]interface{}{ ... }} // Category |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.FakeApi.TestQueryDeepObject(context.Background()).TestPet(testPet).InputOptions(inputOptions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryDeepObject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryDeepObjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testPet** | [**Pet**](Pet.md) |  | 
+ **inputOptions** | [**Category**](Category.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## TestQueryParameterCollectionFormat
 
 > TestQueryParameterCollectionFormat(ctx).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
@@ -929,7 +994,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
@@ -941,7 +1006,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
+    r, err := apiClient.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1001,7 +1066,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,9 +53,9 @@ import org.openapitools.client.JSON;
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
-  public ArrayOfNumberOnly() { 
+  public ArrayOfNumberOnly() {
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -78,7 +77,6 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -149,9 +147,7 @@ public class ArrayOfNumberOnly {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfNumberOnly is not found in the empty JSON string", ArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
@@ -163,7 +159,7 @@ public class ArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      // ensure the json data is an array
+      // ensure the optional json data is an array if present
       if (jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayNumber").toString()));
       }

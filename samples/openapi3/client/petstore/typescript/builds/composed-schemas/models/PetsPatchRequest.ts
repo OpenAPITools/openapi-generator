@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-import { Cat } from './Cat';
-import { Dog } from './Dog';
+import { Cat } from '../models/Cat';
+import { Dog } from '../models/Dog';
 import { HttpFile } from '../http/http';
 
 export class PetsPatchRequest {

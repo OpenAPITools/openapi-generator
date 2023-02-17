@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
-import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.Pet;
+import org.openapitools.model.ApiResponseDto;
+import org.openapitools.model.PetDto;
 import java.util.Set;
 
 

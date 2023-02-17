@@ -94,9 +94,30 @@ public class StoreApi {
         return deleteOrderRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of the order that needs to be deleted
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(String orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteOrderRequestCreation(orderId).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of the order that needs to be deleted
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws WebClientResponseException {
+        return deleteOrderRequestCreation(orderId);
     }
     /**
      * Returns pet inventories by status
@@ -140,13 +161,31 @@ public class StoreApi {
         return getInventoryRequestCreation().bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * <p><b>200</b> - successful operation
+     * @return ResponseEntity&lt;Map&lt;String, Integer&gt;&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Map<String, Integer>>> getInventoryWithHttpInfo() throws WebClientResponseException {
         ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
         return getInventoryRequestCreation().toEntity(localVarReturnType);
     }
+
+    /**
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * <p><b>200</b> - successful operation
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec getInventoryWithResponseSpec() throws WebClientResponseException {
+        return getInventoryRequestCreation();
+    }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -185,7 +224,7 @@ public class StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -198,9 +237,33 @@ public class StoreApi {
         return getOrderByIdRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of pet that needs to be fetched
+     * @return ResponseEntity&lt;Order&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(Long orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return getOrderByIdRequestCreation(orderId).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of pet that needs to be fetched
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws WebClientResponseException {
+        return getOrderByIdRequestCreation(orderId);
     }
     /**
      * Place an order for a pet
@@ -254,8 +317,30 @@ public class StoreApi {
         return placeOrderRequestCreation(order).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Place an order for a pet
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid Order
+     * @param order order placed for purchasing the pet
+     * @return ResponseEntity&lt;Order&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order order) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return placeOrderRequestCreation(order).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Place an order for a pet
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid Order
+     * @param order order placed for purchasing the pet
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec placeOrderWithResponseSpec(Order order) throws WebClientResponseException {
+        return placeOrderRequestCreation(order);
     }
 }

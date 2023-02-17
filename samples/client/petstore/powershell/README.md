@@ -150,6 +150,9 @@ Class | Method | HTTP request | Description
  - [PSPetstore/Model.Order](docs/Order.md)
  - [PSPetstore/Model.OuterComposite](docs/OuterComposite.md)
  - [PSPetstore/Model.OuterEnum](docs/OuterEnum.md)
+ - [PSPetstore/Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [PSPetstore/Model.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [PSPetstore/Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [PSPetstore/Model.ParentPet](docs/ParentPet.md)
  - [PSPetstore/Model.Pet](docs/Pet.md)
  - [PSPetstore/Model.PetWithRequiredTags](docs/PetWithRequiredTags.md)
@@ -174,6 +177,17 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
+
+
 ### api_key
 
 - **Type**: API key
@@ -190,13 +204,13 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
-### bearer_test
+### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
 
-### http_basic_test
+### bearer_test
 
 
 - **Type**: HTTP basic authentication
@@ -206,15 +220,4 @@ Class | Method | HTTP request | Description
 
 
 - **Type**: HTTP basic authentication
-
-
-### petstore_auth
-
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 

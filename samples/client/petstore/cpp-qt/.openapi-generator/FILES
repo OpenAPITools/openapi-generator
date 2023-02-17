@@ -1,5 +1,6 @@
 README.md
 client/CMakeLists.txt
+client/Config.cmake.in
 client/PFXApiResponse.cpp
 client/PFXApiResponse.h
 client/PFXCategory.cpp
@@ -28,6 +29,8 @@ client/PFXStoreApi.cpp
 client/PFXStoreApi.h
 client/PFXTag.cpp
 client/PFXTag.h
+client/PFXTestAnyType.cpp
+client/PFXTestAnyType.h
 client/PFXUser.cpp
 client/PFXUser.h
 client/PFXUserApi.cpp

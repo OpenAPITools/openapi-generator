@@ -6,6 +6,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -38,23 +39,22 @@ public class ModelFile  {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      ModelFile _file = (ModelFile) o;
-      return Objects.equals(sourceURI, _file.sourceURI);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(sourceURI);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    ModelFile _file = (ModelFile) o;
+    return Objects.equals(sourceURI, _file.sourceURI);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(sourceURI);
+  }
 
   @Override
   public String toString() {

@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ReadOnlyFirst } from './ReadOnlyFirst';
 import {
-    ReadOnlyFirst,
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,

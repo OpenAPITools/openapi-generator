@@ -70,8 +70,8 @@ val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
 The above constructor for each api allows the following to be customized
 - A custom context, so either a singleton request queue or different scope can be created - see
 https://developer.android.com/training/volley/requestqueue#singleton
-- An overrideable request queue - which in turn can have a custom http url stack passed to it
-- An overrideable request factory constructor call, or a request factory that can be overridden by a custom template, with
+- An overridable request queue - which in turn can have a custom http url stack passed to it
+- An overridable request factory constructor call, or a request factory that can be overridden by a custom template, with
 custom header factory, request post processors and custom gson adapters injected.
 
 #### Overriding request generation
@@ -211,13 +211,6 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-<a name="api_key"></a>
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
 <a name="petstore_auth"></a>
 ### petstore_auth
 
@@ -227,4 +220,11 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a name="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 

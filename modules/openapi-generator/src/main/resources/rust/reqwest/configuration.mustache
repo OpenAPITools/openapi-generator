@@ -1,7 +1,5 @@
 {{>partial_header}}
 
-use reqwest;
-
 {{#withAWSV4Signature}}
 use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
@@ -13,7 +11,7 @@ use secrecy::{SecretString, ExposeSecret};
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: reqwest::Client,
+    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client{{/supportMiddleware}},
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
@@ -82,7 +80,7 @@ impl Default for Configuration {
         Configuration {
             base_path: "{{{basePath}}}".to_owned(),
             user_agent: {{#httpUserAgent}}Some("{{{.}}}".to_owned()){{/httpUserAgent}}{{^httpUserAgent}}Some("OpenAPI-Generator/{{{version}}}/rust".to_owned()){{/httpUserAgent}},
-            client: reqwest::Client::new(),
+            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client::new(){{/supportMiddleware}},
             basic_auth: None,
             oauth_access_token: None,
             bearer_access_token: None,

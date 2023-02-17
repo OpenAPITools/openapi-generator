@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  GetBehaviorPermissionsResponse,
+  GetBehaviorTypeResponse,
+} from '../models';
 import {
-    GetBehaviorPermissionsResponse,
     GetBehaviorPermissionsResponseFromJSON,
     GetBehaviorPermissionsResponseToJSON,
-    GetBehaviorTypeResponse,
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
 } from '../models';

@@ -13,18 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Animal } from './Animal';
 import {
-    Animal,
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
 } from './Animal';
-import {
-    DogAllOf,
-    DogAllOfFromJSON,
-    DogAllOfFromJSONTyped,
-    DogAllOfToJSON,
-} from './DogAllOf';
 
 /**
  * 

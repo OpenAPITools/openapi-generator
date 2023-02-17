@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing QuadrilateralInterface
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void QuadrilateralInterfaceInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" QuadrilateralInterface
-            //Assert.IsInstanceOfType<QuadrilateralInterface> (instance, "variable 'instance' is a QuadrilateralInterface");
+            // TODO uncomment below to test "IsType" QuadrilateralInterface
+            //Assert.IsType<QuadrilateralInterface>(instance);
         }
 
 

@@ -1,16 +1,16 @@
 package org.openapitools.api;
 
+import org.openapitools.model.ApiResponseDto;
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
+import org.openapitools.model.ClientDto;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.FileSchemaTestClassDto;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
-import org.openapitools.model.OuterComposite;
-import org.openapitools.model.User;
-import org.openapitools.model.XmlItem;
+import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.UserDto;
+import org.openapitools.model.XmlItemDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

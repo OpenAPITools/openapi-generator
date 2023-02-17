@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  DefaultMetaOnlyResponse,
+  User,
+} from '../models';
 import {
-    DefaultMetaOnlyResponse,
     DefaultMetaOnlyResponseFromJSON,
     DefaultMetaOnlyResponseToJSON,
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';

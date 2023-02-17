@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { User } from './User';
 import {
-    User,
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,

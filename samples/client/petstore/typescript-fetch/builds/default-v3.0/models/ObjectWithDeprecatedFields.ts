@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { DeprecatedObject } from './DeprecatedObject';
 import {
-    DeprecatedObject,
     DeprecatedObjectFromJSON,
     DeprecatedObjectFromJSONTyped,
     DeprecatedObjectToJSON,

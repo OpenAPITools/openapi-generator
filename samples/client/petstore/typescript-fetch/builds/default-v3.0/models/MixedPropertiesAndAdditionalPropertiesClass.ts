@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Animal } from './Animal';
 import {
-    Animal,
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,

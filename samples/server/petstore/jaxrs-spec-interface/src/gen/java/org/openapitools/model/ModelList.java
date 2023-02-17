@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("List")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ModelList  implements Serializable {
-  
   private @Valid String _123list;
 
   /**

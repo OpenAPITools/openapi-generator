@@ -28,10 +28,6 @@
 
 namespace OpenAPI\Server\Tests\Api;
 
-use OpenAPI\Server\Configuration;
-use OpenAPI\Server\ApiClient;
-use OpenAPI\Server\ApiException;
-use OpenAPI\Server\ObjectSerializer;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -42,6 +38,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package  OpenAPI\Server\Tests\Api
  * @author   openapi-generator contributors
  * @link     https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \OpenAPI\Server\Api\UserApiInterface
  */
 class UserApiInterfaceTest extends WebTestCase
 {
@@ -85,13 +82,14 @@ class UserApiInterfaceTest extends WebTestCase
      * Create user.
      *
      */
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $client = self::$client;
 
         $path = '/user';
 
         $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
+        $this->markTestSkipped('Test for createUser not implemented');
     }
 
     /**
@@ -100,13 +98,14 @@ class UserApiInterfaceTest extends WebTestCase
      * Creates list of users with given input array.
      *
      */
-    public function testCreateUsersWithArrayInput()
+    public function testCreateUsersWithArrayInput(): void
     {
         $client = self::$client;
 
         $path = '/user/createWithArray';
 
         $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
+        $this->markTestSkipped('Test for createUsersWithArrayInput not implemented');
     }
 
     /**
@@ -115,13 +114,14 @@ class UserApiInterfaceTest extends WebTestCase
      * Creates list of users with given input array.
      *
      */
-    public function testCreateUsersWithListInput()
+    public function testCreateUsersWithListInput(): void
     {
         $client = self::$client;
 
         $path = '/user/createWithList';
 
         $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
+        $this->markTestSkipped('Test for createUsersWithListInput not implemented');
     }
 
     /**
@@ -130,7 +130,7 @@ class UserApiInterfaceTest extends WebTestCase
      * Delete user.
      *
      */
-    public function testDeleteUser()
+    public function testDeleteUser(): void
     {
         $client = self::$client;
 
@@ -140,6 +140,7 @@ class UserApiInterfaceTest extends WebTestCase
         $path = str_replace($pattern, $data, $path);
 
         $crawler = $client->request('DELETE', $path);
+        $this->markTestSkipped('Test for deleteUser not implemented');
     }
 
     /**
@@ -148,7 +149,7 @@ class UserApiInterfaceTest extends WebTestCase
      * Get user by user name.
      *
      */
-    public function testGetUserByName()
+    public function testGetUserByName(): void
     {
         $client = self::$client;
 
@@ -158,6 +159,7 @@ class UserApiInterfaceTest extends WebTestCase
         $path = str_replace($pattern, $data, $path);
 
         $crawler = $client->request('GET', $path);
+        $this->markTestSkipped('Test for getUserByName not implemented');
     }
 
     /**
@@ -166,13 +168,14 @@ class UserApiInterfaceTest extends WebTestCase
      * Logs user into the system.
      *
      */
-    public function testLoginUser()
+    public function testLoginUser(): void
     {
         $client = self::$client;
 
         $path = '/user/login';
 
         $crawler = $client->request('GET', $path);
+        $this->markTestSkipped('Test for loginUser not implemented');
     }
 
     /**
@@ -181,13 +184,14 @@ class UserApiInterfaceTest extends WebTestCase
      * Logs out current logged in user session.
      *
      */
-    public function testLogoutUser()
+    public function testLogoutUser(): void
     {
         $client = self::$client;
 
         $path = '/user/logout';
 
         $crawler = $client->request('GET', $path);
+        $this->markTestSkipped('Test for logoutUser not implemented');
     }
 
     /**
@@ -196,7 +200,7 @@ class UserApiInterfaceTest extends WebTestCase
      * Updated user.
      *
      */
-    public function testUpdateUser()
+    public function testUpdateUser(): void
     {
         $client = self::$client;
 
@@ -206,13 +210,18 @@ class UserApiInterfaceTest extends WebTestCase
         $path = str_replace($pattern, $data, $path);
 
         $crawler = $client->request('PUT', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
+        $this->markTestSkipped('Test for updateUser not implemented');
     }
 
-    protected function genTestData($regexp)
+    /**
+     * @param string $regexp
+     * @return mixed
+     */
+    protected function genTestData(string $regexp)
     {
-        $grammar  = new \Hoa\File\Read('hoa://Library/Regex/Grammar.pp');
+        $grammar = new \Hoa\File\Read('hoa://Library/Regex/Grammar.pp');
         $compiler = \Hoa\Compiler\Llk\Llk::load($grammar);
-        $ast      = $compiler->parse($regexp);
+        $ast = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
         return $generator->visit($ast);

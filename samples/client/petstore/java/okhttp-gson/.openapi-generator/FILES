@@ -14,6 +14,7 @@ docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md
+docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -34,6 +35,7 @@ docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
 docs/EnumClass.md
+docs/EnumStringDiscriminator.md
 docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
@@ -136,6 +138,7 @@ src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.java
+src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Banana.java
@@ -155,6 +158,7 @@ src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/Drawing.java
 src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
+src/main/java/org/openapitools/client/model/EnumStringDiscriminator.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java

@@ -1,22 +1,22 @@
-export * from './Cat';
-export * from './CatAllOf';
-export * from './Dog';
-export * from './DogAllOf';
-export * from './FilePostRequest';
-export * from './PetByAge';
-export * from './PetByType';
-export * from './PetsFilteredPatchRequest';
-export * from './PetsPatchRequest';
+export * from '../models/Cat';
+export * from '../models/CatAllOf';
+export * from '../models/Dog';
+export * from '../models/DogAllOf';
+export * from '../models/FilePostRequest';
+export * from '../models/PetByAge';
+export * from '../models/PetByType';
+export * from '../models/PetsFilteredPatchRequest';
+export * from '../models/PetsPatchRequest';
 
-import { Cat } from './Cat';
-import { CatAllOf } from './CatAllOf';
-import { Dog , DogBreedEnum   } from './Dog';
-import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
-import { FilePostRequest } from './FilePostRequest';
-import { PetByAge } from './PetByAge';
-import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
-import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from './PetsFilteredPatchRequest';
-import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from './PetsPatchRequest';
+import { Cat } from '../models/Cat';
+import { CatAllOf } from '../models/CatAllOf';
+import { Dog , DogBreedEnum   } from '../models/Dog';
+import { DogAllOf , DogAllOfBreedEnum   } from '../models/DogAllOf';
+import { FilePostRequest } from '../models/FilePostRequest';
+import { PetByAge } from '../models/PetByAge';
+import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
+import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from '../models/PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -226,6 +226,10 @@ export class ObjectSerializer {
      * Convert data to a string according the given media type
      */
     public static stringify(data: any, mediaType: string): string {
+        if (mediaType === "text/plain") {
+            return String(data);
+        }
+
         if (mediaType === "application/json") {
             return JSON.stringify(data);
         }
@@ -239,6 +243,10 @@ export class ObjectSerializer {
     public static parse(rawData: string, mediaType: string | undefined) {
         if (mediaType === undefined) {
             throw new Error("Cannot parse content. No Content-Type defined.");
+        }
+
+        if (mediaType === "text/plain") {
+            return rawData;
         }
 
         if (mediaType === "application/json") {

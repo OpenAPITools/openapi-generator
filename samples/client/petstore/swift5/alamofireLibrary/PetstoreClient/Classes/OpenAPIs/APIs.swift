@@ -28,15 +28,17 @@ open class RequestBuilder<T> {
     public let method: String
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
+    public let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
+        self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
     }

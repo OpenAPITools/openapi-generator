@@ -1,12 +1,12 @@
 # OpenApiPetstore.StoreApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
 [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 
 
@@ -109,7 +109,7 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 
@@ -150,9 +150,11 @@ No authorization required
 
 ## placeOrder
 
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
+
+
 
 ### Example
 
@@ -160,8 +162,8 @@ Place an order for a pet
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.StoreApi();
-let body = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
-apiInstance.placeOrder(body, (error, data, response) => {
+let order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
+apiInstance.placeOrder(order, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -175,7 +177,7 @@ apiInstance.placeOrder(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -187,6 +189,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 

@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing FruitReq
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void FruitReqInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" FruitReq
-            //Assert.IsInstanceOfType<FruitReq> (instance, "variable 'instance' is a FruitReq");
+            // TODO uncomment below to test "IsType" FruitReq
+            //Assert.IsType<FruitReq>(instance);
         }
 
 

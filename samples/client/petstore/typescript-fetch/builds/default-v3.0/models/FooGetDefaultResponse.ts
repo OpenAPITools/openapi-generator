@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Foo } from './Foo';
 import {
-    Foo,
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
