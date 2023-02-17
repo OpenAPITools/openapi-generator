@@ -15,35 +15,29 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 import java.time.OffsetDateTime;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * DataQueryAllOf
  */
-@JsonPropertyOrder({
-  DataQueryAllOf.JSON_PROPERTY_SUFFIX,
-  DataQueryAllOf.JSON_PROPERTY_TEXT,
-  DataQueryAllOf.JSON_PROPERTY_DATE
-})
-@JsonTypeName("DataQuery_allOf")
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQueryAllOf {
-  public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  public static final String SERIALIZED_NAME_SUFFIX = "suffix";
+  @SerializedName(SERIALIZED_NAME_SUFFIX)
   private String suffix;
 
-  public static final String JSON_PROPERTY_TEXT = "text";
+  public static final String SERIALIZED_NAME_TEXT = "text";
+  @SerializedName(SERIALIZED_NAME_TEXT)
   private String text;
 
-  public static final String JSON_PROPERTY_DATE = "date";
+  public static final String SERIALIZED_NAME_DATE = "date";
+  @SerializedName(SERIALIZED_NAME_DATE)
   private OffsetDateTime date;
 
   public DataQueryAllOf() {
@@ -59,17 +53,13 @@ public class DataQueryAllOf {
    * test suffix
    * @return suffix
   **/
-  @.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @javax.annotation.Nullable
 
   public String getSuffix() {
     return suffix;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSuffix(String suffix) {
     this.suffix = suffix;
   }
@@ -85,17 +75,13 @@ public class DataQueryAllOf {
    * Some text containing white spaces
    * @return text
   **/
-  @.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @javax.annotation.Nullable
 
   public String getText() {
     return text;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setText(String text) {
     this.text = text;
   }
@@ -111,17 +97,13 @@ public class DataQueryAllOf {
    * A date
    * @return date
   **/
-  @.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @javax.annotation.Nullable
 
   public OffsetDateTime getDate() {
     return date;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDate(OffsetDateTime date) {
     this.date = date;
   }

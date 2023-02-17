@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * A category for a pet
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -71,7 +69,7 @@ public class Category {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -93,7 +91,7 @@ public class Category {
    * Get name
    * @return name
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getName() {
     return name;

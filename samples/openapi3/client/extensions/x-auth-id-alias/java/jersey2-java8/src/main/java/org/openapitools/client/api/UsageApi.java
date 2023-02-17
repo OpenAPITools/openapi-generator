@@ -6,7 +6,7 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-import .ws.rs.core.GenericType;
+import javax.ws.rs.core.GenericType;
 
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UsageApi {
   private ApiClient apiClient;
 

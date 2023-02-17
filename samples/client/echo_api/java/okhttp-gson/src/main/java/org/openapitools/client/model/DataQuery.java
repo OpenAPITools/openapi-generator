@@ -20,13 +20,10 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.DataQueryAllOf;
 import org.openapitools.client.model.Query;
 
 import com.google.gson.Gson;
@@ -53,8 +50,8 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class DataQuery {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
   private String suffix;
@@ -66,63 +63,6 @@ public class DataQuery {
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
   private OffsetDateTime date;
-
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
-  private Long id;
-
-  /**
-   * Gets or Sets outcomes
-   */
-  @JsonAdapter(OutcomesEnum.Adapter.class)
-  public enum OutcomesEnum {
-    SUCCESS("SUCCESS"),
-    
-    FAILURE("FAILURE"),
-    
-    SKIPPED("SKIPPED");
-
-    private String value;
-
-    OutcomesEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static OutcomesEnum fromValue(String value) {
-      for (OutcomesEnum b : OutcomesEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    public static class Adapter extends TypeAdapter<OutcomesEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OutcomesEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public OutcomesEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return OutcomesEnum.fromValue(value);
-      }
-    }
-  }
-
-  public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
-  @SerializedName(SERIALIZED_NAME_OUTCOMES)
-  private List<OutcomesEnum> outcomes = new ArrayList<>();
 
   public DataQuery() {
   }
@@ -137,7 +77,7 @@ public class DataQuery {
    * test suffix
    * @return suffix
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getSuffix() {
     return suffix;
@@ -159,7 +99,7 @@ public class DataQuery {
    * Some text containing white spaces
    * @return text
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getText() {
     return text;
@@ -181,7 +121,7 @@ public class DataQuery {
    * A date
    * @return date
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public OffsetDateTime getDate() {
     return date;
@@ -190,58 +130,6 @@ public class DataQuery {
 
   public void setDate(OffsetDateTime date) {
     this.date = date;
-  }
-
-
-  public DataQuery id(Long id) {
-    
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Query
-   * @return id
-  **/
-  @.annotation.Nullable
-
-  public Long getId() {
-    return id;
-  }
-
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
-    
-    this.outcomes = outcomes;
-    return this;
-  }
-
-  public DataQuery addOutcomesItem(OutcomesEnum outcomesItem) {
-    if (this.outcomes == null) {
-      this.outcomes = new ArrayList<>();
-    }
-    this.outcomes.add(outcomesItem);
-    return this;
-  }
-
-   /**
-   * Get outcomes
-   * @return outcomes
-  **/
-  @.annotation.Nullable
-
-  public List<OutcomesEnum> getOutcomes() {
-    return outcomes;
-  }
-
-
-  public void setOutcomes(List<OutcomesEnum> outcomes) {
-    this.outcomes = outcomes;
   }
 
 
@@ -258,24 +146,22 @@ public class DataQuery {
     return Objects.equals(this.suffix, dataQuery.suffix) &&
         Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
-        Objects.equals(this.id, dataQuery.id) &&
-        Objects.equals(this.outcomes, dataQuery.outcomes);
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, id, outcomes);
+    return Objects.hash(suffix, text, date, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    outcomes: ").append(toIndentedString(outcomes)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -333,10 +219,6 @@ public class DataQuery {
       }
       if ((jsonObj.get("text") != null && !jsonObj.get("text").isJsonNull()) && !jsonObj.get("text").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `text` to be a primitive type in the JSON string but got `%s`", jsonObj.get("text").toString()));
-      }
-      // ensure the optional json data is an array if present
-      if (jsonObj.get("outcomes") != null && !jsonObj.get("outcomes").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `outcomes` to be an array in the JSON string but got `%s`", jsonObj.get("outcomes").toString()));
       }
   }
 

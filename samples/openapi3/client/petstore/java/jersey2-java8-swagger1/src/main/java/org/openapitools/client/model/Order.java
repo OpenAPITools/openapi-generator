@@ -32,6 +32,7 @@ import org.openapitools.client.JSON;
 /**
  * An order for a pets from the pet store
  */
+@ApiModel(description = "An order for a pets from the pet store")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,
@@ -40,7 +41,7 @@ import org.openapitools.client.JSON;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -109,7 +110,8 @@ public class Order {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -134,7 +136,8 @@ public class Order {
    * Get petId
    * @return petId
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -159,7 +162,8 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -184,7 +188,8 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -209,7 +214,8 @@ public class Order {
    * Order Status
    * @return status
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "Order Status")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -234,7 +240,8 @@ public class Order {
    * Get complete
    * @return complete
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SomeObj {
   /**
    * Gets or Sets $type
@@ -128,7 +126,7 @@ public class SomeObj {
    * Get $type
    * @return $type
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public TypeEnum get$Type() {
     return $type;
@@ -150,7 +148,7 @@ public class SomeObj {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -172,7 +170,7 @@ public class SomeObj {
    * Get name
    * @return name
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getName() {
     return name;
@@ -194,7 +192,7 @@ public class SomeObj {
    * Get active
    * @return active
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public Boolean getActive() {
     return active;
@@ -216,7 +214,7 @@ public class SomeObj {
    * Get type
    * @return type
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getType() {
     return type;

@@ -31,6 +31,7 @@ import org.openapitools.client.JSON;
 /**
  * A User who is purchasing from the pet store
  */
+@ApiModel(description = "A User who is purchasing from the pet store")
 @JsonPropertyOrder({
   User.JSON_PROPERTY_ID,
   User.JSON_PROPERTY_USERNAME,
@@ -41,7 +42,7 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -79,7 +80,8 @@ public class User {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -104,7 +106,8 @@ public class User {
    * Get username
    * @return username
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -129,7 +132,8 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -154,7 +158,8 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -179,7 +184,8 @@ public class User {
    * Get email
    * @return email
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -204,7 +210,8 @@ public class User {
    * Get password
    * @return password
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -229,7 +236,8 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -254,7 +262,8 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "User Status")
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

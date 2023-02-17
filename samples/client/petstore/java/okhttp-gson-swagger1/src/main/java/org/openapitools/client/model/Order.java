@@ -49,7 +49,8 @@ import org.openapitools.client.JSON;
 /**
  * An order for a pets from the pet store
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@ApiModel(description = "An order for a pets from the pet store")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -137,7 +138,8 @@ public class Order {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -159,7 +161,8 @@ public class Order {
    * Get petId
    * @return petId
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Long getPetId() {
     return petId;
@@ -181,7 +184,8 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Integer getQuantity() {
     return quantity;
@@ -203,7 +207,8 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -225,7 +230,8 @@ public class Order {
    * Order Status
    * @return status
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "Order Status")
 
   public StatusEnum getStatus() {
     return status;
@@ -247,7 +253,8 @@ public class Order {
    * Get complete
    * @return complete
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Boolean getComplete() {
     return complete;

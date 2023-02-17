@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +50,11 @@ import org.openapitools.client.JSON;
 /**
  * to test the default value of properties
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
-  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>();
+  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
 
   /**
    * Gets or Sets arrayStringEnumDefault
@@ -109,15 +107,15 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT)
-  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>();
+  private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_DEFAULT = "array_string_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_DEFAULT)
-  private List<String> arrayStringDefault = new ArrayList<>();
+  private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
 
   public static final String SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT = "array_integer_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT)
-  private List<Integer> arrayIntegerDefault = new ArrayList<>();
+  private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
@@ -125,7 +123,7 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
-  private List<String> arrayStringNullable = new ArrayList<>();
+  private List<String> arrayStringNullable;
 
   public static final String SERIALIZED_NAME_STRING_NULLABLE = "string_nullable";
   @SerializedName(SERIALIZED_NAME_STRING_NULLABLE)
@@ -142,7 +140,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
     if (this.arrayStringEnumRefDefault == null) {
-      this.arrayStringEnumRefDefault = new ArrayList<>();
+      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
     }
     this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
     return this;
@@ -152,7 +150,7 @@ public class DefaultValue {
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
     return arrayStringEnumRefDefault;
@@ -172,7 +170,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumDefaultItem(ArrayStringEnumDefaultEnum arrayStringEnumDefaultItem) {
     if (this.arrayStringEnumDefault == null) {
-      this.arrayStringEnumDefault = new ArrayList<>();
+      this.arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
     }
     this.arrayStringEnumDefault.add(arrayStringEnumDefaultItem);
     return this;
@@ -182,7 +180,7 @@ public class DefaultValue {
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
     return arrayStringEnumDefault;
@@ -202,7 +200,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringDefaultItem(String arrayStringDefaultItem) {
     if (this.arrayStringDefault == null) {
-      this.arrayStringDefault = new ArrayList<>();
+      this.arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
     }
     this.arrayStringDefault.add(arrayStringDefaultItem);
     return this;
@@ -212,7 +210,7 @@ public class DefaultValue {
    * Get arrayStringDefault
    * @return arrayStringDefault
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<String> getArrayStringDefault() {
     return arrayStringDefault;
@@ -232,7 +230,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayIntegerDefaultItem(Integer arrayIntegerDefaultItem) {
     if (this.arrayIntegerDefault == null) {
-      this.arrayIntegerDefault = new ArrayList<>();
+      this.arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
     }
     this.arrayIntegerDefault.add(arrayIntegerDefaultItem);
     return this;
@@ -242,7 +240,7 @@ public class DefaultValue {
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<Integer> getArrayIntegerDefault() {
     return arrayIntegerDefault;
@@ -272,7 +270,7 @@ public class DefaultValue {
    * Get arrayString
    * @return arrayString
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<String> getArrayString() {
     return arrayString;
@@ -291,9 +289,6 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
-    if (this.arrayStringNullable == null) {
-      this.arrayStringNullable = new ArrayList<>();
-    }
     this.arrayStringNullable.add(arrayStringNullableItem);
     return this;
   }
@@ -302,7 +297,7 @@ public class DefaultValue {
    * Get arrayStringNullable
    * @return arrayStringNullable
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public List<String> getArrayStringNullable() {
     return arrayStringNullable;
@@ -324,7 +319,7 @@ public class DefaultValue {
    * Get stringNullable
    * @return stringNullable
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getStringNullable() {
     return stringNullable;

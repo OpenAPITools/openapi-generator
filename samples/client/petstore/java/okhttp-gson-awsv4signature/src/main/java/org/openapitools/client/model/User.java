@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -48,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * A User who is purchasing from the pet store
  */
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -95,7 +93,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -117,7 +115,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getUsername() {
     return username;
@@ -139,7 +137,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getFirstName() {
     return firstName;
@@ -161,7 +159,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getLastName() {
     return lastName;
@@ -183,7 +181,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getEmail() {
     return email;
@@ -205,7 +203,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getPassword() {
     return password;
@@ -227,7 +225,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public String getPhone() {
     return phone;
@@ -249,7 +247,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
 
   public Integer getUserStatus() {
     return userStatus;

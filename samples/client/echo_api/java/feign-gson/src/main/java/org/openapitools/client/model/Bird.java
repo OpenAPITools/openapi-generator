@@ -15,29 +15,24 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 /**
  * Bird
  */
-@JsonPropertyOrder({
-  Bird.JSON_PROPERTY_SIZE,
-  Bird.JSON_PROPERTY_COLOR
-})
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Bird {
-  public static final String JSON_PROPERTY_SIZE = "size";
+  public static final String SERIALIZED_NAME_SIZE = "size";
+  @SerializedName(SERIALIZED_NAME_SIZE)
   private String size;
 
-  public static final String JSON_PROPERTY_COLOR = "color";
+  public static final String SERIALIZED_NAME_COLOR = "color";
+  @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 
   public Bird() {
@@ -53,17 +48,13 @@ public class Bird {
    * Get size
    * @return size
   **/
-  @.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @javax.annotation.Nullable
 
   public String getSize() {
     return size;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSize(String size) {
     this.size = size;
   }
@@ -79,17 +70,13 @@ public class Bird {
    * Get color
    * @return color
   **/
-  @.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @javax.annotation.Nullable
 
   public String getColor() {
     return color;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(String color) {
     this.color = color;
   }

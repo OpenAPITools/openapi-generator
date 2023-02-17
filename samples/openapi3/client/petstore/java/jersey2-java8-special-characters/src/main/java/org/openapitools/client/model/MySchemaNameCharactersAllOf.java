@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -35,7 +33,7 @@ import org.openapitools.client.JSON;
   MySchemaNameCharactersAllOf.JSON_PROPERTY_PROP2
 })
 @JsonTypeName("MySchemaName___Characters_allOf")
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MySchemaNameCharactersAllOf {
   public static final String JSON_PROPERTY_PROP2 = "prop2";
   private String prop2;
@@ -52,7 +50,7 @@ public class MySchemaNameCharactersAllOf {
    * Get prop2
    * @return prop2
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROP2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

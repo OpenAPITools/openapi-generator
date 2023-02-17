@@ -31,13 +31,14 @@ import org.openapitools.client.JSON;
 /**
  * Describes the result of uploading an image resource
  */
+@ApiModel(description = "Describes the result of uploading an image resource")
 @JsonPropertyOrder({
   ModelApiResponse.JSON_PROPERTY_CODE,
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   private Integer code;
@@ -60,7 +61,8 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -85,7 +87,8 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,7 +113,8 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @.annotation.Nullable
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
