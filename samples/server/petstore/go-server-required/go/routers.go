@@ -72,11 +72,11 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 		w.WriteHeader(http.StatusOK)
 	}
 
-    if i != nil {
-        return json.NewEncoder(w).Encode(i)
-    }
+	if i != nil {
+		return json.NewEncoder(w).Encode(i)
+	}
 
-    return nil
+	return nil
 }
 
 // ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
