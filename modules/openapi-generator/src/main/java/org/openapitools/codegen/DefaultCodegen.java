@@ -3672,6 +3672,8 @@ public class DefaultCodegen implements CodegenConfig {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
+        } else if (ModelUtils.isPasswordSchema(p)) {
+            property.isPassword = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
             property.setIsString(false); // for backward compatibility with 2.x
             property.isDate = true;
@@ -4695,6 +4697,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isStringSchema(responseSchema)) {
             if (ModelUtils.isEmailSchema(responseSchema)) {
                 r.isEmail = true;
+            } else if (ModelUtils.isPasswordSchema(responseSchema)) {
+               r.isPassword = true;
             } else if (ModelUtils.isUUIDSchema(responseSchema)) {
                 r.isUuid = true;
             } else if (ModelUtils.isByteArraySchema(responseSchema)) {
@@ -6243,6 +6247,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (Boolean.TRUE.equals(property.isEmail) && Boolean.TRUE.equals(property.isString)) {
             parameter.isEmail = true;
+        } else if (Boolean.TRUE.equals(property.isPassword) && Boolean.TRUE.equals(property.isPassword)) {
+            parameter.isPassword = true;
         } else if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
             parameter.isUuid = true;
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
@@ -6758,6 +6764,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isStringSchema(ps)) {
             if (ModelUtils.isEmailSchema(ps)) {
                 codegenParameter.isEmail = true;
+            } else if (ModelUtils.isPasswordSchema(ps)) {
+                codegenParameter.isPassword = true;
             } else if (ModelUtils.isUUIDSchema(ps)) {
                 codegenParameter.isUuid = true;
             } else if (ModelUtils.isByteArraySchema(ps)) {
