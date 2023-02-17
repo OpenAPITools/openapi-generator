@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>OpenAPI Generator Blog</title>
+        <link>https://openapi-generator.tech/blog</link>
+        <description>OpenAPI Generator Blog</description>
+        <lastBuildDate>Mon, 24 Dec 2018 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[New Website]]></title>
+            <link>https://openapi-generator.tech/blog/2018/12/24/new-website</link>
+            <guid>https://openapi-generator.tech/blog/2018/12/24/new-website</guid>
+            <pubDate>Mon, 24 Dec 2018 00:00:00 GMT</pubDate>
+            <description><![CDATA[Every great open source project has great documentation.]]></description>
+            <content:encoded><![CDATA[<p>Every great open source project has great documentation.</p><p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p><p>We will still continue to maintain the documentation on our GitHub repository. In fact, our website will be generated with <a href="https://docusaurus.io/en" target="_blank" rel="noopener noreferrer">Docusaurus</a>, so our docs on GitHub will still be incorporated into this site!</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>

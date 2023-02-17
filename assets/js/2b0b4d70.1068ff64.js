@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[7296],{8378:function(e,t,u){u.r(t);var n=u(7294),r=u(6550);t.default=function(){return n.createElement(r.l_,{to:"/users"})}}}]);
