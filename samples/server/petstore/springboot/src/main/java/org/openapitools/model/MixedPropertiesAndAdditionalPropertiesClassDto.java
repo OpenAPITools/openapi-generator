@@ -39,7 +39,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   @JsonProperty("map")
   @Valid
-  private Map<String, AnimalDto> map = null;
+  private Map<@Valid String, AnimalDto> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;
@@ -79,7 +79,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, AnimalDto> map) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<@Valid String, AnimalDto> map) {
     this.map = map;
     return this;
   }
@@ -98,11 +98,11 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public Map<String, AnimalDto> getMap() {
+  public Map<@Valid String, AnimalDto> getMap() {
     return map;
   }
 
-  public void setMap(Map<String, AnimalDto> map) {
+  public void setMap(Map<@Valid String, AnimalDto> map) {
     this.map = map;
   }
 
