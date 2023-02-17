@@ -51,14 +51,58 @@ import com.fasterxml.jackson.databind.ObjectMapper
                 {{#isMultipart}}
                         formData {
                     {{#formParams}}
+                        {{#isFile}}
                         {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isFile}}
+                        {{^isFile}}
+                        {{^isArray}}
+                        {{^isString}}
+                        {{^isNumber}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{/isNumber}}
+                        {{#isNumber}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isNumber}}
+                        {{/isString}}
+                        {{#isString}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isString}}
+                        {{/isArray}}
+                        {{#isArray}}
+                        for (int i=0; i < {{paramName}}.size(); i++) {
+                            {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.get(i).toString()) }
+                        }
+                        {{/isArray}}
+                        {{/isFile}}
                     {{/formParams}}
                         }
                 {{/isMultipart}}
                 {{^isMultipart}}
                         ParametersBuilder().also {
                     {{#formParams}}
+                        {{#isFile}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isFile}}
+                        {{^isFile}}
+                        {{^isArray}}
+                        {{^isString}}
+                        {{^isNumber}}
                         {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{/isNumber}}
+                        {{#isNumber}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isNumber}}
+                        {{/isString}}
+                        {{#isString}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isString}}
+                        {{/isArray}}
+                        {{#isArray}}
+                        for (int i=0; i < {{paramName}}.size(); i++) {
+                            {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.get(i).toString()) }
+                        }
+                        {{/isArray}}
+                        {{/isFile}}
                     {{/formParams}}
                         }.build()
                 {{/isMultipart}}
