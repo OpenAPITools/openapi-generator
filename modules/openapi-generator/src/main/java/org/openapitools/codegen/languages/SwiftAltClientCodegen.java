@@ -421,6 +421,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+            } else if (ModelUtils.isUUIDSchema(p)) {
+                return "\"" + escapeText(p.getDefault().toString()) + "\"";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
@@ -819,7 +821,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.19.0                                          #");
+        System.out.println("# swift alternative generator v0.20.0                                          #");
         System.out.println("################################################################################");
     }
 }
