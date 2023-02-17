@@ -63,6 +63,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected List<String> primitiveTypes = new ArrayList<String>();
 
     public static final String SHARD_NAME = "shardName";
     public static final String MODULE_NAME = "moduleName";
@@ -166,7 +167,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("float", "Float32");
         typeMapping.put("double", "Float64");
         typeMapping.put("number", "Float64");
-        typeMapping.put("decimal", "Float64");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date", "Time");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -184,6 +185,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         instantiationTypes.put("map", "Hash");
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Set");
+        primitiveTypes = new ArrayList<String>(typeMapping.values());
 
         // remove modelPackage and apiPackage added by default
         cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
@@ -353,6 +355,15 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
 
         return toModelName(type);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        if (primitiveTypes.contains(name)) {
+            return null;
+        } else {
+            return toModelFilename(name);
+        }
     }
 
     @Override

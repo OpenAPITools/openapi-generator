@@ -1,6 +1,6 @@
 package org.openapitools.api;
 
-import org.openapitools.model.Client;
+import org.openapitools.model.ClientDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class AnotherFakeApiController implements AnotherFakeApi {
 
     private final NativeWebRequest request;

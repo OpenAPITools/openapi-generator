@@ -154,7 +154,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->username
     cJSON *username = cJSON_GetObjectItemCaseSensitive(userJSON, "username");
     if (username) { 
-    if(!cJSON_IsString(username))
+    if(!cJSON_IsString(username) && !cJSON_IsNull(username))
     {
     goto end; //String
     }
@@ -163,7 +163,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->first_name
     cJSON *first_name = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
     if (first_name) { 
-    if(!cJSON_IsString(first_name))
+    if(!cJSON_IsString(first_name) && !cJSON_IsNull(first_name))
     {
     goto end; //String
     }
@@ -172,7 +172,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->last_name
     cJSON *last_name = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
     if (last_name) { 
-    if(!cJSON_IsString(last_name))
+    if(!cJSON_IsString(last_name) && !cJSON_IsNull(last_name))
     {
     goto end; //String
     }
@@ -181,7 +181,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->email
     cJSON *email = cJSON_GetObjectItemCaseSensitive(userJSON, "email");
     if (email) { 
-    if(!cJSON_IsString(email))
+    if(!cJSON_IsString(email) && !cJSON_IsNull(email))
     {
     goto end; //String
     }
@@ -190,7 +190,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->password
     cJSON *password = cJSON_GetObjectItemCaseSensitive(userJSON, "password");
     if (password) { 
-    if(!cJSON_IsString(password))
+    if(!cJSON_IsString(password) && !cJSON_IsNull(password))
     {
     goto end; //String
     }
@@ -199,7 +199,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // user->phone
     cJSON *phone = cJSON_GetObjectItemCaseSensitive(userJSON, "phone");
     if (phone) { 
-    if(!cJSON_IsString(phone))
+    if(!cJSON_IsString(phone) && !cJSON_IsNull(phone))
     {
     goto end; //String
     }
@@ -217,12 +217,12 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     user_local_var = user_create (
         id ? id->valuedouble : 0,
-        username ? strdup(username->valuestring) : NULL,
-        first_name ? strdup(first_name->valuestring) : NULL,
-        last_name ? strdup(last_name->valuestring) : NULL,
-        email ? strdup(email->valuestring) : NULL,
-        password ? strdup(password->valuestring) : NULL,
-        phone ? strdup(phone->valuestring) : NULL,
+        username && !cJSON_IsNull(username) ? strdup(username->valuestring) : NULL,
+        first_name && !cJSON_IsNull(first_name) ? strdup(first_name->valuestring) : NULL,
+        last_name && !cJSON_IsNull(last_name) ? strdup(last_name->valuestring) : NULL,
+        email && !cJSON_IsNull(email) ? strdup(email->valuestring) : NULL,
+        password && !cJSON_IsNull(password) ? strdup(password->valuestring) : NULL,
+        phone && !cJSON_IsNull(phone) ? strdup(phone->valuestring) : NULL,
         user_status ? user_status->valuedouble : 0
         );
 

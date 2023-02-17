@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class FakeApiTests : ApiTestsBase
     {
-        private readonly IFakeApi _instance;
+        private readonly IApi.IFakeApi _instance;
 
         public FakeApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IFakeApi>();
+            _instance = _host.Services.GetRequiredService<IApi.IFakeApi>();
         }
 
 
@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterStringSerializeAsyncTest()
         {
+            Guid requiredStringUuid = default;
             string body = default;
-            var response = await _instance.FakeOuterStringSerializeAsync(body);
+            var response = await _instance.FakeOuterStringSerializeAsync(requiredStringUuid, body);
             Assert.IsType<string>(response);
         }
 
@@ -131,9 +132,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestBodyWithQueryParamsAsyncTest()
         {
-            string query = default;
             User user = default;
-            await _instance.TestBodyWithQueryParamsAsync(query, user);
+            string query = default;
+            await _instance.TestBodyWithQueryParamsAsync(user, query);
         }
 
         /// <summary>
@@ -153,21 +154,21 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestEndpointParametersAsyncTest()
         {
+            byte[] _byte = default;
             decimal number = default;
             double _double = default;
             string patternWithoutDelimiter = default;
-            byte[] _byte = default;
+            DateTime? date = default;
+            System.IO.Stream binary = default;
+            float? _float = default;
             int? integer = default;
             int? int32 = default;
             long? int64 = default;
-            float? _float = default;
             string _string = default;
-            System.IO.Stream binary = default;
-            DateTime? date = default;
             string password = default;
             string callback = default;
             DateTime? dateTime = default;
-            await _instance.TestEndpointParametersAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
+            await _instance.TestEndpointParametersAsync(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
         }
 
         /// <summary>
@@ -178,13 +179,13 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> enumHeaderStringArray = default;
             List<string> enumQueryStringArray = default;
-            int? enumQueryInteger = default;
             double? enumQueryDouble = default;
+            int? enumQueryInteger = default;
+            List<string> enumFormStringArray = default;
             string enumHeaderString = default;
             string enumQueryString = default;
-            List<string> enumFormStringArray = default;
             string enumFormString = default;
-            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
         /// <summary>
@@ -193,13 +194,13 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestGroupParametersAsyncTest()
         {
-            int requiredStringGroup = default;
             bool requiredBooleanGroup = default;
+            int requiredStringGroup = default;
             long requiredInt64Group = default;
-            int? stringGroup = default;
             bool? booleanGroup = default;
+            int? stringGroup = default;
             long? int64Group = default;
-            await _instance.TestGroupParametersAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            await _instance.TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>

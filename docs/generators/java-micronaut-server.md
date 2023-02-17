@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |applicationName|Micronaut application name (Defaults to the artifactId value)| |openapi-micronaut|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -29,6 +30,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |build|Specify for which build tool to generate files|<dl><dt>**gradle**</dt><dd>Gradle configuration is generated for the project</dd><dt>**all**</dt><dd>Both Gradle and Maven configurations are generated</dd><dt>**maven**</dt><dd>Maven configuration is generated for the project</dd></dl>|all|
+|camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |controllerPackage|The package in which controllers will be generated| |org.openapitools.api|
 |dateFormat|Specify the format pattern of date as a string| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
@@ -70,6 +73,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
+|serializationLibrary|Serialization library for model|<dl><dt>**jackson**</dt><dd>Jackson as serialization library</dd><dt>**micronaut_serde_jackson**</dt><dd>Use micronaut-serialization with Jackson annotations</dd></dl>|jackson|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -79,6 +83,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|Client service name| |null|
 |useAuth|Whether to import authorization and to annotate controller methods accordingly| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOptional|Use Optional container for optional parameters| |false|
 |visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

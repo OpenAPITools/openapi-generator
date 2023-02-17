@@ -80,7 +80,7 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
         }
         // validate the required field `{{{baseName}}}` (array)
         for (const item of data['{{{baseName}}}']) {
-            {{{items.dataType}}}.validateJsonObject(item);
+            {{{items.dataType}}}.validateJSON(item);
         };
         {{/isRequired}}
         {{^isRequired}}
@@ -91,7 +91,7 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
             }
             // validate the optional field `{{{baseName}}}` (array)
             for (const item of data['{{{baseName}}}']) {
-                {{{items.dataType}}}.validateJsonObject(item);
+                {{{items.dataType}}}.validateJSON(item);
             };
         }
         {{/isRequired}}

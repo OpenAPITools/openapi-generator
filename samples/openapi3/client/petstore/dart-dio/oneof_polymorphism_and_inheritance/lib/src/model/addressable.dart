@@ -8,7 +8,7 @@ import 'package:built_value/serializer.dart';
 
 part 'addressable.g.dart';
 
-/// Base schema for adressable entities
+/// Base schema for addressable entities
 ///
 /// Properties:
 /// * [href] - Hyperlink reference

@@ -167,7 +167,15 @@ func parseInt32Parameter(param string, required bool) (int32, error) {
 }
 
 // parseBoolParameter parses a string parameter to a bool
-func parseBoolParameter(param string) (bool, error) {
+func parseBoolParameter(param string, required bool) (bool, error) {
+	if param == "" {
+		if required {
+			return false, errors.New(errMsgRequiredMissing)
+		}
+
+		return false, nil
+	}
+
 	val, err := strconv.ParseBool(param)
 	if err != nil {
 		return false, err

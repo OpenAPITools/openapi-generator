@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -232,7 +233,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
-        name = camelize(toVarName(name), true);
+        name = camelize(toVarName(name), LOWERCASE_FIRST_LETTER);
 
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
@@ -626,13 +627,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        boolean addedTimeImport = false;
-        boolean addedOSImport = false;
         for (ModelMap m : objs.getModels()) {
+            boolean addedTimeImport = false;
+            boolean addedOSImport = false;
             CodegenModel model = m.getModel();
-            for (CodegenProperty cp : model.vars) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
-                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+
+            List<CodegenProperty> inheritedProperties = new ArrayList<>();
+            if (model.getComposedSchemas() != null) {
+                if (model.getComposedSchemas().getAnyOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
+                }
+                if (model.getComposedSchemas().getOneOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
+                }
+            }
+
+            List<CodegenProperty> codegenProperties = new ArrayList<>();
+            if(model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
+                codegenProperties.addAll(model.vars);
+            } else {
+                // If the model is no model, but is a
+                // anyOf or oneOf, add all first level options
+                // from anyOf or oneOf.
+                codegenProperties.addAll(inheritedProperties);
+            }
+
+            for (CodegenProperty cp : codegenProperties) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
@@ -642,15 +664,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedOSImport = true;
                 }
             }
-
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
-            }
-
-            // if oneOf contains "time.Time" type
-            if (!addedTimeImport && model.oneOf != null && model.oneOf.contains("time.Time")) {
-                imports.add(createMapping("import", "time"));
-                addedTimeImport = true;
             }
 
             // if oneOf contains "null" type

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -44,9 +45,9 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() throws ApiException {
-        Client body = null;
+        Client client = null;
         CompletableFuture<Client> response = 
-        api.testClassname(body);
+        api.testClassname(client);
         
         // TODO: test validations
     }

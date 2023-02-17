@@ -23,7 +23,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Dictionary&lt;string, int?&gt;</returns>
         Dictionary<string, int?> GetInventory ();
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Api
         }
     
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
         /// <returns>Order</returns>            

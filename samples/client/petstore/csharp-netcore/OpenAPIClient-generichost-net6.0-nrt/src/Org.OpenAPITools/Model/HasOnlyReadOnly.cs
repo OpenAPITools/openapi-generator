@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,15 +28,28 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// HasOnlyReadOnly
     /// </summary>
-    public partial class HasOnlyReadOnly : IEquatable<HasOnlyReadOnly>, IValidatableObject
+    public partial class HasOnlyReadOnly : IEquatable<HasOnlyReadOnly?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
-        public HasOnlyReadOnly(string? bar = default, string? foo = default)
+        [JsonConstructor]
+        internal HasOnlyReadOnly(string bar, string foo)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (bar == null)
+                throw new ArgumentNullException("bar is a required property for HasOnlyReadOnly and cannot be null.");
+
+            if (foo == null)
+                throw new ArgumentNullException("foo is a required property for HasOnlyReadOnly and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             Bar = bar;
             Foo = foo;
         }
@@ -46,19 +58,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get; private set; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string? Foo { get; private set; }
+        public string Foo { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -104,22 +116,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
-                {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
-                }
-                if (this.Foo != null)
-                {
-                    hashCode = (hashCode * 59) + this.Foo.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + Bar.GetHashCode();
+                hashCode = (hashCode * 59) + Foo.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
                 return hashCode;
             }
         }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -131,4 +134,76 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type HasOnlyReadOnly
+    /// </summary>
+    public class HasOnlyReadOnlyJsonConverter : JsonConverter<HasOnlyReadOnly>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override HasOnlyReadOnly Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string bar = default;
+            string foo = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "bar":
+                            bar = utf8JsonReader.GetString();
+                            break;
+                        case "foo":
+                            foo = utf8JsonReader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new HasOnlyReadOnly(bar, foo);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="hasOnlyReadOnly"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("bar", hasOnlyReadOnly.Bar);
+            writer.WriteString("foo", hasOnlyReadOnly.Foo);
+
+            writer.WriteEndObject();
+        }
+    }
 }

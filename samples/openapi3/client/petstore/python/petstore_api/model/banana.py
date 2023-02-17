@@ -69,14 +69,14 @@ class Banana(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         lengthCm: typing.Union[MetaOapg.properties.lengthCm, decimal.Decimal, int, float, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Banana':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             lengthCm=lengthCm,
             _configuration=_configuration,
             **kwargs,

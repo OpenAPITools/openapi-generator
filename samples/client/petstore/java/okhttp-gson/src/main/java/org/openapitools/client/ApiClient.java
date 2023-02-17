@@ -66,6 +66,58 @@ import org.openapitools.client.auth.OAuthFlow;
 public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io:80/v2";
+    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
+    new ServerConfiguration(
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://127.0.0.1/no_variable",
+      "The local server without variables",
+      new HashMap<String, ServerVariable>()
+    )
+  ));
+    protected Integer serverIndex = 0;
+    protected Map<String, String> serverVariables = null;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -95,12 +147,12 @@ public class ApiClient {
         initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
-        authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -116,12 +168,12 @@ public class ApiClient {
         httpClient = client;
 
         // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
-        authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -189,8 +241,8 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
 
         // Prevent the authentications from being modified.
@@ -239,6 +291,34 @@ public class ApiClient {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        this.serverIndex = null;
+        return this;
+    }
+
+    public List<ServerConfiguration> getServers() {
+        return servers;
+    }
+
+    public ApiClient setServers(List<ServerConfiguration> servers) {
+        this.servers = servers;
+        return this;
+    }
+
+    public Integer getServerIndex() {
+        return serverIndex;
+    }
+
+    public ApiClient setServerIndex(Integer serverIndex) {
+        this.serverIndex = serverIndex;
+        return this;
+    }
+
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+    public ApiClient setServerVariables(Map<String, String> serverVariables) {
+        this.serverVariables = serverVariables;
         return this;
     }
 
@@ -523,6 +603,18 @@ public class ApiClient {
     }
 
     /**
+     * Helper method to set credentials for AWSV4 Signature
+     *
+     * @param accessKey Access Key
+     * @param secretKey Secret Key
+     * @param region Region
+     * @param service Service to access to
+     */
+    public void setAWS4Configuration(String accessKey, String secretKey, String region, String service) {
+        throw new RuntimeException("No AWS4 authentication configured!");
+    }
+
+    /**
      * Set the User-Agent header's value (by adding to the default header map).
      *
      * @param userAgent HTTP request's user agent
@@ -712,7 +804,7 @@ public class ApiClient {
                 if (b.length() > 0) {
                     b.append(",");
                 }
-                b.append(String.valueOf(o));
+                b.append(o);
             }
             return b.toString();
         } else {
@@ -1294,7 +1386,18 @@ public class ApiClient {
         if (baseUrl != null) {
             url.append(baseUrl).append(path);
         } else {
-            url.append(basePath).append(path);
+            String baseURL;
+            if (serverIndex != null) {
+                if (serverIndex < 0 || serverIndex >= servers.size()) {
+                    throw new ArrayIndexOutOfBoundsException(String.format(
+                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                    ));
+                }
+                baseURL = servers.get(serverIndex).URL(serverVariables);
+            } else {
+                baseURL = basePath;
+            }
+            url.append(baseURL).append(path);
         }
 
         if (queryParams != null && !queryParams.isEmpty()) {
@@ -1554,7 +1657,7 @@ public class ApiClient {
                     KeyStore caKeyStore = newEmptyKeyStore(password);
                     int index = 0;
                     for (Certificate certificate : certificates) {
-                        String certificateAlias = "ca" + Integer.toString(index++);
+                        String certificateAlias = "ca" + (index++);
                         caKeyStore.setCertificateEntry(certificateAlias, certificate);
                     }
                     trustManagerFactory.init(caKeyStore);

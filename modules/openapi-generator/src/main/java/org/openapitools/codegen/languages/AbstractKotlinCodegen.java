@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
@@ -50,6 +51,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+
+    public static final String JAVAX_PACKAGE = "javaxPackage";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -67,6 +71,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
+
+    protected boolean useJakartaEe = false;
 
     protected boolean nonPublicApi = false;
 
@@ -543,6 +549,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             typeMapping.put("set", "kotlin.collections.MutableSet");
             typeMapping.put("map", "kotlin.collections.MutableMap");
         }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            setUseJakartaEe(Boolean.TRUE.equals(additionalProperties.get(USE_JAKARTA_EE)));
+        }
+        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+
+        if (useJakartaEe) {
+            applyJakartaPackage();
+        } else {
+            applyJavaxPackage();
+        }
     }
 
     protected boolean isModelMutable() {
@@ -593,6 +610,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.serializableModel = serializableModel;
     }
 
+    public void setUseJakartaEe(boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
+    }
+
     public boolean nonPublicApi() {
         return nonPublicApi;
     }
@@ -625,7 +646,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = camelize(modified, true);
+                modified = camelize(modified, LOWERCASE_FIRST_LETTER);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
@@ -755,19 +776,19 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(operationId))
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), LOWERCASE_FIRST_LETTER);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -839,6 +860,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private String titleCase(final String input) {
         return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "javax");
+    }
+
+    protected void applyJakartaPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "jakarta");
     }
 
     @Override
@@ -921,7 +950,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toVarName(String name) {
         name = toVariableName(name);
         if (propertyAdditionalKeywords.contains(name)) {
-            return camelize("property_" + name, true);
+            return camelize("property_" + name, LOWERCASE_FIRST_LETTER);
         } else {
             return name;
         }
@@ -959,7 +988,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
         if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {

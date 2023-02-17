@@ -813,7 +813,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**

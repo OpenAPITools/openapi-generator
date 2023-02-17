@@ -97,6 +97,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)
@@ -117,6 +118,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     schemaMappings.set(generate.schemaMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaNameDefaults.set(generate.inlineSchemaNameDefaults)
+                    openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
                     id.set(generate.id)
@@ -145,6 +147,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     skipValidateSpec.set(generate.skipValidateSpec)
                     generateAliasAsModel.set(generate.generateAliasAsModel)
                     engine.set(generate.engine)
+                    cleanupOutput.set(generate.cleanupOutput)
                 }
             }
         }

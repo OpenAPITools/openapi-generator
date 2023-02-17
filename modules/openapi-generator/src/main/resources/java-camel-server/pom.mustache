@@ -39,8 +39,8 @@ Do not edit the class manually.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.springframework.boot.version>2.6.2</org.springframework.boot.version>
-        <org.apache.camel.version>3.14.0</org.apache.camel.version>
+        <org.springframework.boot.version>2.7.8</org.springframework.boot.version>
+        <org.apache.camel.version>3.20.1</org.apache.camel.version>
     </properties>
 
     <dependencyManagement>
@@ -74,10 +74,9 @@ Do not edit the class manually.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.10.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -117,7 +116,7 @@ Do not edit the class manually.
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.1</version>
+            <version>0.2.4</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
@@ -128,19 +127,19 @@ Do not edit the class manually.
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>2.1.11</version>
+            <version>2.2.8</version>
         </dependency>
         {{/oas3}}
         {{#jackson}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.13.0</version>
+            <version>2.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.13.0</version>
+            <version>2.14.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>

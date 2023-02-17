@@ -85,7 +85,7 @@ class ObjectModelWithRefProps(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         myNumber: typing.Union['NumberWithValidations', schemas.Unset] = schemas.unset,
         myString: typing.Union[MetaOapg.properties.myString, str, schemas.Unset] = schemas.unset,
         myBoolean: typing.Union[MetaOapg.properties.myBoolean, bool, schemas.Unset] = schemas.unset,
@@ -94,7 +94,7 @@ class ObjectModelWithRefProps(
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             myNumber=myNumber,
             myString=myString,
             myBoolean=myBoolean,

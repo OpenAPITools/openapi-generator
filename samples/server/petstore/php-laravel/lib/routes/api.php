@@ -248,7 +248,7 @@ Route::delete('/v2/store/order/{order_id}', 'StoreController@deleteOrder');
 /**
  * get getOrderById
  * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
  * Output-Formats: [application/xml, application/json]
  */
 Route::get('/v2/store/order/{order_id}', 'StoreController@getOrderById');
