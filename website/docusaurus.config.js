@@ -20,6 +20,7 @@ const docusaurusConfig = {
   favicon: 'img/favicon.png',
   organizationName: 'OpenAPITools',
   projectName: 'openapi-generator',
+  onBrokenLinks: 'ignore',
 
   // // You may provide arbitrary config keys to be used as needed by your
   // // template. For example, if you need your repo's URL...
