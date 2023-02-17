@@ -1507,15 +1507,18 @@ components:
       - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
-        propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
+        propertyName: type
       properties:
-        className:
+        type:
           type: string
         color:
           default: red
           type: string
       required:
-      - className
+      - type
       type: object
     AnimalFarm:
       items:

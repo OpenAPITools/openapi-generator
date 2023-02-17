@@ -28,27 +28,27 @@ import org.openapitools.client.model.Dog;
 
 public class Animal  {
   
-  private String className;
+  private String type;
 
   private String color = "red";
 
  /**
-   * Get className
-   * @return className
+   * Get type
+   * @return type
   **/
-  public String getClassName() {
-    return className;
+  public String getType() {
+    return type;
   }
 
   /**
-    * Set className
+    * Set type
   **/
-  public void setClassName(String className) {
-    this.className = className;
+  public void setType(String type) {
+    this.type = type;
   }
 
-  public Animal className(String className) {
-    this.className = className;
+  public Animal type(String type) {
+    this.type = type;
     return this;
   }
 
@@ -81,7 +81,7 @@ public class Animal  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
     
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
