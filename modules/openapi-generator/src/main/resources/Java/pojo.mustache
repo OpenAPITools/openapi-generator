@@ -15,7 +15,9 @@
 {{/vars}}
 })
 {{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
 @JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
