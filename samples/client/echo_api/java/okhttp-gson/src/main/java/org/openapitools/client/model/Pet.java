@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -138,7 +140,7 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -160,7 +162,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getName() {
     return name;
@@ -182,7 +184,7 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Category getCategory() {
     return category;
@@ -209,7 +211,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -239,7 +241,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Tag> getTags() {
     return tags;
@@ -261,7 +263,7 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public StatusEnum getStatus() {
     return status;

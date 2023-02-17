@@ -35,7 +35,6 @@ import org.openapitools.client.JSON;
 /**
  * A pet for sale in the pet store
  */
-@ApiModel(description = "A pet for sale in the pet store")
 @JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
   Pet.JSON_PROPERTY_CATEGORY,
@@ -44,7 +43,7 @@ import org.openapitools.client.JSON;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -113,8 +112,7 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -139,8 +137,7 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -165,8 +162,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -196,8 +192,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -230,8 +225,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -258,8 +252,7 @@ public class Pet {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

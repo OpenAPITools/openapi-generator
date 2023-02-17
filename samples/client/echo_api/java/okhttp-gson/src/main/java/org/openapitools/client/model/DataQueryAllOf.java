@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 
@@ -47,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQueryAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQueryAllOf {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -74,7 +76,7 @@ public class DataQueryAllOf {
    * test suffix
    * @return suffix
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSuffix() {
     return suffix;
@@ -96,7 +98,7 @@ public class DataQueryAllOf {
    * Some text containing white spaces
    * @return text
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getText() {
     return text;
@@ -118,7 +120,7 @@ public class DataQueryAllOf {
    * A date
    * @return date
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OffsetDateTime getDate() {
     return date;

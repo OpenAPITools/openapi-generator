@@ -43,8 +43,6 @@ public class Order  {
   @JsonbProperty("shipDate")
   private Date shipDate;
 
-  @JsonbTypeSerializer(StatusEnum.Serializer.class)
-  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
@@ -65,24 +63,6 @@ public class Order  {
         return String.valueOf(value);
     }
 
-    public static final class Deserializer implements JsonbDeserializer<StatusEnum> {
-        @Override
-        public StatusEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (String.valueOf(b.value).equals(parser.getString())) {
-                    return b;
-                }
-            }
-            throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
-        }
-    }
-
-    public static final class Serializer implements JsonbSerializer<StatusEnum> {
-        @Override
-        public void serialize(StatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write(obj.value);
-        }
-    }
   }
 
  /**

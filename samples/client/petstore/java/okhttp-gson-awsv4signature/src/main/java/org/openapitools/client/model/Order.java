@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 
@@ -47,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * An order for a pets from the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -135,7 +137,7 @@ public class Order {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -157,7 +159,7 @@ public class Order {
    * Get petId
    * @return petId
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getPetId() {
     return petId;
@@ -179,7 +181,7 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getQuantity() {
     return quantity;
@@ -201,7 +203,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -223,7 +225,7 @@ public class Order {
    * Order Status
    * @return status
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public StatusEnum getStatus() {
     return status;
@@ -245,7 +247,7 @@ public class Order {
    * Get complete
    * @return complete
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getComplete() {
     return complete;

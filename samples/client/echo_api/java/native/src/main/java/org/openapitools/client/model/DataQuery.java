@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -25,9 +22,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.DataQueryAllOf;
 import org.openapitools.client.model.Query;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -38,10 +38,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   DataQuery.JSON_PROPERTY_SUFFIX,
   DataQuery.JSON_PROPERTY_TEXT,
-  DataQuery.JSON_PROPERTY_DATE
+  DataQuery.JSON_PROPERTY_DATE,
+  DataQuery.JSON_PROPERTY_ID,
+  DataQuery.JSON_PROPERTY_OUTCOMES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class DataQuery extends Query {
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class DataQuery {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
   private String suffix;
 
@@ -50,6 +52,49 @@ public class DataQuery extends Query {
 
   public static final String JSON_PROPERTY_DATE = "date";
   private OffsetDateTime date;
+
+  public static final String JSON_PROPERTY_ID = "id";
+  private Long id;
+
+  /**
+   * Gets or Sets outcomes
+   */
+  public enum OutcomesEnum {
+    SUCCESS("SUCCESS"),
+    
+    FAILURE("FAILURE"),
+    
+    SKIPPED("SKIPPED");
+
+    private String value;
+
+    OutcomesEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OutcomesEnum fromValue(String value) {
+      for (OutcomesEnum b : OutcomesEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
+  private List<OutcomesEnum> outcomes = new ArrayList<>();
 
   public DataQuery() { 
   }
@@ -63,7 +108,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -88,7 +133,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -113,7 +158,7 @@ public class DataQuery extends Query {
    * A date
    * @return date
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -126,6 +171,64 @@ public class DataQuery extends Query {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDate(OffsetDateTime date) {
     this.date = date;
+  }
+
+
+  public DataQuery id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Query
+   * @return id
+  **/
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Long getId() {
+    return id;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
+  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+    this.outcomes = outcomes;
+    return this;
+  }
+
+  public DataQuery addOutcomesItem(OutcomesEnum outcomesItem) {
+    if (this.outcomes == null) {
+      this.outcomes = new ArrayList<>();
+    }
+    this.outcomes.add(outcomesItem);
+    return this;
+  }
+
+   /**
+   * Get outcomes
+   * @return outcomes
+  **/
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<OutcomesEnum> getOutcomes() {
+    return outcomes;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOutcomes(List<OutcomesEnum> outcomes) {
+    this.outcomes = outcomes;
   }
 
 
@@ -144,22 +247,24 @@ public class DataQuery extends Query {
     return Objects.equals(this.suffix, dataQuery.suffix) &&
         Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
-        super.equals(o);
+        Objects.equals(this.id, dataQuery.id) &&
+        Objects.equals(this.outcomes, dataQuery.outcomes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, super.hashCode());
+    return Objects.hash(suffix, text, date, id, outcomes);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    outcomes: ").append(toIndentedString(outcomes)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -173,70 +278,6 @@ public class DataQuery extends Query {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `suffix` to the URL query string
-    if (getSuffix() != null) {
-      joiner.add(String.format("%ssuffix%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSuffix()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `text` to the URL query string
-    if (getText() != null) {
-      joiner.add(String.format("%stext%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getText()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `date` to the URL query string
-    if (getDate() != null) {
-      joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `outcomes` to the URL query string
-    if (getOutcomes() != null) {
-      for (int i = 0; i < getOutcomes().size(); i++) {
-        joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getOutcomes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    return joiner.toString();
   }
 }
 

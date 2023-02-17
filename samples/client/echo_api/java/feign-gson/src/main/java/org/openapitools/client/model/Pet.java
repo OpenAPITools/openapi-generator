@@ -15,46 +15,51 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonPropertyOrder({
+  Pet.JSON_PROPERTY_ID,
+  Pet.JSON_PROPERTY_NAME,
+  Pet.JSON_PROPERTY_CATEGORY,
+  Pet.JSON_PROPERTY_PHOTO_URLS,
+  Pet.JSON_PROPERTY_TAGS,
+  Pet.JSON_PROPERTY_STATUS
+})
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public static final String SERIALIZED_NAME_CATEGORY = "category";
-  @SerializedName(SERIALIZED_NAME_CATEGORY)
+  public static final String JSON_PROPERTY_CATEGORY = "category";
   private Category category;
 
-  public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
-  @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private List<String> photoUrls = new ArrayList<>();
 
-  public static final String SERIALIZED_NAME_TAGS = "tags";
-  @SerializedName(SERIALIZED_NAME_TAGS)
+  public static final String JSON_PROPERTY_TAGS = "tags";
   private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
    */
-  @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -68,6 +73,7 @@ public class Pet {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -77,6 +83,7 @@ public class Pet {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
@@ -85,23 +92,9 @@ public class Pet {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<StatusEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return StatusEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
+  public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
   public Pet() {
@@ -117,13 +110,17 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
@@ -139,13 +136,17 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
   }
@@ -161,13 +162,17 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Category getCategory() {
     return category;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -188,13 +193,17 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -218,13 +227,17 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Tag> getTags() {
     return tags;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -240,13 +253,17 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
     return status;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
