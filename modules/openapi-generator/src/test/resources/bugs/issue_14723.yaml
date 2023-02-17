@@ -9,25 +9,33 @@ paths:
       operationId: test
       responses:
         200:
-          $ref: '#/components/responses/MyDto'
+          $ref: '#/components/responses/ResponseTest'
 components:
   responses:
-    AspectDto:
+    ResponseTest:
       description: ""
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MyDto'
+            $ref: '#/components/schemas/ResponseTest'
   schemas:
-    MyDto:
+    ResponseTest:
       type: object
       properties:
+        response:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/ResponseTest2'
+          maxItems: 10
+          nullable: true
         nullableDtos:
           type: array
           description: dtos
           uniqueItems: true
           items:
-            $ref: '#/components/schemas/MyDto2'
+            $ref: '#/components/schemas/ResponseTest2'
           maxItems: 10
           nullable: true
         dtos:
@@ -35,20 +43,20 @@ components:
           description: dtos
           uniqueItems: true
           items:
-            $ref: '#/components/schemas/MyDto2'
+            $ref: '#/components/schemas/ResponseTest2'
           maxItems: 10
         listNullableDtos:
           type: array
           description: dtos
           items:
-            $ref: '#/components/schemas/MyDto2'
+            $ref: '#/components/schemas/ResponseTest2'
           maxItems: 10
           nullable: true
         listDtos:
           type: array
           description: dtos
           items:
-            $ref: '#/components/schemas/MyDto2'
+            $ref: '#/components/schemas/ResponseTest2'
           maxItems: 10
         nullableStrings:
           type: array
@@ -80,7 +88,7 @@ components:
           items:
             type: int
           maxItems: 10
-    MyDto2:
+    ResponseTest2:
       type: object
       properties:
         label:

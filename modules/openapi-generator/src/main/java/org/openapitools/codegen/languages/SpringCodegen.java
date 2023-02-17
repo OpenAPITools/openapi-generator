@@ -1195,27 +1195,34 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
         CodegenParameter codegenParameter = super.fromParameter( parameter, imports );
-        codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.datatypeWithEnum, codegenParameter.isContainer  );
-        codegenParameter.dataType = replaceBeanValidationCollectionType(codegenParameter.dataType, codegenParameter.isContainer  );
+        if( !codegenParameter.isContainer ){
+            return codegenParameter;
+        }
+        codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.datatypeWithEnum  );
+        codegenParameter.dataType = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.dataType  );
         return codegenParameter;
     }
 
     @Override
     public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
         CodegenProperty codegenProperty = super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
-        codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.datatypeWithEnum, codegenProperty.isContainer  );
-        codegenProperty.dataType = replaceBeanValidationCollectionType(codegenProperty.dataType, codegenProperty.isContainer  );
+        if( !codegenProperty.isContainer ){
+            return codegenProperty;
+        }
+        codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.datatypeWithEnum );
+        codegenProperty.dataType = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.dataType  );
         return codegenProperty;
     }
 
-    private String replaceBeanValidationCollectionType( String dataType, boolean isContainer ) {
-        if ( !isContainer || !useBeanValidation ) {
+    private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
+        if ( !useBeanValidation || !codegenProperty.isModel|| codegenProperty.baseName.toLowerCase().contains("response")) {
             return dataType;
         }
 
-        if ( StringUtils.isEmpty( dataType ) ) {
+        if ( StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" ) ) {
             return dataType;
         }
         return dataType.replace( "<", "<@Valid " );
     }
+
 }
