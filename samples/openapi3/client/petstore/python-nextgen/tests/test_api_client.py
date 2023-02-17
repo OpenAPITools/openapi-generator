@@ -214,7 +214,7 @@ class ApiClientTests(unittest.TestCase):
         self.assertIsNone(client._pool)
 
     def test_parameters_to_url_query(self):
-        data = 'value={"category":"example", "category2": "example2"}'
+        data = 'value={"category": "example", "category2": "example2"}'
         dictionary = {
             "category": "example",
             "category2": "example2"
@@ -222,12 +222,40 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, data)
         
-        data = '?value=true'
-        result = self.api_client.parameters_to_url_query(('value', True), {})
+        data='value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
+        dictionary = {
+            "number": 1,
+            "string": "str",
+            "bool": True,
+            "dict": {
+                "number": 1,
+                "string": "str",
+                "bool": True
+            }
+        }
+        result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, data)
 
-        data = '?value=1'
-        result = self.api_client.parameters_to_url_query(('value', 1), {})
+        data='value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
+        dictionary = {
+            "strValues": [
+                "one",
+                "two",
+                "three"
+            ],
+            "dictValues": [
+                {
+                    "name": "value1",
+                    "age": 14
+                },
+                {
+                    "name": "value2",
+                    "age": 12
+                },
+            ]
+        }
+        result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
+        self.assertEqual(result, data)
 
 
 
