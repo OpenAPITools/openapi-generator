@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 
 import java.io.File;
@@ -44,6 +45,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -1188,5 +1190,32 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
         this.requestMappingMode = requestMappingMode;
+    }
+
+    @Override
+    public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
+        CodegenParameter codegenParameter = super.fromParameter( parameter, imports );
+        codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.datatypeWithEnum, codegenParameter.isContainer  );
+        codegenParameter.dataType = replaceBeanValidationCollectionType(codegenParameter.dataType, codegenParameter.isContainer  );
+        return codegenParameter;
+    }
+
+    @Override
+    public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
+        CodegenProperty codegenProperty = super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
+        codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.datatypeWithEnum, codegenProperty.isContainer  );
+        codegenProperty.dataType = replaceBeanValidationCollectionType(codegenProperty.dataType, codegenProperty.isContainer  );
+        return codegenProperty;
+    }
+
+    private String replaceBeanValidationCollectionType( String dataType, boolean isContainer ) {
+        if ( !isContainer || !useBeanValidation ) {
+            return dataType;
+        }
+
+        if ( StringUtils.isEmpty( dataType ) ) {
+            return dataType;
+        }
+        return dataType.replace( "<", "<@Valid " );
     }
 }

@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      summary: test
+      operationId: test
+      responses:
+        200:
+          $ref: '#/components/responses/MyDto'
+components:
+  responses:
+    AspectDto:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MyDto'
+  schemas:
+    MyDto:
+      type: object
+      properties:
+        nullableDtos:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/MyDto2'
+          maxItems: 10
+          nullable: true
+        dtos:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/MyDto2'
+          maxItems: 10
+        listNullableDtos:
+          type: array
+          description: dtos
+          items:
+            $ref: '#/components/schemas/MyDto2'
+          maxItems: 10
+          nullable: true
+        listDtos:
+          type: array
+          description: dtos
+          items:
+            $ref: '#/components/schemas/MyDto2'
+          maxItems: 10
+        nullableStrings:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            type: string
+          maxItems: 10
+          nullable: true
+        strings:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            type: string
+          maxItems: 10
+        nullableInts:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            type: int
+          maxItems: 10
+          nullable: true
+        ints:
+          type: array
+          description: dtos
+          uniqueItems: true
+          items:
+            type: int
+          maxItems: 10
+    MyDto2:
+      type: object
+      properties:
+        label:
+          type: string
+          nullable: false
