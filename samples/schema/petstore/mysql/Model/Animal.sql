@@ -7,17 +7,17 @@
 --
 -- SELECT template for table `Animal`
 --
-SELECT `className`, `color` FROM `Animal` WHERE 1;
+SELECT `type`, `color` FROM `Animal` WHERE 1;
 
 --
 -- INSERT template for table `Animal`
 --
-INSERT INTO `Animal`(`className`, `color`) VALUES (?, ?);
+INSERT INTO `Animal`(`type`, `color`) VALUES (?, ?);
 
 --
 -- UPDATE template for table `Animal`
 --
-UPDATE `Animal` SET `className` = ?, `color` = ? WHERE 1;
+UPDATE `Animal` SET `type` = ?, `color` = ? WHERE 1;
 
 --
 -- DELETE template for table `Animal`

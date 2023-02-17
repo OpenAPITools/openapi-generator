@@ -13,12 +13,12 @@ part of openapi.api;
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
-    required this.className,
+    required this.type,
     this.color = 'red',
     this.declawed,
   });
 
-  String className;
+  String type;
 
   String color;
 
@@ -32,23 +32,23 @@ class Cat {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
-     other.className == className &&
+     other.type == type &&
      other.color == color &&
      other.declawed == declawed;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (className.hashCode) +
+    (type.hashCode) +
     (color.hashCode) +
     (declawed == null ? 0 : declawed!.hashCode);
 
   @override
-  String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
+  String toString() => 'Cat[type=$type, color=$color, declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = this.className;
+      json[r'type'] = this.type;
       json[r'color'] = this.color;
     if (this.declawed != null) {
       json[r'declawed'] = this.declawed;
@@ -77,7 +77,7 @@ class Cat {
       }());
 
       return Cat(
-        className: mapValueOfType<String>(json, r'className')!,
+        type: mapValueOfType<String>(json, r'type')!,
         color: mapValueOfType<String>(json, r'color') ?? 'red',
         declawed: mapValueOfType<bool>(json, r'declawed'),
       );
@@ -129,7 +129,7 @@ class Cat {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'className',
+    'type',
   };
 }
 

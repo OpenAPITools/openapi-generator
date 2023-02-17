@@ -60,8 +60,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::string getClassName() const;
-    void setClassName(std::string value);
+    std::string getType() const;
+    void setType(std::string value);
 
     /// <summary>
     /// 
@@ -70,7 +70,7 @@ public:
     void setColor(std::string value);
 
 protected:
-    std::string m_ClassName = "";
+    std::string m_Type = "";
     std::string m_Color = "red";
 };
 

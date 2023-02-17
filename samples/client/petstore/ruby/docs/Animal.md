@@ -4,7 +4,7 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **class_name** | **String** |  |  |
+| **type** | **String** |  |  |
 | **color** | **String** |  | [optional][default to &#39;red&#39;] |
 
 ## Example
@@ -13,7 +13,7 @@
 require 'petstore'
 
 instance = Petstore::Animal.new(
-  class_name: null,
+  type: null,
   color: null
 )
 ```

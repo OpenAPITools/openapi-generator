@@ -29,42 +29,42 @@ import javax.validation.Valid;
  * Animal
  */
 @JsonPropertyOrder({
-  Animal.JSON_PROPERTY_CLASS_NAME,
+  Animal.JSON_PROPERTY_TYPE,
   Animal.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
+  @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
 })
 
 public class Animal   {
-  public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  private String className;
+  public static final String JSON_PROPERTY_TYPE = "type";
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  private String type;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   @JsonProperty(JSON_PROPERTY_COLOR)
   private String color = "red";
 
-  public Animal className(String className) {
-    this.className = className;
+  public Animal type(String type) {
+    this.type = type;
     return this;
   }
 
   /**
-   * Get className
-   * @return className
+   * Get type
+   * @return type
    **/
-  @JsonProperty(value = "className")
+  @JsonProperty(value = "type")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-  public String getClassName() {
-    return className;
+  public String getType() {
+    return type;
   }
 
-  public void setClassName(String className) {
-    this.className = className;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public Animal color(String color) {
@@ -97,13 +97,13 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
+    return Objects.equals(this.type, animal.type) &&
         Objects.equals(this.color, animal.color);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color);
+    return Objects.hash(type, color);
   }
 
   @Override
@@ -111,7 +111,7 @@ public class Animal   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
     
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();

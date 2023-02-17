@@ -15,14 +15,14 @@ require 'time'
 
 module Petstore
   class Animal
-    attr_accessor :class_name
+    attr_accessor :type
 
     attr_accessor :color
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'class_name' => :'className',
+        :'type' => :'type',
         :'color' => :'color'
       }
     end
@@ -35,7 +35,7 @@ module Petstore
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'class_name' => :'String',
+        :'type' => :'String',
         :'color' => :'String'
       }
     end
@@ -48,7 +48,7 @@ module Petstore
 
     # discriminator's property name in OpenAPI v3
     def self.openapi_discriminator_name
-      :'class_name'
+      :'type'
     end
 
     # Initializes the object
@@ -66,8 +66,8 @@ module Petstore
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'class_name')
-        self.class_name = attributes[:'class_name']
+      if attributes.key?(:'type')
+        self.type = attributes[:'type']
       end
 
       if attributes.key?(:'color')
@@ -81,8 +81,8 @@ module Petstore
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @class_name.nil?
-        invalid_properties.push('invalid value for "class_name", class_name cannot be nil.')
+      if @type.nil?
+        invalid_properties.push('invalid value for "type", type cannot be nil.')
       end
 
       invalid_properties
@@ -91,7 +91,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @class_name.nil?
+      return false if @type.nil?
       true
     end
 
@@ -100,7 +100,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          class_name == o.class_name &&
+          type == o.type &&
           color == o.color
     end
 
@@ -113,7 +113,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [class_name, color].hash
+      [type, color].hash
     end
 
     # Builds the object from hash

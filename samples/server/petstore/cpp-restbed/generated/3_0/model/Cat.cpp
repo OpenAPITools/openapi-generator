@@ -62,7 +62,7 @@ ptree Cat::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
-	pt.put("className", m_ClassName);
+	pt.put("type", m_Type);
 	pt.put("color", m_Color);
 	pt.put("declawed", m_Declawed);
 	return pt;
@@ -71,19 +71,19 @@ ptree Cat::toPropertyTree() const
 void Cat::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
-	m_ClassName = pt.get("className", "");
+	m_Type = pt.get("type", "");
 	m_Color = pt.get("color", "red");
 	m_Declawed = pt.get("declawed", false);
 }
 
-std::string Cat::getClassName() const
+std::string Cat::getType() const
 {
-    return m_ClassName;
+    return m_Type;
 }
 
-void Cat::setClassName(std::string value)
+void Cat::setType(std::string value)
 {
-    m_ClassName = value;
+    m_Type = value;
 }
 
 

@@ -21,7 +21,7 @@ class Dog {
   /// Returns a new [Dog] instance.
   Dog({
 
-    required  this.className,
+    required  this.type,
 
      this.color = 'red',
 
@@ -30,13 +30,13 @@ class Dog {
 
   @JsonKey(
     
-    name: r'className',
+    name: r'type',
     required: true,
     includeIfNull: false
   )
 
 
-  final String className;
+  final String type;
 
 
 
@@ -66,13 +66,13 @@ class Dog {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
-     other.className == className &&
+     other.type == type &&
      other.color == color &&
      other.breed == breed;
 
   @override
   int get hashCode =>
-    className.hashCode +
+    type.hashCode +
     color.hashCode +
     breed.hashCode;
 

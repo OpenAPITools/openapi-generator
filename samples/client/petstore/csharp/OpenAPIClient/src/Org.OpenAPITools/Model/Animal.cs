@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "className")]
+    [JsonConverter(typeof(JsonSubtypes), "type")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal :  IEquatable<Animal>, IValidatableObject
@@ -42,18 +42,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="className">className (required).</param>
+        /// <param name="type">type (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        public Animal(string type = default(string), string color = "red")
         {
-            // to ensure "className" is required (not null)
-            if (className == null)
+            // to ensure "type" is required (not null)
+            if (type == null)
             {
-                throw new InvalidDataException("className is a required property for Animal and cannot be null");
+                throw new InvalidDataException("type is a required property for Animal and cannot be null");
             }
             else
             {
-                this.ClassName = className;
+                this.Type = type;
             }
 
             // use default value if no "color" provided
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets ClassName
+        /// Gets or Sets Type
         /// </summary>
-        [DataMember(Name="className", EmitDefaultValue=true)]
-        public string ClassName { get; set; }
+        [DataMember(Name="type", EmitDefaultValue=true)]
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,9 +124,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.ClassName == input.ClassName ||
-                    (this.ClassName != null &&
-                    this.ClassName.Equals(input.ClassName))
+                    this.Type == input.Type ||
+                    (this.Type != null &&
+                    this.Type.Equals(input.Type))
                 ) && 
                 (
                     this.Color == input.Color ||
@@ -144,8 +144,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                if (this.Type != null)
+                    hashCode = hashCode * 59 + this.Type.GetHashCode();
                 if (this.Color != null)
                     hashCode = hashCode * 59 + this.Color.GetHashCode();
                 return hashCode;

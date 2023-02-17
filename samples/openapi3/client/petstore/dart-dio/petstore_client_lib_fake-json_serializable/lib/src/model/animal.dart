@@ -18,20 +18,20 @@ class Animal {
   /// Returns a new [Animal] instance.
   Animal({
 
-    required  this.className,
+    required  this.type,
 
      this.color = 'red',
   });
 
   @JsonKey(
     
-    name: r'className',
+    name: r'type',
     required: true,
     includeIfNull: false
   )
 
 
-  final String className;
+  final String type;
 
 
 
@@ -49,12 +49,12 @@ class Animal {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Animal &&
-     other.className == className &&
+     other.type == type &&
      other.color == color;
 
   @override
   int get hashCode =>
-    className.hashCode +
+    type.hashCode +
     color.hashCode;
 
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);

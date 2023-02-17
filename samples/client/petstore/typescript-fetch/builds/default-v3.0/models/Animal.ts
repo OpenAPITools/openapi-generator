@@ -29,7 +29,7 @@ export interface Animal {
      * @type {string}
      * @memberof Animal
      */
-    className: string;
+    type: string;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export interface Animal {
  */
 export function instanceOfAnimal(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "className" in value;
+    isInstance = isInstance && "type" in value;
 
     return isInstance;
 }
@@ -57,16 +57,16 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         return json;
     }
     if (!ignoreDiscriminator) {
-        if (json['className'] === 'Cat') {
+        if (json['type'] === 'CAT') {
             return CatFromJSONTyped(json, true);
         }
-        if (json['className'] === 'Dog') {
+        if (json['type'] === 'DOG') {
             return DogFromJSONTyped(json, true);
         }
     }
     return {
         
-        'className': json['className'],
+        'type': json['type'],
         'color': !exists(json, 'color') ? undefined : json['color'],
     };
 }
@@ -80,7 +80,7 @@ export function AnimalToJSON(value?: Animal | null): any {
     }
     return {
         
-        'className': value.className,
+        'type': value.type,
         'color': value.color,
     };
 }

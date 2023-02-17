@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ClassName** | **string** |  | 
+**Type** | **string** |  | 
 **Color** | **string** |  | [optional] [default to "red"]
 **Declawed** | **bool** |  | [optional] 
 

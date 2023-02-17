@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/dog.dart';
+import 'package:openapi/src/model/cat.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
@@ -13,7 +15,7 @@ part 'cat.g.dart';
 /// Cat
 ///
 /// Properties:
-/// * [className] 
+/// * [type] 
 /// * [color] 
 /// * [declawed] 
 @BuiltValue()
@@ -23,7 +25,7 @@ abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
+  static void _defaults(CatBuilder b) => b..type=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
@@ -42,11 +44,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Cat object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
     if (object.color != null) {
       yield r'color';
       yield serializers.serialize(
@@ -54,6 +51,11 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
         specifiedType: const FullType(String),
       );
     }
+    yield r'type';
+    yield serializers.serialize(
+      object.type,
+      specifiedType: const FullType(String),
+    );
     if (object.declawed != null) {
       yield r'declawed';
       yield serializers.serialize(
@@ -84,19 +86,19 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
         case r'color':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.color = valueDes;
+          break;
+        case r'type':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.type = valueDes;
           break;
         case r'declawed':
           final valueDes = serializers.deserialize(

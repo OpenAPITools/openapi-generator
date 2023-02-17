@@ -13,21 +13,21 @@ part 'animal.g.dart';
 /// Animal
 ///
 /// Properties:
-/// * [className] 
+/// * [type] 
 /// * [color] 
 @BuiltValue(instantiable: false)
 abstract class Animal  {
-  @BuiltValueField(wireName: r'className')
-  String get className;
+  @BuiltValueField(wireName: r'type')
+  String get type;
 
   @BuiltValueField(wireName: r'color')
   String? get color;
 
-  static const String discriminatorFieldName = r'className';
+  static const String discriminatorFieldName = r'type';
 
   static const Map<String, Type> discriminatorMapping = {
-    r'Cat': Cat,
-    r'Dog': Dog,
+    r'CAT': Cat,
+    r'DOG': Dog,
   };
 
   @BuiltValueSerializer(custom: true)
@@ -37,10 +37,10 @@ abstract class Animal  {
 extension AnimalDiscriminatorExt on Animal {
     String? get discriminatorValue {
         if (this is Cat) {
-            return r'Cat';
+            return r'CAT';
         }
         if (this is Dog) {
-            return r'Dog';
+            return r'DOG';
         }
         return null;
     }
@@ -48,10 +48,10 @@ extension AnimalDiscriminatorExt on Animal {
 extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
     String? get discriminatorValue {
         if (this is CatBuilder) {
-            return r'Cat';
+            return r'CAT';
         }
         if (this is DogBuilder) {
-            return r'Dog';
+            return r'DOG';
         }
         return null;
     }
@@ -69,9 +69,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     Animal object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
+    yield r'type';
     yield serializers.serialize(
-      object.className,
+      object.type,
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
@@ -108,9 +108,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case r'Cat':
+      case r'CAT':
         return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
-      case r'Dog':
+      case r'DOG':
         return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
@@ -160,12 +160,12 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
+        case r'type':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.className = valueDes;
+          result.type = valueDes;
           break;
         case r'color':
           final valueDes = serializers.deserialize(

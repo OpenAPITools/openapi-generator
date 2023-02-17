@@ -21,7 +21,7 @@ class Cat {
   /// Returns a new [Cat] instance.
   Cat({
 
-    required  this.className,
+    required  this.type,
 
      this.color = 'red',
 
@@ -30,13 +30,13 @@ class Cat {
 
   @JsonKey(
     
-    name: r'className',
+    name: r'type',
     required: true,
     includeIfNull: false
   )
 
 
-  final String className;
+  final String type;
 
 
 
@@ -66,13 +66,13 @@ class Cat {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
-     other.className == className &&
+     other.type == type &&
      other.color == color &&
      other.declawed == declawed;
 
   @override
   int get hashCode =>
-    className.hashCode +
+    type.hashCode +
     color.hashCode +
     declawed.hashCode;
 
