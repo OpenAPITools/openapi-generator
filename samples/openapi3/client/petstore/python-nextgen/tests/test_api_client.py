@@ -212,3 +212,22 @@ class ApiClientTests(unittest.TestCase):
         self.assertIsNotNone(client._pool)
         atexit._run_exitfuncs()
         self.assertIsNone(client._pool)
+
+    def test_parameters_to_url_query(self):
+        data = 'value={"category":"example", "category2": "example2"}'
+        dictionary = {
+            "category": "example",
+            "category2": "example2"
+        }
+        result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
+        self.assertEqual(result, data)
+        
+        data = '?value=true'
+        result = self.api_client.parameters_to_url_query(('value', True), {})
+        self.assertEqual(result, data)
+
+        data = '?value=1'
+        result = self.api_client.parameters_to_url_query(('value', 1), {})
+
+
+
