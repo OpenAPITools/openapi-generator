@@ -1896,6 +1896,18 @@ public class SpringCodegenTest {
                 .assertMethod("typeConverter");
     }
 
+    @Test
+    public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/bugs/issue_11570.yml", SPRING_BOOT);
+
+        final String expectedTagName = "\"personTagWithExclamation!\"";
+        final String expectedTagDescription = "\"the personTagWithExclamation! API\"";
+
+        final String interfaceTag = "@Tag(name = " + expectedTagName + ", description = " + expectedTagDescription + ")";
+        final String methodTag = "tags = { " + expectedTagName + " }";
+        assertFileContains(output.get("PersonApi.java").toPath(), interfaceTag, methodTag);
+    }
+
     private Map<String, File> generateFromContract(String url, String library) throws IOException {
         return generateFromContract(url, library, new HashMap<>());
     }

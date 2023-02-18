@@ -35,7 +35,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "foo", description = "the foo API")
+@Tag(name = "Foo", description = "the Foo API")
 public interface FooApi {
 
     default Optional<NativeWebRequest> getRequest() {

@@ -34,7 +34,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "FakeClassnameTags123", description = "the FakeClassnameTags123 API")
+@Tag(name = "fake_classname_tags 123#$%^", description = "the fake_classname_tags 123#$%^ API")
 public interface FakeClassnameTags123Api {
 
     /**

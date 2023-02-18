@@ -35,7 +35,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Tag(name = "Pet", description = "Everything about your Pets")
+@Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
     /**
