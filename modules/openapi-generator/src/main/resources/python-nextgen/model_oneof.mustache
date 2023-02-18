@@ -114,7 +114,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             # validation
             instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
             # assign value to actual_instance
-            instance.actual_instance = instance.{{vendorExtensions.x-py-name}} 
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))

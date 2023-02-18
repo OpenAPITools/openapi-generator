@@ -102,7 +102,7 @@ class ModelTests(unittest.TestCase):
         # test from_josn
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
-        self.assertEquals(p.actual_instance, [12, 34,56])
+        self.assertEqual(p.actual_instance, [12, 34,56])
 
         try:
             p = petstore_api.Color.from_json('[2342112,0,0,0]')

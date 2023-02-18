@@ -89,7 +89,7 @@ class Color(BaseModel):
             # validation
             instance.oneof_schema_1_validator = json.loads(json_str)
             # assign value to actual_instance
-            instance.actual_instance = instance.oneof_schema_1_validator 
+            instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
@@ -98,7 +98,7 @@ class Color(BaseModel):
             # validation
             instance.oneof_schema_2_validator = json.loads(json_str)
             # assign value to actual_instance
-            instance.actual_instance = instance.oneof_schema_2_validator 
+            instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
