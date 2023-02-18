@@ -50,6 +50,7 @@ from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
+from petstore_api.models.color import Color
 from petstore_api.models.danish_pig import DanishPig
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog

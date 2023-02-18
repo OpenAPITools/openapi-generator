@@ -32,9 +32,9 @@ class Pig(BaseModel):
     Do not edit the class manually.
     """
     # data type: BasquePig
-    __oneof_schema_1: Optional[BasquePig] = None
+    oneof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
-    __oneof_schema_2: Optional[DanishPig] = None
+    oneof_schema_2_validator: Optional[DanishPig] = None
     actual_instance: Any
     one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
 
@@ -46,6 +46,7 @@ class Pig(BaseModel):
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
+        instance = cls()
         error_messages = []
         match = 0
         # validate data type: BasquePig

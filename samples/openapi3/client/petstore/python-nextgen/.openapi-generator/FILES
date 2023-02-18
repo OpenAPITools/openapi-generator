@@ -19,6 +19,7 @@ docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
+docs/Color.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
@@ -95,6 +96,7 @@ petstore_api/models/cat_all_of.py
 petstore_api/models/category.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
+petstore_api/models/color.py
 petstore_api/models/danish_pig.py
 petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
