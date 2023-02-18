@@ -34,7 +34,6 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@JsonTypeName("Animal")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AnimalDto {
 
