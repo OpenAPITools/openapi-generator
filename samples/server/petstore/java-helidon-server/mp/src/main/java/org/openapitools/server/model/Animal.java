@@ -28,28 +28,28 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Animal  {
   
-  private String type;
+  private String species;
 
   private String color = "red";
 
  /**
-   * Get type
-   * @return type
+   * Get species
+   * @return species
   **/
   @NotNull
-  public String getType() {
-    return type;
+  public String getSpecies() {
+    return species;
   }
 
   /**
-    * Set type
+    * Set species
   **/
-  public void setType(String type) {
-    this.type = type;
+  public void setSpecies(String species) {
+    this.species = species;
   }
 
-  public Animal type(String type) {
-    this.type = type;
+  public Animal species(String species) {
+    this.species = species;
     return this;
   }
 
@@ -82,7 +82,7 @@ public class Animal  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
     
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    species: ").append(toIndentedString(species)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();

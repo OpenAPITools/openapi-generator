@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**type** | **String** |  |  |
+|**species** | **String** |  |  |
 |**color** | **String** |  |  [optional] |
 
 

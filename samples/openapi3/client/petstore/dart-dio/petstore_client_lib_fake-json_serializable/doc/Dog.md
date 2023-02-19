@@ -8,7 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **String** |  | 
+**species** | **String** |  | 
 **color** | **String** |  | [optional] [default to 'red']
 **breed** | **String** |  | [optional] 
 

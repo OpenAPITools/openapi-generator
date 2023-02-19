@@ -1510,15 +1510,15 @@ components:
         mapping:
           DOG: '#/components/schemas/Dog'
           CAT: '#/components/schemas/Cat'
-        propertyName: type
+        propertyName: species
       properties:
-        type:
+        species:
           type: string
         color:
           default: red
           type: string
       required:
-      - type
+      - species
       type: object
     AnimalFarm:
       items:

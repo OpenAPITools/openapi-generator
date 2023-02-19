@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | **string** |  | 
+**Species** | **string** |  | 
 **Color** | **string** |  | [optional] [default to "red"]
 
 [[Back to Model list]](../README.md#documentation-for-models)

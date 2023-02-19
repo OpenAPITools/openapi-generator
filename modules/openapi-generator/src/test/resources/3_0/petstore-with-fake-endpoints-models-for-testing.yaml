@@ -1483,14 +1483,14 @@ components:
     Animal:
       type: object
       discriminator:
-        propertyName: type
+        propertyName: species
         mapping:
           DOG: '#/components/schemas/Dog'
           CAT: '#/components/schemas/Cat'
       required:
-        - type
+        - species
       properties:
-        type:
+        species:
           type: string
         color:
           type: string

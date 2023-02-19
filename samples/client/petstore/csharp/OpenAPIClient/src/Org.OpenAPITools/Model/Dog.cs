@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
-        public Dog(string breed = default(string), string type = "Dog", string color = "red") : base(type, color)
+        public Dog(string breed = default(string), string species = "Dog", string color = "red") : base(species, color)
         {
             this.Breed = breed;
         }

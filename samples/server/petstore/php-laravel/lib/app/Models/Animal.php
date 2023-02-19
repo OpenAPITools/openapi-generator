@@ -9,8 +9,8 @@ namespace app\Models;
  */
 class Animal {
 
-    /** @var string $type */
-    public $type = "";
+    /** @var string $species */
+    public $species = "";
 
     /** @var string $color */
     public $color = 'red';

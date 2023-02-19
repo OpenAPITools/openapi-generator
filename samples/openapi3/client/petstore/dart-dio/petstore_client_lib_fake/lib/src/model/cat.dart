@@ -15,7 +15,7 @@ part 'cat.g.dart';
 /// Cat
 ///
 /// Properties:
-/// * [type] 
+/// * [species] 
 /// * [color] 
 /// * [declawed] 
 @BuiltValue()
@@ -25,7 +25,7 @@ abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..type=b.discriminatorValue
+  static void _defaults(CatBuilder b) => b..species=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
@@ -51,9 +51,9 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
         specifiedType: const FullType(String),
       );
     }
-    yield r'type';
+    yield r'species';
     yield serializers.serialize(
-      object.type,
+      object.species,
       specifiedType: const FullType(String),
     );
     if (object.declawed != null) {
@@ -93,12 +93,12 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
           ) as String;
           result.color = valueDes;
           break;
-        case r'type':
+        case r'species':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.type = valueDes;
+          result.species = valueDes;
           break;
         case r'declawed':
           final valueDes = serializers.deserialize(

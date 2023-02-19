@@ -219,9 +219,9 @@ __PACKAGE__->class_documentation({description => '',
 }                                 );
 
 __PACKAGE__->method_documentation({
-    'type' => {
+    'species' => {
         datatype => 'string',
-        base_name => 'type',
+        base_name => 'species',
         description => '',
         format => '',
         read_only => '',
@@ -236,12 +236,12 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->openapi_types( {
-    'type' => 'string',
+    'species' => 'string',
     'color' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
-    'type' => 'type',
+    'species' => 'species',
     'color' => 'color'
 } );
 

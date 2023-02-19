@@ -62,7 +62,7 @@ ptree Dog::toPropertyTree() const
 {
 	ptree pt;
 	ptree tmp_node;
-	pt.put("type", m_Type);
+	pt.put("species", m_Species);
 	pt.put("color", m_Color);
 	pt.put("breed", m_Breed);
 	return pt;
@@ -71,19 +71,19 @@ ptree Dog::toPropertyTree() const
 void Dog::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
-	m_Type = pt.get("type", "");
+	m_Species = pt.get("species", "");
 	m_Color = pt.get("color", "red");
 	m_Breed = pt.get("breed", "");
 }
 
-std::string Dog::getType() const
+std::string Dog::getSpecies() const
 {
-    return m_Type;
+    return m_Species;
 }
 
-void Dog::setType(std::string value)
+void Dog::setSpecies(std::string value)
 {
-    m_Type = value;
+    m_Species = value;
 }
 
 

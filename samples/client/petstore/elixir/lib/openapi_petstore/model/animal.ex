@@ -8,12 +8,12 @@ defmodule OpenapiPetstore.Model.Animal do
 
   @derive [Poison.Encoder]
   defstruct [
-    :type,
+    :species,
     :color
   ]
 
   @type t :: %__MODULE__{
-    :type => String.t,
+    :species => String.t,
     :color => String.t | nil
   }
 end

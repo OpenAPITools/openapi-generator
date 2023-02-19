@@ -36,12 +36,12 @@ class Animal(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'type': 'str',
+        'species': 'str',
         'color': 'str'
     }
 
     attribute_map = {
-        'type': 'type',
+        'species': 'species',
         'color': 'color'
     }
 
@@ -50,42 +50,42 @@ class Animal(object):
         'Dog': 'Dog'
     }
 
-    def __init__(self, type=None, color='red', local_vars_configuration=None):  # noqa: E501
+    def __init__(self, species=None, color='red', local_vars_configuration=None):  # noqa: E501
         """Animal - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
-        self._type = None
+        self._species = None
         self._color = None
-        self.discriminator = 'type'
+        self.discriminator = 'species'
 
-        self.type = type
+        self.species = species
         if color is not None:
             self.color = color
 
     @property
-    def type(self):
-        """Gets the type of this Animal.  # noqa: E501
+    def species(self):
+        """Gets the species of this Animal.  # noqa: E501
 
 
-        :return: The type of this Animal.  # noqa: E501
+        :return: The species of this Animal.  # noqa: E501
         :rtype: str
         """
-        return self._type
+        return self._species
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this Animal.
+    @species.setter
+    def species(self, species):
+        """Sets the species of this Animal.
 
 
-        :param type: The type of this Animal.  # noqa: E501
-        :type type: str
+        :param species: The species of this Animal.  # noqa: E501
+        :type species: str
         """
-        if self.local_vars_configuration.client_side_validation and type is None:  # noqa: E501
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
+        if self.local_vars_configuration.client_side_validation and species is None:  # noqa: E501
+            raise ValueError("Invalid value for `species`, must not be `None`")  # noqa: E501
 
-        self._type = type
+        self._species = species
 
     @property
     def color(self):

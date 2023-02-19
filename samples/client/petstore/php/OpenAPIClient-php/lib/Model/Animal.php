@@ -42,7 +42,7 @@ use \OpenAPI\Client\ObjectSerializer;
  */
 class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
 {
-    public const DISCRIMINATOR = 'type';
+    public const DISCRIMINATOR = 'species';
 
     /**
       * The original name of the model.
@@ -57,7 +57,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'type' => 'string',
+        'species' => 'string',
         'color' => 'string'
     ];
 
@@ -69,7 +69,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'type' => null,
+        'species' => null,
         'color' => null
     ];
 
@@ -79,7 +79,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'type' => false,
+        'species' => false,
 		'color' => false
     ];
 
@@ -169,7 +169,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'type' => 'type',
+        'species' => 'species',
         'color' => 'color'
     ];
 
@@ -179,7 +179,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'type' => 'setType',
+        'species' => 'setSpecies',
         'color' => 'setColor'
     ];
 
@@ -189,7 +189,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'type' => 'getType',
+        'species' => 'getSpecies',
         'color' => 'getColor'
     ];
 
@@ -250,11 +250,11 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('type', $data ?? [], null);
+        $this->setIfExists('species', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], 'red');
 
         // Initialize discriminator property with the model name.
-        $this->container['type'] = static::$openAPIModelName;
+        $this->container['species'] = static::$openAPIModelName;
     }
 
     /**
@@ -284,8 +284,8 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        if ($this->container['species'] === null) {
+            $invalidProperties[] = "'species' can't be null";
         }
         return $invalidProperties;
     }
@@ -303,28 +303,28 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets type
+     * Gets species
      *
      * @return string
      */
-    public function getType()
+    public function getSpecies()
     {
-        return $this->container['type'];
+        return $this->container['species'];
     }
 
     /**
-     * Sets type
+     * Sets species
      *
-     * @param string $type type
+     * @param string $species species
      *
      * @return self
      */
-    public function setType($type)
+    public function setSpecies($species)
     {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        if (is_null($species)) {
+            throw new \InvalidArgumentException('non-nullable species cannot be null');
         }
-        $this->container['type'] = $type;
+        $this->container['species'] = $species;
 
         return $this;
     }

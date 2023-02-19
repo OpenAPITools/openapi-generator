@@ -10,7 +10,7 @@ import org.openapitools.server.model.Dog;
 
 public class Animal   {
 
-    private String type;
+    private String species;
     private String color = "red";
 
     /**
@@ -23,29 +23,29 @@ public class Animal   {
     /**
      * Create Animal.
      *
-     * @param type type
+     * @param species species
      * @param color color
      */
     public Animal(
-        String type, 
+        String species, 
         String color
     ) {
-        this.type = type;
+        this.species = species;
         this.color = color;
     }
 
 
 
     /**
-     * Get type
-     * @return type
+     * Get species
+     * @return species
      */
-    public String getType() {
-        return type;
+    public String getSpecies() {
+        return species;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     /**
@@ -68,7 +68,7 @@ public class Animal   {
         StringBuilder sb = new StringBuilder();
         sb.append("class Animal {\n");
         
-        sb.append("    type: ").append(toIndentedString(type)).append("\n");
+        sb.append("    species: ").append(toIndentedString(species)).append("\n");
         sb.append("    color: ").append(toIndentedString(color)).append("\n");
         sb.append("}");
         return sb.toString();

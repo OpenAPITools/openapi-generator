@@ -13,31 +13,31 @@ part of openapi.api;
 class Animal {
   /// Returns a new [Animal] instance.
   Animal({
-    required this.type,
+    required this.species,
     this.color = 'red',
   });
 
-  String type;
+  String species;
 
   String color;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Animal &&
-     other.type == type &&
+     other.species == species &&
      other.color == color;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (type.hashCode) +
+    (species.hashCode) +
     (color.hashCode);
 
   @override
-  String toString() => 'Animal[type=$type, color=$color]';
+  String toString() => 'Animal[species=$species, color=$color]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'type'] = this.type;
+      json[r'species'] = this.species;
       json[r'color'] = this.color;
     return json;
   }
@@ -61,7 +61,7 @@ class Animal {
       }());
 
       return Animal(
-        type: mapValueOfType<String>(json, r'type')!,
+        species: mapValueOfType<String>(json, r'species')!,
         color: mapValueOfType<String>(json, r'color') ?? 'red',
       );
     }
@@ -112,7 +112,7 @@ class Animal {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'type',
+    'species',
   };
 }
 

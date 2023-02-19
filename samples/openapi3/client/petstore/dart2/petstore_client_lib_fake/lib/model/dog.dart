@@ -13,12 +13,12 @@ part of openapi.api;
 class Dog {
   /// Returns a new [Dog] instance.
   Dog({
-    required this.type,
+    required this.species,
     this.color = 'red',
     this.breed,
   });
 
-  String type;
+  String species;
 
   String color;
 
@@ -32,23 +32,23 @@ class Dog {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
-     other.type == type &&
+     other.species == species &&
      other.color == color &&
      other.breed == breed;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (type.hashCode) +
+    (species.hashCode) +
     (color.hashCode) +
     (breed == null ? 0 : breed!.hashCode);
 
   @override
-  String toString() => 'Dog[type=$type, color=$color, breed=$breed]';
+  String toString() => 'Dog[species=$species, color=$color, breed=$breed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'type'] = this.type;
+      json[r'species'] = this.species;
       json[r'color'] = this.color;
     if (this.breed != null) {
       json[r'breed'] = this.breed;
@@ -77,7 +77,7 @@ class Dog {
       }());
 
       return Dog(
-        type: mapValueOfType<String>(json, r'type')!,
+        species: mapValueOfType<String>(json, r'species')!,
         color: mapValueOfType<String>(json, r'color') ?? 'red',
         breed: mapValueOfType<String>(json, r'breed'),
       );
@@ -129,7 +129,7 @@ class Dog {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'type',
+    'species',
   };
 }
 

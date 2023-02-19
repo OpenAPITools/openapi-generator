@@ -60,8 +60,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::string getType() const;
-    void setType(std::string value);
+    std::string getSpecies() const;
+    void setSpecies(std::string value);
 
     /// <summary>
     /// 
@@ -70,7 +70,7 @@ public:
     void setColor(std::string value);
 
 protected:
-    std::string m_Type = "";
+    std::string m_Species = "";
     std::string m_Color = "red";
 };
 

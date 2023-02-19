@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "type")]
+    [JsonConverter(typeof(JsonSubtypes), "species")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal :  IEquatable<Animal>, IValidatableObject
@@ -42,18 +42,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="type">type (required).</param>
+        /// <param name="species">species (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string type = default(string), string color = "red")
+        public Animal(string species = default(string), string color = "red")
         {
-            // to ensure "type" is required (not null)
-            if (type == null)
+            // to ensure "species" is required (not null)
+            if (species == null)
             {
-                throw new InvalidDataException("type is a required property for Animal and cannot be null");
+                throw new InvalidDataException("species is a required property for Animal and cannot be null");
             }
             else
             {
-                this.Type = type;
+                this.Species = species;
             }
 
             // use default value if no "color" provided
@@ -68,10 +68,10 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets Type
+        /// Gets or Sets Species
         /// </summary>
-        [DataMember(Name="type", EmitDefaultValue=true)]
-        public string Type { get; set; }
+        [DataMember(Name="species", EmitDefaultValue=true)]
+        public string Species { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Species: ").Append(Species).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,9 +124,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.Type == input.Type ||
-                    (this.Type != null &&
-                    this.Type.Equals(input.Type))
+                    this.Species == input.Species ||
+                    (this.Species != null &&
+                    this.Species.Equals(input.Species))
                 ) && 
                 (
                     this.Color == input.Color ||
@@ -144,8 +144,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Type != null)
-                    hashCode = hashCode * 59 + this.Type.GetHashCode();
+                if (this.Species != null)
+                    hashCode = hashCode * 59 + this.Species.GetHashCode();
                 if (this.Color != null)
                     hashCode = hashCode * 59 + this.Color.GetHashCode();
                 return hashCode;

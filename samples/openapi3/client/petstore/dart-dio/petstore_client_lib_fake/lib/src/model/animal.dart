@@ -13,17 +13,17 @@ part 'animal.g.dart';
 /// Animal
 ///
 /// Properties:
-/// * [type] 
+/// * [species] 
 /// * [color] 
 @BuiltValue(instantiable: false)
 abstract class Animal  {
-  @BuiltValueField(wireName: r'type')
-  String get type;
+  @BuiltValueField(wireName: r'species')
+  String get species;
 
   @BuiltValueField(wireName: r'color')
   String? get color;
 
-  static const String discriminatorFieldName = r'type';
+  static const String discriminatorFieldName = r'species';
 
   static const Map<String, Type> discriminatorMapping = {
     r'CAT': Cat,
@@ -69,9 +69,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     Animal object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'type';
+    yield r'species';
     yield serializers.serialize(
-      object.type,
+      object.species,
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
@@ -160,12 +160,12 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'type':
+        case r'species':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.type = valueDes;
+          result.species = valueDes;
           break;
         case r'color':
           final valueDes = serializers.deserialize(
