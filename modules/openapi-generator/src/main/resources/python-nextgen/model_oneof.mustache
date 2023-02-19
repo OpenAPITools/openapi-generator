@@ -40,6 +40,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
         instance = cls()
         error_messages = []
         match = 0
@@ -86,6 +91,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the object represented by the json string"""
         instance = cls()
+        {{#isNullable}}
+        if json_str is None:
+            return instance
+
+        {{/isNullable}}
         error_messages = []
         match = 0
 
@@ -168,7 +178,3 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
-
-
-
-

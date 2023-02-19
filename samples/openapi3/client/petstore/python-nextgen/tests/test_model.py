@@ -85,6 +85,7 @@ class ModelTests(unittest.TestCase):
         # no error should be thrown
         new_color.oneof_schema_1_validator = array_of_integers
         new_color.actual_instance = array_of_integers
+        new_color.actual_instance = None
 
         # test the oneof schema validator with invalid input 
         json_str = '[12,34,56120938]'
@@ -108,6 +109,10 @@ class ModelTests(unittest.TestCase):
             p = petstore_api.Color.from_json('[2342112,0,0,0]')
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test nullable
+        p = petstore_api.Color.from_json(None)
+        self.assertEqual(p.actual_instance, None)
 
     def test_anyOf_array_of_integers(self):
         # test new Color 

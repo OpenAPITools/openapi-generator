@@ -2060,11 +2060,13 @@ components:
       minLength: 7
       maxLength: 7
     Color:
+      nullable: true
       description: RGB array, RGBA array, or hex string.
       oneOf:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+      #- type: "null"
     AnyOfColor:
       description: Any of RGB array, RGBA array, or hex string.
       anyOf:

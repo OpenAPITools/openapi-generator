@@ -43,6 +43,9 @@ class Color(BaseModel):
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
+        if v is None:
+            return v
+
         instance = cls()
         error_messages = []
         match = 0
@@ -81,6 +84,9 @@ class Color(BaseModel):
     def from_json(cls, json_str: str) -> Color:
         """Returns the object represented by the json string"""
         instance = cls()
+        if json_str is None:
+            return instance
+
         error_messages = []
         match = 0
 
@@ -138,8 +144,4 @@ class Color(BaseModel):
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
-
-
-
-
 
