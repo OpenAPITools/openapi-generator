@@ -150,33 +150,14 @@ script:
   - docker buildx version
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
-  # push to maven repo
   - export TRAVIS_TAG=v6.4.0
   - export TRAVIS_BRANCH=master
   - export TRAVIS_PULL_REQUEST=false
+  # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-  #    if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
-  #      echo "Publishing from branch $TRAVIS_BRANCH";
-  #      mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
-  #      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-  #      pushd .;
-  #      cd modules/openapi-generator-gradle-plugin;
-  #      ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
-  #      echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
-  #      popd;
-  #    elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
-  #      echo "Publishing from branch $TRAVIS_BRANCH";
-  #      mvn clean deploy --settings CI/settings.xml;
-  #      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-  #      pushd .;
-  #      cd modules/openapi-generator-gradle-plugin;
-  #      ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
-  #      echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
-  #      popd;
-  #    fi;
       if [ -n $TRAVIS_TAG ] && [[ "$TRAVIS_TAG" =~ ^[v][0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         echo "Publishing the gradle plugin to Gradle Portal on tag $TRAVIS_TAG (only)";
         pushd .;
@@ -218,15 +199,15 @@ after_success:
           echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
       fi;
     fi;
-    # publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
-    #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    #    cd website;
-    #    git config --global user.name "${GH_NAME}";
-    #    git config --global user.email "${GH_EMAIL}";
-    #    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-    #    yarn install;
-    #    GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
-    #  fi;
+  # publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  #    cd website;
+  #    git config --global user.name "${GH_NAME}";
+  #    git config --global user.email "${GH_EMAIL}";
+  #    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
+  #    yarn install;
+  #    GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
+  #  fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5
