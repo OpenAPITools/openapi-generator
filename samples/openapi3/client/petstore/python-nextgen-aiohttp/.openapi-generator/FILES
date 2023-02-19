@@ -7,6 +7,7 @@ docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
+docs/AnyOfColor.md
 docs/AnyOfPig.md
 docs/ApiResponse.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -84,6 +85,7 @@ petstore_api/models/__init__.py
 petstore_api/models/additional_properties_class.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
+petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
 petstore_api/models/api_response.py
 petstore_api/models/array_of_array_of_number_only.py

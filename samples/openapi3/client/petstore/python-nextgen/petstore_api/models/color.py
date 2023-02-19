@@ -12,8 +12,8 @@
 
 from __future__ import annotations
 from inspect import getfullargspec
-import pprint
 import json
+import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional

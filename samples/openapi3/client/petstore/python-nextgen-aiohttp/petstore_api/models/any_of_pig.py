@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 
@@ -42,6 +43,7 @@ class AnyOfPig(BaseModel):
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
+        instance = cls()
         error_messages = []
         # validate data type: BasquePig
         if type(v) is not BasquePig:

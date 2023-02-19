@@ -2065,3 +2065,9 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    AnyOfColor:
+      description: Any of RGB array, RGBA array, or hex string.
+      anyOf:
+      - $ref: '#/components/schemas/RgbColor'
+      - $ref: '#/components/schemas/RgbaColor'
+      - $ref: '#/components/schemas/HexColor'

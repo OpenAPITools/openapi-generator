@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
+ - [AnyOfColor](docs/AnyOfColor.md)
  - [AnyOfPig](docs/AnyOfPig.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

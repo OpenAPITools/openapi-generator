@@ -1,5 +1,6 @@
 from __future__ import annotations
 from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
@@ -39,13 +40,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
+        instance = cls()
         error_messages = []
         {{#composedSchemas.anyOf}}
         # validate data type: {{{dataType}}}
         {{#isContainer}}
         try:
             instance.{{vendorExtensions.x-py-name}} = v
-            match += 1
+            return v
         except ValidationError as e:
             error_messages.append(str(e))
         {{/isContainer}}
@@ -53,7 +55,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isPrimitiveType}}
         try:
             instance.{{vendorExtensions.x-py-name}} = v
-            match += 1
+            return v
         except ValidationError as e:
             error_messages.append(str(e))
         {{/isPrimitiveType}}
@@ -85,7 +87,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
             # assign value to actual_instance
             instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
-            match += 1
+            return instance
         except ValidationError as e:
             error_messages.append(str(e))
         {{/isContainer}}
@@ -97,7 +99,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
             # assign value to actual_instance
             instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
-            match += 1
+            return instance
         except ValidationError as e:
             error_messages.append(str(e))
         {{/isPrimitiveType}}

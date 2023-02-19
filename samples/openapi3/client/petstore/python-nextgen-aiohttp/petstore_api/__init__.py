@@ -38,6 +38,7 @@ from petstore_api.exceptions import ApiException
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
+from petstore_api.models.any_of_color import AnyOfColor
 from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
