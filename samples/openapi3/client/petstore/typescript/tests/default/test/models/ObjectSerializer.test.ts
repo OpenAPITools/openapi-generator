@@ -80,7 +80,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             expect(ObjectSerializer.serialize(pet, "Pet", "")).to.deep.equal({
@@ -187,7 +187,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             const deserialized = ObjectSerializer.deserialize({

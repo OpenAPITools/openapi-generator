@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -100,6 +101,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String modelPropertyNaming = "camelCase";
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected HashSet<String> languageGenericTypes;
 
     private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
@@ -645,12 +647,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "Empty";
+            return getNameUsingEnumPropertyNaming("empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return getNameUsingEnumPropertyNaming(getSymbolName(name));
         }
 
         // number
@@ -668,14 +670,33 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        // camelize the enum variable name
-        // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = camelize(enumName);
+        enumName = getNameUsingEnumPropertyNaming(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    protected ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return enumPropertyNaming;
+    }
+
+    private String getNameUsingEnumPropertyNaming(String name) {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(underscore(name), LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                return camelize(underscore(name));
+            case snake_case:
+                return underscore(name);
+            case UPPERCASE:
+                return underscore(name).toUpperCase(Locale.ROOT);
+            default:
+                throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
     }
 
