@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 
@@ -31,9 +32,9 @@ class AnyOfPig(BaseModel):
     Do not edit the class manually.
     """
     # data type: BasquePig
-    __anyof_schema_1: Optional[BasquePig] = None
+    anyof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
-    __anyof_schema_2: Optional[DanishPig] = None
+    anyof_schema_2_validator: Optional[DanishPig] = None
     actual_instance: Any
     any_of_schemas: List[str] = Field(ANYOFPIG_ANY_OF_SCHEMAS, const=True)
 
@@ -42,6 +43,7 @@ class AnyOfPig(BaseModel):
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
+        instance = cls()
         error_messages = []
         # validate data type: BasquePig
         if type(v) is not BasquePig:
@@ -66,13 +68,13 @@ class AnyOfPig(BaseModel):
         """Returns the object represented by the json string"""
         instance = cls()
         error_messages = []
-        # __anyof_schema_1: Optional[BasquePig] = None
+        # anyof_schema_1_validator: Optional[BasquePig] = None
         try:
             instance.actual_instance = BasquePig.from_json(json_str)
             return instance
         except ValidationError as e:
              error_messages.append(str(e))
-        # __anyof_schema_2: Optional[DanishPig] = None
+        # anyof_schema_2_validator: Optional[DanishPig] = None
         try:
             instance.actual_instance = DanishPig.from_json(json_str)
             return instance

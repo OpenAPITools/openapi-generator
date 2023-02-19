@@ -1,5 +1,6 @@
 from __future__ import annotations
 from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
@@ -39,14 +40,38 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
+        instance = cls()
         error_messages = []
         {{#composedSchemas.anyOf}}
         # validate data type: {{{dataType}}}
-        if type(v) is not {{^isPrimitiveType}}{{/isPrimitiveType}}{{{dataType}}}:
+        {{#isContainer}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            return v
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            return v
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        if type(v) is not {{{dataType}}}:
             error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
         else:
             return v
 
+        {{/isPrimitiveType}}
+        {{/isContainer}}
         {{/composedSchemas.anyOf}}
         if error_messages:
             # no match
@@ -58,8 +83,36 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the object represented by the json string"""
         instance = cls()
+        {{#isNullable}}
+        if json_str is None:
+            return instance
+
+        {{/isNullable}}
         error_messages = []
         {{#composedSchemas.anyOf}}
+        {{#isContainer}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            return instance
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            return instance
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         # {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
         try:
@@ -68,6 +121,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         except ValidationError as e:
              error_messages.append(str(e))
         {{/isPrimitiveType}}
+        {{/isContainer}}
         {{/composedSchemas.anyOf}}
 
         if error_messages:
