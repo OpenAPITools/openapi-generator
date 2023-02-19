@@ -5,14 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 import javax.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -28,24 +21,24 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Pet(
 
     @Schema(example = "doggie", required = true, description = "")
-    @field:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true) val name: kotlin.String,
 
     @Schema(example = "null", required = true, description = "")
-    @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("id") val id: kotlin.Long? = null,
-
-    @field:Valid
-    @Schema(example = "null", description = "")
-    @field:JsonProperty("category") val category: Category? = null,
+    @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("category") val category: Category? = null,
+
+    @field:Valid
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
-    @field:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**

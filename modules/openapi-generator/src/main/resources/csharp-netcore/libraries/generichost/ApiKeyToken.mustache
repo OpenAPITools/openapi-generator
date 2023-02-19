@@ -6,12 +6,12 @@
 {{/nrt}}
 using System;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// A token constructed from an apiKey.
     /// </summary>
-    public class ApiKeyToken : TokenBase
+    {{>visibility}} class ApiKeyToken : TokenBase
     {
         private string _raw;
 
@@ -20,20 +20,10 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="value"></param>
         /// <param name="prefix"></param>
-        /// <param name="timeout"></param>        
+        /// <param name="timeout"></param>
         public ApiKeyToken(string value, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
             _raw = $"{ prefix }{ value }";
-        }
-
-        /// <summary>
-        /// Places the token in the cookie.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cookieName"></param>
-        public virtual void UseInCookie(System.Net.Http.HttpRequestMessage request, string cookieName)
-        {
-            request.Headers.Add("Cookie", $"{ cookieName }=_raw");
         }
 
         /// <summary>

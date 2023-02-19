@@ -102,7 +102,14 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void toModelNameShouldUseProvidedMapping() {
+    public void toModelNameShouldUseProvideSchemaMapping() {
+        codegen.schemaMapping().put("json_myclass", "com.test.MyClass");
+        assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void toModelNameShouldUseProvideImportMapping() {
+        // TODO review this test to see if it's still needed after adding scheme mapping support
         codegen.importMapping().put("json_myclass", "com.test.MyClass");
         assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
     }
@@ -256,6 +263,7 @@ public class AbstractKotlinCodegenTest {
     public void testEnumPropertyWithDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
         final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);

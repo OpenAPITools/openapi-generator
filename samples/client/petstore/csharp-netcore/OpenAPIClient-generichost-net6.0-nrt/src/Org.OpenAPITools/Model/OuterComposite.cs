@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,44 +28,60 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// OuterComposite
     /// </summary>
-    public partial class OuterComposite : IEquatable<OuterComposite>, IValidatableObject
+    public partial class OuterComposite : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
+        /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
-        /// <param name="myBoolean">myBoolean</param>
-        public OuterComposite(decimal? myNumber = default, string? myString = default, bool? myBoolean = default)
+        [JsonConstructor]
+        public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (myNumber == null)
+                throw new ArgumentNullException("myNumber is a required property for OuterComposite and cannot be null.");
+
+            if (myString == null)
+                throw new ArgumentNullException("myString is a required property for OuterComposite and cannot be null.");
+
+            if (myBoolean == null)
+                throw new ArgumentNullException("myBoolean is a required property for OuterComposite and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            MyBoolean = myBoolean;
             MyNumber = myNumber;
             MyString = myString;
-            MyBoolean = myBoolean;
         }
-
-        /// <summary>
-        /// Gets or Sets MyNumber
-        /// </summary>
-        [JsonPropertyName("my_number")]
-        public decimal? MyNumber { get; set; }
-
-        /// <summary>
-        /// Gets or Sets MyString
-        /// </summary>
-        [JsonPropertyName("my_string")]
-        public string? MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [JsonPropertyName("my_boolean")]
-        public bool? MyBoolean { get; set; }
+        public bool MyBoolean { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MyNumber
+        /// </summary>
+        [JsonPropertyName("my_number")]
+        public decimal MyNumber { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MyString
+        /// </summary>
+        [JsonPropertyName("my_string")]
+        public string MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -76,57 +91,13 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
+            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
             sb.Append("  MyString: ").Append(MyString).Append("\n");
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as OuterComposite).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if OuterComposite instances are equal
-        /// </summary>
-        /// <param name="input">Instance of OuterComposite to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(OuterComposite? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
-                if (this.MyString != null)
-                {
-                    hashCode = (hashCode * 59) + this.MyString.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -138,4 +109,81 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type OuterComposite
+    /// </summary>
+    public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override OuterComposite Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            bool myBoolean = default;
+            decimal myNumber = default;
+            string myString = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "my_boolean":
+                            myBoolean = utf8JsonReader.GetBoolean();
+                            break;
+                        case "my_number":
+                            myNumber = utf8JsonReader.GetInt32();
+                            break;
+                        case "my_string":
+                            myString = utf8JsonReader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new OuterComposite(myBoolean, myNumber, myString);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerComposite"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
+            writer.WriteNumber("my_number", outerComposite.MyNumber);
+            writer.WriteString("my_string", outerComposite.MyString);
+
+            writer.WriteEndObject();
+        }
+    }
 }

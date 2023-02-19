@@ -20,11 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -41,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,7 +52,7 @@ import org.openapitools.client.JSON;
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -105,17 +103,17 @@ public class MapTest {
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
   @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
-  public MapTest() { 
+  public MapTest() {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -137,7 +135,6 @@ public class MapTest {
    * @return mapMapOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -168,7 +165,6 @@ public class MapTest {
    * @return mapOfEnumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -199,7 +195,6 @@ public class MapTest {
    * @return directMap
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -230,7 +225,6 @@ public class MapTest {
    * @return indirectMap
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
@@ -310,9 +304,7 @@ public class MapTest {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (MapTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!MapTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in MapTest is not found in the empty JSON string", MapTest.openapiRequiredFields.toString()));
         }
       }

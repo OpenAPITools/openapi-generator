@@ -28,7 +28,7 @@ paths:
               type: object
               properties:
                 visitDate:
-                  description: Updated last vist timestamp
+                  description: Updated last visit timestamp
                   type: string
                   default: '1971-12-19T03:39:57-08:00'
                   format: date-time

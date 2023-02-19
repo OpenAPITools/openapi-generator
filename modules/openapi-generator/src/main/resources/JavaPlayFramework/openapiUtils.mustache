@@ -10,10 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 {{#useBeanValidation}}
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import {{javaxPackage}}.validation.ConstraintViolation;
+import {{javaxPackage}}.validation.Validation;
+import {{javaxPackage}}.validation.Validator;
+import {{javaxPackage}}.validation.ValidatorFactory;
 {{/useBeanValidation}}
 
 public class OpenAPIUtils {

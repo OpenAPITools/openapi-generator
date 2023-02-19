@@ -64,6 +64,7 @@
 
 .bronzeSponsorAvatars {
     display: inline-flex;
+    flex-wrap: wrap;
 }
 
 @media screen and (max-width: 966px) {

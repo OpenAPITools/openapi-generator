@@ -37,7 +37,7 @@ export interface AllOfWithSingleRef {
      * @type {SingleRefType}
      * @memberof AllOfWithSingleRef
      */
-    singleRefType?: SingleRefType | null;
+    singleRefType?: SingleRefType;
 }
 
 /**

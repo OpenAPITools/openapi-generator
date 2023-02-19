@@ -8,7 +8,7 @@ info:
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - {name: books, description: Everything about books}
-  - {name: users, description: Everyting about users}
+  - {name: users, description: Everything about users}
   - {name: reviews, description: Everything related to book reviews}
 paths:
   /book/{bookName}:

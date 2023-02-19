@@ -420,13 +420,14 @@ public class ModelUtils {
 
     /**
      * Return true if the specified schema is an object with a fixed number of properties.
-     *
-     * A ObjectSchema differs from an MapSchema in the following way:
+     * <p>
+     * A ObjectSchema differs from a MapSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
      *   The payload may include dynamic properties.
-     *
+     * <p>
      * For example, an OpenAPI schema is considered an ObjectSchema in the following scenarios:
+     * <p>
      *
      *   type: object
      *   additionalProperties: false
@@ -468,19 +469,57 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the specified schema is composed with more than one of the following:
+     * 'oneOf', 'anyOf' or 'allOf'.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Composed schema.
+     */
+    public static boolean isComplexComposedSchema(Schema schema) {
+        if (!(schema instanceof ComposedSchema)) {
+            return false;
+        }
+
+        int count = 0;
+
+        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            count++;
+        }
+
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            count++;
+        }
+
+        if (count > 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Return true if the specified 'schema' is an object that can be extended with additional properties.
      * Additional properties means a Schema should support all explicitly defined properties plus any
      * undeclared properties.
-     *
+     * <p>
      * A MapSchema differs from an ObjectSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
-     *   The payload may include dynamic properties.
-     *
+     * The payload may include dynamic properties.
+     * <p>
      * Note that isMapSchema returns true for a composed schema (allOf, anyOf, oneOf) that also defines
      * additionalproperties.
-     *
+     * <p>
      * For example, an OpenAPI schema is considered a MapSchema in the following scenarios:
+     * <p>
      *
      *   type: object
      *   additionalProperties: true
@@ -694,9 +733,12 @@ public class ModelUtils {
             return false;
         }
 
-        return null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
                 (schema.getAdditionalProperties() == null || // no additionalProperties is set
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()));
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()))) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -719,14 +761,14 @@ public class ModelUtils {
 
     /**
      * Check to see if the schema is a free form object.
-     *
+     * <p>
      * A free form object is an object (i.e. 'type: object' in a OAS document) that:
      * 1) Does not define properties, and
      * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
      * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
-     *
+     * <p>
      * Examples:
-     *
+     * <p>
      * components:
      *   schemas:
      *     arbitraryObject:
@@ -745,7 +787,7 @@ public class ModelUtils {
      *         The value can be any type except the 'null' value.
      *
      * @param openAPI the object that encapsulates the OAS document.
-     * @param schema potentially containing a '$ref'
+     * @param schema  potentially containing a '$ref'
      * @return true if it's a free-form object
      */
     public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
@@ -860,7 +902,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
+     * If a RequestBody contains a reference to another RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
      * @param openAPI     specification being checked
      * @param requestBody potentially containing a '$ref'
@@ -889,7 +931,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
+     * If a ApiResponse contains a reference to another ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
      *
      * @param openAPI     specification being checked
      * @param apiResponse potentially containing a '$ref'
@@ -918,7 +960,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
+     * If a Parameter contains a reference to another Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
      *
      * @param openAPI   specification being checked
      * @param parameter potentially containing a '$ref'
@@ -947,7 +989,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
+     * If a Callback contains a reference to another Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
      *
      * @param openAPI  specification being checked
      * @param callback potentially containing a '$ref'
@@ -997,10 +1039,10 @@ public class ModelUtils {
 
     /**
      * Return the first Schema from a specified OAS 'content' section.
-     *
+     * <p>
      * For example, given the following OAS, this method returns the schema
      * for the 'application/json' content type because it is listed first in the OAS.
-     *
+     * <p>
      * responses:
      *   '200':
      *     content:
@@ -1134,12 +1176,12 @@ public class ModelUtils {
      *
      * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
-     * @param importMappings mappings of external types to be omitted by unaliasing
+     * @param schemaMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema,
-                                       Map<String, String> importMappings) {
+                                       Map<String, String> schemaMappings) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -1149,8 +1191,8 @@ public class ModelUtils {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (importMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
+            if (schemaMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -1165,7 +1207,7 @@ public class ModelUtils {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else if (isComposedSchema(ref)) {
                 return schema;
@@ -1178,25 +1220,21 @@ public class ModelUtils {
                     } else {
                         // treat it as a typical map
                         return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                importMappings);
+                                schemaMappings);
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
-                    if (hasSelfReference(openAPI, ref)) {
-                        // it's self referencing so returning itself instead
-                        return schema;
-                    } else {
-                        // TODO we may revise below to return `ref` instead of schema
-                        // which is the last reference to the actual model/object
-                        return schema;
-                    }
+                    // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
+                    // TODO we may also need to revise below to return `ref` instead of schema
+                    // which is the last reference to the actual model/object
+                    return schema;
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), importMappings);
+                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
             }
         }
         return schema;
@@ -1326,10 +1364,10 @@ public class ModelUtils {
      * that specify a determinator.
      * If there are multiple elements in the composed schema and it is not clear
      * which one should be the parent, return null.
-     *
+     * <p>
      * For example, given the following OAS spec, the parent of 'Dog' is Animal
      * because 'Animal' specifies a discriminator.
-     *
+     * <p>
      * animal:
      *   type: object
      *   discriminator:
@@ -1337,6 +1375,7 @@ public class ModelUtils {
      *   properties:
      *     type: string
      *
+     * <p>
      * dog:
      *   allOf:
      *      - $ref: '#/components/schemas/animal'
@@ -1364,10 +1403,10 @@ public class ModelUtils {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
                     } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
-                        // discriminator.propertyName is used
+                        // discriminator.propertyName is used or x-parent is used
                         return parentName;
                     } else {
-                        // not a parent since discriminator.propertyName is not set
+                        // not a parent since discriminator.propertyName or x-parent is not set
                         hasAmbiguousParents = true;
                         refedWithoutDiscriminator.add(parentName);
                     }
@@ -1422,7 +1461,7 @@ public class ModelUtils {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
                     } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
-                        // discriminator.propertyName is used
+                        // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
                         if (includeAncestors && s instanceof ComposedSchema) {
                             names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
@@ -1447,7 +1486,8 @@ public class ModelUtils {
     }
 
     private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
-        if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
+        if ((schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName()))
+                || (isExtensionParent(schema))) { // x-parent is used
             return true;
         } else if (StringUtils.isNotEmpty(schema.get$ref())) {
             String parentName = getSimpleRef(schema.get$ref());
@@ -1467,6 +1507,31 @@ public class ModelUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * If it's a boolean, returns the value of the extension `x-parent`.
+     * If it's string, return true if it's non-empty.
+     * If the return value is `true`, the schema is a parent.
+     *
+     * @param schema    Schema
+     * @return boolean
+     */
+    public static boolean isExtensionParent(Schema schema) {
+        if (schema.getExtensions() == null) {
+            return false;
+        } else {
+            Object xParent = schema.getExtensions().get("x-parent");
+            if (xParent == null) {
+                return false;
+            } else if (xParent instanceof Boolean) {
+                return (Boolean) xParent;
+            } else if (xParent instanceof String) {
+                return StringUtils.isNotEmpty((String) xParent);
+            } else {
+                return false;
+            }
+        }
     }
 
     /**
@@ -1510,11 +1575,11 @@ public class ModelUtils {
     /**
      * Return true if the specified composed schema is 'oneOf', contains one or two elements,
      * and at least one of the elements is the 'null' type.
-     *
+     * <p>
      * The 'null' type is supported in OAS 3.1 and above.
      * In the example below, the 'OptionalOrder' can have the null value because the 'null'
      * type is one of the elements under 'oneOf'.
-     *
+     * <p>
      * OptionalOrder:
      *   oneOf:
      *     - type: 'null'
@@ -1565,6 +1630,10 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isAnyType(Schema schema) {
+        // $ref is not a type, it is a keyword
+        // TODO remove the ref check here, or pass in the spec version
+        // openapi 3.1.0 specs allow ref to be adjacent to any keyword
+        // openapi 3.0.3 and earlier do not allow adjacent keywords to refs
         return (schema.get$ref() == null && schema.getType() == null);
     }
 
@@ -1657,15 +1726,10 @@ public class ModelUtils {
     }
 
     private static void setArrayValidations(Integer minItems, Integer maxItems, Boolean uniqueItems, IJsonSchemaValidationProperties target) {
-        if (minItems != null) {
-            target.setMinItems(minItems);
-        }
-        if (maxItems != null) {
-            target.setMaxItems(maxItems);
-        }
-        if (uniqueItems != null) {
-            target.setUniqueItems(uniqueItems);
-        }
+        if (minItems != null) target.setMinItems(minItems);
+        if (maxItems != null) target.setMaxItems(maxItems);
+        if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+        if (uniqueItems != null) target.setUniqueItemsBoolean(uniqueItems);
     }
 
     private static void setObjectValidations(Integer minProperties, Integer maxProperties, IJsonSchemaValidationProperties target) {

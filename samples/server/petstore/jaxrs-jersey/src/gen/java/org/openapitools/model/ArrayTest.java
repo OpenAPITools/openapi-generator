@@ -37,15 +37,15 @@ import javax.validation.Valid;
 public class ArrayTest   {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

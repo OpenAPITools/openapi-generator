@@ -40,8 +40,8 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.PythonPriorClientCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
-import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -254,6 +254,21 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
+
+        // normalize the spec
+        if (config.getUseOpenAPINormalizer()) {
+            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+            openapiNormalizer.normalize();
+        }
+
+        // resolve inline models
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.flatten(openAPI);
+        }
+
         config.preprocessOpenAPI(openAPI);
 
         // set OpenAPI to make these available to all methods
@@ -441,6 +456,19 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             try {
+                //don't generate models that have an import mapping
+                if (config.schemaMapping().containsKey(name)) {
+                    LOGGER.debug("Model {} not imported due to import mapping", name);
+
+                    for (String templateName : config.modelTemplateFiles().keySet()) {
+                        // HACK: Because this returns early, could lead to some invalid model reporting.
+                        String filename = config.modelFilename(templateName, name);
+                        Path path = java.nio.file.Paths.get(filename);
+                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                    }
+                    continue;
+                }
+
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
@@ -464,7 +492,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -508,13 +536,18 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
+                //don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(modelName)) {
+                    continue;
+                }
+
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<ModelMap> modelList = models.getModels();
                 if (modelList != null && !modelList.isEmpty()) {
                     ModelMap modelTemplate = modelList.get(0);
                     if (modelTemplate != null && modelTemplate.getModel() != null) {
                         CodegenModel m = modelTemplate.getModel();
-                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen))) {
+                        if (m.isAlias && !((config instanceof PythonPriorClientCodegen) || (config instanceof PythonClientCodegen))) {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -694,14 +727,17 @@ public class DefaultGenerator implements Generator {
                     outputFolder += File.separator + support.getFolder();
                 }
                 File of = new File(outputFolder);
-                if (!of.isDirectory()) {
-                    if (!dryRun && !of.mkdirs()) {
-                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
-                    }
-                }
                 String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
                         ? support.getDestinationFilename()
                         : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
+
+                if (!of.isDirectory()) {
+                    // check that its not a dryrun and the files in the directory aren't ignored before we make the directory
+                    if (!dryRun && ignoreProcessor.allowsFile(new File(outputFilename)) && !of.mkdirs()) {
+                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
+                    }
+                }
+
 
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
@@ -869,14 +905,6 @@ public class DefaultGenerator implements Generator {
             } else {
                 LOGGER.info(stabilityMessage);
             }
-        }
-
-        // resolve inline models
-        if (config.getUseInlineModelResolver()) {
-            InlineModelResolver inlineModelResolver = new InlineModelResolver();
-            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            inlineModelResolver.flatten(openAPI);
         }
 
         configureGeneratorProperties();
@@ -1181,16 +1209,18 @@ public class DefaultGenerator implements Generator {
         objs.setClassname(config.toApiName(tag));
         objs.setPathPrefix(config.toApiVarName(tag));
 
-        // check for operationId uniqueness
-        Set<String> opIds = new HashSet<>();
-        int counter = 0;
-        for (CodegenOperation op : ops) {
-            String opId = op.nickname;
-            if (opIds.contains(opId)) {
-                counter++;
-                op.nickname += "_" + counter;
+        // check for nickname uniqueness
+        if (config.getAddSuffixToDuplicateOperationNicknames()) {
+            Set<String> opIds = new HashSet<>();
+            int counter = 0;
+            for (CodegenOperation op : ops) {
+                String opId = op.nickname;
+                if (opIds.contains(opId)) {
+                    counter++;
+                    op.nickname += "_" + counter;
+                }
+                opIds.add(opId);
             }
-            opIds.add(opId);
         }
         objs.setOperation(ops);
 

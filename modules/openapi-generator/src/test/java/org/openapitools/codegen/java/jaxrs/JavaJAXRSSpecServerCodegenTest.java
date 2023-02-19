@@ -30,9 +30,8 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.RETURN_RESPONSE;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
+import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 import static org.testng.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
@@ -380,16 +379,15 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/setParameter.yaml", null, new ParseOptions()).getOpenAPI();
 
-        openAPI.getComponents().getParameters().get("operationsQueryParam").setSchema(new ArraySchema().uniqueItems(true));
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator(false);
         generator.opts(input).generate();
@@ -406,15 +404,15 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/setResponse.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/setResponse.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
@@ -452,7 +450,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "\nimport java.util.concurrent.CompletableFuture;\n",
                 "\npublic CompletionStage<Response> pingGet() {\n",
                 "\nCompletableFuture.supplyAsync(() -> Response.ok().entity(\"magic!\").build())\n"
-                );
+        );
     }
 
     @Test
@@ -509,7 +507,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         //And the generated interface contains CompletionStage<Response>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve( "src/gen/java/org/openapitools/api/PingApi.java"),
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "\nCompletionStage<Response> pingGet();\n");
     }
@@ -622,69 +620,138 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
-            .assertMethod("headersTest")
+                .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
                 .toParameter().toMethod()
                 .hasParameter("headerString").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
                 .hasParameter("headerStringWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
                 .hasParameter("headerStringQuotes").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
                 .hasParameter("headerStringQuotesWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
                 .hasParameter("headerBoolean").withType("Boolean")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
 
         JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
-            .assertMethod("queryParamsTest")
+                .assertMethod("queryParamsTest")
                 .hasParameter("queryNumber").withType("BigDecimal")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
                 .toParameter().toMethod()
                 .hasParameter("queryString").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
                 .hasParameter("queryStringWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
                 .hasParameter("queryStringQuotes").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
                 .hasParameter("queryStringQuotesWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
                 .hasParameter("queryBoolean").withType("Boolean")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+    }
+
+    @Test
+    public void arrayNullableDefaultValueTests() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_13025.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated model contains correct default value for array properties (optional)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Body.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
+                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+
+        //And the generated model contains correct default value for array properties (required, nullable)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java"),
+                "\nprivate @Valid List<String> arrayThatIsNull;\n");
+
+        //And the generated model contains correct default value for array properties (required)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
+                "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
+
+    }
+
+    @Test
+    public void generateApiForQuarkusWithGzipFeature() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_GZIP_FEATURE, true);
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated class contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "\nimport org.jboss.resteasy.annotations.GZIP\n",
+                "@GZIP\n"
+        );
     }
 }

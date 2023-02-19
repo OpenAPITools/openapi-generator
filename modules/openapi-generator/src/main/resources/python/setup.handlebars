@@ -1,0 +1,38 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from setuptools import setup, find_packages  # noqa: H301
+
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+{{#with apiInfo}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = [
+    {{> required_libraries quoted=true }}
+]
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author="{{#if infoName}}{{infoName}}{{/if}}{{#unless infoName}}OpenAPI Generator community{{/unless}}",
+    author_email="{{#if infoEmail}}{{infoEmail}}{{/if}}{{#unless infoEmail}}team@openapitools.org{{/unless}}",
+    url="{{#if packageUrl}}{{packageUrl}}{{/if}}",
+    keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
+    python_requires="{{{generatorLanguageVersion}}}",
+    install_requires=REQUIRES,
+    packages=find_packages(exclude=["test", "tests"]),
+    include_package_data=True,
+    {{#if licenseInfo}}license="{{licenseInfo}}",
+    {{/if}}long_description="""\
+    {{appDescription}}  # noqa: E501
+    """
+)
+{{/with}}
