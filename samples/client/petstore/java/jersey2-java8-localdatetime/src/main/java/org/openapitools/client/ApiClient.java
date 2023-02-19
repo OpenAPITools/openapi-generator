@@ -74,8 +74,8 @@ import org.openapitools.client.auth.OAuth;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
-  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  protected Map<String, String> defaultHeaderMap = new HashMap<>();
+  protected Map<String, String> defaultCookieMap = new HashMap<>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
@@ -90,8 +90,8 @@ public class ApiClient extends JavaTimeFormatter {
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
-  protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
-  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
+  protected Map<String, Integer> operationServerIndex = new HashMap<>();
+  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<>();
   protected boolean debugging = false;
   protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
@@ -128,7 +128,7 @@ public class ApiClient extends JavaTimeFormatter {
     setUserAgent("OpenAPI-Generator/1.0.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();
+    authentications = new HashMap<>();
     Authentication auth = null;
     if (authMap != null) {
       auth = authMap.get("petstore_auth");
@@ -166,7 +166,7 @@ public class ApiClient extends JavaTimeFormatter {
     authentications = Collections.unmodifiableMap(authentications);
 
     // Setup authentication lookup (key: authentication alias, value: authentication name)
-    authenticationLookup = new HashMap<String, String>();
+    authenticationLookup = new HashMap<>();
   }
 
   /**
@@ -754,7 +754,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @return List of pairs
    */
   public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    List<Pair> params = new ArrayList<Pair>();
+    List<Pair> params = new ArrayList<>();
 
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
@@ -1342,10 +1342,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @return a {@link java.util.Map} of response headers.
    */
   protected Map<String, List<String>> buildResponseHeaders(Response response) {
-    Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
+    Map<String, List<String>> responseHeaders = new HashMap<>();
     for (Entry<String, List<Object>> entry: response.getHeaders().entrySet()) {
       List<Object> values = entry.getValue();
-      List<String> headers = new ArrayList<String>();
+      List<String> headers = new ArrayList<>();
       for (Object o : values) {
         headers.add(String.valueOf(o));
       }
