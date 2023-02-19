@@ -4143,27 +4143,25 @@ public class DefaultCodegenTest {
 
         // JUnit assertions
         assertEquals(16, logsList.size());
-        assertEquals("Validation 'minProperties' has no effect on schema. Ignoring!", logsList.get(0)
+        assertEquals("Validation 'minProperties' has no effect on schema 'array'. Ignoring!", logsList.get(0)
                 .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema. Ignoring!", logsList.get(1)
+        assertEquals("Validation 'maxProperties' has no effect on schema 'array'. Ignoring!", logsList.get(1)
                 .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema. Ignoring!", logsList.get(2)
+        assertEquals("Validation 'minLength' has no effect on schema 'array'. Ignoring!", logsList.get(2)
                 .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema. Ignoring!", logsList.get(3)
+        assertEquals("Validation 'maxLength' has no effect on schema 'array'. Ignoring!", logsList.get(3)
                 .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema. Ignoring!", logsList.get(4)
+        assertEquals("Validation 'pattern' has no effect on schema 'array'. Ignoring!", logsList.get(4)
                 .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema. Ignoring!", logsList.get(5)
+        assertEquals("Validation 'multipleOf' has no effect on schema 'array'. Ignoring!", logsList.get(5)
                 .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema. Ignoring!", logsList.get(6)
+        assertEquals("Validation 'minimum' has no effect on schema 'array'. Ignoring!", logsList.get(6)
                 .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema. Ignoring!", logsList.get(7)
+        assertEquals("Validation 'maximum' has no effect on schema 'array'. Ignoring!", logsList.get(7)
                 .getMessage());
 
         // Assert all logged messages are WARN messages
         logsList.stream().limit(8).forEach(log -> assertEquals(Level.WARN, log.getLevel()));
-
-
     }
 
     @Test
@@ -4187,23 +4185,23 @@ public class DefaultCodegenTest {
 
         // JUnit assertions
         assertEquals(9, logsList.size());
-        assertEquals("Validation 'minItems' has no effect on schema. Ignoring!", logsList.get(0)
+        assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
                 .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema. Ignoring!", logsList.get(1)
+        assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
                 .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema. Ignoring!", logsList.get(2)
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'object'. Ignoring!", logsList.get(2)
                 .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema. Ignoring!", logsList.get(3)
+        assertEquals("Validation 'minLength' has no effect on schema 'object'. Ignoring!", logsList.get(3)
                 .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema. Ignoring!", logsList.get(4)
+        assertEquals("Validation 'maxLength' has no effect on schema 'object'. Ignoring!", logsList.get(4)
                 .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema. Ignoring!", logsList.get(5)
+        assertEquals("Validation 'pattern' has no effect on schema 'object'. Ignoring!", logsList.get(5)
                 .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema. Ignoring!", logsList.get(6)
+        assertEquals("Validation 'multipleOf' has no effect on schema 'object'. Ignoring!", logsList.get(6)
                 .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema. Ignoring!", logsList.get(7)
+        assertEquals("Validation 'minimum' has no effect on schema 'object'. Ignoring!", logsList.get(7)
                 .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema. Ignoring!", logsList.get(8)
+        assertEquals("Validation 'maximum' has no effect on schema 'object'. Ignoring!", logsList.get(8)
                 .getMessage());
 
         // Assert all logged messages are WARN messages
@@ -4231,21 +4229,21 @@ public class DefaultCodegenTest {
 
         // JUnit assertions
         assertEquals(8, logsList.size());
-        assertEquals("Validation 'minItems' has no effect on schema. Ignoring!", logsList.get(0)
+        assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
                 .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema. Ignoring!", logsList.get(1)
+        assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
                 .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema. Ignoring!", logsList.get(2)
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'string'. Ignoring!", logsList.get(2)
                 .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema. Ignoring!", logsList.get(3)
+        assertEquals("Validation 'minProperties' has no effect on schema 'string'. Ignoring!", logsList.get(3)
                 .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema. Ignoring!", logsList.get(4)
+        assertEquals("Validation 'maxProperties' has no effect on schema 'string'. Ignoring!", logsList.get(4)
                 .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema. Ignoring!", logsList.get(5)
+        assertEquals("Validation 'multipleOf' has no effect on schema 'string'. Ignoring!", logsList.get(5)
                 .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema. Ignoring!", logsList.get(6)
+        assertEquals("Validation 'minimum' has no effect on schema 'string'. Ignoring!", logsList.get(6)
                 .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema. Ignoring!", logsList.get(7)
+        assertEquals("Validation 'maximum' has no effect on schema 'string'. Ignoring!", logsList.get(7)
                 .getMessage());
 
         // Assert all logged messages are WARN messages
@@ -4273,21 +4271,21 @@ public class DefaultCodegenTest {
 
         // JUnit assertions
         assertEquals(8, logsList.size());
-        assertEquals("Validation 'minItems' has no effect on schema. Ignoring!", logsList.get(0)
+        assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
                 .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema. Ignoring!", logsList.get(1)
+        assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
                 .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema. Ignoring!", logsList.get(2)
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'integer'. Ignoring!", logsList.get(2)
                 .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema. Ignoring!", logsList.get(3)
+        assertEquals("Validation 'minProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(3)
                 .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema. Ignoring!", logsList.get(4)
+        assertEquals("Validation 'maxProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(4)
                 .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema. Ignoring!", logsList.get(5)
+        assertEquals("Validation 'minLength' has no effect on schema 'integer'. Ignoring!", logsList.get(5)
                 .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema. Ignoring!", logsList.get(6)
+        assertEquals("Validation 'maxLength' has no effect on schema 'integer'. Ignoring!", logsList.get(6)
                 .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema. Ignoring!", logsList.get(7)
+        assertEquals("Validation 'pattern' has no effect on schema 'integer'. Ignoring!", logsList.get(7)
                 .getMessage());
 
         // Assert all logged messages are WARN messages
@@ -4295,7 +4293,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void anySchemaWithIneffectiveConstraints() {
+    public void testAnySchemaWithIneffectiveConstraints() {
 
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
         listAppender.start();
@@ -4318,7 +4316,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void booleanSchemaWithIneffectiveConstraints() {
+    public void testBooleanSchemaWithIneffectiveConstraints() {
 
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
         listAppender.start();
@@ -4338,27 +4336,27 @@ public class DefaultCodegenTest {
 
         // JUnit assertions
         assertEquals(11, logsList.size());
-        assertEquals("Validation 'minItems' has no effect on schema. Ignoring!", logsList.get(0)
+        assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
                 .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema. Ignoring!", logsList.get(1)
+        assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
                 .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema. Ignoring!", logsList.get(2)
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(2)
                 .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema. Ignoring!", logsList.get(3)
+        assertEquals("Validation 'minProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(3)
                 .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema. Ignoring!", logsList.get(4)
+        assertEquals("Validation 'maxProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(4)
                 .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema. Ignoring!", logsList.get(5)
+        assertEquals("Validation 'minLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(5)
                 .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema. Ignoring!", logsList.get(6)
+        assertEquals("Validation 'maxLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(6)
                 .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema. Ignoring!", logsList.get(7)
+        assertEquals("Validation 'pattern' has no effect on schema 'boolean'. Ignoring!", logsList.get(7)
                 .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema. Ignoring!", logsList.get(8)
+        assertEquals("Validation 'multipleOf' has no effect on schema 'boolean'. Ignoring!", logsList.get(8)
                 .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema. Ignoring!", logsList.get(9)
+        assertEquals("Validation 'minimum' has no effect on schema 'boolean'. Ignoring!", logsList.get(9)
                 .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema. Ignoring!", logsList.get(10)
+        assertEquals("Validation 'maximum' has no effect on schema 'boolean'. Ignoring!", logsList.get(10)
                 .getMessage());
 
         // Assert all logged messages are WARN messages
@@ -4366,7 +4364,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void nullSchemaWithIneffectiveConstraints() {
+    public void testNullSchemaWithIneffectiveConstraints() {
 
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
         listAppender.start();

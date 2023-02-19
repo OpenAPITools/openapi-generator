@@ -1702,7 +1702,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '"+ schema.getType() +"'. Ignoring!");
         });
     }
 
