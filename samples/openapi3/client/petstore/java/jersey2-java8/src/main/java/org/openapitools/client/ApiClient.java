@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -43,11 +44,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.time.OffsetDateTime;
 
 import java.net.URLEncoder;
@@ -77,86 +81,83 @@ public class ApiClient extends JavaTimeFormatter {
   protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
-  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
-    new ServerConfiguration(
-      "http://{server}.swagger.io:{port}/v2",
-      "petstore server",
-      new HashMap<String, ServerVariable>() {{
-        put("server", new ServerVariable(
-          "No description provided",
-          "petstore",
-          new HashSet<String>(
-            Arrays.asList(
-              "petstore",
-              "qa-petstore",
-              "dev-petstore"
-            )
+  protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
+          new ServerConfiguration(
+                  "http://{server}.swagger.io:{port}/v2",
+                  "petstore server",
+                  Stream.<Entry<String, ServerVariable>>of(
+                          new SimpleEntry<>("server", new ServerVariable(
+                                  "No description provided",
+                                  "petstore",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "petstore",
+                                          "qa-petstore",
+                                          "dev-petstore"
+                                  ))
+                          )),
+                          new SimpleEntry<>("port", new ServerVariable(
+                                  "No description provided",
+                                  "80",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "80",
+                                          "8080"
+                                  ))
+                          ))
+                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
+          ),
+          new ServerConfiguration(
+                  "https://localhost:8080/{version}",
+                  "The local server",
+                  Stream.<Entry<String, ServerVariable>>of(
+                          new SimpleEntry<>("version", new ServerVariable(
+                                  "No description provided",
+                                  "v2",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "v1",
+                                          "v2"
+                                  ))
+                          ))
+                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
+          ),
+          new ServerConfiguration(
+                  "https://127.0.0.1/no_variable",
+                  "The local server without variables",
+                  new LinkedHashMap<>()
           )
-        ));
-        put("port", new ServerVariable(
-          "No description provided",
-          "80",
-          new HashSet<String>(
-            Arrays.asList(
-              "80",
-              "8080"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://localhost:8080/{version}",
-      "The local server",
-      new HashMap<String, ServerVariable>() {{
-        put("version", new ServerVariable(
-          "No description provided",
-          "v2",
-          new HashSet<String>(
-            Arrays.asList(
-              "v1",
-              "v2"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://127.0.0.1/no_variable",
-      "The local server without variables",
-      new HashMap<String, ServerVariable>()
-    )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
-    put("PetApi.addPet", new ArrayList<ServerConfiguration>(Arrays.asList(
-      new ServerConfiguration(
-        "http://petstore.swagger.io/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      ),
+  protected Map<String, List<ServerConfiguration>> operationServers;
 
-      new ServerConfiguration(
-        "http://path-server-test.petstore.local/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      )
+  {
+    Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
+    operationServers.put("PetApi.addPet", new ArrayList<>(Arrays.asList(
+            new ServerConfiguration(
+                    "http://petstore.swagger.io/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            ),
+            new ServerConfiguration(
+                    "http://path-server-test.petstore.local/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            )
     )));
-    put("PetApi.updatePet", new ArrayList<ServerConfiguration>(Arrays.asList(
-      new ServerConfiguration(
-        "http://petstore.swagger.io/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      ),
+    operationServers.put("PetApi.updatePet", new ArrayList<>(Arrays.asList(
+            new ServerConfiguration(
+                    "http://petstore.swagger.io/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            ),
+            new ServerConfiguration(
+                    "http://path-server-test.petstore.local/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            )
+    )));
+    this.operationServers = operationServers;
+  }
 
-      new ServerConfiguration(
-        "http://path-server-test.petstore.local/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      )
-    )));
-  }};
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;

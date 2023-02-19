@@ -820,6 +820,11 @@ public class DefaultGenerator implements Generator {
             bundle.put("hasServers", true);
         }
 
+        boolean hasOperationServers = allOperations != null && allOperations.stream()
+                .flatMap(om -> om.getOperations().getOperation().stream())
+                .anyMatch(o -> o.servers != null && !o.servers.isEmpty());
+        bundle.put("hasOperationServers", hasOperationServers);
+
         if (openAPI.getExternalDocs() != null) {
             bundle.put("externalDocs", openAPI.getExternalDocs());
         }

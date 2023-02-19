@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -43,11 +44,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.time.OffsetDateTime;
 
 import java.net.URLEncoder;
@@ -76,17 +80,16 @@ public class ApiClient extends JavaTimeFormatter {
   protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
-  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
-    new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
-      new HashMap<String, ServerVariable>()
-    )
+  protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
+          new ServerConfiguration(
+                  "http://petstore.swagger.io:80/v2",
+                  "No description provided",
+                  new LinkedHashMap<>()
+          )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
-  }};
+  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;
