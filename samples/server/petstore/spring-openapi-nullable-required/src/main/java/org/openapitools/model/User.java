@@ -56,7 +56,7 @@ public class User {
    * Get id
    * @return id
   */
-  
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getId() {
     return id;
@@ -75,7 +75,7 @@ public class User {
    * Get username
    * @return username
   */
-  
+  @NotNull 
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getUsername() {
     return username;
@@ -94,7 +94,7 @@ public class User {
    * Get firstName
    * @return firstName
   */
-  
+  @NotNull 
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getFirstName() {
     return firstName;
@@ -113,7 +113,7 @@ public class User {
    * Get lastName
    * @return lastName
   */
-  
+  @NotNull 
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getLastName() {
     return lastName;
@@ -132,7 +132,7 @@ public class User {
    * Get email
    * @return email
   */
-  
+  @NotNull 
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getEmail() {
     return email;
@@ -151,7 +151,7 @@ public class User {
    * Get password
    * @return password
   */
-  
+  @NotNull 
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getPassword() {
     return password;
@@ -170,7 +170,7 @@ public class User {
    * Get phone
    * @return phone
   */
-  
+  @NotNull 
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getPhone() {
     return phone;
@@ -189,7 +189,7 @@ public class User {
    * User Status
    * @return userStatus
   */
-  
+  @NotNull 
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Integer> getUserStatus() {
     return userStatus;

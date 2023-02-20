@@ -91,7 +91,7 @@ public class Order {
    * Get id
    * @return id
   */
-  
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getId() {
     return id;
@@ -110,7 +110,7 @@ public class Order {
    * Get petId
    * @return petId
   */
-  
+  @NotNull 
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getPetId() {
     return petId;
@@ -129,7 +129,7 @@ public class Order {
    * Get quantity
    * @return quantity
   */
-  
+  @NotNull 
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Integer> getQuantity() {
     return quantity;
@@ -148,7 +148,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   */
-  @Valid 
+  @NotNull @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<OffsetDateTime> getShipDate() {
     return shipDate;
@@ -167,7 +167,7 @@ public class Order {
    * Order Status
    * @return status
   */
-  
+  @NotNull 
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<StatusEnum> getStatus() {
     return status;
@@ -186,7 +186,7 @@ public class Order {
    * Get complete
    * @return complete
   */
-  
+  @NotNull 
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Boolean> getComplete() {
     return complete;

@@ -38,7 +38,7 @@ public class Category {
    * Get id
    * @return id
   */
-  
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getId() {
     return id;
@@ -57,7 +57,7 @@ public class Category {
    * Get name
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getName() {
     return name;

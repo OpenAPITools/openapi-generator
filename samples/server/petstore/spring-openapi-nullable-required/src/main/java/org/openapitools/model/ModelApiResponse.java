@@ -43,7 +43,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   */
-  
+  @NotNull 
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Integer> getCode() {
     return code;
@@ -62,7 +62,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   */
-  
+  @NotNull 
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getType() {
     return type;
@@ -81,7 +81,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   */
-  
+  @NotNull 
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getMessage() {
     return message;

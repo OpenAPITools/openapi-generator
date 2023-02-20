@@ -94,7 +94,7 @@ public class Pet {
    * Get id
    * @return id
   */
-  
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getId() {
     return id;
@@ -113,7 +113,7 @@ public class Pet {
    * Get category
    * @return category
   */
-  @Valid 
+  @NotNull @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Category> getCategory() {
     return category;
@@ -132,7 +132,7 @@ public class Pet {
    * Get name
    * @return name
   */
-  @NotNull 
+  
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getName() {
     return name;
@@ -183,7 +183,7 @@ public class Pet {
    * Get tags
    * @return tags
   */
-  @Valid 
+  @NotNull @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<List<Tag>> getTags() {
     return tags;
@@ -202,7 +202,7 @@ public class Pet {
    * pet status in the store
    * @return status
   */
-  
+  @NotNull 
   @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<StatusEnum> getStatus() {
     return status;

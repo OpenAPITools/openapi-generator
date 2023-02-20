@@ -38,7 +38,7 @@ public class Tag {
    * Get id
    * @return id
   */
-  
+  @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<Long> getId() {
     return id;
@@ -57,7 +57,7 @@ public class Tag {
    * Get name
    * @return name
   */
-  
+  @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JsonNullable<String> getName() {
     return name;
