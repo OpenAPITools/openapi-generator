@@ -15,7 +15,9 @@
 {{/discriminator}}
 {{#jackson}}
 {{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}  
 @JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
 {{/jackson}}
 {{#withXml}}
