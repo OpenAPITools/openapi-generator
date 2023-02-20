@@ -74,6 +74,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Any</li>
+<li>AnyCodable</li>
 <li>AnyObject</li>
 <li>Bool</li>
 <li>Character</li>
