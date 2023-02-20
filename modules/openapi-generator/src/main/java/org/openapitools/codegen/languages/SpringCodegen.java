@@ -1202,7 +1202,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
         CodegenParameter codegenParameter = super.fromParameter( parameter, imports );
-        if( !codegenParameter.isContainer ){
+        if( !codegenParameter.isContainer || codegenParameter.isMap){
             return codegenParameter;
         }
         codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.datatypeWithEnum  );
@@ -1213,7 +1213,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
         CodegenProperty codegenProperty = super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
-        if( !codegenProperty.isContainer ){
+        if( !codegenProperty.isContainer || codegenProperty.isMap){
             return codegenProperty;
         }
         codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.datatypeWithEnum );

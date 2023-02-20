@@ -22,6 +22,11 @@ components:
     ResponseTest:
       type: object
       properties:
+        details:
+          type: object
+          additionalProperties:
+            type: object
+          description: An object with key/value pairs containing additional information about the error.
         response:
           type: array
           description: dtos
