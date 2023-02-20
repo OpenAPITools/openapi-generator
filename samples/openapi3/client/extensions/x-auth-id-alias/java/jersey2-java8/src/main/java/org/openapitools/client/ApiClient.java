@@ -740,8 +740,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return The Accept header to use. If the given array is empty,
    *   null will be returned (not to set the Accept header explicitly).
    */
-  public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) {
+  public String selectHeaderAccept(String... accepts) {
+    if (accepts == null || accepts.length == 0) {
       return null;
     }
     for (String accept : accepts) {
@@ -761,8 +761,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return The Content-Type header to use. If the given array is empty,
    *   JSON will be used.
    */
-  public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) {
+  public String selectHeaderContentType(String... contentTypes) {
+    if (contentTypes == null || contentTypes.length == 0) {
       return "application/json";
     }
     for (String contentType : contentTypes) {
@@ -776,10 +776,11 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Escape the given string to be used as URL query value.
    *
-   * @param str String
+   * @param object Any object to be turned into a String and escaped
    * @return Escaped string
    */
-  public String escapeString(String str) {
+  public String escapeString(Object object) {
+    String str = object.toString();
     try {
       return URLEncoder.encode(str, "utf8").replaceAll("\\+", "%20");
     } catch (UnsupportedEncodingException e) {
@@ -1054,15 +1055,17 @@ public class ApiClient extends JavaTimeFormatter {
     Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
 
-    // update different parameters (e.g. headers) for authentication
-    updateParamsForAuth(
-        authNames,
-        queryParams,
-        allHeaderParams,
-        cookieParams,
-        null,
-        method,
-        target.getUri());
+    if (authNames != null) {
+      // update different parameters (e.g. headers) for authentication
+      updateParamsForAuth(
+          authNames,
+          queryParams,
+          allHeaderParams,
+          cookieParams,
+          null,
+          method,
+          target.getUri());
+    }
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
