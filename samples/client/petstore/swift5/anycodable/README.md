@@ -25,11 +25,13 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PetsAPI* | [**petsGet**](docs/PetsAPI.md#petsget) | **GET** /pets | 
 *PetsAPI* | [**showPetById**](docs/PetsAPI.md#showpetbyid) | **GET** /pets/{petId} | Info for a specific pet
 
 
 ## Documentation For Models
 
+ - [PrefixPetSuffix](docs/PrefixPetSuffix.md)
 
 
 ## Documentation For Authorization

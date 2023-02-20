@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 **mapArrayAnytype** | [String: [AnyCodable]] |  | [optional] 
 **mapMapString** | [String: [String: String]] |  | [optional] 
 **mapMapAnytype** | [String: [String: AnyCodable]] |  | [optional] 
-**anytype1** | [**AnyCodable**](.md) |  | [optional] 
-**anytype2** | [**AnyCodable**](.md) |  | [optional] 
-**anytype3** | [**AnyCodable**](.md) |  | [optional] 
+**anytype1** | **AnyCodable** |  | [optional] 
+**anytype2** | **AnyCodable** |  | [optional] 
+**anytype3** | **AnyCodable** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
