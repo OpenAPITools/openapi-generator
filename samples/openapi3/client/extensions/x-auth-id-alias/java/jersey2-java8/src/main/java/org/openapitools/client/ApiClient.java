@@ -72,6 +72,8 @@ import org.openapitools.client.auth.ApiKeyAuth;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
+  private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+
   protected Map<String, String> defaultHeaderMap = new HashMap<>();
   protected Map<String, String> defaultCookieMap = new HashMap<>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
@@ -721,14 +723,13 @@ public class ApiClient extends JavaTimeFormatter {
    *   application/json; charset=UTF8
    *   APPLICATION/JSON
    *   application/vnd.company+json
-   * "* / *" is also default to JSON
+   * "*{@literal /}*" is also considered JSON by this method.
    *
    * @param mime MIME
    * @return True if the MIME type is JSON
    */
   public boolean isJsonMime(String mime) {
-    String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
-    return mime != null && (mime.matches(jsonMime) || mime.equals("*/*"));
+    return mime != null && (mime.equals("*/*") || JSON_MIME_PATTERN.matcher(mime).matches());
   }
 
   /**
