@@ -44,7 +44,7 @@ public class PetDto {
 
   @JsonProperty("tags")
   
-  private List<@Valid TagDto> tags = null;
+  private List<TagDto> tags = null;
 
   /**
    * pet status in the store
@@ -164,7 +164,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<@Valid TagDto> tags) {
+  public PetDto tags(List<TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -182,11 +182,11 @@ public class PetDto {
    * @return tags
   */
   
-  public List<@Valid TagDto> getTags() {
+  public List<TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid TagDto> tags) {
+  public void setTags(List<TagDto> tags) {
     this.tags = tags;
   }
 
