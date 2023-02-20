@@ -1215,7 +1215,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
-        if ( !useBeanValidation || !codegenProperty.isModel|| codegenProperty.baseName.toLowerCase().contains("response")) {
+        if ( !useBeanValidation || !codegenProperty.isModel|| codegenProperty.baseName.toLowerCase(Locale.ROOT).contains("response")) {
             return dataType;
         }
 
