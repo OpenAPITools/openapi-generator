@@ -1493,7 +1493,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (openApiNullable) {
-            if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+            if (Boolean.FALSE.equals(property.required)) {
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
             }
@@ -2321,7 +2321,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public boolean isAddNullableImports(CodegenModel cm, boolean addImports, CodegenProperty var) {
         if (this.openApiNullable) {
-            boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+            boolean isOptionalNullable = Boolean.FALSE.equals(var.required);
             // only add JsonNullable and related imports to optional and nullable values
             addImports |= isOptionalNullable;
             var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
