@@ -403,8 +403,23 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            if (cp.maxItems != null || cp.minItems != null) {
+                String maxOrMinItems = "";
+                if (cp.maxItems != null) {
+                    maxOrMinItems += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+                }
+                if (cp.minItems != null) {
+                    maxOrMinItems += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+                }
+                pydanticImports.add("conlist");
+                return String.format(Locale.ROOT, "conlist(%s%s)",
+                        getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                        maxOrMinItems);
+
+            } else {
+                typingImports.add("List");
+                return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            }
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -638,8 +653,22 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            if (cp.maxItems != null || cp.minItems != null) {
+                String maxOrMinItems = "";
+                if (cp.maxItems != null) {
+                    maxOrMinItems += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+                }
+                if (cp.minItems != null) {
+                    maxOrMinItems += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+                }
+                pydanticImports.add("conlist");
+                return String.format(Locale.ROOT, "conlist(%s%s)",
+                        getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                        maxOrMinItems);
+            } else {
+                typingImports.add("List");
+                return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            }
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -1077,9 +1106,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 

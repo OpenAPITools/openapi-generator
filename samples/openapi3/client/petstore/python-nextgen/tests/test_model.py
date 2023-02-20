@@ -2,7 +2,7 @@
 
 # flake8: noqa
 
-
+import json
 import os
 import time
 import unittest
@@ -72,6 +72,83 @@ class ModelTests(unittest.TestCase):
         # reset pet1 tags to empty array so that object comparison returns false
         self.pet1.tags = []
         self.assertFalse(self.pet1 == self.pet2)
+
+    def test_oneOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.Color()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.oneof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+        new_color.actual_instance = None
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.oneof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34,56])
+
+        try:
+            p = petstore_api.Color.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test nullable
+        p = petstore_api.Color.from_json(None)
+        self.assertEqual(p.actual_instance, None)
+
+    def test_anyOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.AnyOfColor()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.anyof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.anyof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.AnyOfColor.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34,56])
+
+        try:
+            p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
 
     def test_oneOf(self):
         # test new Pig

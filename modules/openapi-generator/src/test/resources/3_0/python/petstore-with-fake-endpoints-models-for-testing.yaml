@@ -2035,3 +2035,41 @@ components:
           type: string
         self_ref:
           $ref: '#/components/schemas/Self-Reference-Model'
+    RgbColor:
+      description: RGB three element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 3
+      maxItems: 3
+    RgbaColor:
+      description: RGBA four element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 4
+      maxItems: 4
+    HexColor:
+      description: 'Hex color string, such as #00FF00.'
+      type: string
+      pattern: ^#(?:[0-9a-fA-F]{3}){1,2}$
+      minLength: 7
+      maxLength: 7
+    Color:
+      nullable: true
+      description: RGB array, RGBA array, or hex string.
+      oneOf:
+      - $ref: '#/components/schemas/RgbColor'
+      - $ref: '#/components/schemas/RgbaColor'
+      - $ref: '#/components/schemas/HexColor'
+      #- type: "null"
+    AnyOfColor:
+      description: Any of RGB array, RGBA array, or hex string.
+      anyOf:
+      - $ref: '#/components/schemas/RgbColor'
+      - $ref: '#/components/schemas/RgbaColor'
+      - $ref: '#/components/schemas/HexColor'

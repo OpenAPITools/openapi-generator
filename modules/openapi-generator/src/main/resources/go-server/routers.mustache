@@ -108,7 +108,11 @@ func EncodeJSONResponse(i interface{}, status *int,{{#addResponseHeaders}} heade
 		w.WriteHeader(http.StatusOK)
 	}
 
-	return json.NewEncoder(w).Encode(i)
+	if i != nil {
+		return json.NewEncoder(w).Encode(i)
+	}
+
+	return nil
 }
 
 // ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
