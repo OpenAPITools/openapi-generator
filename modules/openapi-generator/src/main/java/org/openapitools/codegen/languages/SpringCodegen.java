@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 
 import java.io.File;
 import java.net.URL;
@@ -804,7 +805,13 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 handleImplicitHeaders(operation);
             }
-            objs.put("tagDescription", ops.get(0).tags.get(0).getDescription());
+            // The tag for the controller is the first tag of the first operation
+            final CodegenOperation firstOperation = ops.get(0);
+            final Tag firstTag = firstOperation.tags.get(0);
+            final String firstTagName = firstTag.getName();
+            // But use a sensible tag name if there is none
+            objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
+            objs.put("tagDescription", firstTag.getDescription());
         }
 
         return objs;
