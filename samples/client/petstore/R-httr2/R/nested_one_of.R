@@ -71,9 +71,9 @@ NestedOneOf <- R6::R6Class(
         self$`size` <- this_object$`size`
       }
       if (!is.null(this_object$`nested_pig`)) {
-        nested_pig_object <- Pig$new()
-        nested_pig_object$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
-        self$`nested_pig` <- nested_pig_object
+        `nested_pig_object` <- Pig$new()
+        `nested_pig_object`$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
+        self$`nested_pig` <- `nested_pig_object`
       }
       self
     },
@@ -117,7 +117,7 @@ NestedOneOf <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`size` <- this_object$`size`
-      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
+      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
       self
     },
     #' Validate JSON input with respect to NestedOneOf
@@ -178,7 +178,7 @@ NestedOneOf <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # NestedOneOf$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # NestedOneOf$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

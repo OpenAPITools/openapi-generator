@@ -1,20 +1,20 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
-import { Configuration} from '../configuration{{extensionForDeno}}'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{importFileExtension}}';
+import { Configuration} from '../configuration{{importFileExtension}}'
 {{#useRxJS}}
 import { Observable } from 'rxjs';
 {{/useRxJS}}
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '{{{ importPath }}}{{extensionForDeno}}';
+import { {{{ classname }}} } from '{{{ importPath }}}{{importFileExtension}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 
 {{#operations}}
-import { Observable{{classname}} } from "./ObservableAPI{{extensionForDeno}}";
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
+import { Observable{{classname}} } from "./ObservableAPI{{importFileExtension}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{importFileExtension}}";
 
 {{#operation}}
 export interface {{classname}}{{operationIdCamelCase}}Request {

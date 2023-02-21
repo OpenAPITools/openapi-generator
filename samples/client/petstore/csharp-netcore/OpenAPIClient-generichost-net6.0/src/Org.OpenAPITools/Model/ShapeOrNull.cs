@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,17 +26,24 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
-    public partial class ShapeOrNull : IEquatable<ShapeOrNull>, IValidatableObject
+    public partial class ShapeOrNull : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public ShapeOrNull(Triangle triangle, string quadrilateralType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for ShapeOrNull and cannot be null.");
+                throw new ArgumentNullException(nameof(QuadrilateralType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Triangle = triangle;
             QuadrilateralType = quadrilateralType;
@@ -47,11 +53,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType)
         {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for ShapeOrNull and cannot be null.");
+                throw new ArgumentNullException(nameof(QuadrilateralType));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             Quadrilateral = quadrilateral;
             QuadrilateralType = quadrilateralType;
@@ -77,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -92,48 +105,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ShapeOrNull).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ShapeOrNull instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ShapeOrNull to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ShapeOrNull input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.QuadrilateralType != null)
-                {
-                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -161,49 +132,49 @@ namespace Org.OpenAPITools.Model
     public class ShapeOrNullJsonConverter : JsonConverter<ShapeOrNull>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(ShapeOrNull).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override ShapeOrNull Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override ShapeOrNull Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            Utf8JsonReader triangleReader = reader;
-            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader quadrilateralReader = reader;
-            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral quadrilateral);
+            Utf8JsonReader triangleReader = utf8JsonReader;
+            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle);
+
+            Utf8JsonReader quadrilateralReader = utf8JsonReader;
+            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral);
 
             string quadrilateralType = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = reader.GetString();
+                            quadrilateralType = utf8JsonReader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -223,8 +194,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("quadrilateralType", shapeOrNull.QuadrilateralType);
+
+            writer.WriteEndObject();
+        }
     }
 }

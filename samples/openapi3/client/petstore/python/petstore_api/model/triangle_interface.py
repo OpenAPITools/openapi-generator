@@ -95,7 +95,7 @@ class TriangleInterface(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        *_args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         triangleType: typing.Union[MetaOapg.properties.triangleType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -103,7 +103,7 @@ class TriangleInterface(
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             shapeType=shapeType,
             triangleType=triangleType,
             _configuration=_configuration,

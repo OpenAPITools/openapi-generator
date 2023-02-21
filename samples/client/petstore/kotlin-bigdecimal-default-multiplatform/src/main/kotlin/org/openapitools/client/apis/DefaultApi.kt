@@ -53,7 +53,8 @@ open class DefaultApi(
             RequestMethod.POST,
             "/test",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
         )
 
         return jsonRequest(

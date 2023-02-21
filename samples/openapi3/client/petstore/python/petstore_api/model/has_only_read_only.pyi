@@ -72,7 +72,7 @@ class HasOnlyReadOnly(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -80,7 +80,7 @@ class HasOnlyReadOnly(
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             bar=bar,
             foo=foo,
             _configuration=_configuration,

@@ -18,7 +18,6 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,22 +56,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'EnumStringRequired'
-        /// </summary>
-        [Fact]
-        public void EnumStringRequiredTest()
-        {
-            // TODO unit test for the property 'EnumStringRequired'
-        }
-        /// <summary>
-        /// Test the property 'EnumString'
-        /// </summary>
-        [Fact]
-        public void EnumStringTest()
-        {
-            // TODO unit test for the property 'EnumString'
-        }
-        /// <summary>
         /// Test the property 'EnumInteger'
         /// </summary>
         [Fact]
@@ -97,20 +80,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'EnumNumber'
         }
         /// <summary>
-        /// Test the property 'OuterEnum'
+        /// Test the property 'EnumString'
         /// </summary>
         [Fact]
-        public void OuterEnumTest()
+        public void EnumStringTest()
         {
-            // TODO unit test for the property 'OuterEnum'
+            // TODO unit test for the property 'EnumString'
         }
         /// <summary>
-        /// Test the property 'OuterEnumInteger'
+        /// Test the property 'EnumStringRequired'
         /// </summary>
         [Fact]
-        public void OuterEnumIntegerTest()
+        public void EnumStringRequiredTest()
         {
-            // TODO unit test for the property 'OuterEnumInteger'
+            // TODO unit test for the property 'EnumStringRequired'
         }
         /// <summary>
         /// Test the property 'OuterEnumDefaultValue'
@@ -121,12 +104,28 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'OuterEnumDefaultValue'
         }
         /// <summary>
+        /// Test the property 'OuterEnumInteger'
+        /// </summary>
+        [Fact]
+        public void OuterEnumIntegerTest()
+        {
+            // TODO unit test for the property 'OuterEnumInteger'
+        }
+        /// <summary>
         /// Test the property 'OuterEnumIntegerDefaultValue'
         /// </summary>
         [Fact]
         public void OuterEnumIntegerDefaultValueTest()
         {
             // TODO unit test for the property 'OuterEnumIntegerDefaultValue'
+        }
+        /// <summary>
+        /// Test the property 'OuterEnum'
+        /// </summary>
+        [Fact]
+        public void OuterEnumTest()
+        {
+            // TODO unit test for the property 'OuterEnum'
         }
 
     }

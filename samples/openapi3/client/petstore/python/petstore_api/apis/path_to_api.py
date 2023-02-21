@@ -34,7 +34,7 @@ from petstore_api.apis.paths.fake_body_with_query_params import FakeBodyWithQuer
 from petstore_api.apis.paths.another_fake_dummy import AnotherFakeDummy
 from petstore_api.apis.paths.fake_body_with_file_schema import FakeBodyWithFileSchema
 from petstore_api.apis.paths.fake_case_sensitive_params import FakeCaseSensitiveParams
-from petstore_api.apis.paths.fake_test_query_paramters import FakeTestQueryParamters
+from petstore_api.apis.paths.fake_test_query_parameters import FakeTestQueryParameters
 from petstore_api.apis.paths.fake_pet_id_upload_image_with_required_file import FakePetIdUploadImageWithRequiredFile
 from petstore_api.apis.paths.fake_parameter_collisions_1_a_b_ab_self_a_b_ import FakeParameterCollisions1ABAbSelfAB
 from petstore_api.apis.paths.fake_upload_file import FakeUploadFile
@@ -86,7 +86,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.ANOTHERFAKE_DUMMY: AnotherFakeDummy,
         PathValues.FAKE_BODYWITHFILESCHEMA: FakeBodyWithFileSchema,
         PathValues.FAKE_CASESENSITIVEPARAMS: FakeCaseSensitiveParams,
-        PathValues.FAKE_TESTQUERYPARAMTERS: FakeTestQueryParamters,
+        PathValues.FAKE_TESTQUERYPARAMETERS: FakeTestQueryParameters,
         PathValues.FAKE_PET_ID_UPLOAD_IMAGE_WITH_REQUIRED_FILE: FakePetIdUploadImageWithRequiredFile,
         PathValues.FAKE_PARAMETER_COLLISIONS_1_A_B_AB_SELF_AB_: FakeParameterCollisions1ABAbSelfAB,
         PathValues.FAKE_UPLOAD_FILE: FakeUploadFile,
@@ -139,7 +139,7 @@ path_to_api = PathToApi(
         PathValues.ANOTHERFAKE_DUMMY: AnotherFakeDummy,
         PathValues.FAKE_BODYWITHFILESCHEMA: FakeBodyWithFileSchema,
         PathValues.FAKE_CASESENSITIVEPARAMS: FakeCaseSensitiveParams,
-        PathValues.FAKE_TESTQUERYPARAMTERS: FakeTestQueryParamters,
+        PathValues.FAKE_TESTQUERYPARAMETERS: FakeTestQueryParameters,
         PathValues.FAKE_PET_ID_UPLOAD_IMAGE_WITH_REQUIRED_FILE: FakePetIdUploadImageWithRequiredFile,
         PathValues.FAKE_PARAMETER_COLLISIONS_1_A_B_AB_SELF_AB_: FakeParameterCollisions1ABAbSelfAB,
         PathValues.FAKE_UPLOAD_FILE: FakeUploadFile,

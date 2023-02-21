@@ -28,7 +28,7 @@ Tag <- R6::R6Class(
     #'
     #' @param id id
     #' @param name name
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`id` = NULL, `name` = NULL, additional_properties = NULL, ...) {
@@ -211,7 +211,7 @@ Tag <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # Tag$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # Tag$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

@@ -66,7 +66,7 @@ public class ObjectWithDeprecatedFields {
 
   public static final String SERIALIZED_NAME_BARS = "bars";
   @SerializedName(SERIALIZED_NAME_BARS)
-  private List<String> bars = null;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
@@ -320,7 +320,7 @@ public class ObjectWithDeprecatedFields {
            public void write(JsonWriter out, ObjectWithDeprecatedFields value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

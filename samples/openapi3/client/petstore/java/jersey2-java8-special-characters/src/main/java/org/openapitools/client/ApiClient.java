@@ -329,9 +329,10 @@ public class ApiClient extends JavaTimeFormatter {
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
-        name = authenticationLookup.containsKey(name) ? authenticationLookup.get(name) : name;
-        if (secrets.containsKey(name)) {
-          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
+        name = authenticationLookup.getOrDefault(name, name);
+        String secret = secrets.get(name);
+        if (secret != null) {
+          ((ApiKeyAuth) auth).setApiKey(secret);
         }
       }
     }
@@ -847,11 +848,6 @@ public class ApiClient extends JavaTimeFormatter {
       return file;
     }
 
-    String contentType = null;
-    List<Object> contentTypes = response.getHeaders().get("Content-Type");
-    if (contentTypes != null && !contentTypes.isEmpty())
-      contentType = String.valueOf(contentTypes.get(0));
-
     // read the entity stream multiple times
     response.bufferEntity();
 
@@ -953,14 +949,11 @@ public class ApiClient extends JavaTimeFormatter {
       boolean isBodyNullable)
       throws ApiException {
 
-    // Not using `.target(targetURL).path(path)` below,
-    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (serverIndex != null && operationServers.containsKey(operation)) {
-      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
-      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
-        operationServerVariables.get(operation) : serverVariables;
-      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
+    List<ServerConfiguration> serverConfigurations;
+    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
+      int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
+      Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
@@ -971,6 +964,8 @@ public class ApiClient extends JavaTimeFormatter {
     } else {
       targetURL = this.basePath + path;
     }
+    // Not using `.target(targetURL).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
@@ -981,11 +976,10 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Invocation.Builder invocationBuilder;
+    Invocation.Builder invocationBuilder = target.request();
+
     if (accept != null) {
-      invocationBuilder = target.request().accept(accept);
-    } else {
-      invocationBuilder = target.request();
+      invocationBuilder = invocationBuilder.accept(accept);
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {

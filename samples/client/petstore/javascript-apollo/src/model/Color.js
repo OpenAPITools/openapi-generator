@@ -84,15 +84,15 @@ class Color {
 
         // Hex color string, such as #00FF00.
         try {
-            // validate array of string
+            // validate string
             if (!(typeof instance === 'string')) {
-                throw new Error("Invalid input. Must be string. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid value. Must be string. Input: " + JSON.stringify(instance));
             }
             if (!/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(instance)) {
-                throw new Error("Invalid string value in an array items. Must conform to /^#(?:[0-9a-fA-F]{3}){1,2}$/. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Must conform to /^#(?:[0-9a-fA-F]{3}){1,2}$/. Input: " + JSON.stringify(instance));
             }
             if (instance.length > 7 && instance.length < 7) {
-                throw new Error("Invalid string value in an array items. Max. length: 7. Min. length: 7. Input: " + JSON.stringify(instance));
+                throw new Error("Invalid string value. Max. length: 7. Min. length: 7. Input: " + JSON.stringify(instance));
             }
             this.actualInstance = instance;
             match++;
@@ -124,7 +124,7 @@ class Color {
     }
 
     /**
-     * Gets the actaul instance, which can be <code>String</code>, <code>[Number]</code>.
+     * Gets the actual instance, which can be <code>String</code>, <code>[Number]</code>.
      * @return {(module:model/String|module:model/[Number])} The actual instance.
      */
     getActualInstance() {
@@ -132,7 +132,7 @@ class Color {
     }
 
     /**
-     * Sets the actaul instance, which can be <code>String</code>, <code>[Number]</code>.
+     * Sets the actual instance, which can be <code>String</code>, <code>[Number]</code>.
      * @param {(module:model/String|module:model/[Number])} obj The actual instance.
      */
     setActualInstance(obj) {
@@ -140,7 +140,7 @@ class Color {
     }
 
     /**
-     * Returns the JSON representation of the actual intance.
+     * Returns the JSON representation of the actual instance.
      * @return {string}
      */
     toJSON = function(){

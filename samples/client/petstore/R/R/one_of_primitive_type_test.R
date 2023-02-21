@@ -64,7 +64,7 @@ OneOfPrimitiveTypeTest <- R6::R6Class(
       error_messages <- list()
       instance <- NULL
 
-      integer_result <- tryCatch({
+      `integer_result` <- tryCatch({
           instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
           if (typeof(instance) != "integer") {
             stop(sprintf("Data type doesn't match. Expected: %s. Actual: %s.", "integer", typeof(instance)))
@@ -76,11 +76,11 @@ OneOfPrimitiveTypeTest <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(integer_result["error"])) {
-        error_messages <- append(error_messages, integer_result["message"])
+      if (!is.null(`integer_result`["error"])) {
+        error_messages <- append(error_messages, `integer_result`["message"])
       }
 
-      character_result <- tryCatch({
+      `character_result` <- tryCatch({
           instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
           if (typeof(instance) != "character") {
             stop(sprintf("Data type doesn't match. Expected: %s. Actual: %s.", "character", typeof(instance)))
@@ -92,8 +92,8 @@ OneOfPrimitiveTypeTest <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(character_result["error"])) {
-        error_messages <- append(error_messages, character_result["message"])
+      if (!is.null(`character_result`["error"])) {
+        error_messages <- append(error_messages, `character_result`["message"])
       }
 
       if (matched == 1) {
@@ -193,7 +193,7 @@ OneOfPrimitiveTypeTest <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 #OneOfPrimitiveTypeTest$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 #OneOfPrimitiveTypeTest$set("public", "print", function(...) {
 #  print(jsonlite::prettify(self$toJSONString()))
 #  invisible(self)

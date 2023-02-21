@@ -72,7 +72,7 @@ class Tag(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -80,7 +80,7 @@ class Tag(
     ) -> 'Tag':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             id=id,
             name=name,
             _configuration=_configuration,

@@ -477,7 +477,7 @@
         "x-accepts" : "application/json"
       },
       "get" : {
-        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         "operationId" : "getOrderById",
         "parameters" : [ {
           "description" : "ID of pet that needs to be fetched",
@@ -884,7 +884,7 @@
         "responses" : {
           "400" : {
             "content" : { },
-            "description" : "Someting wrong"
+            "description" : "Something wrong"
           }
         },
         "summary" : "Fake endpoint to test group parameters (optional)",

@@ -80,7 +80,7 @@ package Samples.Petstore.Clients is
        Result : out Swagger.Integer_Map);
 
    --  Find purchase order by ID
-   --  For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+   --  For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
    procedure Get_Order_By_Id
       (Client : in out Client_Type;
        Order_Id : in Swagger.Long;

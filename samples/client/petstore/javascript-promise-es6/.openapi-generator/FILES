@@ -58,6 +58,7 @@ docs/ReadOnlyFirst.md
 docs/Return.md
 docs/SpecialModelName.md
 docs/StoreApi.md
+docs/StringOrBoolean.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
@@ -123,5 +124,6 @@ src/model/Pig.js
 src/model/ReadOnlyFirst.js
 src/model/Return.js
 src/model/SpecialModelName.js
+src/model/StringOrBoolean.js
 src/model/Tag.js
 src/model/User.js

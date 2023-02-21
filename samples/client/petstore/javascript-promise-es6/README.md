@@ -213,11 +213,24 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 
 ## Documentation for Authorization
+
+
+
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
 
 
 
@@ -239,30 +252,18 @@ Class | Method | HTTP request | Description
 
 
 
-### bearer_test
-
-- **Type**: Bearer authentication (JWT)
-
-
-
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
 
 
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+
+
 ### http_signature_test
 
-
-
-
-### petstore_auth
-
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 

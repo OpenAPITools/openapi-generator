@@ -21,9 +21,9 @@ import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
+import {{javaxPackage}}.ws.rs.core.Cookie;
+import {{javaxPackage}}.ws.rs.core.Response.Status.Family;
+import {{javaxPackage}}.ws.rs.core.MediaType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -192,6 +192,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    this.serverIndex = null;
     return this;
   }
 
