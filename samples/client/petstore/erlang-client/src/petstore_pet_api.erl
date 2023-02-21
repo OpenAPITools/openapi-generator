@@ -20,7 +20,7 @@ add_pet(Ctx, PetstorePet) ->
 -spec add_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, petstore_pet:petstore_pet(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 add_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/pet">>],
@@ -41,7 +41,7 @@ delete_pet(Ctx, PetId) ->
 -spec delete_pet(ctx:ctx(), integer(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 delete_pet(Ctx, PetId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
     Path = [<<"/pet/", PetId, "">>],
@@ -62,7 +62,7 @@ find_pets_by_status(Ctx, Status) ->
 -spec find_pets_by_status(ctx:ctx(), list(), maps:map()) -> {ok, [petstore_pet:petstore_pet()], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 find_pets_by_status(Ctx, Status, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/pet/findByStatus">>],
@@ -83,7 +83,7 @@ find_pets_by_tags(Ctx, Tags) ->
 -spec find_pets_by_tags(ctx:ctx(), list(), maps:map()) -> {ok, [petstore_pet:petstore_pet()], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 find_pets_by_tags(Ctx, Tags, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/pet/findByTags">>],
@@ -104,7 +104,7 @@ get_pet_by_id(Ctx, PetId) ->
 -spec get_pet_by_id(ctx:ctx(), integer(), maps:map()) -> {ok, petstore_pet:petstore_pet(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_pet_by_id(Ctx, PetId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/pet/", PetId, "">>],
@@ -125,7 +125,7 @@ update_pet(Ctx, PetstorePet) ->
 -spec update_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, petstore_pet:petstore_pet(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 update_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = put,
     Path = [<<"/pet">>],
@@ -146,7 +146,7 @@ update_pet_with_form(Ctx, PetId) ->
 -spec update_pet_with_form(ctx:ctx(), integer(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 update_pet_with_form(Ctx, PetId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/pet/", PetId, "">>],
@@ -167,7 +167,7 @@ upload_file(Ctx, PetId) ->
 -spec upload_file(ctx:ctx(), integer(), maps:map()) -> {ok, petstore_api_response:petstore_api_response(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 upload_file(Ctx, PetId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/pet/", PetId, "/uploadImage">>],
