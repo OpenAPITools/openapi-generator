@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -107,50 +108,61 @@ public class InlineModelResolver {
 
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Operation> operations = new ArrayList<>(path.readOperations());
+            Map<HttpMethod, Operation> operationsMap = new LinkedHashMap<>(path.readOperationsMap());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
             String pathname = pathsEntry.getKey();
-            String name = pathname;
-            if (path.getDelete() != null) {
-                name = pathname + "_delete";
-            } else if (path.getGet() != null) {
-                name = pathname + "_get";
-            } else if (path.getHead() != null) {
-                name = pathname + "_head";
-            } else if (path.getOptions() != null) {
-                name = pathname + "_options";
-            } else if (path.getPatch() != null) {
-                name = pathname + "_patch";
-            } else if (path.getPost() != null) {
-                name = pathname + "_post";
-            } else if (path.getPut() != null) {
-                name = pathname + "_put";
-            } else if (path.getTrace() != null) {
-                name = pathname + "_trace";
-            } else {
-                // no HTTP verb defined?
-                //throw new RuntimeException("No HTTP verb found/detected in the inline model resolver");
-            }
 
             // Include callback operation as well
-            for (Operation operation : path.readOperations()) {
+            for (Map.Entry<HttpMethod, Operation> operationEntry : new LinkedHashMap<>(path.readOperationsMap()).entrySet()) {
+                Operation operation = operationEntry.getValue();
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
-                    operations.addAll(callbacks.values().stream()
-                            .flatMap(callback -> callback.values().stream())
-                            .flatMap(pathItem -> pathItem.readOperations().stream())
-                            .collect(Collectors.toList()));
+                    for (Map.Entry<String, Callback> callbackEntry : callbacks.entrySet()) {
+                        Callback callback = callbackEntry.getValue();
+                        for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
+                            PathItem pathItem = pathItemEntry.getValue();
+                            operationsMap.putAll(pathItem.readOperationsMap());
+                        }
+                    }
                 }
             }
 
-            for (Operation operation : operations) {
-                flattenRequestBody(name, operation);
-                flattenParameters(name, operation);
-                flattenResponses(name, operation);
+            for (Map.Entry<HttpMethod, Operation> operationEntry : operationsMap.entrySet()) {
+                Operation operation = operationEntry.getValue();
+                String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
+                flattenRequestBody(inlineSchemaName, operation);
+                flattenParameters(inlineSchemaName, operation);
+                flattenResponses(inlineSchemaName, operation);
             }
         }
+    }
+
+    private String getInlineSchemaName(HttpMethod httpVerb, String pathname) {
+        String name = pathname;
+        if (httpVerb.equals(HttpMethod.DELETE)) {
+            name += "_delete";
+        } else if (httpVerb.equals(HttpMethod.GET)) {
+            name += "_get";
+        } else if (httpVerb.equals(HttpMethod.HEAD)) {
+            name += "_head";
+        } else if (httpVerb.equals(HttpMethod.OPTIONS)) {
+            name += "_options";
+        } else if (httpVerb.equals(HttpMethod.PATCH)) {
+            name += "_patch";
+        } else if (httpVerb.equals(HttpMethod.POST)) {
+            name += "_post";
+        } else if (httpVerb.equals(HttpMethod.PUT)) {
+            name += "_put";
+        } else if (httpVerb.equals(HttpMethod.TRACE)) {
+            name += "_trace";
+        } else {
+            // no HTTP verb defined?
+            // throw new RuntimeException("No HTTP verb found/detected in the inline model
+            // resolver");
+        }
+        return name;
     }
 
     /**

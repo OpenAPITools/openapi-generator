@@ -33,6 +33,7 @@ import org.openapitools.codegen.api.TemplateDefinition
 import org.openapitools.codegen.api.TemplateFileType
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
+import org.openapitools.codegen.config.MergedSpecBuilder
 import kotlin.streams.toList
 
 /**
@@ -90,6 +91,21 @@ open class GenerateTask : DefaultTask() {
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * Local root folder with spec files
+     */
+    @Optional
+    @get:InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
+    val inputSpecRootDirectory = project.objects.property<String>();
+
+    /**
+     * Name of the file that will contains all merged specs
+     */
+    @Input
+    @Optional
+    val mergedFileName = project.objects.property<String>();
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
@@ -545,6 +561,11 @@ open class GenerateTask : DefaultTask() {
     @Suppress("unused")
     @TaskAction
     fun doWork() {
+        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue -> {
+            inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
+            logger.info("Merge input spec would be used - {}", inputSpec.get())
+        }}
+
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
                 project.delete(outputDir)

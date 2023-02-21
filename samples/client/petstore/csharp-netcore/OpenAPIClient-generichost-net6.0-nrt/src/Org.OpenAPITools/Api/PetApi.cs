@@ -553,6 +553,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -560,12 +566,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] contentTypes = new string[] {
                         "application/json",
@@ -718,8 +718,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    if (apiKey != null)
@@ -867,8 +867,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByStatus";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -883,6 +883,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -890,12 +896,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] accepts = new string[] { 
                         "application/xml", 
@@ -1040,8 +1040,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByTags";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -1056,6 +1056,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -1063,12 +1069,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] accepts = new string[] { 
                         "application/xml", 
@@ -1213,8 +1213,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    List<TokenBase> tokens = new List<TokenBase>();
@@ -1381,6 +1381,12 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
 
+                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+
+                    tokens.Add(oauthToken);
+
+                    oauthToken.UseInHeader(request, "");
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -1388,12 +1394,6 @@ namespace Org.OpenAPITools.Api
                     string requestBody = await request.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);
-
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-
-                    tokens.Add(oauthToken);
-
-                    oauthToken.UseInHeader(request, "");
 
                     string[] contentTypes = new string[] {
                         "application/json",
@@ -1553,8 +1553,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
@@ -1735,8 +1735,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}/uploadImage";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
@@ -1929,8 +1929,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/{petId}/uploadImageWithRequiredFile";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();

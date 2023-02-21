@@ -59,6 +59,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -103,6 +104,18 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
     private String inputSpec;
+
+    /**
+     * Local root folder with spec files
+     */
+    @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
+    private String inputSpecRootDirectory;
+
+    /**
+     * Name of the file that will contains all merged specs
+     */
+    @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
+    private String mergedFileName;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -468,6 +481,12 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
+                .buildMergedSpec();
+            LOGGER.info("Merge input spec would be used - {}", inputSpec);
+        }
+
         File inputSpecFile = new File(inputSpec);
 
         if (output == null) {

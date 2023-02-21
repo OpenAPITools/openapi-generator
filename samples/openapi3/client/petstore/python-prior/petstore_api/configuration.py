@@ -456,6 +456,13 @@ conf = petstore_api.Configuration(
         :return: The Auth Settings information dict.
         """
         auth = {}
+        if self.access_token is not None:
+            auth['petstore_auth'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
         if 'api_key' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
@@ -474,6 +481,13 @@ conf = petstore_api.Configuration(
                     'api_key_query',
                 ),
             }
+        if self.username is not None and self.password is not None:
+            auth['http_basic_test'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
         if self.access_token is not None:
             auth['bearer_test'] = {
                 'type': 'bearer',
@@ -482,26 +496,12 @@ conf = petstore_api.Configuration(
                 'key': 'Authorization',
                 'value': 'Bearer ' + self.access_token
             }
-        if self.username is not None and self.password is not None:
-            auth['http_basic_test'] = {
-                'type': 'basic',
-                'in': 'header',
-                'key': 'Authorization',
-                'value': self.get_basic_auth_token()
-            }
         if self.signing_info is not None:
             auth['http_signature_test'] = {
                 'type': 'http-signature',
                 'in': 'header',
                 'key': 'Authorization',
                 'value': None  # Signature headers are calculated for every HTTP request
-            }
-        if self.access_token is not None:
-            auth['petstore_auth'] = {
-                'type': 'oauth2',
-                'in': 'header',
-                'key': 'Authorization',
-                'value': 'Bearer ' + self.access_token
             }
         return auth
 

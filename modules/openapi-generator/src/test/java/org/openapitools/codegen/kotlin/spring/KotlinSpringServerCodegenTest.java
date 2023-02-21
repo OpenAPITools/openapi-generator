@@ -414,4 +414,48 @@ public class KotlinSpringServerCodegenTest {
                 "import jakarta.validation.Valid"
         );
     }
+
+    @Test(description = "multi-line descriptions should be supported for operations")
+    public void multiLineOperationDescription() throws IOException {
+        testMultiLineOperationDescription(false);
+    }
+
+    @Test(description = "multi-line descriptions should be supported for operations (interface-only)")
+    public void multiLineOperationDescriptionInterfaceOnly() throws IOException {
+        testMultiLineOperationDescription(true);
+    }
+
+    private static void testMultiLineOperationDescription(final boolean isInterfaceOnly) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY,
+            isInterfaceOnly);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue4111-multiline-operation-description.yaml"))
+                .config(codegen))
+            .generate();
+
+        final String pingApiFileName;
+        if (isInterfaceOnly) {
+            pingApiFileName = "PingApi.kt";
+        } else {
+            pingApiFileName = "PingApiController.kt";
+        }
+        assertFileContains(
+            Paths.get(
+                outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
+            "description = \"\"\"# Multi-line descriptions\n"
+                + "\n"
+                + "This is an example of a multi-line description.\n"
+                + "\n"
+                + "It:\n"
+                + "- has multiple lines\n"
+                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+        );
+    }
 }

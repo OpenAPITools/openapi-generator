@@ -54,7 +54,10 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       Interceptor auth;
-      if ("api_key".equals(authName)) {
+      if ("petstore_auth".equals(authName)) {
+        
+        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+      } else if ("api_key".equals(authName)) {
         
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
@@ -64,9 +67,6 @@ public class ApiClient {
         
         auth = new HttpBasicAuth();
         
-      } else if ("petstore_auth".equals(authName)) {
-        
-        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

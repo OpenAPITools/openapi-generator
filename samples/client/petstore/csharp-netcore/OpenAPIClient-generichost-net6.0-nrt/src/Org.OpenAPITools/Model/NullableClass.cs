@@ -187,6 +187,16 @@ namespace Org.OpenAPITools.Model
     public class NullableClassJsonConverter : JsonConverter<NullableClass>
     {
         /// <summary>
+        /// The format to use to serialize DateProp
+        /// </summary>
+        public static string DatePropFormat { get; set; } = "yyyy-MM-dd";
+
+        /// <summary>
+        /// The format to use to serialize DatetimeProp
+        /// </summary>
+        public static string DatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -301,10 +311,14 @@ namespace Org.OpenAPITools.Model
                 writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
             else
                 writer.WriteNull("boolean_prop");
-            writer.WritePropertyName("date_prop");
-            JsonSerializer.Serialize(writer, nullableClass.DateProp, jsonSerializerOptions);
-            writer.WritePropertyName("datetime_prop");
-            JsonSerializer.Serialize(writer, nullableClass.DatetimeProp, jsonSerializerOptions);
+            if (nullableClass.DateProp != null)
+                writer.WriteString("date_prop", nullableClass.DateProp.Value.ToString(DatePropFormat));
+            else
+                writer.WriteNull("date_prop");
+            if (nullableClass.DatetimeProp != null)
+                writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.ToString(DatetimePropFormat));
+            else
+                writer.WriteNull("datetime_prop");
             if (nullableClass.IntegerProp != null)
                 writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
             else

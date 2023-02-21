@@ -44,4 +44,33 @@ public interface BodyApi extends ApiClient.Api {
   ApiResponse<Pet> testEchoBodyPetWithHttpInfo(Pet pet);
 
 
+
+  /**
+   * Test empty response body
+   * Test empty response body
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return String
+   */
+  @RequestLine("POST /echo/body/Pet/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  String testEchoBodyPetResponseString(Pet pet);
+
+  /**
+   * Test empty response body
+   * Similar to <code>testEchoBodyPetResponseString</code> but it also returns the http response headers .
+   * Test empty response body
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/Pet/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet);
+
+
 }

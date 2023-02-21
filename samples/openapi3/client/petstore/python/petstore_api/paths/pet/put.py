@@ -44,8 +44,8 @@ request_body_pet = api_client.RequestBody(
     required=True,
 )
 _auth = [
-    'http_signature_test',
     'petstore_auth',
+    'http_signature_test',
 ]
 _servers = (
     {

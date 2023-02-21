@@ -202,6 +202,21 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
+## petstore_auth
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
+
+Example
+```
+```
+
+Or via OAuth2 module to automatically refresh tokens and perform user authentication.
+```
+```
 ## api_key
 - **Type**: API key
 
@@ -218,21 +233,6 @@ Example
 - **Type**: HTTP basic authentication
 
 Example
-```
-```
-## petstore_auth
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
-
-Example
-```
-```
-
-Or via OAuth2 module to automatically refresh tokens and perform user authentication.
 ```
 ```
 

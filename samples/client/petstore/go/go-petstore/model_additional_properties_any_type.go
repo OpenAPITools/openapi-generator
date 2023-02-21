@@ -41,7 +41,7 @@ func NewAdditionalPropertiesAnyTypeWithDefaults() *AdditionalPropertiesAnyType {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesAnyType) GetName() string {
-	if o == nil || isNil(o.Name) {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -51,7 +51,7 @@ func (o *AdditionalPropertiesAnyType) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesAnyType) GetNameOk() (*string, bool) {
-	if o == nil || isNil(o.Name) {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
 	return o.Name, true
@@ -59,7 +59,7 @@ func (o *AdditionalPropertiesAnyType) GetNameOk() (*string, bool) {
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesAnyType) HasName() bool {
-	if o != nil && !isNil(o.Name) {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -81,7 +81,7 @@ func (o AdditionalPropertiesAnyType) MarshalJSON() ([]byte, error) {
 
 func (o AdditionalPropertiesAnyType) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Name) {
+	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
 	return toSerialize, nil

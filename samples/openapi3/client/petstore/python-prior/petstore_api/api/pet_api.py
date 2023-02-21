@@ -39,8 +39,8 @@ class PetApi(object):
             settings={
                 'response_type': None,
                 'auth': [
-                    'http_signature_test',
-                    'petstore_auth'
+                    'petstore_auth',
+                    'http_signature_test'
                 ],
                 'endpoint_path': '/pet',
                 'operation_id': 'add_pet',
@@ -154,8 +154,8 @@ class PetApi(object):
             settings={
                 'response_type': ([Pet],),
                 'auth': [
-                    'http_signature_test',
-                    'petstore_auth'
+                    'petstore_auth',
+                    'http_signature_test'
                 ],
                 'endpoint_path': '/pet/findByStatus',
                 'operation_id': 'find_pets_by_status',
@@ -215,8 +215,8 @@ class PetApi(object):
             settings={
                 'response_type': ([Pet],),
                 'auth': [
-                    'http_signature_test',
-                    'petstore_auth'
+                    'petstore_auth',
+                    'http_signature_test'
                 ],
                 'endpoint_path': '/pet/findByTags',
                 'operation_id': 'find_pets_by_tags',
@@ -321,8 +321,8 @@ class PetApi(object):
             settings={
                 'response_type': None,
                 'auth': [
-                    'http_signature_test',
-                    'petstore_auth'
+                    'petstore_auth',
+                    'http_signature_test'
                 ],
                 'endpoint_path': '/pet',
                 'operation_id': 'update_pet',
