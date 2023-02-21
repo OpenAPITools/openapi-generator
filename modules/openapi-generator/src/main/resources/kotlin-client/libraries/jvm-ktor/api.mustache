@@ -69,8 +69,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
-                        for (int i=0; i < {{paramName}}.size(); i++) {
-                            {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.get(i).toString()) }
+                        for (x in {{paramName}} ?: listOf()) {
+                            append("{{{baseName}}}", x.toString())
                         }
                         {{/isArray}}
                         {{/isFile}}
@@ -98,8 +98,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
-                        for (int i=0; i < {{paramName}}.size(); i++) {
-                            {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.get(i).toString()) }
+                        for (x in {{paramName}} ?: listOf()) {
+                            append("{{{baseName}}}", x.toString())
                         }
                         {{/isArray}}
                         {{/isFile}}
