@@ -4396,6 +4396,42 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema.getAnyOf().size(), 2);
+        assertNull(schema.getNullable());
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
+        assertEquals(schema2.getOneOf().size(), 2);
+        assertNull(schema2.getNullable());
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema5.getOneOf().size(), 3);
+        assertNull(schema5.getNullable());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertNull(schema3.getAnyOf());
+        assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getNullable());
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("OneOfTest");
+        assertNull(schema4.getOneOf());
+        assertTrue(schema4 instanceof IntegerSchema);
+
+        Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema6.getOneOf().size(), 2);
+        assertTrue(schema6.getNullable());
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyBooleanEnum() {
         // to test the rule SIMPLIFY_BOOLEAN_ENUM
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyBooleanEnum_test.yaml");
