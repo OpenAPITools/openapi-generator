@@ -477,3 +477,10 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
 ```
+
+- `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyBooleanEnum_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_BOOLEAN_ENUM=true
+```

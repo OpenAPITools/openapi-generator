@@ -63,6 +63,10 @@ public class OpenAPINormalizer {
     final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
     boolean simplifyAnyOfStringAndEnumString;
 
+    // when set to true, boolean enum will be converted to just boolean
+    final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
+    boolean simplifyBooleanEnum;
+
     // ============= end of rules =============
 
     /**
@@ -105,6 +109,10 @@ public class OpenAPINormalizer {
 
         if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING))) {
             simplifyAnyOfStringAndEnumString = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_BOOLEAN_ENUM))) {
+            simplifyBooleanEnum = true;
         }
     }
 
@@ -301,11 +309,11 @@ public class OpenAPINormalizer {
             visitedSchemas.add(schema);
         }
 
-        if (schema instanceof ArraySchema) {
+        if (schema instanceof ArraySchema) { // array
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
-        } else if (ModelUtils.isComposedSchema(schema)) {
+        } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
 
             if (ModelUtils.isComplexComposedSchema(cs)) {
@@ -337,6 +345,8 @@ public class OpenAPINormalizer {
             normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema instanceof BooleanSchema) {
+            normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof Schema) {
             normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
@@ -344,6 +354,10 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
+        processSimplifyBooleanEnum(schema);
     }
 
     private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
@@ -476,7 +490,6 @@ public class OpenAPINormalizer {
      * @param schema Schema
      */
     private void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
-
         if (!removeAnyOfOneOfAndKeepPropertiesOnly && !enableAll) {
             return;
         }
@@ -525,6 +538,26 @@ public class OpenAPINormalizer {
             }
         } else {
             return schema;
+        }
+    }
+
+    /**
+     * If the schema is boolean and its enum is defined,
+     * then simply it to just boolean.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private void processSimplifyBooleanEnum(Schema schema) {
+        if (!simplifyBooleanEnum && !enableAll) {
+            return;
+        }
+
+        if (schema instanceof BooleanSchema) {
+            BooleanSchema bs = (BooleanSchema) schema;
+            if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
+                bs.setEnum(null);
+            }
         }
     }
 
