@@ -70,6 +70,10 @@ class AnyOfColor(BaseModel):
             return v
 
     @classmethod
+    def from_dict(cls, obj: dict) -> AnyOfColor:
+        return cls.from_json(json.dumps(obj))
+
+    @classmethod
     def from_json(cls, json_str: str) -> AnyOfColor:
         """Returns the object represented by the json string"""
         instance = cls()

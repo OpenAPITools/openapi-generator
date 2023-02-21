@@ -64,6 +64,10 @@ class AnyOfPig(BaseModel):
             return v
 
     @classmethod
+    def from_dict(cls, obj: dict) -> AnyOfPig:
+        return cls.from_json(json.dumps(obj))
+
+    @classmethod
     def from_json(cls, json_str: str) -> AnyOfPig:
         """Returns the object represented by the json string"""
         instance = cls()
