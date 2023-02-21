@@ -52,6 +52,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
 
+    public static final String JAVAX_PACKAGE = "javaxPackage";
+    public static final String USE_JAKARTA_EE = "useJakartaEe";
+
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
@@ -68,6 +71,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
+
+    protected boolean useJakartaEe = false;
 
     protected boolean nonPublicApi = false;
 
@@ -544,6 +549,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             typeMapping.put("set", "kotlin.collections.MutableSet");
             typeMapping.put("map", "kotlin.collections.MutableMap");
         }
+
+        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
+            setUseJakartaEe(Boolean.TRUE.equals(additionalProperties.get(USE_JAKARTA_EE)));
+        }
+        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+
+        if (useJakartaEe) {
+            applyJakartaPackage();
+        } else {
+            applyJavaxPackage();
+        }
     }
 
     protected boolean isModelMutable() {
@@ -592,6 +608,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSerializableModel(boolean serializableModel) {
         this.serializableModel = serializableModel;
+    }
+
+    public void setUseJakartaEe(boolean useJakartaEe) {
+        this.useJakartaEe = useJakartaEe;
     }
 
     public boolean nonPublicApi() {
@@ -840,6 +860,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private String titleCase(final String input) {
         return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
+    }
+
+    protected void applyJavaxPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "javax");
+    }
+
+    protected void applyJakartaPackage() {
+        writePropertyBack(JAVAX_PACKAGE, "jakarta");
     }
 
     @Override

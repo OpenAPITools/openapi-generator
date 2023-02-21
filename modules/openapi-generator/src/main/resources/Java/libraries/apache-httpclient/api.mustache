@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 {{/fullJavaUtil}}
 
 {{>generatedAnnotation}}
@@ -75,7 +76,8 @@ public class {{classname}} {
     String localVarPath = "{{{path}}}"{{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
-    // query params
+    {{javaUtilPrefix}}StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
     {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
     {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
@@ -84,14 +86,22 @@ public class {{classname}} {
 
     {{#queryParams}}
         {{#isDeepObject}}
-    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+    localVarQueryParameterBaseName = "{{{baseName}}}";
+          {{#isArray}}
+    for (int i=0; i < {{paramName}}.size(); i++) {
+      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+    }
+          {{/isArray}}
+          {{^isArray}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+          {{/isArray}}
         {{/isDeepObject}}
         {{^isDeepObject}}
             {{#isExplode}}
                 {{#hasVars}}
                     {{#vars}}
                         {{#isArray}}
-    localVarQueryParams.addAll(apiClient.parameterToPair("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
                         {{/isArray}}
                         {{^isArray}}
     localVarQueryParams.addAll(apiClient.parameterToPair("{{baseName}}", {{paramName}}.{{getter}}()));
@@ -99,7 +109,12 @@ public class {{classname}} {
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString());
+                {{/isModel}}
+                {{^isModel}}
     {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+                {{/isModel}}
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
@@ -142,6 +157,7 @@ public class {{classname}} {
         "{{httpMethod}}",
         localVarQueryParams,
         localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

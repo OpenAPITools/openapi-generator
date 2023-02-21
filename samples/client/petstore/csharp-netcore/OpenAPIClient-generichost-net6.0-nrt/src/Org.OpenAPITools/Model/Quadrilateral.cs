@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,13 +28,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Quadrilateral
     /// </summary>
-    public partial class Quadrilateral : IEquatable<Quadrilateral>, IValidatableObject
+    public partial class Quadrilateral : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
-        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
+        [JsonConstructor]
+        internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
         }
@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
-        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
+        [JsonConstructor]
+        internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
         }
@@ -52,18 +53,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SimpleQuadrilateral
         /// </summary>
-        public SimpleQuadrilateral SimpleQuadrilateral { get; set; }
+        public SimpleQuadrilateral? SimpleQuadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets ComplexQuadrilateral
         /// </summary>
-        public ComplexQuadrilateral ComplexQuadrilateral { get; set; }
+        public ComplexQuadrilateral? ComplexQuadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -77,44 +78,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Quadrilateral).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Quadrilateral instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Quadrilateral to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Quadrilateral? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -142,46 +105,46 @@ namespace Org.OpenAPITools.Model
     public class QuadrilateralJsonConverter : JsonConverter<Quadrilateral>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Quadrilateral).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Quadrilateral Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Quadrilateral Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            Utf8JsonReader simpleQuadrilateralReader = reader;
-            bool simpleQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<SimpleQuadrilateral>(ref simpleQuadrilateralReader, options, out SimpleQuadrilateral? simpleQuadrilateral);
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader complexQuadrilateralReader = reader;
-            bool complexQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<ComplexQuadrilateral>(ref complexQuadrilateralReader, options, out ComplexQuadrilateral? complexQuadrilateral);
+            Utf8JsonReader simpleQuadrilateralReader = utf8JsonReader;
+            bool simpleQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<SimpleQuadrilateral>(ref simpleQuadrilateralReader, jsonSerializerOptions, out SimpleQuadrilateral? simpleQuadrilateral);
+
+            Utf8JsonReader complexQuadrilateralReader = utf8JsonReader;
+            bool complexQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<ComplexQuadrilateral>(ref complexQuadrilateralReader, jsonSerializerOptions, out ComplexQuadrilateral? complexQuadrilateral);
 
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
+                        default:
+                            break;
                     }
                 }
             }
@@ -200,8 +163,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="quadrilateral"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+
+            writer.WriteEndObject();
+        }
     }
 }

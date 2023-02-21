@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class UserApiTests : ApiTestsBase
     {
-        private readonly IUserApi _instance;
+        private readonly IApi.IUserApi _instance;
 
         public UserApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IUserApi>();
+            _instance = _host.Services.GetRequiredService<IApi.IUserApi>();
         }
 
 
@@ -129,9 +129,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdateUserAsyncTest()
         {
-            string username = default;
             User user = default;
-            await _instance.UpdateUserAsync(username, user);
+            string username = default;
+            await _instance.UpdateUserAsync(user, username);
         }
     }
 }

@@ -17,15 +17,15 @@ import io.micronaut.http.HttpResponse;
 {{#imports}}
 import {{import}};
 {{/imports}}
-import javax.annotation.Generated;
+import {{javaxPackage}}.annotation.Generated;
 {{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}{{#useBeanValidation}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 {{#generateSwagger1Annotations}}
 import io.swagger.annotations.*;
@@ -41,6 +41,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 {{/generateSwagger2Annotations}}
 
+{{#additionalClientTypeAnnotations}}
+	{{{.}}}
+{{/additionalClientTypeAnnotations}}
 {{>common/generatedAnnotation}}
 @Client("${{openbrace}}{{{applicationName}}}-base-path{{closebrace}}")
 public interface {{classname}} {

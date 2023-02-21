@@ -49,7 +49,7 @@ fun Route.PetApi() {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         val exampleContentType = "application/json"
-            val exampleContentString = """{
+            val exampleContentString = """[ {
               "photoUrls" : [ "photoUrls", "photoUrls" ],
               "name" : "doggie",
               "id" : 0,
@@ -65,7 +65,23 @@ fun Route.PetApi() {
                 "id" : 1
               } ],
               "status" : "available"
-            }"""
+            }, {
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "name" : "doggie",
+              "id" : 0,
+              "category" : {
+                "name" : "name",
+                "id" : 6
+              },
+              "tags" : [ {
+                "name" : "name",
+                "id" : 1
+              }, {
+                "name" : "name",
+                "id" : 1
+              } ],
+              "status" : "available"
+            } ]"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
@@ -80,7 +96,7 @@ fun Route.PetApi() {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         val exampleContentType = "application/json"
-            val exampleContentString = """{
+            val exampleContentString = """[ {
               "photoUrls" : [ "photoUrls", "photoUrls" ],
               "name" : "doggie",
               "id" : 0,
@@ -96,7 +112,23 @@ fun Route.PetApi() {
                 "id" : 1
               } ],
               "status" : "available"
-            }"""
+            }, {
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "name" : "doggie",
+              "id" : 0,
+              "category" : {
+                "name" : "name",
+                "id" : 6
+              },
+              "tags" : [ {
+                "name" : "name",
+                "id" : 1
+              }, {
+                "name" : "name",
+                "id" : 1
+              } ],
+              "status" : "available"
+            } ]"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))

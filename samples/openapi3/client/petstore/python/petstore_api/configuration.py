@@ -157,15 +157,22 @@ conf = petstore_api.Configuration(
 
     _default = None
 
-    def __init__(self, host=None,
-                 api_key=None, api_key_prefix=None,
-                 username=None, password=None,
-                 discard_unknown_keys=False,
-                 disabled_client_side_validations="",
-                 signing_info=None,
-                 server_index=None, server_variables=None,
-                 server_operation_index=None, server_operation_variables=None,
-                 ):
+    def __init__(
+        self,
+        host=None,
+        api_key=None,
+        api_key_prefix=None,
+        username=None,
+        password=None,
+        discard_unknown_keys=False,
+        disabled_client_side_validations="",
+        signing_info=None,
+        server_index=None,
+        server_variables=None,
+        server_operation_index=None,
+        server_operation_variables=None,
+        access_token=None,
+    ):
         """Constructor
         """
         self._base_path = "http://petstore.swagger.io:80/v2" if host is None else host

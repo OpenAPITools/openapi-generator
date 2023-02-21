@@ -35,7 +35,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
   */
   
-  @Schema(name = "$special[property.name]", required = false)
+  @Schema(name = "$special[property.name]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

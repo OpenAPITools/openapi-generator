@@ -194,7 +194,7 @@ public class EnumTest {
    * @return enumString
   */
   
-  @Schema(name = "enum_string", required = false)
+  @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -213,7 +213,7 @@ public class EnumTest {
    * @return enumStringRequired
   */
   @NotNull 
-  @Schema(name = "enum_string_required", required = true)
+  @Schema(name = "enum_string_required", requiredMode = Schema.RequiredMode.REQUIRED)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -232,7 +232,7 @@ public class EnumTest {
    * @return enumInteger
   */
   
-  @Schema(name = "enum_integer", required = false)
+  @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -251,7 +251,7 @@ public class EnumTest {
    * @return enumNumber
   */
   
-  @Schema(name = "enum_number", required = false)
+  @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -270,7 +270,7 @@ public class EnumTest {
    * @return outerEnum
   */
   @Valid 
-  @Schema(name = "outerEnum", required = false)
+  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

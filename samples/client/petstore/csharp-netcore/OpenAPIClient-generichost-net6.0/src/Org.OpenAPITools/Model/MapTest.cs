@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,21 +26,40 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// MapTest
     /// </summary>
-    public partial class MapTest : IEquatable<MapTest>, IValidatableObject
+    public partial class MapTest : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
-        /// <param name="mapMapOfString">mapMapOfString</param>
-        /// <param name="mapOfEnumString">mapOfEnumString</param>
         /// <param name="directMap">directMap</param>
         /// <param name="indirectMap">indirectMap</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
+        /// <param name="mapMapOfString">mapMapOfString</param>
+        /// <param name="mapOfEnumString">mapOfEnumString</param>
+        [JsonConstructor]
+        public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
-            MapMapOfString = mapMapOfString;
-            MapOfEnumString = mapOfEnumString;
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (mapMapOfString == null)
+                throw new ArgumentNullException("mapMapOfString is a required property for MapTest and cannot be null.");
+
+            if (mapOfEnumString == null)
+                throw new ArgumentNullException("mapOfEnumString is a required property for MapTest and cannot be null.");
+
+            if (directMap == null)
+                throw new ArgumentNullException("directMap is a required property for MapTest and cannot be null.");
+
+            if (indirectMap == null)
+                throw new ArgumentNullException("indirectMap is a required property for MapTest and cannot be null.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
             DirectMap = directMap;
             IndirectMap = indirectMap;
+            MapMapOfString = mapMapOfString;
+            MapOfEnumString = mapOfEnumString;
         }
 
         /// <summary>
@@ -52,28 +70,47 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum UPPER for value: UPPER
             /// </summary>
-            [EnumMember(Value = "UPPER")]
             UPPER = 1,
 
             /// <summary>
             /// Enum Lower for value: lower
             /// </summary>
-            [EnumMember(Value = "lower")]
             Lower = 2
 
         }
 
         /// <summary>
-        /// Gets or Sets MapMapOfString
+        /// Returns a InnerEnum
         /// </summary>
-        [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static InnerEnum InnerEnumFromString(string value)
+        {
+            if (value == "UPPER")
+                return InnerEnum.UPPER;
+
+            if (value == "lower")
+                return InnerEnum.Lower;
+
+            throw new NotImplementedException($"Could not convert value to type InnerEnum: '{value}'");
+        }
 
         /// <summary>
-        /// Gets or Sets MapOfEnumString
+        /// Returns equivalent json value
         /// </summary>
-        [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string InnerEnumToJsonValue(InnerEnum value)
+        {
+            if (value == InnerEnum.UPPER)
+                return "UPPER";
+
+            if (value == InnerEnum.Lower)
+                return "lower";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
 
         /// <summary>
         /// Gets or Sets DirectMap
@@ -88,10 +125,22 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, bool> IndirectMap { get; set; }
 
         /// <summary>
+        /// Gets or Sets MapMapOfString
+        /// </summary>
+        [JsonPropertyName("map_map_of_string")]
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [JsonPropertyName("map_of_enum_string")]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,68 +150,14 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MapTest {\n");
-            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
-            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
             sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
+            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
+            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if MapTest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of MapTest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(MapTest input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.MapMapOfString != null)
-                {
-                    hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
-                }
-                if (this.MapOfEnumString != null)
-                {
-                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
-                }
-                if (this.DirectMap != null)
-                {
-                    hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
-                }
-                if (this.IndirectMap != null)
-                {
-                    hashCode = (hashCode * 59) + this.IndirectMap.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -174,4 +169,90 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type MapTest
+    /// </summary>
+    public class MapTestJsonConverter : JsonConverter<MapTest>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override MapTest Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            Dictionary<string, bool> directMap = default;
+            Dictionary<string, bool> indirectMap = default;
+            Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
+            Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "direct_map":
+                            directMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
+                        case "indirect_map":
+                            indirectMap = JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
+                        case "map_map_of_string":
+                            mapMapOfString = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
+                        case "map_of_enum_string":
+                            mapOfEnumString = JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="mapTest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("direct_map");
+            JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("indirect_map");
+            JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("map_map_of_string");
+            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
+            writer.WritePropertyName("map_of_enum_string");
+            JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
+
+            writer.WriteEndObject();
+        }
+    }
 }
