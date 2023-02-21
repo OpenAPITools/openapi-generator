@@ -4402,9 +4402,15 @@ public class DefaultCodegenTest {
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertEquals(schema.getAnyOf().size(), 2);
+        assertNull(schema.getNullable());
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
         assertEquals(schema2.getOneOf().size(), 2);
+        assertNull(schema2.getNullable());
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema5.getOneOf().size(), 3);
+        assertNull(schema5.getNullable());
 
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
@@ -4414,10 +4420,15 @@ public class DefaultCodegenTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getNullable());
 
         Schema schema4 = openAPI.getComponents().getSchemas().get("OneOfTest");
         assertNull(schema4.getOneOf());
         assertTrue(schema4 instanceof IntegerSchema);
+
+        Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema6.getOneOf().size(), 2);
+        assertTrue(schema6.getNullable());
     }
 
     @Test

@@ -36,4 +36,10 @@ components:
       oneOf:
         - type: integer
         - $ref: null
+    OneOfNullableTest:
+      description: to test oneOf nullable
+      oneOf:
+        - type: integer
+        - type: string
+        - $ref: null
 
