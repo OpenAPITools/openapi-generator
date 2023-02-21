@@ -623,11 +623,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return path with placeholders replaced by variables
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
-        // disable default URL encoding 
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(uriBuilderFactory);
 
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
