@@ -63,6 +63,11 @@ public class OpenAPINormalizer {
     final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
     boolean simplifyAnyOfStringAndEnumString;
 
+    // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
+    // and if sub-schema contains "null", remove it and set nullable to true instead
+    final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
+    boolean simplifyOneOfAnyOf;
+
     // ============= end of rules =============
 
     /**
@@ -106,6 +111,11 @@ public class OpenAPINormalizer {
         if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING))) {
             simplifyAnyOfStringAndEnumString = true;
         }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ONEOF_ANYOF))) {
+            simplifyOneOfAnyOf = true;
+        }
+
     }
 
     /**
@@ -376,27 +386,36 @@ public class OpenAPINormalizer {
 
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getOneOf()) {
+            if (item == null) {
+                continue;
+            }
             if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
+                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
             }
             // normalize oenOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
-
         // process rules here
+        schema = processSimplifyOneOf(schema);
+
         return schema;
     }
 
     private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getAnyOf()) {
+            if (item == null) {
+                continue;
+            }
+
             if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
+                throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
             // normalize anyOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
 
         // process rules here
+        schema = processSimplifyAnyOf(schema);
 
         // last rule to process as the schema may become String schema (not "anyOf") after the completion
         return processSimplifyAnyOfStringAndEnumString(schema);
@@ -493,7 +512,7 @@ public class OpenAPINormalizer {
 
     /**
      * If the schema is anyOf and the sub-schemas are either string or enum of string,
-     * then simply it to just string as many generators do not yet support anyOf.
+     * then simplify it to just string as many generators do not yet support anyOf.
      *
      * @param schema Schema
      * @return Schema
@@ -528,5 +547,65 @@ public class OpenAPINormalizer {
         }
     }
 
-    // ===================== end of rules =====================
+    /**
+     * If the schema is oneOf and the sub-schemas is null, set `nullable: true` instead.
+     * If there's only one sub-schema, simply return the sub-schema directly.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSimplifyOneOf(Schema schema) {
+        if (!simplifyOneOfAnyOf && !enableAll) {
+            return schema;
+        }
+
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            // convert null sub-schema to `nullable: true`
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (schema.getOneOf().get(i) == null || ((Schema) schema.getOneOf().get(i)).getType() == null) {
+                    schema.getOneOf().remove(i);
+                    schema.setNullable(true);
+                }
+            }
+
+            // if only one element left, simplify to just the element (schema)
+            if (schema.getOneOf().size() == 1) {
+                return (Schema) schema.getOneOf().get(0);
+            }
+        }
+
+        return schema;
+    }
+
+    /**
+     * If the schema is anyOf and the sub-schemas is null, set `nullable: true` instead.
+     * If there's only one sub-schema, simply return the sub-schema directly.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSimplifyAnyOf(Schema schema) {
+        if (!simplifyOneOfAnyOf && !enableAll) {
+            return schema;
+        }
+
+        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            // convert null sub-schema to `nullable: true`
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
+                    schema.getAnyOf().remove(i);
+                    schema.setNullable(true);
+                }
+            }
+
+            // if only one element left, simplify to just the element (schema)
+            if (schema.getAnyOf().size() == 1) {
+                return (Schema) schema.getAnyOf().get(0);
+            }
+        }
+
+        return schema;
+    }
+
+// ===================== end of rules =====================
 }
