@@ -39,7 +39,7 @@ public class OpenAPINormalizer {
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     // ============= a list of rules =============
-    // when set to true, all rules are enabled
+    // when set to true, all rules (true or false) are enabled
     final String ALL = "ALL";
     boolean enableAll;
 
@@ -71,6 +71,10 @@ public class OpenAPINormalizer {
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
     boolean simplifyBooleanEnum;
+
+    // when set to true, boolean enum will be converted to just boolean
+    final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
+    String setTagsForAllOperations;
 
     // ============= end of rules =============
 
@@ -123,6 +127,11 @@ public class OpenAPINormalizer {
         if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_BOOLEAN_ENUM))) {
             simplifyBooleanEnum = true;
         }
+
+        if (StringUtils.isNotEmpty(rules.get(SET_TAGS_FOR_ALL_OPERATIONS))) {
+            setTagsForAllOperations = rules.get(SET_TAGS_FOR_ALL_OPERATIONS);
+        }
+
     }
 
     /**
@@ -186,6 +195,8 @@ public class OpenAPINormalizer {
      */
     private void normalizeOperation(Operation operation) {
         processKeepOnlyFirstTagInOperation(operation);
+
+        processSetTagsForAllOperations(operation);
     }
 
     /**
@@ -499,6 +510,20 @@ public class OpenAPINormalizer {
             operation.setTags(null);
             operation.addTagsItem(firstTag);
         }
+    }
+
+    /**
+     * Set the tag name for all operations
+     *
+     * @param operation Operation
+     */
+    private void processSetTagsForAllOperations(Operation operation) {
+        if (StringUtils.isEmpty(setTagsForAllOperations)) {
+            return;
+        }
+
+        operation.setTags(null);
+        operation.addTagsItem(setTagsForAllOperations);
     }
 
     /**
