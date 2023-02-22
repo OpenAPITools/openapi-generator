@@ -161,6 +161,11 @@ class ModelTests(unittest.TestCase):
         p = petstore_api.Pig.from_json(json_str)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
+        # test from_dict
+        json_dict = {"className": "BasquePig", "color": "red"}
+        p = petstore_api.Pig.from_dict(json_dict)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
         # test init
         basque_pig = p.actual_instance
         pig2 = petstore_api.Pig(actual_instance=basque_pig)
@@ -181,7 +186,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except AttributeError as e:
             self.assertEqual(str(e), "'int' object has no attribute 'get'")
-        # comment out below as the error message is different using oneOf discriminator looku option
+        # comment out below as the error message is different using oneOf discriminator lookup option
         #except ValueError as e:
         #    error_message = (
         #        "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
@@ -212,6 +217,11 @@ class ModelTests(unittest.TestCase):
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.AnyOfPig.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
+        # test from_dict
+        json_dict = {"className": "BasquePig", "color": "red"}
+        p = petstore_api.AnyOfPig.from_dict(json_dict)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
         # test init
