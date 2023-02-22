@@ -27,5 +27,6 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "24"
+          rebar3-version: "3.14.3"
       - run: rebar3 compile
         working-directory: ${{ matrix.sample }}
