@@ -62,7 +62,7 @@ public class FooRef extends EntityRef implements FooRefOrValue, FooRefOrValueEnu
    * @return objectType
   */
   @NotNull @Valid 
-  @Schema(name = "objectType", required = true)
+  @Schema(name = "objectType", requiredMode = Schema.RequiredMode.REQUIRED)
   public RefOrValueEnum getObjectType() {
     return objectType;
   }

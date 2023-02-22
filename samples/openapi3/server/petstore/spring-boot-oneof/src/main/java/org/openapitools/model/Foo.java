@@ -84,7 +84,7 @@ public class Foo extends Entity implements FooRefOrValue, FooRefOrValueEnumMappi
    * @return objectType
   */
   @NotNull @Valid 
-  @Schema(name = "objectType", required = true)
+  @Schema(name = "objectType", requiredMode = Schema.RequiredMode.REQUIRED)
   public RefOrValueEnum getObjectType() {
     return objectType;
   }

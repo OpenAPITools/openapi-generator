@@ -9,7 +9,7 @@ import org.springframework.core.convert.converter.Converter;
 @Configuration
 public class EnumConverterConfiguration {
 
-    @Bean
+    @Bean(name = "org.openapitools.configuration.EnumConverterConfiguration.refOrValueEnumConverter")
     Converter<String, RefOrValueEnum> refOrValueEnumConverter() {
         return new Converter<String, RefOrValueEnum>() {
             @Override

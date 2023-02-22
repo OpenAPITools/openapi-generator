@@ -33,8 +33,6 @@ abstract class FooRefOrValueEnumMapping implements Built<FooRefOrValueEnumMappin
   static const String discriminatorFieldName = r'objectType';
 
   static const Map<String, Type> discriminatorMapping = {
-    r'Foo': Foo,
-    r'FooRef': FooRef,
     r'REF': FooRef,
     r'VALUE': Foo,
   };
@@ -48,6 +46,29 @@ abstract class FooRefOrValueEnumMapping implements Built<FooRefOrValueEnumMappin
 
   @BuiltValueSerializer(custom: true)
   static Serializer<FooRefOrValueEnumMapping> get serializer => _$FooRefOrValueEnumMappingSerializer();
+}
+
+extension FooRefOrValueEnumMappingDiscriminatorExt on FooRefOrValueEnumMapping {
+    String? get discriminatorValue {
+        if (this is FooRef) {
+            return r'REF';
+        }
+        if (this is Foo) {
+            return r'VALUE';
+        }
+        return null;
+    }
+}
+extension FooRefOrValueEnumMappingBuilderDiscriminatorExt on FooRefOrValueEnumMappingBuilder {
+    String? get discriminatorValue {
+        if (this is FooRefBuilder) {
+            return r'REF';
+        }
+        if (this is FooBuilder) {
+            return r'VALUE';
+        }
+        return null;
+    }
 }
 
 class _$FooRefOrValueEnumMappingSerializer implements PrimitiveSerializer<FooRefOrValueEnumMapping> {
@@ -129,32 +150,18 @@ class _$FooRefOrValueEnumMappingSerializer implements PrimitiveSerializer<FooRef
       result: result
     );
     oneOfDataSrc = unhandled;
-    final oneOfTypes = [Foo, FooRef, FooRef, Foo, ];
+    final oneOfTypes = [FooRef, Foo, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
-      case 'Foo':
-        oneOfResult = serializers.deserialize(
-          oneOfDataSrc,
-          specifiedType: FullType(Foo),
-        ) as Foo;
-        oneOfType = Foo;
-        break;
-      case 'FooRef':
+      case r'REF':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(FooRef),
         ) as FooRef;
         oneOfType = FooRef;
         break;
-      case 'REF':
-        oneOfResult = serializers.deserialize(
-          oneOfDataSrc,
-          specifiedType: FullType(FooRef),
-        ) as FooRef;
-        oneOfType = FooRef;
-        break;
-      case 'VALUE':
+      case r'VALUE':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(Foo),
