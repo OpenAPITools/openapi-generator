@@ -44,6 +44,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import {{javaxPackage}}.annotation.Generated;
+{{#useBeanValidation}}
+{{#customValidationAnnotationsPackages}}
+import {{{.}}};
+{{/customValidationAnnotationsPackages}}
+{{/useBeanValidation}}
 
 {{>generatedAnnotation}}
 @Controller

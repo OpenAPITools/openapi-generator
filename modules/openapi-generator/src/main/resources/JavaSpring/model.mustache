@@ -42,6 +42,11 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.*;
 import {{javaxPackage}}.annotation.Generated;
+{{#useBeanValidation}}
+{{#customValidationAnnotationsPackages}}
+import {{{.}}};
+{{/customValidationAnnotationsPackages}}
+{{/useBeanValidation}}
 
 {{#models}}
 {{#model}}

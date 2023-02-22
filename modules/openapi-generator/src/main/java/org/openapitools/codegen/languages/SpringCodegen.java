@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -93,6 +94,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
+    public static final String CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES = "customValidationAnnotationsPackages";
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -144,6 +146,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected List<String> customValidationAnnotationsPackages = new LinkedList<>();
     protected boolean performBeanValidation = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
@@ -218,6 +221,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
+        cliOptions.add(CliOption.newString(CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES,
+                "Additional imports for custom Bean Validation Annotations. Array of strings, separated by semicolon(;)"));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -436,6 +441,13 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
         }
         writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
+
+        if (additionalProperties.containsKey(CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES)) {
+            String additionalAnnotationsList = additionalProperties.get(CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES).toString();
+
+            this.setCustomValidationAnnotationsPackages(Arrays.asList(additionalAnnotationsList.split(";")));
+        }
+        additionalProperties.put(CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES, customValidationAnnotationsPackages);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
@@ -988,6 +1000,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.unhandledException = unhandledException;
     }
 
+    public List<String> getCustomValidationAnnotationsPackages() {
+        return customValidationAnnotationsPackages;
+    }
+
+    public void setCustomValidationAnnotationsPackages(List<String> customValidationAnnotationsPackages) {
+        this.customValidationAnnotationsPackages = customValidationAnnotationsPackages;
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1178,6 +1198,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        extensions.add(VendorExtension.X_JAVA_CONSTRAINT);
         return extensions;
     }
 

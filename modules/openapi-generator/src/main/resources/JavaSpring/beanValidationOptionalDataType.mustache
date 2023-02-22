@@ -1,0 +1,1 @@
+{{#useOptional}}{{#required}}{{{dataType}}}{{/required}}{{^required}}Optional<{{#useBeanValidation}}{{>beanValidationCore}}{{/useBeanValidation}}{{{dataType}}}>{{/required}}{{/useOptional}}{{^useOptional}}{{{dataType}}}{{/useOptional}}

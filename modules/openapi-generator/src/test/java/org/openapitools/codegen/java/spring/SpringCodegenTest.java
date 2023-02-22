@@ -32,6 +32,7 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -50,6 +51,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Condition;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
@@ -1958,6 +1961,126 @@ public class SpringCodegenTest {
             .containsWithName("marker.Class1")
             .containsWithName("marker.Class2")
             .containsWithName("marker.Common");
+    }
+
+    @Test
+    public void useSpringConstraintExtensionGeneratesAnnotations_issue13933() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13938.yml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        String customPackage = "org.custom.validations";
+        codegen.additionalProperties().put(SpringCodegen.CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES, customPackage + ".*");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("SmthApi.java"))
+                .printFileContent();
+        javaFileAssert.hasImports(customPackage);
+        javaFileAssert.assertMethod("smthAddGet")
+                .hasParameter("quantity")
+                .assertParameterAnnotations()
+                .containsWithName("Positive");
+        javaFileAssert.assertMethod("smthRemoveGet")
+                .hasParameter("quantity")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("NotZero", ImmutableMap.of("message", "\"custom\""));
+    }
+
+    @Test
+    public void useSpringConstraintExtensionGeneratesAnnotationsMultipleImport_issue13933() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13938.yml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        String customPackage = "org.custom.validations";
+        String otherPackage = "qwerty.somepackage.validation";
+        String importClass = "qwerty.noop.validation.Noop";
+        codegen.additionalProperties().put(SpringCodegen.CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES,
+                customPackage + ".*;" + otherPackage + ".*;" + importClass);
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SmthApi.java"))
+                .printFileContent()
+                .hasImports(customPackage, otherPackage, importClass);
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+                .printFileContent()
+                .hasImports(customPackage, otherPackage, importClass);
+    }
+
+    @Test
+    public void useSpringConstraintExtensionGeneratesAnnotationsDelegate_issue13933() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13938.yml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_OPTIONAL, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        String customPackage = "org.custom.validations";
+        codegen.additionalProperties().put(SpringCodegen.CUSTOM_VALIDATION_ANNOTATIONS_PACKAGES,
+                customPackage + ".*");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SmthApi.java"))
+                .printFileContent()
+                .hasImports(customPackage);
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("SmthApiDelegate.java"))
+                .printFileContent();
+        javaFileAssert.is(new Condition<>(a ->
+                a.getImports().stream()
+                        .map(NodeWithName::getNameAsString)
+                        .noneMatch(customPackage::equals), "hasNotImport"));
+        javaFileAssert.assertMethod("smthRemoveGet")
+                .hasParameter("quantity")
+                .assertParameterAnnotations()
+                .noneMatch(a -> "NotZero".equals(a.getNameAsString()));
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+                .printFileContent()
+                .hasImports(customPackage);
     }
 
     @Test
