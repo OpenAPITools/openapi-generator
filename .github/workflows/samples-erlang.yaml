@@ -24,9 +24,8 @@ jobs:
           - samples/client/petstore/erlang-proper/
     steps:
       - uses: actions/checkout@v3
-      - uses: gleam-lang/setup-erlang@v1.1.3
+      - uses: erlef/setup-beam@v1
         with:
-          otp-version: "23.2"
-      - run: rebar3 eunit
+          otp-version: "24"
+      - run: rebar3 compile
         working-directory: ${{ matrix.sample }}
-        name: rebar3
