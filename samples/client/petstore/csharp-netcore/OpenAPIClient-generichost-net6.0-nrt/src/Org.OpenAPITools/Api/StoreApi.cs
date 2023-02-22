@@ -21,10 +21,11 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.Api
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IStoreApi : IApi
     {
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Delete purchase order by ID
@@ -63,7 +64,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;</returns>
-        Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -96,7 +96,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;?&gt;</returns>
         Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -119,7 +118,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Find purchase order by ID
@@ -132,7 +131,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-        
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -155,7 +153,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+        Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Place an order for a pet
@@ -167,21 +165,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+    }
+}
 
-            }
-
+namespace Org.OpenAPITools.Api
+{
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class StoreApi : IStoreApi
+    public partial class StoreApi : IApi.IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
-        /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
-        /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs>? ApiResponded;
 
         /// <summary>
         /// The logger
@@ -240,13 +234,22 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
+        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
+        }
+
+        /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
@@ -280,6 +283,46 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        protected virtual string OnDeleteOrder(string orderId)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (orderId == null)
+                throw new ArgumentNullException(nameof(orderId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return orderId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="orderId"></param>
+        protected virtual void AfterDeleteOrder(ApiResponse<object?> apiResponse, string orderId)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="orderId"></param>
+        protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -288,50 +331,40 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object?>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (orderId == null)
-                    throw new ArgumentNullException(nameof(orderId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                orderId = OnDeleteOrder(orderId);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
                         
                     request.Method = HttpMethod.Delete;
 
+                    DateTime requestedAt = DateTime.UtcNow;
+
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterDeleteOrder(apiResponse, orderId);
+                        }
 
                         return apiResponse;
                     }
@@ -339,7 +372,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -350,7 +383,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Dictionary&lt;string, int&gt;"/>&gt;</returns>
-        public async Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Dictionary<string, int>?> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
@@ -383,6 +416,34 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        protected virtual void OnGetInventory()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        protected virtual void AfterGetInventory(ApiResponse<Dictionary<string, int>?> apiResponse)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorGetInventory(Exception exception, string pathFormat, string path)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -390,14 +451,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
         public async Task<ApiResponse<Dictionary<string, int>?>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
+                OnGetInventory();
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
 
                     List<TokenBase> tokens = new List<TokenBase>();
@@ -418,31 +482,24 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
+
+                    DateTime requestedAt = DateTime.UtcNow;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Dictionary<string, int>?> apiResponse = new ApiResponse<Dictionary<string, int>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetInventory(apiResponse);
+                        }
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -453,7 +510,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
                 throw;
             }
         }
@@ -465,7 +522,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
@@ -499,6 +556,46 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        protected virtual long OnGetOrderById(long orderId)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (orderId == null)
+                throw new ArgumentNullException(nameof(orderId));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return orderId;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="orderId"></param>
+        protected virtual void AfterGetOrderById(ApiResponse<Order?> apiResponse, long orderId)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="orderId"></param>
+        protected virtual void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -507,22 +604,19 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order?>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (orderId == null)
-                    throw new ArgumentNullException(nameof(orderId));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                orderId = OnGetOrderById(orderId);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
@@ -536,31 +630,24 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Get;
+
+                    DateTime requestedAt = DateTime.UtcNow;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Order?> apiResponse = new ApiResponse<Order?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterGetOrderById(apiResponse, orderId);
+                        }
 
                         return apiResponse;
                     }
@@ -568,7 +655,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
                 throw;
             }
         }
@@ -580,7 +667,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
 
@@ -614,6 +701,46 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        protected virtual Order OnPlaceOrder(Order order)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (order == null)
+                throw new ArgumentNullException(nameof(order));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return order;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponse"></param>
+        /// <param name="order"></param>
+        protected virtual void AfterPlaceOrder(ApiResponse<Order?> apiResponse, Order order)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="order"></param>
+        protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -622,26 +749,24 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order?>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilder = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                if (order == null)
-                    throw new ArgumentNullException(nameof(order));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                order = OnPlaceOrder(order);
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
 
                     request.Content = (order as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -652,7 +777,7 @@ namespace Org.OpenAPITools.Api
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/xml", 
@@ -663,31 +788,24 @@ namespace Org.OpenAPITools.Api
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
+
                     request.Method = HttpMethod.Post;
+
+                    DateTime requestedAt = DateTime.UtcNow;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order", uriBuilder.Path));
 
                         string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
-
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occurred while invoking ApiResponded.");
-                            }
-                        }
 
                         ApiResponse<Order?> apiResponse = new ApiResponse<Order?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
+                        {
                             apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
+                            AfterPlaceOrder(apiResponse, order);
+                        }
 
                         return apiResponse;
                     }
@@ -695,8 +813,9 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occurred while sending the request to the server.");
+                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
                 throw;
             }
-        }    }
+        }
+    }
 }

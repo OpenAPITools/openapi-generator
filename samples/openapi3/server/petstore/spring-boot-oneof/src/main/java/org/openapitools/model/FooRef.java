@@ -43,7 +43,7 @@ public class FooRef extends EntityRef implements FooRefOrValue, FooRefOrValueEnu
    * @return foorefPropA
   */
   
-  @Schema(name = "foorefPropA", required = false)
+  @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getFoorefPropA() {
     return foorefPropA;
   }

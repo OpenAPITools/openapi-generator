@@ -24,9 +24,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = addPetWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = addPetWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -36,7 +37,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -45,12 +46,12 @@ open class PetAPI {
     /**
      Add a new pet to the store
      - POST /pet
-     - API Key:
-       - type: apiKey api_key_query (QUERY)
-       - name: api_key_query
      - OAuth:
        - type: oauth2
        - name: petstore_auth
+     - API Key:
+       - type: apiKey api_key_query (QUERY)
+       - name: api_key_query
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
@@ -82,9 +83,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -94,7 +96,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -149,9 +151,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> AnyPublisher<[Pet], Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status)
+        let requestTask = requestBuilder.requestTask
         return Future<[Pet], Error> { promise in
-            requestTask = findPetsByStatusWithRequestBuilder(status: status).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -161,7 +164,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -208,9 +211,10 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String]) -> AnyPublisher<[Pet], Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags)
+        let requestTask = requestBuilder.requestTask
         return Future<[Pet], Error> { promise in
-            requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -220,7 +224,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -267,9 +271,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64) -> AnyPublisher<Pet, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId)
+        let requestTask = requestBuilder.requestTask
         return Future<Pet, Error> { promise in
-            requestTask = getPetByIdWithRequestBuilder(petId: petId).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -279,7 +284,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -325,9 +330,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = updatePetWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = updatePetWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -337,7 +343,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -381,9 +387,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -393,7 +400,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -448,9 +455,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> AnyPublisher<ApiResponse, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file)
+        let requestTask = requestBuilder.requestTask
         return Future<ApiResponse, Error> { promise in
-            requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -460,7 +468,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -515,9 +523,10 @@ open class PetAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> AnyPublisher<ApiResponse, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
+        let requestTask = requestBuilder.requestTask
         return Future<ApiResponse, Error> { promise in
-            requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -527,7 +536,7 @@ open class PetAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }

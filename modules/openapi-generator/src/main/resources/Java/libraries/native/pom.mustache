@@ -134,6 +134,46 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Use spotless plugin to automatically format code, remove unused import, etc
+                 To apply changes directly to the file, run `mvn spotless:apply`
+                 Ref: https://github.com/diffplug/spotless/tree/main/plugin-maven
+            -->
+            <plugin>
+              <groupId>com.diffplug.spotless</groupId>
+              <artifactId>spotless-maven-plugin</artifactId>
+              <version>${spotless.version}</version>
+              <configuration>
+                <formats>
+                  <!-- you can define as many formats as you want, each is independent -->
+                  <format>
+                    <!-- define the files to apply to -->
+                    <includes>
+                      <include>.gitignore</include>
+                    </includes>
+                    <!-- define the steps to apply to those files -->
+                    <trimTrailingWhitespace/>
+                    <endWithNewline/>
+                    <indent>
+                      <spaces>true</spaces> <!-- or <tabs>true</tabs> -->
+                      <spacesPerTab>4</spacesPerTab> <!-- optional, default is 4 -->
+                    </indent>
+                  </format>
+                </formats>
+                <!-- define a language-specific format -->
+                <java>
+                  <!-- no need to specify files, inferred automatically, but you can if you want -->
+
+                  <!-- apply a specific flavor of google-java-format and reflow long strings -->
+                  <googleJavaFormat>
+                    <version>1.8</version>
+                    <style>AOSP</style>
+                    <reflowLongStrings>true</reflowLongStrings>
+                  </googleJavaFormat>
+                  <removeUnusedImports/>
+                  <importOrder/>
+                </java>
+              </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -208,6 +248,13 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{#hasFormParamsInSpec}}
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpmime-version}</version>
+        </dependency>
+        {{/hasFormParamsInSpec}}
 
         <!-- test dependencies -->
         <dependency>
@@ -227,7 +274,16 @@
         <maven.compiler.target>11</maven.compiler.target>
         <jackson-version>2.14.1</jackson-version>
         <jackson-databind-nullable-version>0.2.4</jackson-databind-nullable-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{#hasFormParamsInSpec}}
+        <httpmime-version>4.5.13</httpmime-version>
+        {{/hasFormParamsInSpec}}
         <junit-version>4.13.2</junit-version>
+        <spotless.version>2.27.2</spotless.version>
     </properties>
 </project>

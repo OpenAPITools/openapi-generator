@@ -48,7 +48,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars = null;
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }
@@ -142,9 +142,6 @@ public class ObjectWithDeprecatedFields {
   }
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
-    if (this.bars == null) {
-      this.bars = new ArrayList<>();
-    }
     this.bars.add(barsItem);
     return this;
   }

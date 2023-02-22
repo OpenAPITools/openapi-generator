@@ -108,6 +108,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
             path = "/",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

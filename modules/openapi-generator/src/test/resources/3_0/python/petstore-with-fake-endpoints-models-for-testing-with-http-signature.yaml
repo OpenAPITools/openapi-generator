@@ -1594,6 +1594,14 @@ paths:
       responses:
         '200':
           description: OK
+        '202':
+          description: header only
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: string
+                format: number
         default:
           description: Unexpected error
   /fake/queryParamWithJsonContentType:

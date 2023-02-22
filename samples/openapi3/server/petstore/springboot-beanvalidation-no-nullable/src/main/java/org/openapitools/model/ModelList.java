@@ -35,7 +35,7 @@ public class ModelList {
    * @return _123list
   */
   
-  @Schema(name = "123-list", required = false)
+  @Schema(name = "123-list", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String get123list() {
     return _123list;
   }

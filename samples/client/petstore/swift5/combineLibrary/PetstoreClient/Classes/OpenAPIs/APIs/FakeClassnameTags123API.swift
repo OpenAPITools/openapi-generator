@@ -24,9 +24,10 @@ open class FakeClassnameTags123API {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client) -> AnyPublisher<Client, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = testClassnameWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Client, Error> { promise in
-            requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -36,7 +37,7 @@ open class FakeClassnameTags123API {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }

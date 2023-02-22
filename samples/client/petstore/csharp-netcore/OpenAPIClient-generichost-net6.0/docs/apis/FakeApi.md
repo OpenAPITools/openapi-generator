@@ -373,7 +373,7 @@ No authorization required
 
 <a name="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
 
 
 
@@ -396,11 +396,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
+            var requiredStringUuid = "requiredStringUuid_example";  // Guid | Required UUID String
             var body = "body_example";  // string | Input string as post body (optional) 
 
             try
             {
-                string result = apiInstance.FakeOuterStringSerialize(body);
+                string result = apiInstance.FakeOuterStringSerialize(requiredStringUuid, body);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -420,7 +421,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(body);
+    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -437,6 +438,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **requiredStringUuid** | **Guid** | Required UUID String |  |
 | **body** | **string** | Input string as post body | [optional]  |
 
 ### Return type
@@ -631,7 +633,7 @@ No authorization required
 
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (string query, User user)
+> void TestBodyWithQueryParams (User user, string query)
 
 
 
@@ -652,12 +654,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var query = "query_example";  // string | 
             var user = new User(); // User | 
+            var query = "query_example";  // string | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(query, user);
+                apiInstance.TestBodyWithQueryParams(user, query);
             }
             catch (ApiException  e)
             {
@@ -676,7 +678,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.TestBodyWithQueryParamsWithHttpInfo(query, user);
+    apiInstance.TestBodyWithQueryParamsWithHttpInfo(user, query);
 }
 catch (ApiException e)
 {
@@ -690,8 +692,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **query** | **string** |  |  |
 | **user** | [**User**](User.md) |  |  |
+| **query** | **string** |  |  |
 
 ### Return type
 
@@ -807,7 +809,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null)
+> void TestEndpointParameters (byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -834,17 +836,17 @@ namespace Example
             config.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(config);
+            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var number = 8.14D;  // decimal | None
             var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
+            var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
+            var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
+            var _float = 3.4F;  // float? | None (optional) 
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
-            var _float = 3.4F;  // float? | None (optional) 
             var _string = "_string_example";  // string | None (optional) 
-            var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
-            var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
             var password = "password_example";  // string | None (optional) 
             var callback = "callback_example";  // string | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
@@ -852,7 +854,7 @@ namespace Example
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
+                apiInstance.TestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
             }
             catch (ApiException  e)
             {
@@ -872,7 +874,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
+    apiInstance.TestEndpointParametersWithHttpInfo(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
 }
 catch (ApiException e)
 {
@@ -886,17 +888,17 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **_byte** | **byte[]** | None |  |
 | **number** | **decimal** | None |  |
 | **_double** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **_byte** | **byte[]** | None |  |
+| **date** | **DateTime?** | None | [optional]  |
+| **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
+| **_float** | **float?** | None | [optional]  |
 | **integer** | **int?** | None | [optional]  |
 | **int32** | **int?** | None | [optional]  |
 | **int64** | **long?** | None | [optional]  |
-| **_float** | **float?** | None | [optional]  |
 | **_string** | **string** | None | [optional]  |
-| **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
-| **date** | **DateTime?** | None | [optional]  |
 | **password** | **string** | None | [optional]  |
 | **callback** | **string** | None | [optional]  |
 | **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
@@ -925,7 +927,7 @@ void (empty response body)
 
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -950,17 +952,17 @@ namespace Example
             var apiInstance = new FakeApi(config);
             var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
-            var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+                apiInstance.TestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
             }
             catch (ApiException  e)
             {
@@ -980,7 +982,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test enum parameters
-    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 }
 catch (ApiException e)
 {
@@ -996,11 +998,11 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md) | Header parameter enum test (string array) | [optional]  |
 | **enumQueryStringArray** | [**List&lt;string&gt;**](string.md) | Query parameter enum test (string array) | [optional]  |
-| **enumQueryInteger** | **int?** | Query parameter enum test (double) | [optional]  |
 | **enumQueryDouble** | **double?** | Query parameter enum test (double) | [optional]  |
+| **enumQueryInteger** | **int?** | Query parameter enum test (double) | [optional]  |
+| **enumFormStringArray** | [**List&lt;string&gt;**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumHeaderString** | **string** | Header parameter enum test (string) | [optional] [default to -efg] |
 | **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg] |
-| **enumFormStringArray** | [**List&lt;string&gt;**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumFormString** | **string** | Form parameter enum test (string) | [optional] [default to -efg] |
 
 ### Return type
@@ -1027,7 +1029,7 @@ No authorization required
 
 <a name="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1053,17 +1055,17 @@ namespace Example
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
             var apiInstance = new FakeApi(config);
-            var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
+            var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredInt64Group = 789L;  // long | Required Integer in group parameters
-            var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
+            var stringGroup = 56;  // int? | String in group parameters (optional) 
             var int64Group = 789L;  // long? | Integer in group parameters (optional) 
 
             try
             {
                 // Fake endpoint to test group parameters (optional)
-                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+                apiInstance.TestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
             }
             catch (ApiException  e)
             {
@@ -1083,7 +1085,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint to test group parameters (optional)
-    apiInstance.TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    apiInstance.TestGroupParametersWithHttpInfo(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 }
 catch (ApiException e)
 {
@@ -1097,11 +1099,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
+| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredInt64Group** | **long** | Required Integer in group parameters |  |
-| **stringGroup** | **int?** | String in group parameters | [optional]  |
 | **booleanGroup** | **bool?** | Boolean in group parameters | [optional]  |
+| **stringGroup** | **int?** | String in group parameters | [optional]  |
 | **int64Group** | **long?** | Integer in group parameters | [optional]  |
 
 ### Return type

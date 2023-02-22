@@ -78,7 +78,7 @@ public class NullableClass extends HashMap<String, Object> {
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  private List<Object> arrayItemsNullable = null;
+  private List<Object> arrayItemsNullable;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
@@ -87,7 +87,7 @@ public class NullableClass extends HashMap<String, Object> {
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
-  private Map<String, Object> objectItemsNullable = null;
+  private Map<String, Object> objectItemsNullable;
 
   public NullableClass() {
 
@@ -396,9 +396,6 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
   public NullableClass addArrayItemsNullableItem(Object arrayItemsNullableItem) {
-    if (this.arrayItemsNullable == null) {
-      this.arrayItemsNullable = new ArrayList<>();
-    }
     this.arrayItemsNullable.add(arrayItemsNullableItem);
     return this;
   }
@@ -522,9 +519,6 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
   public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
-    if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<>();
-    }
     this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;
   }

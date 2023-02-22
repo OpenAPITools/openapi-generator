@@ -31,6 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|legacy|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
@@ -73,12 +74,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/gen/java|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
+|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk.| |false|
 |useAnnotatedBasePath|Use @Path annotations for basePath| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useBeanValidationFeature|Use BeanValidation Feature| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeature|Use Gzip Feature| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useLoggingFeature|Use Logging Feature| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |useMultipartFeature|Use Multipart Feature| |false|

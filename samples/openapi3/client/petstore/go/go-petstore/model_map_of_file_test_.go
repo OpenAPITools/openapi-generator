@@ -46,7 +46,7 @@ func NewMapOfFileTestWithDefaults() *MapOfFileTest {
 
 // GetPropTest returns the PropTest field value if set, zero value otherwise.
 func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
-	if o == nil || isNil(o.PropTest) {
+	if o == nil || IsNil(o.PropTest) {
 		var ret map[string]*os.File
 		return ret
 	}
@@ -56,7 +56,7 @@ func (o *MapOfFileTest) GetPropTest() map[string]*os.File {
 // GetPropTestOk returns a tuple with the PropTest field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
-	if o == nil || isNil(o.PropTest) {
+	if o == nil || IsNil(o.PropTest) {
 		return nil, false
 	}
 	return o.PropTest, true
@@ -64,7 +64,7 @@ func (o *MapOfFileTest) GetPropTestOk() (*map[string]*os.File, bool) {
 
 // HasPropTest returns a boolean if a field has been set.
 func (o *MapOfFileTest) HasPropTest() bool {
-	if o != nil && !isNil(o.PropTest) {
+	if o != nil && !IsNil(o.PropTest) {
 		return true
 	}
 
@@ -86,7 +86,7 @@ func (o MapOfFileTest) MarshalJSON() ([]byte, error) {
 
 func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.PropTest) {
+	if !IsNil(o.PropTest) {
 		toSerialize["prop_test"] = o.PropTest
 	}
 

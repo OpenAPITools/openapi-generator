@@ -112,8 +112,6 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**fooGetWithHttpInfo**](docs/DefaultApi.md#fooGetWithHttpInfo) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHealthGetWithHttpInfo**](docs/FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
-*FakeApi* | [**fakeHttpSignatureTestWithHttpInfo**](docs/FakeApi.md#fakeHttpSignatureTestWithHttpInfo) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterBooleanSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterBooleanSerializeWithHttpInfo) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
@@ -122,10 +120,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakeOuterStringSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
-*FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
-*FakeApi* | [**fakePropertyEnumIntegerSerializeWithHttpInfo**](docs/FakeApi.md#fakePropertyEnumIntegerSerializeWithHttpInfo) | **POST** /fake/property/enum-int | 
-*FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
-*FakeApi* | [**testBodyWithBinaryWithHttpInfo**](docs/FakeApi.md#testBodyWithBinaryWithHttpInfo) | **PUT** /fake/body-with-binary | 
+*FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**getArrayOfEnumsWithHttpInfo**](docs/FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithFileSchemaWithHttpInfo**](docs/FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -193,29 +189,45 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
+ - [Apple](docs/Apple.md)
+ - [AppleReq](docs/AppleReq.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [Banana](docs/Banana.md)
+ - [BananaReq](docs/BananaReq.md)
+ - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [ChildCat](docs/ChildCat.md)
+ - [ChildCatAllOf](docs/ChildCatAllOf.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
+ - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
+ - [EquilateralTriangle](docs/EquilateralTriangle.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
+ - [Fruit](docs/Fruit.md)
+ - [FruitReq](docs/FruitReq.md)
+ - [GmFruit](docs/GmFruit.md)
+ - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
+ - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
@@ -225,6 +237,7 @@ Class | Method | HTTP request | Description
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)
+ - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Order](docs/Order.md)
@@ -233,18 +246,39 @@ Class | Method | HTTP request | Description
  - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
- - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [Pig](docs/Pig.md)
+ - [Quadrilateral](docs/Quadrilateral.md)
+ - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
- - [SingleRefType](docs/SingleRefType.md)
+ - [ScaleneTriangle](docs/ScaleneTriangle.md)
+ - [Shape](docs/Shape.md)
+ - [ShapeInterface](docs/ShapeInterface.md)
+ - [ShapeOrNull](docs/ShapeOrNull.md)
+ - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [Triangle](docs/Triangle.md)
+ - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization
 
 Authentication schemes defined for the API:
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
+
 ### api_key
 
 
@@ -259,12 +293,12 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-### bearer_test
+### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
-### http_basic_test
+### bearer_test
 
 
 - **Type**: HTTP basic authentication
@@ -273,16 +307,6 @@ Authentication schemes defined for the API:
 
 
 - **Type**: HTTP basic authentication
-
-### petstore_auth
-
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 
 
 ## Recommendation
