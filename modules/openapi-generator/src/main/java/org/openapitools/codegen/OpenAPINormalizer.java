@@ -72,7 +72,7 @@ public class OpenAPINormalizer {
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
     boolean simplifyBooleanEnum;
 
-    // when set to true, boolean enum will be converted to just boolean
+    // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
 
