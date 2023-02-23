@@ -106,7 +106,7 @@ public class DefaultValue {
   private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
-  private List<String> arrayStringExtensionNullable = new ArrayList<>();
+  private JsonNullable<List<String>> arrayStringExtensionNullable = JsonNullable.<List<String>>undefined();
 
   public static final String JSON_PROPERTY_STRING_NULLABLE = "string_nullable";
   private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
@@ -325,15 +325,19 @@ public class DefaultValue {
 
 
   public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
-    this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+    this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
     return this;
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
-    if (this.arrayStringExtensionNullable == null) {
-      this.arrayStringExtensionNullable = new ArrayList<>();
+    if (this.arrayStringExtensionNullable == null || !this.arrayStringExtensionNullable.isPresent()) {
+      this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
-    this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
+    try {
+      this.arrayStringExtensionNullable.get().add(arrayStringExtensionNullableItem);
+    } catch (java.util.NoSuchElementException e) {
+      // this can never happen, as we make sure above that the value is present
+    }
     return this;
   }
 
@@ -342,18 +346,26 @@ public class DefaultValue {
    * @return arrayStringExtensionNullable
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonIgnore
 
   public List<String> getArrayStringExtensionNullable() {
-    return arrayStringExtensionNullable;
+        return arrayStringExtensionNullable.orElse(null);
   }
-
 
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+
+  public JsonNullable<List<String>> getArrayStringExtensionNullable_JsonNullable() {
+    return arrayStringExtensionNullable;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
+  public void setArrayStringExtensionNullable_JsonNullable(JsonNullable<List<String>> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+  }
+
+  public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
   }
 
 
@@ -408,7 +420,7 @@ public class DefaultValue {
         Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
         equalsNullable(this.arrayStringNullable, defaultValue.arrayStringNullable) &&
-        Objects.equals(this.arrayStringExtensionNullable, defaultValue.arrayStringExtensionNullable) &&
+        equalsNullable(this.arrayStringExtensionNullable, defaultValue.arrayStringExtensionNullable) &&
         equalsNullable(this.stringNullable, defaultValue.stringNullable);
   }
 
@@ -418,7 +430,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), arrayStringExtensionNullable, hashCodeNullable(stringNullable));
+    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(arrayStringExtensionNullable), hashCodeNullable(stringNullable));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

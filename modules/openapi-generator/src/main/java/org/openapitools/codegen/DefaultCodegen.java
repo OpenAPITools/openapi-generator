@@ -3882,7 +3882,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNullable = referencedSchema.getNullable();
         } else if (referencedSchema.getExtensions() != null &&
                 referencedSchema.getExtensions().containsKey("x-nullable")) {
-            //property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
+            property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
         }
 
         property.dataType = getTypeDeclaration(p);
