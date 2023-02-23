@@ -559,6 +559,11 @@ public class OpenAPINormalizer {
             return schema;
         }
 
+        if (schema.getAnyOf() == null) {
+            // ComposedSchema, Schema with `type: null`
+            return schema;
+        }
+
         Schema s0 = null, s1 = null;
         if (schema.getAnyOf().size() == 2) {
             s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
