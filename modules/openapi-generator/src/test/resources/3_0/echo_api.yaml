@@ -451,6 +451,11 @@ components:
           type: array
           items:
             type: string
+        array_string_extension_nullable:
+          x-nullable: true
+          type: array
+          items:
+            type: string
         string_nullable:
           type: string
           nullable: true

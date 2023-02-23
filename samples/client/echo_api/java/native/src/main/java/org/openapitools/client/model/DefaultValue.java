@@ -45,6 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   DefaultValue.JSON_PROPERTY_ARRAY_INTEGER_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_NULLABLE,
+  DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
@@ -103,6 +104,9 @@ public class DefaultValue {
 
   public static final String JSON_PROPERTY_ARRAY_STRING_NULLABLE = "array_string_nullable";
   private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();
+
+  public static final String JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
+  private List<String> arrayStringExtensionNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_STRING_NULLABLE = "string_nullable";
   private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
@@ -320,6 +324,39 @@ public class DefaultValue {
   }
 
 
+  public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+    return this;
+  }
+
+  public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
+    if (this.arrayStringExtensionNullable == null) {
+      this.arrayStringExtensionNullable = new ArrayList<>();
+    }
+    this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
+    return this;
+  }
+
+   /**
+   * Get arrayStringExtensionNullable
+   * @return arrayStringExtensionNullable
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<String> getArrayStringExtensionNullable() {
+    return arrayStringExtensionNullable;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+  }
+
+
   public DefaultValue stringNullable(String stringNullable) {
     this.stringNullable = JsonNullable.<String>of(stringNullable);
     return this;
@@ -371,6 +408,7 @@ public class DefaultValue {
         Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
         equalsNullable(this.arrayStringNullable, defaultValue.arrayStringNullable) &&
+        Objects.equals(this.arrayStringExtensionNullable, defaultValue.arrayStringExtensionNullable) &&
         equalsNullable(this.stringNullable, defaultValue.stringNullable);
   }
 
@@ -380,7 +418,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), hashCodeNullable(stringNullable));
+    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, hashCodeNullable(arrayStringNullable), arrayStringExtensionNullable, hashCodeNullable(stringNullable));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -400,6 +438,7 @@ public class DefaultValue {
     sb.append("    arrayIntegerDefault: ").append(toIndentedString(arrayIntegerDefault)).append("\n");
     sb.append("    arrayString: ").append(toIndentedString(arrayString)).append("\n");
     sb.append("    arrayStringNullable: ").append(toIndentedString(arrayStringNullable)).append("\n");
+    sb.append("    arrayStringExtensionNullable: ").append(toIndentedString(arrayStringExtensionNullable)).append("\n");
     sb.append("    stringNullable: ").append(toIndentedString(stringNullable)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -501,6 +540,15 @@ public class DefaultValue {
         joiner.add(String.format("%sarray_string_nullable%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `array_string_extension_nullable` to the URL query string
+    if (getArrayStringExtensionNullable() != null) {
+      for (int i = 0; i < getArrayStringExtensionNullable().size(); i++) {
+        joiner.add(String.format("%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayStringExtensionNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
