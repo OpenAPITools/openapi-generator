@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,13 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"-i", "--input-spec"}, title = "spec file",
             description = "location of the OpenAPI spec, as URL or file (required if not loaded via config using -c)")
     private String spec;
+
+    @Option(name = "--input-spec-root-directory", title = "Folder with spec(s)",
+            description = "Local root folder with spec file(s)")
+    private String inputSpecRootDirectory;
+
+    @Option(name = "--merged-spec-filename", title = "Name of resulted merged specs file (used along with --input-spec-root-directory option)")
+    private String mergedFileName;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
@@ -283,6 +291,12 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Override
     public void execute() {
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
+                .buildMergedSpec();
+            System.out.println("Merge input spec would be used - " + spec);
+        }
+
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
