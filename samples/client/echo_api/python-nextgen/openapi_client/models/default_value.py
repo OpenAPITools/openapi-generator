@@ -34,8 +34,9 @@ class DefaultValue(BaseModel):
     array_integer_default: Optional[List[StrictInt]] = None
     array_string: Optional[List[StrictStr]] = None
     array_string_nullable: Optional[List[StrictStr]] = None
+    array_string_extension_nullable: Optional[List[StrictStr]] = None
     string_nullable: Optional[StrictStr] = None
-    __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "string_nullable"]
+    __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
     @validator('array_string_enum_default')
     def array_string_enum_default_validate_enum(cls, v):
@@ -73,6 +74,10 @@ class DefaultValue(BaseModel):
         if self.array_string_nullable is None:
             _dict['array_string_nullable'] = None
 
+        # set to None if array_string_extension_nullable (nullable) is None
+        if self.array_string_extension_nullable is None:
+            _dict['array_string_extension_nullable'] = None
+
         # set to None if string_nullable (nullable) is None
         if self.string_nullable is None:
             _dict['string_nullable'] = None
@@ -95,6 +100,7 @@ class DefaultValue(BaseModel):
             "array_integer_default": obj.get("array_integer_default"),
             "array_string": obj.get("array_string"),
             "array_string_nullable": obj.get("array_string_nullable"),
+            "array_string_extension_nullable": obj.get("array_string_extension_nullable"),
             "string_nullable": obj.get("string_nullable")
         })
         return _obj

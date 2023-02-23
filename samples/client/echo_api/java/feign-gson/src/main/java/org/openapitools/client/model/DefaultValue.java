@@ -104,6 +104,10 @@ public class DefaultValue {
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
   private List<String> arrayStringNullable;
 
+  public static final String SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
+  @SerializedName(SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE)
+  private List<String> arrayStringExtensionNullable;
+
   public static final String SERIALIZED_NAME_STRING_NULLABLE = "string_nullable";
   @SerializedName(SERIALIZED_NAME_STRING_NULLABLE)
   private String stringNullable;
@@ -288,6 +292,33 @@ public class DefaultValue {
   }
 
 
+  public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    
+    this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+    return this;
+  }
+
+  public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
+    this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
+    return this;
+  }
+
+   /**
+   * Get arrayStringExtensionNullable
+   * @return arrayStringExtensionNullable
+  **/
+  @javax.annotation.Nullable
+
+  public List<String> getArrayStringExtensionNullable() {
+    return arrayStringExtensionNullable;
+  }
+
+
+  public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    this.arrayStringExtensionNullable = arrayStringExtensionNullable;
+  }
+
+
   public DefaultValue stringNullable(String stringNullable) {
     
     this.stringNullable = stringNullable;
@@ -325,6 +356,7 @@ public class DefaultValue {
         Objects.equals(this.arrayIntegerDefault, defaultValue.arrayIntegerDefault) &&
         Objects.equals(this.arrayString, defaultValue.arrayString) &&
         Objects.equals(this.arrayStringNullable, defaultValue.arrayStringNullable) &&
+        Objects.equals(this.arrayStringExtensionNullable, defaultValue.arrayStringExtensionNullable) &&
         Objects.equals(this.stringNullable, defaultValue.stringNullable);
   }
 
@@ -334,7 +366,7 @@ public class DefaultValue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, arrayStringNullable, stringNullable);
+    return Objects.hash(arrayStringEnumRefDefault, arrayStringEnumDefault, arrayStringDefault, arrayIntegerDefault, arrayString, arrayStringNullable, arrayStringExtensionNullable, stringNullable);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -354,6 +386,7 @@ public class DefaultValue {
     sb.append("    arrayIntegerDefault: ").append(toIndentedString(arrayIntegerDefault)).append("\n");
     sb.append("    arrayString: ").append(toIndentedString(arrayString)).append("\n");
     sb.append("    arrayStringNullable: ").append(toIndentedString(arrayStringNullable)).append("\n");
+    sb.append("    arrayStringExtensionNullable: ").append(toIndentedString(arrayStringExtensionNullable)).append("\n");
     sb.append("    stringNullable: ").append(toIndentedString(stringNullable)).append("\n");
     sb.append("}");
     return sb.toString();
