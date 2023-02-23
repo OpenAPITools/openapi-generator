@@ -175,6 +175,14 @@ class Configuration(object):
         """Options to pass down to the underlying urllib3 socket
         """
 
+        self.datetime_format = "%Y-%m-%d %H:%M:%S.%f"
+        """datetime format
+        """
+
+        self.date_format = "%Y-%m-%d"
+        """date format
+        """
+
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)

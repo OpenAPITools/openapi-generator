@@ -145,17 +145,13 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -305,7 +301,6 @@ class FakeApi(object):
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:
@@ -442,14 +437,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -592,14 +584,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['outer_composite']:
@@ -742,14 +731,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -892,14 +878,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -1042,14 +1025,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['outer_object_with_enum_property']:
@@ -1192,14 +1172,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -1336,14 +1313,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['file_schema_test_class']:
@@ -1488,11 +1462,9 @@ class FakeApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['user']:
@@ -1629,14 +1601,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['client']:
@@ -1783,20 +1752,21 @@ class FakeApi(object):
         # process the query parameters
         _query_params = []
         if _params.get('date_time_query') is not None:  # noqa: E501
-            _query_params.append(('date_time_query', _params['date_time_query']))
+            if isinstance(_params['date_time_query'], datetime):
+                _query_params.append(('date_time_query', _params['date_time_query'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('date_time_query', _params['date_time_query']))
+
         if _params.get('str_query') is not None:  # noqa: E501
             _query_params.append(('str_query', _params['str_query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -1986,45 +1956,55 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['integer']:
             _form_params.append(('integer', _params['integer']))
+
         if _params['int32']:
             _form_params.append(('int32', _params['int32']))
+
         if _params['int64']:
             _form_params.append(('int64', _params['int64']))
+
         if _params['number']:
             _form_params.append(('number', _params['number']))
+
         if _params['float']:
             _form_params.append(('float', _params['float']))
+
         if _params['double']:
             _form_params.append(('double', _params['double']))
+
         if _params['string']:
             _form_params.append(('string', _params['string']))
+
         if _params['pattern_without_delimiter']:
             _form_params.append(('pattern_without_delimiter', _params['pattern_without_delimiter']))
+
         if _params['byte']:
             _form_params.append(('byte', _params['byte']))
+
         if _params['binary']:
             _files['binary'] = _params['binary']
+
         if _params['var_date']:
             _form_params.append(('date', _params['var_date']))
+
         if _params['date_time']:
             _form_params.append(('dateTime', _params['date_time']))
+
         if _params['password']:
             _form_params.append(('password', _params['password']))
+
         if _params['param_callback']:
             _form_params.append(('callback', _params['param_callback']))
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2183,10 +2163,13 @@ class FakeApi(object):
         _query_params = []
         if _params.get('required_string_group') is not None:  # noqa: E501
             _query_params.append(('required_string_group', _params['required_string_group']))
+
         if _params.get('required_int64_group') is not None:  # noqa: E501
             _query_params.append(('required_int64_group', _params['required_int64_group']))
+
         if _params.get('string_group') is not None:  # noqa: E501
             _query_params.append(('string_group', _params['string_group']))
+
         if _params.get('int64_group') is not None:  # noqa: E501
             _query_params.append(('int64_group', _params['int64_group']))
 
@@ -2194,16 +2177,15 @@ class FakeApi(object):
         _header_params = dict(_params.get('_headers', {}))
         if _params['required_boolean_group']:
             _header_params['required_boolean_group'] = _params['required_boolean_group']
+
         if _params['boolean_group']:
             _header_params['boolean_group'] = _params['boolean_group']
 
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = ['bearer_test']  # noqa: E501
 
@@ -2328,14 +2310,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['request_body']:
@@ -2477,21 +2456,19 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['param']:
             _form_params.append(('param', _params['param']))
+
         if _params['param2']:
             _form_params.append(('param2', _params['param2']))
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2656,33 +2633,36 @@ class FakeApi(object):
         if _params.get('pipe') is not None:  # noqa: E501
             _query_params.append(('pipe', _params['pipe']))
             _collection_formats['pipe'] = 'pipes'
+
         if _params.get('ioutil') is not None:  # noqa: E501
             _query_params.append(('ioutil', _params['ioutil']))
             _collection_formats['ioutil'] = 'csv'
+
         if _params.get('http') is not None:  # noqa: E501
             _query_params.append(('http', _params['http']))
             _collection_formats['http'] = 'ssv'
+
         if _params.get('url') is not None:  # noqa: E501
             _query_params.append(('url', _params['url']))
             _collection_formats['url'] = 'csv'
+
         if _params.get('context') is not None:  # noqa: E501
             _query_params.append(('context', _params['context']))
             _collection_formats['context'] = 'multi'
+
         if _params.get('language') is not None:  # noqa: E501
             _query_params.append(('language', _params['language']))
+
         if _params.get('allow_empty') is not None:  # noqa: E501
             _query_params.append(('allowEmpty', _params['allow_empty']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 

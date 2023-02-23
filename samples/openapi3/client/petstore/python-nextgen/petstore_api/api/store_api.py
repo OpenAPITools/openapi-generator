@@ -144,19 +144,16 @@ class StoreApi(object):
         if _params['order_id']:
             _path_params['order_id'] = _params['order_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -276,17 +273,13 @@ class StoreApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -417,19 +410,16 @@ class StoreApi(object):
         if _params['order_id']:
             _path_params['order_id'] = _params['order_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -562,14 +552,11 @@ class StoreApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['order']:
