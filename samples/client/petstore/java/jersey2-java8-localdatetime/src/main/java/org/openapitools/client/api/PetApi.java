@@ -130,7 +130,7 @@ public class PetApi {
 
     // Path parameters
     String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId));
+            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
 
     // Header parameters
     Map<String, String> localVarHeaderParams = new LinkedHashMap<>();
@@ -287,7 +287,7 @@ public class PetApi {
 
     // Path parameters
     String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId));
+            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
@@ -382,7 +382,7 @@ public class PetApi {
 
     // Path parameters
     String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId));
+            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
@@ -440,7 +440,7 @@ public class PetApi {
 
     // Path parameters
     String localVarPath = "/pet/{petId}/uploadImage"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId));
+            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
@@ -502,7 +502,7 @@ public class PetApi {
 
     // Path parameters
     String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId));
+            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();

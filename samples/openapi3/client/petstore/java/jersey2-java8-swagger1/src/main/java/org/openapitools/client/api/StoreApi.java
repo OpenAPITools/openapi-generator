@@ -166,7 +166,7 @@ public class StoreApi {
 
     // Path parameters
     String localVarPath = "/store/order/{orderId}"
-            .replaceAll("\\{orderId}", apiClient.escapeString(orderId));
+            .replaceAll("\\{orderId}", apiClient.escapeString(orderId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();

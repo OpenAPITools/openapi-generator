@@ -777,11 +777,10 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Escape the given string to be used as URL query value.
    *
-   * @param object Any object to be turned into a String and escaped
+   * @param str String
    * @return Escaped string
    */
-  public String escapeString(Object object) {
-    String str = object.toString();
+  public String escapeString(String str) {
     try {
       return URLEncoder.encode(str, "utf8").replaceAll("\\+", "%20");
     } catch (UnsupportedEncodingException e) {
