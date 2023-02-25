@@ -51,6 +51,8 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends AbstractDartCodegen {
@@ -327,59 +329,38 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
             writer.write(content);
         });
-        // A lambda which transforms Types for naming factory constructors inFreezed unions.
-        additionalProperties.put("PrimitiveCollections", (Mustache.Lambda) (fragment, writer) -> {
+        // A lambda to filter out collection types from anyOf and oneOf sets in codegenmodel.
+        additionalProperties.put("PrimitiveCollectionsExtension", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
             content = content.trim().replaceAll("\n", "");
             Set<String> collectionTypes = Sets.newHashSet("List","Map","Set");
-            Set<String> nonCollectionTypes = defaultIncludes.stream().filter(e -> !collectionTypes.contains(e)).collect(Collectors.toSet());
-            if(nonCollectionTypes.contains(content)){
-                writer.write("");
-                return;
-            }
-            writer.write(content);
-        });
-        // A lambda to generate correct FromJson methods for collection types.
-        additionalProperties.put("PrimitiveExtension", (Mustache.Lambda) (fragment, writer) -> {
-            String content = fragment.execute();
-            content = content.trim().replaceAll("\n", "");
             // Remove Generics Declarations as this is not required for factoryNames in freezed
             String tmp_1 = StringUtils.substringBefore(content, "<");
-            if (tmp_1.equals("Set")) {
-                content = String.join("\n",
-                        "extension on " + content + " {",
-                        content + "fromJson(Map<String,dynamic> json) {",
-                            "return {};",
-                        "}",
-                        "Map<String,dynamic> toJson() {",
-                        "return <String,dynamic>{};",
-                        "}",
-                        "}");
-            }else if(tmp_1.equals("List")){
-                content = String.join("\n",
-                        "extension on " + content + " {",
-                        content + "fromJson(Map<String,dynamic> json) {",
-                        "return [];",
-                        "}",
-                        "Map<String,dynamic> toJson() {",
-                        "return <String,dynamic>{};",
-                        "}",
-                        "}");
-            }else if(tmp_1.equals("Map")){
-                content = String.join("\n",
-                        "extension on " + content + " {",
-                        content + "fromJson(Map<String,dynamic> json) {",
-                        "return {};",
-                        "}",
-                        "Map<String,dynamic> toJson() {",
-                        "return <String,dynamic>{};",
-                        "}",
-                        "}");
+            if(collectionTypes.contains(tmp_1)){
+                String variableName = camelize(fragment.execute().replace(" ", "_"), LOWERCASE_FIRST_LETTER);
+                variableName = this.sanitizeName(variableName);
+                if (this.reservedWords().contains(variableName)) {
+                    // Escaping must be done *after* camelize, because generators may escape using characters removed by camelize function.
+                    variableName = this.escapeReservedWord(variableName);
+                }
+                tmp_1 = String.join("\n", "extension on "+ content + "{",
+                    "dynamic fromJson(Map<String,dynamic> json) {",
+                        "return json[\""+variableName+"Value\"];",
+                    "}",
+
+                    "Map<String,dynamic> toJson() {",
+                        "return <String, dynamic>{",
+                                "\""+variableName+"Value\": this,",
+                            "};",
+                    "}",
+                "}");
+                writer.write(tmp_1);
             }else{
-                content = "";
+                writer.write("");
+
             }
-            writer.write(content);
         });
+
     }
 
     private void configureDateLibrary(String srcFolder) {

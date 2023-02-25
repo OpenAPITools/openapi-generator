@@ -2,10 +2,14 @@
     {{^vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
             {{#anyOf}}
-                {{#PrimitiveExtension}}{{{.}}}{{/PrimitiveExtension}}
+                {{#PrimitiveCollectionsExtension}}
+                    {{{.}}}
+                {{/PrimitiveCollectionsExtension}}
             {{/anyOf}}
             {{#oneOf}}
-                {{#PrimitiveExtension}}{{{.}}}{{/PrimitiveExtension}}
+                {{#PrimitiveCollectionsExtension}}
+                    {{{.}}}
+                {{/PrimitiveCollectionsExtension}}
             {{/oneOf}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}

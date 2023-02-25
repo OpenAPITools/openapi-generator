@@ -31,12 +31,12 @@ factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}From
     {{^vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
             factory {{classname}}.fromJson(Map<String, dynamic> json) {
-                final fromJsonMethods = <FromJsonMethodType<Object>>[{{#anyOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/anyOf}}{{#oneOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/oneOf}}];
+                final fromJsonMethods = <FromJsonMethodType<dynamic>>[{{#anyOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/anyOf}}{{#oneOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/oneOf}}];
                 final deserializedModels = <{{classname}}>[];
                 {{classname}}? deserializedModel;
                 for (final fromJsonMethod in fromJsonMethods) {
                     try {
-                        final parsedModel= fromJsonMethod.call(json);
+                        final dynamic parsedModel= fromJsonMethod.call(json);
                         // Note following line won't be executed if already the above parsing fails.
                         switch (deserializedModel.runtimeType) {
                             {{#anyOf}}
