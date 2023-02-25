@@ -1417,6 +1417,7 @@ components:
           type: string
           example: doggie
         photoUrls:
+          minItems: 0
           type: array
           xml:
             name: photoUrl

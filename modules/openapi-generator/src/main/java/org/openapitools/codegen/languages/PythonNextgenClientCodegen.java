@@ -403,23 +403,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         if (cp.isArray) {
-            if (cp.maxItems != null || cp.minItems != null) {
-                String maxOrMinItems = "";
-                if (cp.maxItems != null) {
-                    maxOrMinItems += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
-                }
-                if (cp.minItems != null) {
-                    maxOrMinItems += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
-                }
-                pydanticImports.add("conlist");
-                return String.format(Locale.ROOT, "conlist(%s%s)",
-                        getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
-                        maxOrMinItems);
-
-            } else {
-                typingImports.add("List");
-                return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
             }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -653,22 +650,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
-            if (cp.maxItems != null || cp.minItems != null) {
-                String maxOrMinItems = "";
-                if (cp.maxItems != null) {
-                    maxOrMinItems += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
-                }
-                if (cp.minItems != null) {
-                    maxOrMinItems += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
-                }
-                pydanticImports.add("conlist");
-                return String.format(Locale.ROOT, "conlist(%s%s)",
-                        getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
-                        maxOrMinItems);
-            } else {
-                typingImports.add("List");
-                return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
             }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            typingImports.add("List"); // for return type
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -884,10 +880,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
                 }
 
-                if (param.isArray && param.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
-                }
-
                 /* TODO support example
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
@@ -1069,10 +1061,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 if (!StringUtils.isEmpty(cp.description)) { // has description
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
-                }
-
-                if (cp.isArray && cp.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
                 }
 
                 /* TODO review as example may break the build

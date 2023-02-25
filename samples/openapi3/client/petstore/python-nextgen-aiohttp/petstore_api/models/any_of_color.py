@@ -16,7 +16,7 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
 from typing import Any, List
 from pydantic import StrictStr, Field
