@@ -69,7 +69,7 @@ public class Drawing {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes = null;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() {
   }

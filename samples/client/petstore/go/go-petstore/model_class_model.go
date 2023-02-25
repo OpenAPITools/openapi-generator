@@ -41,7 +41,7 @@ func NewClassModelWithDefaults() *ClassModel {
 
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
-	if o == nil || isNil(o.Class) {
+	if o == nil || IsNil(o.Class) {
 		var ret string
 		return ret
 	}
@@ -51,7 +51,7 @@ func (o *ClassModel) GetClass() string {
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (*string, bool) {
-	if o == nil || isNil(o.Class) {
+	if o == nil || IsNil(o.Class) {
 		return nil, false
 	}
 	return o.Class, true
@@ -59,7 +59,7 @@ func (o *ClassModel) GetClassOk() (*string, bool) {
 
 // HasClass returns a boolean if a field has been set.
 func (o *ClassModel) HasClass() bool {
-	if o != nil && !isNil(o.Class) {
+	if o != nil && !IsNil(o.Class) {
 		return true
 	}
 
@@ -81,7 +81,7 @@ func (o ClassModel) MarshalJSON() ([]byte, error) {
 
 func (o ClassModel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Class) {
+	if !IsNil(o.Class) {
 		toSerialize["_class"] = o.Class
 	}
 	return toSerialize, nil

@@ -47,6 +47,14 @@ fun Application.main() {
     install(HSTS, ApplicationHstsConfiguration()) // see https://ktor.io/docs/hsts.html
     install(Locations) // see https://ktor.io/docs/features-locations.html
     install(Authentication) {
+        oauth("petstore_auth") {
+            client = HttpClient(Apache)
+            providerLookup = { ApplicationAuthProviders["petstore_auth"] }
+            urlProvider = { _ ->
+                // TODO: define a callback url here.
+                "/"
+            }
+        }
         // "Implement API key auth (api_key) for parameter name 'api_key'."
         apiKeyAuth("api_key") {
             validate { apikeyCredential: ApiKeyCredential ->
@@ -54,14 +62,6 @@ fun Application.main() {
                     apikeyCredential.value == "keyboardcat" -> ApiPrincipal(apikeyCredential)
                     else -> null
                 }
-            }
-        }
-        oauth("petstore_auth") {
-            client = HttpClient(Apache)
-            providerLookup = { ApplicationAuthProviders["petstore_auth"] }
-            urlProvider = { _ ->
-                // TODO: define a callback url here.
-                "/"
             }
         }
     }

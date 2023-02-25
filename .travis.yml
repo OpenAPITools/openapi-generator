@@ -215,7 +215,7 @@ after_success:
           echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
       fi;
     fi;
-  ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  # publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #    cd website;
   #    git config --global user.name "${GH_NAME}";

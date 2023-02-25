@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterStringSerializeAsyncTest()
         {
+            Guid requiredStringUuid = default;
             string body = default;
-            var response = await _instance.FakeOuterStringSerializeAsync(body);
+            var response = await _instance.FakeOuterStringSerializeAsync(requiredStringUuid, body);
             Assert.IsType<string>(response);
         }
 

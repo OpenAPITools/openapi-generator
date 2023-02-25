@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **double** | **float** |  | [optional] 
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | **str** |  | 
+**byte** | **str** |  | [optional] 
 **binary** | **str** |  | [optional] 
 **var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 

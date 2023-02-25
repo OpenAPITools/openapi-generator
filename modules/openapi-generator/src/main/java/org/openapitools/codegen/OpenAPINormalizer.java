@@ -39,7 +39,7 @@ public class OpenAPINormalizer {
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     // ============= a list of rules =============
-    // when set to true, all rules are enabled
+    // when set to true, all rules (true or false) are enabled
     final String ALL = "ALL";
     boolean enableAll;
 
@@ -62,6 +62,19 @@ public class OpenAPINormalizer {
     // to just string
     final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
     boolean simplifyAnyOfStringAndEnumString;
+
+    // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
+    // and if sub-schema contains "null", remove it and set nullable to true instead
+    final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
+    boolean simplifyOneOfAnyOf;
+
+    // when set to true, boolean enum will be converted to just boolean
+    final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
+    boolean simplifyBooleanEnum;
+
+    // when set to a string value, tags in all operations will be reset to the string value provided
+    final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
+    String setTagsForAllOperations;
 
     // ============= end of rules =============
 
@@ -106,6 +119,19 @@ public class OpenAPINormalizer {
         if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING))) {
             simplifyAnyOfStringAndEnumString = true;
         }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_ONEOF_ANYOF))) {
+            simplifyOneOfAnyOf = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(SIMPLIFY_BOOLEAN_ENUM))) {
+            simplifyBooleanEnum = true;
+        }
+
+        if (StringUtils.isNotEmpty(rules.get(SET_TAGS_FOR_ALL_OPERATIONS))) {
+            setTagsForAllOperations = rules.get(SET_TAGS_FOR_ALL_OPERATIONS);
+        }
+
     }
 
     /**
@@ -169,6 +195,8 @@ public class OpenAPINormalizer {
      */
     private void normalizeOperation(Operation operation) {
         processKeepOnlyFirstTagInOperation(operation);
+
+        processSetTagsForAllOperations(operation);
     }
 
     /**
@@ -301,11 +329,11 @@ public class OpenAPINormalizer {
             visitedSchemas.add(schema);
         }
 
-        if (schema instanceof ArraySchema) {
+        if (schema instanceof ArraySchema) { // array
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
-        } else if (ModelUtils.isComposedSchema(schema)) {
+        } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
 
             if (ModelUtils.isComplexComposedSchema(cs)) {
@@ -337,6 +365,8 @@ public class OpenAPINormalizer {
             normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema instanceof BooleanSchema) {
+            normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof Schema) {
             normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
@@ -344,6 +374,10 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
+        processSimplifyBooleanEnum(schema);
     }
 
     private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
@@ -376,27 +410,36 @@ public class OpenAPINormalizer {
 
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getOneOf()) {
+            if (item == null) {
+                continue;
+            }
             if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
+                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
             }
             // normalize oenOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
-
         // process rules here
+        schema = processSimplifyOneOf(schema);
+
         return schema;
     }
 
     private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
         for (Object item : schema.getAnyOf()) {
+            if (item == null) {
+                continue;
+            }
+
             if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
+                throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
             // normalize anyOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
 
         // process rules here
+        schema = processSimplifyAnyOf(schema);
 
         // last rule to process as the schema may become String schema (not "anyOf") after the completion
         return processSimplifyAnyOfStringAndEnumString(schema);
@@ -470,13 +513,26 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Set the tag name for all operations
+     *
+     * @param operation Operation
+     */
+    private void processSetTagsForAllOperations(Operation operation) {
+        if (StringUtils.isEmpty(setTagsForAllOperations)) {
+            return;
+        }
+
+        operation.setTags(null);
+        operation.addTagsItem(setTagsForAllOperations);
+    }
+
+    /**
      * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to
      * ensure inter-dependency between properties. It's a workaround as such validation is not supported at the moment.
      *
      * @param schema Schema
      */
     private void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
-
         if (!removeAnyOfOneOfAndKeepPropertiesOnly && !enableAll) {
             return;
         }
@@ -493,13 +549,18 @@ public class OpenAPINormalizer {
 
     /**
      * If the schema is anyOf and the sub-schemas are either string or enum of string,
-     * then simply it to just string as many generators do not yet support anyOf.
+     * then simplify it to just string as many generators do not yet support anyOf.
      *
      * @param schema Schema
      * @return Schema
      */
     private Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
         if (!simplifyAnyOfStringAndEnumString && !enableAll) {
+            return schema;
+        }
+
+        if (schema.getAnyOf() == null) {
+            // ComposedSchema, Schema with `type: null`
             return schema;
         }
 
@@ -525,6 +586,92 @@ public class OpenAPINormalizer {
             }
         } else {
             return schema;
+        }
+    }
+
+    /**
+     * If the schema is oneOf and the sub-schemas is null, set `nullable: true` instead.
+     * If there's only one sub-schema, simply return the sub-schema directly.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSimplifyOneOf(Schema schema) {
+        if (!simplifyOneOfAnyOf && !enableAll) {
+            return schema;
+        }
+
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            // convert null sub-schema to `nullable: true`
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (schema.getOneOf().get(i) == null || ((Schema) schema.getOneOf().get(i)).getType() == null) {
+                    schema.getOneOf().remove(i);
+                    schema.setNullable(true);
+                }
+            }
+
+            // if only one element left, simplify to just the element (schema)
+            if (schema.getOneOf().size() == 1) {
+                if (schema.getNullable()) { // retain nullable setting
+                    ((Schema) schema.getOneOf().get(0)).setNullable(true);
+                }
+                return (Schema) schema.getOneOf().get(0);
+            }
+        }
+
+        return schema;
+    }
+
+    /**
+     * If the schema is anyOf and the sub-schemas is null, set `nullable: true` instead.
+     * If there's only one sub-schema, simply return the sub-schema directly.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSimplifyAnyOf(Schema schema) {
+        if (!simplifyOneOfAnyOf && !enableAll) {
+            return schema;
+        }
+
+        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            // convert null sub-schema to `nullable: true`
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
+                    schema.getAnyOf().remove(i);
+                    schema.setNullable(true);
+                }
+            }
+
+            // if only one element left, simplify to just the element (schema)
+            if (schema.getAnyOf().size() == 1) {
+                if (schema.getNullable()) { // retain nullable setting
+                    ((Schema) schema.getAnyOf().get(0)).setNullable(true);
+                }
+                return (Schema) schema.getAnyOf().get(0);
+            }
+        }
+
+        return schema;
+    }
+
+    /**
+     * If the schema is boolean and its enum is defined,
+     * then simply it to just boolean.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private void processSimplifyBooleanEnum(Schema schema) {
+        if (!simplifyBooleanEnum && !enableAll) {
+            return;
+        }
+
+        if (schema instanceof BooleanSchema) {
+            BooleanSchema bs = (BooleanSchema) schema;
+            if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
+                bs.setEnum(null);
+            }
         }
     }
 

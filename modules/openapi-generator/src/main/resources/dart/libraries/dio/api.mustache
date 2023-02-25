@@ -102,9 +102,10 @@ class {{classname}} {
           _path,{{#hasQueryParams}}
           queryParameters: _queryParameters,{{/hasQueryParams}}
         ),
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }{{/hasBodyOrFormParams}}
 
     final _response = await _dio.request<Object>(
@@ -126,9 +127,10 @@ class {{classname}} {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<{{{returnType}}}>(

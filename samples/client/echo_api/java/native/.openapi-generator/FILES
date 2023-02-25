@@ -11,10 +11,13 @@ docs/Category.md
 docs/DataQuery.md
 docs/DataQueryAllOf.md
 docs/DefaultValue.md
+docs/FormApi.md
+docs/HeaderApi.md
 docs/PathApi.md
 docs/Pet.md
 docs/Query.md
 docs/QueryApi.md
+docs/StringEnumRef.md
 docs/Tag.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
@@ -37,6 +40,8 @@ src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/BodyApi.java
+src/main/java/org/openapitools/client/api/FormApi.java
+src/main/java/org/openapitools/client/api/HeaderApi.java
 src/main/java/org/openapitools/client/api/PathApi.java
 src/main/java/org/openapitools/client/api/QueryApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
@@ -47,6 +52,7 @@ src/main/java/org/openapitools/client/model/DataQueryAllOf.java
 src/main/java/org/openapitools/client/model/DefaultValue.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Query.java
+src/main/java/org/openapitools/client/model/StringEnumRef.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java

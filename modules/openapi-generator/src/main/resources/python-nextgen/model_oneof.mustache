@@ -1,7 +1,7 @@
 from __future__ import annotations
 from inspect import getfullargspec
-import pprint
 import json
+import pprint
 import re  # noqa: F401
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
 {{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
@@ -40,15 +40,39 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
+        instance = cls()
         error_messages = []
         match = 0
         {{#composedSchemas.oneOf}}
         # validate data type: {{{dataType}}}
-        if type(v) is not {{^isPrimitiveType}}{{/isPrimitiveType}}{{{dataType}}}:
+        {{#isContainer}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            match += 1
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            match += 1
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        if type(v) is not {{{dataType}}}:
             error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
         else:
             match += 1
 
+        {{/isPrimitiveType}}
+        {{/isContainer}}
         {{/composedSchemas.oneOf}}
         if match > 1:
             # more than 1 match
@@ -67,6 +91,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the object represented by the json string"""
         instance = cls()
+        {{#isNullable}}
+        if json_str is None:
+            return instance
+
+        {{/isNullable}}
         error_messages = []
         match = 0
 
@@ -89,6 +118,29 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/discriminator}}
         {{/useOneOfDiscriminatorLookup}}
         {{#composedSchemas.oneOf}}
+        {{#isContainer}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            match += 1
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            match += 1
+        except ValidationError as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         # deserialize data into {{{dataType}}}
         try:
@@ -97,6 +149,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         except ValidationError as e:
             error_messages.append(str(e))
         {{/isPrimitiveType}}
+        {{/isContainer}}
         {{/composedSchemas.oneOf}}
 
         if match > 1:
@@ -125,7 +178,3 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
-
-
-
-

@@ -80,13 +80,6 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-<a name="api_key"></a>
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
 <a name="petstore_auth"></a>
 ### petstore_auth
 
@@ -96,4 +89,11 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a name="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 

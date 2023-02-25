@@ -31,8 +31,21 @@ import org.openapitools.client.model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.http.HttpRequest;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -861,7 +874,32 @@ public class FakeApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    formValues.add(new BasicNameValuePair("integer", integer.toString()));
+    formValues.add(new BasicNameValuePair("int32", int32.toString()));
+    formValues.add(new BasicNameValuePair("int64", int64.toString()));
+    formValues.add(new BasicNameValuePair("number", number.toString()));
+    formValues.add(new BasicNameValuePair("float", _float.toString()));
+    formValues.add(new BasicNameValuePair("double", _double.toString()));
+    formValues.add(new BasicNameValuePair("string", string.toString()));
+    formValues.add(new BasicNameValuePair("pattern_without_delimiter", patternWithoutDelimiter.toString()));
+    formValues.add(new BasicNameValuePair("byte", _byte.toString()));
+    formValues.add(new BasicNameValuePair("binary", binary.toString()));
+    formValues.add(new BasicNameValuePair("date", date.toString()));
+    formValues.add(new BasicNameValuePair("dateTime", dateTime.toString()));
+    formValues.add(new BasicNameValuePair("password", password.toString()));
+    formValues.add(new BasicNameValuePair("callback", paramCallback.toString()));
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("POST", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -972,7 +1010,22 @@ public class FakeApi {
     }
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    for (int i=0; i < enumFormStringArray.size(); i++) {
+        formValues.add(new BasicNameValuePair("enum_form_string_array", enumFormStringArray.get(i).toString()));
+    }
+    formValues.add(new BasicNameValuePair("enum_form_string", enumFormString.toString()));
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("GET", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -1361,7 +1414,20 @@ public class FakeApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    formValues.add(new BasicNameValuePair("param", param.toString()));
+    formValues.add(new BasicNameValuePair("param2", param2.toString()));
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("GET", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

@@ -3877,8 +3877,12 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // set isNullable using nullable or x-nullable in the schema
         if (referencedSchema.getNullable() != null) {
             property.isNullable = referencedSchema.getNullable();
+        } else if (referencedSchema.getExtensions() != null &&
+                referencedSchema.getExtensions().containsKey("x-nullable")) {
+            property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -3946,7 +3950,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
             /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
-             *  so primitive schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
+             * so primitive schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
@@ -5302,14 +5306,6 @@ public class DefaultCodegen implements CodegenConfig {
                 once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
             }
         }
-
-        // sort auth methods to maintain the same order
-        Collections.sort(codegenSecurities, new Comparator<CodegenSecurity>() {
-            @Override
-            public int compare(CodegenSecurity one, CodegenSecurity another) {
-                return ObjectUtils.compare(one.name, another.name);
-            }
-        });
 
         return codegenSecurities;
     }
@@ -6722,6 +6718,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                } else if (!codegenParameter.required) {
+                    // Set 'required' flag for properties declared inside the allOf
+                    codegenParameter.required = allRequired.stream().anyMatch(r -> r.equals(codegenParameter.paramName));
                 }
 
                 parameters.add(codegenParameter);

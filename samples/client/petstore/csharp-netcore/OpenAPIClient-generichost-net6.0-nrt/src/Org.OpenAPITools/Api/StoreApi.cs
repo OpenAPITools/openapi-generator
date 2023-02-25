@@ -340,8 +340,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
@@ -460,8 +460,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
 
                     List<TokenBase> tokens = new List<TokenBase>();
@@ -613,8 +613,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
@@ -758,8 +758,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
 
                     request.Content = (order as object) is System.IO.Stream stream

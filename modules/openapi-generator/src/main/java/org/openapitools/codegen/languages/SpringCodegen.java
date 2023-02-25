@@ -44,6 +44,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -802,7 +803,13 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 handleImplicitHeaders(operation);
             }
-            objs.put("tagDescription", ops.get(0).tags.get(0).getDescription());
+            // The tag for the controller is the first tag of the first operation
+            final CodegenOperation firstOperation = ops.get(0);
+            final Tag firstTag = firstOperation.tags.get(0);
+            final String firstTagName = firstTag.getName();
+            // But use a sensible tag name if there is none
+            objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
+            objs.put("tagDescription", firstTag.getDescription());
         }
 
         return objs;
