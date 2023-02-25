@@ -18,12 +18,15 @@ const {{classname}}._();
 
 {{>serialization/freezed/class_from_json}}
 
-{{! toJson is only required for oneOf types}}
-{{#hasDiscriminatorWithNonEmptyMapping}}
 {{>serialization/freezed/class_to_json}}
-{{/hasDiscriminatorWithNonEmptyMapping}}
+
 
 }
+
+{{!
+extension for collection primitives in union
+}}
+{{>serialization/freezed/class_primitive_union_extensions}}
 
 {{!
     Generate an enum for any variables that are declared as inline enums
@@ -34,7 +37,6 @@ const {{classname}}._();
 {{#vars}}
     {{#isEnum}}
         {{^isContainer}}
-
             {{>serialization/freezed/enum_inline}}
         {{/isContainer}}
         {{#isContainer}}

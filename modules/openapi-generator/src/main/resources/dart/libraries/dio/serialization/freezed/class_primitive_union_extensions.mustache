@@ -1,0 +1,12 @@
+{{^vendorExtensions.x-is-pure}}
+    {{^vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            {{#anyOf}}
+                {{#PrimitiveExtension}}{{{.}}}{{/PrimitiveExtension}}
+            {{/anyOf}}
+            {{#oneOf}}
+                {{#PrimitiveExtension}}{{{.}}}{{/PrimitiveExtension}}
+            {{/oneOf}}
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}

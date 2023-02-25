@@ -1,11 +1,32 @@
-{{#discriminator}}
-  Map<String, dynamic> toJson() {
-    return when(
-      {{#mappedModels}}
-          {{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}: ({{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}) => {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}.toJson(),
-      {{/mappedModels}}
-      {{! adds an unknown case to handle one Of}}
-      unknown: () => <String, dynamic>{},
-    );
-  }
-{{/discriminator}}
+{{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+      Map<String, dynamic> toJson() {
+        return when(
+          {{#mappedModels}}
+              {{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}: ({{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}) => {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}.toJson(),
+          {{/mappedModels}}
+          {{! adds an unknown case to handle one Of}}
+          unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
+        );
+      }
+    {{/discriminator}}
+{{/hasDiscriminatorWithNonEmptyMapping}}
+
+{{^vendorExtensions.x-is-pure}}
+    {{^vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            Map<String, dynamic> toJson() {
+                return when(
+                    {{#anyOf}}
+                        as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}: (as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) => as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.toJson(),
+                    {{/anyOf}}
+                    {{#oneOf}}
+                        as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}: (as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) => as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.toJson(),
+                    {{/oneOf}}
+                    {{! adds an unknown case to handle one Of}}
+                    unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
+                );
+            }
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}

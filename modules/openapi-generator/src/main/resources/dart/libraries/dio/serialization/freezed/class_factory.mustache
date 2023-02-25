@@ -1,21 +1,55 @@
-{{^hasDiscriminatorWithNonEmptyMapping}}
-const factory {{classname}}({
-{{#vars}}
-    {{#description}}
-        /// {{{.}}}
-    {{/description}}
-    @JsonKey(name: r'{{baseName}}') {{>serialization/freezed/variable_type}} {{name}},
-{{/vars}}
-}) = _{{classname}};
-{{/hasDiscriminatorWithNonEmptyMapping}}
+{{#vendorExtensions.x-is-pure}}
+    {{>serialization/freezed/class_factory_general}}
+{{/vendorExtensions.x-is-pure}}
 
-{{#hasDiscriminatorWithNonEmptyMapping}}
-    {{#discriminator}}
-    {{#mappedModels}}
-        const factory {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}({
-            required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}
-        }) = {{classname}}{{#lambda.titlecase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-    {{/mappedModels}}
-    const factory {{classname}}.unknown() = {{classname}}Unknown;
-    {{/discriminator}}
-{{/hasDiscriminatorWithNonEmptyMapping}}
+{{^vendorExtensions.x-is-pure}}
+    {{#vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            {{>serialization/freezed/class_factory_general}}
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}
+
+{{^vendorExtensions.x-is-pure}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+            {{#discriminator}}
+            {{#mappedModels}}
+                const factory {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}({
+                    required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}},
+                }) = {{classname}}{{#lambda.titlecase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.titlecase}};
+            {{/mappedModels}}
+            const factory {{classname}}.unknown({
+                @Default('Json does not satisfy any available types') String message,
+                required Map<String, dynamic> json,
+                @Default(DeserializationErrorType.UnKnownType)
+                DeserializationErrorType errorType,
+                @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}]) List<Type> possibleTypes,
+                @Default(<{{classname}}>[]) List<{{classname}}> deserializedModels,
+            }) = {{classname}}Unknown;
+            {{/discriminator}}
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+{{/vendorExtensions.x-is-pure}}
+{{^vendorExtensions.x-is-pure}}
+    {{^vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+                {{#anyOf}}
+                        const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
+                        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
+                        }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
+                {{/anyOf}}
+                {{#oneOf}}
+                    const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
+                        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
+                    }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
+                {{/oneOf}}
+                const factory {{classname}}.unknown({
+                    @Default('Json does not satisfy any available types') String message,
+                    required Map<String, dynamic> json,
+                    @Default(DeserializationErrorType.UnKnownType)
+                    DeserializationErrorType errorType,
+                    @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}]) List<Type> possibleTypes,
+                    @Default(<{{classname}}>[]) List<{{classname}}> deserializedModels,
+                }) = {{classname}}Unknown;
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}

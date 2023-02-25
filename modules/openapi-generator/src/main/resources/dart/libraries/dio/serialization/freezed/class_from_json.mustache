@@ -1,19 +1,81 @@
-{{^hasDiscriminatorWithNonEmptyMapping}}
+{{#vendorExtensions.x-is-pure}}
 factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
-{{/hasDiscriminatorWithNonEmptyMapping}}
+{{/vendorExtensions.x-is-pure}}
+{{^vendorExtensions.x-is-pure}}
+    {{#vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}
 
+{{^vendorExtensions.x-is-pure}}
 {{#hasDiscriminatorWithNonEmptyMapping}}
     factory {{classname}}.fromJson(Map<String, dynamic> json) {
         {{#discriminator}}
-        switch(json['{{propertyBaseName}}']){
-            {{#mappedModels}}
-                case '{{mappingName}}':
-                    return {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}(
-                        {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}} : {{modelName}}.fromJson(json),
-                    );
-            {{/mappedModels}}
-        }
+            switch(json['{{propertyBaseName}}']){
+                {{#mappedModels}}
+                    case '{{mappingName}}':
+                        return {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}(
+                            {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}} : {{modelName}}.fromJson(json),
+                        );
+                {{/mappedModels}}
+            }
         {{/discriminator}}
-        return {{classname}}.unknown();
+        return {{classname}}.unknown(json: json);
     }
 {{/hasDiscriminatorWithNonEmptyMapping}}
+{{/vendorExtensions.x-is-pure}}
+
+{{^vendorExtensions.x-is-pure}}
+    {{^vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            factory {{classname}}.fromJson(Map<String, dynamic> json) {
+                final fromJsonMethods = <FromJsonMethodType<Object>>[{{#anyOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/anyOf}}{{#oneOf}}{{#lambda.titlecase}}{{#PrimitiveFromJson}}{{{.}}}{{/PrimitiveFromJson}}{{/lambda.titlecase}}.fromJson,{{/oneOf}}];
+                final deserializedModels = <{{classname}}>[];
+                {{classname}}? deserializedModel;
+                for (final fromJsonMethod in fromJsonMethods) {
+                    try {
+                        final parsedModel= fromJsonMethod.call(json);
+                        // Note following line won't be executed if already the above parsing fails.
+                        switch (deserializedModel.runtimeType) {
+                            {{#anyOf}}
+                                case {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}:
+                                    deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+                                    {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel as {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}},
+                                    );
+                                    break;
+                            {{/anyOf}}
+                            {{#oneOf}}
+                                case {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}:
+                                    deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+                                    {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel as {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}},
+                                    );
+                                    break;
+                            {{/oneOf}}
+                            default:
+                                deserializedModel =  {{classname}}.unknown(json: json,);
+                        }
+                        deserializedModels.add(deserializedModel);
+                    } catch (e) {
+                        // We are suppressing the deserialization error when the json could not
+                        // be parsed into one of the model. Because we return [{{classname}}.unknown]
+                        // if the deserialization fails.
+                    }
+                }
+                // Return an unknown type when the incoming json parses into more than one models.
+                // Since we pass deserializedModels, clients can still use the deserialized model.
+                // EvenThough this is valid for AnyOf types, Dart doesn't have polymorphic types.
+                // So we still return this as an unknown type.
+                if(deserializedModels.length > 1){
+                    deserializedModel =  {{classname}}.unknown(
+                        json: json,
+                        deserializedModels: deserializedModels,
+                        errorType: DeserializationErrorType.MoreThanOneTypeSatisfied,
+                    );
+                }
+                return deserializedModel ?? {{classname}}.unknown(json: json);
+            }
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}

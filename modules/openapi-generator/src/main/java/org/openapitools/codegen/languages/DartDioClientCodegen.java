@@ -22,8 +22,10 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.CharSetUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.graalvm.util.CollectionsUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatePathLocator;
@@ -104,6 +106,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
+        supportedLibraries.put(SERIALIZATION_LIBRARY_FREEZED, "[BETA] freezed");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
@@ -216,6 +219,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 additionalProperties.put("useJsonSerializable", "true");
                 configureSerializationLibraryJsonSerializable(srcFolder);
                 break;
+            case SERIALIZATION_LIBRARY_FREEZED:
+                additionalProperties.put("useFreezed", "true");
+                configureSerializationLibraryFreezed(srcFolder);
+                break;
             default:
             case SERIALIZATION_LIBRARY_BUILT_VALUE:
                 additionalProperties.put("useBuiltValue", "true");
@@ -283,12 +290,96 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private void configureSerializationLibraryFreezed(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
         supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", srcFolder + File.separator + modelPackage, "models.dart"));
+        supportingFiles.add(new SupportingFile("serialization/freezed/primitive_union_types.mustache", srcFolder + File.separator + modelPackage, "primitive_union_types.dart"));
 
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
+
+        // A lambda which transforms Types for naming factory constructors inFreezed unions.
+        additionalProperties.put("PrimitiveInUnion", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            content = content.trim().replaceAll("\n", "");
+            Set<String> collectionTypes = Sets.newHashSet("List","Map","Set");
+            Set<String> nonCollectionTypes = defaultIncludes.stream().filter(e -> !collectionTypes.contains(e)).collect(Collectors.toSet());
+            if(nonCollectionTypes.contains(content)){
+                writer.write(content + "InUnion");
+                return;
+            }
+            writer.write(content);
+        });
+        // A lambda to generate correct form of FromJson methods.
+        additionalProperties.put("PrimitiveFromJson", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            content = content.trim().replaceAll("\n", "");
+            // Remove Generics Declarations as this is not required for factoryNames in freezed
+            String tmp_1 = StringUtils.substringBefore(content, "<");
+            if(defaultIncludes.contains(tmp_1)) {
+                if (tmp_1.equals("Set") || tmp_1.equals("Map")) {
+                    content = "<"+StringUtils.substringAfter(content, "<")+"{}";
+                }else if(tmp_1.equals("List")){
+                    content = "<"+StringUtils.substringAfter(content, "<")+"[]";
+                }else{
+                    content = tmp_1+"InUnion";
+                }
+            }
+            writer.write(content);
+        });
+        // A lambda which transforms Types for naming factory constructors inFreezed unions.
+        additionalProperties.put("PrimitiveCollections", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            content = content.trim().replaceAll("\n", "");
+            Set<String> collectionTypes = Sets.newHashSet("List","Map","Set");
+            Set<String> nonCollectionTypes = defaultIncludes.stream().filter(e -> !collectionTypes.contains(e)).collect(Collectors.toSet());
+            if(nonCollectionTypes.contains(content)){
+                writer.write("");
+                return;
+            }
+            writer.write(content);
+        });
+        // A lambda to generate correct FromJson methods for collection types.
+        additionalProperties.put("PrimitiveExtension", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            content = content.trim().replaceAll("\n", "");
+            // Remove Generics Declarations as this is not required for factoryNames in freezed
+            String tmp_1 = StringUtils.substringBefore(content, "<");
+            if (tmp_1.equals("Set")) {
+                content = String.join("\n",
+                        "extension on " + content + " {",
+                        content + "fromJson(Map<String,dynamic> json) {",
+                            "return {};",
+                        "}",
+                        "Map<String,dynamic> toJson() {",
+                        "return <String,dynamic>{};",
+                        "}",
+                        "}");
+            }else if(tmp_1.equals("List")){
+                content = String.join("\n",
+                        "extension on " + content + " {",
+                        content + "fromJson(Map<String,dynamic> json) {",
+                        "return [];",
+                        "}",
+                        "Map<String,dynamic> toJson() {",
+                        "return <String,dynamic>{};",
+                        "}",
+                        "}");
+            }else if(tmp_1.equals("Map")){
+                content = String.join("\n",
+                        "extension on " + content + " {",
+                        content + "fromJson(Map<String,dynamic> json) {",
+                        "return {};",
+                        "}",
+                        "Map<String,dynamic> toJson() {",
+                        "return <String,dynamic>{};",
+                        "}",
+                        "}");
+            }else{
+                content = "";
+            }
+            writer.write(content);
+        });
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -592,7 +683,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) || SERIALIZATION_LIBRARY_FREEZED.equals(library)) {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
