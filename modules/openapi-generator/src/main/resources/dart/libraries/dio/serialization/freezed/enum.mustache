@@ -5,9 +5,9 @@ part of 'models.dart';
 enum {{classname}} {
     {{#allowableValues}}
         {{#enumVars}}
-            {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}),
+            {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/enumVars}}
-        const {{classname}}({this.value});
+        const {{classname}}({required this.value});
         final String value;
     {{/allowableValues}}
 }
