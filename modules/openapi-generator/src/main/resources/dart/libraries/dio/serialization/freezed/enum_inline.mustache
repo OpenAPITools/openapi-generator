@@ -1,11 +1,11 @@
 {{#description}}/// {{{description}}}{{/description}}
 @JsonEnum(valueField: 'value')
-enum {{classname}} {
+enum {{enumName}} {
     {{#allowableValues}}
         {{#enumVars}}
             {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}),
         {{/enumVars}}
-        const {{classname}}({this.value});
+        const {{enumName}}({this.value});
         final String value;
     {{/allowableValues}}
 }

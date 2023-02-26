@@ -4,7 +4,12 @@ description: {{pubDescription}}
 homepage: {{pubHomepage}}
 
 environment:
+  {{^useFreezed}}
   sdk: '>=2.15.0 <3.0.0'
+  {{/useFreezed}}
+  {{#useFreezed}}
+  sdk: '>=2.17.0 <3.0.0'
+  {{/useFreezed}}
 
 dependencies:
   dio: '^5.0.0'
