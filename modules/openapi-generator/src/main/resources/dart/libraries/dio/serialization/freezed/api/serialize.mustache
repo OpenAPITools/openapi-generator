@@ -1,1 +1,28 @@
-{{#bodyParam}}_bodyData=jsonEncode({{{paramName}}});{{/bodyParam}}
+{{#hasFormParams}}
+    {{#isMultipart}}
+        _bodyData = FormData.fromMap(<String, dynamic>{
+        {{#formParams}}
+            {{^required}}
+                {{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}
+            {{/required}}r'{{{baseName}}}':
+            {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}
+            {{^isFile}}jsonEncode({{{paramName}}}){{/isFile}},
+        {{/formParams}}
+        });
+    {{/isMultipart}}
+    {{^isMultipart}}
+        _bodyData = <String, dynamic>{
+        {{#formParams}}
+            {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{>serialization/freezed/api/query_param}},
+        {{/formParams}}
+        };
+    {{/isMultipart}}
+{{/hasFormParams}}
+{{#bodyParam}}
+    {{#isPrimitiveType}}
+        _bodyData = {{paramName}}{{#isFile}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize(){{/isFile}};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    _bodyData=jsonEncode({{{paramName}}});
+    {{/isPrimitiveType}}
+{{/bodyParam}}
