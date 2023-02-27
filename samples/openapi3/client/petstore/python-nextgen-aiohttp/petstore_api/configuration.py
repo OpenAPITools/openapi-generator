@@ -256,7 +256,7 @@ conf = petstore_api.Configuration(
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = "%Y-%m-%d %H:%M:%S.%f"
+        self.datetime_format = "%Y-%m-%dT%H:%M:%S%Z"
         """datetime format
         """
 

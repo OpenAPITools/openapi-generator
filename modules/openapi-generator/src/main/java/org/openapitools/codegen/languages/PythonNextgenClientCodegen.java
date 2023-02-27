@@ -58,7 +58,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
     protected boolean floatStrictType = true;
-    protected String datetimeFormat = "%Y-%m-%d %H:%M:%S.%f";
+    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S%Z";
     protected String dateFormat = "%Y-%m-%d";
 
     protected Map<Character, String> regexModifiers;

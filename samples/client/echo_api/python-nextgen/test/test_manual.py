@@ -38,7 +38,7 @@ class TestManual(unittest.TestCase):
         # Test query parameter(s)
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
         e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20%20Sun%2019:20:30UTC-05:00&date_query=2013-10-20&string_query=string_query_example")
+        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20%20Sun%2019%3A20%3A30UTC-05%3A00&date_query=2013-10-20&string_query=string_query_example")
 
     def testDateTimeQueryWithDateTime(self):
         api_instance = openapi_client.QueryApi()
@@ -49,7 +49,7 @@ class TestManual(unittest.TestCase):
         # Test query parameter(s)
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
         e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20%2019:20:30.000000&date_query=2013-10-20&string_query=string_query_example")
+        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30UTC-05%3A00&date_query=2013-10-20&string_query=string_query_example")
 
     def testDateTimeQueryWithString(self):
         api_instance = openapi_client.QueryApi()
@@ -60,7 +60,7 @@ class TestManual(unittest.TestCase):
         # Test query parameter(s)
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
         e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=19:20:30%202013-10-20&date_query=2013-10-20&string_query=string_query_example")
+        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=19%3A20%3A30%202013-10-20&date_query=2013-10-20&string_query=string_query_example")
 
 class EchoServerResponseParser():
     def __init__(self, http_response):
