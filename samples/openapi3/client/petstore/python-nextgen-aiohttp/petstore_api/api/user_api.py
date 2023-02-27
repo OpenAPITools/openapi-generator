@@ -17,9 +17,7 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-
-from typing import List
+from pydantic import Field, StrictStr, conlist
 
 from petstore_api.models.user import User
 
@@ -202,7 +200,7 @@ class UserApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_array_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
+    def create_users_with_array_input(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -233,7 +231,7 @@ class UserApi(object):
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_users_with_array_input_with_http_info(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_array_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -346,7 +344,7 @@ class UserApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_users_with_list_input(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
+    def create_users_with_list_input(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> None:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -377,7 +375,7 @@ class UserApi(object):
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_users_with_list_input_with_http_info(self, user : Annotated[List[User], Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_list_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501

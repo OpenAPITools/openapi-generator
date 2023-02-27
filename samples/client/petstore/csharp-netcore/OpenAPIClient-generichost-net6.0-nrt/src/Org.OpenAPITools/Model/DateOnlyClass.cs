@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
 
         /// <summary>
         /// A Json reader.
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(this.DateOnlyPropertyFormat));
+            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
 
             writer.WriteEndObject();
         }

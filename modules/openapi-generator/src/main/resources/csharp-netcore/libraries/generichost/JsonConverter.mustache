@@ -4,11 +4,18 @@
     {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
         {{#allVars}}
+        {{#isDateTime}}
+        /// <summary>
+        /// The format to use to serialize {{name}}
+        /// </summary>
+        public static string {{name}}Format { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        {{/isDateTime}}
         {{#isDate}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public string {{name}}Format { get; set; } = "yyyy-MM-dd";
+        public static string {{name}}Format { get; set; } = "yyyy-MM-dd";
 
         {{/isDate}}
         {{/allVars}}
@@ -219,17 +226,24 @@
             {{#isDate}}
             {{#isNullable}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
-                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString(this.{{name}}Format));
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
             else
                 writer.WriteNull("{{baseName}}");
             {{/isNullable}}
             {{^isNullable}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString(this.{{name}}Format));
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
             {{/isNullable}}
             {{/isDate}}
             {{#isDateTime}}
-            writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, jsonSerializerOptions);
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
+            else
+                writer.WriteNull("{{baseName}}");
+            {{/isNullable}}
+            {{^isNullable}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
+            {{/isNullable}}
             {{/isDateTime}}
             {{#isEnum}}
             {{#isNumeric}}

@@ -4,10 +4,10 @@ description: OpenAPI API client
 homepage: homepage
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 
 dependencies:
-  dio: '>=4.0.1 <5.0.0'
+  dio: '^5.0.0'
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'
   built_value: '>=8.4.0 <9.0.0'

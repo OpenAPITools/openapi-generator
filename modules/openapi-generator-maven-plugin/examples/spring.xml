@@ -20,7 +20,7 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<!-- RELEASE_VERSION -->
-				<version>6.4.0-SNAPSHOT</version>
+				<version>6.5.0-SNAPSHOT</version>
 				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
@@ -125,8 +125,6 @@
 
 	<properties>
 		<swagger-annotations-version>1.5.8</swagger-annotations-version>
-
-		<spring-boot-starter-web.version>2.2.1.RELEASE</spring-boot-starter-web.version>
 		<springfox-version>2.8.0</springfox-version>
 	</properties>
 </project>

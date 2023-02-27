@@ -46,13 +46,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
     public static final String RECURSION_LIMIT = "recursionLimit";
-    public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
+    public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
+    public static final String FLOAT_STRICT_TYPE = "floatStrictType";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
+    protected boolean floatStrictType = true;
 
     protected Map<Character, String> regexModifiers;
 
@@ -164,6 +167,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(new CliOption(ALLOW_STRING_IN_DATETIME_PARAMETERS, "Allow string as input to datetime/date parameters for backward compartibility.")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -257,6 +264,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey(ALLOW_STRING_IN_DATETIME_PARAMETERS)) {
+            setAllowStringInDateTimeParameters(convertPropertyToBooleanAndWriteBack(ALLOW_STRING_IN_DATETIME_PARAMETERS));
+        }
+
+        if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
+            setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -388,8 +403,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -424,7 +451,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. confloat(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("gt=" + cp.getMaximum());
@@ -443,12 +469,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
+                if (floatStrictType) {
+                    fieldCustomization.add("strict=True");
+                }
+
                 pydanticImports.add("confloat");
                 return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
-                pydanticImports.add("StrictFloat");
-                return "StrictFloat";
+                if (floatStrictType) {
+                    pydanticImports.add("StrictFloat");
+                    return "StrictFloat";
+                } else {
+                    return "float";
+                }
             }
         } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
             if (cp.hasValidation) {
@@ -542,7 +576,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.isDateTime) {
                 datetimeImports.add("datetime");
             }
-            return cp.dataType;
+
+            if (allowStringInDateTimeParameters) {
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "Union[%s, StrictStr]", cp.dataType);
+            } else {
+                return cp.dataType;
+            }
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
@@ -609,8 +650,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            typingImports.add("List"); // for return type
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -645,7 +699,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. confloat(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
@@ -664,12 +717,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
+                if (floatStrictType) {
+                    fieldCustomization.add("strict=True");
+                }
+
                 pydanticImports.add("confloat");
                 return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
-                pydanticImports.add("StrictFloat");
-                return "StrictFloat";
+                if (floatStrictType) {
+                    pydanticImports.add("StrictFloat");
+                    return "StrictFloat";
+                } else {
+                    return "float";
+                }
             }
         } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
             if (cp.hasValidation) {
@@ -817,10 +878,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 if (!StringUtils.isEmpty(param.description)) { // has description
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
-                }
-
-                if (param.isArray && param.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
                 }
 
                 /* TODO support example
@@ -1006,10 +1063,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
                 }
 
-                if (cp.isArray && cp.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
-                }
-
                 /* TODO review as example may break the build
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
@@ -1041,9 +1094,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -1315,5 +1368,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return this.reservedWordsMappings().get(name);
         }
         return "var_" + name;
+    }
+
+    public void setAllowStringInDateTimeParameters(boolean allowStringInDateTimeParameters) {
+        this.allowStringInDateTimeParameters = allowStringInDateTimeParameters;
+    }
+
+    public void setFloatStrictType(boolean floatStrictType) {
+        this.floatStrictType = floatStrictType;
     }
 }

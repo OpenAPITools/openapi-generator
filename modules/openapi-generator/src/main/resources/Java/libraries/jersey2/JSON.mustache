@@ -38,7 +38,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
             .defaultDateFormat(new RFC3339DateFormat())
             .addModule(new JavaTimeModule())
             {{#joda}}
-            .addModule(new JodaModule());
+            .addModule(new JodaModule())
             {{/joda}}
             {{#openApiNullable}}
             .addModule(new JsonNullableModule())

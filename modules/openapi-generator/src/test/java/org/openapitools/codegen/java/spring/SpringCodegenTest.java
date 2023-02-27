@@ -21,12 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
+import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
@@ -49,6 +44,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -655,6 +652,63 @@ public class SpringCodegenTest {
             ));
     }
 
+    @Test
+    public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue14723() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_14723.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ResponseTest.java"))
+              .isNormalClass()
+              .hasImports("javax.validation.Valid")
+              .hasProperty("details")
+              .withType( "Map<String, Object>" )
+              .toType()
+              .hasProperty("response")
+              .withType( "JsonNullable<Set<ResponseTest2>>" )
+              .toType()
+              .hasProperty("nullableDtos")
+              .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )
+              .toType()
+              .hasProperty("dtos")
+              .withType( "Set<@Valid ResponseTest2>" )
+              .toType()
+              .hasProperty("listNullableDtos")
+              .withType( "JsonNullable<List<@Valid ResponseTest2>>" )
+              .toType()
+              .hasProperty("listDtos")
+              .withType( "List<@Valid ResponseTest2>" )
+              .toType()
+              .hasProperty("nullableStrings")
+              .withType( "JsonNullable<Set<String>>" )
+              .toType()
+              .hasProperty("strings")
+              .withType( "Set<String>" )
+              .toType()
+              .hasProperty("nullableInts")
+              .withType( "JsonNullable<Set<Integer>>" )
+              .toType()
+              .hasProperty("ints")
+              .withType( "Set<Integer>" );
+    }
+
     // Helper function, intended to reduce boilerplate
     private Map<String, File> generateFiles(SpringCodegen codegen, String filePath) throws IOException {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1139,6 +1193,85 @@ public class SpringCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "private String atBaseType");
         // imports for inherited properties
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
+    }
+
+    @Test
+    public void testDiscriminatorWithMappingIssue14731() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+        
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setUseSpringBoot3(true);
+        codegen.setModelNameSuffix("DTO");
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingADTO.java"), "@JsonTypeName");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    public void testDiscriminatorWithoutMappingIssue14731() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setUseSpringBoot3(true);
+        codegen.setModelNameSuffix("DTO");
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
     }
 
     @Test
@@ -1894,6 +2027,18 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
                 .assertMethod("typeConverter");
+    }
+
+    @Test
+    public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/bugs/issue_11570.yml", SPRING_BOOT);
+
+        final String expectedTagName = "\"personTagWithExclamation!\"";
+        final String expectedTagDescription = "\"the personTagWithExclamation! API\"";
+
+        final String interfaceTag = "@Tag(name = " + expectedTagName + ", description = " + expectedTagDescription + ")";
+        final String methodTag = "tags = { " + expectedTagName + " }";
+        assertFileContains(output.get("PersonApi.java").toPath(), interfaceTag, methodTag);
     }
 
     private Map<String, File> generateFromContract(String url, String library) throws IOException {

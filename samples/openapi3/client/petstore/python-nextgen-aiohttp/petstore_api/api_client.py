@@ -526,6 +526,8 @@ class ApiClient(object):
                 v = str(v)
             if isinstance(v, bool):
                 v = str(v).lower()
+            if isinstance(v, dict):
+                v = json.dumps(v)
 
             if k in collection_formats:
                 collection_format = collection_formats[k]

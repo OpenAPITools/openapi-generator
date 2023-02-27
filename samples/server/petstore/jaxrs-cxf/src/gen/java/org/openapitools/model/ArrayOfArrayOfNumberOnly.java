@@ -15,7 +15,7 @@ public class ArrayOfArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber

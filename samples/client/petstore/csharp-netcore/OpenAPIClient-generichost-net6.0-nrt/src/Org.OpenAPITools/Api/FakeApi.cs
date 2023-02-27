@@ -803,8 +803,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
 
 
@@ -938,8 +938,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/boolean";
 
                     request.Content = (body as object) is System.IO.Stream stream
@@ -1086,8 +1086,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/composite";
 
                     request.Content = (outerComposite as object) is System.IO.Stream stream
@@ -1234,8 +1234,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/number";
 
                     request.Content = (body as object) is System.IO.Stream stream
@@ -1399,8 +1399,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/string";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -1547,8 +1547,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
 
 
@@ -1691,8 +1691,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-file-schema";
 
                     request.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
@@ -1850,8 +1850,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-query-params";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -2004,8 +2004,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
@@ -2262,8 +2262,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     MultipartContent multipartContent = new MultipartContent();
@@ -2510,8 +2510,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -2729,8 +2729,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -2893,8 +2893,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/inline-additionalProperties";
 
                     request.Content = (requestBody as object) is System.IO.Stream stream
@@ -3052,8 +3052,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/jsonFormData";
 
                     MultipartContent multipartContent = new MultipartContent();
@@ -3251,8 +3251,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/test-query-parameters";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);

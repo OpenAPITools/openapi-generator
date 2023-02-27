@@ -1013,6 +1013,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     if (cp.items.isString) { // array item is string
                         defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                    } else if (cp.items.isNumeric) {
+                        defaultValue = _values.stream()
+                                .map(v -> {
+                                    if ("BigInteger".equals(cp.items.dataType)) {
+                                        return "new BigInteger(\"" + v + "\")";
+                                    } else if ("BigDecimal".equals(cp.items.dataType)) {
+                                        return "new BigDecimal(\"" + v + "\")";
+                                    } else if (cp.items.isFloat) {
+                                        return v + "f";
+                                    } else {
+                                        return v;
+                                    }
+                                })
+                                .collect(Collectors.joining(", "));
                     } else { // array item is non-string, e.g. integer
                         defaultValue = StringUtils.join(_values, ", ");
                     }
@@ -1038,7 +1052,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
                 if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                    return "null";
+                    return null;
                 } else {
                     if (ModelUtils.isSet(schema)) {
                         return String.format(Locale.ROOT, "new %s<>()",
@@ -1061,7 +1075,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                return "null";
+                return null;
             }
 
             if (getAdditionalProperties(schema) == null) {
@@ -1542,6 +1556,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
+            // check if the operation has form parameters
+            if (op.getHasFormParams()) {
+                additionalProperties.put("hasFormParamsInSpec", true);
+            }
             Collection<String> operationImports = new ConcurrentSkipListSet<>();
             for (CodegenParameter p : op.allParams) {
                 if (importMapping.containsKey(p.dataType)) {
@@ -1552,6 +1570,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
         }
+
         return objs;
     }
 

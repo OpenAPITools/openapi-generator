@@ -61,7 +61,7 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes = null;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }

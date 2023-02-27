@@ -29,7 +29,7 @@ public class Pet   {
 
   private List<String> photoUrls = new ArrayList<>();
 
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<>();
 
 
 public enum StatusEnum {
@@ -63,7 +63,6 @@ public enum StatusEnum {
 }
 
   private StatusEnum status;
-
 
   /**
    **/

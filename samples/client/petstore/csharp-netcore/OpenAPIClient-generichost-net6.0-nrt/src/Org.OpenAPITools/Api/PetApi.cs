@@ -718,8 +718,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    if (apiKey != null)
@@ -867,8 +867,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByStatus";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -1040,8 +1040,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/findByTags";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -1213,8 +1213,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    List<TokenBase> tokens = new List<TokenBase>();
@@ -1553,8 +1553,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
@@ -1735,8 +1735,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}/uploadImage";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
@@ -1929,8 +1929,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/{petId}/uploadImageWithRequiredFile";
 
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
