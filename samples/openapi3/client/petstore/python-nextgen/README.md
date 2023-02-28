@@ -128,6 +128,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AllOfWithNestedOneOf](docs/AllOfWithNestedOneOf.md)
+ - [AllOfWithNestedOneOfAllOf](docs/AllOfWithNestedOneOfAllOf.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
  - [AnyOfColor](docs/AnyOfColor.md)

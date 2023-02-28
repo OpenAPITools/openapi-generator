@@ -4,6 +4,8 @@
 .travis.yml
 README.md
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithNestedOneOf.md
+docs/AllOfWithNestedOneOfAllOf.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -83,6 +85,8 @@ petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
 petstore_api/models/additional_properties_class.py
+petstore_api/models/all_of_with_nested_one_of.py
+petstore_api/models/all_of_with_nested_one_of_all_of.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py

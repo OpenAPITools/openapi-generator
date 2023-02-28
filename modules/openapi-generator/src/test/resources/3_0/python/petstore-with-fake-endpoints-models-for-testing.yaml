@@ -1985,6 +1985,19 @@ components:
       enum:
         - admin
         - user
+    AllOfWithNestedOneOf:
+      type: object
+      title: allOf with nested oneOf model (inline)
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+        - type: object
+          properties: 
+            inner_name:
+              type: string
+            nested_oneof:
+              oneOf:
+                - $ref: '#/components/schemas/BasquePig'
+                - $ref: '#/components/schemas/DanishPig'
     Pig:
       oneOf:
         - $ref: '#/components/schemas/BasquePig'
