@@ -10,7 +10,7 @@ trigger_map:
 workflows:
   primary:
     steps:
-    - git-clone@6.2.1: {}
+    - git-clone@8.0.0: {}
     - brew-install@0.12.1:
         inputs:
         - packages: maven
@@ -42,4 +42,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-14.1.x
+    stack: osx-xcode-14.2.x
