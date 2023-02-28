@@ -805,6 +805,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 });
 
                 handleImplicitHeaders(operation);
+                handleRequiredHeaders(operation);
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);

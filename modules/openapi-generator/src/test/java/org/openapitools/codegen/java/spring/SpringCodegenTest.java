@@ -1749,6 +1749,35 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldAddHeaderParamsToRequestMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_14837.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SomeTagApi.java"))
+                .printFileContent()
+                .assertMethod("getSomeTag")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                        "headers", "{ \"firstHeaderParam\", \"thirdHeaderParam\" }"
+                ));
+    }
+
+    @Test
     public void requiredFieldShouldIncludeNotNullAnnotation_issue13365() throws IOException {
 
         SpringCodegen codegen = new SpringCodegen();

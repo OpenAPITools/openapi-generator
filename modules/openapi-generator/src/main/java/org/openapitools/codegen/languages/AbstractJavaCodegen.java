@@ -2288,6 +2288,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    protected void handleRequiredHeaders(CodegenOperation operation){
+        if (operation.allParams.isEmpty()) {
+            return;
+        }
+        final ArrayList<CodegenParameter> headerParams = new ArrayList<>(operation.headerParams);
+
+        headerParams.stream()
+                .filter(codegenParameter -> codegenParameter.required)
+                .forEach(p -> operation.requiredHeaderParams.add(p));
+    }
+
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
         return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }

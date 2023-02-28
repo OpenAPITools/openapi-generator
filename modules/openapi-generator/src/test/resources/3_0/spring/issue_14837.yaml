@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+paths:
+  /some/dummy/endpoint:
+    get:
+      tags:
+        - SomeTag
+      operationId: getSomeTag
+      parameters:
+        - name: firstqueryparam
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: secondqueryparam
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: firstHeaderParam
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: secondHeaderParam
+          in: header
+          required: false
+          schema:
+            type: integer
+        - name: thirdHeaderParam
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: fourthHeaderParam
+          in: header
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: OK
+
