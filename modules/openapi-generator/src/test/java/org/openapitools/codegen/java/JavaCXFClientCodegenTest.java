@@ -23,18 +23,29 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 public class JavaCXFClientCodegenTest {
 
@@ -52,9 +63,12 @@ public class JavaCXFClientCodegenTest {
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
         final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, null);
 
-        Map<String, Object> objs = new HashMap<>();
-        objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));
-        objs.put("imports", Collections.emptyList());
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(co);
+
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operationMap);
+        objs.setImports(Collections.emptyList());
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(co.responses.size(), 2);
@@ -293,5 +307,42 @@ public class JavaCXFClientCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.JACKSON), Boolean.TRUE);
         Assert.assertTrue(codegen.isUseJackson());
+    }
+
+    @Test
+    public void testUseAbstractionForFiles() throws Exception {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.api");
+
+        properties.put(JavaCXFClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-cxf-client")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8792.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/gen/java/xyz/abcdef/api/DefaultApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                //get file
+                "@ApiResponse(code = 200, message = \"File content\", response = InputStream.class)",
+                "public InputStream filesIdGet(@PathParam(\"id\") String id);",
+
+                //upload
+                "public FilesUploadPost200Response filesUploadPost(InputStream body);"
+        );
     }
 }

@@ -10,6 +10,6 @@ namespace app\Models;
 class Client {
 
     /** @var string $client */
-    private $client;
+    public $client = "";
 
 }

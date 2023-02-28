@@ -16,12 +16,18 @@
     <properties>
         <packaging>jar</packaging>
         <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
         <!-- <release.version>8</release.version> -->
         <micronaut.version>{{{micronautVersion}}}</micronaut.version>
         <exec.mainClass>{{groupId}}.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        {{#generateSwagger1Annotations}}
+        <swagger-annotations-version>1.6.5</swagger-annotations-version>
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+        <swagger-annotations-version>2.2.7</swagger-annotations-version>
+        {{/generateSwagger2Annotations}}
     </properties>
 
     <repositories>
@@ -97,11 +103,13 @@
             <artifactId>micronaut-runtime</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{#reactive}}
         <dependency>
             <groupId>io.micronaut.reactor</groupId>
             <artifactId>micronaut-reactor</artifactId>
             <scope>compile</scope>
         </dependency>
+    {{/reactive}}
     {{#useAuth}}
         <dependency>
             <groupId>io.micronaut.security</groupId>
@@ -119,11 +127,38 @@
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
         </dependency>
+        {{#generateSwagger1Annotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/generateSwagger1Annotations}}
+        {{#generateSwagger2Annotations}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/generateSwagger2Annotations}}
+    {{#micronaut_serde_jackson}}
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-runtime</artifactId>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.micronaut</groupId>
+                    <artifactId>micronaut-jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.serde</groupId>
+            <artifactId>micronaut-serde-jackson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    {{/micronaut_serde_jackson}}
     </dependencies>
 
     <build>
@@ -153,6 +188,13 @@
                             <version>${micronaut.security.version}</version>
                         </path>
     {{/useAuth}}
+    {{#micronaut_serde_jackson}}
+                        <path>
+                           <groupId>io.micronaut.serde</groupId>
+                           <artifactId>micronaut-serde-processor</artifactId>
+                           <version>${micronaut.serialization.version}</version>
+                         </path>
+    {{/micronaut_serde_jackson}}
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-Amicronaut.processing.group={{groupId}}</arg>

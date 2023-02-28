@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public ArrayOfNumberOnly(List<decimal> arrayNumber = default(List<decimal>))
         {
             this._ArrayNumber = arrayNumber;
+            if (this.ArrayNumber != null)
+            {
+                this._flagArrayNumber = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

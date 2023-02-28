@@ -36,19 +36,19 @@ cJSON *category_convertToJSON(category_t *category) {
     cJSON *item = cJSON_CreateObject();
 
     // category->id
-    if(category->id) { 
+    if(category->id) {
     if(cJSON_AddNumberToObject(item, "id", category->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // category->name
-    if(category->name) { 
+    if(category->name) {
     if(cJSON_AddStringToObject(item, "name", category->name) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
     return item;
 fail:
@@ -74,7 +74,7 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     // category->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(categoryJSON, "name");
     if (name) { 
-    if(!cJSON_IsString(name))
+    if(!cJSON_IsString(name) && !cJSON_IsNull(name))
     {
     goto end; //String
     }
@@ -83,7 +83,7 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     category_local_var = category_create (
         id ? id->valuedouble : 0,
-        name ? strdup(name->valuestring) : NULL
+        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
     return category_local_var;

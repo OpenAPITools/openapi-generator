@@ -28,6 +28,11 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +45,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -71,6 +78,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
+
+    Map<String, ModelsMap> enumRefs = new HashMap<>();
 
     public ScalaSttpClientCodegen() {
         super();
@@ -109,6 +118,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp";
 
+        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
+
+        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
+
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
@@ -119,10 +132,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        importMapping.remove("Seq");
-        importMapping.remove("List");
-        importMapping.remove("Set");
-        importMapping.remove("Map");
+//        importMapping.remove("Seq");
+//        importMapping.remove("List");
+//        importMapping.remove("Set");
+//        importMapping.remove("Map");
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();
@@ -144,6 +157,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("ByteArray", "Array[Byte]");
+        typeMapping.put("AnyType", jsonValueClass);
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -166,6 +180,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
+        supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder, "AdditionalTypeSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
     }
@@ -219,7 +234,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return objs;
     }
 
@@ -231,8 +246,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        final Map<String, Object> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
         postProcessUpdateImports(processed);
         return processed;
     }
@@ -246,26 +261,20 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      * @param models processed models to be further processed
      */
     @SuppressWarnings("unchecked")
-    private void postProcessUpdateImports(final Map<String, Object> models) {
+    private void postProcessUpdateImports(final Map<String, ModelsMap> models) {
         final String prefix = modelPackage() + ".";
-        Map<String, Object> enumRefs = new HashMap<String, Object>();
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
-            if (model.isEnum) {
-                Map<String, Object> objs = (Map<String, Object>)models.get(entry.getKey());
-                enumRefs.put(entry.getKey(), objs);
-            }
-        }
 
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+        enumRefs = getEnumRefs(models);
+
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model == null) {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
                 continue;
             }
-            Map<String, Object> objs = (Map<String, Object>)models.get(openAPIName);
-            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+
+            ModelsMap objs = models.get(openAPIName);
+            List<Map<String, String>> imports = objs.getImports();
             if (imports == null || imports.isEmpty()) {
                 continue;
             }
@@ -273,40 +282,46 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             Iterator<Map<String, String>> iterator = imports.iterator();
             while (iterator.hasNext()) {
                 String importPath = iterator.next().get("import");
+                Map<String, String> item = new HashMap<>();
                 if (importPath.startsWith(prefix)) {
-                     if (isEnumClass(importPath, (Map<String, Object>)enumRefs)) {
-                         Map<String, String> item = new HashMap<>();
-                         item.put("import", importPath.concat("._"));
-                         newImports.add(item);
-                     }
-                 }
-                 else {
-                      Map<String, String> item = new HashMap<>();
-                      item.put("import", importPath);
-                      newImports.add(item);
-                 }
-
+                    if (isEnumClass(importPath, enumRefs)) {
+                        item.put("import", importPath.concat("._"));
+                        newImports.add(item);
+                    }
+                }
+                else {
+                    item.put("import", importPath);
+                    newImports.add(item);
+                }
             }
             // reset imports
-            objs.put("imports", newImports);
+            objs.setImports(newImports);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isEnumClass(final String importPath, final Map<String, Object> enumModels) {
+    private Map<String, ModelsMap> getEnumRefs(final Map<String, ModelsMap> models) {
+        Map<String, ModelsMap> enums = new HashMap<>();
+        for (String key : models.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, models);
+            if (model.isEnum) {
+                ModelsMap objs = models.get(key);
+                enums.put(key, objs);
+            }
+        }
+        return enums;
+    }
+
+    private boolean isEnumClass(final String importPath, final Map<String, ModelsMap> enumModels) {
         if (enumModels == null || enumModels.isEmpty()) {
             return false;
         }
-        for (Map.Entry<String, Object> entry : enumModels.entrySet()) {
-            String name = entry.getKey();
-            Map<String, Object> objs = (Map<String, Object>)enumModels.get(name);
-            List<Map<String, Object>> modles = (List<Map<String, Object>>) objs.get("models");
-            if (modles == null || modles.isEmpty()) {
+        for (ModelsMap objs : enumModels.values()) {
+            List<ModelMap> models = objs.getModels();
+            if (models == null || models.isEmpty()) {
                 continue;
             }
-            Iterator<Map<String, Object>> iterator = modles.iterator();
-            while (iterator.hasNext()) {
-                String enumImportPath = (String)iterator.next().get("importPath");
+            for (final Map<String, Object> model : models) {
+                String enumImportPath = (String) model.get("importPath");
                 if (enumImportPath != null && enumImportPath.equals(importPath)) {
                     return true;
                 }
@@ -316,13 +331,12 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
-                @SuppressWarnings("unchecked")
-                Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
-                for (CodegenOperation operation : opsMap.get("operation")) {
+                OperationMap opsMap = objs.getOperations();
+                HashSet<Integer> unknownCodes = new HashSet<>();
+                for (CodegenOperation operation : opsMap.getOperation()) {
                     for (CodegenResponse response : operation.responses) {
                         if ("default".equals(response.code)) {
                             continue;
@@ -344,6 +358,26 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 LOGGER.error("Unable to find operations List", e);
             }
         }
+
+        // update imports for enum class
+        List<Map<String, String>> newImports = new ArrayList<>();
+        List<Map<String, String>> imports = objs.getImports();
+        if (imports != null && !imports.isEmpty()) {
+            Iterator<Map<String, String>> iterator = imports.iterator();
+            while (iterator.hasNext()) {
+                String importPath = iterator.next().get("import");
+                Map<String, String> item = new HashMap<>();
+                if (isEnumClass(importPath, enumRefs)) {
+                    item.put("import", importPath.concat("._"));
+                }
+                else {
+                    item.put("import", importPath);
+                }
+                newImports.add(item);
+            }
+        }
+        objs.setImports(newImports);
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
@@ -355,13 +389,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         // Remove OAuth securities
-        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            if (security.isOAuth) {
-                it.remove();
-            }
-        }
+        codegenSecurities.removeIf(security -> security.isOAuth);
         if (codegenSecurities.isEmpty()) {
             return null;
         }
@@ -408,6 +436,30 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             return null;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Update datatypeWithEnum for array container
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+            // set datetypeWithEnum as only the inner type is enum
+            property.datatypeWithEnum = toEnumName(baseItem);
+            // naming the enum with respect to the language enum naming convention
+            // e.g. remove [], {} from array/map of enum
+            property.enumName = toEnumName(property);
+            property._enum = baseItem._enum;
+
+            updateCodegenPropertyEnum(property);
         }
     }
 
@@ -538,17 +590,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            final StringWriter tempWriter = new StringWriter();
-            frag.execute(tempWriter);
-            out.write(formatFragment(tempWriter.toString()));
-        }
-
-        public abstract String formatFragment(String fragment);
-    }
-
     private static class JavadocLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
@@ -567,19 +608,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public String formatFragment(String fragment) {
             return StringUtils.capitalize(fragment);
-        }
-    }
-
-    private static class CamelizeLambda extends CustomLambda {
-        private final boolean capitalizeFirst;
-
-        public CamelizeLambda(boolean capitalizeFirst) {
-            this.capitalizeFirst = capitalizeFirst;
-        }
-
-        @Override
-        public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
         }
     }
 

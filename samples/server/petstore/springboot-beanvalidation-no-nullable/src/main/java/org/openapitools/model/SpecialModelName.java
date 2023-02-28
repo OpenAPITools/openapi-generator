@@ -21,7 +21,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("$special[model.name]")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class SpecialModelName   {
+public class SpecialModelName {
 
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;

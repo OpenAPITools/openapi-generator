@@ -9,24 +9,28 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
         {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
-        <springdoc.version>1.6.4</springdoc.version>
+        <springdoc.version>1.6.14</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
-        <swagger-annotations.version>1.6.4</swagger-annotations.version>
+        <swagger-annotations.version>1.6.6</swagger-annotations.version>
         {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>}2.1.12</swagger-annotations.version>
+        <swagger-annotations.version>}2.2.7</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
+        {{#virtualService}}
+        <virtualan.version>2.5.2</virtualan.version>
+        {{/virtualService}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>4.4.1-1</swagger-ui.version>
+        <swagger-ui.version>4.15.5</swagger-ui.version>
         {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
@@ -40,7 +44,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.8{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.3{{/springFoxDocumentationProvider}}</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.14{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.7.6{{/springFoxDocumentationProvider}}</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
     <build>
@@ -50,6 +55,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                {{#classifier}}
+                <configuration>
+                  <classifier>{{{classifier}}}</classifier>
+                </configuration>
+                {{/classifier}}
             </plugin>
             {{#apiFirst}}
             <plugin>
@@ -186,7 +196,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.2</version>
+            <version>0.2.6</version>
         </dependency>
         {{/openApiNullable}}
 {{#useBeanValidation}}
@@ -201,13 +211,12 @@
         <dependency>
             <groupId>io.virtualan</groupId>
             <artifactId>virtualan-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>${virtualan.version}</version>
         </dependency>
         <!-- HyperSQL DB -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.0</version>
         </dependency>
     <!-- END Virtual Service API support -->
 {{/virtualService}}

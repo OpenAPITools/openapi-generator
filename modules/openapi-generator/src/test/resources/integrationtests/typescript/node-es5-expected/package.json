@@ -17,7 +17,7 @@
         "request": "^2.72.0"
     },
     "devDependencies": {
-        "typescript": "^1.8.10",
+        "typescript": "^4.0",
         "typings": "^0.8.1"
     }
 }

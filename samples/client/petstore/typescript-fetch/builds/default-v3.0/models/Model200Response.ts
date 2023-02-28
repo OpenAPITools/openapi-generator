@@ -33,6 +33,15 @@ export interface Model200Response {
     _class?: string;
 }
 
+/**
+ * Check if a given object implements the Model200Response interface.
+ */
+export function instanceOfModel200Response(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function Model200ResponseFromJSON(json: any): Model200Response {
     return Model200ResponseFromJSONTyped(json, false);
 }

@@ -49,11 +49,15 @@ class Model200Response {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (name != null) {
-      json[r'name'] = name;
+    if (this.name != null) {
+      json[r'name'] = this.name;
+    } else {
+      json[r'name'] = null;
     }
-    if (class_ != null) {
-      json[r'class'] = class_;
+    if (this.class_ != null) {
+      json[r'class'] = this.class_;
+    } else {
+      json[r'class'] = null;
     }
     return json;
   }

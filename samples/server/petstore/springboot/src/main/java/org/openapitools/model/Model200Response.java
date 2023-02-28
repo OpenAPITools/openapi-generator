@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Model200Response   {
+public class Model200Response {
 
   @JsonProperty("name")
   private Integer name;
@@ -77,9 +77,9 @@ public class Model200Response   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Model200Response _200response = (Model200Response) o;
-    return Objects.equals(this.name, _200response.name) &&
-        Objects.equals(this.propertyClass, _200response.propertyClass);
+    Model200Response _200Response = (Model200Response) o;
+    return Objects.equals(this.name, _200Response.name) &&
+        Objects.equals(this.propertyClass, _200Response.propertyClass);
   }
 
   @Override

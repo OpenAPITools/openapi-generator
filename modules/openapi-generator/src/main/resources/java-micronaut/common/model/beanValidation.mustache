@@ -5,8 +5,8 @@ validate all pojos and enums
 nullable & nonnull
 }}{{#required}}{{#isNullable}}    @Nullable
 {{/isNullable}}{{^isNullable}}    @NotNull
-{{/isNullable}}{{/required}}{{^required}}    @Nullable
-{{/required}}{{!
+{{/isNullable}}{{/required}}{{^required}}{{^useOptional}}    @Nullable
+{{/useOptional}}{{/required}}{{!
 pattern
 }}{{#pattern}}{{^isByteArray}}    @Pattern(regexp="{{{pattern}}}")
 {{/isByteArray}}{{/pattern}}{{!

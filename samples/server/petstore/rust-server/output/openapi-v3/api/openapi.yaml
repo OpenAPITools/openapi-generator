@@ -8,6 +8,7 @@ servers:
 paths:
   /xml:
     post:
+      description: ""
       requestBody:
         content:
           application/xml:
@@ -78,7 +79,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/inline_response_201'
+                $ref: '#/components/schemas/_multiget_get_201_response'
           description: XML rsp
         "202":
           content:
@@ -389,7 +390,7 @@ paths:
                 $ref: '#/components/schemas/StringObject'
           description: OK
       tags:
-      - Repo
+      - repo
       - Info
   /repos:
     post:
@@ -414,11 +415,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                - type: integer
-                - items:
-                    type: string
-                  type: array
+                $ref: '#/components/schemas/_one_of_get_200_response'
           description: Success
   /any-of:
     get:
@@ -451,9 +448,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                - $ref: '#/components/schemas/StringObject'
-                - $ref: '#/components/schemas/UuidObject'
+                $ref: '#/components/schemas/_any_of_get_202_response'
           description: AnyOfSuccess
   /json-complex-query-param:
     get:
@@ -464,11 +459,9 @@ paths:
               items:
                 $ref: '#/components/schemas/StringObject'
               type: array
-        explode: true
         in: query
         name: list-of-strings
         required: false
-        style: form
       responses:
         "200":
           description: Success
@@ -640,7 +633,6 @@ components:
           nullable: true
           type: string
         nullableWithNullDefault:
-          default: "null"
           nullable: true
           type: string
         nullableWithPresentDefault:
@@ -671,22 +663,34 @@ components:
       type: string
     Result:
       type: string
-    inline_response_201:
+    _multiget_get_201_response:
       properties:
         foo:
           type: string
       type: object
+    _one_of_get_200_response:
+      oneOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    _any_of_get_202_response:
+      anyOf:
+      - $ref: '#/components/schemas/StringObject'
+      - $ref: '#/components/schemas/UuidObject'
     AnyOfObject_anyOf:
       enum:
       - FOO
       - BAR
       type: string
+      example: null
     _12345AnyOfObject_anyOf:
       enum:
       - FOO
       - BAR
       - '*'
       type: string
+      example: null
   securitySchemes:
     authScheme:
       flows:

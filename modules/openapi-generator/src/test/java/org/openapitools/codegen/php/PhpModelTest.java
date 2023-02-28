@@ -383,4 +383,79 @@ public class PhpModelTest {
         Assert.assertEquals(op.returnType, "\\DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
     }
+
+    @Test(description = "test @ character replacements used in Hydra")
+    public void hydraModelTest() {
+        final Schema model = new Schema()
+                .description("a hydra model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("@id", new StringSchema())
+                .addProperties("type", new StringSchema())
+                .addProperties("@type", new StringSchema())
+                .addProperties("context", new StringSchema())
+                .addProperties("@context", new StringSchema())
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 6);
+
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertEquals(property1.defaultValue, null);
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "@id");
+        Assert.assertEquals(property2.dataType, "string");
+        Assert.assertEquals(property2.name, "at_id");
+        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertEquals(property2.baseType, "string");
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertFalse(property2.isContainer);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "type");
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "type");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "string");
+        Assert.assertTrue(property3.isPrimitiveType);
+        Assert.assertFalse(property3.isContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "@type");
+        Assert.assertEquals(property4.dataType, "string");
+        Assert.assertEquals(property4.name, "at_type");
+        Assert.assertEquals(property4.defaultValue, null);
+        Assert.assertEquals(property4.baseType, "string");
+        Assert.assertTrue(property4.isPrimitiveType);
+        Assert.assertFalse(property4.isContainer);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "context");
+        Assert.assertEquals(property5.dataType, "string");
+        Assert.assertEquals(property5.name, "context");
+        Assert.assertEquals(property5.defaultValue, null);
+        Assert.assertEquals(property5.baseType, "string");
+        Assert.assertTrue(property5.isPrimitiveType);
+        Assert.assertFalse(property5.isContainer);
+
+        final CodegenProperty property6 = cm.vars.get(5);
+        Assert.assertEquals(property6.baseName, "@context");
+        Assert.assertEquals(property6.dataType, "string");
+        Assert.assertEquals(property6.name, "at_context");
+        Assert.assertEquals(property6.defaultValue, null);
+        Assert.assertEquals(property6.baseType, "string");
+        Assert.assertTrue(property6.isPrimitiveType);
+        Assert.assertFalse(property6.isContainer);
+    }
 }

@@ -4,9 +4,9 @@
     {{#description}}
     /// <value>{{.}}</value>
     {{/description}}
-    {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}
+    {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}{{^useGenericHost}}
     [JsonConverter(typeof(StringEnumConverter))]
-    {{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+    {{/useGenericHost}}{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
     {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
     {
         {{#allowableValues}}

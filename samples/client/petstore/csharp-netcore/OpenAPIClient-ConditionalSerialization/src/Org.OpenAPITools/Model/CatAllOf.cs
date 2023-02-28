@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public CatAllOf(bool declawed = default(bool))
         {
             this._Declawed = declawed;
+            if (this.Declawed != null)
+            {
+                this._flagDeclawed = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

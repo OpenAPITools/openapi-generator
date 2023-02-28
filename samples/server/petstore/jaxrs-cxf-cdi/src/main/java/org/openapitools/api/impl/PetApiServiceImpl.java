@@ -26,7 +26,7 @@ public class PetApiServiceImpl implements PetApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response deletePet(Long petId, String apiKey, SecurityContext securityContext) {
+      public Response deletePet(Long petId, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

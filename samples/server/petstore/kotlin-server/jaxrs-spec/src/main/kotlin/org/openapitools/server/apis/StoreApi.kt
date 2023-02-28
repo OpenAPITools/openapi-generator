@@ -7,13 +7,12 @@ import javax.ws.rs.core.Response
 
 
 import java.io.InputStream
-import java.util.Map
-import java.util.List
 
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))class StoreApi {
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))
+class StoreApi {
 
     @DELETE
     suspend fun deleteOrder(@PathParam("orderId") orderId: kotlin.String): Response {

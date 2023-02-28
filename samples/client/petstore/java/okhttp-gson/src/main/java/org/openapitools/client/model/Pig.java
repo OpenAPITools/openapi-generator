@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
@@ -104,30 +102,53 @@ public class Pig extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Pig newPig = new Pig();
+                    if (jsonObject.get("className") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Pig as `className` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `className`
+                        switch (jsonObject.get("className").getAsString()) {
+                            case "BasquePig":
+                                deserialized = adapterBasquePig.fromJsonTree(jsonObject);
+                                newPig.setActualInstance(deserialized);
+                                return newPig;
+                            case "DanishPig":
+                                deserialized = adapterDanishPig.fromJsonTree(jsonObject);
+                                newPig.setActualInstance(deserialized);
+                                return newPig;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", jsonObject.get("className").getAsString()));
+                        }
+                    }
+
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize BasquePig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         BasquePig.validateJsonObject(jsonObject);
                         actualAdapter = adapterBasquePig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
                     }
 
                     // deserialize DanishPig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         DanishPig.validateJsonObject(jsonObject);
                         actualAdapter = adapterDanishPig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
                     }
 
@@ -137,7 +158,7 @@ public class Pig extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -238,11 +259,13 @@ public class Pig extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with BasquePig
     try {
       BasquePig.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with DanishPig
@@ -250,10 +273,11 @@ public class Pig extends AbstractOpenApiSchema {
       DanishPig.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

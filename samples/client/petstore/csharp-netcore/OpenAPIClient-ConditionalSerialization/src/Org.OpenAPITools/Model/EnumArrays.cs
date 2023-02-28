@@ -98,14 +98,31 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArrays" /> class.
+        /// </summary>
+        /// <param name="justSymbol">justSymbol.</param>
+        /// <param name="arrayEnum">arrayEnum.</param>
+        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+        {
+            this._JustSymbol = justSymbol;
+            if (this.JustSymbol != null)
+            {
+                this._flagJustSymbol = true;
+            }
+            this._ArrayEnum = arrayEnum;
+            if (this.ArrayEnum != null)
+            {
+                this._flagArrayEnum = true;
+            }
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
 
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum
         {
             get{ return _ArrayEnum;}
             set
@@ -114,7 +131,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayEnum = true;
             }
         }
-        private List<ArrayEnumEnum> _ArrayEnum;
+        private List<EnumArrays.ArrayEnumEnum> _ArrayEnum;
         private bool _flagArrayEnum;
 
         /// <summary>
@@ -125,18 +142,6 @@ namespace Org.OpenAPITools.Model
         {
             return _flagArrayEnum;
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumArrays" /> class.
-        /// </summary>
-        /// <param name="justSymbol">justSymbol.</param>
-        /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
-        {
-            this._JustSymbol = justSymbol;
-            this._ArrayEnum = arrayEnum;
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
-
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
@@ -197,7 +202,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                if (this.ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

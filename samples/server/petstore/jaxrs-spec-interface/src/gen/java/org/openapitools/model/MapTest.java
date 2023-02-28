@@ -3,7 +3,6 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -19,11 +18,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MapTest  implements Serializable {
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
-
-public enum InnerEnum {
+  public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 
@@ -82,8 +80,6 @@ public enum InnerEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -111,14 +107,12 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -148,14 +142,12 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -185,14 +177,12 @@ public enum InnerEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

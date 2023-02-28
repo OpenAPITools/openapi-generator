@@ -17,10 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("BigCat_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class BigCatAllOf  implements Serializable {
-  
-
-public enum KindEnum {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class BigCatAllOf  implements Serializable {
+  public enum KindEnum {
 
     LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 
@@ -69,14 +68,19 @@ public enum KindEnum {
 
   private @Valid KindEnum kind;
 
+  protected BigCatAllOf(BigCatAllOfBuilder<?, ?> b) {
+    this.kind = b.kind;
+  }
+
+  public BigCatAllOf() {
+  }
+
   /**
    **/
   public BigCatAllOf kind(KindEnum kind) {
     this.kind = kind;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -130,5 +134,33 @@ public enum KindEnum {
   }
 
 
+  public static BigCatAllOfBuilder<?, ?> builder() {
+    return new BigCatAllOfBuilderImpl();
+  }
+
+  private static final class BigCatAllOfBuilderImpl extends BigCatAllOfBuilder<BigCatAllOf, BigCatAllOfBuilderImpl> {
+
+    @Override
+    protected BigCatAllOfBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public BigCatAllOf build() {
+      return new BigCatAllOf(this);
+    }
+  }
+
+  public static abstract class BigCatAllOfBuilder<C extends BigCatAllOf, B extends BigCatAllOfBuilder<C, B>>  {
+    private KindEnum kind;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B kind(KindEnum kind) {
+      this.kind = kind;
+      return self();
+    }
+  }
 }
 

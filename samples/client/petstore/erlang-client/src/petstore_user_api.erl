@@ -20,7 +20,7 @@ create_user(Ctx, PetstoreUser) ->
 -spec create_user(ctx:ctx(), petstore_user:petstore_user(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_user(Ctx, PetstoreUser, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/user">>],
@@ -41,7 +41,7 @@ create_users_with_array_input(Ctx, PetstoreUserArray) ->
 -spec create_users_with_array_input(ctx:ctx(), list(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/user/createWithArray">>],
@@ -62,7 +62,7 @@ create_users_with_list_input(Ctx, PetstoreUserArray) ->
 -spec create_users_with_list_input(ctx:ctx(), list(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_list_input(Ctx, PetstoreUserArray, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
     Path = [<<"/user/createWithList">>],
@@ -83,7 +83,7 @@ delete_user(Ctx, Username) ->
 -spec delete_user(ctx:ctx(), binary(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 delete_user(Ctx, Username, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
     Path = [<<"/user/", Username, "">>],
@@ -104,7 +104,7 @@ get_user_by_name(Ctx, Username) ->
 -spec get_user_by_name(ctx:ctx(), binary(), maps:map()) -> {ok, petstore_user:petstore_user(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_user_by_name(Ctx, Username, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/user/", Username, "">>],
@@ -125,7 +125,7 @@ login_user(Ctx, Username, Password) ->
 -spec login_user(ctx:ctx(), binary(), binary(), maps:map()) -> {ok, binary(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 login_user(Ctx, Username, Password, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/user/login">>],
@@ -146,7 +146,7 @@ logout_user(Ctx) ->
 -spec logout_user(ctx:ctx(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 logout_user(Ctx, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
     Path = [<<"/user/logout">>],
@@ -167,7 +167,7 @@ update_user(Ctx, Username, PetstoreUser) ->
 -spec update_user(ctx:ctx(), binary(), petstore_user:petstore_user(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 update_user(Ctx, Username, PetstoreUser, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = put,
     Path = [<<"/user/", Username, "">>],

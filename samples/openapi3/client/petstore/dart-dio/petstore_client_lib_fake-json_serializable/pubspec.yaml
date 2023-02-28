@@ -1,0 +1,16 @@
+name: openapi
+version: 1.0.0
+description: OpenAPI API client
+homepage: homepage
+
+environment:
+  sdk: '>=2.15.0 <3.0.0'
+
+dependencies:
+  dio: '^5.0.0'
+  json_annotation: '^4.4.0'
+
+dev_dependencies:
+  build_runner: any
+  json_serializable: '^6.1.5'
+  test: ^1.16.0

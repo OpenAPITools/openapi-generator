@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -38,7 +36,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,7 +54,7 @@ public class CatAllOf implements Parcelable {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public CatAllOf() { 
+  public CatAllOf() {
   }
 
   public CatAllOf declawed(Boolean declawed) {
@@ -68,7 +68,6 @@ public class CatAllOf implements Parcelable {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;
@@ -78,6 +77,7 @@ public class CatAllOf implements Parcelable {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
+
 
 
   @Override
@@ -159,12 +159,11 @@ public class CatAllOf implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (CatAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!CatAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in CatAllOf is not found in the empty JSON string", CatAllOf.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

@@ -15,7 +15,7 @@ type Order {
   quantity: Int!
   shipDate: String!
   # Order Status
-  status: OrderStatusEnum
+  status: StatusEnum
   complete: Boolean!
 }
 
@@ -25,13 +25,7 @@ input OrderInput {
     quantity: Int!
     shipDate: String!
     # Order Status
-    status: OrderStatusEnum
+    status: StatusEnum
     complete: Boolean!
 }
 
-# Order Status
-enum OrderStatusEnum {
-  placed
-  approved
-  delivered
-}

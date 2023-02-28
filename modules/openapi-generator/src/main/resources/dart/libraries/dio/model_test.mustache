@@ -7,8 +7,7 @@ import 'package:{{pubName}}/{{pubName}}.dart';
 void main() {
   {{^isEnum}}
   {{! Due to required vars without default value we can not create a full instance here }}
-  final instance = {{{classname}}}Builder();
-  // TODO add properties to the builder and call build()
+{{#includeLibraryTemplate}}test_instance{{/includeLibraryTemplate}}
   {{/isEnum}}
 
   group({{{classname}}}, () {

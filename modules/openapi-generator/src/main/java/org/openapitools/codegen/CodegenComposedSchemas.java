@@ -22,11 +22,13 @@ public class CodegenComposedSchemas {
     private List<CodegenProperty> allOf;
     private List<CodegenProperty> oneOf;
     private List<CodegenProperty> anyOf;
+    private CodegenProperty not = null;
 
-    public CodegenComposedSchemas(List<CodegenProperty> allOf, List<CodegenProperty> oneOf, List<CodegenProperty> anyOf) {
+    public CodegenComposedSchemas(List<CodegenProperty> allOf, List<CodegenProperty> oneOf, List<CodegenProperty> anyOf, CodegenProperty not) {
         this.allOf = allOf;
         this.oneOf = oneOf;
         this.anyOf = anyOf;
+        this.not = not;
     }
 
     public List<CodegenProperty> getAllOf() {
@@ -41,11 +43,16 @@ public class CodegenComposedSchemas {
         return anyOf;
     }
 
+    public CodegenProperty getNot() {
+        return not;
+    }
+
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenComposedSchemas{");
         sb.append("oneOf=").append(oneOf);
         sb.append(", anyOf=").append(anyOf);
         sb.append(", allOf=").append(allOf);
+        sb.append(", not=").append(not);
         sb.append('}');
         return sb.toString();
     }
@@ -56,11 +63,12 @@ public class CodegenComposedSchemas {
         CodegenComposedSchemas that = (CodegenComposedSchemas) o;
         return Objects.equals(oneOf, that.oneOf) &&
                 Objects.equals(anyOf, that.anyOf) &&
-                Objects.equals(allOf, that.allOf);
+                Objects.equals(allOf, that.allOf) &&
+                Objects.equals(not, that.not);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oneOf, anyOf, allOf);
+        return Objects.hash(oneOf, anyOf, allOf, not);
     }
 }

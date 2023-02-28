@@ -1,0 +1,11 @@
+package {{invokerPackage}};
+
+import {{rootJavaEEPackage}}.enterprise.context.ApplicationScoped;
+import {{rootJavaEEPackage}}.ws.rs.ApplicationPath;
+import {{rootJavaEEPackage}}.ws.rs.core.Application;
+
+@ApplicationScoped
+@ApplicationPath("{{{contextPath}}}")
+public class RestApplication extends Application {
+
+}

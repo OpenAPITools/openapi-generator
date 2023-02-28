@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
 import android.os.Parcelable;
@@ -39,7 +37,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -263,7 +263,7 @@ public class EnumTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
-  public EnumTest() { 
+  public EnumTest() {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -277,7 +277,6 @@ public class EnumTest implements Parcelable {
    * @return enumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -300,7 +299,6 @@ public class EnumTest implements Parcelable {
    * @return enumStringRequired
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -323,7 +321,6 @@ public class EnumTest implements Parcelable {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -346,7 +343,6 @@ public class EnumTest implements Parcelable {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -369,7 +365,6 @@ public class EnumTest implements Parcelable {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -379,6 +374,7 @@ public class EnumTest implements Parcelable {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
+
 
 
   @Override
@@ -481,12 +477,11 @@ public class EnumTest implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (EnumTest.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!EnumTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in EnumTest is not found in the empty JSON string", EnumTest.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -500,6 +495,12 @@ public class EnumTest implements Parcelable {
         if (jsonObj.get(requiredField) == null) {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
+      }
+      if ((jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) && !jsonObj.get("enum_string").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `enum_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string").toString()));
+      }
+      if (!jsonObj.get("enum_string_required").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `enum_string_required` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string_required").toString()));
       }
   }
 

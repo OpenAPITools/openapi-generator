@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Category   {
+public class Category {
 
   @JsonProperty("id")
   private Long id;
@@ -37,7 +37,7 @@ public class Category   {
    * @return id
   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getId() {
     return id;
   }
@@ -56,7 +56,7 @@ public class Category   {
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", required = true)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getName() {
     return name;
   }

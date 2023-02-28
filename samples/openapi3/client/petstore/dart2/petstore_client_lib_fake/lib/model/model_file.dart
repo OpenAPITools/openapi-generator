@@ -39,8 +39,10 @@ class ModelFile {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (sourceURI != null) {
-      json[r'sourceURI'] = sourceURI;
+    if (this.sourceURI != null) {
+      json[r'sourceURI'] = this.sourceURI;
+    } else {
+      json[r'sourceURI'] = null;
     }
     return json;
   }

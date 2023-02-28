@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         public QuadrilateralInterface(string quadrilateralType = default(string))
         {
             // to ensure "quadrilateralType" is required (not null)
-            if (quadrilateralType == null) {
+            if (quadrilateralType == null)
+            {
                 throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
             }
             this.QuadrilateralType = quadrilateralType;
@@ -53,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
         public string QuadrilateralType { get; set; }
 
         /// <summary>

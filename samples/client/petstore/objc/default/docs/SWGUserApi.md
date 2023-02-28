@@ -69,6 +69,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 ```objc
 
@@ -113,6 +115,8 @@ No authorization required
 ```
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```objc
@@ -206,6 +210,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 ```objc
 
@@ -254,6 +260,8 @@ No authorization required
 ```
 
 Logs user into the system
+
+
 
 ### Example
 ```objc
@@ -305,6 +313,8 @@ No authorization required
 ```
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```objc

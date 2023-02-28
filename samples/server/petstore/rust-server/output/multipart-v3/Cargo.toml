@@ -1,8 +1,9 @@
 [package]
 name = "multipart-v3"
 version = "1.0.7"
-authors = []
+authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
+# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
 edition = "2018"
 
@@ -24,10 +25,10 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
 native-tls = { version = "0.2", optional = true }
-hyper-tls = { version = "0.4", optional = true }
+hyper-tls = { version = "0.5", optional = true }
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
-hyper-openssl = { version = "0.8", optional = true }
+hyper-openssl = { version = "0.9", optional = true }
 openssl = {version = "0.10", optional = true }
 
 [dependencies]
@@ -35,7 +36,7 @@ openssl = {version = "0.10", optional = true }
 async-trait = "0.1.24"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = "5.0.2"
+swagger = { version = "6.1", features = ["serdejson", "server", "client", "tls", "tcp"] }
 log = "0.4.0"
 mime = "0.3"
 
@@ -47,7 +48,7 @@ mime_0_2 = { package = "mime", version = "0.2.6", optional = true }
 multipart = { version = "0.16", default-features = false, optional = true }
 
 # Common between server and client features
-hyper = {version = "0.13", optional = true}
+hyper = {version = "0.14", features = ["full"], optional = true}
 mime_multipart = {version = "0.5", optional = true}
 hyper_0_10 = {package = "hyper", version = "0.10", default-features = false, optional=true}
 serde_ignored = {version = "0.1.1", optional = true}
@@ -70,12 +71,11 @@ frunk-enum-core = { version = "0.2.0", optional = true }
 [dev-dependencies]
 clap = "2.25"
 env_logger = "0.7"
-tokio = { version = "0.2", features = ["rt-threaded", "macros", "stream"] }
+tokio = { version = "1.14", features = ["full"] }
 native-tls = "0.2"
-tokio-tls = "0.3"
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dev-dependencies]
-tokio-openssl = "0.4"
+tokio-openssl = "0.6"
 openssl = "0.10"
 
 [[example]]

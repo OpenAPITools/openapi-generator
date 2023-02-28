@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumArrays   {
+public class EnumArrays {
 
   /**
    * Gets or Sets justSymbol
@@ -110,7 +110,7 @@ public class EnumArrays   {
    * @return justSymbol
   */
   
-  @Schema(name = "just_symbol", required = false)
+  @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -137,7 +137,7 @@ public class EnumArrays   {
    * @return arrayEnum
   */
   
-  @Schema(name = "array_enum", required = false)
+  @Schema(name = "array_enum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

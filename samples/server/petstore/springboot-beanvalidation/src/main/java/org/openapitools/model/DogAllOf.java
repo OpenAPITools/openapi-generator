@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Dog_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class DogAllOf   {
+public class DogAllOf {
 
   @JsonProperty("breed")
   private String breed;

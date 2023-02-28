@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
+from pydantic import AnyUrl, BaseModel, EmailStr, Field, validator  # noqa: F401
 
 
 class Order(BaseModel):
@@ -24,11 +24,11 @@ class Order(BaseModel):
         complete: The complete of this Order [Optional].
     """
 
-    id: Optional[int] = None
-    pet_id: Optional[int] = None
-    quantity: Optional[int] = None
-    ship_date: Optional[datetime] = None
-    status: Optional[str] = None
-    complete: Optional[bool] = None
+    id: Optional[int] = Field(alias="id", default=None)
+    pet_id: Optional[int] = Field(alias="petId", default=None)
+    quantity: Optional[int] = Field(alias="quantity", default=None)
+    ship_date: Optional[datetime] = Field(alias="shipDate", default=None)
+    status: Optional[str] = Field(alias="status", default=None)
+    complete: Optional[bool] = Field(alias="complete", default=None)
 
 Order.update_forward_refs()

@@ -70,6 +70,9 @@ String parameterToString(dynamic value) {
   if (value is OuterEnumIntegerDefaultValue) {
     return OuterEnumIntegerDefaultValueTypeTransformer().encode(value).toString();
   }
+  if (value is SingleRefType) {
+    return SingleRefTypeTypeTransformer().encode(value).toString();
+  }
   return value.toString();
 }
 

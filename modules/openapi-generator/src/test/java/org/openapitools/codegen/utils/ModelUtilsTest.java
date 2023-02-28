@@ -56,10 +56,12 @@ public class ModelUtilsTest {
                 "SomeObj15",
                 "SomeMapObj16",
                 "MapItem16",
+                "p17_200_response",
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
                 "SomeObj18_allOf",
+                "_some_p19_patch_request",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -78,7 +80,7 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas.size(), expectedAllUsedSchemas.size());
+        Assert.assertEquals(allUsedSchemas, expectedAllUsedSchemas);
         Assert.assertTrue(allUsedSchemas.containsAll(expectedAllUsedSchemas));
     }
 
@@ -204,7 +206,8 @@ public class ModelUtilsTest {
      */
     @Test
     public void testComposedSchemasAreNotUnaliased() {
-        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+        ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.allOf(Arrays.asList(
                 new Schema<>().$ref("#/components/schemas/SomeSchema"),
                 new ObjectSchema()
         ));
@@ -216,15 +219,15 @@ public class ModelUtilsTest {
     }
 
     @Test
-    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping() {
         Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
         StringSchema stringSchema = new StringSchema();
-        HashMap<String, String> importMappings = new HashMap<>();
-        importMappings.put("Email","foo.bar.Email");
+        HashMap<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("Email", "foo.bar.Email");
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
 
-        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
+        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, schemaMappings));
         Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 

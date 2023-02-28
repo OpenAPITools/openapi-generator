@@ -12,12 +12,14 @@ import type { User } from '../models/User';
 
 export abstract class AbstractObjectPetApi {
     /**
+     * 
      * Add a new pet to the store
      * @param param the request object
      */
     public abstract addPet(param: req.PetApiAddPetRequest, options?: Configuration): Promise<Pet>;
 
     /**
+     * 
      * Deletes a pet
      * @param param the request object
      */
@@ -45,18 +47,21 @@ export abstract class AbstractObjectPetApi {
     public abstract getPetById(param: req.PetApiGetPetByIdRequest, options?: Configuration): Promise<Pet>;
 
     /**
+     * 
      * Update an existing pet
      * @param param the request object
      */
     public abstract updatePet(param: req.PetApiUpdatePetRequest, options?: Configuration): Promise<Pet>;
 
     /**
+     * 
      * Updates a pet in the store with form data
      * @param param the request object
      */
     public abstract updatePetWithForm(param: req.PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<void>;
 
     /**
+     * 
      * uploads an image
      * @param param the request object
      */
@@ -81,13 +86,14 @@ export abstract class AbstractObjectStoreApi {
     public abstract getInventory(param: req.StoreApiGetInventoryRequest, options?: Configuration): Promise<{ [key: string]: number; }>;
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      * @param param the request object
      */
     public abstract getOrderById(param: req.StoreApiGetOrderByIdRequest, options?: Configuration): Promise<Order>;
 
     /**
+     * 
      * Place an order for a pet
      * @param param the request object
      */
@@ -105,12 +111,14 @@ export abstract class AbstractObjectUserApi {
     public abstract createUser(param: req.UserApiCreateUserRequest, options?: Configuration): Promise<void>;
 
     /**
+     * 
      * Creates list of users with given input array
      * @param param the request object
      */
     public abstract createUsersWithArrayInput(param: req.UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<void>;
 
     /**
+     * 
      * Creates list of users with given input array
      * @param param the request object
      */
@@ -124,18 +132,21 @@ export abstract class AbstractObjectUserApi {
     public abstract deleteUser(param: req.UserApiDeleteUserRequest, options?: Configuration): Promise<void>;
 
     /**
+     * 
      * Get user by user name
      * @param param the request object
      */
     public abstract getUserByName(param: req.UserApiGetUserByNameRequest, options?: Configuration): Promise<User>;
 
     /**
+     * 
      * Logs user into the system
      * @param param the request object
      */
     public abstract loginUser(param: req.UserApiLoginUserRequest, options?: Configuration): Promise<string>;
 
     /**
+     * 
      * Logs out current logged in user session
      * @param param the request object
      */

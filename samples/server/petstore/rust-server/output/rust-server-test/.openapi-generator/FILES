@@ -7,8 +7,8 @@ docs/ANullableContainer.md
 docs/AdditionalPropertiesObject.md
 docs/AllOfObject.md
 docs/BaseAllOf.md
+docs/DummyPutRequest.md
 docs/GetYamlResponse.md
-docs/InlineObject.md
 docs/ObjectOfObjects.md
 docs/ObjectOfObjectsInner.md
 docs/default_api.md

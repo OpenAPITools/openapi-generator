@@ -18,10 +18,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumArrays  implements Serializable {
-  
-
-public enum JustSymbolEnum {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumArrays  implements Serializable {
+  public enum JustSymbolEnum {
 
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
@@ -69,8 +68,7 @@ public enum JustSymbolEnum {
 }
 
   private @Valid JustSymbolEnum justSymbol;
-
-public enum ArrayEnumEnum {
+  public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 
@@ -119,14 +117,20 @@ public enum ArrayEnumEnum {
 
   private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  protected EnumArrays(EnumArraysBuilder<?, ?> b) {
+    this.justSymbol = b.justSymbol;
+    this.arrayEnum = b.arrayEnum;
+  }
+
+  public EnumArrays() {
+  }
+
   /**
    **/
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -140,14 +144,12 @@ public enum ArrayEnumEnum {
     this.justSymbol = justSymbol;
   }
 
-/**
+  /**
    **/
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -219,5 +221,38 @@ public enum ArrayEnumEnum {
   }
 
 
+  public static EnumArraysBuilder<?, ?> builder() {
+    return new EnumArraysBuilderImpl();
+  }
+
+  private static final class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
+
+    @Override
+    protected EnumArraysBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public EnumArrays build() {
+      return new EnumArrays(this);
+    }
+  }
+
+  public static abstract class EnumArraysBuilder<C extends EnumArrays, B extends EnumArraysBuilder<C, B>>  {
+    private JustSymbolEnum justSymbol;
+    private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B justSymbol(JustSymbolEnum justSymbol) {
+      this.justSymbol = justSymbol;
+      return self();
+    }
+    public B arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+      this.arrayEnum = arrayEnum;
+      return self();
+    }
+  }
 }
 

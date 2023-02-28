@@ -49,13 +49,17 @@ namespace Org.OpenAPITools.Model
         {
             this.__Name = name;
             this._Property = property;
+            if (this.Property != null)
+            {
+                this._flagProperty = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public int _Name
         {
             get{ return __Name;}

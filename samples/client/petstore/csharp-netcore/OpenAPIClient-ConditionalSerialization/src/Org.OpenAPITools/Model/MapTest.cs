@@ -52,33 +52,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-
-        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString
-        {
-            get{ return _MapOfEnumString;}
-            set
-            {
-                _MapOfEnumString = value;
-                _flagMapOfEnumString = true;
-            }
-        }
-        private Dictionary<string, InnerEnum> _MapOfEnumString;
-        private bool _flagMapOfEnumString;
-
-        /// <summary>
-        /// Returns false as MapOfEnumString should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMapOfEnumString()
-        {
-            return _flagMapOfEnumString;
-        }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -89,9 +62,25 @@ namespace Org.OpenAPITools.Model
         public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
             this._MapMapOfString = mapMapOfString;
+            if (this.MapMapOfString != null)
+            {
+                this._flagMapMapOfString = true;
+            }
             this._MapOfEnumString = mapOfEnumString;
+            if (this.MapOfEnumString != null)
+            {
+                this._flagMapOfEnumString = true;
+            }
             this._DirectMap = directMap;
+            if (this.DirectMap != null)
+            {
+                this._flagDirectMap = true;
+            }
             this._IndirectMap = indirectMap;
+            if (this.IndirectMap != null)
+            {
+                this._flagIndirectMap = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -118,6 +107,30 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeMapMapOfString()
         {
             return _flagMapMapOfString;
+        }
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString
+        {
+            get{ return _MapOfEnumString;}
+            set
+            {
+                _MapOfEnumString = value;
+                _flagMapOfEnumString = true;
+            }
+        }
+        private Dictionary<string, MapTest.InnerEnum> _MapOfEnumString;
+        private bool _flagMapOfEnumString;
+
+        /// <summary>
+        /// Returns false as MapOfEnumString should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeMapOfEnumString()
+        {
+            return _flagMapOfEnumString;
         }
         /// <summary>
         /// Gets or Sets DirectMap
@@ -232,7 +245,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
                 if (this.DirectMap != null)
                 {
                     hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();

@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v14-query-param-object-format
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 14.0.5
+  supportsES6: true
+  queryParamObjectFormat: json

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
@@ -104,30 +102,53 @@ public class Shape extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Shape newShape = new Shape();
+                    if (jsonObject.get("shapeType") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Shape as `shapeType` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `shapeType`
+                        switch (jsonObject.get("shapeType").getAsString()) {
+                            case "Quadrilateral":
+                                deserialized = adapterQuadrilateral.fromJsonTree(jsonObject);
+                                newShape.setActualInstance(deserialized);
+                                return newShape;
+                            case "Triangle":
+                                deserialized = adapterTriangle.fromJsonTree(jsonObject);
+                                newShape.setActualInstance(deserialized);
+                                return newShape;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Shape. Possible values: Quadrilateral Triangle", jsonObject.get("shapeType").getAsString()));
+                        }
+                    }
+
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Quadrilateral
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Quadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterQuadrilateral;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
                     }
 
                     // deserialize Triangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Triangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
                     }
 
@@ -137,7 +158,7 @@ public class Shape extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -238,11 +259,13 @@ public class Shape extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with Quadrilateral
     try {
       Quadrilateral.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Triangle
@@ -250,10 +273,11 @@ public class Shape extends AbstractOpenApiSchema {
       Triangle.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Shape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Shape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        /// <returns>Dictionary<string, int></returns>
         Dictionary<string, int> GetInventory ();
 
         /// <summary>
@@ -63,13 +63,13 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        /// <returns>ApiResponse of Dictionary<string, int></returns>
         ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ();
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
+        /// <returns>Task of Dictionary<string, int></returns>
         System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync (CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
-        /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -311,7 +311,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -322,7 +322,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -375,7 +375,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -388,7 +388,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
@@ -445,7 +445,7 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        /// <returns>Dictionary<string, int></returns>
         public Dictionary<string, int> GetInventory ()
         {
              ApiResponse<Dictionary<string, int>> localVarResponse = GetInventoryWithHttpInfo();
@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        /// <returns>ApiResponse of Dictionary<string, int></returns>
         public ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ()
         {
 
@@ -511,7 +511,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
+        /// <returns>Task of Dictionary<string, int></returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync (CancellationToken cancellationToken = default(CancellationToken))
         {
              ApiResponse<Dictionary<string, int>> localVarResponse = await GetInventoryWithHttpInfoAsync(cancellationToken);
@@ -575,7 +575,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -587,7 +587,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -642,7 +642,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
@@ -656,7 +656,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>

@@ -13,10 +13,10 @@ type Pet {
   id: Int!
   category: Category
   name: String!
-  photoUrls: String!
-  tags: Tag
+  photoUrls: [String!!]
+  tags: [Tag!]
   # pet status in the store
-  status: PetStatusEnum
+  status: StatusEnum
 }
 
 input PetInput {
@@ -26,12 +26,6 @@ input PetInput {
     photoUrls: [String!]
     tags: [TagInput]
     # pet status in the store
-    status: PetStatusEnum
+    status: StatusEnum
 }
 
-# pet status in the store
-enum PetStatusEnum {
-  available
-  pending
-  sold
-}

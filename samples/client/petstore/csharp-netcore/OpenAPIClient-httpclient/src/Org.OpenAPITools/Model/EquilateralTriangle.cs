@@ -49,12 +49,14 @@ namespace Org.OpenAPITools.Model
         public EquilateralTriangle(string shapeType = default(string), string triangleType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            if (shapeType == null) {
+            if (shapeType == null)
+            {
                 throw new ArgumentNullException("shapeType is a required property for EquilateralTriangle and cannot be null");
             }
             this.ShapeType = shapeType;
             // to ensure "triangleType" is required (not null)
-            if (triangleType == null) {
+            if (triangleType == null)
+            {
                 throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
             }
             this.TriangleType = triangleType;
@@ -64,13 +66,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
         public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = true)]
         public string TriangleType { get; set; }
 
         /// <summary>

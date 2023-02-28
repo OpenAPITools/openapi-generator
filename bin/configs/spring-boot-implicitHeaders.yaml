@@ -6,4 +6,4 @@ additionalProperties:
   artifactId: springboot-implicitHeaders
   documentationProvider: springfox
   hideGenerationTimestamp: "true"
-  implicitHeaders: true
+  implicitHeadersRegex: .*

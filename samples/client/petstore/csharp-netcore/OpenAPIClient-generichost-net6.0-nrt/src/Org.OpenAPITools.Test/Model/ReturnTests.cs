@@ -18,7 +18,6 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,12 +56,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property '_Return'
+        /// Test the property 'ReturnProperty'
         /// </summary>
         [Fact]
-        public void _ReturnTest()
+        public void ReturnPropertyTest()
         {
-            // TODO unit test for the property '_Return'
+            // TODO unit test for the property 'ReturnProperty'
         }
 
     }

@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class XmlItem   {
+public class XmlItem {
 
   @JsonProperty("attribute_string")
   private String attributeString;

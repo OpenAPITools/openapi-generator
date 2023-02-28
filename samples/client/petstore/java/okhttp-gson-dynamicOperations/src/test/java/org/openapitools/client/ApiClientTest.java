@@ -10,10 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.TimeZone;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ApiClientTest {
     ApiClient apiClient;
@@ -338,7 +336,7 @@ public class ApiClientTest {
     public void testNewHttpClient() {
         OkHttpClient oldClient = apiClient.getHttpClient();
         apiClient.setHttpClient(oldClient.newBuilder().build());
-        assertThat(apiClient.getHttpClient(), is(not(oldClient)));
+        assertNotSame(apiClient.getHttpClient(), oldClient);
     }
 
     /**

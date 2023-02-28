@@ -151,6 +151,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Model.AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -170,10 +171,10 @@ Class | Method | HTTP request | Description
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Model.Foo](docs/Foo.md)
+ - [Model.FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [Model.FormatTest](docs/FormatTest.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Model.HealthCheckResult](docs/HealthCheckResult.md)
- - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Model.List](docs/List.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -193,12 +194,24 @@ Class | Method | HTTP request | Description
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
+ - [Model.SingleRefType](docs/SingleRefType.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
 
 
 ## Documentation for Authorization
+
+
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
 
 
 ### api_key
@@ -217,29 +230,18 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
-### bearer_test
-
-
-- **Type**: HTTP bearer authentication
-
-
 ### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
 
+### bearer_test
+
+
+- **Type**: HTTP bearer authentication
+
+
 ### http_signature_test
 
-
-
-### petstore_auth
-
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 

@@ -42,9 +42,25 @@ namespace Org.OpenAPITools.Model
         public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
         {
             this._MainShape = mainShape;
+            if (this.MainShape != null)
+            {
+                this._flagMainShape = true;
+            }
             this._ShapeOrNull = shapeOrNull;
+            if (this.ShapeOrNull != null)
+            {
+                this._flagShapeOrNull = true;
+            }
             this._NullableShape = nullableShape;
+            if (this.NullableShape != null)
+            {
+                this._flagNullableShape = true;
+            }
             this._Shapes = shapes;
+            if (this.Shapes != null)
+            {
+                this._flagShapes = true;
+            }
         }
 
         /// <summary>

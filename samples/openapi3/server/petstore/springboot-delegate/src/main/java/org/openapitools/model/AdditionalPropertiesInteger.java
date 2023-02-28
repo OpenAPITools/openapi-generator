@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
+public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
 
   @JsonProperty("name")
   private String name;
@@ -36,7 +36,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
    * @return name
   */
   
-  @Schema(name = "name", required = false)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
   }

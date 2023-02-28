@@ -2,16 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
-[**testClassnameWithHttpInfo**](FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case |
+| [**testClassnameWithHttpInfo**](FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case |
 
 
 
 ## testClassname
 
-> Client testClassname(body)
+> Client testClassname(client)
 
 To test class name in snake case
 
@@ -40,9 +40,9 @@ public class Example {
         //api_key_query.setApiKeyPrefix("Token");
 
         FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            Client result = apiInstance.testClassname(body);
+            Client result = apiInstance.testClassname(client);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
@@ -58,9 +58,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 ## testClassnameWithHttpInfo
 
-> ApiResponse<Client> testClassname testClassnameWithHttpInfo(body)
+> ApiResponse<Client> testClassname testClassnameWithHttpInfo(client)
 
 To test class name in snake case
 
@@ -113,9 +113,9 @@ public class Example {
         //api_key_query.setApiKeyPrefix("Token");
 
         FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            ApiResponse<Client> response = apiInstance.testClassnameWithHttpInfo(body);
+            ApiResponse<Client> response = apiInstance.testClassnameWithHttpInfo(client);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -133,9 +133,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 

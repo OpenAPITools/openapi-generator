@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.List;
 
 import org.openapitools.client.Pair;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ApiKeyAuthTest {
     @Test

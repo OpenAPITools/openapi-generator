@@ -104,6 +104,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](doc//AdditionalPropertiesClass.md)
+ - [AllOfWithSingleRef](doc//AllOfWithSingleRef.md)
  - [Animal](doc//Animal.md)
  - [ApiResponse](doc//ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](doc//ArrayOfArrayOfNumberOnly.md)
@@ -122,10 +123,10 @@ Class | Method | HTTP request | Description
  - [EnumTest](doc//EnumTest.md)
  - [FileSchemaTestClass](doc//FileSchemaTestClass.md)
  - [Foo](doc//Foo.md)
+ - [FooGetDefaultResponse](doc//FooGetDefaultResponse.md)
  - [FormatTest](doc//FormatTest.md)
  - [HasOnlyReadOnly](doc//HasOnlyReadOnly.md)
  - [HealthCheckResult](doc//HealthCheckResult.md)
- - [InlineResponseDefault](doc//InlineResponseDefault.md)
  - [MapTest](doc//MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](doc//MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](doc//Model200Response.md)
@@ -146,6 +147,7 @@ Class | Method | HTTP request | Description
  - [OuterObjectWithEnumProperty](doc//OuterObjectWithEnumProperty.md)
  - [Pet](doc//Pet.md)
  - [ReadOnlyFirst](doc//ReadOnlyFirst.md)
+ - [SingleRefType](doc//SingleRefType.md)
  - [SpecialModelName](doc//SpecialModelName.md)
  - [Tag](doc//Tag.md)
  - [User](doc//User.md)
@@ -153,6 +155,15 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
+
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
 
 ## api_key
 
@@ -166,25 +177,16 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## bearer_test
-
-- **Type**: HTTP Bearer authentication
-
 ## http_basic_test
 
 - **Type**: HTTP Basic authentication
 
+## bearer_test
+
+- **Type**: HTTP Bearer authentication
+
 ## http_signature_test
 
-
-## petstore_auth
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
 
 
 ## Author

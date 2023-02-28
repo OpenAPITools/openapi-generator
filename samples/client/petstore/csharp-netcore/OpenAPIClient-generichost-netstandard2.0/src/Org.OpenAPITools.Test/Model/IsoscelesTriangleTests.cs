@@ -18,7 +18,6 @@ using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,22 +55,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
 
-        /// <summary>
-        /// Test the property 'ShapeType'
-        /// </summary>
-        [Fact]
-        public void ShapeTypeTest()
-        {
-            // TODO unit test for the property 'ShapeType'
-        }
-        /// <summary>
-        /// Test the property 'TriangleType'
-        /// </summary>
-        [Fact]
-        public void TriangleTypeTest()
-        {
-            // TODO unit test for the property 'TriangleType'
-        }
 
     }
 

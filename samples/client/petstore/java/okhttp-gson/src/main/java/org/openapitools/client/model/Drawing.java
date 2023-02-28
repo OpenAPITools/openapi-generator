@@ -20,13 +20,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
@@ -45,7 +41,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -56,7 +54,7 @@ import org.openapitools.client.JSON;
  * Drawing
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Drawing extends HashMap<String, Fruit> {
+public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
   private Shape mainShape;
@@ -71,9 +69,9 @@ public class Drawing extends HashMap<String, Fruit> {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes = null;
+  private List<Shape> shapes = new ArrayList<>();
 
-  public Drawing() { 
+  public Drawing() {
   }
 
   public Drawing mainShape(Shape mainShape) {
@@ -87,7 +85,6 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Shape getMainShape() {
     return mainShape;
@@ -110,7 +107,6 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
@@ -133,7 +129,6 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public NullableShape getNullableShape() {
     return nullableShape;
@@ -164,7 +159,6 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Shape> getShapes() {
     return shapes;
@@ -174,6 +168,7 @@ public class Drawing extends HashMap<String, Fruit> {
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
   }
+
 
 
   @Override
@@ -188,8 +183,7 @@ public class Drawing extends HashMap<String, Fruit> {
     return Objects.equals(this.mainShape, drawing.mainShape) &&
         Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
         Objects.equals(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes) &&
-        super.equals(o);
+        Objects.equals(this.shapes, drawing.shapes);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -198,7 +192,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, super.hashCode());
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -212,7 +206,6 @@ public class Drawing extends HashMap<String, Fruit> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Drawing {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mainShape: ").append(toIndentedString(mainShape)).append("\n");
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
@@ -256,12 +249,11 @@ public class Drawing extends HashMap<String, Fruit> {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Drawing.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -270,23 +262,30 @@ public class Drawing extends HashMap<String, Fruit> {
         }
       }
       // validate the optional field `mainShape`
-      if (jsonObj.getAsJsonObject("mainShape") != null) {
+      if (jsonObj.get("mainShape") != null && !jsonObj.get("mainShape").isJsonNull()) {
         Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
       }
       // validate the optional field `shapeOrNull`
-      if (jsonObj.getAsJsonObject("shapeOrNull") != null) {
+      if (jsonObj.get("shapeOrNull") != null && !jsonObj.get("shapeOrNull").isJsonNull()) {
         ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
       }
       // validate the optional field `nullableShape`
-      if (jsonObj.getAsJsonObject("nullableShape") != null) {
+      if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
       }
-      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
-      // validate the optional field `shapes` (array)
-      if (jsonArrayshapes != null) {
-        for (int i = 0; i < jsonArrayshapes.size(); i++) {
-          Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
-        };
+      if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
+        JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+        if (jsonArrayshapes != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("shapes").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
+          }
+
+          // validate the optional field `shapes` (array)
+          for (int i = 0; i < jsonArrayshapes.size(); i++) {
+            Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

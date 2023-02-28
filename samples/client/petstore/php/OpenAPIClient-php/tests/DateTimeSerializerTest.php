@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeSerializerTest extends TestCase
 {
-    public function testDateTimeSanitazion()
+    public function testDateTimeSanitation()
     {
         $dateTime = new \DateTime('April 30, 1973 17:05 CEST');
 
@@ -17,15 +17,15 @@ class DateTimeSerializerTest extends TestCase
 
         $data = ObjectSerializer::sanitizeForSerialization($input);
 
-        $this->assertEquals($data->dateTime, '1973-04-30T17:05:00+02:00');
+        $this->assertEquals('1973-04-30T17:05:00+02:00', $data->dateTime);
 
         ObjectSerializer::setDateTimeFormat(\DateTime::RFC3339_EXTENDED);
         $dataFraction = ObjectSerializer::sanitizeForSerialization($input);
-        $this->assertEquals($dataFraction->dateTime, '1973-04-30T17:05:00.000+02:00');
+        $this->assertEquals('1973-04-30T17:05:00.000+02:00', $dataFraction->dateTime);
         ObjectSerializer::setDateTimeFormat(\DateTime::ATOM);
     }
 
-    public function testDateSanitazion()
+    public function testDateSanitation()
     {
         $dateTime = new \DateTime('April 30, 1973 17:05 CEST');
 
@@ -35,6 +35,6 @@ class DateTimeSerializerTest extends TestCase
 
         $data = ObjectSerializer::sanitizeForSerialization($input);
 
-        $this->assertEquals($data->date, '1973-04-30');
+        $this->assertEquals('1973-04-30', $data->date);
     }
 }

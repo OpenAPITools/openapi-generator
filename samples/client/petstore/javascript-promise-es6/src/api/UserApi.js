@@ -84,6 +84,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -116,6 +117,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -129,6 +131,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -161,6 +164,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -222,6 +226,7 @@ export default class UserApi {
 
     /**
      * Get user by user name
+     * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/User} and HTTP response
      */
@@ -255,6 +260,7 @@ export default class UserApi {
 
     /**
      * Get user by user name
+     * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/User}
      */
@@ -268,6 +274,7 @@ export default class UserApi {
 
     /**
      * Logs user into the system
+     * 
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link String} and HTTP response
@@ -307,6 +314,7 @@ export default class UserApi {
 
     /**
      * Logs user into the system
+     * 
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link String}
@@ -321,6 +329,7 @@ export default class UserApi {
 
     /**
      * Logs out current logged in user session
+     * 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     logoutUserWithHttpInfo() {
@@ -348,6 +357,7 @@ export default class UserApi {
 
     /**
      * Logs out current logged in user session
+     * 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     logoutUser() {

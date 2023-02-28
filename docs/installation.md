@@ -54,6 +54,29 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 ```
 
+## Scoop
+
+> **Platform(s)**: Windows
+
+**Install** via [scoop](https://scoop.sh/):
+
+```
+scoop install openapi-generator-cli
+```
+
+If you don't have java installed, you can also install it via [scoop java bucket](https://github.com/ScoopInstaller/Java/):
+
+```
+scoop bucket add java
+scoop install openjdk
+```
+
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
+
+```
+openapi-generator-cli generate -i petstore.yaml -g ruby
+```
+
 ## Docker
 
 > **Platform(s)**: Linux, macOS, Windows
@@ -80,18 +103,18 @@ docker run --rm \
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar`
 
 For **Mac/Linux** users:
 
 ```bash
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 
 ```powershell
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar
 ```
 <!-- /RELEASE_VERSION -->
 

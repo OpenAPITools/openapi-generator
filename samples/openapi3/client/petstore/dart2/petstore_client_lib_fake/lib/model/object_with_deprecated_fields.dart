@@ -65,16 +65,22 @@ class ObjectWithDeprecatedFields {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
+    if (this.uuid != null) {
+      json[r'uuid'] = this.uuid;
+    } else {
+      json[r'uuid'] = null;
     }
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (deprecatedRef != null) {
-      json[r'deprecatedRef'] = deprecatedRef;
+    if (this.deprecatedRef != null) {
+      json[r'deprecatedRef'] = this.deprecatedRef;
+    } else {
+      json[r'deprecatedRef'] = null;
     }
-      json[r'bars'] = bars;
+      json[r'bars'] = this.bars;
     return json;
   }
 

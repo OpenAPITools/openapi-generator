@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -68,16 +66,15 @@ public class Capitalization {
      * @return smallCamel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getSmallCamel() {
+    public String getSmallCamel() {
         return smallCamel;
     }
 
     @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setSmallCamel(String smallCamel) {
+    public void setSmallCamel(String smallCamel) {
         this.smallCamel = smallCamel;
     }
 
@@ -91,16 +88,15 @@ public class Capitalization {
      * @return capitalCamel
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getCapitalCamel() {
+    public String getCapitalCamel() {
         return capitalCamel;
     }
 
     @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setCapitalCamel(String capitalCamel) {
+    public void setCapitalCamel(String capitalCamel) {
         this.capitalCamel = capitalCamel;
     }
 
@@ -114,16 +110,15 @@ public class Capitalization {
      * @return smallSnake
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getSmallSnake() {
+    public String getSmallSnake() {
         return smallSnake;
     }
 
     @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setSmallSnake(String smallSnake) {
+    public void setSmallSnake(String smallSnake) {
         this.smallSnake = smallSnake;
     }
 
@@ -137,16 +132,15 @@ public class Capitalization {
      * @return capitalSnake
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getCapitalSnake() {
+    public String getCapitalSnake() {
         return capitalSnake;
     }
 
     @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setCapitalSnake(String capitalSnake) {
+    public void setCapitalSnake(String capitalSnake) {
         this.capitalSnake = capitalSnake;
     }
 
@@ -160,16 +154,15 @@ public class Capitalization {
      * @return scAETHFlowPoints
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getScAETHFlowPoints() {
+    public String getScAETHFlowPoints() {
         return scAETHFlowPoints;
     }
 
     @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setScAETHFlowPoints(String scAETHFlowPoints) {
+    public void setScAETHFlowPoints(String scAETHFlowPoints) {
         this.scAETHFlowPoints = scAETHFlowPoints;
     }
 
@@ -183,16 +176,15 @@ public class Capitalization {
      * @return ATT_NAME
      **/
     @Nullable
-    @ApiModelProperty(value = "Name of the pet ")
     @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getATTNAME() {
+    public String getATTNAME() {
         return ATT_NAME;
     }
 
     @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setATTNAME(String ATT_NAME) {
+    public void setATTNAME(String ATT_NAME) {
         this.ATT_NAME = ATT_NAME;
     }
 

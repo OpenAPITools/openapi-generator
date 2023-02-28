@@ -1,7 +1,7 @@
 {{>header}}
 
 import 'package:dio/dio.dart';
-import 'package:{{pubName}}/src/auth/auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/auth.dart';
 
 class ApiKeyAuthInterceptor extends AuthInterceptor {
   final Map<String, String> apiKeys = {};

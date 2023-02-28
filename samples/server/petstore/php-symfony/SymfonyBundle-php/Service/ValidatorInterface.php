@@ -2,6 +2,9 @@
 
 namespace OpenAPI\Server\Service;
 
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+
 interface ValidatorInterface
 {
     /**

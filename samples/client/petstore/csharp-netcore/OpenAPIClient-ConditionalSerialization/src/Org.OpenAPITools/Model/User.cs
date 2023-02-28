@@ -50,17 +50,65 @@ namespace Org.OpenAPITools.Model
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._Username = username;
+            if (this.Username != null)
+            {
+                this._flagUsername = true;
+            }
             this._FirstName = firstName;
+            if (this.FirstName != null)
+            {
+                this._flagFirstName = true;
+            }
             this._LastName = lastName;
+            if (this.LastName != null)
+            {
+                this._flagLastName = true;
+            }
             this._Email = email;
+            if (this.Email != null)
+            {
+                this._flagEmail = true;
+            }
             this._Password = password;
+            if (this.Password != null)
+            {
+                this._flagPassword = true;
+            }
             this._Phone = phone;
+            if (this.Phone != null)
+            {
+                this._flagPhone = true;
+            }
             this._UserStatus = userStatus;
+            if (this.UserStatus != null)
+            {
+                this._flagUserStatus = true;
+            }
             this._ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            if (this.ObjectWithNoDeclaredProps != null)
+            {
+                this._flagObjectWithNoDeclaredProps = true;
+            }
             this._ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            if (this.ObjectWithNoDeclaredPropsNullable != null)
+            {
+                this._flagObjectWithNoDeclaredPropsNullable = true;
+            }
             this._AnyTypeProp = anyTypeProp;
+            if (this.AnyTypeProp != null)
+            {
+                this._flagAnyTypeProp = true;
+            }
             this._AnyTypePropNullable = anyTypePropNullable;
+            if (this.AnyTypePropNullable != null)
+            {
+                this._flagAnyTypePropNullable = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

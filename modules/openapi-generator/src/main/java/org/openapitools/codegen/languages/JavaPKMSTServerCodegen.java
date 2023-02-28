@@ -23,12 +23,17 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -45,7 +50,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     protected String basePackage = "com.prokarma.pkmst";
     protected String serviceName = "Pkmst";
     protected String configPackage = "com.prokarma.pkmst.config";
-    protected boolean implicitHeaders = false;
     protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
@@ -310,12 +314,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                 serviceName + "IT.java"));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
@@ -347,32 +350,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     }
                 });
 
-                if (implicitHeaders) {
-                    removeHeadersFromAllParams(operation.allParams);
-                }
+                handleImplicitHeaders(operation);
             }
         }
 
         return objs;
-    }
-
-    /**
-     * This method removes header parameters from the list of parameters
-     *
-     * @param allParams list of all parameters
-     */
-    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
-        if (allParams.isEmpty()) {
-            return;
-        }
-        final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
-        allParams.clear();
-
-        for (CodegenParameter p : copy) {
-            if (!p.isHeaderParam) {
-                allParams.add(p);
-            }
-        }
     }
 
     /**
@@ -429,21 +411,18 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         // Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(this.importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<>();
                 item.put("import", this.importMapping.get("JsonValue"));
                 imports.add(item);
             }
@@ -534,7 +513,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }

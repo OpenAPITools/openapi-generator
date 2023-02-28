@@ -20,12 +20,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -41,7 +38,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -57,7 +56,7 @@ public class Cat extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() { 
+  public Cat() {
     super();
     this.className = this.getClass().getSimpleName();
   }
@@ -73,7 +72,6 @@ public class Cat extends Animal implements Parcelable {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;
@@ -83,6 +81,7 @@ public class Cat extends Animal implements Parcelable {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
+
 
 
   @Override
@@ -171,9 +170,7 @@ public class Cat extends Animal implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Cat.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
         }
       }

@@ -23,13 +23,13 @@ To test special tags and operation ID starting with number
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new AnotherFakeApi();
-var modelClient = new ModelClient(); // ModelClient | client model
+final api = Openapi().getAnotherFakeApi();
+final ModelClient modelClient = ; // ModelClient | client model
 
 try {
-    var result = api_instance.call123testSpecialTags(modelClient);
-    print(result);
-} catch (e) {
+    final response = api.call123testSpecialTags(modelClient);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n');
 }
 ```

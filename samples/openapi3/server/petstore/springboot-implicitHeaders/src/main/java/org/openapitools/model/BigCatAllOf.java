@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("BigCat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCatAllOf   {
+public class BigCatAllOf {
 
   /**
    * Gets or Sets kind
@@ -76,7 +76,7 @@ public class BigCatAllOf   {
    * @return kind
   */
   
-  @Schema(name = "kind", required = false)
+  @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public KindEnum getKind() {
     return kind;
   }

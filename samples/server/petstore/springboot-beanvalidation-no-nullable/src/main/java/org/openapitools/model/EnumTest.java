@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Enum_Test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumTest   {
+public class EnumTest {
 
   /**
    * Gets or Sets enumString

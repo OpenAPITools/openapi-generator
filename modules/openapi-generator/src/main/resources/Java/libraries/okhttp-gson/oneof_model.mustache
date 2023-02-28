@@ -1,4 +1,4 @@
-import javax.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.GenericType;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -76,33 +76,39 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#discriminator}}
                     // use discriminator value for faster oneOf lookup
                     {{classname}} new{{classname}} = new {{classname}}();
-                    String discriminatorValue = elementAdapter.read(in).getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
-                    switch (discriminatorValue) {
-                    {{#mappedModels}}
-                        case "{{{mappingName}}}":
-                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
-                            new{{classname}}.setActualInstance(deserialized);
-                            return new{{classname}};
-                    {{/mappedModels}}
-                        default:
-                            log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    if (jsonObject.get("{{{propertyBaseName}}}") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for {{classname}} as `{{{propertyBaseName}}}` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `{{{propertyBaseName}}}`
+                        switch (jsonObject.get("{{{propertyBaseName}}}").getAsString()) {
+                        {{#mappedModels}}
+                            case "{{{mappingName}}}":
+                                deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
+                                new{{classname}}.setActualInstance(deserialized);
+                                return new{{classname}};
+                        {{/mappedModels}}
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", jsonObject.get("{{{propertyBaseName}}}").getAsString()));
+                        }
                     }
 
                     {{/discriminator}}
                     {{/useOneOfDiscriminatorLookup}}
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     {{#oneOf}}
                     // deserialize {{{.}}}
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         {{.}}.validateJsonObject(jsonObject);
                         actualAdapter = adapter{{.}};
                         match++;
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
                     }
 
@@ -113,7 +119,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -206,17 +212,19 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     {{#oneOf}}
     // validate the json string with {{{.}}}
     try {
       {{{.}}}.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     {{/oneOf}}
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for {{classname}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for {{classname}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

@@ -17,9 +17,43 @@
 
 package org.openapitools.codegen.java;
 
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.testng.Assert;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,42 +71,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
-
-import com.google.common.collect.ImmutableMap;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class JavaClientCodegenTest {
 
@@ -131,10 +141,13 @@ public class JavaClientCodegenTest {
         CodegenParameter pathParam1 = createPathParam("pathParam1");
         CodegenParameter pathParam2 = createPathParam("pathParam2");
 
-        codegenOperation.allParams = Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional);
-        Map<String, Object> operations = ImmutableMap.of("operation", Arrays.asList(codegenOperation));
+        codegenOperation.allParams.addAll(Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional));
+        OperationMap operations = new OperationMap();
+        operations.setOperation(codegenOperation);
 
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operations);
+        objs.setImports(new ArrayList<>());
 
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
@@ -642,13 +655,13 @@ public class JavaClientCodegenTest {
      * See https://github.com/OpenAPITools/openapi-generator/issues/3589
      */
     @Test
-    public void testImportMapping() throws IOException {
+    public void testSchemaMapping() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
-        Map<String, String> importMappings = new HashMap<>();
-        importMappings.put("TypeAlias", "foo.bar.TypeAlias");
+        Map<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("TypeAlias", "foo.bar.TypeAlias");
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -657,13 +670,13 @@ public class JavaClientCodegenTest {
                 .setGeneratorName("java")
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setAdditionalProperties(properties)
-                .setImportMappings(importMappings)
+                .setSchemaMappings(schemaMappings)
                 .setGenerateAliasAsModel(true)
                 .setInputSpec("src/test/resources/3_0/type-alias.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        Assert.assertEquals(clientOptInput.getConfig().importMapping().get("TypeAlias"), "foo.bar.TypeAlias");
+        Assert.assertEquals(clientOptInput.getConfig().schemaMapping().get("TypeAlias"), "foo.bar.TypeAlias");
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
@@ -692,9 +705,9 @@ public class JavaClientCodegenTest {
         Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
         Assert.assertTrue(fieldMatcher.matches());
 
-        // this is the type of the field 'typeAlias'. With a working importMapping it should
+        // this is the type of the field 'typeAlias'. With a working schemaMapping it should
         // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "TypeAlias");
+        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
     }
 
     @Test
@@ -941,7 +954,7 @@ public class JavaClientCodegenTest {
      *
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
-     * how we can fix it accordingly. 
+     * how we can fix it accordingly.
      */
     @Test
     @Ignore
@@ -982,6 +995,35 @@ public class JavaClientCodegenTest {
                 "multipartSingle(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
         );
+    }
+
+    @Test
+    public void shouldGenerateBlockingAndNoBlockingOperationsForWebClient() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.WEBCLIENT_BLOCKING_OPERATIONS, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.WEBCLIENT)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("StoreApi.java"))
+            .assertMethod("getInventory").hasReturnType("Mono<Map<String, Integer>>") //explicit 'x-webclient-blocking: false' which overrides global config
+            .toFileAssert()
+            .assertMethod("placeOrder").hasReturnType("Order"); // use global config
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .assertMethod("findPetsByStatus").hasReturnType("List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
     }
 
     @Test
@@ -1139,6 +1181,10 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
                 "event_id");
 
+        // baseName is kept for form parameters
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "@Param(\"some_file\") File someFile");
+
         output.deleteOnExit();
     }
 
@@ -1217,7 +1263,7 @@ public class JavaClientCodegenTest {
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
     }
-    
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/8352
      */
@@ -1275,5 +1321,517 @@ public class JavaClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/4808
+     */
+    @Test
+    public void testNativeClientExplodedQueryParamObject() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue4808.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 38);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"since\", queryObject.getSince()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"sinceBuild\", queryObject.getSinceBuild()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxBuilds\", queryObject.getMaxBuilds()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));"
+        );
+    }
+
+    @Test
+    public void testExtraAnnotationsNative() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.NATIVE);
+    }
+
+    @Test
+    public void testExtraAnnotationsJersey1() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.JERSEY1);
+    }
+
+    @Test
+    public void testExtraAnnotationsJersey2() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.JERSEY2);
+    }
+
+    @Test
+    public void testExtraAnnotationsMicroprofile() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.MICROPROFILE);
+    }
+
+    @Test
+    public void testExtraAnnotationsOKHttpGSON() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.OKHTTP_GSON);
+    }
+
+    @Test
+    public void testExtraAnnotationsVertx() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.VERTX);
+    }
+
+    @Test
+    public void testExtraAnnotationsFeign() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.FEIGN);
+    }
+
+    @Test
+    public void testExtraAnnotationsRetrofit2() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RETROFIT_2);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestTemplate() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RESTTEMPLATE);
+    }
+
+    @Test
+    public void testExtraAnnotationsWebClient() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.WEBCLIENT);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestEasy() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RESTEASY);
+    }
+
+    @Test
+    public void testExtraAnnotationsGoogleApiClient() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.GOOGLE_API_CLIENT);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestAssured() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.REST_ASSURED);
+    }
+
+    @Test
+    public void testExtraAnnotationsApache() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.APACHE);
+    }
+
+    @Test
+    public void testDefaultMicroprofileRestClientVersion() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<microprofile.rest.client.api.version>2.0</microprofile.rest.client.api.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<java.version>1.8</java.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
+                "import javax.");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testMicroprofileRestClientVersion_1_4_1() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "1.4.1");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<microprofile.rest.client.api.version>1.4.1</microprofile.rest.client.api.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<java.version>1.8</java.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
+                "import javax.");
+
+        output.deleteOnExit();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Version incorrectVersion of MicroProfile Rest Client is not supported or incorrect. Supported versions are 1.4.1, 2.0, 3.0")
+    public void testMicroprofileRestClientIncorrectVersion() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "incorrectVersion");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+        fail("Expected an exception that did not occur");
+    }
+
+    @Test
+    public void testMicroprofileRestClientVersion_3_0() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<microprofile.rest.client.api.version>3.0</microprofile.rest.client.api.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<jersey.mp.rest.client.version>3.0.4</jersey.mp.rest.client.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/pom.xml"),
+                "<java.version>11</java.version>");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/PetApi.java"),
+                "import jakarta.");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testMicroprofileGenerateCorrectJsonbCreator_issue12622() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setAdditionalProperties(properties)
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.MICROPROFILE)
+            .setInputSpec("src/test/resources/bugs/issue_12622.json")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+            .assertConstructor("String", "Integer")
+            .hasParameter("b")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"b\"", "nillable", "true"))
+            .toParameter().toConstructor()
+            .hasParameter("c")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
+    }
+
+    @Test
+    public void testWebClientJsonCreatorWithNullable_issue12790() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setAdditionalProperties(properties)
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.WEBCLIENT)
+            .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+            .printFileContent()
+            .assertConstructor("String", "String")
+            .bodyContainsLines(
+                "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableProperty);",
+                "this.notNullableProperty = notNullableProperty;"
+            );
+    }
+
+    @Test
+    public void testRestTemplateResponseTypeWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/ResourceApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                                     "org.springframework.core.io.Resource resourceInResponse()",
+                                     "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
+                                     "ParameterizedTypeReference<org.springframework.core.io.Resource> localReturnType = new ParameterizedTypeReference<org.springframework.core.io.Resource>()"
+        );
+    }
+
+    public void testExtraAnnotations(String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_11772.yml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/client/model");
+
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/11340
+     */
+    @Test
+    public void testReferencedHeader2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setAdditionalProperties(additionalProperties)
+                .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .assertMethod("operationWithHttpInfo")
+                    .hasParameter("requestBody")
+                    .assertParameterAnnotations()
+                    .containsWithName("NotNull")
+                .toParameter().toMethod()
+                    .hasParameter("xNonNullHeaderParameter")
+                    .assertParameterAnnotations()
+                    .containsWithName("NotNull");
+    }
+
+    @Test
+    public void testNativeClientExplodedQueryParamWithArrayProperty() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+            "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
+        );
+    }
+
+    @Test
+    public void testJdkHttpClientWithAndWithoutParentExtension() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                // use default `okhttp-gson`
+                //.setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 30);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Child.java"),
+                "public class Child extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Adult.java"),
+                "public class Adult extends Person {");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/AnotherChild.java"),
+                "public class AnotherChild {");
+    }
+
+    @Test
+    public void testDiscriminatorWithMappingIssue14731() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setUseJakartaEe(true);
+        codegen.setModelNameSuffix("DTO");
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingADTO.java"), "@JsonTypeName");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    public void testDiscriminatorWithoutMappingIssue14731() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setUseJakartaEe(true);
+        codegen.setModelNameSuffix("DTO");
+        codegen.setLibrary(JavaClientCodegen.RESTTEMPLATE);
+
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
     }
 }

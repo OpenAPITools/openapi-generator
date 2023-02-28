@@ -24,18 +24,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|pubAuthor|Author name in generated pubspec| |null|
-|pubAuthorEmail|Email address of the author in generated pubspec| |null|
-|pubDescription|Description in generated pubspec| |null|
-|pubHomepage|Homepage in generated pubspec| |null|
-|pubLibrary|Library name in generated code| |null|
-|pubName|Name in generated pubspec| |null|
-|pubVersion|Version in generated pubspec| |null|
+|pubAuthor|Author name in generated pubspec| |Author|
+|pubAuthorEmail|Email address of the author in generated pubspec| |author@homepage|
+|pubDescription|Description in generated pubspec| |OpenAPI API client|
+|pubHomepage|Homepage in generated pubspec| |homepage|
+|pubLibrary|Library name in generated code| |openapi.api|
+|pubName|Name in generated pubspec| |openapi|
+|pubVersion|Version in generated pubspec| |1.0.0|
 |serializationLibrary|Specify serialization library|<dl><dt>**native_serialization**</dt><dd>Use native serializer, backwards compatible</dd></dl>|native_serialization|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|Source folder for generated code| |null|
-|useEnumExtension|Allow the 'x-enum-values' extension for enums| |null|
+|sourceFolder|source folder for generated code| |src|
+|useEnumExtension|Allow the 'x-enum-values' extension for enums| |false|
 
 ## IMPORT MAPPING
 
@@ -161,7 +161,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -221,6 +225,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✗|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

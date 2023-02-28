@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum OuterEnumInteger {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
-}
+export const OuterEnumInteger = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
+
 
 export function OuterEnumIntegerFromJSON(json: any): OuterEnumInteger {
     return OuterEnumIntegerFromJSONTyped(json, false);

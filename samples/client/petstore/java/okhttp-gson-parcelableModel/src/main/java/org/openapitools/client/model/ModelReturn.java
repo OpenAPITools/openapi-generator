@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -38,7 +36,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -48,14 +48,13 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
 
-  public ModelReturn() { 
+  public ModelReturn() {
   }
 
   public ModelReturn _return(Integer _return) {
@@ -69,7 +68,6 @@ public class ModelReturn implements Parcelable {
    * @return _return
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getReturn() {
     return _return;
@@ -79,6 +77,7 @@ public class ModelReturn implements Parcelable {
   public void setReturn(Integer _return) {
     this._return = _return;
   }
+
 
 
   @Override
@@ -160,12 +159,11 @@ public class ModelReturn implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ModelReturn.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!ModelReturn.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelReturn is not found in the empty JSON string", ModelReturn.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

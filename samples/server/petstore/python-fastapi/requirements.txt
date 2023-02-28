@@ -2,7 +2,7 @@ aiofiles==0.5.0
 aniso8601==7.0.0
 async-exit-stack==1.0.1
 async-generator==1.10
-certifi==2020.12.5
+certifi==2022.12.7
 chardet==4.0.0
 click==7.1.2
 dnspython==2.1.0
@@ -26,11 +26,11 @@ PyYAML==5.4.1
 requests==2.25.1
 Rx==1.6.1
 six==1.16.0
-starlette==0.14.2
+starlette==0.25.0
 typing-extensions==3.10.0.0
 ujson==4.0.2
-urllib3==1.26.4
+urllib3==1.26.5
 uvicorn==0.13.4
 uvloop==0.14.0
 watchgod==0.7
-websockets==8.1
+websockets==10.0

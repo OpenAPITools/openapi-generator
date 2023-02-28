@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -18,10 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("BigCat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class BigCat extends Cat implements Serializable {
-  
-
-public enum KindEnum {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class BigCat extends Cat implements Serializable {
+  public enum KindEnum {
 
     LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 
@@ -70,14 +68,20 @@ public enum KindEnum {
 
   private @Valid KindEnum kind;
 
+  protected BigCat(BigCatBuilder<?, ?> b) {
+    super(b);
+    this.kind = b.kind;
+  }
+
+  public BigCat() {
+  }
+
   /**
    **/
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -132,5 +136,30 @@ public enum KindEnum {
   }
 
 
+  public static BigCatBuilder<?, ?> builder() {
+    return new BigCatBuilderImpl();
+  }
+
+  private static final class BigCatBuilderImpl extends BigCatBuilder<BigCat, BigCatBuilderImpl> {
+
+    @Override
+    protected BigCatBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public BigCat build() {
+      return new BigCat(this);
+    }
+  }
+
+  public static abstract class BigCatBuilder<C extends BigCat, B extends BigCatBuilder<C, B>> extends CatBuilder<C, B> {
+    private KindEnum kind;
+
+    public B kind(KindEnum kind) {
+      this.kind = kind;
+      return self();
+    }
+  }
 }
 

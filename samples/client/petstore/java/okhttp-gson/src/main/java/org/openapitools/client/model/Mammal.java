@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
@@ -113,42 +111,70 @@ public class Mammal extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Mammal newMammal = new Mammal();
+                    if (jsonObject.get("className") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Mammal as `className` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `className`
+                        switch (jsonObject.get("className").getAsString()) {
+                            case "Pig":
+                                deserialized = adapterPig.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            case "whale":
+                                deserialized = adapterWhale.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            case "zebra":
+                                deserialized = adapterZebra.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
+                        }
+                    }
+
                     int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Pig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Pig.validateJsonObject(jsonObject);
                         actualAdapter = adapterPig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Pig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
                     }
 
                     // deserialize Whale
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Whale.validateJsonObject(jsonObject);
                         actualAdapter = adapterWhale;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Whale'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
                     }
 
                     // deserialize Zebra
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Zebra.validateJsonObject(jsonObject);
                         actualAdapter = adapterZebra;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");
                     } catch (Exception e) {
                         // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
                     }
 
@@ -158,7 +184,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -282,11 +308,13 @@ public class Mammal extends AbstractOpenApiSchema {
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
     // validate oneOf schemas one by one
     int validCount = 0;
+    ArrayList<String> errorMessages = new ArrayList<>();
     // validate the json string with Pig
     try {
       Pig.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Whale
@@ -294,6 +322,7 @@ public class Mammal extends AbstractOpenApiSchema {
       Whale.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     // validate the json string with Zebra
@@ -301,10 +330,11 @@ public class Mammal extends AbstractOpenApiSchema {
       Zebra.validateJsonObject(jsonObj);
       validCount++;
     } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonObj.toString()));
     }
   }
 

@@ -32,7 +32,7 @@ class OuterObjectWithEnumProperty {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'value'] = value;
+      json[r'value'] = this.value;
     return json;
   }
 

@@ -22,7 +22,7 @@ getStoreInventoryR = notImplemented
 
 -- | Find purchase order by ID
 --
--- For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+-- For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 -- operationId: getOrderById
 getStoreOrderByInt64R :: Int64 -- ^ ID of pet that needs to be fetched
                       -> Handler Value
@@ -30,6 +30,7 @@ getStoreOrderByInt64R orderId = notImplemented
 
 -- | Place an order for a pet
 --
+-- 
 -- operationId: placeOrder
 postStoreOrderR :: Handler Value
 postStoreOrderR = notImplemented

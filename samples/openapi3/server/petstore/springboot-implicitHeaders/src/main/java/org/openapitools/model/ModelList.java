@@ -21,7 +21,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ModelList   {
+public class ModelList {
 
   @JsonProperty("123-list")
   private String _123list;
@@ -36,7 +36,7 @@ public class ModelList   {
    * @return _123list
   */
   
-  @Schema(name = "123-list", required = false)
+  @Schema(name = "123-list", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String get123list() {
     return _123list;
   }

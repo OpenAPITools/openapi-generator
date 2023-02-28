@@ -7,7 +7,7 @@ import java.io.File
  * @param file file to upload for example: ''null''
 */
 final case class InlineObject1 (
-  additionalMetadata: Option[String],
-  file: Option[File]
+  additionalMetadata: Option[String] = None,
+  file: Option[File] = None
 )
 

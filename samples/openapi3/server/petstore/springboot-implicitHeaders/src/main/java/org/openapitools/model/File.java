@@ -20,7 +20,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "File", description = "Must be named `File` for test.")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class File   {
+public class File {
 
   @JsonProperty("sourceURI")
   private String sourceURI;
@@ -35,7 +35,7 @@ public class File   {
    * @return sourceURI
   */
   
-  @Schema(name = "sourceURI", description = "Test capitalization", required = false)
+  @Schema(name = "sourceURI", description = "Test capitalization", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getSourceURI() {
     return sourceURI;
   }

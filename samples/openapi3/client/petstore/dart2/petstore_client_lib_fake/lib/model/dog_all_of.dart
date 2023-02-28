@@ -38,8 +38,10 @@ class DogAllOf {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (breed != null) {
-      json[r'breed'] = breed;
+    if (this.breed != null) {
+      json[r'breed'] = this.breed;
+    } else {
+      json[r'breed'] = null;
     }
     return json;
   }

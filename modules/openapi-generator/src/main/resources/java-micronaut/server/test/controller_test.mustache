@@ -20,7 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
 import jakarta.inject.Inject;
+{{#reactive}}
 import reactor.core.publisher.Mono;
+{{/reactive}}
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class {{classname}}Test {
     EmbeddedServer server;
 
     @Inject
-    @Client("${context-path}")
+    @Client
     HttpClient client;
 
     @Inject
@@ -74,7 +76,7 @@ public class {{classname}}Test {
         {{/allParams}}
 
         // when
-        {{#returnType}}{{{returnType}}} result = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block();
+        {{#returnType}}{{{returnType}}} result = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}}{{#wrapInHttpResponse}}.body(){{/wrapInHttpResponse}};
 
         // then
         {{^generateControllerFromExamples}}

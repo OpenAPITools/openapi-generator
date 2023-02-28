@@ -82,6 +82,7 @@ pub enum UploadFileError {
 }
 
 
+/// 
 pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<AddPetError>> {
     let local_var_configuration = configuration;
 
@@ -113,6 +114,7 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models:
     }
 }
 
+/// 
 pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
     let local_var_configuration = configuration;
 
@@ -252,6 +254,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     }
 }
 
+/// 
 pub fn update_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<UpdatePetError>> {
     let local_var_configuration = configuration;
 
@@ -283,6 +286,7 @@ pub fn update_pet(configuration: &configuration::Configuration, pet: crate::mode
     }
 }
 
+/// 
 pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
     let local_var_configuration = configuration;
 
@@ -321,6 +325,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
     }
 }
 
+/// 
 pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 

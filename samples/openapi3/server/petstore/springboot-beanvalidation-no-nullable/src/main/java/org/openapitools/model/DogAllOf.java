@@ -20,7 +20,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Dog_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class DogAllOf   {
+public class DogAllOf {
 
   @JsonProperty("breed")
   private String breed;
@@ -35,7 +35,7 @@ public class DogAllOf   {
    * @return breed
   */
   
-  @Schema(name = "breed", required = false)
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getBreed() {
     return breed;
   }

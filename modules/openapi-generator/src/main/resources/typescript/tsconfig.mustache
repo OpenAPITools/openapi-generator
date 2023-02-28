@@ -2,8 +2,13 @@
   "compilerOptions": {
     "strict": true,
     /* Basic Options */
-    "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
-    "module": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}commonjs{{/supportsES6}}",
+    {{#supportsES6}}
+    "target": "es6",
+    "esModuleInterop": true,
+    {{/supportsES6}}
+    {{^supportsES6}}
+    "target": "es5",
+    {{/supportsES6}}
     "moduleResolution": "node",
     "declaration": true,
 

@@ -1,6 +1,6 @@
 # OpenApiPetstore.UserApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## createUser
 
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -29,8 +29,8 @@ This can only be done by the logged in user.
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let body = new OpenApiPetstore.User(); // User | Created user object
-apiInstance.createUser(body, (error, data, response) => {
+let user = new OpenApiPetstore.User(); // User | Created user object
+apiInstance.createUser(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -44,7 +44,7 @@ apiInstance.createUser(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -56,15 +56,17 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
 ## createUsersWithArrayInput
 
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -72,8 +74,8 @@ Creates list of users with given input array
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let body = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
+let user = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithArrayInput(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -87,7 +89,7 @@ apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | 
+ **user** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -99,15 +101,17 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
 ## createUsersWithListInput
 
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -115,8 +119,8 @@ Creates list of users with given input array
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let body = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithListInput(body, (error, data, response) => {
+let user = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithListInput(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -130,7 +134,7 @@ apiInstance.createUsersWithListInput(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | 
+ **user** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -142,7 +146,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
@@ -197,6 +201,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 
 ```javascript
@@ -239,6 +245,8 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -285,6 +293,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example
 
 ```javascript
@@ -320,7 +330,7 @@ No authorization required
 
 ## updateUser
 
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -333,8 +343,8 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | name that need to be deleted
-let body = new OpenApiPetstore.User(); // User | Updated user object
-apiInstance.updateUser(username, body, (error, data, response) => {
+let user = new OpenApiPetstore.User(); // User | Updated user object
+apiInstance.updateUser(username, user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -349,7 +359,7 @@ apiInstance.updateUser(username, body, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -361,6 +371,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 

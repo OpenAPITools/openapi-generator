@@ -38,8 +38,10 @@ class CatAllOf {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (declawed != null) {
-      json[r'declawed'] = declawed;
+    if (this.declawed != null) {
+      json[r'declawed'] = this.declawed;
+    } else {
+      json[r'declawed'] = null;
     }
     return json;
   }

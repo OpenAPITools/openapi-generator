@@ -853,7 +853,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_enum_parameters**
-> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_query_model_array=enum_query_model_array, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
 
 To test enum parameters
 
@@ -884,12 +884,13 @@ enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Quer
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
+enum_query_model_array = [petstore_api.EnumClass()] # list[EnumClass] |  (optional)
 enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
     try:
         # To test enum parameters
-        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_query_model_array=enum_query_model_array, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
     except ApiException as e:
         print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
@@ -904,6 +905,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
+ **enum_query_model_array** | [**list[EnumClass]**](EnumClass.md)|  | [optional] 
  **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -1005,7 +1007,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Someting wrong |  -  |
+**400** | Something wrong |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1013,6 +1015,8 @@ void (empty response body)
 > test_inline_additional_properties(request_body)
 
 test inline additionalProperties
+
+
 
 ### Example
 
@@ -1033,7 +1037,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    request_body = {'key': 'request_body_example'} # dict(str, str) | request body
+    request_body = {'key': 'request_body_example'} # dict[str, str] | request body
 
     try:
         # test inline additionalProperties
@@ -1046,7 +1050,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**dict(str, str)**](str.md)| request body | 
+ **request_body** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 
@@ -1072,6 +1076,8 @@ No authorization required
 > test_json_form_data(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 
@@ -1161,7 +1167,7 @@ http = ['http_example'] # list[str] |
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
 allow_empty = 'allow_empty_example' # str | 
-language = {'key': 'language_example'} # dict(str, str) |  (optional)
+language = {'key': 'language_example'} # dict[str, str] |  (optional)
 
     try:
         api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
@@ -1179,7 +1185,7 @@ Name | Type | Description  | Notes
  **url** | [**list[str]**](str.md)|  | 
  **context** | [**list[str]**](str.md)|  | 
  **allow_empty** | **str**|  | 
- **language** | [**dict(str, str)**](str.md)|  | [optional] 
+ **language** | [**dict[str, str]**](str.md)|  | [optional] 
 
 ### Return type
 

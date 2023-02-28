@@ -126,7 +126,6 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -134,7 +133,8 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            "application/json", "application/xml"
+            "application/json",
+            "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -147,15 +147,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call addPetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling addPet(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = addPetCall(body, _callback);
-        return localVarCall;
+        return addPetCall(body, _callback);
 
     }
 
@@ -263,7 +260,6 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -271,7 +267,6 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -284,15 +279,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = deletePetCall(petId, apiKey, _callback);
-        return localVarCall;
+        return deletePetCall(petId, apiKey, _callback);
 
     }
 
@@ -401,7 +393,8 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            "application/xml", "application/json"
+            "application/xml",
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -409,7 +402,6 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -422,15 +414,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = findPetsByStatusCall(status, _callback);
-        return localVarCall;
+        return findPetsByStatusCall(status, _callback);
 
     }
 
@@ -467,14 +456,8 @@ public class PetApi {
      */
     public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
-        try {
-            Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<Pet>>(){}.getType()));
-            e.setErrorObjectType(new GenericType<List<Pet>>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -548,7 +531,8 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            "application/xml", "application/json"
+            "application/xml",
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -556,7 +540,6 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -570,15 +553,12 @@ public class PetApi {
     @Deprecated
     @SuppressWarnings("rawtypes")
     private okhttp3.Call findPetsByTagsValidateBeforeCall(Set<String> tags, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = findPetsByTagsCall(tags, _callback);
-        return localVarCall;
+        return findPetsByTagsCall(tags, _callback);
 
     }
 
@@ -619,14 +599,8 @@ public class PetApi {
     @Deprecated
     public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
-        try {
-            Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Set<Pet>>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Set<Pet>>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -701,7 +675,8 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            "application/xml", "application/json"
+            "application/xml",
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -709,7 +684,6 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -722,15 +696,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling getPetById(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = getPetByIdCall(petId, _callback);
-        return localVarCall;
+        return getPetByIdCall(petId, _callback);
 
     }
 
@@ -769,14 +740,8 @@ public class PetApi {
      */
     public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
-        try {
-            Type localVarReturnType = new TypeToken<Pet>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Pet>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Pet>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -850,7 +815,6 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -858,7 +822,8 @@ public class PetApi {
         }
 
         final String[] localVarContentTypes = {
-            "application/json", "application/xml"
+            "application/json",
+            "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -871,15 +836,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = updatePetCall(body, _callback);
-        return localVarCall;
+        return updatePetCall(body, _callback);
 
     }
 
@@ -1000,7 +962,6 @@ public class PetApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1021,15 +982,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling updatePetWithForm(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = updatePetWithFormCall(petId, name, status, _callback);
-        return localVarCall;
+        return updatePetWithFormCall(petId, name, status, _callback);
 
     }
 
@@ -1168,15 +1126,12 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, _file, _callback);
-        return localVarCall;
+        return uploadFileCall(petId, additionalMetadata, _file, _callback);
 
     }
 
@@ -1215,14 +1170,8 @@ public class PetApi {
      */
     public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
-        try {
-            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
-            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1325,20 +1274,17 @@ public class PetApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile(Async)");
         }
-        
+
         // verify the required parameter 'requiredFile' is set
         if (requiredFile == null) {
             throw new ApiException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, _callback);
-        return localVarCall;
+        return uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, _callback);
 
     }
 
@@ -1377,14 +1323,8 @@ public class PetApi {
      */
     public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
         okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null);
-        try {
-            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
-            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**

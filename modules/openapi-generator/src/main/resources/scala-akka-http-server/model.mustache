@@ -19,7 +19,7 @@ import {{import}}
 */
 final case class {{classname}} (
   {{#vars}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
 )
 

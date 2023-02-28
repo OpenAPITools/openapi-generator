@@ -12,7 +12,7 @@ minLength not set, maxLength set
 @Size: minItems not set && maxItems set
 }}{{^minItems}}{{#maxItems}}@Size(max = {{.}}) {{/maxItems}}{{/minItems}}{{!
 @Email: useBeanValidation set && isEmail set
-}}{{#useBeanValidation}}{{#isEmail}}@javax.validation.constraints.Email{{/isEmail}}{{/useBeanValidation}}{{!
+}}{{#useBeanValidation}}{{#isEmail}}@Email{{/isEmail}}{{/useBeanValidation}}{{!
 check for integer or long / all others=decimal type with @Decimal*
 isInteger set
 }}{{#isInteger}}{{#minimum}}@Min({{.}}) {{/minimum}}{{#maximum}}@Max({{.}}) {{/maximum}}{{/isInteger}}{{!

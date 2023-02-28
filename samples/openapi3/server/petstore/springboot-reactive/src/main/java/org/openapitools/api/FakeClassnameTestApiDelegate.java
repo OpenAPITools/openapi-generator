@@ -46,7 +46,7 @@ public interface FakeClassnameTestApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 

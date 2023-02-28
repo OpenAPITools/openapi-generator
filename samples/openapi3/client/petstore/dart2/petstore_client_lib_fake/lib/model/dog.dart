@@ -48,10 +48,12 @@ class Dog {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = className;
-      json[r'color'] = color;
-    if (breed != null) {
-      json[r'breed'] = breed;
+      json[r'className'] = this.className;
+      json[r'color'] = this.color;
+    if (this.breed != null) {
+      json[r'breed'] = this.breed;
+    } else {
+      json[r'breed'] = null;
     }
     return json;
   }

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -59,9 +59,9 @@ public class FileSchemaTestClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = null;
+  private List<ModelFile> files = new ArrayList<>();
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
@@ -75,7 +75,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return _file
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ModelFile getFile() {
     return _file;
@@ -106,7 +105,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return files
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ModelFile> getFiles() {
     return files;
@@ -116,6 +114,7 @@ public class FileSchemaTestClass implements Parcelable {
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
+
 
 
   @Override
@@ -202,12 +201,11 @@ public class FileSchemaTestClass implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (FileSchemaTestClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has reuqired fields
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -216,15 +214,22 @@ public class FileSchemaTestClass implements Parcelable {
         }
       }
       // validate the optional field `file`
-      if (jsonObj.getAsJsonObject("file") != null) {
+      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
-      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      // validate the optional field `files` (array)
-      if (jsonArrayfiles != null) {
-        for (int i = 0; i < jsonArrayfiles.size(); i++) {
-          ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
-        };
+      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
+        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        if (jsonArrayfiles != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("files").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+          }
+
+          // validate the optional field `files` (array)
+          for (int i = 0; i < jsonArrayfiles.size(); i++) {
+            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

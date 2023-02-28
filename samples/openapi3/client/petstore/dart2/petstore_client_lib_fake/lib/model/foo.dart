@@ -32,7 +32,7 @@ class Foo {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'bar'] = bar;
+      json[r'bar'] = this.bar;
     return json;
   }
 

@@ -18,10 +18,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumTest  implements Serializable {
-  
-
-public enum EnumStringEnum {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumTest  implements Serializable {
+  public enum EnumStringEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -69,8 +68,7 @@ public enum EnumStringEnum {
 }
 
   private @Valid EnumStringEnum enumString;
-
-public enum EnumStringRequiredEnum {
+  public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -118,8 +116,7 @@ public enum EnumStringRequiredEnum {
 }
 
   private @Valid EnumStringRequiredEnum enumStringRequired;
-
-public enum EnumIntegerEnum {
+  public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
 
@@ -167,8 +164,7 @@ public enum EnumIntegerEnum {
 }
 
   private @Valid EnumIntegerEnum enumInteger;
-
-public enum EnumNumberEnum {
+  public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
@@ -218,14 +214,23 @@ public enum EnumNumberEnum {
   private @Valid EnumNumberEnum enumNumber;
   private @Valid OuterEnum outerEnum;
 
+  protected EnumTest(EnumTestBuilder<?, ?> b) {
+    this.enumString = b.enumString;
+    this.enumStringRequired = b.enumStringRequired;
+    this.enumInteger = b.enumInteger;
+    this.enumNumber = b.enumNumber;
+    this.outerEnum = b.outerEnum;
+  }
+
+  public EnumTest() {
+  }
+
   /**
    **/
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -239,14 +244,12 @@ public enum EnumNumberEnum {
     this.enumString = enumString;
   }
 
-/**
+  /**
    **/
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -261,14 +264,12 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
   }
 
-/**
+  /**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -282,14 +283,12 @@ public enum EnumNumberEnum {
     this.enumInteger = enumInteger;
   }
 
-/**
+  /**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -303,14 +302,12 @@ public enum EnumNumberEnum {
     this.enumNumber = enumNumber;
   }
 
-/**
+  /**
    **/
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -372,5 +369,53 @@ public enum EnumNumberEnum {
   }
 
 
+  public static EnumTestBuilder<?, ?> builder() {
+    return new EnumTestBuilderImpl();
+  }
+
+  private static final class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
+
+    @Override
+    protected EnumTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public EnumTest build() {
+      return new EnumTest(this);
+    }
+  }
+
+  public static abstract class EnumTestBuilder<C extends EnumTest, B extends EnumTestBuilder<C, B>>  {
+    private EnumStringEnum enumString;
+    private EnumStringRequiredEnum enumStringRequired;
+    private EnumIntegerEnum enumInteger;
+    private EnumNumberEnum enumNumber;
+    private OuterEnum outerEnum;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B enumString(EnumStringEnum enumString) {
+      this.enumString = enumString;
+      return self();
+    }
+    public B enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.enumStringRequired = enumStringRequired;
+      return self();
+    }
+    public B enumInteger(EnumIntegerEnum enumInteger) {
+      this.enumInteger = enumInteger;
+      return self();
+    }
+    public B enumNumber(EnumNumberEnum enumNumber) {
+      this.enumNumber = enumNumber;
+      return self();
+    }
+    public B outerEnum(OuterEnum outerEnum) {
+      this.outerEnum = outerEnum;
+      return self();
+    }
+  }
 }
 

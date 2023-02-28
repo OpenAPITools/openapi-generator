@@ -5,12 +5,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -22,7 +21,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Cat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class CatAllOf   {
+public class CatAllOf {
 
   @JsonProperty("declawed")
   private Boolean declawed;
@@ -37,7 +36,7 @@ public class CatAllOf   {
    * @return declawed
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getDeclawed() {
     return declawed;
   }
