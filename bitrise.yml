@@ -28,7 +28,7 @@ workflows:
 
             set -e
 
-            mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+            mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error -DskipTests -Dmaven.javadoc.skip=true
         title: Build openapi-generator
     - script@1.2.0:
         title: Run Swift5 tests
