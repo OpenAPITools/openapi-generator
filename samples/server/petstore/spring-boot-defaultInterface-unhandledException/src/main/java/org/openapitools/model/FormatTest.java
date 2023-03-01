@@ -73,6 +73,25 @@ public class FormatTest {
   @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link FormatTest#FormatTest(BigDecimal, byte[], LocalDate, String)}
+   */
+  @Deprecated
+  public FormatTest() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public FormatTest(BigDecimal number, byte[] _byte, LocalDate date, String password) {
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
+  }
+
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;
