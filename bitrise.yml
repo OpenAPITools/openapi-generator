@@ -10,10 +10,7 @@ trigger_map:
 workflows:
   primary:
     steps:
-    - git-clone@6.2.1: {}
-    - brew-install@0.12.1:
-        inputs:
-        - packages: maven
+    - git-clone@8.0.0: {}
     - script@1.2.0:
         title: Install Cocoapods
         inputs:
@@ -21,15 +18,6 @@ workflows:
             #!/usr/bin/env bash
 
             sudo gem install cocoapods
-    - script@1.2.0:
-        inputs:
-        - content: |
-            #!/usr/bin/env bash
-
-            set -e
-
-            mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-        title: Build openapi-generator
     - script@1.2.0:
         title: Run Swift5 tests
         inputs:
@@ -42,4 +30,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-14.1.x
+    stack: osx-xcode-14.2.x

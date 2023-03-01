@@ -48,6 +48,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
     public static final String FLOAT_STRICT_TYPE = "floatStrictType";
+    public static final String DATETIME_FORMAT = "datetimeFormat";
+    public static final String DATE_FORMAT = "dateFormat";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
@@ -56,6 +58,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
     protected boolean floatStrictType = true;
+    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    protected String dateFormat = "%Y-%m-%d";
 
     protected Map<Character, String> regexModifiers;
 
@@ -171,6 +175,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
+                .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
+        cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
+                .defaultValue("%Y-%m-%d"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -272,6 +280,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
             setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
+        }
+
+        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
+            setDatetimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else {
+            additionalProperties.put(DATETIME_FORMAT, datetimeFormat);
+        }
+
+        if (additionalProperties.containsKey(DATE_FORMAT)) {
+            setDateFormat((String) additionalProperties.get(DATE_FORMAT));
+        } else {
+            additionalProperties.put(DATE_FORMAT, dateFormat);
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -403,8 +423,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -568,7 +600,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (allowStringInDateTimeParameters) {
                 pydanticImports.add("StrictStr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[%s, StrictStr]", cp.dataType);
+                return String.format(Locale.ROOT, "Union[StrictStr, %s]", cp.dataType);
             } else {
                 return cp.dataType;
             }
@@ -638,8 +670,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            typingImports.add("List"); // for return type
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -855,10 +900,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
                 }
 
-                if (param.isArray && param.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
-                }
-
                 /* TODO support example
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
@@ -1042,10 +1083,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
                 }
 
-                if (cp.isArray && cp.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
-                }
-
                 /* TODO review as example may break the build
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
@@ -1077,9 +1114,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -1359,5 +1396,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public void setFloatStrictType(boolean floatStrictType) {
         this.floatStrictType = floatStrictType;
+    }
+
+    public void setDatetimeFormat(String datetimeFormat) {
+        this.datetimeFormat = datetimeFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }

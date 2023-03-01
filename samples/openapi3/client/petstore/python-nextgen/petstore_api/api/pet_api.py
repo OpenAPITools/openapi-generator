@@ -17,7 +17,7 @@ import re  # noqa: F401
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr, validator
+from pydantic import Field, StrictInt, StrictStr, conlist, validator
 
 from typing import List, Optional
 
@@ -145,14 +145,11 @@ class PetApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:
@@ -294,9 +291,9 @@ class PetApi(object):
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['api_key']:
@@ -305,10 +302,8 @@ class PetApi(object):
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
@@ -332,7 +327,7 @@ class PetApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def find_pets_by_status(self, status : Annotated[List[StrictStr], Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
+    def find_pets_by_status(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -363,7 +358,7 @@ class PetApi(object):
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def find_pets_by_status_with_http_info(self, status : Annotated[List[StrictStr], Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
+    def find_pets_by_status_with_http_info(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -439,14 +434,11 @@ class PetApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -477,7 +469,7 @@ class PetApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def find_pets_by_tags(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs) -> List[Pet]:  # noqa: E501
+    def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -508,7 +500,7 @@ class PetApi(object):
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def find_pets_by_tags_with_http_info(self, tags : Annotated[List[StrictStr], Field(..., description="Tags to filter by", unique_items=True)], **kwargs):  # noqa: E501
+    def find_pets_by_tags_with_http_info(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -584,14 +576,11 @@ class PetApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -723,19 +712,16 @@ class PetApi(object):
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -868,14 +854,11 @@ class PetApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:
@@ -1022,23 +1005,22 @@ class PetApi(object):
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['name']:
             _form_params.append(('name', _params['name']))
+
         if _params['status']:
             _form_params.append(('status', _params['status']))
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1180,23 +1162,22 @@ class PetApi(object):
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['additional_metadata']:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
+
         if _params['file']:
             _files['file'] = _params['file']
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -1344,23 +1325,22 @@ class PetApi(object):
         if _params['pet_id']:
             _path_params['petId'] = _params['pet_id']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['additional_metadata']:
             _form_params.append(('additionalMetadata', _params['additional_metadata']))
+
         if _params['required_file']:
             _files['requiredFile'] = _params['required_file']
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

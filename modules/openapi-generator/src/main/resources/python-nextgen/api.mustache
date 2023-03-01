@@ -165,24 +165,45 @@ class {{classname}}(object):
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
+
 {{/pathParams}}
 
         # process the query parameters
         _query_params = []
 {{#queryParams}}
         if _params.get('{{paramName}}') is not None:  # noqa: E501
-            _query_params.append(('{{baseName}}', _params['{{paramName}}'])){{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}
-{{/queryParams}}
+            {{#isDateTime}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                _query_parame.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{^isDate}}
+            _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{/isDateTime}}
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
 
+{{/queryParams}}
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 {{#headerParams}}
         if _params['{{paramName}}']:
-            _header_params['{{baseName}}'] = _params['{{paramName}}']{{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}
-{{/headerParams}}
+            _header_params['{{baseName}}'] = _params['{{paramName}}']
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
 
+{{/headerParams}}
         # process the form parameters
         _form_params = []
         _files = {}
@@ -197,15 +218,15 @@ class {{classname}}(object):
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
-{{/formParams}}
 
+{{/formParams}}
         # process the body parameter
         _body_params = None
 {{#bodyParam}}
         if _params['{{paramName}}']:
             _body_params = _params['{{paramName}}']
-{{/bodyParam}}
 
+{{/bodyParam}}
         {{#hasProduces}}
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
