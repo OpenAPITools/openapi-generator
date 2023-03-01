@@ -544,7 +544,7 @@ class ApiClient(object):
                     new_params.append(
                         (k, delimiter.join(quote(str(value)) for value in v)))
             else:
-                new_params.append((k, v))
+                new_params.append((k, quote(str(v))))
 
         return "&".join(["=".join(item) for item in new_params])
 

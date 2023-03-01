@@ -48,6 +48,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
     public static final String FLOAT_STRICT_TYPE = "floatStrictType";
+    public static final String DATETIME_FORMAT = "datetimeFormat";
+    public static final String DATE_FORMAT = "dateFormat";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
@@ -56,6 +58,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
     protected boolean floatStrictType = true;
+    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    protected String dateFormat = "%Y-%m-%d";
 
     protected Map<Character, String> regexModifiers;
 
@@ -171,6 +175,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
+                .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
+        cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
+                .defaultValue("%Y-%m-%d"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -272,6 +280,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
             setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
+        }
+
+        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
+            setDatetimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else {
+            additionalProperties.put(DATETIME_FORMAT, datetimeFormat);
+        }
+
+        if (additionalProperties.containsKey(DATE_FORMAT)) {
+            setDateFormat((String) additionalProperties.get(DATE_FORMAT));
+        } else {
+            additionalProperties.put(DATE_FORMAT, dateFormat);
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -1376,5 +1396,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public void setFloatStrictType(boolean floatStrictType) {
         this.floatStrictType = floatStrictType;
+    }
+
+    public void setDatetimeFormat(String datetimeFormat) {
+        this.datetimeFormat = datetimeFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }

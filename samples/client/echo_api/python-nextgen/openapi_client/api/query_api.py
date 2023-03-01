@@ -157,22 +157,27 @@ class QueryApi(object):
         # process the query parameters
         _query_params = []
         if _params.get('datetime_query') is not None:  # noqa: E501
-            _query_params.append(('datetime_query', _params['datetime_query']))
+            if isinstance(_params['datetime_query'], datetime):
+                _query_params.append(('datetime_query', _params['datetime_query'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('datetime_query', _params['datetime_query']))
+
         if _params.get('date_query') is not None:  # noqa: E501
-            _query_params.append(('date_query', _params['date_query']))
+            if isinstance(_params['date_query'], datetime):
+                _query_parame.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('date_query', _params['date_query']))
+
         if _params.get('string_query') is not None:  # noqa: E501
             _query_params.append(('string_query', _params['string_query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -315,21 +320,20 @@ class QueryApi(object):
         _query_params = []
         if _params.get('integer_query') is not None:  # noqa: E501
             _query_params.append(('integer_query', _params['integer_query']))
+
         if _params.get('boolean_query') is not None:  # noqa: E501
             _query_params.append(('boolean_query', _params['boolean_query']))
+
         if _params.get('string_query') is not None:  # noqa: E501
             _query_params.append(('string_query', _params['string_query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -465,14 +469,11 @@ class QueryApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -608,14 +609,11 @@ class QueryApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -751,14 +749,11 @@ class QueryApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -894,14 +889,11 @@ class QueryApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
@@ -1037,14 +1029,11 @@ class QueryApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501

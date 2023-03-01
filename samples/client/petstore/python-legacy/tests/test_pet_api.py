@@ -217,7 +217,8 @@ class PetApiTests(unittest.TestCase):
     def test_add_pet_and_get_pet_by_id(self):
         self.pet_api.add_pet(self.pet)
 
-        fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        import datetime
+        fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id, date_time_text_xyz=datetime.datetime(2010, 12, 25, 0, 0))
         self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched.id)
         self.assertIsNotNone(fetched.category)
