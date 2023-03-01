@@ -1,0 +1,29 @@
+name: Samples Swift
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift5/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift5/**
+jobs:
+  build:
+    name: Build Swift projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/swift5/default/
+    steps:
+      - uses: actions/checkout@v3
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: "5.1.0"
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: swift build
+      - name: Run tests
+        working-directory: ${{ matrix.sample }}
+        run: swift test
