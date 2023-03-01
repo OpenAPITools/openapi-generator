@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
-@JsonTypeName("Dog_allOf")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DogAllOf {

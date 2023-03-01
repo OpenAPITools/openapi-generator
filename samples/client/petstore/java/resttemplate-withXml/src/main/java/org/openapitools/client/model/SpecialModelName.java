@@ -33,7 +33,6 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-@JsonTypeName("$special[model.name]")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "$special[model.name]")
 @XmlAccessorType(XmlAccessType.FIELD)
