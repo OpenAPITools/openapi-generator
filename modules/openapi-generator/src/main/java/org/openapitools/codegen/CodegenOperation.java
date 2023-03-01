@@ -49,6 +49,7 @@ public class CodegenOperation {
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
+    public ArrayList<CodegenParameter> requiredHeaderParams = new ArrayList<>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
@@ -160,6 +161,15 @@ public class CodegenOperation {
 
     public boolean getHasRequiredAndNotNullableParams() {
         return nonEmpty(requiredAndNotNullableParams);
+    }
+
+    /**
+     * Check if there's at least one required header parameter
+     *
+     * @return true if any required header parameter exists, false otherwise
+     */
+    public boolean getHasRequiredHeaderParams(){
+        return nonEmpty(requiredHeaderParams);
     }
 
     /**
@@ -365,6 +375,7 @@ public class CodegenOperation {
         sb.append(", pathParams=").append(pathParams);
         sb.append(", queryParams=").append(queryParams);
         sb.append(", headerParams=").append(headerParams);
+        sb.append(", requiredHeaderParams=").append(requiredHeaderParams);
         sb.append(", formParams=").append(formParams);
         sb.append(", cookieParams=").append(cookieParams);
         sb.append(", requiredParams=").append(requiredParams);
@@ -415,6 +426,7 @@ public class CodegenOperation {
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
                 isRestfulUpdate == that.isRestfulUpdate &&
+                requiredHeaderParams == that.requiredHeaderParams &&
                 isRestfulDestroy == that.isRestfulDestroy &&
                 isRestful == that.isRestful &&
                 isDeprecated == that.isDeprecated &&
@@ -444,6 +456,7 @@ public class CodegenOperation {
                 Objects.equals(pathParams, that.pathParams) &&
                 Objects.equals(queryParams, that.queryParams) &&
                 Objects.equals(headerParams, that.headerParams) &&
+                Objects.equals(requiredHeaderParams, that.requiredHeaderParams) &&
                 Objects.equals(formParams, that.formParams) &&
                 Objects.equals(cookieParams, that.cookieParams) &&
                 Objects.equals(requiredParams, that.requiredParams) &&
