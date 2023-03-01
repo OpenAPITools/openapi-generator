@@ -220,7 +220,7 @@ class ApiClientTests(unittest.TestCase):
             "category2": "example2"
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, data)
+        self.assertEqual(result, "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
         
         data='value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
         dictionary = {
@@ -234,7 +234,7 @@ class ApiClientTests(unittest.TestCase):
             }
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, data)
+        self.assertEqual(result, 'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
 
         data='value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
         dictionary = {
@@ -255,7 +255,7 @@ class ApiClientTests(unittest.TestCase):
             ]
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, data)
+        self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
 
 
