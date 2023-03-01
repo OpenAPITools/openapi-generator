@@ -35,6 +35,22 @@ public class Name {
   @JsonProperty("123Number")
   private Integer _123number;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Name#Name(Integer)}
+   */
+  @Deprecated
+  public Name() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Name(Integer name) {
+    this.name = name;
+  }
+
   public Name name(Integer name) {
     this.name = name;
     return this;
