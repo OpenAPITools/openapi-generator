@@ -26,7 +26,6 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClassDto
  */
 
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 

@@ -20,7 +20,6 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name starting with number")
-@JsonTypeName("200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response {
 

@@ -26,7 +26,6 @@ import javax.annotation.Generated;
  * FormatTestDto
  */
 
-@JsonTypeName("format_test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTestDto {
 

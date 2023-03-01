@@ -23,7 +23,6 @@ import javax.annotation.Generated;
  * AdditionalPropertiesNumberDto
  */
 
-@JsonTypeName("AdditionalPropertiesNumber")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesNumberDto extends HashMap<String, BigDecimal> {
 

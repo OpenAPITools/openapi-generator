@@ -23,7 +23,6 @@ import javax.annotation.Generated;
  * ArrayTestDto
  */
 
-@JsonTypeName("ArrayTest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTestDto {
 

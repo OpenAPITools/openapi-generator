@@ -17,7 +17,6 @@ import jakarta.annotation.Generated;
  * CatAllOf
  */
 
-@JsonTypeName("Cat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOf {
 

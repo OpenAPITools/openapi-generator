@@ -22,7 +22,6 @@ import javax.annotation.Generated;
  * AdditionalPropertiesIntegerDto
  */
 
-@JsonTypeName("AdditionalPropertiesInteger")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesIntegerDto extends HashMap<String, Integer> {
 

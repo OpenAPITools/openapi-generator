@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
  * EnumArraysDto
  */
 
-@JsonTypeName("EnumArrays")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumArraysDto {
 

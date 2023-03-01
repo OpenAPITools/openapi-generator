@@ -23,7 +23,6 @@ import javax.annotation.Generated;
  * MapTestDto
  */
 
-@JsonTypeName("MapTest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTestDto {
 

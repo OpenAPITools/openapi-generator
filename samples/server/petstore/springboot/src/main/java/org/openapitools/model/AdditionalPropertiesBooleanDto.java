@@ -22,7 +22,6 @@ import javax.annotation.Generated;
  * AdditionalPropertiesBooleanDto
  */
 
-@JsonTypeName("AdditionalPropertiesBoolean")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesBooleanDto extends HashMap<String, Boolean> {
 

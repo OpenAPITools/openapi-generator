@@ -26,7 +26,6 @@ import javax.annotation.Generated;
  */
 
 
-@JsonTypeName("BigCat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCatDto extends CatDto {
 
