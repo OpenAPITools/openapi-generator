@@ -600,7 +600,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (allowStringInDateTimeParameters) {
                 pydanticImports.add("StrictStr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[%s, StrictStr]", cp.dataType);
+                return String.format(Locale.ROOT, "Union[StrictStr, %s]", cp.dataType);
             } else {
                 return cp.dataType;
             }
