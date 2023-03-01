@@ -7,8 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using {{packageName}}.Client;
-{{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
-{{/hasOAuthMethods}}
 {{#hasImport}}using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
@@ -33,12 +31,11 @@ namespace {{packageName}}.{{apiPackage}}
         {{/notes}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
+        {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 
         /// <summary>
         /// {{summary}}
@@ -48,12 +45,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
+        ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/operation}}
         #endregion Synchronous Operations
     }
@@ -76,13 +72,12 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
-        /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{#returnType}}System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        {{#returnType}}System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// {{summary}}
@@ -94,13 +89,12 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
-        /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse{{#returnType}} ({{.}}){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        System.Threading.Tasks.Task<ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         {{/operation}}
         #endregion Asynchronous Operations
     }
@@ -117,12 +111,14 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
+    {{>visibility}} partial class {{classname}} : IDisposable, {{interfacePrefix}}{{classname}}
     {
         private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
         public {{classname}}() : this((string)null)
@@ -131,7 +127,11 @@ namespace {{packageName}}.{{apiPackage}}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public {{classname}}(string basePath)
         {
@@ -139,18 +139,21 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 new {{packageName}}.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.Client =  this.ApiClient;
             {{#supportsAsync}}
-            this.AsynchronousClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = this.ApiClient;
             {{/supportsAsync}}
             this.ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}"/> class
-        /// using Configuration object
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class using Configuration object.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public {{classname}}({{packageName}}.Client.Configuration configuration)
         {
@@ -160,9 +163,10 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = this.ApiClient;
             {{#supportsAsync}}
-            this.AsynchronousClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = this.ApiClient;
             {{/supportsAsync}}
             ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
@@ -174,6 +178,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="client">The client interface for synchronous API access.</param>{{#supportsAsync}}
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>{{/supportsAsync}}
         /// <param name="configuration">The configuration object.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public {{classname}}({{packageName}}.Client.ISynchronousClient client, {{#supportsAsync}}{{packageName}}.Client.IAsynchronousClient asyncClient, {{/supportsAsync}}{{packageName}}.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -189,6 +194,19 @@ namespace {{packageName}}.{{apiPackage}}
             this.Configuration = configuration;
             this.ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
+
+        /// <summary>
+        /// Disposes resources if they were created by us
+        /// </summary>
+        public void Dispose()
+        {
+            this.ApiClient?.Dispose();
+        }
+
+        /// <summary>
+        /// Holds the ApiClient if created
+        /// </summary>
+        public {{packageName}}.Client.ApiClient ApiClient { get; set; } = null;
 
         {{#supportsAsync}}
         /// <summary>
@@ -239,12 +257,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
+        public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#returnType}}{{packageName}}.Client.ApiResponse<{{{returnType}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             return localVarResponse.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/returnType}}
@@ -255,21 +272,18 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
+        public {{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#allParams}}
             {{#required}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
-            {
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
-            }
 
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
@@ -290,16 +304,10 @@ namespace {{packageName}}.{{apiPackage}}
             };
 
             var localVarContentType = {{packageName}}.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             {{#pathParams}}
             {{#required}}
@@ -330,12 +338,12 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null)
             {
                 {{#isDeepObject}}
-                {{#items.vars}}
+                    {{#items.vars}}
                 if ({{paramName}}.{{name}} != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{paramName}}[{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}]", {{paramName}}.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
                 }
-                {{/items.vars}}
+                    {{/items.vars}}
                 {{^items}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
                 {{/items}}
@@ -360,41 +368,15 @@ namespace {{packageName}}.{{apiPackage}}
             {{#formParams}}
             {{#required}}
             {{#isFile}}
-            {{#isArray}}
-            {{#supportsFileParameters}}
-            foreach (var file in {{paramName}})
-            {
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
-            }
-            {{/supportsFileParameters}}
-            {{/isArray}}
-            {{^isArray}}
-            {{#supportsFileParameters}}
-            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
-            {{/supportsFileParameters}}
-            {{/isArray}}
             {{/isFile}}
             {{^isFile}}
-            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter
+            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
             {{/isFile}}
             {{/required}}
             {{^required}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
-                {{#isArray}}
-                {{#supportsFileParameters}}
-                foreach (var file in {{paramName}})
-                {
-                    localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
-                }
-                {{/supportsFileParameters}}
-                {{/isArray}}
-                {{^isArray}}
-                {{#supportsFileParameters}}
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
-                {{/supportsFileParameters}}
-                {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -405,9 +387,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#bodyParam}}
             localVarRequestOptions.Data = {{paramName}};
             {{/bodyParam}}
-
-            localVarRequestOptions.Operation = "{{classname}}.{{operationId}}";
-            localVarRequestOptions.OperationIndex = operationIndex;
 
             {{#authMethods}}
             // authentication ({{name}}) required
@@ -448,21 +427,9 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                {{#hasOAuthMethods}}
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-                {{/hasOAuthMethods}}
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
@@ -486,13 +453,11 @@ namespace {{packageName}}.{{apiPackage}}
 
             // make the HTTP request
             var localVarResponse = this.Client.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration);
+
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
+                if (_exception != null) throw _exception;
             }
 
             return localVarResponse;
@@ -506,16 +471,15 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
-        /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{#returnType}}public async System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            {{#returnType}}{{packageName}}.Client.ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);{{/returnType}}
+            {{#returnType}}{{packageName}}.Client.ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);{{/returnType}}
         }
 
         /// <summary>
@@ -525,22 +489,19 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
-        /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse{{#returnType}} ({{.}}){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             {{#allParams}}
             {{#required}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
-            {
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
-            }
 
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
@@ -561,17 +522,12 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/produces}}
             };
 
+
             var localVarContentType = {{packageName}}.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             {{#pathParams}}
             {{#required}}
@@ -609,19 +565,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#formParams}}
             {{#required}}
             {{#isFile}}
-            {{#isArray}}
-            {{#supportsFileParameters}}
-            foreach (var file in {{paramName}})
-            {
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
-            }
-            {{/supportsFileParameters}}
-            {{/isArray}}
-            {{^isArray}}
-            {{#supportsFileParameters}}
-            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
-            {{/supportsFileParameters}}
-            {{/isArray}}
             {{/isFile}}
             {{^isFile}}
             localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -631,19 +574,6 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
-                {{#isArray}}
-                {{#supportsFileParameters}}
-                foreach (var file in {{paramName}})
-                {
-                    localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
-                }
-                {{/supportsFileParameters}}
-                {{/isArray}}
-                {{^isArray}}
-                {{#supportsFileParameters}}
-                localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
-                {{/supportsFileParameters}}
-                {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
@@ -654,9 +584,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{#bodyParam}}
             localVarRequestOptions.Data = {{paramName}};
             {{/bodyParam}}
-
-            localVarRequestOptions.Operation = "{{classname}}.{{operationId}}";
-            localVarRequestOptions.OperationIndex = operationIndex;
 
             {{#authMethods}}
             // authentication ({{name}}) required
@@ -699,21 +626,9 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                {{#hasOAuthMethods}}
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-                {{/hasOAuthMethods}}
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
@@ -736,15 +651,13 @@ namespace {{packageName}}.{{apiPackage}}
             {{/authMethods}}
 
             // make the HTTP request
+
             var localVarResponse = await this.AsynchronousClient.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Async<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
+                if (_exception != null) throw _exception;
             }
 
             return localVarResponse;
