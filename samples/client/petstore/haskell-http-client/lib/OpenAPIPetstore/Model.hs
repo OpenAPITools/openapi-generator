@@ -2430,6 +2430,19 @@ toOuterEnum = \case
 
 -- * Auth Methods
 
+-- ** AuthOAuthPetstoreAuth
+data AuthOAuthPetstoreAuth =
+  AuthOAuthPetstoreAuth Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod AuthOAuthPetstoreAuth where
+  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+
 -- ** AuthApiKeyApiKey
 data AuthApiKeyApiKey =
   AuthApiKeyApiKey Text -- ^ secret
@@ -2469,18 +2482,5 @@ instance AuthMethod AuthBasicHttpBasicTest where
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
-
--- ** AuthOAuthPetstoreAuth
-data AuthOAuthPetstoreAuth =
-  AuthOAuthPetstoreAuth Text -- ^ secret
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod AuthOAuthPetstoreAuth where
-  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
 
 

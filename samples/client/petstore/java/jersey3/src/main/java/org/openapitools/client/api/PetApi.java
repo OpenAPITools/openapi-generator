@@ -105,7 +105,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
 
     return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
@@ -242,7 +242,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
 
@@ -316,7 +316,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
 
@@ -458,7 +458,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
 
     return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,

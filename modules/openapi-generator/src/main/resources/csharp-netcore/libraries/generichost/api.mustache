@@ -271,8 +271,8 @@ namespace {{packageName}}.{{apiPackage}}
                 {
                     {{^servers}}
                     uriBuilder.Host = HttpClient.BaseAddress{{nrt!}}.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress{{nrt!}}.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
 
                     {{/servers}}

@@ -45,7 +45,7 @@ func NewFileWithDefaults() *File {
 
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
 func (o *File) GetSourceURI() string {
-	if o == nil || isNil(o.SourceURI) {
+	if o == nil || IsNil(o.SourceURI) {
 		var ret string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *File) GetSourceURI() string {
 // GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *File) GetSourceURIOk() (*string, bool) {
-	if o == nil || isNil(o.SourceURI) {
+	if o == nil || IsNil(o.SourceURI) {
 		return nil, false
 	}
 	return o.SourceURI, true
@@ -63,7 +63,7 @@ func (o *File) GetSourceURIOk() (*string, bool) {
 
 // HasSourceURI returns a boolean if a field has been set.
 func (o *File) HasSourceURI() bool {
-	if o != nil && !isNil(o.SourceURI) {
+	if o != nil && !IsNil(o.SourceURI) {
 		return true
 	}
 
@@ -85,7 +85,7 @@ func (o File) MarshalJSON() ([]byte, error) {
 
 func (o File) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.SourceURI) {
+	if !IsNil(o.SourceURI) {
 		toSerialize["sourceURI"] = o.SourceURI
 	}
 

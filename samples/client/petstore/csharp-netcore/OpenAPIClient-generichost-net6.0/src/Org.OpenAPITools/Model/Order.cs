@@ -212,6 +212,11 @@ namespace Org.OpenAPITools.Model
     public class OrderJsonConverter : JsonConverter<Order>
     {
         /// <summary>
+        /// The format to use to serialize ShipDate
+        /// </summary>
+        public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
         /// <param name="utf8JsonReader"></param>
@@ -292,8 +297,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", order.Id);
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
-            writer.WritePropertyName("shipDate");
-            JsonSerializer.Serialize(writer, order.ShipDate, jsonSerializerOptions);
+            writer.WriteString("shipDate", order.ShipDate.ToString(ShipDateFormat));
             var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);

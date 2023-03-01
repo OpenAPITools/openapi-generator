@@ -41,6 +41,103 @@ paths:
       tags:
       - path
       x-accepts: text/plain
+  /form/integer/boolean/string:
+    post:
+      description: Test form parameter(s)
+      operationId: test/form/integer/boolean/string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/test_form_integer_boolean_string_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s)
+      tags:
+      - form
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts: text/plain
+  /header/integer/boolean/string:
+    get:
+      description: Test header parameter(s)
+      operationId: test/header/integer/boolean/string
+      parameters:
+      - explode: true
+        in: header
+        name: integer_header
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: header
+        name: boolean_header
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: header
+        name: string_header
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test header parameter(s)
+      tags:
+      - header
+      x-accepts: text/plain
+  /query/datetime/date/string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/datetime/date/string
+      parameters:
+      - explode: true
+        in: query
+        name: datetime_query
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: date_query
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: string_query
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/integer/boolean/string:
     get:
       description: Test query parameter(s)
@@ -211,6 +308,24 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: application/json
+  /echo/body/Pet/response_string:
+    post:
+      description: Test empty response body
+      operationId: test/echo/body/Pet/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test empty response body
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: text/plain
 components:
   requestBodies:
     Pet:
@@ -301,9 +416,22 @@ components:
       type: object
       xml:
         name: pet
+    StringEnumRef:
+      enum:
+      - success
+      - failure
+      - unclassified
+      type: string
     DefaultValue:
       description: to test the default value of properties
       properties:
+        array_string_enum_ref_default:
+          default:
+          - success
+          - failure
+          items:
+            $ref: '#/components/schemas/StringEnumRef'
+          type: array
         array_string_enum_default:
           default:
           - success
@@ -338,6 +466,11 @@ components:
             type: string
           nullable: true
           type: array
+        array_string_extension_nullable:
+          items:
+            type: string
+          type: array
+          x-nullable: true
         string_nullable:
           nullable: true
           type: string
@@ -372,6 +505,15 @@ components:
       allOf:
       - $ref: '#/components/schemas/DataQuery_allOf'
       - $ref: '#/components/schemas/Query'
+    test_form_integer_boolean_string_request:
+      properties:
+        integer_form:
+          type: integer
+        boolean_form:
+          type: boolean
+        string_form:
+          type: string
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:

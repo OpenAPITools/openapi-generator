@@ -35,15 +35,8 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 {{#useBeanValidation}}
-import javax.validation.Valid
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import {{javaxPackage}}.validation.constraints.*
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 
 {{#reactive}}
@@ -73,7 +66,7 @@ interface {{classname}} {
     @Operation(
         summary = "{{{summary}}}",
         operationId = "{{{operationId}}}",
-        description = "{{{notes}}}",
+        description = """{{{unescapedNotes}}}""",
         responses = [{{#responses}}
             ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content(schema = Schema(implementation = {{{baseType}}}::class))]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
