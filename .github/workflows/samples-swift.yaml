@@ -18,9 +18,9 @@ jobs:
           - samples/client/petstore/swift5/default/
     steps:
       - uses: actions/checkout@v3
-      - uses: swift-actions/setup-swift@v1
+      - uses: swift-actions/setup-swift@v1.22.0
         with:
-          swift-version: "5.1.0"
+          swift-version: "5.4.3"
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: swift build
