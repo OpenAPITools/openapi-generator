@@ -375,7 +375,7 @@ public class CodegenOperation {
         sb.append(", pathParams=").append(pathParams);
         sb.append(", queryParams=").append(queryParams);
         sb.append(", headerParams=").append(headerParams);
-        sb.append(", RequiredHeaderParams").append(requiredHeaderParams);
+        sb.append(", requiredHeaderParams=").append(requiredHeaderParams);
         sb.append(", formParams=").append(formParams);
         sb.append(", cookieParams=").append(cookieParams);
         sb.append(", requiredParams=").append(requiredParams);
