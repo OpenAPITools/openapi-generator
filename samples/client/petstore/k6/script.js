@@ -309,7 +309,7 @@ export default function() {
 
     group("/foo", () => {
 
-        // Request No. 1:
+        // Request No. 1: 
         {
             let url = BASE_URL + `/foo`;
             let request = http.get(url);
@@ -549,7 +549,7 @@ export default function() {
 
     group("/fake/health", () => {
 
-        // Request No. 1:
+        // Request No. 1: 
         {
             let url = BASE_URL + `/fake/health`;
             let request = http.get(url);
