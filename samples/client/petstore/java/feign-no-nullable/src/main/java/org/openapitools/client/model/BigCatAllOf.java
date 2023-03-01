@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
-@JsonTypeName("BigCat_allOf")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {

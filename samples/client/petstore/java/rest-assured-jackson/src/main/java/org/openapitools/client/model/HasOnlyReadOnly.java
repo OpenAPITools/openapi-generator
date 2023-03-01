@@ -33,7 +33,6 @@ import org.hibernate.validator.constraints.*;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-@JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
