@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.CodegenConstants.API_NAME_PREFIX;
+import static org.openapitools.codegen.CodegenConstants.API_NAME_PREFIX_DESC;
 import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.API_PACKAGE_DESC;
 import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
@@ -31,6 +33,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -72,6 +75,9 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 	public N4jsClientCodegen() {
 		super();
+		
+		// disable since otherwise Modules/Class are not generated iff used as parameters only
+        GlobalSettings.setProperty("skipFormModel", "false");
 
 		specialCharReplacements.clear();
 
@@ -139,6 +145,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		cliOptions.clear();
         cliOptions.add(new CliOption(API_PACKAGE, API_PACKAGE_DESC));
         cliOptions.add(new CliOption(MODEL_PACKAGE, MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(API_NAME_PREFIX, API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(CHECK_REQUIRED_PARAMS_NOT_NULL, "Iff true null-checks are performed for required parameters."));
         cliOptions.add(new CliOption(CHECK_SUPERFLUOUS_BODY_PROPS, "Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
         cliOptions.add(new CliOption(GENERATE_DEFAULT_API_EXECUTER, "Iff true a default implementation of the api executer interface is generated."));
@@ -179,6 +186,12 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         	modelPackage = additionalProperties.get(MODEL_PACKAGE).toString();
         } else {
         	additionalProperties.put(MODEL_PACKAGE, modelPackage);
+        }
+        
+        if (additionalProperties.get(API_NAME_PREFIX) instanceof String) {
+        	apiNamePrefix = additionalProperties.get(API_NAME_PREFIX).toString();
+        } else {
+        	additionalProperties.put(API_NAME_PREFIX, apiNamePrefix);
         }
     }
     
@@ -375,11 +388,12 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		Iterator<Map<String, String>> iter = operations.getImports().iterator();
 		while (iter.hasNext()) {
 			Map<String, String> im = iter.next();
-			String importName = im.get("import");
 			String className = im.get("classname");
+			className = convertToModelName(className);
 			String adjClassName = typeMapping.getOrDefault(className, className);
 			if (needToImport(adjClassName)) {
-				im.put("filename", importName);
+				im.put("classname", className);
+				im.put("filename", toModelImport(className));
 			} else {
 				iter.remove();
 			}
@@ -389,6 +403,20 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		adjustDescriptionWithNewLines(additionalProperties);
 
 		return operations;
+	}
+	
+	private String convertToModelName(String modelName) {
+		if (modelName == null) {
+			return modelName;
+		}
+		Schema<?> schema = ModelUtils.getSchema(openAPI, modelName);
+		if (schema == null) {
+			return modelName;
+		}
+		if (ModelUtils.isObjectSchema(schema)) {
+			return toModelFilename(modelName);
+		}
+		return modelName;
 	}
 
 	private void adjustDescriptionWithNewLines(Map<String, Object> map) {
@@ -468,10 +496,13 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 			}
 		} else if (ModelUtils.isFileSchema(p)) {
 			return "File";
+		} else if (ModelUtils.isObjectSchema(p) || ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
+			String result = super.getTypeDeclaration(p);
+			return toModelFilename(result);
 		} else if (ModelUtils.isBinarySchema(p)) {
 			return "ArrayBuffer";
 		}
-        
+		
 		return super.getTypeDeclaration(p);
 	}
 
@@ -492,6 +523,9 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 			if (p.getEnum() != null) {
 				return enumValuesToEnumTypeUnion(p.getEnum(), "string");
 			}
+		} else if (ModelUtils.isObjectSchema(p) || ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
+			String result = super.getTypeDeclaration(p);
+			return toModelFilename(result);
 		} else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p)) {
 			// Handle integer and double enums
 			if (p.getEnum() != null) {

@@ -17,6 +17,7 @@ export public interface ~ApiError<T> {
     public resultBody?: T;
 }
 
+{{#checkRequiredParamsNotNull}}
 export public function checkRequiredParams(apiName: string, params: ~Object+) : void {
     for (const key of Object.keys(params)) {
         const arg = params[key];
@@ -25,7 +26,9 @@ export public function checkRequiredParams(apiName: string, params: ~Object+) : 
         }
     }
 }
+{{/checkRequiredParamsNotNull}}
 
+{{#checkSuperfluousBodyProps}}
 export public function <T> cleanCopyBody(t : T+, ...properties: string) : ~T {
     const copy : ~T+ = {};
     for (const prop in properties) {
@@ -33,6 +36,7 @@ export public function <T> cleanCopyBody(t : T+, ...properties: string) : ~T {
     }
     return copy;
 }
+{{/checkSuperfluousBodyProps}}
 
 {{#generateDefaultApiExecuter}}
 /**
@@ -42,7 +46,6 @@ export public function <T> cleanCopyBody(t : T+, ...properties: string) : ~T {
  * - n4js-runtime-esnext
  * - n4js-runtime-es2015
  * - n4js-runtime-html5
- * - 
  */
 export public class FetchApiExec implements ApiExecuterI {
     public apiOrigin: string;
@@ -85,15 +88,11 @@ export public class FetchApiExec implements ApiExecuterI {
         }
         Object.assign(headers, headerParams);
 
-        return await this.<R,E>fetchExec({
+        return await this.<R,E>fetchExec(url, {
             method,
             headers,
             body,
         });
-    }
-
-    protected <E> async handleError(resp: Response, body): Promise<undefined, ApiError<E>> {
-        throw {body: body};
     }
 
     protected <R, E> async fetchExec(url: string, reqInit: RequestInit): Promise<R, Object|ApiError<E>> {
@@ -111,6 +110,10 @@ export public class FetchApiExec implements ApiExecuterI {
             return body as R;
         }
         return null;
+    }
+
+    protected <E> async handleError(resp: Response, body): Promise<undefined, ApiError<E>> {
+        throw {body: body};
     }
 }
 {{/generateDefaultApiExecuter}}
