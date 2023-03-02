@@ -4759,7 +4759,18 @@ public abstract class DefaultCodegen implements CodegenConfig {
         String uniqueName = co.operationId;
         int counter = 0;
         for (CodegenOperation op : opList) {
-            if (uniqueName.equals(op.operationId)) {
+            /* DEVENGAGE-1658 make operation ID uniqueness check case-insensitive.
+             * The example that caused this issue is:
+             *   POST /api/v2/presencedefinitions  > postPresencedefinitions
+             *   POST /api/v2/presence/definitions > postPresenceDefinitions
+             * The root cause of the issue is the OS's filesystem considering filenames only differing in casing to be
+             * equal. A generated file based on the operation ID was getting written for one casing, then the other
+             * operation with different casing overwrote the original file with new contents, but retained the original
+             * filename. So either don't use the operation ID in any filenames or make operation ID comparison
+             * case-insensitive. So here we are.
+             */
+            // Check to see if this is a known operation ID in a case-insensitive manner
+            if (uniqueName.equalsIgnoreCase(op.operationId)) {
                 uniqueName = co.operationId + "_" + counter;
                 counter++;
             }
