@@ -159,6 +159,11 @@
   infoLink: "https://www.deeproute.ai/"
   pinned: false
 -
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -603,7 +608,6 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
-
 -
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"
