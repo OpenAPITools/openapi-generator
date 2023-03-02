@@ -804,6 +804,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
+                prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
             }
             // The tag for the controller is the first tag of the first operation
@@ -853,6 +854,32 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (start > 0 && end > 0) {
                 dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
+            }
+        }
+    }
+
+    private void prepareVersioningParameters(List<CodegenOperation> operations) {
+        for (CodegenOperation operation : operations) {
+            if (operation.getHasHeaderParams()) {
+                List<CodegenParameter> versionParams = operation.headerParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+                operation.hasVersionHeaders = !versionParams.isEmpty();
+                operation.vendorExtensions.put("versionHeaderParamsList", versionParams);
+            }
+
+            if (operation.getHasQueryParams()) {
+                List<CodegenParameter> versionParams = operation.queryParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+                operation.hasVersionQueryParams = !versionParams.isEmpty();
+                operation.vendorExtensions.put("versionQueryParamsList", versionParams);
             }
         }
     }
@@ -1185,6 +1212,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        extensions.add(VendorExtension.X_VERSION_PARAM);
         return extensions;
     }
 
