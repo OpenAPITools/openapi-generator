@@ -37,7 +37,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -1331,38 +1333,42 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        if ("int".equals(datatype)) {
+            return "NUMBER_" + name;
+        }
+
+        // remove quote e.g. 'abc' => abc
+        name = name.substring(1, name.length() - 1);
+
         if (name.length() == 0) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
-            return "SPACE_" + name.length();
+        if (" ".equals(name)) {
+            return "SPACE";
         }
 
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        if ("_".equals(name)) {
+            return "UNDERSCORE";
         }
 
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return "NUMBER_" + varName;
-        }
-
-        // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
+        if (reservedWords.contains(name)) {
+            name = name.toUpperCase(Locale.ROOT);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
         } else {
-            return enumName;
+            name = name.toUpperCase(Locale.ROOT);
         }
+
+        name = name.replace(" ", "_");
+        name = name.replaceFirst("^_", "");
+        name = name.replaceFirst("_$", "");
+
+        if (name.matches("\\d.*")) {
+            name = "ENUM_" + name.toUpperCase(Locale.ROOT);
+        }
+
+        return name;
     }
 
     @Override

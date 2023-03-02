@@ -180,6 +180,7 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)
  - [SingleRefType](docs/SingleRefType.md)
+ - [SpecialCharacterEnum](docs/SpecialCharacterEnum.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
