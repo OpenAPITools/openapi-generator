@@ -607,7 +607,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(removeModelPrefixSuffix(name)).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {

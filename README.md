@@ -613,6 +613,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [DB Systel](https://www.dbsystel.de)
 - [Deeporute.ai](https://www.deeproute.ai/)
 - [Devsupply](https://www.devsupply.com/)
+- [dmTECH GmbH](https://www.dmTECH.de)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
 - [Edge Impulse](https://www.edgeimpulse.com/)

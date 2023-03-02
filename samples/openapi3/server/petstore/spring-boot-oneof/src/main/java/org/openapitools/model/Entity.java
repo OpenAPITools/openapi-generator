@@ -59,6 +59,22 @@ public class Entity {
   @JsonProperty("@type")
   private String atType;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Entity#Entity(String)}
+   */
+  @Deprecated
+  public Entity() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Entity(String atType) {
+    this.atType = atType;
+  }
+
   public Entity href(String href) {
     this.href = href;
     return this;

@@ -2097,6 +2097,25 @@ public class SpringCodegenTest {
         assertFileContains(output.get("PersonApi.java").toPath(), interfaceTag, methodTag);
     }
 
+    @Test
+    public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor("String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3").toConstructor()
+                .hasParameter("param6").toConstructor()
+                .bodyContainsLines("super(param2, param3)", "this.param6 = param6");
+    }
+
     private Map<String, File> generateFromContract(String url, String library) throws IOException {
         return generateFromContract(url, library, new HashMap<>());
     }

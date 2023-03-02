@@ -154,23 +154,22 @@ class HeaderApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['integer_header']:
             _header_params['integer_header'] = _params['integer_header']
+
         if _params['boolean_header']:
             _header_params['boolean_header'] = _params['boolean_header']
+
         if _params['string_header']:
             _header_params['string_header'] = _params['string_header']
 
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501
