@@ -1129,15 +1129,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 modelImports.add(model.parent);
             }
 
-            // set enum type in extensions
+            // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.put("x-py-enum-type", "str");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
+                        // update `name`, e.g.
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
-                        model.vendorExtensions.put("x-py-enum-type", "int");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
                     }
-                    break;
                 }
             }
 
@@ -1321,6 +1323,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            return name;
+        } else {
+            return "\'" + name + "\'";
+        }
+    }
+
+    public String toEnumVariableName(String name, String datatype) {
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -1366,7 +1376,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return "self::" + datatype + "_" + value;
+        return value;
     }
 
     /**
@@ -1404,5 +1414,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 }

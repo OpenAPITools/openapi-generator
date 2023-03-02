@@ -1630,6 +1630,14 @@ components:
             - UPPER
             - lower
             - ''
+        enum_integer_default:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 5
+            - 14
+          default: 5
         enum_integer:
           type: integer
           format: int32

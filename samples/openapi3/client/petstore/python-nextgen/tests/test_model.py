@@ -382,3 +382,8 @@ class ModelTests(unittest.TestCase):
         ## Serializing json  
         #json_object = json.dumps(dictionary) 
         #self.assertEqual(json_object, "")
+
+    def test_inline_enum_default(self):
+        enum_test = petstore_api.EnumTest(enum_string_required="lower")
+        self.assertEqual(enum_test.enum_integer_default, 5)
+
