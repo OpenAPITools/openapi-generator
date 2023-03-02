@@ -825,6 +825,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
         } else if (UNITY.equals(getLibrary())) {
+            additionalProperties.put(CodegenConstants.VALIDATABLE, false);
+            setValidatable(false);
             setSupportsRetry(false);
             setSupportsAsync(true);
             setSupportsFileParameters(false);
@@ -928,14 +930,24 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-
-        if (Boolean.FALSE.equals(excludeTests.get())) {
-            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+        if (UNITY.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("asmdef.mustache", packageFolder, packageName + ".asmdef"));
+        } else {
+            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+            supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
         }
 
-        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            if (UNITY.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("asmdef_test.mustache", testPackageFolder, testPackageName + ".asmdef"));
+            } else {
+                supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            }
+        }
+
+        if (!UNITY.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        }
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
     }
 

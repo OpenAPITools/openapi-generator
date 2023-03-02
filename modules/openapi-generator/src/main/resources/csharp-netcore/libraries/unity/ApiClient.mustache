@@ -182,8 +182,6 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         public ApiClient() :
                  this({{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
@@ -192,8 +190,6 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -247,7 +243,6 @@ namespace {{packageName}}.Client
             }
 
             var uri = builder.GetFullUri();
-            UploadHandler uploadHandler = null;
             UnityWebRequest request = null;
 
             if (contentType == "multipart/form-data")
@@ -336,8 +331,8 @@ namespace {{packageName}}.Client
 
         }
 
-        partial void InterceptRequest(UnityWebRequest req);
-        partial void InterceptResponse(UnityWebRequest req);
+        partial void InterceptRequest(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration);
+        partial void InterceptResponse(UnityWebRequest req, string path, RequestOptions options, IReadableConfiguration configuration, ref object responseData);
 
         private ApiResponse<T> ToApiResponse<T>(UnityWebRequest request, object responseData)
         {
@@ -364,6 +359,8 @@ namespace {{packageName}}.Client
 
         private async Task<ApiResponse<T>> ExecAsync<T>(
             UnityWebRequest request,
+            string path,
+            RequestOptions options,
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -398,7 +395,7 @@ namespace {{packageName}}.Client
                     throw new InvalidOperationException("Configuration `ClientCertificates` not supported by UnityWebRequest on all platforms");
                 }
 
-                InterceptRequest(request);
+                InterceptRequest(request, path, options, configuration);
 
                 var asyncOp = request.SendWebRequest();
 
@@ -438,7 +435,7 @@ namespace {{packageName}}.Client
                     responseData = (T) (object) new MemoryStream(request.downloadHandler.data);
                 }
 
-                InterceptResponse(request);
+                InterceptResponse(request, path, options, configuration, ref responseData);
 
                 return ToApiResponse<T>(request, responseData);
             }
@@ -470,7 +467,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("GET", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("GET", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -485,7 +482,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("POST", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("POST", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -500,7 +497,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("PUT", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("PUT", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -515,7 +512,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("DELETE", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("DELETE", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -530,7 +527,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("HEAD", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("HEAD", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -545,7 +542,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("OPTIONS", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("OPTIONS", path, options, config), path, options, config, cancellationToken);
         }
 
         /// <summary>
@@ -560,7 +557,7 @@ namespace {{packageName}}.Client
         public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest<T>("PATCH", path, options, config), config, cancellationToken);
+            return ExecAsync<T>(NewRequest<T>("PATCH", path, options, config), path, options, config, cancellationToken);
         }
         #endregion IAsynchronousClient
         {{/supportsAsync}}
