@@ -830,6 +830,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setValidatable(false);
             setSupportsRetry(false);
             setSupportsAsync(true);
+            additionalProperties.put("supportsFileParameters", false);
             setSupportsFileParameters(false);
 
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
