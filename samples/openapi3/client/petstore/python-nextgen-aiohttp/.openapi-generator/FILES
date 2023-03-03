@@ -149,5 +149,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_special_character_enum.py
 tox.ini
