@@ -119,8 +119,8 @@ public class TemplateManagerTest {
 
         Path target = Files.createTempDirectory("test-templatemanager");
         try {
-            File output = new File(target.toFile(), ".gitignore");
-            File written = manager.write(data, ".gitignore", output);
+            File output = new File(target.toFile(), "simple.txt");
+            File written = manager.write(data, "simple.txt", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
 
             output = new File(target.toFile(), "README.md");
@@ -237,8 +237,8 @@ public class TemplateManagerTest {
 
         Path target = Files.createTempDirectory("test-templatemanager");
         try {
-            File output = new File(target.toFile(), ".gitignore");
-            File written = manager.write(data, ".gitignore", output);
+            File output = new File(target.toFile(), "simple.txt");
+            File written = manager.write(data, "simple.txt", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
 
             output = new File(target.toFile(), "README.md");
