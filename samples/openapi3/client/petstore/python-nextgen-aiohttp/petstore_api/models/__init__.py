@@ -67,6 +67,7 @@ from petstore_api.models.pig import Pig
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.self_reference_model import SelfReferenceModel
 from petstore_api.models.single_ref_type import SingleRefType
+from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
