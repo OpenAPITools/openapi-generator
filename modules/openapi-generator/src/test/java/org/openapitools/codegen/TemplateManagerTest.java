@@ -239,12 +239,10 @@ public class TemplateManagerTest {
         try {
             File output = new File(target.toFile(), "simple.txt");
             File written = manager.write(data, "simple.txt", output);
-            Thread.sleep(1000L);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
 
             output = new File(target.toFile(), "README.md");
             written = manager.write(data, "README.md", output);
-            Thread.sleep(1000L);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
             target.toFile().delete();
