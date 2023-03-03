@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.summary     = "OpenAPI Petstore Ruby Gem"
   s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
   s.license     = "Unlicense"
-  s.required_ruby_version = ">= 2.4"
+  s.required_ruby_version = ">= 2.7"
 
   s.add_runtime_dependency 'faraday', '>= 1.0.1', '< 3.0'
   s.add_runtime_dependency 'faraday-multipart'

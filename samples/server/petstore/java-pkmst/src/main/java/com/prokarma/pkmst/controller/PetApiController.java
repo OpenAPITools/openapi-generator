@@ -21,7 +21,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 /**
- * Api implemention
+ * Api implementation
  * @author pkmst
  *
  */

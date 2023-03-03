@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -84,27 +82,27 @@ public class NullableClass {
 
   public static final String SERIALIZED_NAME_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_NULLABLE_PROP)
-  private List<Object> arrayNullableProp = null;
+  private List<Object> arrayNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP)
-  private List<Object> arrayAndItemsNullableProp = null;
+  private List<Object> arrayAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable = null;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
-  private Map<String, Object> objectNullableProp = null;
+  private Map<String, Object> objectNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP)
-  private Map<String, Object> objectAndItemsNullableProp = null;
+  private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
-  private Map<String, Object> objectItemsNullable = null;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
   }
@@ -120,7 +118,6 @@ public class NullableClass {
    * @return integerProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getIntegerProp() {
     return integerProp;
@@ -143,7 +140,6 @@ public class NullableClass {
    * @return numberProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getNumberProp() {
     return numberProp;
@@ -166,7 +162,6 @@ public class NullableClass {
    * @return booleanProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getBooleanProp() {
     return booleanProp;
@@ -189,7 +184,6 @@ public class NullableClass {
    * @return stringProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getStringProp() {
     return stringProp;
@@ -212,7 +206,6 @@ public class NullableClass {
    * @return dateProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public LocalDate getDateProp() {
     return dateProp;
@@ -235,7 +228,6 @@ public class NullableClass {
    * @return datetimeProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
@@ -254,9 +246,6 @@ public class NullableClass {
   }
 
   public NullableClass addArrayNullablePropItem(Object arrayNullablePropItem) {
-    if (this.arrayNullableProp == null) {
-      this.arrayNullableProp = new ArrayList<>();
-    }
     this.arrayNullableProp.add(arrayNullablePropItem);
     return this;
   }
@@ -266,7 +255,6 @@ public class NullableClass {
    * @return arrayNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
@@ -285,9 +273,6 @@ public class NullableClass {
   }
 
   public NullableClass addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
-    if (this.arrayAndItemsNullableProp == null) {
-      this.arrayAndItemsNullableProp = new ArrayList<>();
-    }
     this.arrayAndItemsNullableProp.add(arrayAndItemsNullablePropItem);
     return this;
   }
@@ -297,7 +282,6 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
@@ -328,7 +312,6 @@ public class NullableClass {
    * @return arrayItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
@@ -347,9 +330,6 @@ public class NullableClass {
   }
 
   public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
-    if (this.objectNullableProp == null) {
-      this.objectNullableProp = new HashMap<>();
-    }
     this.objectNullableProp.put(key, objectNullablePropItem);
     return this;
   }
@@ -359,7 +339,6 @@ public class NullableClass {
    * @return objectNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
@@ -378,9 +357,6 @@ public class NullableClass {
   }
 
   public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
-    if (this.objectAndItemsNullableProp == null) {
-      this.objectAndItemsNullableProp = new HashMap<>();
-    }
     this.objectAndItemsNullableProp.put(key, objectAndItemsNullablePropItem);
     return this;
   }
@@ -390,7 +366,6 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
@@ -421,7 +396,6 @@ public class NullableClass {
    * @return objectItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;

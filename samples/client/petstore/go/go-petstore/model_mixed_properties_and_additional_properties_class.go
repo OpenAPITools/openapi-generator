@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the MixedPropertiesAndAdditionalPropertiesClass type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &MixedPropertiesAndAdditionalPropertiesClass{}
+
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
@@ -41,7 +44,7 @@ func NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults() *MixedProperti
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
-	if o == nil || isNil(o.Uuid) {
+	if o == nil || IsNil(o.Uuid) {
 		var ret string
 		return ret
 	}
@@ -51,15 +54,15 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool) {
-	if o == nil || isNil(o.Uuid) {
-    return nil, false
+	if o == nil || IsNil(o.Uuid) {
+		return nil, false
 	}
 	return o.Uuid, true
 }
 
 // HasUuid returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
-	if o != nil && !isNil(o.Uuid) {
+	if o != nil && !IsNil(o.Uuid) {
 		return true
 	}
 
@@ -73,7 +76,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
-	if o == nil || isNil(o.DateTime) {
+	if o == nil || IsNil(o.DateTime) {
 		var ret time.Time
 		return ret
 	}
@@ -83,15 +86,15 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool) {
-	if o == nil || isNil(o.DateTime) {
-    return nil, false
+	if o == nil || IsNil(o.DateTime) {
+		return nil, false
 	}
 	return o.DateTime, true
 }
 
 // HasDateTime returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool {
-	if o != nil && !isNil(o.DateTime) {
+	if o != nil && !IsNil(o.DateTime) {
 		return true
 	}
 
@@ -105,7 +108,7 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
 
 // GetMap returns the Map field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
-	if o == nil || isNil(o.Map) {
+	if o == nil || IsNil(o.Map) {
 		var ret map[string]Animal
 		return ret
 	}
@@ -115,15 +118,15 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 // GetMapOk returns a tuple with the Map field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
-	if o == nil || isNil(o.Map) {
-    return nil, false
+	if o == nil || IsNil(o.Map) {
+		return nil, false
 	}
 	return o.Map, true
 }
 
 // HasMap returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
-	if o != nil && !isNil(o.Map) {
+	if o != nil && !IsNil(o.Map) {
 		return true
 	}
 
@@ -136,17 +139,25 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 }
 
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if !isNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !isNil(o.DateTime) {
-		toSerialize["dateTime"] = o.DateTime
-	}
-	if !isNil(o.Map) {
-		toSerialize["map"] = o.Map
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Uuid) {
+		toSerialize["uuid"] = o.Uuid
+	}
+	if !IsNil(o.DateTime) {
+		toSerialize["dateTime"] = o.DateTime
+	}
+	if !IsNil(o.Map) {
+		toSerialize["map"] = o.Map
+	}
+	return toSerialize, nil
 }
 
 type NullableMixedPropertiesAndAdditionalPropertiesClass struct {

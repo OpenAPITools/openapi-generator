@@ -111,7 +111,7 @@ impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -120,7 +120,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -639,7 +639,7 @@ impl AnyOfObject {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -975,7 +975,7 @@ impl DuplicateXmlObject {
 
 /// Test a model containing a special character in the enum
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -1243,7 +1243,7 @@ impl Model12345AnyOfObject {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -1499,7 +1499,7 @@ impl<'a> std::iter::IntoIterator for &'a MyIdList {
     type IntoIter = std::slice::Iter<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -1508,7 +1508,7 @@ impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
     type IntoIter = std::slice::IterMut<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -2670,7 +2670,7 @@ impl Result {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -2853,7 +2853,7 @@ impl<'a> std::iter::IntoIterator for &'a XmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -2862,7 +2862,7 @@ impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 

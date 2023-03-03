@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import feign.okhttp.OkHttpClient;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -43,8 +42,8 @@ public class ApiClient {
   private Feign.Builder feignBuilder;
 
   public ApiClient() {
-    objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
@@ -59,14 +58,14 @@ public class ApiClient {
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
       RequestInterceptor auth;
-      if ("api_key".equals(authName)) {
+      if ("petstore_auth".equals(authName)) {
+        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+      } else if ("api_key".equals(authName)) {
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
         auth = new ApiKeyAuth("query", "api_key_query");
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
-      } else if ("petstore_auth".equals(authName)) {
-        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -140,6 +139,7 @@ public class ApiClient {
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
     }
   }
+
 
   public ObjectMapper getObjectMapper(){
     return objectMapper;

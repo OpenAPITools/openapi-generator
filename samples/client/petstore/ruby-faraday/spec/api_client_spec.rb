@@ -51,6 +51,41 @@ describe Petstore::ApiClient do
     end
   end
 
+
+  describe 'proxy in #build_connection' do
+    let(:config) { Petstore::Configuration.new }
+    let(:api_client) { Petstore::ApiClient.new(config) }
+    let(:proxy_uri) { URI('http://example.org:8080') }
+
+    it 'defaults to nil' do
+      expect(Petstore::Configuration.default.proxy).to be_nil
+      expect(config.proxy).to be_nil
+
+      connection = api_client.build_connection
+      expect(connection.proxy_for_request('/test')).to be_nil
+    end
+
+    it 'can be customized with a string' do
+      config.proxy = proxy_uri.to_s
+
+      connection = api_client.build_connection
+      configured_proxy = connection.proxy_for_request('/test')
+
+      expect(configured_proxy).not_to be_nil
+      expect(configured_proxy.uri.to_s).to eq proxy_uri.to_s
+    end
+
+    it 'can be customized with a hash' do
+      config.proxy = { uri: proxy_uri }
+
+      connection = api_client.build_connection
+      configured_proxy = connection.proxy_for_request('/test')
+
+      expect(configured_proxy).not_to be_nil
+      expect(configured_proxy.uri).to eq proxy_uri
+    end
+  end
+
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = Petstore::ApiClient.new

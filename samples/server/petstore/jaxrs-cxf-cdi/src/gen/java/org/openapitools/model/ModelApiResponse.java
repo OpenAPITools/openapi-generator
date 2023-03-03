@@ -24,7 +24,6 @@ public class ModelApiResponse   {
 
   private String message;
 
-
   /**
    **/
   public ModelApiResponse code(Integer code) {

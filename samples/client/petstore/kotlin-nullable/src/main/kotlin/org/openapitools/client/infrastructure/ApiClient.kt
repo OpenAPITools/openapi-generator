@@ -144,6 +144,11 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
+            }
+        }
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
             if (apiKey["api_key"] != null) {
                 if (apiKeyPrefix["api_key"] != null) {
@@ -151,11 +156,6 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                 } else {
                     requestConfig.headers["api_key"] = apiKey["api_key"]!!
                 }
-            }
-        }
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }

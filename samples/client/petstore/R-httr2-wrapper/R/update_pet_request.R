@@ -28,7 +28,7 @@ UpdatePetRequest <- R6::R6Class(
     #'
     #' @param jsonData jsonData
     #' @param binaryDataN2Information binaryDataN2Information
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`jsonData` = NULL, `binaryDataN2Information` = NULL, additional_properties = NULL, ...) {
@@ -79,9 +79,9 @@ UpdatePetRequest <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`jsonData`)) {
-        jsondata_object <- Pet$new()
-        jsondata_object$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
-        self$`jsonData` <- jsondata_object
+        `jsondata_object` <- Pet$new()
+        `jsondata_object`$fromJSON(jsonlite::toJSON(this_object$`jsonData`, auto_unbox = TRUE, digits = NA))
+        self$`jsonData` <- `jsondata_object`
       }
       if (!is.null(this_object$`binaryDataN2Information`)) {
         self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
@@ -139,7 +139,7 @@ UpdatePetRequest <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
+      self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$`jsonData`, auto_unbox = TRUE, digits = NA))
       self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -208,7 +208,7 @@ UpdatePetRequest <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 # UpdatePetRequest$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 # UpdatePetRequest$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)

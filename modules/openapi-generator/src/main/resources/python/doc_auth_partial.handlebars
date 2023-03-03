@@ -101,9 +101,9 @@ configuration.api_key['{{{name}}}'] = 'YOUR_API_KEY'
 
 # Configure OAuth2 access token for authorization: {{{name}}}
 configuration = {{{packageName}}}.Configuration(
-    host = "{{{basePath}}}"
+    host = "{{{basePath}}}",
+    access_token = 'YOUR_ACCESS_TOKEN'
 )
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
 {{/if}}
 {{/each}}
 {{/if}}

@@ -55,7 +55,7 @@ public class Pet {
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "tag")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = null;
 
   /**
    * pet status in the store
@@ -98,6 +98,23 @@ public class Pet {
   @JacksonXmlProperty(localName = "status")
   private StatusEnum status;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String, List<String>)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   public Pet id(Long id) {
     this.id = id;
     return this;
@@ -108,7 +125,7 @@ public class Pet {
    * @return id
   */
   
-  @Schema(name = "id", required = false)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getId() {
     return id;
   }
@@ -127,7 +144,7 @@ public class Pet {
    * @return category
   */
   @Valid 
-  @Schema(name = "category", required = false)
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Category getCategory() {
     return category;
   }
@@ -146,7 +163,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", example = "doggie", required = true)
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getName() {
     return name;
   }
@@ -170,7 +187,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
-  @Schema(name = "photoUrls", required = true)
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -179,7 +196,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -197,12 +214,12 @@ public class Pet {
    * @return tags
   */
   @Valid 
-  @Schema(name = "tags", required = false)
-  public List<Tag> getTags() {
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -216,7 +233,7 @@ public class Pet {
    * @return status
   */
   
-  @Schema(name = "status", description = "pet status in the store", required = false)
+  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public StatusEnum getStatus() {
     return status;
   }

@@ -17,14 +17,14 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>5.6.4</gradleVersion>
+        <gradleVersion>7.6</gradleVersion>
     </properties>
 
     <pluginRepositories>
         <pluginRepository>
             <id>Gradle Releases</id>
             <name>Gradle Releases repository</name>
-            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+            <url>https://repo.gradle.org/gradle/libs-releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -94,10 +94,8 @@
                             <tasks>
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
-                                <task>check</task>
-                                <task>assemble</task>
+                                <task>build</task>
                                 <task>publishToMavenLocal</task>
-                                <task>publishPluginMavenPublicationToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>
@@ -106,7 +104,7 @@
                     <dependency>
                         <groupId>org.gradle</groupId>
                         <artifactId>gradle-tooling-api</artifactId>
-                        <version>5.6.4</version>
+                        <version>${gradleVersion}</version>
                     </dependency>
                 </dependencies>
             </plugin>

@@ -54,7 +54,8 @@ import java.text.DateFormat
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -85,7 +86,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/store/inventory",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -97,7 +99,7 @@ import java.text.DateFormat
 
         /**
         * Find purchase order by ID
-        * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
          * @param orderId ID of pet that needs to be fetched 
          * @return Order
         */
@@ -117,7 +119,8 @@ import java.text.DateFormat
             RequestMethod.GET,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return request(
@@ -148,7 +151,8 @@ import java.text.DateFormat
             RequestMethod.POST,
             "/store/order",
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
             )
 
             return jsonRequest(

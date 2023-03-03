@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "Pet", description = "Everything about your Pets")
+@Api(value = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
     /**
@@ -212,6 +212,8 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
     @ApiOperation(
         tags = { "pet" },

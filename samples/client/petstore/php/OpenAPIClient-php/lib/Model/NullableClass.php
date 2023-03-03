@@ -385,7 +385,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setIntegerProp($integer_prop)
     {
-
         if (is_null($integer_prop)) {
             array_push($this->openAPINullablesSetToNull, 'integer_prop');
         } else {
@@ -396,7 +395,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['integer_prop'] = $integer_prop;
 
         return $this;
@@ -421,7 +419,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setNumberProp($number_prop)
     {
-
         if (is_null($number_prop)) {
             array_push($this->openAPINullablesSetToNull, 'number_prop');
         } else {
@@ -432,7 +429,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['number_prop'] = $number_prop;
 
         return $this;
@@ -457,7 +453,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setBooleanProp($boolean_prop)
     {
-
         if (is_null($boolean_prop)) {
             array_push($this->openAPINullablesSetToNull, 'boolean_prop');
         } else {
@@ -468,7 +463,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['boolean_prop'] = $boolean_prop;
 
         return $this;
@@ -493,7 +487,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setStringProp($string_prop)
     {
-
         if (is_null($string_prop)) {
             array_push($this->openAPINullablesSetToNull, 'string_prop');
         } else {
@@ -504,7 +497,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['string_prop'] = $string_prop;
 
         return $this;
@@ -529,7 +521,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setDateProp($date_prop)
     {
-
         if (is_null($date_prop)) {
             array_push($this->openAPINullablesSetToNull, 'date_prop');
         } else {
@@ -540,7 +531,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['date_prop'] = $date_prop;
 
         return $this;
@@ -565,7 +555,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setDatetimeProp($datetime_prop)
     {
-
         if (is_null($datetime_prop)) {
             array_push($this->openAPINullablesSetToNull, 'datetime_prop');
         } else {
@@ -576,7 +565,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['datetime_prop'] = $datetime_prop;
 
         return $this;
@@ -601,7 +589,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setArrayNullableProp($array_nullable_prop)
     {
-
         if (is_null($array_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'array_nullable_prop');
         } else {
@@ -612,7 +599,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['array_nullable_prop'] = $array_nullable_prop;
 
         return $this;
@@ -637,7 +623,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setArrayAndItemsNullableProp($array_and_items_nullable_prop)
     {
-
         if (is_null($array_and_items_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'array_and_items_nullable_prop');
         } else {
@@ -648,7 +633,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['array_and_items_nullable_prop'] = $array_and_items_nullable_prop;
 
         return $this;
@@ -673,11 +657,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setArrayItemsNullable($array_items_nullable)
     {
-
         if (is_null($array_items_nullable)) {
             throw new \InvalidArgumentException('non-nullable array_items_nullable cannot be null');
         }
-
         $this->container['array_items_nullable'] = $array_items_nullable;
 
         return $this;
@@ -702,7 +684,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setObjectNullableProp($object_nullable_prop)
     {
-
         if (is_null($object_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'object_nullable_prop');
         } else {
@@ -713,7 +694,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['object_nullable_prop'] = $object_nullable_prop;
 
         return $this;
@@ -738,7 +718,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setObjectAndItemsNullableProp($object_and_items_nullable_prop)
     {
-
         if (is_null($object_and_items_nullable_prop)) {
             array_push($this->openAPINullablesSetToNull, 'object_and_items_nullable_prop');
         } else {
@@ -749,7 +728,6 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-
         $this->container['object_and_items_nullable_prop'] = $object_and_items_nullable_prop;
 
         return $this;
@@ -774,11 +752,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setObjectItemsNullable($object_items_nullable)
     {
-
         if (is_null($object_items_nullable)) {
             throw new \InvalidArgumentException('non-nullable object_items_nullable cannot be null');
         }
-
         $this->container['object_items_nullable'] = $object_items_nullable;
 
         return $this;

@@ -34,6 +34,11 @@ namespace Org.OpenAPITools.Client
         /// The raw content of this response
         /// </summary>
         string RawContent { get; }
+
+        /// <summary>
+        /// The DateTime when the request was retrieved.
+        /// </summary>
+        DateTime DownloadedAt { get; }
     }
 
     /// <summary>
@@ -41,12 +46,10 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public partial class ApiResponse<T> : IApiResponse
     {
-        #region Properties
-
         /// <summary>
         /// The deserialized content
         /// </summary>
-        public T Content { get; set; }
+        public T Content { get; internal set; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
@@ -82,10 +85,13 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
 
-        #endregion Properties
+        /// <summary>
+        /// The DateTime when the request was retrieved.
+        /// </summary>
+        public DateTime DownloadedAt { get; } = DateTime.UtcNow;
 
         /// <summary>
-        /// Construct the reponse using an HttpResponseMessage
+        /// Construct the response using an HttpResponseMessage
         /// </summary>
         /// <param name="response"></param>
         /// <param name="rawContent"></param>

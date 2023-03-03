@@ -12,6 +12,8 @@ api_user.go
 client.go
 configuration.go
 docs/AdditionalPropertiesClass.md
+docs/AllOfPrimitiveTypes.md
+docs/AllOfPrimitiveTypesAllOf.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -88,6 +90,8 @@ model_200_response.go
 model__foo_get_default_response.go
 model__special_model_name_.go
 model_additional_properties_class.go
+model_all_of_primitive_types.go
+model_all_of_primitive_types_all_of.go
 model_animal.go
 model_api_response.go
 model_apple.go

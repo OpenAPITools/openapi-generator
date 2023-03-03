@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.summary     = "OpenAPI Extension x-auth-id-alias Ruby Gem"
   s.description = "This specification shows how to use x-auth-id-alias extension for API keys."
   s.license     = "Unlicense"
-  s.required_ruby_version = ">= 2.4"
+  s.required_ruby_version = ">= 2.7"
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
 

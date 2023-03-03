@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.OuterEnumDefaultValue;
@@ -344,7 +342,6 @@ public class EnumTest {
    * @return enumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -367,7 +364,6 @@ public class EnumTest {
    * @return enumStringRequired
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -390,7 +386,6 @@ public class EnumTest {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -413,7 +408,6 @@ public class EnumTest {
    * @return enumIntegerOnly
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
@@ -436,7 +430,6 @@ public class EnumTest {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -459,7 +452,6 @@ public class EnumTest {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -482,7 +474,6 @@ public class EnumTest {
    * @return outerEnumInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
@@ -505,7 +496,6 @@ public class EnumTest {
    * @return outerEnumDefaultValue
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
@@ -528,7 +518,6 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
@@ -716,7 +705,7 @@ public class EnumTest {
            public void write(JsonWriter out, EnumTest value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

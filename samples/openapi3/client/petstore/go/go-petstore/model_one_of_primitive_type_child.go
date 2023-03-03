@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the OneOfPrimitiveTypeChild type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &OneOfPrimitiveTypeChild{}
+
 // OneOfPrimitiveTypeChild struct for OneOfPrimitiveTypeChild
 type OneOfPrimitiveTypeChild struct {
 	Name *string `json:"name,omitempty"`
@@ -41,7 +44,7 @@ func NewOneOfPrimitiveTypeChildWithDefaults() *OneOfPrimitiveTypeChild {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *OneOfPrimitiveTypeChild) GetName() string {
-	if o == nil || isNil(o.Name) {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -51,15 +54,15 @@ func (o *OneOfPrimitiveTypeChild) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OneOfPrimitiveTypeChild) GetNameOk() (*string, bool) {
-	if o == nil || isNil(o.Name) {
-    return nil, false
+	if o == nil || IsNil(o.Name) {
+		return nil, false
 	}
 	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *OneOfPrimitiveTypeChild) HasName() bool {
-	if o != nil && !isNil(o.Name) {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *OneOfPrimitiveTypeChild) SetName(v string) {
 }
 
 func (o OneOfPrimitiveTypeChild) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o OneOfPrimitiveTypeChild) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Name) {
+	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
 
@@ -81,7 +92,7 @@ func (o OneOfPrimitiveTypeChild) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *OneOfPrimitiveTypeChild) UnmarshalJSON(bytes []byte) (err error) {

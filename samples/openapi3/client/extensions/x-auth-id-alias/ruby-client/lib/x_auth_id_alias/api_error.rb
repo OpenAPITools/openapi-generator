@@ -32,6 +32,7 @@ module XAuthIDAlias
         end
       else
         super arg
+        @message = arg
       end
     end
 

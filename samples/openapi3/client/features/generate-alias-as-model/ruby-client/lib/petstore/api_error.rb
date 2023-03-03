@@ -32,6 +32,7 @@ module Petstore
         end
       else
         super arg
+        @message = arg
       end
     end
 

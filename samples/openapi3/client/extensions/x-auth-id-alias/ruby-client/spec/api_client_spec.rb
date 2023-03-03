@@ -89,6 +89,8 @@ describe XAuthIDAlias::ApiClient do
     end
   end
 
+
+
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = XAuthIDAlias::ApiClient.new

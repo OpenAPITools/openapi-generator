@@ -4,25 +4,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using {{packageName}}.{{apiPackage}};{{#hasImport}}
+using {{packageName}}.{{interfacePrefix}}{{apiPackage}};{{#hasImport}}
 using {{packageName}}.{{modelPackage}};{{/hasImport}}
 
 
-{{{testInstructions}}}
+{{>testInstructions}}
 
 
-namespace {{packageName}}.Test.Api
+namespace {{packageName}}.Test.{{apiPackage}}
 {
     /// <summary>
     ///  Class for testing {{classname}}
     /// </summary>
     public sealed class {{classname}}Tests : ApiTestsBase
     {
-        private readonly {{interfacePrefix}}{{classname}} _instance;
+        private readonly {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}} _instance;
 
         public {{classname}}Tests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
         }
 
         {{#operations}}

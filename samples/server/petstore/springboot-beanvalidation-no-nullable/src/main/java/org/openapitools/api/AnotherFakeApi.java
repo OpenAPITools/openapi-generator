@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "another-fake", description = "the another-fake API")
+@Api(value = "$another-fake?", description = "the $another-fake? API")
 public interface AnotherFakeApi {
 
     default Optional<NativeWebRequest> getRequest() {

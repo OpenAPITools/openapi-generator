@@ -302,11 +302,9 @@ class Cat extends Animal
      */
     public function setDeclawed($declawed)
     {
-
         if (is_null($declawed)) {
             throw new \InvalidArgumentException('non-nullable declawed cannot be null');
         }
-
         $this->container['declawed'] = $declawed;
 
         return $this;

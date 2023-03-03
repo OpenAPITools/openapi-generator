@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -113,7 +111,6 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -136,7 +133,6 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getUsername() {
     return username;
@@ -159,7 +155,6 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getFirstName() {
     return firstName;
@@ -182,7 +177,6 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getLastName() {
     return lastName;
@@ -205,7 +199,6 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getEmail() {
     return email;
@@ -228,7 +221,6 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPassword() {
     return password;
@@ -251,7 +243,6 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPhone() {
     return phone;
@@ -274,7 +265,6 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
 
   public Integer getUserStatus() {
     return userStatus;
@@ -297,7 +287,6 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.")
 
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
@@ -320,7 +309,6 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.")
 
   public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
@@ -343,7 +331,6 @@ public class User {
    * @return anyTypeProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
 
   public Object getAnyTypeProp() {
     return anyTypeProp;
@@ -366,7 +353,6 @@ public class User {
    * @return anyTypePropNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.")
 
   public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
@@ -567,7 +553,7 @@ public class User {
            public void write(JsonWriter out, User value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)

@@ -309,11 +309,9 @@ class ClassModel implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function setClass($_class)
     {
-
         if (is_null($_class)) {
             throw new \InvalidArgumentException('non-nullable _class cannot be null');
         }
-
         $this->container['_class'] = $_class;
 
         return $this;

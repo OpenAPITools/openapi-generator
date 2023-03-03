@@ -315,11 +315,9 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     public function setFile($file)
     {
-
         if (is_null($file)) {
             throw new \InvalidArgumentException('non-nullable file cannot be null');
         }
-
         $this->container['file'] = $file;
 
         return $this;
@@ -344,11 +342,9 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     public function setFiles($files)
     {
-
         if (is_null($files)) {
             throw new \InvalidArgumentException('non-nullable files cannot be null');
         }
-
         $this->container['files'] = $files;
 
         return $this;

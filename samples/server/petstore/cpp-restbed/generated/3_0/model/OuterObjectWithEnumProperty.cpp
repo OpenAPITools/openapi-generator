@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <regex>
+#include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

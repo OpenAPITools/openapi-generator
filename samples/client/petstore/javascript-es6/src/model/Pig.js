@@ -88,7 +88,7 @@ class Pig {
     }
 
     /**
-     * Gets the actaul instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
+     * Gets the actual instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
      * @return {(module:model/BasquePig|module:model/DanishPig)} The actual instance.
      */
     getActualInstance() {
@@ -96,7 +96,7 @@ class Pig {
     }
 
     /**
-     * Sets the actaul instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
+     * Sets the actual instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
      * @param {(module:model/BasquePig|module:model/DanishPig)} obj The actual instance.
      */
     setActualInstance(obj) {
@@ -104,7 +104,7 @@ class Pig {
     }
 
     /**
-     * Returns the JSON representation of the actual intance.
+     * Returns the JSON representation of the actual instance.
      * @return {string}
      */
     toJSON = function(){

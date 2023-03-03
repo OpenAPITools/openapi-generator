@@ -62,6 +62,16 @@ module Petstore
     # Defines the access token (Bearer) used with OAuth2.
     attr_accessor :access_token
 
+    # Defines a Proc used to fetch or refresh access tokens (Bearer) used with OAuth2.
+    # Overrides the access_token if set
+    # @return [Proc]
+    attr_accessor :access_token_getter
+
+    # Set this to return data as binary instead of downloading a temp file. When enabled (set to true)
+    # HTTP responses with return type `File` will be returned as a stream of binary data.
+    # Default to false.
+    attr_accessor :return_binary_data
+
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
     # Default to false.
@@ -208,6 +218,12 @@ module Petstore
       end
     end
 
+    # Gets access_token using access_token_getter or uses the static access_token
+    def access_token_with_refresh
+        return access_token if access_token_getter.nil?
+        access_token_getter.call
+    end
+
     # Gets Basic Auth token string
     def basic_auth_token
       'Basic ' + ["#{username}:#{password}"].pack('m').delete("\r\n")
@@ -216,6 +232,13 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
+        'petstore_auth' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token_with_refresh}"
+          },
         'api_key' =>
           {
             type: 'api_key',
@@ -230,14 +253,6 @@ module Petstore
             key: 'api_key_query',
             value: api_key_with_prefix('api_key_query')
           },
-        'bearer_test' =>
-          {
-            type: 'bearer',
-            in: 'header',
-            format: 'JWT',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
-          },
         'http_basic_test' =>
           {
             type: 'basic',
@@ -245,12 +260,13 @@ module Petstore
             key: 'Authorization',
             value: basic_auth_token
           },
-        'petstore_auth' =>
+        'bearer_test' =>
           {
-            type: 'oauth2',
+            type: 'bearer',
             in: 'header',
+            format: 'JWT',
             key: 'Authorization',
-            value: "Bearer #{access_token}"
+            value: "Bearer #{access_token_with_refresh}"
           },
       }
     end

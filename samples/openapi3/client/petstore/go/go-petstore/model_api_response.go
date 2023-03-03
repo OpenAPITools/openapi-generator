@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ApiResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ApiResponse{}
+
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
@@ -43,7 +46,7 @@ func NewApiResponseWithDefaults() *ApiResponse {
 
 // GetCode returns the Code field value if set, zero value otherwise.
 func (o *ApiResponse) GetCode() int32 {
-	if o == nil || isNil(o.Code) {
+	if o == nil || IsNil(o.Code) {
 		var ret int32
 		return ret
 	}
@@ -53,15 +56,15 @@ func (o *ApiResponse) GetCode() int32 {
 // GetCodeOk returns a tuple with the Code field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetCodeOk() (*int32, bool) {
-	if o == nil || isNil(o.Code) {
-    return nil, false
+	if o == nil || IsNil(o.Code) {
+		return nil, false
 	}
 	return o.Code, true
 }
 
 // HasCode returns a boolean if a field has been set.
 func (o *ApiResponse) HasCode() bool {
-	if o != nil && !isNil(o.Code) {
+	if o != nil && !IsNil(o.Code) {
 		return true
 	}
 
@@ -75,7 +78,7 @@ func (o *ApiResponse) SetCode(v int32) {
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *ApiResponse) GetType() string {
-	if o == nil || isNil(o.Type) {
+	if o == nil || IsNil(o.Type) {
 		var ret string
 		return ret
 	}
@@ -85,15 +88,15 @@ func (o *ApiResponse) GetType() string {
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetTypeOk() (*string, bool) {
-	if o == nil || isNil(o.Type) {
-    return nil, false
+	if o == nil || IsNil(o.Type) {
+		return nil, false
 	}
 	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
 func (o *ApiResponse) HasType() bool {
-	if o != nil && !isNil(o.Type) {
+	if o != nil && !IsNil(o.Type) {
 		return true
 	}
 
@@ -107,7 +110,7 @@ func (o *ApiResponse) SetType(v string) {
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *ApiResponse) GetMessage() string {
-	if o == nil || isNil(o.Message) {
+	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
 	}
@@ -117,15 +120,15 @@ func (o *ApiResponse) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiResponse) GetMessageOk() (*string, bool) {
-	if o == nil || isNil(o.Message) {
-    return nil, false
+	if o == nil || IsNil(o.Message) {
+		return nil, false
 	}
 	return o.Message, true
 }
 
 // HasMessage returns a boolean if a field has been set.
 func (o *ApiResponse) HasMessage() bool {
-	if o != nil && !isNil(o.Message) {
+	if o != nil && !IsNil(o.Message) {
 		return true
 	}
 
@@ -138,14 +141,22 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Code) {
+	if !IsNil(o.Code) {
 		toSerialize["code"] = o.Code
 	}
-	if !isNil(o.Type) {
+	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
-	if !isNil(o.Message) {
+	if !IsNil(o.Message) {
 		toSerialize["message"] = o.Message
 	}
 
@@ -153,7 +164,7 @@ func (o ApiResponse) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {

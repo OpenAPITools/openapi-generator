@@ -315,11 +315,9 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     public function setUsername($username)
     {
-
         if (is_null($username)) {
             throw new \InvalidArgumentException('non-nullable username cannot be null');
         }
-
         $this->container['username'] = $username;
 
         return $this;
@@ -344,11 +342,9 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     public function setSingleRefType($single_ref_type)
     {
-
         if (is_null($single_ref_type)) {
             throw new \InvalidArgumentException('non-nullable single_ref_type cannot be null');
         }
-
         $this->container['single_ref_type'] = $single_ref_type;
 
         return $this;

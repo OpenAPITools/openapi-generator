@@ -85,7 +85,7 @@ private:
     /// Find purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
     /// </remarks>
     /// <param name="orderId">ID of pet that needs to be fetched</param>
     virtual void get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response) = 0;

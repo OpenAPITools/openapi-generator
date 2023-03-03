@@ -74,6 +74,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PLATFORM_SWITCH = "platform";
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = { "browser", "node", "deno" };
+    private static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
+    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.";
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
@@ -200,6 +202,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
@@ -409,7 +412,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
+        // Use `/` instead of `File.Separator`. `File.Separator` is `\` in Windows, which is invalid Typescript.
+        return "../" + modelPackage() + "/" + toModelName(name);
     }
 
     protected String addPrefix(String name, String prefix) {
@@ -856,8 +860,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
-        if ("deno".equals(propPlatform)) {
-            additionalProperties.put("extensionForDeno", ".ts");
+        Object fileExtension = additionalProperties.get(IMPORT_FILE_EXTENSION_SWITCH);
+        if (fileExtension == null && "deno".equals(propPlatform)) {
+            additionalProperties.put(IMPORT_FILE_EXTENSION_SWITCH, ".ts");
         }
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
@@ -1165,43 +1170,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                     return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    /*
-                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
-                    So strip off the leading / and trailing / and turn on ignore case if we have it
-                     */
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
-                    Matcher m = valueExtractor.matcher(pattern);
-                    RgxGen rgxGen = null;
-                    if (m.find()) {
-                        int groupCount = m.groupCount();
-                        if (groupCount == 1) {
-                            // only pattern found
-                            String isolatedPattern = m.group(1);
-                            rgxGen = new RgxGen(isolatedPattern);
-                        } else if (groupCount == 2) {
-                            // patterns and flag found
-                            String isolatedPattern = m.group(1);
-                            String flags = m.group(2);
-                            if (flags.contains("i")) {
-                                rgxGen = new RgxGen(isolatedPattern);
-                                RgxGenProperties properties = new RgxGenProperties();
-                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
-                                rgxGen.setProperties(properties);
-                            } else {
-                                rgxGen = new RgxGen(isolatedPattern);
-                            }
-                        }
-                    } else {
-                        rgxGen = new RgxGen(pattern);
-                    }
+                    RgxGen rgxGen = new RgxGen(pattern);
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    if (rgxGen != null){
-                        example = rgxGen.generate(random);
-                    } else {
-                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

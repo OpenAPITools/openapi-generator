@@ -51,14 +51,58 @@ import com.fasterxml.jackson.databind.ObjectMapper
                 {{#isMultipart}}
                         formData {
                     {{#formParams}}
+                        {{#isFile}}
                         {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isFile}}
+                        {{^isFile}}
+                        {{^isArray}}
+                        {{^isString}}
+                        {{^isNumber}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{/isNumber}}
+                        {{#isNumber}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isNumber}}
+                        {{/isString}}
+                        {{#isString}}
+                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isString}}
+                        {{/isArray}}
+                        {{#isArray}}
+                        for (x in {{paramName}} ?: listOf()) {
+                            append("{{{baseName}}}", x.toString())
+                        }
+                        {{/isArray}}
+                        {{/isFile}}
                     {{/formParams}}
                         }
                 {{/isMultipart}}
                 {{^isMultipart}}
                         ParametersBuilder().also {
                     {{#formParams}}
+                        {{#isFile}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isFile}}
+                        {{^isFile}}
+                        {{^isArray}}
+                        {{^isString}}
+                        {{^isNumber}}
                         {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{/isNumber}}
+                        {{#isNumber}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isNumber}}
+                        {{/isString}}
+                        {{#isString}}
+                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{/isString}}
+                        {{/isArray}}
+                        {{#isArray}}
+                        for (x in {{paramName}} ?: listOf()) {
+                            append("{{{baseName}}}", x.toString())
+                        }
+                        {{/isArray}}
+                        {{/isFile}}
                     {{/formParams}}
                         }.build()
                 {{/isMultipart}}
@@ -82,7 +126,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
             RequestMethod.{{httpMethod}},
             "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
-            headers = localVariableHeaders
+            headers = localVariableHeaders,
+            requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
             )
 
             return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(

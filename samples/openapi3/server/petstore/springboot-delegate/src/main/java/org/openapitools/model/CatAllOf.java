@@ -36,7 +36,7 @@ public class CatAllOf {
    * @return declawed
   */
   
-  @Schema(name = "declawed", required = false)
+  @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getDeclawed() {
     return declawed;
   }

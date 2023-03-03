@@ -252,6 +252,37 @@ paths:
             application/json:
               schema:
                 type: object
+  /meta:
+    get:
+      operationId: meta
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  id:
+                    type: integer
+  /mega:
+    get:
+      operationId: mega
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  id:
+                    type: integer
+
   /arbitrary_object_response_array:
     get:
       operationId: arbitraryObjectResponseArray
@@ -293,7 +324,7 @@ paths:
                   type: object
   /empty_example_on_string_models:
     get:
-      operationId: emptyExampleoOnStringTypeModels
+      operationId: emptyExampleOnStringTypeModels
       responses:
         '200':
           description: OK

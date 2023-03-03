@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the NullableAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableAllOf{}
+
 // NullableAllOf struct for NullableAllOf
 type NullableAllOf struct {
 	Child NullableNullableAllOfChild `json:"child,omitempty"`
@@ -41,7 +44,7 @@ func NewNullableAllOfWithDefaults() *NullableAllOf {
 
 // GetChild returns the Child field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableAllOf) GetChild() NullableAllOfChild {
-	if o == nil || isNil(o.Child.Get()) {
+	if o == nil || IsNil(o.Child.Get()) {
 		var ret NullableAllOfChild
 		return ret
 	}
@@ -53,7 +56,7 @@ func (o *NullableAllOf) GetChild() NullableAllOfChild {
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableAllOf) GetChildOk() (*NullableAllOfChild, bool) {
 	if o == nil {
-    return nil, false
+		return nil, false
 	}
 	return o.Child.Get(), o.Child.IsSet()
 }
@@ -82,6 +85,14 @@ func (o *NullableAllOf) UnsetChild() {
 }
 
 func (o NullableAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o NullableAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Child.IsSet() {
 		toSerialize["child"] = o.Child.Get()
@@ -91,7 +102,7 @@ func (o NullableAllOf) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *NullableAllOf) UnmarshalJSON(bytes []byte) (err error) {
