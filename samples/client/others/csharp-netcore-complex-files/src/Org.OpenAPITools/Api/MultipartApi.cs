@@ -356,6 +356,10 @@ namespace Org.OpenAPITools.Api
 
             if (files != null)
             {
+                foreach (var file in files)
+                {
+                    localVarRequestOptions.FileParameters.Add("files", file);
+                }
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartArray";
@@ -424,6 +428,10 @@ namespace Org.OpenAPITools.Api
 
             if (files != null)
             {
+                foreach (var file in files)
+                {
+                    localVarRequestOptions.FileParameters.Add("files", file);
+                }
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartArray";
@@ -505,6 +513,7 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
             }
+            localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
                 localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.ParameterToString(statusArray)); // form parameter
@@ -591,6 +600,7 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
             }
+            localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
                 localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.ParameterToString(statusArray)); // form parameter
@@ -660,6 +670,7 @@ namespace Org.OpenAPITools.Api
 
             if (file != null)
             {
+                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartSingle";
@@ -728,6 +739,7 @@ namespace Org.OpenAPITools.Api
 
             if (file != null)
             {
+                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartSingle";
