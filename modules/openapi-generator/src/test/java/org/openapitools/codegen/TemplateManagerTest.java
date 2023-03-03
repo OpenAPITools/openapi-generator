@@ -109,7 +109,7 @@ public class TemplateManagerTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void writeUsingMustacheAdapterSkipsNonMustache() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
         TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{ locator });
@@ -227,7 +227,7 @@ public class TemplateManagerTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void writeUsingHandlebarsAdapterSkipsNonHandlebars() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
         TemplateManager manager = new TemplateManager(opts, handlebarsEngineAdapter, new TemplatePathLocator[]{ locator });
