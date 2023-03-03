@@ -1831,7 +1831,6 @@ namespace Org.OpenAPITools.Api
             }
             if (file != null)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "PetApi.UploadFile";
@@ -1927,7 +1926,6 @@ namespace Org.OpenAPITools.Api
             }
             if (file != null)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "PetApi.UploadFile";

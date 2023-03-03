@@ -2000,7 +2000,6 @@ namespace Org.OpenAPITools.Api
             }
             if (file != null)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "PetApi.UploadFile";
@@ -2096,7 +2095,6 @@ namespace Org.OpenAPITools.Api
             }
             if (file != null)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
             }
 
             localVarRequestOptions.Operation = "PetApi.UploadFile";
@@ -2195,7 +2193,6 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
-            localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
             localVarRequestOptions.Operation = "PetApi.UploadFileWithRequiredFile";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2295,7 +2292,6 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
-            localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
             localVarRequestOptions.Operation = "PetApi.UploadFileWithRequiredFile";
             localVarRequestOptions.OperationIndex = operationIndex;

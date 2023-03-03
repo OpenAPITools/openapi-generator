@@ -2330,7 +2330,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
             if (binary != null)
             {
-                localVarRequestOptions.FileParameters.Add("binary", binary);
             }
             if (date != null)
             {
@@ -2483,7 +2482,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
             if (binary != null)
             {
-                localVarRequestOptions.FileParameters.Add("binary", binary);
             }
             if (date != null)
             {
