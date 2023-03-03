@@ -16,6 +16,7 @@ import re  # noqa: F401
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
+from typing import overload, Optional, Union, Awaitable
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
@@ -38,8 +39,16 @@ class DefaultApi(object):
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+    @overload
+    async def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+        ...
+
+    @overload
+    def foo_get(self, async_req: Optional[bool]=True, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+        ...
+
     @validate_arguments
-    def foo_get(self, **kwargs) -> FooGetDefaultResponse:  # noqa: E501
+    def foo_get(self, async_req: Optional[bool]=None, **kwargs) -> Union[FooGetDefaultResponse, Awaitable[FooGetDefaultResponse]]:  # noqa: E501
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -64,6 +73,8 @@ class DefaultApi(object):
         :rtype: FooGetDefaultResponse
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     @validate_arguments
