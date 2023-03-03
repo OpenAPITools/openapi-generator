@@ -271,6 +271,10 @@ class ApiClient {
           return ReadOnlyFirst.fromJson(value);
         case 'SingleRefType':
           return SingleRefTypeTypeTransformer().decode(value);
+        case 'SpecialCat':
+          return SpecialCat.fromJson(value);
+        case 'SpecialCatAllOf':
+          return SpecialCatAllOf.fromJson(value);
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value);
         case 'Tag':

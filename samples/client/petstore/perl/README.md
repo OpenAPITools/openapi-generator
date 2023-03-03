@@ -287,6 +287,8 @@ use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
+use WWW::OpenAPIClient::Object::SpecialCat;
+use WWW::OpenAPIClient::Object::SpecialCatAllOf;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
@@ -355,6 +357,8 @@ use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
+use WWW::OpenAPIClient::Object::SpecialCat;
+use WWW::OpenAPIClient::Object::SpecialCatAllOf;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
@@ -473,6 +477,8 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
+ - [WWW::OpenAPIClient::Object::SpecialCat](docs/SpecialCat.md)
+ - [WWW::OpenAPIClient::Object::SpecialCatAllOf](docs/SpecialCatAllOf.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)

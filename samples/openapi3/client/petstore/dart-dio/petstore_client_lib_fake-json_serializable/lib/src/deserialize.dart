@@ -37,6 +37,8 @@ import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:openapi/src/model/special_cat.dart';
+import 'package:openapi/src/model/special_cat_all_of.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
@@ -155,6 +157,10 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
         case 'SingleRefType':
           
           
+        case 'SpecialCat':
+          return SpecialCat.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'SpecialCatAllOf':
+          return SpecialCatAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':

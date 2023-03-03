@@ -15,7 +15,8 @@
 import { exists, mapValues } from '../runtime';
 import {
      CatFromJSONTyped,
-     DogFromJSONTyped
+     DogFromJSONTyped,
+     SpecialCatFromJSONTyped
 } from './';
 
 /**
@@ -62,6 +63,9 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         }
         if (json['className'] === 'Dog') {
             return DogFromJSONTyped(json, true);
+        }
+        if (json['className'] === 'Special-Cat') {
+            return SpecialCatFromJSONTyped(json, true);
         }
     }
     return {

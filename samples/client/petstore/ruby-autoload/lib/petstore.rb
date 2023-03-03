@@ -62,6 +62,8 @@ Petstore.autoload :OuterObjectWithEnumProperty, 'petstore/models/outer_object_wi
 Petstore.autoload :Pet, 'petstore/models/pet'
 Petstore.autoload :ReadOnlyFirst, 'petstore/models/read_only_first'
 Petstore.autoload :SingleRefType, 'petstore/models/single_ref_type'
+Petstore.autoload :SpecialCat, 'petstore/models/special_cat'
+Petstore.autoload :SpecialCatAllOf, 'petstore/models/special_cat_all_of'
 Petstore.autoload :SpecialModelName, 'petstore/models/special_model_name'
 Petstore.autoload :Tag, 'petstore/models/tag'
 Petstore.autoload :User, 'petstore/models/user'

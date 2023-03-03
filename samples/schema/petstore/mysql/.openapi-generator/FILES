@@ -43,6 +43,8 @@ Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql
 Model/SingleRefType.sql
+Model/SpecialCat.sql
+Model/SpecialCatAllOf.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
 Model/User.sql

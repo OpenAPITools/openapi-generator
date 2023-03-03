@@ -66,6 +66,8 @@ src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SingleRefType.java
+src/gen/java/org/openapitools/model/SpecialCat.java
+src/gen/java/org/openapitools/model/SpecialCatAllOf.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
 src/gen/java/org/openapitools/model/User.java

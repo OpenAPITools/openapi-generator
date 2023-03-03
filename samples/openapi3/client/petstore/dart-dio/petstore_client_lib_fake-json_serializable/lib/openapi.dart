@@ -61,6 +61,8 @@ export 'package:openapi/src/model/outer_object_with_enum_property.dart';
 export 'package:openapi/src/model/pet.dart';
 export 'package:openapi/src/model/read_only_first.dart';
 export 'package:openapi/src/model/single_ref_type.dart';
+export 'package:openapi/src/model/special_cat.dart';
+export 'package:openapi/src/model/special_cat_all_of.dart';
 export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
 export 'package:openapi/src/model/user.dart';

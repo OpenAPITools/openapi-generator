@@ -55,6 +55,8 @@ docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SingleRefType.md
+docs/Model/SpecialCat.md
+docs/Model/SpecialCatAllOf.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/User.md
@@ -115,6 +117,8 @@ lib/Model/OuterObjectWithEnumProperty.php
 lib/Model/Pet.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SingleRefType.php
+lib/Model/SpecialCat.php
+lib/Model/SpecialCatAllOf.php
 lib/Model/SpecialModelName.php
 lib/Model/Tag.php
 lib/Model/User.php

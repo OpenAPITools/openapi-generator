@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/special_cat.dart';
 import 'package:openapi/src/model/dog.dart';
 import 'package:openapi/src/model/cat.dart';
 import 'package:built_value/built_value.dart';
@@ -28,6 +29,7 @@ abstract class Animal  {
   static const Map<String, Type> discriminatorMapping = {
     r'Cat': Cat,
     r'Dog': Dog,
+    r'Special-Cat': SpecialCat,
   };
 
   @BuiltValueSerializer(custom: true)
@@ -42,6 +44,9 @@ extension AnimalDiscriminatorExt on Animal {
         if (this is Dog) {
             return r'Dog';
         }
+        if (this is SpecialCat) {
+            return r'Special-Cat';
+        }
         return null;
     }
 }
@@ -52,6 +57,9 @@ extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
         }
         if (this is DogBuilder) {
             return r'Dog';
+        }
+        if (this is SpecialCatBuilder) {
+            return r'Special-Cat';
         }
         return null;
     }
@@ -95,6 +103,9 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     if (object is Dog) {
       return serializers.serialize(object, specifiedType: FullType(Dog))!;
     }
+    if (object is SpecialCat) {
+      return serializers.serialize(object, specifiedType: FullType(SpecialCat))!;
+    }
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
@@ -112,6 +123,8 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
         return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
       case r'Dog':
         return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
+      case r'Special-Cat':
+        return serializers.deserialize(serialized, specifiedType: FullType(SpecialCat)) as SpecialCat;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
     }

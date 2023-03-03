@@ -67,6 +67,8 @@ lib/app/Models/OuterObjectWithEnumProperty.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SingleRefType.php
+lib/app/Models/SpecialCat.php
+lib/app/Models/SpecialCatAllOf.php
 lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
 lib/app/Models/User.php

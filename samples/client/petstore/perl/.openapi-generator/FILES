@@ -52,6 +52,8 @@ docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
 docs/SingleRefType.md
+docs/SpecialCat.md
+docs/SpecialCatAllOf.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -110,6 +112,8 @@ lib/WWW/OpenAPIClient/Object/OuterObjectWithEnumProperty.pm
 lib/WWW/OpenAPIClient/Object/Pet.pm
 lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
 lib/WWW/OpenAPIClient/Object/SingleRefType.pm
+lib/WWW/OpenAPIClient/Object/SpecialCat.pm
+lib/WWW/OpenAPIClient/Object/SpecialCatAllOf.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm
 lib/WWW/OpenAPIClient/Object/Tag.pm
 lib/WWW/OpenAPIClient/Object/User.pm

@@ -165,6 +165,8 @@ Class | Method | HTTP request | Description
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SingleRefType](docs/SingleRefType.md)
+ - [Petstore::SpecialCat](docs/SpecialCat.md)
+ - [Petstore::SpecialCatAllOf](docs/SpecialCatAllOf.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)

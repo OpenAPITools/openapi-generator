@@ -1480,6 +1480,14 @@ components:
           properties:
             declawed:
               type: boolean
+    Special-Cat:
+      allOf:
+        - $ref: '#/definitions/Cat'
+        - type: object
+          properties:
+            kind:
+              type: string
+              enum: [lions, tigers, leopards, jaguars]
     Animal:
       type: object
       discriminator:

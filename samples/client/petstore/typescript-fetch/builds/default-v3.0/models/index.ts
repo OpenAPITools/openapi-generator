@@ -45,6 +45,8 @@ export * from './Pet';
 export * from './ReadOnlyFirst';
 export * from './Return';
 export * from './SingleRefType';
+export * from './SpecialCat';
+export * from './SpecialCatAllOf';
 export * from './SpecialModelName';
 export * from './Tag';
 export * from './User';

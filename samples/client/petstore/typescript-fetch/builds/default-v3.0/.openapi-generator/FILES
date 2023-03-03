@@ -52,6 +52,8 @@ models/Pet.ts
 models/ReadOnlyFirst.ts
 models/Return.ts
 models/SingleRefType.ts
+models/SpecialCat.ts
+models/SpecialCatAllOf.ts
 models/SpecialModelName.ts
 models/Tag.ts
 models/User.ts
