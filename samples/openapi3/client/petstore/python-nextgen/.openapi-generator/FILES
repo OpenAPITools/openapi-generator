@@ -144,6 +144,7 @@ petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py
 petstore_api/rest.py
 petstore_api/signing.py
+pyproject.toml
 requirements.txt
 setup.cfg
 setup.py
