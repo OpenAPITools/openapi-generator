@@ -6,7 +6,7 @@
 Run the tests.
 $ pip install nose (optional)
 $ cd petstore_api-python
-$ nosetests -v
+$ pytest
 """
 
 import os

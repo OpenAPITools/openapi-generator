@@ -6,7 +6,7 @@
 Run the tests.
 $ pip install nose (optional)
 $ cd OpenAPIetstore-python
-$ nosetests -v
+$ pytest
 """
 
 import os

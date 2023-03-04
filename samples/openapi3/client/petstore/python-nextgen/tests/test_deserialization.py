@@ -6,7 +6,7 @@
 Run the tests.
 $ pip install nose (optional)
 $ cd OpenAPIPetstore-python
-$ nosetests -v
+$ pytest
 """
 from collections import namedtuple
 import json
