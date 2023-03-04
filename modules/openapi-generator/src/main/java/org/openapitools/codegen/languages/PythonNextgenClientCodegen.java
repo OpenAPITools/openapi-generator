@@ -611,9 +611,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
             typingImports.add("Any");
-            return "Dict[str, Any]";
+            return "Any";
         } else if (!cp.isPrimitiveType) {
             // add model prefix
             hasModelsToImport = true;
@@ -855,9 +854,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
             typingImports.add("Any");
-            return "Dict[str, Any]";
+            return "Any";
         } else if (!cp.isPrimitiveType || cp.isModel) { // model
             if (!cp.isCircularReference) {
                 // skip import if it's a circular reference

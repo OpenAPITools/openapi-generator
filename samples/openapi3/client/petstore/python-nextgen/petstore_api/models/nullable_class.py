@@ -33,12 +33,12 @@ class NullableClass(BaseModel):
     string_prop: Optional[StrictStr] = None
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
-    array_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_and_items_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_items_nullable: Optional[conlist(Dict[str, Any])] = None
-    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
+    array_nullable_prop: Optional[conlist(Any)] = None
+    array_and_items_nullable_prop: Optional[conlist(Any)] = None
+    array_items_nullable: Optional[conlist(Any)] = None
+    object_nullable_prop: Optional[Dict[str, Any]] = None
+    object_and_items_nullable_prop: Optional[Dict[str, Any]] = None
+    object_items_nullable: Optional[Dict[str, Any]] = None
     __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
     class Config:
