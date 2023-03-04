@@ -61,7 +61,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String RESTSHARP = "restsharp";
     protected static final String HTTPCLIENT = "httpclient";
     protected static final String GENERICHOST = "generichost";
-    protected static final String UNITY = "unity";
+    protected static final String UNITY_WEB_REQUEST = "unityWebRequest";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
@@ -327,7 +327,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
                 + "(Experimental. Subject to breaking changes without notice.)");
-        supportedLibraries.put(UNITY, "UnityWebRequest (...) "
+        supportedLibraries.put(UNITY_WEB_REQUEST, "UnityWebRequest (...) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
 
@@ -705,9 +705,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setLibrary(HTTPCLIENT);
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
-        } else if (UNITY.equals(getLibrary())) {
-            setLibrary(UNITY);
-            additionalProperties.put("useUnityClient", true);
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            setLibrary(UNITY_WEB_REQUEST);
+            additionalProperties.put("useUnityWebRequest", true);
             needsUriBuilder = true;
         } else {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
@@ -825,11 +825,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
-        } else if (UNITY.equals(getLibrary())) {
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
             additionalProperties.put(CodegenConstants.VALIDATABLE, false);
             setValidatable(false);
             setSupportsRetry(false);
             setSupportsAsync(true);
+            // Some consoles and tvOS do not support either Application.persistentDataPath or will refuse to
+            // compile/link if you even reference GetTempPath as well.
             additionalProperties.put("supportsFileParameters", false);
             setSupportsFileParameters(false);
 
@@ -932,7 +934,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (UNITY.equals(getLibrary())) {
+        if (UNITY_WEB_REQUEST.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asmdef.mustache", packageFolder, packageName + ".asmdef"));
         } else {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
@@ -940,14 +942,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
-            if (UNITY.equals(getLibrary())) {
+            if (UNITY_WEB_REQUEST.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("asmdef_test.mustache", testPackageFolder, testPackageName + ".asmdef"));
             } else {
                 supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
             }
         }
 
-        if (!UNITY.equals(getLibrary())) {
+        if (!UNITY_WEB_REQUEST.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         }
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));

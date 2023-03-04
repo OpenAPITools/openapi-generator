@@ -122,17 +122,24 @@ namespace {{packageName}}.Client
                     return null;
                 }
 
-                // Deserialize as a model
-                try
+                if (request.responseCode >= 200 && request.responseCode < 300)
                 {
-                    return JsonConvert.DeserializeObject(text, type, _serializerSettings);
+                    try
+                    {
+                        // Deserialize as a model
+                        return JsonConvert.DeserializeObject(text, type, _serializerSettings);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new UnexpectedResponseException(request, type, e.ToString());
+                    }
                 }
-                catch (Exception e)
+                else
                 {
-                    throw new UnexpectedResponseException(request, type, e.ToString());
+                    throw new ApiException((int)request.responseCode, request.error, text);
                 }
             }
-
+            
             if (type != typeof(System.Object) && request.responseCode >= 200 && request.responseCode < 300)
             {
                 throw new UnexpectedResponseException(request, type);
