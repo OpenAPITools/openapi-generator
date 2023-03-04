@@ -4295,6 +4295,31 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfDefaultEnumType() {
+        // test allOf with a single sub-schema and default value set in the top level
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "EnumPatternObject";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty defaultEnumSchemaProperty = modelWithReferencedSchema.vars.get(4);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(defaultEnumSchemaProperty.getName(), "defaultMinusnumberMinusenum");
+        Assert.assertFalse(defaultEnumSchemaProperty.isEnum);
+        Assert.assertTrue(defaultEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(defaultEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(defaultEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(defaultEnumSchemaProperty.isString);
+        Assert.assertFalse(defaultEnumSchemaProperty.isContainer);
+        Assert.assertFalse(defaultEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(defaultEnumSchemaProperty.defaultValue, "2");
+    }
+
+    @Test
     public void testInlineEnumType() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
