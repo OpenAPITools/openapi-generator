@@ -295,10 +295,12 @@ namespace {{packageName}}.Client
                 request.downloadHandler = new DownloadHandlerBuffer();
             }
 
+#if UNITY_EDITOR || !UNITY_WEBGL
             if (configuration.UserAgent != null)
             {
                 request.SetRequestHeader("User-Agent", configuration.UserAgent);
             }
+#endif
 
             if (configuration.DefaultHeaders != null)
             {
@@ -371,19 +373,13 @@ namespace {{packageName}}.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            CancellationTokenSource timeoutTokenSource = null;
-            CancellationTokenSource finalTokenSource = null;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
-            var finalToken = cancellationToken;
 
             using (request)
-            try
             {
                 if (configuration.Timeout > 0)
                 {
-                    timeoutTokenSource = new CancellationTokenSource(configuration.Timeout);
-                    finalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(finalToken, timeoutTokenSource.Token);
-                    finalToken = finalTokenSource.Token;
+                    request.timeout = (int)Math.Ceiling(configuration.Timeout / 1000.0f);
                 }
 
                 if (configuration.Proxy != null)
@@ -409,21 +405,11 @@ namespace {{packageName}}.Client
                 TaskCompletionSource<UnityWebRequest.Result> tsc = new TaskCompletionSource<UnityWebRequest.Result>();
                 asyncOp.completed += (_) => tsc.TrySetResult(request.result);
 
-                if (asyncOp.isDone)
+                using (var tokenRegistration = cancellationToken.Register(request.Abort, true))
                 {
-                    tsc.TrySetResult(asyncOp.webRequest.result);
+                    await tsc.Task;
                 }
-
-                try
-                {
-                    await Task.WhenAny(tsc.Task, Task.Delay(Timeout.Infinite, finalToken));
-                }
-                catch (OperationCanceledException)
-                {
-                    request.Abort();
-                    throw;
-                }
-
+                
                 if (request.result == UnityWebRequest.Result.ConnectionError ||
                     request.result == UnityWebRequest.Result.DataProcessingError)
                 {
@@ -445,18 +431,6 @@ namespace {{packageName}}.Client
                 InterceptResponse(request, path, options, configuration, ref responseData);
 
                 return ToApiResponse<T>(request, responseData);
-            }
-            finally
-            {
-                if (timeoutTokenSource != null)
-                {
-                    timeoutTokenSource.Dispose();
-                }
-
-                if (finalTokenSource != null)
-                {
-                    finalTokenSource.Dispose();
-                }
             }
         }
 
