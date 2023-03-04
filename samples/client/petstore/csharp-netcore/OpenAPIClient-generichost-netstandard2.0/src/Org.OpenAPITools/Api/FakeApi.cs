@@ -1144,7 +1144,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["required_string_uuid"] = Uri.EscapeDataString(requiredStringUuid.ToString());
+                    parseQueryString["required_string_uuid"] = requiredStringUuid.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -1595,7 +1595,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["query"] = Uri.EscapeDataString(query.ToString());
+                    parseQueryString["query"] = query.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -2255,16 +2255,16 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
                     if (enumQueryStringArray != null)
-                        parseQueryString["enum_query_string_array"] = Uri.EscapeDataString(enumQueryStringArray.ToString());
+                        parseQueryString["enum_query_string_array"] = enumQueryStringArray.ToString();
 
                     if (enumQueryDouble != null)
-                        parseQueryString["enum_query_double"] = Uri.EscapeDataString(enumQueryDouble.ToString());
+                        parseQueryString["enum_query_double"] = enumQueryDouble.ToString();
 
                     if (enumQueryInteger != null)
-                        parseQueryString["enum_query_integer"] = Uri.EscapeDataString(enumQueryInteger.ToString());
+                        parseQueryString["enum_query_integer"] = enumQueryInteger.ToString();
 
                     if (enumQueryString != null)
-                        parseQueryString["enum_query_string"] = Uri.EscapeDataString(enumQueryString.ToString());
+                        parseQueryString["enum_query_string"] = enumQueryString.ToString();
 
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -2474,14 +2474,14 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["required_string_group"] = Uri.EscapeDataString(requiredStringGroup.ToString());
-                    parseQueryString["required_int64_group"] = Uri.EscapeDataString(requiredInt64Group.ToString());
+                    parseQueryString["required_string_group"] = requiredStringGroup.ToString();
+                    parseQueryString["required_int64_group"] = requiredInt64Group.ToString();
                     
                     if (stringGroup != null)
-                        parseQueryString["string_group"] = Uri.EscapeDataString(stringGroup.ToString());
+                        parseQueryString["string_group"] = stringGroup.ToString();
 
                     if (int64Group != null)
-                        parseQueryString["int64_group"] = Uri.EscapeDataString(int64Group.ToString());
+                        parseQueryString["int64_group"] = int64Group.ToString();
 
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -2996,11 +2996,11 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["pipe"] = Uri.EscapeDataString(pipe.ToString());
-                    parseQueryString["ioutil"] = Uri.EscapeDataString(ioutil.ToString());
-                    parseQueryString["http"] = Uri.EscapeDataString(http.ToString());
-                    parseQueryString["url"] = Uri.EscapeDataString(url.ToString());
-                    parseQueryString["context"] = Uri.EscapeDataString(context.ToString());
+                    parseQueryString["pipe"] = pipe.ToString();
+                    parseQueryString["ioutil"] = ioutil.ToString();
+                    parseQueryString["http"] = http.ToString();
+                    parseQueryString["url"] = url.ToString();
+                    parseQueryString["context"] = context.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
