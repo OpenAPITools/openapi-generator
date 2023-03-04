@@ -4,7 +4,7 @@
 
 """
 Run the tests.
-$ pip install nose (optional)
+$ pip install -U pytest
 $ cd OpenAPIetstore-python
 $ pytest
 """
