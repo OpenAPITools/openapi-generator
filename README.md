@@ -263,6 +263,20 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
+#### Nix users
+
+If you're a nix user, you can enter OpenAPI Generator shell, by typing:
+```sh
+nix develop
+```
+It will enter a shell with Java 8 and Maven installed. 
+
+Direnv supports automatically loading of the nix developer shell, so if you're using direnv too, type:
+```sh
+direnv allow
+```
+and have `java` and `mvn` set up with correct versions each time you enter project directory.
+
 The default build contains minimal static analysis (via CheckStyle). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
 
 ```sh
