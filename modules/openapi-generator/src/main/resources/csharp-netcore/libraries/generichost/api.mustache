@@ -302,10 +302,10 @@ namespace {{packageName}}.{{apiPackage}}
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
 
                     {{! all the redundant tags here are to get the spacing just right }}
-                    {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
+                    {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryString["{{baseName}}"] = {{paramName}}.ToString();
                     {{/required}}{{/queryParams}}{{#queryParams}}{{#-first}}
                     {{/-first}}{{/queryParams}}{{#queryParams}}{{^required}}if ({{paramName}} != null)
-                        parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
+                        parseQueryString["{{baseName}}"] = {{paramName}}.ToString();
 
                     {{/required}}{{#-last}}uriBuilder.Query = parseQueryString.ToString();
 

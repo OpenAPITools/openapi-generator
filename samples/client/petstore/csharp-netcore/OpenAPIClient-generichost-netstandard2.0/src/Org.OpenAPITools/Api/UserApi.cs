@@ -1114,8 +1114,8 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["username"] = Uri.EscapeDataString(username.ToString());
-                    parseQueryString["password"] = Uri.EscapeDataString(password.ToString());
+                    parseQueryString["username"] = username.ToString();
+                    parseQueryString["password"] = password.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
