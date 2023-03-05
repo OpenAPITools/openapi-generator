@@ -92,10 +92,6 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         originalRequest.httpMethod = method.rawValue
 
-        headers.forEach { key, value in
-            originalRequest.setValue(value, forHTTPHeaderField: key)
-        }
-
         buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
@@ -218,10 +214,10 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in headers {
+        for (key, value) in PetstoreClientAPI.customHeaders {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         return httpHeaders
