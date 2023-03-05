@@ -48,7 +48,6 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift5OptionsProvider.LENIENT_TYPE_CAST_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(Swift5OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setReadonlyProperties(Boolean.parseBoolean(Swift5OptionsProvider.READONLY_PROPERTIES_VALUE));
-        verify(clientCodegen).setRemoveMigrationProjectNameClass(Boolean.parseBoolean(Swift5OptionsProvider.REMOVE_MIGRATION_PROJECT_NAME_CLASS_VALUE));
         verify(clientCodegen).setGenerateModelAdditionalProperties(Boolean.parseBoolean(Swift5OptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift5OptionsProvider.HASHABLE_MODELS_VALUE));
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift5OptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
