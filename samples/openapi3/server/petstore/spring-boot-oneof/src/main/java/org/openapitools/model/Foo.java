@@ -50,6 +50,7 @@ public class Foo extends Entity implements FooRefOrValue, FooRefOrValueEnumMappi
    */
   public Foo(String atType) {
     super(atType);
+    this.objectType = objectType;
   }
 
   public Foo fooPropA(String fooPropA) {

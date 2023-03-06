@@ -47,6 +47,7 @@ public class FooRef extends EntityRef implements FooRefOrValue, FooRefOrValueEnu
    */
   public FooRef(String atType) {
     super(atType);
+    this.objectType = objectType;
   }
 
   public FooRef foorefPropA(String foorefPropA) {
