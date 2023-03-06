@@ -29,18 +29,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
-import org.openapitools.client.model.SpecialCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import org.openapitools.client.JSON;
 /**
- * Animal
+ * SpecialCat
  */
 @JsonPropertyOrder({
-  Animal.JSON_PROPERTY_CLASS_NAME,
-  Animal.JSON_PROPERTY_COLOR
+  SpecialCat.JSON_PROPERTY_KIND
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonIgnoreProperties(
@@ -48,74 +45,80 @@ import org.openapitools.client.JSON;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = SpecialCat.class, name = "Special-Cat"),
-})
 
-public class Animal {
-  public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  private String className;
+public class SpecialCat extends Cat {
+  /**
+   * Gets or Sets kind
+   */
+  public enum KindEnum {
+    LIONS("lions"),
+    
+    TIGERS("tigers"),
+    
+    LEOPARDS("leopards"),
+    
+    JAGUARS("jaguars");
 
-  public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+    private String value;
 
-  public Animal() { 
+    KindEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static KindEnum fromValue(String value) {
+      for (KindEnum b : KindEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
   }
 
-  public Animal className(String className) {
-    this.className = className;
+  public static final String JSON_PROPERTY_KIND = "kind";
+  private KindEnum kind;
+
+  public SpecialCat() { 
+  }
+
+  public SpecialCat kind(KindEnum kind) {
+    this.kind = kind;
     return this;
   }
 
    /**
-   * Get className
-   * @return className
-  **/
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getClassName() {
-    return className;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-
-  public Animal color(String color) {
-    this.color = color;
-    return this;
-  }
-
-   /**
-   * Get color
-   * @return color
+   * Get kind
+   * @return kind
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getColor() {
-    return color;
+  public KindEnum getKind() {
+    return kind;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
-    this.color = color;
+  public void setKind(KindEnum kind) {
+    this.kind = kind;
   }
 
 
   /**
-   * Return true if this Animal object is equal to o.
+   * Return true if this Special-Cat object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -125,22 +128,22 @@ public class Animal {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
+    SpecialCat specialCat = (SpecialCat) o;
+    return Objects.equals(this.kind, specialCat.kind) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color);
+    return Objects.hash(kind, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("class SpecialCat {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -198,16 +201,23 @@ public class Animal {
       joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
+    // add `declawed` to the URL query string
+    if (getDeclawed() != null) {
+      joiner.add(String.format("%sdeclawed%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDeclawed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `kind` to the URL query string
+    if (getKind() != null) {
+      joiner.add(String.format("%skind%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
     return joiner.toString();
   }
 static {
   // Initialize and register the discriminator mappings.
   Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("Cat", Cat.class);
-  mappings.put("Dog", Dog.class);
   mappings.put("Special-Cat", SpecialCat.class);
-  mappings.put("Animal", Animal.class);
-  JSON.registerDiscriminator(Animal.class, "className", mappings);
+  JSON.registerDiscriminator(SpecialCat.class, "className", mappings);
 }
 }
 

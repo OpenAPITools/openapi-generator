@@ -79,6 +79,8 @@ docs/Shape.md
 docs/ShapeInterface.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
+docs/SpecialCat.md
+docs/SpecialCatAllOf.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -183,6 +185,8 @@ src/main/java/org/openapitools/client/model/Shape.java
 src/main/java/org/openapitools/client/model/ShapeInterface.java
 src/main/java/org/openapitools/client/model/ShapeOrNull.java
 src/main/java/org/openapitools/client/model/SimpleQuadrilateral.java
+src/main/java/org/openapitools/client/model/SpecialCat.java
+src/main/java/org/openapitools/client/model/SpecialCatAllOf.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/Triangle.java
@@ -190,3 +194,5 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/model/SpecialCatAllOfTest.java
+src/test/java/org/openapitools/client/model/SpecialCatTest.java

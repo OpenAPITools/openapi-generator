@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
+import org.openapitools.client.model.SpecialCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -50,6 +51,7 @@ import org.openapitools.client.JSON;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = SpecialCat.class, name = "Special-Cat"),
 })
 
 public class Animal {
@@ -203,6 +205,7 @@ static {
   Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
   mappings.put("Cat", Cat.class);
   mappings.put("Dog", Dog.class);
+  mappings.put("Special-Cat", SpecialCat.class);
   mappings.put("Animal", Animal.class);
   JSON.registerDiscriminator(Animal.class, "className", mappings);
 }
