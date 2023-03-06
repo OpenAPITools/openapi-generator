@@ -80,8 +80,6 @@ part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/single_ref_type.dart';
-part 'model/special_cat.dart';
-part 'model/special_cat_all_of.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
 part 'model/user.dart';

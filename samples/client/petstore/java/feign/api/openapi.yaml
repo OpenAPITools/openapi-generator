@@ -1505,10 +1505,6 @@ components:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Cat_allOf'
-    Special-Cat:
-      allOf:
-      - $ref: '#/definitions/Cat'
-      - $ref: '#/components/schemas/Special_Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2142,17 +2138,6 @@ components:
       properties:
         declawed:
           type: boolean
-      type: object
-      example: null
-    Special_Cat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
       type: object
       example: null
   securitySchemes:

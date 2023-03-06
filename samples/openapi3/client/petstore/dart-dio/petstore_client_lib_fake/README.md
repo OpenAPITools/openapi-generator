@@ -154,8 +154,6 @@ Class | Method | HTTP request | Description
  - [Pet](doc/Pet.md)
  - [ReadOnlyFirst](doc/ReadOnlyFirst.md)
  - [SingleRefType](doc/SingleRefType.md)
- - [SpecialCat](doc/SpecialCat.md)
- - [SpecialCatAllOf](doc/SpecialCatAllOf.md)
  - [SpecialModelName](doc/SpecialModelName.md)
  - [Tag](doc/Tag.md)
  - [User](doc/User.md)

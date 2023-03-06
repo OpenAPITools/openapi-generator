@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/special_cat.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
@@ -17,38 +16,23 @@ part 'cat.g.dart';
 /// * [className] 
 /// * [color] 
 /// * [declawed] 
-@BuiltValue(instantiable: false)
-abstract class Cat implements Animal, CatAllOf {
-  static const String discriminatorFieldName = r'className';
+@BuiltValue()
+abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
+  Cat._();
 
-  static const Map<String, Type> discriminatorMapping = {
-    r'Special-Cat': SpecialCat,
-  };
+  factory Cat([void updates(CatBuilder b)]) = _$Cat;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
+      ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Cat> get serializer => _$CatSerializer();
 }
 
-extension CatDiscriminatorExt on Cat {
-    String? get discriminatorValue {
-        if (this is SpecialCat) {
-            return r'Special-Cat';
-        }
-        return null;
-    }
-}
-extension CatBuilderDiscriminatorExt on CatBuilder {
-    String? get discriminatorValue {
-        if (this is SpecialCatBuilder) {
-            return r'Special-Cat';
-        }
-        return null;
-    }
-}
-
 class _$CatSerializer implements PrimitiveSerializer<Cat> {
   @override
-  final Iterable<Type> types = const [Cat];
+  final Iterable<Type> types = const [Cat, _$Cat];
 
   @override
   final String wireName = r'Cat';
@@ -85,58 +69,7 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Cat object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    if (object is SpecialCat) {
-      return serializers.serialize(object, specifiedType: FullType(SpecialCat))!;
-    }
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
-
-  @override
-  Cat deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex = serializedList.indexOf(Cat.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
-    switch (discValue) {
-      case r'Special-Cat':
-        return serializers.deserialize(serialized, specifiedType: FullType(SpecialCat)) as SpecialCat;
-      default:
-        return serializers.deserialize(serialized, specifiedType: FullType($Cat)) as $Cat;
-    }
-  }
-}
-
-/// a concrete implementation of [Cat], since [Cat] is not instantiable
-@BuiltValue(instantiable: true)
-abstract class $Cat implements Cat, Built<$Cat, $CatBuilder> {
-  $Cat._();
-
-  factory $Cat([void Function($CatBuilder)? updates]) = _$$Cat;
-
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults($CatBuilder b) => b;
-
-  @BuiltValueSerializer(custom: true)
-  static Serializer<$Cat> get serializer => _$$CatSerializer();
-}
-
-class _$$CatSerializer implements PrimitiveSerializer<$Cat> {
-  @override
-  final Iterable<Type> types = const [$Cat, _$$Cat];
-
-  @override
-  final String wireName = r'$Cat';
-
-  @override
-  Object serialize(
-    Serializers serializers,
-    $Cat object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return serializers.serialize(object, specifiedType: FullType(Cat))!;
   }
 
   void _deserializeProperties(
@@ -181,12 +114,12 @@ class _$$CatSerializer implements PrimitiveSerializer<$Cat> {
   }
 
   @override
-  $Cat deserialize(
+  Cat deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = $CatBuilder();
+    final result = CatBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

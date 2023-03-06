@@ -60,13 +60,11 @@ require 'petstore/models/outer_object_with_enum_property'
 require 'petstore/models/pet'
 require 'petstore/models/read_only_first'
 require 'petstore/models/single_ref_type'
-require 'petstore/models/special_cat_all_of'
 require 'petstore/models/special_model_name'
 require 'petstore/models/tag'
 require 'petstore/models/user'
 require 'petstore/models/cat'
 require 'petstore/models/dog'
-require 'petstore/models/special_cat'
 
 # APIs
 require 'petstore/api/another_fake_api'

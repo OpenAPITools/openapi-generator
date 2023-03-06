@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
-import org.openapitools.client.model.SpecialCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.UnsupportedEncodingException;
@@ -48,7 +47,6 @@ import java.util.StringJoiner;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = SpecialCat.class, name = "Special-Cat"),
 })
 
 public class Animal {

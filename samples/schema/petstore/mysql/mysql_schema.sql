@@ -402,25 +402,6 @@ CREATE TABLE IF NOT EXISTS `Return` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing reserved words';
 
 --
--- Table structure for table `Special-Cat` generated from model 'SpecialMinusCat'
---
-
-CREATE TABLE IF NOT EXISTS `Special-Cat` (
-  `className` TEXT NOT NULL,
-  `color` TEXT,
-  `declawed` TINYINT(1) DEFAULT NULL,
-  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `Special_Cat_allOf` generated from model 'SpecialUnderscoreCatUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `Special_Cat_allOf` (
-  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `_special_model.name_` generated from model 'UnderscorespecialUnderscoremodelPeriodnameUnderscore'
 --
 

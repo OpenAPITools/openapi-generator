@@ -59,8 +59,6 @@ import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
-import 'package:openapi/src/model/special_cat.dart';
-import 'package:openapi/src/model/special_cat_all_of.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
@@ -76,7 +74,7 @@ part 'serializers.g.dart';
   ArrayOfNumberOnly,
   ArrayTest,
   Capitalization,
-  Cat,$Cat,
+  Cat,
   CatAllOf,$CatAllOf,
   Category,
   ClassModel,
@@ -113,8 +111,6 @@ part 'serializers.g.dart';
   Pet,
   ReadOnlyFirst,
   SingleRefType,
-  SpecialCat,
-  SpecialCatAllOf,$SpecialCatAllOf,
   SpecialModelName,
   Tag,
   User,
@@ -153,10 +149,8 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<String>(),
       )
       ..add(Animal.serializer)
-      ..add(Cat.serializer)
       ..add(CatAllOf.serializer)
       ..add(DogAllOf.serializer)
-      ..add(SpecialCatAllOf.serializer)
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())

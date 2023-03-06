@@ -103,10 +103,6 @@ model/Return.cpp
 model/Return.h
 model/SingleRefType.cpp
 model/SingleRefType.h
-model/Special_Cat.cpp
-model/Special_Cat.h
-model/Special_Cat_allOf.cpp
-model/Special_Cat_allOf.h
 model/Tag.cpp
 model/Tag.h
 model/User.cpp

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
-import org.openapitools.client.model.SpecialCat;
 
 
 

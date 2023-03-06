@@ -80,8 +80,6 @@ from petstore_api.models.outer_object_with_enum_property import OuterObjectWithE
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.single_ref_type import SingleRefType
-from petstore_api.models.special_cat import SpecialCat
-from petstore_api.models.special_cat_all_of import SpecialCatAllOf
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User

@@ -195,8 +195,6 @@ Class | Method | HTTP request | Description
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SingleRefType](docs/SingleRefType.md)
- - [Model.SpecialCat](docs/SpecialCat.md)
- - [Model.SpecialCatAllOf](docs/SpecialCatAllOf.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)

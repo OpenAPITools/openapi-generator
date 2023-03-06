@@ -54,8 +54,6 @@ docs/PetApi.md
 docs/ReadOnlyFirst.md
 docs/Return.md
 docs/SingleRefType.md
-docs/SpecialCat.md
-docs/SpecialCatAllOf.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -125,8 +123,6 @@ src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/SingleRefType.cs
-src/Org.OpenAPITools/Model/SpecialCat.cs
-src/Org.OpenAPITools/Model/SpecialCatAllOf.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/User.cs
