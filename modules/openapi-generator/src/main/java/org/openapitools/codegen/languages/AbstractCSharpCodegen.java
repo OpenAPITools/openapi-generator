@@ -160,8 +160,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "decimal",
                         "int?",
                         "int",
+                        "uint",
+                        "uint?",
                         "long?",
                         "long",
+                        "ulong",
+                        "ulong?",
                         "float?",
                         "float",
                         "byte[]",
@@ -197,8 +201,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
-        typeMapping.put("float", "float?");
+        typeMapping.put("UnsignedInteger", "uint?");
+        typeMapping.put("UnsignedLong", "ulong?");
         typeMapping.put("long", "long?");
+        typeMapping.put("float", "float?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
         typeMapping.put("BigDecimal", "decimal?");
@@ -215,11 +221,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // nullable type
         nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
+                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+                        "DateTime", "DateTimeOffset", "Guid")
         );
         // value Types
         valueTypes = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double")
+                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
         );
 
         this.setSortParamsByRequiredFlag(true);
@@ -1334,7 +1341,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
         // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
         // but we're not supporting unsigned integral types or shorts.
-        if (datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("long") || datatype.startsWith("ulong") ||
+                datatype.startsWith("byte")) {
             return value;
         }
 

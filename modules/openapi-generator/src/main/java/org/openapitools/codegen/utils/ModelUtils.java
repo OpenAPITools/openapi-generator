@@ -606,9 +606,27 @@ public class ModelUtils {
         return false;
     }
 
+    public static boolean isUnsignedIntegerSchema(Schema schema) {
+        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+                ("int32".equals(schema.getFormat()) || schema.getFormat() == null) && // format: int32
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE))) { // x-unsigned: true
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isLongSchema(Schema schema) {
         if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
                 && SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) { // format: long (int64)
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isUnsignedLongSchema(Schema schema) {
+        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+                "int64".equals(schema.getFormat()) && // format: int64
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE))) { // x-unsigned: true
             return true;
         }
         return false;

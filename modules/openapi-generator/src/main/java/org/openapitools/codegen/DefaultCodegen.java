@@ -1728,9 +1728,11 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "Date");
         typeMapping.put("long", "Long");
         typeMapping.put("short", "Short");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("UnsignedInteger", "Integer");
+        typeMapping.put("UnsignedLong", "Long");
         typeMapping.put("char", "String");
         typeMapping.put("object", "Object");
-        typeMapping.put("integer", "Integer");
         // FIXME: java specific type should be in Java Based Abstract Impl's
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "File");
@@ -2394,8 +2396,14 @@ public class DefaultCodegen implements CodegenConfig {
                 return "number";
             }
         } else if (ModelUtils.isIntegerSchema(schema)) {
-            if (ModelUtils.isLongSchema(schema)) {
+            if (ModelUtils.isUnsignedLongSchema(schema)) {
+                return "UnsignedLong";
+            } else if (ModelUtils.isUnsignedIntegerSchema(schema)) {
+                return "UnsignedInteger";
+            } else if (ModelUtils.isLongSchema(schema)) {
                 return "long";
+            } else if (ModelUtils.isShortSchema(schema)) {// int32
+                return "integer";
             } else {
                 return schema.getType(); // integer
             }
