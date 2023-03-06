@@ -368,7 +368,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize Date
         /// </summary>
-        public static string DateFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize DateTime

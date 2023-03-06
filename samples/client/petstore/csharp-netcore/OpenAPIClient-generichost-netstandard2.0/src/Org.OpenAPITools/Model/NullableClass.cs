@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize DateProp
         /// </summary>
-        public static string DatePropFormat { get; set; } = "yyyy-MM-dd";
+        public static string DatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// The format to use to serialize DatetimeProp

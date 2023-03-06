@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// A Json reader.
