@@ -29,6 +29,22 @@ public class Pasta extends Entity {
   @JsonProperty("vendor")
   private String vendor;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pasta#Pasta(String)}
+   */
+  @Deprecated
+  public Pasta() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pasta(String atType) {
+    super(atType);
+  }
+
   public Pasta vendor(String vendor) {
     this.vendor = vendor;
     return this;

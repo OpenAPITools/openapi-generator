@@ -61,6 +61,7 @@ docs/Pig.md
 docs/ReadOnlyFirst.md
 docs/SelfReferenceModel.md
 docs/SingleRefType.md
+docs/SpecialCharacterEnum.md
 docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
@@ -135,6 +136,7 @@ petstore_api/models/pig.py
 petstore_api/models/read_only_first.py
 petstore_api/models/self_reference_model.py
 petstore_api/models/single_ref_type.py
+petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py

@@ -27,6 +27,22 @@ public class Category {
   @JsonProperty("name")
   private String name = "default-name";
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Category#Category(String)}
+   */
+  @Deprecated
+  public Category() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Category(String name) {
+    this.name = name;
+  }
+
   public Category id(Long id) {
     this.id = id;
     return this;

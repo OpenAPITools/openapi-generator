@@ -28,8 +28,8 @@ class ArrayTest(BaseModel):
     Do not edit the class manually.
     """
     array_of_string: Optional[conlist(StrictStr, max_items=3, min_items=0)] = None
-    array_array_of_integer: Optional[List[List[StrictInt]]] = None
-    array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
+    array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
+    array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 

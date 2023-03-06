@@ -256,6 +256,14 @@ conf = petstore_api.Configuration(
         """Options to pass down to the underlying urllib3 socket
         """
 
+        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+        """datetime format
+        """
+
+        self.date_format = "%Y-%m-%d"
+        """date format
+        """
+
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)

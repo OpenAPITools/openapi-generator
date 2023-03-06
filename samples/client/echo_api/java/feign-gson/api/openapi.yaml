@@ -466,6 +466,11 @@ components:
             type: string
           nullable: true
           type: array
+        array_string_extension_nullable:
+          items:
+            type: string
+          type: array
+          x-nullable: true
         string_nullable:
           nullable: true
           type: string

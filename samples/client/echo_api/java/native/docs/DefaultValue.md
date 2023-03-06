@@ -14,6 +14,7 @@ to test the default value of properties
 |**arrayIntegerDefault** | **List&lt;Integer&gt;** |  |  [optional] |
 |**arrayString** | **List&lt;String&gt;** |  |  [optional] |
 |**arrayStringNullable** | **List&lt;String&gt;** |  |  [optional] |
+|**arrayStringExtensionNullable** | **List&lt;String&gt;** |  |  [optional] |
 |**stringNullable** | **String** |  |  [optional] |
 
 

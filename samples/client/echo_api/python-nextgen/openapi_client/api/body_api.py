@@ -145,14 +145,11 @@ class BodyApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:
@@ -295,14 +292,11 @@ class BodyApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:

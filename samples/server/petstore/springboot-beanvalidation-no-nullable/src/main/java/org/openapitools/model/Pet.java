@@ -44,7 +44,7 @@ public class Pet {
 
   @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = null;
 
   /**
    * pet status in the store
@@ -85,6 +85,23 @@ public class Pet {
 
   @JsonProperty("status")
   private StatusEnum status;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String, Set<String>)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, Set<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
 
   public Pet id(Long id) {
     this.id = id;
@@ -171,7 +188,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -190,11 +207,11 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

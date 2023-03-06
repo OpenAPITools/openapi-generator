@@ -1079,10 +1079,11 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      int statusCode = response.getStatusInfo().getStatusCode();
+      final int statusCode = response.getStatusInfo().getStatusCode();
+
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
-      if (response.getStatusInfo() == Status.NO_CONTENT) {
+      if (statusCode == Status.NO_CONTENT.getStatusCode()) {
         return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
         if (returnType == null) {
