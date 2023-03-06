@@ -3461,7 +3461,7 @@ public class DefaultCodegen implements CodegenConfig {
         //  the future..
         String propertyType =
             Optional.ofNullable(schema.getProperties())
-                .map(p -> (Schema) p.get(discriminatorPropertyName))
+                .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
                 .map(Schema::get$ref)
                 .map(ModelUtils::getSimpleRef)
                 .orElseGet(() -> typeMapping.get("string"));
