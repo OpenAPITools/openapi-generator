@@ -385,6 +385,7 @@ public class InlineModelResolver {
                     }
                 }
                 m.setAnyOf(newAnyOf);
+
             }
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
@@ -606,13 +607,17 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (ModelUtils.isComposedSchema(model)) {
+            if (ModelUtils.isAnyOf(model)) { // contains anyOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isOneOf(model)) { // contains oneOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
                 flattenComposedChildren(modelName + "_allOf", m.getAllOf());
                 flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
                 flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
-            } else if (model instanceof Schema) {
+            } else {
                 gatherInlineModels(model, modelName);
             }
         }
