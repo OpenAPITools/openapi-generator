@@ -1105,7 +1105,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineSchemaAllOfPropertyOfOneOF() {
+    public void testInlineSchemaAllOfPropertyOfOneOf() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_allof_propertyof_oneof.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
         resolver.flatten(openAPI);
@@ -1116,5 +1116,16 @@ public class InlineModelResolverTest {
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("Order_allOf_inline_model");
         assertTrue(schema2.getProperties().get("something") instanceof StringSchema);
+    }
+
+    @Test
+    public void testNestedAnyOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/nested_anyof.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("SomeData_anyOf");
+        assertTrue((Schema)schema.getAnyOf().get(0) instanceof StringSchema);
+        assertTrue((Schema)schema.getAnyOf().get(1) instanceof IntegerSchema);
     }
 }
