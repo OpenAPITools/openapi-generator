@@ -30,13 +30,13 @@ class SpringDocConfiguration {
             )
             .components(
                 Components()
+                    .addSecuritySchemes("petstore_auth", SecurityScheme()
+                        .type(SecurityScheme.Type.OAUTH2)
+                    )
                     .addSecuritySchemes("api_key", SecurityScheme()
                         .type(SecurityScheme.Type.APIKEY)
                         .`in`(SecurityScheme.In.HEADER)
                         .name("api_key")
-                    )
-                    .addSecuritySchemes("petstore_auth", SecurityScheme()
-                        .type(SecurityScheme.Type.OAUTH2)
                     )
             )
     }

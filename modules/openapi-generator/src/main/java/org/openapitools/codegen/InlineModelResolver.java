@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -107,50 +108,61 @@ public class InlineModelResolver {
 
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Operation> operations = new ArrayList<>(path.readOperations());
+            Map<HttpMethod, Operation> operationsMap = new LinkedHashMap<>(path.readOperationsMap());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
             String pathname = pathsEntry.getKey();
-            String name = pathname;
-            if (path.getDelete() != null) {
-                name = pathname + "_delete";
-            } else if (path.getGet() != null) {
-                name = pathname + "_get";
-            } else if (path.getHead() != null) {
-                name = pathname + "_head";
-            } else if (path.getOptions() != null) {
-                name = pathname + "_options";
-            } else if (path.getPatch() != null) {
-                name = pathname + "_patch";
-            } else if (path.getPost() != null) {
-                name = pathname + "_post";
-            } else if (path.getPut() != null) {
-                name = pathname + "_put";
-            } else if (path.getTrace() != null) {
-                name = pathname + "_trace";
-            } else {
-                // no HTTP verb defined?
-                //throw new RuntimeException("No HTTP verb found/detected in the inline model resolver");
-            }
 
             // Include callback operation as well
-            for (Operation operation : path.readOperations()) {
+            for (Map.Entry<HttpMethod, Operation> operationEntry : new LinkedHashMap<>(path.readOperationsMap()).entrySet()) {
+                Operation operation = operationEntry.getValue();
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
-                    operations.addAll(callbacks.values().stream()
-                            .flatMap(callback -> callback.values().stream())
-                            .flatMap(pathItem -> pathItem.readOperations().stream())
-                            .collect(Collectors.toList()));
+                    for (Map.Entry<String, Callback> callbackEntry : callbacks.entrySet()) {
+                        Callback callback = callbackEntry.getValue();
+                        for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
+                            PathItem pathItem = pathItemEntry.getValue();
+                            operationsMap.putAll(pathItem.readOperationsMap());
+                        }
+                    }
                 }
             }
 
-            for (Operation operation : operations) {
-                flattenRequestBody(name, operation);
-                flattenParameters(name, operation);
-                flattenResponses(name, operation);
+            for (Map.Entry<HttpMethod, Operation> operationEntry : operationsMap.entrySet()) {
+                Operation operation = operationEntry.getValue();
+                String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
+                flattenRequestBody(inlineSchemaName, operation);
+                flattenParameters(inlineSchemaName, operation);
+                flattenResponses(inlineSchemaName, operation);
             }
         }
+    }
+
+    private String getInlineSchemaName(HttpMethod httpVerb, String pathname) {
+        String name = pathname;
+        if (httpVerb.equals(HttpMethod.DELETE)) {
+            name += "_delete";
+        } else if (httpVerb.equals(HttpMethod.GET)) {
+            name += "_get";
+        } else if (httpVerb.equals(HttpMethod.HEAD)) {
+            name += "_head";
+        } else if (httpVerb.equals(HttpMethod.OPTIONS)) {
+            name += "_options";
+        } else if (httpVerb.equals(HttpMethod.PATCH)) {
+            name += "_patch";
+        } else if (httpVerb.equals(HttpMethod.POST)) {
+            name += "_post";
+        } else if (httpVerb.equals(HttpMethod.PUT)) {
+            name += "_put";
+        } else if (httpVerb.equals(HttpMethod.TRACE)) {
+            name += "_trace";
+        } else {
+            // no HTTP verb defined?
+            // throw new RuntimeException("No HTTP verb found/detected in the inline model
+            // resolver");
+        }
+        return name;
     }
 
     /**
@@ -196,18 +208,23 @@ public class InlineModelResolver {
             // allOf, anyOf, oneOf
             ComposedSchema m = (ComposedSchema) schema;
 
-            if (m.getAllOf() != null && m.getAllOf().size() == 1 && m.getReadOnly() != null && m.getReadOnly()) {
-                // Check if this composed schema only contains an allOf and a readOnly.
+            boolean isSingleAllOf = m.getAllOf() != null && m.getAllOf().size() == 1;
+            boolean isReadOnly = m.getReadOnly() != null && m.getReadOnly();
+            boolean isNullable = m.getNullable() != null && m.getNullable();
+
+            if (isSingleAllOf && (isReadOnly || isNullable)) {
+                // Check if this composed schema only contains an allOf and a readOnly or nullable.
                 ComposedSchema c = new ComposedSchema();
                 c.setAllOf(m.getAllOf());
-                c.setReadOnly(true);
+                c.setReadOnly(m.getReadOnly());
+                c.setNullable(m.getNullable());
                 if (m.equals(c)) {
                     return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
                 }
             }
 
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                // check to ensure at least of the allOf item is model
+                // check to ensure at least one of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
                     if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner), visitedSchemas)) {
                         return true;
@@ -368,6 +385,7 @@ public class InlineModelResolver {
                     }
                 }
                 m.setAnyOf(newAnyOf);
+
             }
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
@@ -524,15 +542,15 @@ public class InlineModelResolver {
      * allOf:
      * - $ref: '#/components/schemas/Animal'
      * - type: object
-     * properties:
-     * name:
-     * type: string
-     * age:
-     * type: string
+     *   properties:
+     *     name:
+     *       type: string
+     *     age:
+     *       type: string
      * - type: object
-     * properties:
-     * breed:
-     * type: string
+     *   properties:
+     *     breed:
+     *       type: string
      *
      * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
@@ -560,6 +578,8 @@ public class InlineModelResolver {
                 // instead of inline.
                 String innerModelName = resolveModelName(component.getTitle(), key);
                 Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
+                // Recurse to create $refs for inner models
+                gatherInlineModels(innerModel, innerModelName);
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
                     innerModelName = addSchemas(innerModelName, innerModel);
@@ -587,13 +607,17 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (ModelUtils.isComposedSchema(model)) {
+            if (ModelUtils.isAnyOf(model)) { // contains anyOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isOneOf(model)) { // contains oneOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
                 flattenComposedChildren(modelName + "_allOf", m.getAllOf());
                 flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
                 flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
-            } else if (model instanceof Schema) {
+            } else {
                 gatherInlineModels(model, modelName);
             }
         }

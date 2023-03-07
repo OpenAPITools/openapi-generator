@@ -389,7 +389,7 @@ No authorization required
 
 <a name="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
 
 
 
@@ -416,11 +416,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
+            var requiredStringUuid = "requiredStringUuid_example";  // Guid | Required UUID String
             var body = "body_example";  // string | Input string as post body (optional) 
 
             try
             {
-                string result = apiInstance.FakeOuterStringSerialize(body);
+                string result = apiInstance.FakeOuterStringSerialize(requiredStringUuid, body);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -440,7 +441,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(body);
+    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -457,6 +458,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **requiredStringUuid** | **Guid** | Required UUID String |  |
 | **body** | **string** | Input string as post body | [optional]  |
 
 ### Return type

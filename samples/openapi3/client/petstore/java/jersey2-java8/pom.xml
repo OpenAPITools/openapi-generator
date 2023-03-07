@@ -342,7 +342,7 @@
         <jersey-version>2.35</jersey-version>
         <jackson-version>2.13.4</jackson-version>
         <jackson-databind-version>2.13.4.2</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.4</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>5.8.2</junit-version>
         <http-signature-version>1.7</http-signature-version>

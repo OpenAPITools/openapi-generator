@@ -147,12 +147,12 @@ public class ApiClient {
         initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
-        authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -168,12 +168,12 @@ public class ApiClient {
         httpClient = client;
 
         // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
-        authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -241,8 +241,8 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
 
         // Prevent the authentications from being modified.
@@ -291,6 +291,7 @@ public class ApiClient {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        this.serverIndex = null;
         return this;
     }
 
@@ -599,6 +600,18 @@ public class ApiClient {
             }
         }
         throw new RuntimeException("No OAuth2 authentication configured!");
+    }
+
+    /**
+     * Helper method to set credentials for AWSV4 Signature
+     *
+     * @param accessKey Access Key
+     * @param secretKey Secret Key
+     * @param region Region
+     * @param service Service to access to
+     */
+    public void setAWS4Configuration(String accessKey, String secretKey, String region, String service) {
+        throw new RuntimeException("No AWS4 authentication configured!");
     }
 
     /**

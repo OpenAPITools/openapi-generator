@@ -45,7 +45,7 @@ func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
 
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
-	if o == nil || isNil(o.Bar) {
+	if o == nil || IsNil(o.Bar) {
 		var ret string
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *ReadOnlyFirst) GetBar() string {
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
-	if o == nil || isNil(o.Bar) {
+	if o == nil || IsNil(o.Bar) {
 		return nil, false
 	}
 	return o.Bar, true
@@ -63,7 +63,7 @@ func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
 
 // HasBar returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBar() bool {
-	if o != nil && !isNil(o.Bar) {
+	if o != nil && !IsNil(o.Bar) {
 		return true
 	}
 
@@ -77,7 +77,7 @@ func (o *ReadOnlyFirst) SetBar(v string) {
 
 // GetBaz returns the Baz field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
-	if o == nil || isNil(o.Baz) {
+	if o == nil || IsNil(o.Baz) {
 		var ret string
 		return ret
 	}
@@ -87,7 +87,7 @@ func (o *ReadOnlyFirst) GetBaz() string {
 // GetBazOk returns a tuple with the Baz field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
-	if o == nil || isNil(o.Baz) {
+	if o == nil || IsNil(o.Baz) {
 		return nil, false
 	}
 	return o.Baz, true
@@ -95,7 +95,7 @@ func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
 
 // HasBaz returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBaz() bool {
-	if o != nil && !isNil(o.Baz) {
+	if o != nil && !IsNil(o.Baz) {
 		return true
 	}
 
@@ -117,10 +117,8 @@ func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 
 func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
-	}
-	if !isNil(o.Baz) {
+	// skip: bar is readOnly
+	if !IsNil(o.Baz) {
 		toSerialize["baz"] = o.Baz
 	}
 

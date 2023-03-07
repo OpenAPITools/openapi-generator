@@ -173,10 +173,11 @@ namespace Org.OpenAPITools.IApi
         /// Test serialization of outer string types
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;string?&gt;&gt;</returns>
-        Task<ApiResponse<string?>> FakeOuterStringSerializeWithHttpInfoAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<string?>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -185,10 +186,11 @@ namespace Org.OpenAPITools.IApi
         /// Test serialization of outer string types
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;string&gt;</returns>
-        Task<string> FakeOuterStringSerializeAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -196,10 +198,11 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Test serialization of outer string types
         /// </remarks>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;string?&gt;</returns>
-        Task<string?> FakeOuterStringSerializeOrDefaultAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<string?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Array of Enums
@@ -800,8 +803,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
 
 
@@ -935,8 +938,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/boolean";
 
                     request.Content = (body as object) is System.IO.Stream stream
@@ -1083,8 +1086,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/composite";
 
                     request.Content = (outerComposite as object) is System.IO.Stream stream
@@ -1231,8 +1234,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/number";
 
                     request.Content = (body as object) is System.IO.Stream stream
@@ -1294,12 +1297,13 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="string"/>&gt;</returns>
-        public async Task<string> FakeOuterStringSerializeAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<string?> result = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string?> result = await FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
 
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -1311,15 +1315,16 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="string"/>&gt;</returns>
-        public async Task<string?> FakeOuterStringSerializeOrDefaultAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<string?> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<string?>? result = null;
             try 
             {
-                result = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+                result = await FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1333,19 +1338,30 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        protected virtual string? OnFakeOuterStringSerialize(string? body)
+        protected virtual (Guid, string?) OnFakeOuterStringSerialize(Guid requiredStringUuid, string? body)
         {
-            return body;
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (requiredStringUuid == null)
+                throw new ArgumentNullException(nameof(requiredStringUuid));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return (requiredStringUuid, body);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponse"></param>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string?> apiResponse, string? body)
+        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string?> apiResponse, Guid requiredStringUuid, string? body)
         {
         }
 
@@ -1355,8 +1371,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
+        /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, string? body)
+        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string? body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -1365,23 +1382,32 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of outer string types
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string?>> FakeOuterStringSerializeWithHttpInfoAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<string?>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             UriBuilder uriBuilder = new UriBuilder();
 
             try
             {
-                body = OnFakeOuterStringSerialize(body);
+                var validatedParameters = OnFakeOuterStringSerialize(requiredStringUuid, body);
+                requiredStringUuid = validatedParameters.Item1;
+                body = validatedParameters.Item2;
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/outer/string";
+
+                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryString["required_string_uuid"] = requiredStringUuid.ToString();
+                    
+                    uriBuilder.Query = parseQueryString.ToString();
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
@@ -1424,7 +1450,7 @@ namespace Org.OpenAPITools.Api
                         if (apiResponse.IsSuccessStatusCode)
                         {
                             apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterStringSerialize(apiResponse, body);
+                            AfterFakeOuterStringSerialize(apiResponse, requiredStringUuid, body);
                         }
 
                         return apiResponse;
@@ -1433,7 +1459,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, body);
+                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilder.Path, requiredStringUuid, body);
                 throw;
             }
         }
@@ -1521,8 +1547,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
 
 
@@ -1665,8 +1691,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-file-schema";
 
                     request.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
@@ -1824,13 +1850,13 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/body-with-query-params";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["query"] = Uri.EscapeDataString(query.ToString()!);
+                    parseQueryString["query"] = query.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -1978,8 +2004,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
@@ -2236,8 +2262,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     MultipartContent multipartContent = new MultipartContent();
@@ -2484,22 +2510,22 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
                     if (enumQueryStringArray != null)
-                        parseQueryString["enum_query_string_array"] = Uri.EscapeDataString(enumQueryStringArray.ToString()!);
+                        parseQueryString["enum_query_string_array"] = enumQueryStringArray.ToString();
 
                     if (enumQueryDouble != null)
-                        parseQueryString["enum_query_double"] = Uri.EscapeDataString(enumQueryDouble.ToString()!);
+                        parseQueryString["enum_query_double"] = enumQueryDouble.ToString();
 
                     if (enumQueryInteger != null)
-                        parseQueryString["enum_query_integer"] = Uri.EscapeDataString(enumQueryInteger.ToString()!);
+                        parseQueryString["enum_query_integer"] = enumQueryInteger.ToString();
 
                     if (enumQueryString != null)
-                        parseQueryString["enum_query_string"] = Uri.EscapeDataString(enumQueryString.ToString()!);
+                        parseQueryString["enum_query_string"] = enumQueryString.ToString();
 
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -2703,20 +2729,20 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["required_string_group"] = Uri.EscapeDataString(requiredStringGroup.ToString()!);
-                    parseQueryString["required_int64_group"] = Uri.EscapeDataString(requiredInt64Group.ToString()!);
+                    parseQueryString["required_string_group"] = requiredStringGroup.ToString();
+                    parseQueryString["required_int64_group"] = requiredInt64Group.ToString();
                     
                     if (stringGroup != null)
-                        parseQueryString["string_group"] = Uri.EscapeDataString(stringGroup.ToString()!);
+                        parseQueryString["string_group"] = stringGroup.ToString();
 
                     if (int64Group != null)
-                        parseQueryString["int64_group"] = Uri.EscapeDataString(int64Group.ToString()!);
+                        parseQueryString["int64_group"] = int64Group.ToString();
 
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -2867,8 +2893,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/inline-additionalProperties";
 
                     request.Content = (requestBody as object) is System.IO.Stream stream
@@ -3026,8 +3052,8 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/jsonFormData";
 
                     MultipartContent multipartContent = new MultipartContent();
@@ -3225,17 +3251,17 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress!.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
+                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/test-query-parameters";
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["pipe"] = Uri.EscapeDataString(pipe.ToString()!);
-                    parseQueryString["ioutil"] = Uri.EscapeDataString(ioutil.ToString()!);
-                    parseQueryString["http"] = Uri.EscapeDataString(http.ToString()!);
-                    parseQueryString["url"] = Uri.EscapeDataString(url.ToString()!);
-                    parseQueryString["context"] = Uri.EscapeDataString(context.ToString()!);
+                    parseQueryString["pipe"] = pipe.ToString();
+                    parseQueryString["ioutil"] = ioutil.ToString();
+                    parseQueryString["http"] = http.ToString();
+                    parseQueryString["url"] = url.ToString();
+                    parseQueryString["context"] = context.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 

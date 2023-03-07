@@ -54,8 +54,10 @@ Class | Method | HTTP request | Description
 
  - [ActionContainer](docs/ActionContainer.md)
  - [ApiResponse](docs/ApiResponse.md)
+ - [ArrayItemRefTest](docs/ArrayItemRefTest.md)
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
+ - [EnumArrayTesting](docs/EnumArrayTesting.md)
  - [OptionalTesting](docs/OptionalTesting.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)

@@ -106,7 +106,7 @@ class Pet {
             }
             // validate the optional field `tags` (array)
             for (const item of data['tags']) {
-                Tag.validateJsonObject(item);
+                Tag.validateJSON(item);
             };
         }
         // ensure the json data is a string

@@ -39,6 +39,23 @@ public class Bar extends Entity implements BarRefOrValue {
   @JsonProperty("foo")
   private FooRefOrValue foo;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Bar#Bar(String, String)}
+   */
+  @Deprecated
+  public Bar() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Bar(String id, String atType) {
+    super(atType);
+    this.id = id;
+  }
+
   public Bar id(String id) {
     this.id = id;
     return this;
@@ -49,7 +66,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return id
   */
   @NotNull 
-  @Schema(name = "id", required = true)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getId() {
     return id;
   }
@@ -68,7 +85,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return barPropA
   */
   
-  @Schema(name = "barPropA", required = false)
+  @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getBarPropA() {
     return barPropA;
   }
@@ -87,7 +104,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return fooPropB
   */
   
-  @Schema(name = "fooPropB", required = false)
+  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getFooPropB() {
     return fooPropB;
   }
@@ -106,7 +123,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return foo
   */
   @Valid 
-  @Schema(name = "foo", required = false)
+  @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public FooRefOrValue getFoo() {
     return foo;
   }

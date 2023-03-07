@@ -23,14 +23,12 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   @BuiltValueField(wireName: r'vendor')
   String? get vendor;
 
-  static const String discriminatorFieldName = r'@type';
-
   Pasta._();
 
   factory Pasta([void updates(PastaBuilder b)]) = _$Pasta;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PastaBuilder b) => b;
+  static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Pasta> get serializer => _$PastaSerializer();

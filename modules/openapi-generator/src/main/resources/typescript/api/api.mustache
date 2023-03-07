@@ -1,24 +1,24 @@
 // TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{extensionForDeno}}';
-import {Configuration} from '../configuration{{extensionForDeno}}';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{importFileExtension}}';
+import {Configuration} from '../configuration{{importFileExtension}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{importFileExtension}}';
 {{#platforms}}
 {{#node}}
 import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
-import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
-import {ApiException} from './exception{{extensionForDeno}}';
-import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
-import {SecurityAuthentication} from '../auth/auth{{extensionForDeno}}';
+import {ObjectSerializer} from '../models/ObjectSerializer{{importFileExtension}}';
+import {ApiException} from './exception{{importFileExtension}}';
+import {canConsumeForm, isCodeInRange} from '../util{{importFileExtension}}';
+import {SecurityAuthentication} from '../auth/auth{{importFileExtension}}';
 
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
 
 {{#imports}}
-import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/imports}}
 {{#operations}}
 

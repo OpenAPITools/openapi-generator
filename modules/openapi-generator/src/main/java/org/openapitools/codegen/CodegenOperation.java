@@ -27,6 +27,7 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
+            hasVersionHeaders = false, hasVersionQueryParams = false,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
@@ -207,7 +208,7 @@ public class CodegenOperation {
      * returns a map where the key is the request body content type and the value is the current CodegenOperation
      * this is needed by templates when a different signature is needed for each request body content type
      */
-    public Map<String, CodegenOperation> getContentTypeToOperation() {
+    public Map<String, CodegenOperation> contentTypeToOperation() {
         LinkedHashMap<String, CodegenOperation> contentTypeToOperation = new LinkedHashMap<>();
         if (bodyParam == null) {
             return null;

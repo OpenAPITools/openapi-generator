@@ -214,19 +214,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Pet Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Pet Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Category category = default;
             long id = default;
@@ -235,39 +235,39 @@ namespace Org.OpenAPITools.Model
             Pet.StatusEnum status = default;
             List<Tag> tags = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "category":
-                            category = JsonSerializer.Deserialize<Category>(ref reader, options);
+                            category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
-                            id = reader.GetInt64();
+                            id = utf8JsonReader.GetInt64();
                             break;
                         case "name":
-                            name = reader.GetString();
+                            name = utf8JsonReader.GetString();
                             break;
                         case "photoUrls":
-                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref reader, options);
+                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
-                            string statusRawValue = reader.GetString();
+                            string statusRawValue = utf8JsonReader.GetString();
                             status = Pet.StatusEnumFromString(statusRawValue);
                             break;
                         case "tags":
-                            tags = JsonSerializer.Deserialize<List<Tag>>(ref reader, options);
+                            tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -283,25 +283,25 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pet"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
             writer.WritePropertyName("category");
-            JsonSerializer.Serialize(writer, pet.Category, options);
+            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
-            JsonSerializer.Serialize(writer, pet.PhotoUrls, options);
+            JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
             writer.WritePropertyName("tags");
-            JsonSerializer.Serialize(writer, pet.Tags, options);
+            JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
 
             writer.WriteEndObject();
         }

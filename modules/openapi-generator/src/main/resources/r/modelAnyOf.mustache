@@ -60,7 +60,7 @@
 
       {{#composedSchemas.anyOf}}
       {{^isNull}}
-      {{{dataType}}}_result <- tryCatch({
+      `{{{dataType}}}_result` <- tryCatch({
           {{#isPrimitiveType}}
           instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
           if (typeof(instance) != "{{{dataType}}}") {
@@ -68,18 +68,18 @@
           }
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          {{{dataType}}}$public_methods$validateJSON(input)
-          {{{dataType}}}_instance <- {{{dataType}}}$new()
+          `{{{dataType}}}`$public_methods$validateJSON(input)
+          `{{{dataType}}}_instance` <- `{{{dataType}}}`$new()
           {{/isPrimitiveType}}
-          self$actual_instance <- {{{dataType}}}_instance$fromJSON(input)
+          self$actual_instance <- `{{{dataType}}}_instance`$fromJSON(input)
           self$actual_type <- "{{{dataType}}}"
           return(self)
         },
         error = function(err) err
       )
 
-      if (!is.null({{{dataType}}}_result["error"])) {
-        error_messages <- append(error_messages, {{{dataType}}}_result["message"])
+      if (!is.null(`{{{dataType}}}_result`["error"])) {
+        error_messages <- append(error_messages, `{{{dataType}}}_result`["message"])
       }
 
       {{/isNull}}

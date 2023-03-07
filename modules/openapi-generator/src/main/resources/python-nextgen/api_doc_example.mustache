@@ -7,12 +7,7 @@ from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{> python_doc_auth_partial}}
 # Enter a context with an instance of the API client
-{{#hasAuthMethods}}
 {{#asyncio}}async {{/asyncio}}with {{{packageName}}}.ApiClient(configuration) as api_client:
-{{/hasAuthMethods}}
-{{^hasAuthMethods}}
-{{#asyncio}}async {{/asyncio}}with {{{packageName}}}.ApiClient() as api_client:
-{{/hasAuthMethods}}
     # Create an instance of the API class
     api_instance = {{{packageName}}}.{{{classname}}}(api_client)
     {{#allParams}}

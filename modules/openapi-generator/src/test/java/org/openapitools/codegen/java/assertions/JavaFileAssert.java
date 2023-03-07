@@ -95,6 +95,15 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new ConstructorAssert(this, constructorDeclaration.get());
     }
 
+    public JavaFileAssert assertNoConstructor(final String... paramTypes) {
+        Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
+        Assertions.assertThat(constructorDeclaration)
+                .withFailMessage("Found constructor with parameter(s) %s", Arrays.toString(paramTypes))
+                .isEmpty();
+
+        return this;
+    }
+
     public PropertyAssert hasProperty(final String propertyName) {
         Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
             .filter(FieldDeclaration.class::isInstance)
@@ -111,6 +120,12 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public JavaFileAssert hasImports(final String... imports) {
         Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
             .containsAll(Arrays.asList(imports));
+        return this;
+    }
+
+    public JavaFileAssert hasNoImports(final String... imports) {
+        Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
+            .doesNotContainAnyElementsOf(Arrays.asList(imports));
         return this;
     }
 

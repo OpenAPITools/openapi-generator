@@ -109,6 +109,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -176,6 +177,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
             path = "/store/inventory",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -246,6 +248,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
@@ -316,6 +319,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
             path = "/store/order",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

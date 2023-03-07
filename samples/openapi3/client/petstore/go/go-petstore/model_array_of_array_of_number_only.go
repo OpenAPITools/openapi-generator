@@ -44,7 +44,7 @@ func NewArrayOfArrayOfNumberOnlyWithDefaults() *ArrayOfArrayOfNumberOnly {
 
 // GetArrayArrayNumber returns the ArrayArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
-	if o == nil || isNil(o.ArrayArrayNumber) {
+	if o == nil || IsNil(o.ArrayArrayNumber) {
 		var ret [][]float32
 		return ret
 	}
@@ -54,7 +54,7 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
 // GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
-	if o == nil || isNil(o.ArrayArrayNumber) {
+	if o == nil || IsNil(o.ArrayArrayNumber) {
 		return nil, false
 	}
 	return o.ArrayArrayNumber, true
@@ -62,7 +62,7 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
 
 // HasArrayArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfArrayOfNumberOnly) HasArrayArrayNumber() bool {
-	if o != nil && !isNil(o.ArrayArrayNumber) {
+	if o != nil && !IsNil(o.ArrayArrayNumber) {
 		return true
 	}
 
@@ -84,7 +84,7 @@ func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 
 func (o ArrayOfArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.ArrayArrayNumber) {
+	if !IsNil(o.ArrayArrayNumber) {
 		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
 	}
 

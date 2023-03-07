@@ -3,6 +3,9 @@
   {{#description}}
   /// {{{.}}}
   {{/description}}
+  {{#isDeprecated}}
+  @Deprecated('{{{name}}} has been deprecated')
+  {{/isDeprecated}}
   @BuiltValueField(wireName: r'{{baseName}}')
   {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
   {{#allowableValues}}
@@ -28,7 +31,7 @@
   factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults({{{classname}}}Builder b) => b{{#vendorExtensions.x-self-and-ancestor-only-props}}{{#defaultValue}}
+  static void _defaults({{{classname}}}Builder b) => b{{#vendorExtensions.x-parent-discriminator}}..{{propertyName}}=b.discriminatorValue{{/vendorExtensions.x-parent-discriminator}}{{#vendorExtensions.x-self-and-ancestor-only-props}}{{#defaultValue}}
       ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vendorExtensions.x-self-and-ancestor-only-props}};
 
 {{/vendorExtensions.x-is-parent}}  @BuiltValueSerializer(custom: true)

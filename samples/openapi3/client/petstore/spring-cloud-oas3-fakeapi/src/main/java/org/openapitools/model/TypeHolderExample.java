@@ -43,6 +43,27 @@ public class TypeHolderExample {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link TypeHolderExample#TypeHolderExample(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
+   */
+  @Deprecated
+  public TypeHolderExample() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderExample(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.floatItem = floatItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
+
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;
@@ -53,7 +74,7 @@ public class TypeHolderExample {
    * @return stringItem
   */
   @NotNull 
-  @Schema(name = "string_item", example = "what", required = true)
+  @Schema(name = "string_item", example = "what", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getStringItem() {
     return stringItem;
   }
@@ -72,7 +93,7 @@ public class TypeHolderExample {
    * @return numberItem
   */
   @NotNull @Valid 
-  @Schema(name = "number_item", example = "1.234", required = true)
+  @Schema(name = "number_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -91,7 +112,7 @@ public class TypeHolderExample {
    * @return floatItem
   */
   @NotNull 
-  @Schema(name = "float_item", example = "1.234", required = true)
+  @Schema(name = "float_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   public Float getFloatItem() {
     return floatItem;
   }
@@ -110,7 +131,7 @@ public class TypeHolderExample {
    * @return integerItem
   */
   @NotNull 
-  @Schema(name = "integer_item", example = "-2", required = true)
+  @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -129,7 +150,7 @@ public class TypeHolderExample {
    * @return boolItem
   */
   @NotNull 
-  @Schema(name = "bool_item", example = "true", required = true)
+  @Schema(name = "bool_item", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -153,7 +174,7 @@ public class TypeHolderExample {
    * @return arrayItem
   */
   @NotNull 
-  @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
+  @Schema(name = "array_item", example = "[0, 1, 2, 3]", requiredMode = Schema.RequiredMode.REQUIRED)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

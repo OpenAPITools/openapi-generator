@@ -11,7 +11,7 @@ title: Documentation for the dart-dio Generator
 | generator type | CLIENT | |
 | generator language | Dart | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Dart Dio client library with null-safety. | |
+| helpTxt | Generates a Dart Dio client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

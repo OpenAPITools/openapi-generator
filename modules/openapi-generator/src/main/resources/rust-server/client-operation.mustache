@@ -359,6 +359,7 @@
 {{/-first}}
 {{^isMap}}
 {{^required}}
+        #[allow(clippy::single_match)]
         match param_{{{paramName}}} {
             Some(param_{{{paramName}}}) => {
 {{/required}}

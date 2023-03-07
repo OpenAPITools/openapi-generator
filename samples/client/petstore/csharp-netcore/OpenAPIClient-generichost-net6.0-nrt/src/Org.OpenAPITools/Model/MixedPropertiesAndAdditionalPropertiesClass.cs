@@ -36,11 +36,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime</param>
         /// <param name="map">map</param>
         /// <param name="uuid">uuid</param>
+        /// <param name="uuidWithPattern">uuidWithPattern</param>
         [JsonConstructor]
-        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid)
+        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException("uuidWithPattern is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
 
             if (uuid == null)
                 throw new ArgumentNullException("uuid is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
@@ -57,6 +61,7 @@ namespace Org.OpenAPITools.Model
             DateTime = dateTime;
             Map = map;
             Uuid = uuid;
+            UuidWithPattern = uuidWithPattern;
         }
 
         /// <summary>
@@ -78,6 +83,12 @@ namespace Org.OpenAPITools.Model
         public Guid Uuid { get; set; }
 
         /// <summary>
+        /// Gets or Sets UuidWithPattern
+        /// </summary>
+        [JsonPropertyName("uuid_with_pattern")]
+        public Guid UuidWithPattern { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -94,6 +105,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Map: ").Append(Map).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  UuidWithPattern: ").Append(UuidWithPattern).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -105,6 +117,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
+            // UuidWithPattern (Guid) pattern
+            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
+            if (false == regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
+            }
+
             yield break;
         }
     }
@@ -115,49 +134,58 @@ namespace Org.OpenAPITools.Model
     public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
         /// <summary>
+        /// The format to use to serialize DateTime
+        /// </summary>
+        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override MixedPropertiesAndAdditionalPropertiesClass Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override MixedPropertiesAndAdditionalPropertiesClass Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             DateTime dateTime = default;
             Dictionary<string, Animal> map = default;
             Guid uuid = default;
+            Guid uuidWithPattern = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map":
-                            map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref reader, options);
+                            map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "uuid":
-                            uuid = reader.GetGuid();
+                            uuid = utf8JsonReader.GetGuid();
+                            break;
+                        case "uuid_with_pattern":
+                            uuidWithPattern = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -165,7 +193,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid);
+            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
 
         /// <summary>
@@ -173,17 +201,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTime, options);
+            writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("map");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, options);
+            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
+            writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
 
             writer.WriteEndObject();
         }

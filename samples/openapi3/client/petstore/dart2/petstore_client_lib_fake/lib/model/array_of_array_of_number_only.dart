@@ -56,10 +56,10 @@ class ArrayOfArrayOfNumberOnly {
 
       return ArrayOfArrayOfNumberOnly(
         arrayArrayNumber: json[r'ArrayArrayNumber'] is List
-          ? (json[r'ArrayArrayNumber'] as List).map(
-              (e) => e == null ? null : (e as List).cast<num>()
+          ? (json[r'ArrayArrayNumber'] as List).map((e) =>
+              e == null ? const  <num>[] : (e as List).cast<num>()
             ).toList()
-          : null,
+          :  const [],
       );
     }
     return null;
