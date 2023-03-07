@@ -15,6 +15,8 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/addressable.dart';
+import 'package:openapi/src/model/apple.dart';
+import 'package:openapi/src/model/banana.dart';
 import 'package:openapi/src/model/bar.dart';
 import 'package:openapi/src/model/bar_create.dart';
 import 'package:openapi/src/model/bar_ref.dart';
@@ -25,16 +27,18 @@ import 'package:openapi/src/model/extensible.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_ref.dart';
 import 'package:openapi/src/model/foo_ref_or_value.dart';
-import 'package:openapi/src/model/foo_ref_or_value_enum_mapping.dart';
+import 'package:openapi/src/model/fruit.dart';
+import 'package:openapi/src/model/fruit_type.dart';
 import 'package:openapi/src/model/pasta.dart';
 import 'package:openapi/src/model/pizza.dart';
 import 'package:openapi/src/model/pizza_speziale.dart';
-import 'package:openapi/src/model/ref_or_value_enum.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
   Addressable,$Addressable,
+  Apple,
+  Banana,
   Bar,
   BarCreate,
   BarRef,
@@ -45,11 +49,11 @@ part 'serializers.g.dart';
   Foo,
   FooRef,
   FooRefOrValue,
-  FooRefOrValueEnumMapping,
+  Fruit,
+  FruitType,
   Pasta,
   Pizza,$Pizza,
   PizzaSpeziale,
-  RefOrValueEnum,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

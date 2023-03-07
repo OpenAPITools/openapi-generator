@@ -17,19 +17,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Gets or Sets RefOrValueEnum
+ * Gets or Sets FruitType
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public enum RefOrValueEnum {
+public enum FruitType {
   
-  REF("REF"),
+  APPLE("APPLE"),
   
-  VALUE("VALUE");
+  BANANA("BANANA");
 
   private String value;
 
-  RefOrValueEnum(String value) {
+  FruitType(String value) {
     this.value = value;
   }
 
@@ -44,8 +44,8 @@ public enum RefOrValueEnum {
   }
 
   @JsonCreator
-  public static RefOrValueEnum fromValue(String value) {
-    for (RefOrValueEnum b : RefOrValueEnum.values()) {
+  public static FruitType fromValue(String value) {
+    for (FruitType b : FruitType.values()) {
       if (b.value.equals(value)) {
         return b;
       }
