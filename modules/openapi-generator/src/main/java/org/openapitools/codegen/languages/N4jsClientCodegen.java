@@ -49,14 +49,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
 public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
-    public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
-    public static final String CHECK_SUPERFLUOUS_BODY_PROPS = "checkSuperfluousBodyProps";
-    public static final String GENERATE_DEFAULT_API_EXECUTER = "generateDefaultApiExecuter";
+	public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
+	public static final String CHECK_SUPERFLUOUS_BODY_PROPS = "checkSuperfluousBodyProps";
+	public static final String GENERATE_DEFAULT_API_EXECUTER = "generateDefaultApiExecuter";
 
 	final Logger LOGGER = LoggerFactory.getLogger(N4jsClientCodegen.class);
 
 	final Set<String> forbiddenChars = new HashSet<>();
-	
+
 	private boolean checkRequiredBodyPropsNotNull = true;
 	private boolean checkSuperfluousBodyProps = true;
 	private boolean generateDefaultApiExecuter = true;
@@ -75,9 +75,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 	public N4jsClientCodegen() {
 		super();
-		
-		// disable since otherwise Modules/Class are not generated iff used as parameters only
-        GlobalSettings.setProperty("skipFormModel", "false");
+
+		// disable since otherwise Modules/Class are not generated iff used as
+		// parameters only
+		GlobalSettings.setProperty("skipFormModel", "false");
 
 		specialCharReplacements.clear();
 
@@ -134,91 +135,96 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 				"return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true",
 				"try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
-		languageSpecificPrimitives = new HashSet<>(
-				Arrays.asList("string", "String", "boolean", "number", "int", "Object", "object", "Array", "any", "any+", "Error"));
+		languageSpecificPrimitives = new HashSet<>(Arrays.asList("string", "String", "boolean", "number", "int",
+				"Object", "object", "Array", "any", "any+", "Error"));
 
 		defaultIncludes.add("~Object+");
 		defaultIncludes.add("Object+");
-		
+
 		forbiddenChars.add("@");
 
 		cliOptions.clear();
-        cliOptions.add(new CliOption(API_PACKAGE, API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(MODEL_PACKAGE, MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(API_NAME_PREFIX, API_NAME_PREFIX_DESC));
-        cliOptions.add(new CliOption(CHECK_REQUIRED_PARAMS_NOT_NULL, "Iff true null-checks are performed for required parameters."));
-        cliOptions.add(new CliOption(CHECK_SUPERFLUOUS_BODY_PROPS, "Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
-        cliOptions.add(new CliOption(GENERATE_DEFAULT_API_EXECUTER, "Iff true a default implementation of the api executer interface is generated."));
+		cliOptions.add(new CliOption(API_PACKAGE, API_PACKAGE_DESC));
+		cliOptions.add(new CliOption(MODEL_PACKAGE, MODEL_PACKAGE_DESC));
+		cliOptions.add(new CliOption(API_NAME_PREFIX, API_NAME_PREFIX_DESC));
+		cliOptions.add(new CliOption(CHECK_REQUIRED_PARAMS_NOT_NULL,
+				"Iff true null-checks are performed for required parameters."));
+		cliOptions.add(new CliOption(CHECK_SUPERFLUOUS_BODY_PROPS,
+				"Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
+		cliOptions.add(new CliOption(GENERATE_DEFAULT_API_EXECUTER,
+				"Iff true a default implementation of the api executer interface is generated."));
 	}
 
-    @Override
-    public void processOpts() {
-        super.processOpts();
-        supportingFiles.clear();
+	@Override
+	public void processOpts() {
+		super.processOpts();
+
+		supportingFiles.clear();
 		supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 		supportingFiles.add(new SupportingFile("ApiHelper.mustache", apiPackage, "ApiHelper.n4js"));
 
-        if (additionalProperties.get(CHECK_REQUIRED_PARAMS_NOT_NULL) instanceof Boolean) {
-        	checkRequiredBodyPropsNotNull = (Boolean) additionalProperties.get(CHECK_REQUIRED_PARAMS_NOT_NULL);
-        } else {
-        	additionalProperties.put(CHECK_REQUIRED_PARAMS_NOT_NULL, String.valueOf(checkRequiredBodyPropsNotNull));
-        }
-        
-        if (additionalProperties.get(CHECK_SUPERFLUOUS_BODY_PROPS) instanceof Boolean) {
-        	checkSuperfluousBodyProps = (Boolean) additionalProperties.get(CHECK_SUPERFLUOUS_BODY_PROPS);
-        } else {
-        	additionalProperties.put(CHECK_SUPERFLUOUS_BODY_PROPS, String.valueOf(checkSuperfluousBodyProps));
-        }
-        
-        if (additionalProperties.get(GENERATE_DEFAULT_API_EXECUTER) instanceof Boolean) {
-        	generateDefaultApiExecuter = (Boolean) additionalProperties.get(GENERATE_DEFAULT_API_EXECUTER);
-        } else {
-        	additionalProperties.put(GENERATE_DEFAULT_API_EXECUTER, String.valueOf(generateDefaultApiExecuter));
-        }
-        
-        if (additionalProperties.get(API_PACKAGE) instanceof String) {
-        	apiPackage = additionalProperties.get(API_PACKAGE).toString();
-        } else {
-        	additionalProperties.put(API_PACKAGE, apiPackage);
-        }
-        
-        if (additionalProperties.get(MODEL_PACKAGE) instanceof String) {
-        	modelPackage = additionalProperties.get(MODEL_PACKAGE).toString();
-        } else {
-        	additionalProperties.put(MODEL_PACKAGE, modelPackage);
-        }
-        
-        if (additionalProperties.get(API_NAME_PREFIX) instanceof String) {
-        	apiNamePrefix = additionalProperties.get(API_NAME_PREFIX).toString();
-        } else {
-        	additionalProperties.put(API_NAME_PREFIX, apiNamePrefix);
-        }
-    }
-    
-    @Override
-    public String toModelFilename(String name) {
-        String modelFilename = super.toModelFilename(name);
-        if (typeMapping.containsKey(modelFilename) || defaultIncludes.contains(modelFilename)) {
-        	return modelFilename;
-        }
+		checkRequiredBodyPropsNotNull = processBooleanOpt(CHECK_REQUIRED_PARAMS_NOT_NULL, checkRequiredBodyPropsNotNull);
+		checkSuperfluousBodyProps = processBooleanOpt(CHECK_SUPERFLUOUS_BODY_PROPS, checkSuperfluousBodyProps);
+		generateDefaultApiExecuter = processBooleanOpt(GENERATE_DEFAULT_API_EXECUTER, generateDefaultApiExecuter);
+
+		if (additionalProperties.get(API_PACKAGE) instanceof String) {
+			apiPackage = additionalProperties.get(API_PACKAGE).toString();
+		} else {
+			additionalProperties.put(API_PACKAGE, apiPackage);
+		}
+
+		if (additionalProperties.get(MODEL_PACKAGE) instanceof String) {
+			modelPackage = additionalProperties.get(MODEL_PACKAGE).toString();
+		} else {
+			additionalProperties.put(MODEL_PACKAGE, modelPackage);
+		}
+
+		if (additionalProperties.get(API_NAME_PREFIX) instanceof String) {
+			apiNamePrefix = additionalProperties.get(API_NAME_PREFIX).toString();
+		} else {
+			additionalProperties.put(API_NAME_PREFIX, apiNamePrefix);
+		}
+	}
+
+	private boolean processBooleanOpt(String OPT, boolean defaultValue) {
+		boolean passedValue = defaultValue;
+		if (additionalProperties.containsKey(OPT)) {
+			try {
+				passedValue = Boolean.parseBoolean(additionalProperties.get(OPT).toString());
+			} catch (Exception e) {
+				// ignore
+			}
+		}
+		additionalProperties.put(OPT, passedValue);
+		return defaultValue;
+	}
+
+	@Override
+	public String toModelFilename(String name) {
+		String modelFilename = super.toModelFilename(name);
+		if (typeMapping.containsKey(modelFilename) || defaultIncludes.contains(modelFilename)) {
+			return modelFilename;
+		}
 		return modelFilename;
-    }
+	}
 
-    public boolean checkRequiredBodyPropsNotNull() {
-    	return checkRequiredBodyPropsNotNull;
-    }
-    
-    public boolean checkSuperfluousBodyProps() {
-    	return checkSuperfluousBodyProps;
-    }
-    
-    public boolean generateDefaultApiExecuter() {
-    	return generateDefaultApiExecuter;
-    }
+	public boolean checkRequiredBodyPropsNotNull() {
+		return checkRequiredBodyPropsNotNull;
+	}
 
-    @Override
-    public boolean getUseInlineModelResolver() { return false; }
-    
+	public boolean checkSuperfluousBodyProps() {
+		return checkSuperfluousBodyProps;
+	}
+
+	public boolean generateDefaultApiExecuter() {
+		return generateDefaultApiExecuter;
+	}
+
+	@Override
+	public boolean getUseInlineModelResolver() {
+		return false;
+	}
+
 	@Override
 	public void setOpenAPI(OpenAPI openAPI) {
 		super.setOpenAPI(openAPI);
@@ -262,26 +268,26 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 				.filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
 				: schemas;
 
-		return filteredSchemas.stream().map(schema -> getTypeDeclaration(schema))
-				.distinct().collect(Collectors.toList());
+		return filteredSchemas.stream().map(schema -> getTypeDeclaration(schema)).distinct()
+				.collect(Collectors.toList());
 	}
 
 	@Override
-    protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
-        Set<String> imports = type.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet());
-        Set<String> mappedImports = new HashSet<>();
-        for (String imp : imports) {
-    		String mappedImp = imp;
-    		if (typeMapping.containsKey(imp)) {
-    			mappedImp = typeMapping.get(imp);
-    		} else {
-    			mappedImp = imp;
-    		}
-    		mappedImports.add(mappedImp);
-        }
+	protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
+		Set<String> imports = type.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet());
+		Set<String> mappedImports = new HashSet<>();
+		for (String imp : imports) {
+			String mappedImp = imp;
+			if (typeMapping.containsKey(imp)) {
+				mappedImp = typeMapping.get(imp);
+			} else {
+				mappedImp = imp;
+			}
+			mappedImports.add(mappedImp);
+		}
 		addImports(importsToBeAddedTo, mappedImports);
-    }
-    
+	}
+
 	@Override
 	protected void addImport(Set<String> importsToBeAddedTo, String type) {
 		String[] parts = splitComposedType(type);
@@ -315,8 +321,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		if (model.getIsAnyType()) {
 			return; // disable (unused) imports created for properties of type aliases
 		}
-		super.addImportsForPropertyType(model, property); 
-    }
+		super.addImportsForPropertyType(model, property);
+	}
 
 	@Override
 	public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
@@ -345,7 +351,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 	@Override
 	public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
 		OperationMap objs = operations.getOperations();
-		
+
 		boolean needImportCleanCopyBody = false;
 
 		// The api.mustache template requires all of the auth methods for the whole api
@@ -404,7 +410,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 		return operations;
 	}
-	
+
 	private String convertToModelName(String modelName) {
 		if (modelName == null) {
 			return modelName;
@@ -422,7 +428,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 	private void adjustDescriptionWithNewLines(Map<String, Object> map) {
 		if (map.containsKey("appDescriptionWithNewLines")
 				&& !map.get("appDescriptionWithNewLines").toString().contains("\n * ")) {
-			
+
 			String appDescriptionWithNewLines = map.get("appDescriptionWithNewLines").toString();
 			appDescriptionWithNewLines = appDescriptionWithNewLines.trim().replace("\n", "\n * ");
 			map.put("appDescriptionWithNewLines", appDescriptionWithNewLines);
@@ -496,13 +502,14 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 			}
 		} else if (ModelUtils.isFileSchema(p)) {
 			return "File";
-		} else if (ModelUtils.isObjectSchema(p) || ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
+		} else if (ModelUtils.isObjectSchema(p)
+				|| ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
 			String result = super.getTypeDeclaration(p);
 			return toModelFilename(result);
 		} else if (ModelUtils.isBinarySchema(p)) {
 			return "ArrayBuffer";
 		}
-		
+
 		return super.getTypeDeclaration(p);
 	}
 
@@ -523,7 +530,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 			if (p.getEnum() != null) {
 				return enumValuesToEnumTypeUnion(p.getEnum(), "string");
 			}
-		} else if (ModelUtils.isObjectSchema(p) || ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
+		} else if (ModelUtils.isObjectSchema(p)
+				|| ModelUtils.isObjectSchema(ModelUtils.getReferencedSchema(openAPI, p))) {
 			String result = super.getTypeDeclaration(p);
 			return toModelFilename(result);
 		} else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p)) {
@@ -536,18 +544,18 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 	}
 
 	@Override
-    protected String getSingleSchemaType(@SuppressWarnings("rawtypes") Schema schema) {
-        Schema<?> unaliasSchema = unaliasSchema(schema);
-        if (StringUtils.isNotBlank(unaliasSchema.get$ref())) {
-            String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
-            if (StringUtils.isNotEmpty(schemaName)) {
-                if (schemaMapping.containsKey(schemaName)) {
-                    return schemaName;
-                }
-            }
-        }
-        return super.getSingleSchemaType(unaliasSchema);
-    }
+	protected String getSingleSchemaType(@SuppressWarnings("rawtypes") Schema schema) {
+		Schema<?> unaliasSchema = unaliasSchema(schema);
+		if (StringUtils.isNotBlank(unaliasSchema.get$ref())) {
+			String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
+			if (StringUtils.isNotEmpty(schemaName)) {
+				if (schemaMapping.containsKey(schemaName)) {
+					return schemaName;
+				}
+			}
+		}
+		return super.getSingleSchemaType(unaliasSchema);
+	}
 
 	/**
 	 * Converts a list of strings to a literal union for representing enum values as
@@ -645,14 +653,14 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		return name2;
 	}
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ', " to avoid code injection
-        return input.replace("\"", "").replace("'", "");
-    }
+	@Override
+	public String escapeQuotationMark(String input) {
+		// remove ', " to avoid code injection
+		return input.replace("\"", "").replace("'", "");
+	}
 
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
+	@Override
+	public String escapeUnsafeCharacters(String input) {
+		return input.replace("*/", "*_/").replace("/*", "/_*");
+	}
 }
