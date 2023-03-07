@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import okio.ByteString;
@@ -573,5 +574,31 @@ public class JSONTest {
         t.setName("just a tag");
         z.putAdditionalProperty("new_object", t);
         assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
+    }
+
+    @Test
+    public void testGsonObjectToNumberStrategyWithLongValue() {
+        long expectedValue = 7076632681529943151L;
+        String key = "key";
+        String object = "{" + key + "=" + expectedValue + "}";
+
+        Object actual = json.deserialize(object, Object.class);
+        Map<String, Long> keyToValue = (Map<String, Long>)actual;
+
+        assertNotNull(keyToValue.get(key));
+        assertEquals(expectedValue, keyToValue.get(key));
+    }
+
+    @Test
+    public void testGsonObjectToNumberStrategyWithDoubleValue() {
+        double expectedValue = 7076632681.0;
+        String key = "key";
+        String object = "{" + key + "=" + expectedValue + "}";
+
+        Object actual = json.deserialize(object, Object.class);
+        Map<String, Double> keyToValue = (Map<String, Double>)actual;
+
+        assertNotNull(keyToValue.get(key));
+        assertEquals(expectedValue, keyToValue.get(key));
     }
 }

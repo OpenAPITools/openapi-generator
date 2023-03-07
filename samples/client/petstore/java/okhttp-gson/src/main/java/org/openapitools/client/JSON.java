@@ -16,6 +16,7 @@ package org.openapitools.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import com.google.gson.ToNumberPolicy;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
@@ -196,6 +197,7 @@ public class JSON {
           })
         ;
         GsonBuilder builder = fireBuilder.createGsonBuilder();
+        builder.setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE);
         return builder;
     }
 
