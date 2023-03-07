@@ -76,6 +76,11 @@ public class OpenAPINormalizer {
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
 
+    // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
+    // by adding x-unsigned to the schema
+    final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
+    boolean addUnsignedToIntegerWithInvalidMaxValue;
+
     // ============= end of rules =============
 
     /**
@@ -132,6 +137,9 @@ public class OpenAPINormalizer {
             setTagsForAllOperations = rules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         }
 
+        if (enableAll || "true".equalsIgnoreCase(rules.get(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE))) {
+            addUnsignedToIntegerWithInvalidMaxValue = true;
+        }
     }
 
     /**
@@ -367,6 +375,8 @@ public class OpenAPINormalizer {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
+        } else if (schema instanceof IntegerSchema) {
+            normalizeIntegerSchema(schema, visitedSchemas);
         } else if (schema instanceof Schema) {
             normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
@@ -378,6 +388,10 @@ public class OpenAPINormalizer {
 
     private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
         processSimplifyBooleanEnum(schema);
+    }
+
+    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+        processAddUnsignedToIntegerWithInvalidMaxValue(schema);
     }
 
     private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
@@ -671,6 +685,37 @@ public class OpenAPINormalizer {
             BooleanSchema bs = (BooleanSchema) schema;
             if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
                 bs.setEnum(null);
+            }
+        }
+    }
+
+    /**
+     * If the schema is integer and the max value is invalid (out of bound)
+     * then add x-unsigned to use unsigned integer/long instead.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
+        if (!addUnsignedToIntegerWithInvalidMaxValue && !enableAll) {
+            return;
+        }
+
+        LOGGER.info("processAddUnsignedToIntegerWithInvalidMaxValue");
+        if (schema instanceof IntegerSchema) {
+            if (ModelUtils.isLongSchema(schema)) {
+                if ("18446744073709551615".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                    LOGGER.info("fix long");
+                }
+            } else {
+                if ("4294967295".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                    LOGGER.info("fix integer");
+
+                }
             }
         }
     }

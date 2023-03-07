@@ -4496,4 +4496,30 @@ public class DefaultCodegenTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "core");
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().get(0), "core");
     }
+
+    @Test
+    public void testAddUnsignedToIntegerWithInvalidMaxValue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml");
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        assertNull(((Schema)person.getProperties().get("integer")).getExtensions());
+        assertNull(((Schema)person.getProperties().get("int32")).getExtensions());
+        assertNull(((Schema)person.getProperties().get("int64")).getExtensions());
+        assertNull(((Schema)person.getProperties().get("integer_max")).getExtensions());
+        assertNull(((Schema)person.getProperties().get("int32_max")).getExtensions());
+        assertNull(((Schema)person.getProperties().get("int64_max")).getExtensions());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema person2 = openAPI.getComponents().getSchemas().get("Person");
+        assertNull(((Schema)person2.getProperties().get("integer")).getExtensions());
+        assertNull(((Schema)person2.getProperties().get("int32")).getExtensions());
+        assertNull(((Schema)person2.getProperties().get("int64")).getExtensions());
+        assertTrue((Boolean)((Schema)person2.getProperties().get("integer_max")).getExtensions().get("x-unsigned"));
+        assertTrue((Boolean)((Schema)person2.getProperties().get("int32_max")).getExtensions().get("x-unsigned"));
+        assertTrue((Boolean)((Schema)person2.getProperties().get("int64_max")).getExtensions().get("x-unsigned"));
+    }
 }
