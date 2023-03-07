@@ -1111,8 +1111,8 @@ public class InlineModelResolverTest {
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("Order_allOf_inline_oneof");
-        assertEquals(((Schema)schema.getOneOf().get(0)).get$ref(), "#/components/schemas/Tag");
-        assertEquals(((Schema)schema.getOneOf().get(1)).get$ref(), "#/components/schemas/Filter");
+        assertEquals(((Schema) schema.getOneOf().get(0)).get$ref(), "#/components/schemas/Tag");
+        assertEquals(((Schema) schema.getOneOf().get(1)).get$ref(), "#/components/schemas/Filter");
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("Order_allOf_inline_model");
         assertTrue(schema2.getProperties().get("something") instanceof StringSchema);
@@ -1125,7 +1125,7 @@ public class InlineModelResolverTest {
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("SomeData_anyOf");
-        assertTrue((Schema)schema.getAnyOf().get(0) instanceof StringSchema);
-        assertTrue((Schema)schema.getAnyOf().get(1) instanceof IntegerSchema);
+        assertTrue((Schema) schema.getAnyOf().get(0) instanceof StringSchema);
+        assertTrue((Schema) schema.getAnyOf().get(1) instanceof IntegerSchema);
     }
 }
