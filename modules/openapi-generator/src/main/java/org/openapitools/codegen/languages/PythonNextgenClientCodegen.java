@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -208,6 +209,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         super.processOpts();
 
+        // map to Dot instead of Period
+        specialCharReplacements.put(".", "Dot");
+
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
@@ -317,6 +321,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
@@ -1129,15 +1134,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 modelImports.add(model.parent);
             }
 
-            // set enum type in extensions
+            // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.put("x-py-enum-type", "str");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
+                        // update `name`, e.g.
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
-                        model.vendorExtensions.put("x-py-enum-type", "int");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
                     }
-                    break;
                 }
             }
 
@@ -1321,38 +1328,50 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            return name;
+        } else {
+            return "\'" + name + "\'";
+        }
+    }
+
+    public String toEnumVariableName(String name, String datatype) {
+        if ("int".equals(datatype)) {
+            return "NUMBER_" + name;
+        }
+
+        // remove quote e.g. 'abc' => abc
+        name = name.substring(1, name.length() - 1);
+
         if (name.length() == 0) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
-            return "SPACE_" + name.length();
+        if (" ".equals(name)) {
+            return "SPACE";
         }
 
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        if ("_".equals(name)) {
+            return "UNDERSCORE";
         }
 
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return "NUMBER_" + varName;
-        }
-
-        // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
+        if (reservedWords.contains(name)) {
+            name = name.toUpperCase(Locale.ROOT);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
         } else {
-            return enumName;
+            name = name.toUpperCase(Locale.ROOT);
         }
+
+        name = name.replace(" ", "_");
+        name = name.replaceFirst("^_", "");
+        name = name.replaceFirst("_$", "");
+
+        if (name.matches("\\d.*")) {
+            name = "ENUM_" + name.toUpperCase(Locale.ROOT);
+        }
+
+        return name;
     }
 
     @Override
@@ -1366,7 +1385,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return "self::" + datatype + "_" + value;
+        return value;
     }
 
     /**
@@ -1404,5 +1423,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 }

@@ -1213,6 +1213,135 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /versioning/headers:
+    post:
+      operationId: versioningHeaders
+      parameters:
+      - in: header
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - in: header
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - description: ID of pet to update
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/query-params:
+    post:
+      operationId: versioningQueryParams
+      parameters:
+      - in: query
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - in: query
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - description: ID of pet to update
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/mix:
+    post:
+      operationId: versioningMix
+      parameters:
+      - in: query
+        name: VersionWithDefaultValueQuery
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - in: query
+        name: VersionNoDefaultValueQuery
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - in: header
+        name: VersionWithDefaultValueHeader
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - in: header
+        name: VersionNoDefaultValueHeader
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        x-version-param: true
+      - description: ID of pet to update
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
 components:
   schemas:
     Order:

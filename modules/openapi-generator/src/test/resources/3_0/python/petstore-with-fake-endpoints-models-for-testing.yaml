@@ -1630,6 +1630,14 @@ components:
             - UPPER
             - lower
             - ''
+        enum_integer_default:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 5
+            - 14
+          default: 5
         enum_integer:
           type: integer
           format: int32
@@ -1828,6 +1836,19 @@ components:
       - 1
       - 2
       default: 0
+    SpecialCharacterEnum:
+      type: string
+      enum:
+      - "456"
+      - "123abc"
+      - "_"
+      - " "
+      - "&"
+      - "$"
+      - ">="
+      - "this_is_!"
+      - "import" # reserved word
+      - " hello world "
     OuterComposite:
       type: object
       properties:
