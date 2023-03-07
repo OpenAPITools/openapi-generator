@@ -56,6 +56,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         // at the moment
         importMapping.clear();
 
+        reservedWords.add("options");
+
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
 

@@ -224,7 +224,7 @@ public class InlineModelResolver {
             }
 
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                // check to ensure at least of the allOf item is model
+                // check to ensure at least one of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
                     if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner), visitedSchemas)) {
                         return true;
@@ -385,6 +385,7 @@ public class InlineModelResolver {
                     }
                 }
                 m.setAnyOf(newAnyOf);
+
             }
             if (m.getOneOf() != null) {
                 List<Schema> newOneOf = new ArrayList<Schema>();
@@ -541,15 +542,15 @@ public class InlineModelResolver {
      * allOf:
      * - $ref: '#/components/schemas/Animal'
      * - type: object
-     * properties:
-     * name:
-     * type: string
-     * age:
-     * type: string
+     *   properties:
+     *     name:
+     *       type: string
+     *     age:
+     *       type: string
      * - type: object
-     * properties:
-     * breed:
-     * type: string
+     *   properties:
+     *     breed:
+     *       type: string
      *
      * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
@@ -577,6 +578,8 @@ public class InlineModelResolver {
                 // instead of inline.
                 String innerModelName = resolveModelName(component.getTitle(), key);
                 Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
+                // Recurse to create $refs for inner models
+                gatherInlineModels(innerModel, innerModelName);
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
                     innerModelName = addSchemas(innerModelName, innerModel);
@@ -604,13 +607,17 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (ModelUtils.isComposedSchema(model)) {
+            if (ModelUtils.isAnyOf(model)) { // contains anyOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isOneOf(model)) { // contains oneOf only
+                gatherInlineModels(model, modelName);
+            } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
                 flattenComposedChildren(modelName + "_allOf", m.getAllOf());
                 flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
                 flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
-            } else if (model instanceof Schema) {
+            } else {
                 gatherInlineModels(model, modelName);
             }
         }

@@ -873,7 +873,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["status"] = Uri.EscapeDataString(status.ToString()!);
+                    parseQueryString["status"] = status.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
@@ -1046,7 +1046,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["tags"] = Uri.EscapeDataString(tags.ToString()!);
+                    parseQueryString["tags"] = tags.ToString();
                     
                     uriBuilder.Query = parseQueryString.ToString();
 

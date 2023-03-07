@@ -82,6 +82,23 @@ public class Pet {
   @JsonProperty("status")
   private StatusEnum status;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String, List<String>)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   public Pet id(Long id) {
     this.id = id;
     return this;
