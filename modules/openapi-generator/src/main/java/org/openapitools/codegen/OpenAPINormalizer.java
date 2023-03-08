@@ -65,6 +65,7 @@ public class OpenAPINormalizer {
 
     // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
     // and if sub-schema contains "null", remove it and set nullable to true instead
+    // and if sub-schema contains enum of "null", remove it and set nullable to true instead
     final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
     boolean simplifyOneOfAnyOf;
 
@@ -649,11 +650,22 @@ public class OpenAPINormalizer {
         }
 
         if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
-            // convert null sub-schema to `nullable: true`
             for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                // convert null sub-schema to `nullable: true`
                 if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
                     schema.getAnyOf().remove(i);
                     schema.setNullable(true);
+                    continue;
+                }
+
+                // convert enum of null only to `nullable:true`
+                Schema anyOfElement = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAnyOf().get(i));
+                if (anyOfElement.getEnum() != null && anyOfElement.getEnum().size() == 1) {
+                    if ("null".equals(String.valueOf(anyOfElement.getEnum().get(0)))) {
+                        schema.setNullable(true);
+                        schema.getAnyOf().remove(i);
+                        continue;
+                    }
                 }
             }
 

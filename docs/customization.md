@@ -485,7 +485,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyBooleanEnum_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_BOOLEAN_ENUM=true
 ```
 
-- `SIMPLIFY_ONEOF_ANYOF`: when set to `true`, simplify oneOf/anyOf by 1) removing null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf with a single sub-schema to just the sub-schema itself.
+- `SIMPLIFY_ONEOF_ANYOF`: when set to `true`, simplify oneOf/anyOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf with a single sub-schema to just the sub-schema itself.
 
 Example:
 ```
