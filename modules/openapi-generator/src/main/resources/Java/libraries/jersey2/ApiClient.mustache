@@ -105,15 +105,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                           new SimpleEntry<>("{{{name}}}", new ServerVariable(
                                   "{{{description}}}{{^description}}No description provided{{/description}}",
                                   "{{{defaultValue}}}",
-                                  {{#enumValues}}
-                                  {{#-first}}
-                                  new LinkedHashSet<>(Arrays.asList(
-                                  {{/-first}}
-                                          "{{{.}}}"{{^-last}},{{/-last}}
-                                  {{#-last}}
-                                  ))
-                                  {{/-last}}
-                                  {{/enumValues}}
+                                  new LinkedHashSet<>({{#enumValues}}{{#-first}}Arrays.asList({{/-first}}
+                                          "{{{.}}}"{{^-last}},{{/-last}}{{#-last}}
+                                  ){{/-last}}{{/enumValues}})
                           )){{^-last}},{{/-last}}
                   {{#-last}}
                   ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
@@ -153,18 +147,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                             new SimpleEntry<>("{{{name}}}", new ServerVariable(
                                     "{{{description}}}{{^description}}No description provided{{/description}}",
                                     "{{{defaultValue}}}",
-                                    {{#enumValues}}
-                                    {{#-first}}
-                                    new LinkedHashSet<>(Arrays.asList(
-                                    {{/-first}}
-                                            "{{{.}}}"{{^-last}},{{/-last}}
-                                    {{#-last}}
-                                    ))
-                                    {{/-last}}
-                                    {{/enumValues}}
+                                    new LinkedHashSet<>({{#enumValues}}{{#-first}}Arrays.asList({{/-first}}
+                                            "{{{.}}}"{{^-last}},{{/-last}}{{#-last}}
+                                    ){{/-last}}{{/enumValues}})
                             )){{^-last}},{{/-last}}
                     {{#-last}}
-                    collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
+                    ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
                     {{/-last}}
                     {{/variables}}
             ){{^-last}},{{/-last}}
