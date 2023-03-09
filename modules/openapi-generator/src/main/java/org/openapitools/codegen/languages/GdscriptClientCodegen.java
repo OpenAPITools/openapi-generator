@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -342,6 +343,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
+            if (schema instanceof StringSchema) {
+                return "\"" + schema.getDefault().toString() + "\"" ;
+            }
             return schema.getDefault().toString();
         }
 
