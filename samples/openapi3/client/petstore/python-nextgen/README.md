@@ -40,6 +40,10 @@ Then import the package:
 import petstore_api
 ```
 
+### Tests
+
+Execute `pytest` to run the tests.
+
 ## Getting Started
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
@@ -180,6 +184,7 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)
  - [SingleRefType](docs/SingleRefType.md)
+ - [SpecialCharacterEnum](docs/SpecialCharacterEnum.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
