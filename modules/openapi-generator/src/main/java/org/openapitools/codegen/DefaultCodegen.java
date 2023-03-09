@@ -3779,6 +3779,18 @@ public class DefaultCodegen implements CodegenConfig {
             return cpc;
         }
 
+        Schema original = null;
+        // check if it's allOf (only 1 sub schema) with default/nullable/etc set in the top level
+        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1 &&  ModelUtils.hasCommonAttributesDefined(p) ) {
+            if (p.getAllOf().get(0) instanceof Schema) {
+                original = p;
+                p = (Schema) p.getAllOf().get(0);
+            } else {
+                LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
+            }
+
+        }
+
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         if (p.equals(trueSchema)) {
             property.setIsBooleanSchemaTrue(true);
@@ -3892,8 +3904,12 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // set isNullable using nullable or x-nullable in the schema
         if (referencedSchema.getNullable() != null) {
             property.isNullable = referencedSchema.getNullable();
+        } else if (referencedSchema.getExtensions() != null &&
+                referencedSchema.getExtensions().containsKey("x-nullable")) {
+            property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -3966,6 +3982,25 @@ public class DefaultCodegen implements CodegenConfig {
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
+        }
+
+        // restore original schema with default value, nullable, readonly etc
+        if (original != null) {
+            p = original;
+            // evaluate common attributes defined in the top level
+            if (p.getNullable() != null) {
+                property.isNullable = p.getNullable();
+            } else if (p.getExtensions() != null && p.getExtensions().containsKey("x-nullable")) {
+                property.isNullable = (Boolean) p.getExtensions().get("x-nullable");
+            }
+
+            if (p.getReadOnly() != null) {
+                property.isReadOnly = p.getReadOnly();
+            }
+
+            if (p.getWriteOnly() != null) {
+                property.isWriteOnly = p.getWriteOnly();
+            }
         }
 
         // set the default value

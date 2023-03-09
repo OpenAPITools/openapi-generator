@@ -410,7 +410,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
+        // Use `/` instead of `File.Separator`. `File.Separator` is `\` in Windows, which is invalid Typescript.
+        return "../" + modelPackage() + "/" + toModelName(name);
     }
 
     protected String addPrefix(String name, String prefix) {

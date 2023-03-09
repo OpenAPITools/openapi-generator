@@ -21,18 +21,12 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
+import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -653,6 +647,63 @@ public class SpringCodegenTest {
                 "value", "{ @Parameter(name = \"testHeader\", description = \"Test header\", required = true, in = ParameterIn.HEADER) }"
                 // in = ParameterIn.HEADER is missing?!
             ));
+    }
+
+    @Test
+    public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue14723() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_14723.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ResponseTest.java"))
+              .isNormalClass()
+              .hasImports("javax.validation.Valid")
+              .hasProperty("details")
+              .withType( "Map<String, Object>" )
+              .toType()
+              .hasProperty("response")
+              .withType( "JsonNullable<Set<ResponseTest2>>" )
+              .toType()
+              .hasProperty("nullableDtos")
+              .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )
+              .toType()
+              .hasProperty("dtos")
+              .withType( "Set<@Valid ResponseTest2>" )
+              .toType()
+              .hasProperty("listNullableDtos")
+              .withType( "JsonNullable<List<@Valid ResponseTest2>>" )
+              .toType()
+              .hasProperty("listDtos")
+              .withType( "List<@Valid ResponseTest2>" )
+              .toType()
+              .hasProperty("nullableStrings")
+              .withType( "JsonNullable<Set<String>>" )
+              .toType()
+              .hasProperty("strings")
+              .withType( "Set<String>" )
+              .toType()
+              .hasProperty("nullableInts")
+              .withType( "JsonNullable<Set<Integer>>" )
+              .toType()
+              .hasProperty("ints")
+              .withType( "Set<Integer>" );
     }
 
     // Helper function, intended to reduce boilerplate
@@ -1985,6 +2036,25 @@ public class SpringCodegenTest {
         final String interfaceTag = "@Tag(name = " + expectedTagName + ", description = " + expectedTagDescription + ")";
         final String methodTag = "tags = { " + expectedTagName + " }";
         assertFileContains(output.get("PersonApi.java").toPath(), interfaceTag, methodTag);
+    }
+
+    @Test
+    public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor("String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3").toConstructor()
+                .hasParameter("param6").toConstructor()
+                .bodyContainsLines("super(param2, param3)", "this.param6 = param6");
     }
 
     private Map<String, File> generateFromContract(String url, String library) throws IOException {

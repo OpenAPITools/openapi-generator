@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **array_integer_default** | **List[int]** |  | [optional] [default to [1,3]]
 **array_string** | **List[str]** |  | [optional] 
 **array_string_nullable** | **List[str]** |  | [optional] 
+**array_string_extension_nullable** | **List[str]** |  | [optional] 
 **string_nullable** | **str** |  | [optional] 
 
 ## Example
