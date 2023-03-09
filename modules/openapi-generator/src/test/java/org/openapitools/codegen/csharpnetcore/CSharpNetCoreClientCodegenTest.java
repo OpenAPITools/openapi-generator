@@ -47,7 +47,7 @@ public class CSharpNetCoreClientCodegenTest {
     @Test
     public void testUnsigned() {
         // test unsigned integer/long
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
         CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");
