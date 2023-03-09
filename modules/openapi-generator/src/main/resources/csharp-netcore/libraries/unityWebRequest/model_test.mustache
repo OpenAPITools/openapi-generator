@@ -48,20 +48,6 @@ namespace {{packageName}}.Test.Model
             //Assert.IsType<{{classname}}>(instance);
         }
 
-        {{#discriminator}}
-        {{#children}}
-        /// <summary>
-        /// Test deserialize a {{classname}} from type {{parent}}
-        /// </summary>
-        [Test]
-        public void {{classname}}DeserializeFrom{{parent}}Test()
-        {
-            // TODO uncomment below to test deserialize a {{classname}} from type {{parent}}
-            //Assert.IsType<{{parent}}>(JsonConvert.DeserializeObject<{{parent}}>(new {{classname}}().ToJson()));
-        }
-        {{/children}}
-        {{/discriminator}}
-
         {{#vars}}
         /// <summary>
         /// Test the property '{{name}}'
