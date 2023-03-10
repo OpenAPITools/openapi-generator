@@ -342,6 +342,12 @@ public class OpenAPINormalizer {
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+        } else if (ModelUtils.isOneOf(schema)) { // oneOf
+            return normalizeOneOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAnyOf(schema)) { // anyOf
+            return normalizeAnyOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAllOf(schema)) { // allOf
+            return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
 
@@ -370,8 +376,6 @@ public class OpenAPINormalizer {
             }
 
             return cs;
-        } else if (schema.getNot() != null) {// not schema
-            normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
@@ -461,6 +465,10 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+        // loop through properties, if any
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            normalizeProperties(schema.getProperties(), visitedSchemas);
+        }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
@@ -736,20 +744,16 @@ public class OpenAPINormalizer {
             return;
         }
 
-        LOGGER.info("processAddUnsignedToIntegerWithInvalidMaxValue");
         if (schema instanceof IntegerSchema) {
             if (ModelUtils.isLongSchema(schema)) {
                 if ("18446744073709551615".equals(String.valueOf(schema.getMaximum())) &&
                         "0".equals(String.valueOf(schema.getMinimum()))) {
                     schema.addExtension("x-unsigned", true);
-                    LOGGER.info("fix long");
                 }
             } else {
                 if ("4294967295".equals(String.valueOf(schema.getMaximum())) &&
                         "0".equals(String.valueOf(schema.getMinimum()))) {
                     schema.addExtension("x-unsigned", true);
-                    LOGGER.info("fix integer");
-
                 }
             }
         }
