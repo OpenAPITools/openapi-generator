@@ -153,8 +153,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
         typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
         typeMapping.put("decimal", "decimal");
@@ -1176,7 +1178,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if (datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("long") || datatype.startsWith("ulong") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
