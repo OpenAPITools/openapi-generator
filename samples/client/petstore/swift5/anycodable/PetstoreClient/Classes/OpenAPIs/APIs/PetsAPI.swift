@@ -18,7 +18,7 @@ open class PetsAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func petsGet(apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: PrefixPetSuffix?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func petsGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: PrefixPetSuffix?, _ error: Error?) -> Void)) -> RequestTask {
         return petsGetWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -35,7 +35,7 @@ open class PetsAPI {
      */
     open class func petsGetWithRequestBuilder() -> RequestBuilder<PrefixPetSuffix> {
         let localVariablePath = "/pets"
-        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -46,7 +46,7 @@ open class PetsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PrefixPetSuffix>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PrefixPetSuffix>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
@@ -59,7 +59,7 @@ open class PetsAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func showPetById(petId: String, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func showPetById(petId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: AnyCodable?, _ error: Error?) -> Void)) -> RequestTask {
         return showPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -81,7 +81,7 @@ open class PetsAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -92,7 +92,7 @@ open class PetsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
