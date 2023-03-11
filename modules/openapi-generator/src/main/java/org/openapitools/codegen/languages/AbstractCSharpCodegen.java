@@ -70,6 +70,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageCompany = "OpenAPI";
     protected String packageCopyright = "No Copyright";
     protected String packageAuthors = "OpenAPI";
+    public static final String DATE_FORMAT = "dateFormat";
+    protected String dateFormat = "yyyy'-'MM'-'dd";
+    public static final String DATETIME_FORMAT = "dateTimeFormat";
+    protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
     protected String interfacePrefix = "I";
     protected String enumNameSuffix = "Enum";
@@ -331,6 +335,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setPackageProductName((String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_PRODUCTNAME, packageProductName);
+        }
+
+        // {{dateFormat}}
+        if (additionalProperties.containsKey(DATE_FORMAT)) {
+            setDateFormat((String) additionalProperties.get(DATE_FORMAT));
+        } else {
+            additionalProperties.put(DATE_FORMAT, this.dateFormat);
+        }
+
+        // {{dateTimeFormat}}
+        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
+            setDateTimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else {
+            additionalProperties.put(DATETIME_FORMAT, this.dateTimeFormat);
         }
 
         // {{packageDescription}}
@@ -1267,6 +1285,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setPackageProductName(String packageProductName) {
         this.packageProductName = packageProductName;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public void setDateTimeFormat(String dateTimeFormat) {
+        this.dateTimeFormat = dateTimeFormat;
     }
 
     public void setPackageDescription(String packageDescription) {
