@@ -1975,8 +1975,7 @@ public class ModelUtils {
      */
     public static boolean hasCommonAttributesDefined(Schema schema) {
         if (schema.getNullable() != null || schema.getDefault() != null ||
-                schema.getMinimum() != null || schema.getMinimum() != null ||
-                schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null ||
+        schema.getMinimum() != null || schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null ||
                 schema.getMinLength() != null || schema.getMaxLength() != null ||
                 schema.getMinItems() != null || schema.getMaxItems() != null ||
                 schema.getReadOnly() != null || schema.getWriteOnly() != null) {
