@@ -27,7 +27,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 {{>generatedAnnotation}}
-@Component("{{package}}.{{classname}}")
 {{#operations}}
 public class {{classname}} {
     private ApiClient apiClient;
@@ -36,7 +35,6 @@ public class {{classname}} {
         this(new ApiClient());
     }
 
-    @Autowired
     public {{classname}}(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

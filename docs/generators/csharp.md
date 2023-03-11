@@ -93,6 +93,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>long</li>
 <li>long?</li>
 <li>string</li>
+<li>uint</li>
+<li>uint?</li>
+<li>ulong</li>
+<li>ulong?</li>
 </ul>
 
 ## RESERVED WORDS
