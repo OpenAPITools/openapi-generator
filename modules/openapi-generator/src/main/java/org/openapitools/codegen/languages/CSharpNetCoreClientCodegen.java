@@ -220,11 +220,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 this.packageTags);
 
         addOption(DATE_FORMAT,
-                "The default DateTime format.",
+                "The default Date format (only `generichost` library supports this option).",
                 this.dateFormat);
 
         addOption(DATETIME_FORMAT,
-                "The default DateTime format.",
+                "The default DateTime format (only `generichost` library supports this option).",
                 this.dateTimeFormat);
 
         CliOption framework = new CliOption(
