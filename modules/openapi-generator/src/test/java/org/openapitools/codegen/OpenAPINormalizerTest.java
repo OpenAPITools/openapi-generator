@@ -194,6 +194,29 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyBooleanEnumWithComposedSchema() {
+        // to test the rule SIMPLIFY_BOOLEAN_ENUM
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyBooleanEnum_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ComposedSchemaBooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertEquals(bs.getEnum().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_BOOLEAN_ENUM", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("ComposedSchemaBooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs2 = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertNull(bs2.getEnum()); //ensure the enum has been erased
+    }
+
+    @Test
     public void testOpenAPINormalizerSetTagsInAllOperations() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
