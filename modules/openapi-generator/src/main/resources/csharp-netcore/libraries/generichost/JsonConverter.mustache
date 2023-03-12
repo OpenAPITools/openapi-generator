@@ -8,14 +8,14 @@
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public static string {{name}}Format { get; set; } = "{{{dateTimeFormat}}}";
 
         {{/isDateTime}}
         {{#isDate}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "yyyy-MM-dd";
+        public static string {{name}}Format { get; set; } = "{{{dateFormat}}}";
 
         {{/isDate}}
         {{/allVars}}

@@ -219,6 +219,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.PACKAGE_TAGS_DESC,
                 this.packageTags);
 
+        addOption(DATE_FORMAT,
+                "The default DateTime format.",
+                this.dateFormat);
+
+        addOption(DATETIME_FORMAT,
+                "The default DateTime format.",
+                this.dateTimeFormat);
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
