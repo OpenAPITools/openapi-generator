@@ -40,7 +40,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
+        /// <param name="unsignedLong">unsignedLong.</param>
         /// <param name="number">number (required).</param>
         /// <param name="_float">_float.</param>
         /// <param name="_double">_double.</param>
@@ -54,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -72,7 +74,9 @@ namespace Org.OpenAPITools.Model
             this.Password = password;
             this.Integer = integer;
             this.Int32 = int32;
+            this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
+            this.UnsignedLong = unsignedLong;
             this.Float = _float;
             this.Double = _double;
             this.Decimal = _decimal;
@@ -97,10 +101,22 @@ namespace Org.OpenAPITools.Model
         public int Int32 { get; set; }
 
         /// <summary>
+        /// Gets or Sets UnsignedInteger
+        /// </summary>
+        [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
+        public uint UnsignedInteger { get; set; }
+
+        /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
         public long Int64 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UnsignedLong
+        /// </summary>
+        [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
+        public ulong UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -196,7 +212,9 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
@@ -254,8 +272,16 @@ namespace Org.OpenAPITools.Model
                     this.Int32.Equals(input.Int32)
                 ) && 
                 (
+                    this.UnsignedInteger == input.UnsignedInteger ||
+                    this.UnsignedInteger.Equals(input.UnsignedInteger)
+                ) && 
+                (
                     this.Int64 == input.Int64 ||
                     this.Int64.Equals(input.Int64)
+                ) && 
+                (
+                    this.UnsignedLong == input.UnsignedLong ||
+                    this.UnsignedLong.Equals(input.UnsignedLong)
                 ) && 
                 (
                     this.Number == input.Number ||
@@ -331,7 +357,9 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
                 hashCode = (hashCode * 59) + this.Float.GetHashCode();
                 hashCode = (hashCode * 59) + this.Double.GetHashCode();
