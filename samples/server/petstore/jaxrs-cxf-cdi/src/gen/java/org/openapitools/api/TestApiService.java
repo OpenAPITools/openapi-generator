@@ -6,8 +6,6 @@ import org.openapitools.model.*;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
-import java.util.Map;
-import org.openapitools.model.Order;
 
 import java.util.List;
 
@@ -17,9 +15,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
-public interface StoreApiService {
-      public Response deleteOrder(String orderId, SecurityContext securityContext);
-      public Response getInventory(SecurityContext securityContext);
-      public Response getOrderById(Long orderId, SecurityContext securityContext);
-      public Response placeOrder(Order order, SecurityContext securityContext);
+public interface TestApiService {
+      public Response testUpload(java.io.InputStream body, SecurityContext securityContext);
 }
