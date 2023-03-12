@@ -194,6 +194,29 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyBooleanEnumWithComposedSchema() {
+        // to test the rule SIMPLIFY_BOOLEAN_ENUM
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyBooleanEnum_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ComposedSchemaBooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertEquals(bs.getEnum().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_BOOLEAN_ENUM", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("ComposedSchemaBooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs2 = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertNull(bs2.getEnum()); //ensure the enum has been erased
+    }
+
+    @Test
     public void testOpenAPINormalizerSetTagsInAllOperations() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
@@ -216,12 +239,12 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml");
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
-        assertNull(((Schema)person.getProperties().get("integer")).getExtensions());
-        assertNull(((Schema)person.getProperties().get("int32")).getExtensions());
-        assertNull(((Schema)person.getProperties().get("int64")).getExtensions());
-        assertNull(((Schema)person.getProperties().get("integer_max")).getExtensions());
-        assertNull(((Schema)person.getProperties().get("int32_max")).getExtensions());
-        assertNull(((Schema)person.getProperties().get("int64_max")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("integer")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("int32")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("int64")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("integer_max")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("int32_max")).getExtensions());
+        assertNull(((Schema) person.getProperties().get("int64_max")).getExtensions());
 
         Map<String, String> options = new HashMap<>();
         options.put("ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE", "true");
@@ -229,12 +252,12 @@ public class OpenAPINormalizerTest {
         openAPINormalizer.normalize();
 
         Schema person2 = openAPI.getComponents().getSchemas().get("Person");
-        assertNull(((Schema)person2.getProperties().get("integer")).getExtensions());
-        assertNull(((Schema)person2.getProperties().get("int32")).getExtensions());
-        assertNull(((Schema)person2.getProperties().get("int64")).getExtensions());
-        assertTrue((Boolean)((Schema)person2.getProperties().get("integer_max")).getExtensions().get("x-unsigned"));
-        assertTrue((Boolean)((Schema)person2.getProperties().get("int32_max")).getExtensions().get("x-unsigned"));
-        assertTrue((Boolean)((Schema)person2.getProperties().get("int64_max")).getExtensions().get("x-unsigned"));
+        assertNull(((Schema) person2.getProperties().get("integer")).getExtensions());
+        assertNull(((Schema) person2.getProperties().get("int32")).getExtensions());
+        assertNull(((Schema) person2.getProperties().get("int64")).getExtensions());
+        assertTrue((Boolean) ((Schema) person2.getProperties().get("integer_max")).getExtensions().get("x-unsigned"));
+        assertTrue((Boolean) ((Schema) person2.getProperties().get("int32_max")).getExtensions().get("x-unsigned"));
+        assertTrue((Boolean) ((Schema) person2.getProperties().get("int64_max")).getExtensions().get("x-unsigned"));
     }
 
     @Test
