@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
+        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 

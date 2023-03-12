@@ -121,6 +121,9 @@
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
@@ -134,6 +137,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -145,6 +151,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -157,6 +166,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -172,6 +184,9 @@
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
@@ -185,6 +200,9 @@
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
