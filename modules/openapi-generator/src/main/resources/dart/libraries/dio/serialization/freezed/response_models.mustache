@@ -1,0 +1,40 @@
+part of 'models.dart';
+
+{{#apiInfo}}{{#apis}}
+{{#operations}}
+    {{#operation}}
+        @freezed
+        class {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data with _${{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data {
+        const {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data._();
+        {{#responses}}
+            const factory {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.as{{code}}{{^returnType}}Void{{/returnType}}({
+                required {{{dataType}}}{{^dataType}}Object?{{/dataType}} responseData,
+            }) = {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}DataAs{{code}}{{^returnType}}Void{{/returnType}};
+        {{/responses}}
+            const factory {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.unknown({
+                int? statusCode,
+                required Object? responseData,
+            }) = {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}ResponseUnknown;
+
+            /// Converts the incoming response into the correct response code based freezed union case.
+            static {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data toUnionData(int? statusCode, Object? responseData) {
+
+                switch (statusCode) {
+                {{#responses}}
+                    case {{code}}:
+                        {{{dataType}}}{{^dataType}}Object?{{/dataType}} _responseData;
+                        {{>serialization/freezed/api/deserialize_union}}
+                        return {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.as{{code}}{{^returnType}}Void{{/returnType}}(
+                            responseData: _responseData
+                        );
+                {{/responses}}
+                    default:
+                        return {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.unknown(
+                            responseData: responseData,
+                        );
+                }
+            }
+        }
+    {{/operation}}
+{{/operations}}
+{{/apis}}{{/apiInfo}}

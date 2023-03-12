@@ -1,33 +1,38 @@
-{{#isResponseFile}}
-    _responseData = _response.data as {{{returnType}}};
-{{/isResponseFile}}
-{{^isResponseFile}}
-    {{#returnSimpleType}}
-        {{#returnTypeIsPrimitive}}
-            _responseData = _response.data as {{{returnType}}};
-        {{/returnTypeIsPrimitive}}
-        {{^returnTypeIsPrimitive}}
-            _responseData = {{{returnType}}}.fromJson(_response.data as Map<String,dynamic>);
-        {{/returnTypeIsPrimitive}}
-    {{/returnSimpleType}}
-    {{^returnSimpleType}}
-        {{#returnTypeIsPrimitive}}
-            _responseData = _response.data as {{{returnType}}};
-        {{/returnTypeIsPrimitive}}
-        {{^returnTypeIsPrimitive}}
-            {{#isArray}}
-                {{#uniqueItems}}
-                    final _responseDataAsSet = _response.data as List<dynamic>;
-                        _responseData = _responseDataAsSet.map<{{{returnBaseType}}}>((dynamic e)=> {{{returnBaseType}}}.fromJson(e as Map<String, dynamic>)).toSet();
-                {{/uniqueItems}}
-                {{^uniqueItems}}
-                        final _responseDataAsList = _response.data as List<dynamic>;
-                        _responseData = _responseDataAsList.map<{{{returnBaseType}}}>((dynamic e)=> {{{returnBaseType}}}.fromJson(e as Map<String, dynamic>)).toList();
-                {{/uniqueItems}}
-            {{/isArray}}
-            {{#isMap}}
-                    _responseData = _response.data as Map<String, {{{returnBaseType}}}>;
-            {{/isMap}}
-        {{/returnTypeIsPrimitive}}
-    {{/returnSimpleType}}
-{{/isResponseFile}}
+{{#freezedUnionResponse}}
+    _responseData = {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.toUnionData(_response.statusCode, _response.data,);
+{{/freezedUnionResponse}}
+{{^freezedUnionResponse}}
+    {{#isResponseFile}}
+        _responseData = _response.data as {{{returnType}}};
+    {{/isResponseFile}}
+    {{^isResponseFile}}
+        {{#returnSimpleType}}
+            {{#returnTypeIsPrimitive}}
+                _responseData = _response.data as {{{returnType}}};
+            {{/returnTypeIsPrimitive}}
+            {{^returnTypeIsPrimitive}}
+                _responseData = {{{returnType}}}.fromJson(_response.data as Map<String,dynamic>);
+            {{/returnTypeIsPrimitive}}
+        {{/returnSimpleType}}
+        {{^returnSimpleType}}
+            {{#returnTypeIsPrimitive}}
+                _responseData = _response.data as {{{returnType}}};
+            {{/returnTypeIsPrimitive}}
+            {{^returnTypeIsPrimitive}}
+                {{#isArray}}
+                    {{#uniqueItems}}
+                        final _responseDataAsSet = _response.data as List<dynamic>;
+                            _responseData = _responseDataAsSet.map<{{{returnBaseType}}}>((dynamic e)=> {{{returnBaseType}}}.fromJson(e as Map<String, dynamic>)).toSet();
+                    {{/uniqueItems}}
+                    {{^uniqueItems}}
+                            final _responseDataAsList = _response.data as List<dynamic>;
+                            _responseData = _responseDataAsList.map<{{{returnBaseType}}}>((dynamic e)=> {{{returnBaseType}}}.fromJson(e as Map<String, dynamic>)).toList();
+                    {{/uniqueItems}}
+                {{/isArray}}
+                {{#isMap}}
+                        _responseData = _response.data as Map<String, {{{returnBaseType}}}>;
+                {{/isMap}}
+            {{/returnTypeIsPrimitive}}
+        {{/returnSimpleType}}
+    {{/isResponseFile}}
+{{/freezedUnionResponse}}

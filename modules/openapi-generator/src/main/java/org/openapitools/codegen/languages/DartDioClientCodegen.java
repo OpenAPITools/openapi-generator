@@ -73,6 +73,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
 
     private static final String CLIENT_NAME = "clientName";
+    private static final String FREEZED_UNION_RESPONSE = "freezedUnionResponse";
 
     private String dateLibrary;
 
@@ -288,10 +289,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryFreezed(String srcFolder) {
+        if (!additionalProperties.containsKey(FREEZED_UNION_RESPONSE)) {
+            additionalProperties.put(FREEZED_UNION_RESPONSE, false);
+            LOGGER.debug("freezedUnionResponse not set, using default {}", false);
+        }
         supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
         supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", srcFolder + File.separator + modelPackage, "models.dart"));
         supportingFiles.add(new SupportingFile("serialization/freezed/primitive_union_types.mustache", srcFolder + File.separator + modelPackage, "primitive_union_types.dart"));
-
+        if(((boolean) additionalProperties.getOrDefault(FREEZED_UNION_RESPONSE, false))){            
+            supportingFiles.add(new SupportingFile("serialization/freezed/response_models.mustache", srcFolder + File.separator + modelPackage, "response_models.dart"));
+        }
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");

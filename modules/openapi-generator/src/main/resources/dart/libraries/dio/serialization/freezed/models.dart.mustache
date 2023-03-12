@@ -1,11 +1,15 @@
 //ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dio/dio.dart';
 import 'dart:convert';
 
 part 'models.freezed.dart';
 part 'models.g.dart';
 
 part 'primitive_union_types.dart';
+{{#freezedUnionResponse}}
+part 'response_models.dart';
+{{/freezedUnionResponse}}
 {{! Add part deifinition for all models}}
 {{#models}}{{#model}}part '{{classFilename}}.dart';{{/model}}{{/models}}
 
