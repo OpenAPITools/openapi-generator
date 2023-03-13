@@ -386,6 +386,28 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "test skip default interface")
+    public void skipDefaultInterface() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/skip-default-interface.yaml"))
+                    .config(codegen))
+                .generate();
+
+        assertFileNotContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
+                "return "
+        );
+    }
+
     @Test(description = "use Spring boot 3 & jakarta extension")
     public void useSpringBoot3() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
