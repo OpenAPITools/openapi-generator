@@ -1491,9 +1491,19 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        unsigned_integer:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+          x-unsigned: true
         int64:
           type: integer
           format: int64
+        unsigned_long:
+          type: integer
+          format: int64
+          x-unsigned: true
         number:
           maximum: 543.2
           minimum: 32.1

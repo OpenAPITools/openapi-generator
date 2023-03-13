@@ -6,7 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Integer** | **int** |  | [optional] 
 **Int32** | **int** |  | [optional] 
+**UnsignedInteger** | **uint** |  | [optional] 
 **Int64** | **long** |  | [optional] 
+**UnsignedLong** | **ulong** |  | [optional] 
 **Number** | **decimal** |  | 
 **Float** | **float** |  | [optional] 
 **Double** | **double** |  | [optional] 
