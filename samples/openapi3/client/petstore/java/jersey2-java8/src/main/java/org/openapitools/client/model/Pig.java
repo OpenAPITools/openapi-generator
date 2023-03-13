@@ -96,7 +96,7 @@ public class Pig extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             Pig newPig = new Pig();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("className");
             switch (discriminatorValue) {
                 case "BasquePig":
@@ -184,7 +184,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Pig() {
         super("oneOf", Boolean.FALSE);
@@ -203,7 +203,7 @@ public class Pig extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Pig putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -256,7 +256,7 @@ public class Pig extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("BasquePig", BasquePig.class);
         mappings.put("DanishPig", DanishPig.class);
         mappings.put("Pig", Pig.class);
@@ -278,12 +278,12 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
