@@ -14,6 +14,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+{{/fullJavaUtil}}
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -27,10 +31,6 @@ import io.swagger.annotations.*;
 {{/swagger1AnnotationLibrary}}
 
 import java.lang.reflect.Type;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-{{/fullJavaUtil}}
 {{#gson}}
 import {{invokerPackage}}.JSON;
 {{/gson}}
@@ -60,8 +60,8 @@ public class {{classname}} {
         return reqSpec;
     }
 
-    public List<Oper> getAllOperations() {
-        return Arrays.asList(
+    public {{javaUtilPrefix}}List<Oper> getAllOperations() {
+        return {{javaUtilPrefix}}Arrays.asList(
 {{#operations}}
 {{#operation}}
                 {{operationId}}(){{^-last}},{{/-last}}
