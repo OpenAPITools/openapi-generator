@@ -1,7 +1,7 @@
 <?php
 /**
  * StoreApi
- * PHP version 7.4
+ * PHP version 8.0
  *
  * @category Class
  * @package  OpenAPI\Client
