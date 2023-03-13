@@ -19,7 +19,7 @@ delete_order(Ctx, OrderId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
-    Path = [<<"/store/order/", OrderId, "">>],
+    Path = ["/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -40,7 +40,7 @@ get_inventory(Ctx, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/store/inventory">>],
+    Path = ["/store/inventory"],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -61,7 +61,7 @@ get_order_by_id(Ctx, OrderId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/store/order/", OrderId, "">>],
+    Path = ["/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -71,7 +71,6 @@ get_order_by_id(Ctx, OrderId, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Place an order for a pet
-%% 
 -spec place_order(ctx:ctx(), petstore_order:petstore_order()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 place_order(Ctx, PetstoreOrder) ->
     place_order(Ctx, PetstoreOrder, #{}).
@@ -82,7 +81,7 @@ place_order(Ctx, PetstoreOrder, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = [<<"/store/order">>],
+    Path = ["/store/order"],
     QS = [],
     Headers = [],
     Body1 = PetstoreOrder,

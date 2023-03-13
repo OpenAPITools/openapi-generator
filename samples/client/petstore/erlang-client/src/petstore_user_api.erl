@@ -23,7 +23,7 @@ create_user(Ctx, PetstoreUser, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = [<<"/user">>],
+    Path = ["/user"],
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
@@ -33,7 +33,6 @@ create_user(Ctx, PetstoreUser, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_array_input(ctx:ctx(), list()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_array_input(Ctx, PetstoreUserArray) ->
     create_users_with_array_input(Ctx, PetstoreUserArray, #{}).
@@ -44,7 +43,7 @@ create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = [<<"/user/createWithArray">>],
+    Path = ["/user/createWithArray"],
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
@@ -54,7 +53,6 @@ create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_list_input(ctx:ctx(), list()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_list_input(Ctx, PetstoreUserArray) ->
     create_users_with_list_input(Ctx, PetstoreUserArray, #{}).
@@ -65,7 +63,7 @@ create_users_with_list_input(Ctx, PetstoreUserArray, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = [<<"/user/createWithList">>],
+    Path = ["/user/createWithList"],
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
@@ -86,7 +84,7 @@ delete_user(Ctx, Username, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
-    Path = [<<"/user/", Username, "">>],
+    Path = ["/user/", Username, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -96,7 +94,6 @@ delete_user(Ctx, Username, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Get user by user name
-%% 
 -spec get_user_by_name(ctx:ctx(), binary()) -> {ok, petstore_user:petstore_user(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_user_by_name(Ctx, Username) ->
     get_user_by_name(Ctx, Username, #{}).
@@ -107,7 +104,7 @@ get_user_by_name(Ctx, Username, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/user/", Username, "">>],
+    Path = ["/user/", Username, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -117,7 +114,6 @@ get_user_by_name(Ctx, Username, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Logs user into the system
-%% 
 -spec login_user(ctx:ctx(), binary(), binary()) -> {ok, binary(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 login_user(Ctx, Username, Password) ->
     login_user(Ctx, Username, Password, #{}).
@@ -128,7 +124,7 @@ login_user(Ctx, Username, Password, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/user/login">>],
+    Path = ["/user/login"],
     QS = lists:flatten([{<<"username">>, Username}, {<<"password">>, Password}])++petstore_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
@@ -138,7 +134,6 @@ login_user(Ctx, Username, Password, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Logs out current logged in user session
-%% 
 -spec logout_user(ctx:ctx()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 logout_user(Ctx) ->
     logout_user(Ctx, #{}).
@@ -149,7 +144,7 @@ logout_user(Ctx, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/user/logout">>],
+    Path = ["/user/logout"],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -170,7 +165,7 @@ update_user(Ctx, Username, PetstoreUser, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = put,
-    Path = [<<"/user/", Username, "">>],
+    Path = ["/user/", Username, ""],
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
