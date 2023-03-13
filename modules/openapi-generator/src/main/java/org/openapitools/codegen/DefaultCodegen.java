@@ -6290,7 +6290,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (Boolean.TRUE.equals(property.isEmail) && Boolean.TRUE.equals(property.isString)) {
             parameter.isEmail = true;
-        } else if (Boolean.TRUE.equals(property.isPassword) && Boolean.TRUE.equals(property.isPassword)) {
+        } else if (Boolean.TRUE.equals(property.isPassword) && Boolean.TRUE.equals(property.isString)) {
             parameter.isPassword = true;
         } else if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
             parameter.isUuid = true;
