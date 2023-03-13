@@ -1125,6 +1125,17 @@ public class JavaModelTest {
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
         Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
+    
+    @Test(description = "convert string property with password format")
+    public void stringPropertyPasswordFormatTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema property = new StringSchema().format("password");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        
+        final CodegenProperty cp = codegen.fromProperty("somePropertyWithPasswordFormat", property);
+        Assert.assertEquals(cp.isPassword, true);
+    }
 
     @Test(description = "convert string property in an object")
     public void stringPropertyInObjectTest() {
