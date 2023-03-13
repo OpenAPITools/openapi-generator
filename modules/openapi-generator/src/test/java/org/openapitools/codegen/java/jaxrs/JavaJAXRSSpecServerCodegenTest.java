@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.assertj.core.condition.AllOf;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -753,5 +754,45 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "\nimport org.jboss.resteasy.annotations.GZIP\n",
                 "@GZIP\n"
         );
+    }
+
+    @Test
+    public void testHandleRequiredAndReadOnlyPropertiesCorrectly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/required-and-readonly-property.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ReadonlyAndRequiredProperties.java"))
+                .hasProperty("requiredYesReadonlyYes")
+                .toType()
+                .assertMethod("getRequiredYesReadonlyYes")
+                .assertMethodAnnotations()
+                .hasSize(2)
+                .containsWithNameAndAttributes("ApiModelProperty", ImmutableMap.of("required", "true"))
+                // Mysteriously, but we need to surround the value with quotes if the Annotation only contains a single value
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyYes\""))
+                .toMethod()
+                .toFileAssert()
+                .hasProperty("requiredYesReadonlyNo")
+                .toType()
+                .assertMethod("getRequiredYesReadonlyNo")
+                .assertMethodAnnotations()
+                .hasSize(3)
+                .containsWithNameAndAttributes("ApiModelProperty", ImmutableMap.of("required", "true"))
+                // Mysteriously, but we need to surround the value with quotes if the Annotation only contains a single value
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyNo\""))
+                .containsWithName("NotNull");
     }
 }
