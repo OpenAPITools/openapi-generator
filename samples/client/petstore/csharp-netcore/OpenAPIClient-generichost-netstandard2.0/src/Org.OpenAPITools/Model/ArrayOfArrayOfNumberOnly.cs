@@ -123,7 +123,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "ArrayArrayNumber":
-                            arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

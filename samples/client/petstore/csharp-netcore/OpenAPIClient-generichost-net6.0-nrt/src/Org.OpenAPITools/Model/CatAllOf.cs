@@ -125,7 +125,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "declawed":
-                            declawed = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                declawed = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;

@@ -199,16 +199,19 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "name":
-                            nameProperty = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out nameProperty);
                             break;
                         case "property":
                             property = utf8JsonReader.GetString();
                             break;
                         case "snake_case":
-                            snakeCase = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out snakeCase);
                             break;
                         case "123Number":
-                            _123number = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out _123number);
                             break;
                         default:
                             break;

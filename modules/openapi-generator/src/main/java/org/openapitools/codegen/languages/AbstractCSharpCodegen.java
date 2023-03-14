@@ -560,6 +560,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
         }
+
+        // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
+        if (property.datatypeWithEnum.equals("decimal")) {
+            property.isDecimal = true;
+        }
     }
 
     /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */

@@ -131,7 +131,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateOnlyProperty":
-                            dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

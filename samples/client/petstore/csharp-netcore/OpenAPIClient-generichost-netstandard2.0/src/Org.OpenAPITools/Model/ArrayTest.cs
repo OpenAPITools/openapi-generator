@@ -149,13 +149,16 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "array_array_of_integer":
-                            arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "array_array_of_model":
-                            arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "array_of_string":
-                            arrayOfString = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayOfString = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

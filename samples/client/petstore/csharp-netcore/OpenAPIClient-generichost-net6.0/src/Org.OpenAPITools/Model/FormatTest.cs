@@ -464,37 +464,51 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "binary":
-                            binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "byte":
-                            byteProperty = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                byteProperty = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "date":
-                            date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "decimal":
-                            decimalProperty = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                decimalProperty = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "double":
-                            doubleProperty = utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDouble(out doubleProperty);
                             break;
                         case "float":
-                            floatProperty = (float)utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGetDouble(out double floatPropertyResult);
+                                floatProperty = (float)floatPropertyResult;
+                            }
                             break;
                         case "int32":
-                            int32 = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out int32);
                             break;
                         case "int64":
-                            int64 = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out int64);
                             break;
                         case "integer":
-                            integer = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out integer);
                             break;
                         case "number":
-                            number = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDecimal(out number);
                             break;
                         case "password":
                             password = utf8JsonReader.GetString();
@@ -509,13 +523,16 @@ namespace Org.OpenAPITools.Model
                             stringProperty = utf8JsonReader.GetString();
                             break;
                         case "unsigned_integer":
-                            unsignedInteger = utf8JsonReader.GetUInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetUInt32(out unsignedInteger);
                             break;
                         case "unsigned_long":
-                            unsignedLong = utf8JsonReader.GetUInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetUInt64(out unsignedLong);
                             break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetGuid(out uuid);
                             break;
                         default:
                             break;

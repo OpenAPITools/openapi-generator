@@ -153,16 +153,20 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "mainShape":
-                            mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "shapeOrNull":
-                            shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "shapes":
-                            shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "nullableShape":
-                            nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

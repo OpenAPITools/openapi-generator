@@ -125,7 +125,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "children":
-                            children = JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                children = JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

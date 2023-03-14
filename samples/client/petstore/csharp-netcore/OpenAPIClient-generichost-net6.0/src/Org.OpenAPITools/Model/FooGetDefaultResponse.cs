@@ -123,7 +123,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "string":
-                            stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
