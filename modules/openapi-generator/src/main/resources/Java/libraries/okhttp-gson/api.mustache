@@ -47,10 +47,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 {{#supportStreaming}}
 import java.io.InputStream;
 {{/supportStreaming}}
+{{/fullJavaUtil}}
 import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#operations}}
@@ -146,7 +146,7 @@ public class {{classname}} {
         }
         Operation operation = apiOperation.getOperation();
         String localVarPath = apiOperation.getPath();
-        {{javaUtilPrefix}}Map<String, Object> paramMap = new {{javaUtilPrefix}}HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>();
         {{#allParams}}
             {{^isFormParam}}
             {{^isBodyParam}}

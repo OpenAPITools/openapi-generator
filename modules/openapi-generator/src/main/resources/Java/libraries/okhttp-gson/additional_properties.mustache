@@ -4,7 +4,7 @@
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private {{javaUtilPrefix}}Map<String, Object> additionalProperties;
+  private Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
@@ -16,7 +16,7 @@
    */
   public {{classname}} putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new {{javaUtilPrefix}}HashMap<String, Object>();
+        this.additionalProperties = new HashMap<String, Object>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -27,7 +27,7 @@
    *
    * @return a map of objects
    */
-  public {{javaUtilPrefix}}Map<String, Object> getAdditionalProperties() {
+  public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
 

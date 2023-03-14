@@ -6,6 +6,7 @@ import {{apiPackage}}.*;
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{^fullJavaUtil}}
 import io.restassured.builder.RequestSpecBuilder;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -13,6 +14,8 @@ import java.util.function.Supplier;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jackson}}JacksonObjectMapper.jackson{{/jackson}};
+
+{{/fullJavaUtil}}
 
 public class ApiClient {
     {{#basePath}}

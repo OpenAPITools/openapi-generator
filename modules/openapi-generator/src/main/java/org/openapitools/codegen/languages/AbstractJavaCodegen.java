@@ -1031,7 +1031,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultValue = StringUtils.join(_values, ", ");
                     }
                 }
-                return String.format(Locale.ROOT, "new %sArrayList<>(Arrays.asList(%s))", javaUtilPrefix, defaultValue);
+                return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(%s))", defaultValue);
             } else if (cp.isArray && cp.getUniqueItems()) { // set
                 // TODO
                 return null;
@@ -1134,7 +1134,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         return null;
                     }
                 } else if (schema.getDefault() instanceof UUID) {
-                    return javaUtilPrefix + "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
+                    return "UUID.fromString(\"" + String.valueOf(schema.getDefault()) + "\")";
                 } else {
                     _default = String.valueOf(schema.getDefault());
                 }

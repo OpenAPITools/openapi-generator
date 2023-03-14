@@ -492,7 +492,7 @@ public class {{classname}} {
         .method("{{httpMethod}}", formDataPublisher);
     {{/isMultipart}}
     {{^isMultipart}}
-    {{javaUtilPrefix}}List<NameValuePair> formValues = new {{javaUtilPrefix}}ArrayList<>();
+    List<NameValuePair> formValues = new ArrayList<>();
     {{#formParams}}
     {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {

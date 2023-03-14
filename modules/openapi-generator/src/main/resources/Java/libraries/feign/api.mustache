@@ -171,7 +171,7 @@ public interface {{classname}} extends ApiClient.Api {
    * A convenience class for generating query parameters for the
    * <code>{{operationId}}</code> method in a fluent style.
    */
-  public static class {{operationIdCamelCase}}QueryParams extends {{javaUtilPrefix}}HashMap<String, Object> {
+  public static class {{operationIdCamelCase}}QueryParams extends HashMap<String, Object> {
       {{#queryParams}}
     public {{operationIdCamelCase}}QueryParams {{paramName}}(final {{{dataType}}} value) {
         {{#collectionFormat}}
