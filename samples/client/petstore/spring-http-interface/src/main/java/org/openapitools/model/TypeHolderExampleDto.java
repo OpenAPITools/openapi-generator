@@ -43,27 +43,6 @@ public class TypeHolderExampleDto {
   
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExampleDto#TypeHolderExampleDto(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
-  public TypeHolderExampleDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public TypeHolderExampleDto(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
-    this.stringItem = stringItem;
-    this.numberItem = numberItem;
-    this.floatItem = floatItem;
-    this.integerItem = integerItem;
-    this.boolItem = boolItem;
-    this.arrayItem = arrayItem;
-  }
-
   public TypeHolderExampleDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

@@ -182,22 +182,6 @@ public class EnumTestDto {
   @JsonProperty("outerEnum")
   private OuterEnumDto outerEnum;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EnumTestDto#EnumTestDto(EnumStringRequiredEnum)}
-   */
-  @Deprecated
-  public EnumTestDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public EnumTestDto(EnumStringRequiredEnum enumStringRequired) {
-    this.enumStringRequired = enumStringRequired;
-  }
-
   public EnumTestDto enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

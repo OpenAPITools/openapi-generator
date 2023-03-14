@@ -33,22 +33,6 @@ public class NameDto {
   @JsonProperty("123Number")
   private Integer _123number;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link NameDto#NameDto(Integer)}
-   */
-  @Deprecated
-  public NameDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public NameDto(Integer name) {
-    this.name = name;
-  }
-
   public NameDto name(Integer name) {
     this.name = name;
     return this;

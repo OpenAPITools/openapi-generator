@@ -38,22 +38,6 @@ public class Cat extends Animal {
   @JsonProperty("declawed")
   private Boolean declawed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Cat#Cat(String)}
-   */
-  @Deprecated
-  public Cat() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Cat(String className) {
-    super(className);
-  }
-
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;

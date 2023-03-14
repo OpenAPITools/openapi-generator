@@ -40,26 +40,6 @@ public class TypeHolderDefaultDto {
   
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderDefaultDto#TypeHolderDefaultDto(String, BigDecimal, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
-  public TypeHolderDefaultDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public TypeHolderDefaultDto(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
-    this.stringItem = stringItem;
-    this.numberItem = numberItem;
-    this.integerItem = integerItem;
-    this.boolItem = boolItem;
-    this.arrayItem = arrayItem;
-  }
-
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

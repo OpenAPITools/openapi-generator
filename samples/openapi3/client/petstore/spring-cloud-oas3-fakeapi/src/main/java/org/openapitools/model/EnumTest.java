@@ -184,22 +184,6 @@ public class EnumTest {
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EnumTest#EnumTest(EnumStringRequiredEnum)}
-   */
-  @Deprecated
-  public EnumTest() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public EnumTest(EnumStringRequiredEnum enumStringRequired) {
-    this.enumStringRequired = enumStringRequired;
-  }
-
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

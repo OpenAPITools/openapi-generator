@@ -71,25 +71,6 @@ public class FormatTestDto {
   @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FormatTestDto#FormatTestDto(BigDecimal, byte[], LocalDate, String)}
-   */
-  @Deprecated
-  public FormatTestDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public FormatTestDto(BigDecimal number, byte[] _byte, LocalDate date, String password) {
-    this.number = number;
-    this._byte = _byte;
-    this.date = date;
-    this.password = password;
-  }
-
   public FormatTestDto integer(Integer integer) {
     this.integer = integer;
     return this;
