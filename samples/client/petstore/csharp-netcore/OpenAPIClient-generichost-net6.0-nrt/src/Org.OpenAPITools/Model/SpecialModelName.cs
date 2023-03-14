@@ -141,7 +141,8 @@ namespace Org.OpenAPITools.Model
                             specialModelNameProperty = utf8JsonReader.GetString();
                             break;
                         case "$special[property.name]":
-                            specialPropertyName = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out specialPropertyName);
                             break;
                         default:
                             break;

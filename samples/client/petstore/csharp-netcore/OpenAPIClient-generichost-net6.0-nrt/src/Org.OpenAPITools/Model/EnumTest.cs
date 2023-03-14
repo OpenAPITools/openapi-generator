@@ -486,13 +486,25 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "enum_integer":
-                            enumInteger = (EnumTest.EnumIntegerEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGetInt32(out int enumIntegerResult);
+                                enumInteger = (EnumTest.EnumIntegerEnum)enumIntegerResult;
+                            }
                             break;
                         case "enum_integer_only":
-                            enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGetInt32(out int enumIntegerOnlyResult);
+                                enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum)enumIntegerOnlyResult;
+                            }
                             break;
                         case "enum_number":
-                            enumNumber = (EnumTest.EnumNumberEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGetInt32(out int enumNumberResult);
+                                enumNumber = (EnumTest.EnumNumberEnum)enumNumberResult;
+                            }
                             break;
                         case "enum_string":
                             string enumStringRawValue = utf8JsonReader.GetString();

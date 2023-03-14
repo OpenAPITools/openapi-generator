@@ -257,23 +257,28 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out id);
                             break;
                         case "petId":
-                            petId = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out petId);
                             break;
                         case "quantity":
-                            quantity = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out quantity);
                             break;
                         case "shipDate":
-                            shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
                             status = Order.StatusEnumFromString(statusRawValue);
                             break;
                         case "complete":
-                            complete = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                complete = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;

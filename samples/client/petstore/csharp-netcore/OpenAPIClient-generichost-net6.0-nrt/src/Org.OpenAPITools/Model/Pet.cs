@@ -254,23 +254,27 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "category":
-                            category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out id);
                             break;
                         case "name":
                             name = utf8JsonReader.GetString();
                             break;
                         case "photoUrls":
-                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
                             status = Pet.StatusEnumFromString(statusRawValue);
                             break;
                         case "tags":
-                            tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

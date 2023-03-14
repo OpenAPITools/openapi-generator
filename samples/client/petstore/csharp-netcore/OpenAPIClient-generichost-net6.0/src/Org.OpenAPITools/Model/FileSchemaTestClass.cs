@@ -136,10 +136,12 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "file":
-                            file = JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                file = JsonSerializer.Deserialize<File>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "files":
-                            files = JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                files = JsonSerializer.Deserialize<List<File>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

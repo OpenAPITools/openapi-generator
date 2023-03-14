@@ -132,7 +132,8 @@ namespace Org.OpenAPITools.Model
                             cultivar = utf8JsonReader.GetString();
                             break;
                         case "mealy":
-                            mealy = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mealy = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;

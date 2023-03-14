@@ -152,10 +152,12 @@ namespace Org.OpenAPITools.Model
                             className = utf8JsonReader.GetString();
                             break;
                         case "hasBaleen":
-                            hasBaleen = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                hasBaleen = utf8JsonReader.GetBoolean();
                             break;
                         case "hasTeeth":
-                            hasTeeth = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                hasTeeth = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;

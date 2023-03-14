@@ -136,7 +136,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt64(out id);
                             break;
                         case "name":
                             name = utf8JsonReader.GetString();

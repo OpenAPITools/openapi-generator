@@ -123,7 +123,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "JustNumber":
-                            justNumber = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDecimal(out justNumber);
                             break;
                         default:
                             break;
