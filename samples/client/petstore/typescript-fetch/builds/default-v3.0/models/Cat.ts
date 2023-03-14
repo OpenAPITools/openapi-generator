@@ -19,12 +19,6 @@ import {
     AnimalFromJSONTyped,
     AnimalToJSON,
 } from './Animal';
-import type { CatAllOf } from './CatAllOf';
-import {
-    CatAllOfFromJSON,
-    CatAllOfFromJSONTyped,
-    CatAllOfToJSON,
-} from './CatAllOf';
 
 /**
  * 

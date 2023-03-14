@@ -51,5 +51,6 @@ public class RubyClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setGemAuthor(RubyClientOptionsProvider.GEM_AUTHOR_VALUE);
         verify(clientCodegen).setGemAuthorEmail(RubyClientOptionsProvider.GEM_AUTHOR_EMAIL_VALUE);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(RubyClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setUseAutoload(Boolean.parseBoolean(RubyClientOptionsProvider.USE_AUTOLOAD_VALUE));
     }
 }

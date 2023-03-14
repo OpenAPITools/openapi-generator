@@ -337,7 +337,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -822,7 +822,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -848,6 +848,14 @@ paths:
         - fake
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
+      parameters:
+        - name: required_string_uuid
+          in: query
+          description: Required UUID String
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Output string
@@ -1069,6 +1077,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              # Export data as Excel spreadsheet.
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -1113,6 +1125,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /country:
+    post:
+      operationId: getCountry
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+              - required:
+                - country
+                type: object
+                properties:
+                  country:
+                    type: string
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1600,6 +1629,10 @@ components:
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
+        uuid_with_pattern:
+          type: string
+          format: uuid
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         uuid:
           type: string
           format: uuid
@@ -2156,3 +2189,37 @@ components:
     StringArrayItem:
       type: string
       format: string
+    Activity:
+      description: "test map of maps"
+      type: object
+      properties:
+        activity_outputs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ActivityOutputRepresentation'
+    ActivityOutputRepresentation:
+      type: array
+      items: 
+        $ref: '#/components/schemas/ActivityOutputElementRepresentation'
+    ActivityOutputElementRepresentation:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: object
+    NullableGuidClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"

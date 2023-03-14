@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import org.openapitools.api.*;
-import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 

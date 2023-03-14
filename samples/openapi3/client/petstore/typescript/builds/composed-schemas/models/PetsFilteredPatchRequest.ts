@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-import { PetByAge } from './PetByAge';
-import { PetByType } from './PetByType';
+import { PetByAge } from '../models/PetByAge';
+import { PetByType } from '../models/PetByType';
 import { HttpFile } from '../http/http';
 
 export class PetsFilteredPatchRequest {

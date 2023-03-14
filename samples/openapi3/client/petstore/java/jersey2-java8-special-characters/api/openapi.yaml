@@ -48,9 +48,11 @@ components:
         prop1:
           type: string
       type: object
+      example: null
     MySchemaName___Characters_allOf:
       properties:
         prop2:
           type: string
       type: object
+      example: null
 

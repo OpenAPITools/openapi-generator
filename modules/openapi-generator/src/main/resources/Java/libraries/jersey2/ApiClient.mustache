@@ -1,15 +1,15 @@
 package {{invokerPackage}};
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import {{javaxPackage}}.ws.rs.client.Client;
+import {{javaxPackage}}.ws.rs.client.ClientBuilder;
+import {{javaxPackage}}.ws.rs.client.Entity;
+import {{javaxPackage}}.ws.rs.client.Invocation;
+import {{javaxPackage}}.ws.rs.client.WebTarget;
+import {{javaxPackage}}.ws.rs.core.Form;
+import {{javaxPackage}}.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.MediaType;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.Response.Status;
 
 {{#hasOAuthMethods}}
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -251,7 +251,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Getter for the field <code>httpClient</code>.</p>
    *
-   * @return a {@link javax.ws.rs.client.Client} object.
+   * @return a {@link {{javaxPackage}}.ws.rs.client.Client} object.
    */
   public Client getHttpClient() {
     return httpClient;
@@ -260,7 +260,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Setter for the field <code>httpClient</code>.</p>
    *
-   * @param httpClient a {@link javax.ws.rs.client.Client} object.
+   * @param httpClient a {@link {{javaxPackage}}.ws.rs.client.Client} object.
    * @return a {@link org.openapitools.client.ApiClient} object.
    */
   public ApiClient setHttpClient(Client httpClient) {
@@ -449,9 +449,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
-        name = authenticationLookup.containsKey(name) ? authenticationLookup.get(name) : name;
-        if (secrets.containsKey(name)) {
-          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
+        name = authenticationLookup.getOrDefault(name, name);
+        String secret = secrets.get(name);
+        if (secret != null) {
+          ((ApiKeyAuth) auth).setApiKey(secret);
         }
       }
     }
@@ -518,6 +519,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setCredentials(clientId, clientSecret, isDebugging());
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the credentials of a public client for the first OAuth2 authentication.
+   *
+   * @param clientId the client ID
+   * @return a {@link org.openapitools.client.ApiClient} object.
+   */
+  public ApiClient setOauthCredentialsForPublicClient(String clientId) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setCredentialsForPublicClient(clientId, isDebugging());
         return this;
       }
     }
@@ -1051,11 +1068,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       return file;
     }
 
-    String contentType = null;
-    List<Object> contentTypes = response.getHeaders().get("Content-Type");
-    if (contentTypes != null && !contentTypes.isEmpty())
-      contentType = String.valueOf(contentTypes.get(0));
-
     // read the entity stream multiple times
     response.bufferEntity();
 
@@ -1082,7 +1094,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Prepare the file for download from the response.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link {{javaxPackage}}.ws.rs.core.Response} object.
    * @return a {@link java.io.File} object.
    * @throws java.io.IOException if any.
    */
@@ -1157,14 +1169,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       boolean isBodyNullable)
       throws ApiException {
 
-    // Not using `.target(targetURL).path(path)` below,
-    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (serverIndex != null && operationServers.containsKey(operation)) {
-      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
-      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
-        operationServerVariables.get(operation) : serverVariables;
-      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
+    List<ServerConfiguration> serverConfigurations;
+    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
+      int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
+      Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
@@ -1175,6 +1184,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     } else {
       targetURL = this.basePath + path;
     }
+    // Not using `.target(targetURL).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
@@ -1185,11 +1196,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       }
     }
 
-    Invocation.Builder invocationBuilder;
+    Invocation.Builder invocationBuilder = target.request();
+
     if (accept != null) {
-      invocationBuilder = target.request().accept(accept);
-    } else {
-      invocationBuilder = target.request();
+      invocationBuilder = invocationBuilder.accept(accept);
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
@@ -1239,9 +1249,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
+      final int statusCode = response.getStatusInfo().getStatusCode();
+
       {{#hasOAuthMethods}}
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (response.getStatusInfo() == Status.UNAUTHORIZED) {
+      if (statusCode == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1257,10 +1269,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       }
 
       {{/hasOAuthMethods}}
-      int statusCode = response.getStatusInfo().getStatusCode();
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
-      if (response.getStatusInfo() == Status.NO_CONTENT) {
+      if (statusCode == Status.NO_CONTENT.getStatusCode()) {
         return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
         if (returnType == null) {
@@ -1371,7 +1382,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * To completely disable certificate validation (at your own risk), you can
    * override this method and invoke disableCertificateValidation(clientBuilder).
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
@@ -1383,7 +1394,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Please note that trusting all certificates is extremely risky.
    * This may be useful in a development environment with self-signed certificates.
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    * @throws java.security.KeyManagementException if any.
    * @throws java.security.NoSuchAlgorithmException if any.
    */
@@ -1410,7 +1421,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * <p>Build the response headers.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link {{javaxPackage}}.ws.rs.core.Response} object.
    * @return a {@link java.util.Map} of response headers.
    */
   protected Map<String, List<String>> buildResponseHeaders(Response response) {

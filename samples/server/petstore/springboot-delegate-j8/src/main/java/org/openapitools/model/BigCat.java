@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -70,6 +69,22 @@ public class BigCat extends Cat {
 
   @JsonProperty("kind")
   private KindEnum kind;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link BigCat#BigCat(String)}
+   */
+  @Deprecated
+  public BigCat() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public BigCat(String className) {
+    super(className);
+  }
 
   public BigCat kind(KindEnum kind) {
     this.kind = kind;

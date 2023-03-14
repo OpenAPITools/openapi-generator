@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Test
         private PetApi instance;
 
         private long petId = 11088;
-        private long notExsistentPetId = 99999;
+        private long notExistentPetId = 99999;
 
         /// <summary>
         /// Create a Pet object
@@ -206,7 +206,7 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test GetPetById on an not existent Id
+        /// Test GetPetById on a non-existent Id
         /// </summary>
         [Fact]
         public void TestGetPetById_TestException()
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Test
 
 	        var exception = Assert.Throws<ApiException>(() =>
 	        {
-		        petApi.GetPetById(notExsistentPetId);
+		        petApi.GetPetById(notExistentPetId);
 	        });
 
 	        Assert.IsType<ApiException>(exception);
@@ -233,7 +233,7 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<System.IO.MemoryStream>(response);
             StreamReader reader = new StreamReader(response);
             // the following will fail for sure
-            //Assert.Equal("someting", reader.ReadToEnd());
+            //Assert.Equal("something", reader.ReadToEnd());
         }
         */
 
@@ -273,7 +273,7 @@ namespace Org.OpenAPITools.Test
         {
 	        PetApi petApi = new PetApi();
 	        petApi.ExceptionFactory = null;
-	        var response = petApi.GetPetByIdWithHttpInfoAsync(notExsistentPetId).Result;
+	        var response = petApi.GetPetByIdWithHttpInfoAsync(notExistentPetId).Result;
 	        Pet result = response.Data;
 
 	        Assert.IsType<ApiResponse<Pet>>(response);

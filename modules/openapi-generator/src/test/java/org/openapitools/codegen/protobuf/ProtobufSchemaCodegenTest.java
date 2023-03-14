@@ -118,7 +118,7 @@ public class ProtobufSchemaCodegenTest {
             fail("No exception thrown!");
         }
         catch (RuntimeException e) {
-            assertEquals(e.getCause().getMessage(), "java.lang.String cannot be cast to java.lang.Integer");
+            assertEquals(e.getCause().getMessage(), "class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader \'bootstrap\')"); 
         }        
     }
 

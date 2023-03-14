@@ -71,6 +71,7 @@ public class WorkflowSettings {
         this.outputDir = builder.outputDir;
         this.verbose = builder.verbose;
         this.skipOverwrite = builder.skipOverwrite;
+        this.skipOperationExample = builder.skipOperationExample;
         this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
         this.logToStderr = builder.logToStderr;
         this.validateSpec = builder.validateSpec;

@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the List type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &List{}
+
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
@@ -41,7 +44,7 @@ func NewListWithDefaults() *List {
 
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
-	if o == nil || o.Var123List == nil {
+	if o == nil || IsNil(o.Var123List) {
 		var ret string
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *List) GetVar123List() string {
 // GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *List) GetVar123ListOk() (*string, bool) {
-	if o == nil || o.Var123List == nil {
+	if o == nil || IsNil(o.Var123List) {
 		return nil, false
 	}
 	return o.Var123List, true
@@ -59,7 +62,7 @@ func (o *List) GetVar123ListOk() (*string, bool) {
 
 // HasVar123List returns a boolean if a field has been set.
 func (o *List) HasVar123List() bool {
-	if o != nil && o.Var123List != nil {
+	if o != nil && !IsNil(o.Var123List) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *List) SetVar123List(v string) {
 }
 
 func (o List) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o List) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Var123List != nil {
+	if !IsNil(o.Var123List) {
 		toSerialize["123-list"] = o.Var123List
 	}
 
@@ -81,7 +92,7 @@ func (o List) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *List) UnmarshalJSON(bytes []byte) (err error) {

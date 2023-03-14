@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -24,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  
   private @Valid UUID uuid;
   private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
@@ -48,7 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     this.uuid = uuid;
   }
 
-/**
+  /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -67,7 +65,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     this.dateTime = dateTime;
   }
 
-/**
+  /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;

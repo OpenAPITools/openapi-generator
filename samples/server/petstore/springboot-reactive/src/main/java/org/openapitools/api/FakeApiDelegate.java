@@ -50,7 +50,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(xmlItem).then(Mono.empty());
 
     }
 
@@ -66,7 +66,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -89,7 +89,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -105,7 +105,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -121,7 +121,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -137,7 +137,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -154,7 +154,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -177,7 +177,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -265,7 +265,7 @@ public interface FakeApiDelegate {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
     default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
@@ -292,7 +292,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(param).then(Mono.empty());
 
     }
 

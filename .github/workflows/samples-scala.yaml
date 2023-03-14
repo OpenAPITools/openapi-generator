@@ -1,24 +1,28 @@
-name: Samples Scala
+name: Samples Scala/sbt
 
 on:
   push:
     paths:
       - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
+      - 'samples/client/petstore/java/okhttp-gson/**'
   pull_request:
     paths:
       - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
+      - 'samples/client/petstore/java/okhttp-gson/**'
 jobs:
   build:
-    name: Build Scala client, servers
+    name: Build sbt/Scala client, servers
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           # clients
+          - 'samples/client/petstore/java/okhttp-gson'
           - samples/client/petstore/scalaz
+          #- samples/client/petstore/scala-sttp # won't pass while the same tests in circleci pass
           # servers
           - samples/server/petstore/scala-lagom-server
           - samples/server/petstore/scala-play-server

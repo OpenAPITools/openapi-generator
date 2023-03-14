@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -17,6 +19,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
@@ -45,6 +48,30 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         }
     }
 
+    public JavaFileAssert isInterface() {
+        Assertions.assertThat(actual.getType(0).asClassOrInterfaceDeclaration())
+            .withFailMessage("Expected type %s to be an interface", actual.getType(0).getName().asString())
+            .extracting(ClassOrInterfaceDeclaration::isInterface)
+            .isEqualTo(true);
+        return this;
+    }
+
+    public JavaFileAssert isNormalClass() {
+        Assertions.assertThat(actual.getType(0).asClassOrInterfaceDeclaration())
+            .withFailMessage("Expected type %s to be a normal class(non-abstract)", actual.getType(0).getName().asString())
+            .extracting(ClassOrInterfaceDeclaration::isInterface, NodeWithAbstractModifier::isAbstract)
+            .containsExactly(false, false);
+        return this;
+    }
+
+    public JavaFileAssert isAbstractClass() {
+        Assertions.assertThat(actual.getType(0).asClassOrInterfaceDeclaration())
+            .withFailMessage("Expected type %s to be an abstract class", actual.getType(0).getName().asString())
+            .extracting(ClassOrInterfaceDeclaration::isInterface, NodeWithAbstractModifier::isAbstract)
+            .containsExactly(false, true);
+        return this;
+    }
+
     public MethodAssert assertMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)
@@ -57,6 +84,24 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             .hasSize(1);
 
         return new MethodAssert(this, methods.get(0));
+    }
+
+    public ConstructorAssert assertConstructor(final String... paramTypes) {
+        Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
+        Assertions.assertThat(constructorDeclaration)
+            .withFailMessage("No constructor with parameter(s) %s", Arrays.toString(paramTypes))
+            .isPresent();
+
+        return new ConstructorAssert(this, constructorDeclaration.get());
+    }
+
+    public JavaFileAssert assertNoConstructor(final String... paramTypes) {
+        Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
+        Assertions.assertThat(constructorDeclaration)
+                .withFailMessage("Found constructor with parameter(s) %s", Arrays.toString(paramTypes))
+                .isEmpty();
+
+        return this;
     }
 
     public PropertyAssert hasProperty(final String propertyName) {
@@ -75,6 +120,12 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public JavaFileAssert hasImports(final String... imports) {
         Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
             .containsAll(Arrays.asList(imports));
+        return this;
+    }
+
+    public JavaFileAssert hasNoImports(final String... imports) {
+        Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
+            .doesNotContainAnyElementsOf(Arrays.asList(imports));
         return this;
     }
 

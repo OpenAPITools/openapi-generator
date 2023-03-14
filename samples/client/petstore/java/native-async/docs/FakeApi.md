@@ -4,8 +4,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem |
-| [**createXmlItemWithHttpInfo**](FakeApi.md#createXmlItemWithHttpInfo) | **POST** /fake/create_xml_item | creates an XmlItem |
+| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeHealthGetWithHttpInfo**](FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterBooleanSerializeWithHttpInfo**](FakeApi.md#fakeOuterBooleanSerializeWithHttpInfo) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
@@ -14,14 +14,16 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterNumberSerializeWithHttpInfo**](FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakeOuterStringSerializeWithHttpInfo**](FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string |  |
+| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getArrayOfEnumsWithHttpInfo**](FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithFileSchemaWithHttpInfo**](FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
 | [**testBodyWithQueryParamsWithHttpInfo**](FakeApi.md#testBodyWithQueryParamsWithHttpInfo) | **PUT** /fake/body-with-query-params |  |
 | [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model |
 | [**testClientModelWithHttpInfo**](FakeApi.md#testClientModelWithHttpInfo) | **PATCH** /fake | To test \&quot;client\&quot; model |
-| [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트 |
-| [**testEndpointParametersWithHttpInfo**](FakeApi.md#testEndpointParametersWithHttpInfo) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트 |
+| [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
+| [**testEndpointParametersWithHttpInfo**](FakeApi.md#testEndpointParametersWithHttpInfo) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
 | [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
 | [**testEnumParametersWithHttpInfo**](FakeApi.md#testEnumParametersWithHttpInfo) | **GET** /fake | To test enum parameters |
 | [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
@@ -35,13 +37,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 
 
-## createXmlItem
+## fakeHealthGet
 
-> CompletableFuture<Void> createXmlItem(xmlItem)
+> CompletableFuture<HealthCheckResult> fakeHealthGet()
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
@@ -60,11 +60,11 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
         try {
-            CompletableFuture<Void> result = apiInstance.createXmlItem(xmlItem);
+            CompletableFuture<HealthCheckResult> result = apiInstance.fakeHealthGet();
+            System.out.println(result.get());
         } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#createXmlItem");
+            System.err.println("Exception when calling FakeApi#fakeHealthGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -76,15 +76,12 @@ public class Example {
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | |
+This endpoint does not need any parameter.
 
 ### Return type
 
+CompletableFuture<[**HealthCheckResult**](HealthCheckResult.md)>
 
-CompletableFuture<void> (empty response body)
 
 ### Authorization
 
@@ -92,21 +89,19 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | The instance started successfully |  -  |
 
-## createXmlItemWithHttpInfo
+## fakeHealthGetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> createXmlItem createXmlItemWithHttpInfo(xmlItem)
+> CompletableFuture<ApiResponse<HealthCheckResult>> fakeHealthGet fakeHealthGetWithHttpInfo()
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
@@ -126,20 +121,20 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.createXmlItemWithHttpInfo(xmlItem);
+            CompletableFuture<ApiResponse<HealthCheckResult>> response = apiInstance.fakeHealthGetWithHttpInfo();
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
+            System.out.println("Response body: " + response.get().getData());
         } catch (InterruptedException | ExecutionException e) {
             ApiException apiException = (ApiException)e.getCause();
-            System.err.println("Exception when calling FakeApi#createXmlItem");
+            System.err.println("Exception when calling FakeApi#fakeHealthGet");
             System.err.println("Status code: " + apiException.getCode());
             System.err.println("Response headers: " + apiException.getResponseHeaders());
             System.err.println("Reason: " + apiException.getResponseBody());
             e.printStackTrace();
         } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#createXmlItem");
+            System.err.println("Exception when calling FakeApi#fakeHealthGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -151,15 +146,12 @@ public class Example {
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | |
+This endpoint does not need any parameter.
 
 ### Return type
 
+CompletableFuture<ApiResponse<[**HealthCheckResult**](HealthCheckResult.md)>>
 
-CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
@@ -167,13 +159,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | The instance started successfully |  -  |
 
 
 ## fakeOuterBooleanSerialize
@@ -234,7 +226,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -310,7 +302,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -321,7 +313,7 @@ No authorization required
 
 ## fakeOuterCompositeSerialize
 
-> CompletableFuture<OuterComposite> fakeOuterCompositeSerialize(body)
+> CompletableFuture<OuterComposite> fakeOuterCompositeSerialize(outerComposite)
 
 
 
@@ -344,9 +336,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+        OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
         try {
-            CompletableFuture<OuterComposite> result = apiInstance.fakeOuterCompositeSerialize(body);
+            CompletableFuture<OuterComposite> result = apiInstance.fakeOuterCompositeSerialize(outerComposite);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -364,7 +356,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
+| **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -377,7 +369,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -387,7 +379,7 @@ No authorization required
 
 ## fakeOuterCompositeSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerialize fakeOuterCompositeSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerialize fakeOuterCompositeSerializeWithHttpInfo(outerComposite)
 
 
 
@@ -411,9 +403,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+        OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
         try {
-            CompletableFuture<ApiResponse<OuterComposite>> response = apiInstance.fakeOuterCompositeSerializeWithHttpInfo(body);
+            CompletableFuture<ApiResponse<OuterComposite>> response = apiInstance.fakeOuterCompositeSerializeWithHttpInfo(outerComposite);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -440,7 +432,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
+| **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -453,7 +445,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -520,7 +512,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -596,7 +588,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -663,7 +655,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -739,7 +731,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 ### HTTP response details
@@ -748,9 +740,140 @@ No authorization required
 | **200** | Output string |  -  |
 
 
+## getArrayOfEnums
+
+> CompletableFuture<List<OuterEnum>> getArrayOfEnums()
+
+Array of Enums
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+import java.util.concurrent.CompletableFuture;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            CompletableFuture<List<OuterEnum>> result = apiInstance.getArrayOfEnums();
+            System.out.println(result.get());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+CompletableFuture<[**List&lt;OuterEnum&gt;**](OuterEnum.md)>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Got named array of enums |  -  |
+
+## getArrayOfEnumsWithHttpInfo
+
+> CompletableFuture<ApiResponse<List<OuterEnum>>> getArrayOfEnums getArrayOfEnumsWithHttpInfo()
+
+Array of Enums
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+import java.util.concurrent.CompletableFuture;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            CompletableFuture<ApiResponse<List<OuterEnum>>> response = apiInstance.getArrayOfEnumsWithHttpInfo();
+            System.out.println("Status code: " + response.get().getStatusCode());
+            System.out.println("Response headers: " + response.get().getHeaders());
+            System.out.println("Response body: " + response.get().getData());
+        } catch (InterruptedException | ExecutionException e) {
+            ApiException apiException = (ApiException)e.getCause();
+            System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+            System.err.println("Status code: " + apiException.getCode());
+            System.err.println("Response headers: " + apiException.getResponseHeaders());
+            System.err.println("Reason: " + apiException.getResponseBody());
+            e.printStackTrace();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+CompletableFuture<ApiResponse<[**List&lt;OuterEnum&gt;**](OuterEnum.md)>>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Got named array of enums |  -  |
+
+
 ## testBodyWithFileSchema
 
-> CompletableFuture<Void> testBodyWithFileSchema(body)
+> CompletableFuture<Void> testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
@@ -773,9 +896,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+        FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
         try {
-            CompletableFuture<Void> result = apiInstance.testBodyWithFileSchema(body);
+            CompletableFuture<Void> result = apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
             System.err.println("Status code: " + e.getCode());
@@ -792,7 +915,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
+| **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -815,7 +938,7 @@ No authorization required
 
 ## testBodyWithFileSchemaWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testBodyWithFileSchema testBodyWithFileSchemaWithHttpInfo(body)
+> CompletableFuture<ApiResponse<Void>> testBodyWithFileSchema testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
 
 
 
@@ -839,9 +962,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+        FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithFileSchemaWithHttpInfo(body);
+            CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
         } catch (InterruptedException | ExecutionException e) {
@@ -867,7 +990,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
+| **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -891,7 +1014,7 @@ No authorization required
 
 ## testBodyWithQueryParams
 
-> CompletableFuture<Void> testBodyWithQueryParams(query, body)
+> CompletableFuture<Void> testBodyWithQueryParams(query, user)
 
 
 
@@ -913,9 +1036,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
-        User body = new User(); // User | 
+        User user = new User(); // User | 
         try {
-            CompletableFuture<Void> result = apiInstance.testBodyWithQueryParams(query, body);
+            CompletableFuture<Void> result = apiInstance.testBodyWithQueryParams(query, user);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
             System.err.println("Status code: " + e.getCode());
@@ -933,7 +1056,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **query** | **String**|  | |
-| **body** | [**User**](User.md)|  | |
+| **user** | [**User**](User.md)|  | |
 
 ### Return type
 
@@ -956,7 +1079,7 @@ No authorization required
 
 ## testBodyWithQueryParamsWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testBodyWithQueryParams testBodyWithQueryParamsWithHttpInfo(query, body)
+> CompletableFuture<ApiResponse<Void>> testBodyWithQueryParams testBodyWithQueryParamsWithHttpInfo(query, user)
 
 
 
@@ -979,9 +1102,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
-        User body = new User(); // User | 
+        User user = new User(); // User | 
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithQueryParamsWithHttpInfo(query, body);
+            CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithQueryParamsWithHttpInfo(query, user);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
         } catch (InterruptedException | ExecutionException e) {
@@ -1008,7 +1131,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **query** | **String**|  | |
-| **body** | [**User**](User.md)|  | |
+| **user** | [**User**](User.md)|  | |
 
 ### Return type
 
@@ -1032,7 +1155,7 @@ No authorization required
 
 ## testClientModel
 
-> CompletableFuture<Client> testClientModel(body)
+> CompletableFuture<Client> testClientModel(client)
 
 To test \&quot;client\&quot; model
 
@@ -1055,9 +1178,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            CompletableFuture<Client> result = apiInstance.testClientModel(body);
+            CompletableFuture<Client> result = apiInstance.testClientModel(client);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testClientModel");
@@ -1075,7 +1198,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Client**](Client.md)| client model | |
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -1098,7 +1221,7 @@ No authorization required
 
 ## testClientModelWithHttpInfo
 
-> CompletableFuture<ApiResponse<Client>> testClientModel testClientModelWithHttpInfo(body)
+> CompletableFuture<ApiResponse<Client>> testClientModel testClientModelWithHttpInfo(client)
 
 To test \&quot;client\&quot; model
 
@@ -1122,9 +1245,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            CompletableFuture<ApiResponse<Client>> response = apiInstance.testClientModelWithHttpInfo(body);
+            CompletableFuture<ApiResponse<Client>> response = apiInstance.testClientModelWithHttpInfo(client);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -1151,7 +1274,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**Client**](Client.md)| client model | |
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -1177,9 +1300,9 @@ No authorization required
 
 > CompletableFuture<Void> testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 
@@ -1215,7 +1338,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -1247,7 +1370,7 @@ public class Example {
 | **string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
 | **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 
@@ -1275,9 +1398,9 @@ CompletableFuture<void> (empty response body)
 
 > CompletableFuture<ApiResponse<Void>> testEndpointParameters testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 
@@ -1314,7 +1437,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -1355,7 +1478,7 @@ public class Example {
 | **string** | **String**| None | [optional] |
 | **binary** | **File**| None | [optional] |
 | **date** | **LocalDate**| None | [optional] |
-| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
 | **password** | **String**| None | [optional] |
 | **paramCallback** | **String**| None | [optional] |
 
@@ -1566,6 +1689,7 @@ Fake endpoint to test group parameters (optional)
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 import org.openapitools.client.api.FakeApi.*;
@@ -1575,6 +1699,10 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure HTTP bearer authorization: bearer_test
+        HttpBearerAuth bearer_test = (HttpBearerAuth) defaultClient.getAuthentication("bearer_test");
+        bearer_test.setBearerToken("BEARER TOKEN");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Integer requiredStringGroup = 56; // Integer | Required String in group parameters
@@ -1617,7 +1745,7 @@ CompletableFuture<void> (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -1627,7 +1755,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 ## testGroupParametersWithHttpInfo
 
@@ -1645,6 +1773,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 import org.openapitools.client.api.FakeApi.*;
@@ -1654,6 +1783,10 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure HTTP bearer authorization: bearer_test
+        HttpBearerAuth bearer_test = (HttpBearerAuth) defaultClient.getAuthentication("bearer_test");
+        bearer_test.setBearerToken("BEARER TOKEN");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Integer requiredStringGroup = 56; // Integer | Required String in group parameters
@@ -1705,7 +1838,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -1715,7 +1848,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 
 <a name="APItestGroupParametersRequest"></a>
@@ -1735,9 +1868,11 @@ No authorization required
 
 ## testInlineAdditionalProperties
 
-> CompletableFuture<Void> testInlineAdditionalProperties(param)
+> CompletableFuture<Void> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
+
+
 
 ### Example
 
@@ -1756,9 +1891,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Map<String, String> param = new HashMap(); // Map<String, String> | request body
+        Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
         try {
-            CompletableFuture<Void> result = apiInstance.testInlineAdditionalProperties(param);
+            CompletableFuture<Void> result = apiInstance.testInlineAdditionalProperties(requestBody);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
             System.err.println("Status code: " + e.getCode());
@@ -1775,7 +1910,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **param** | [**Map&lt;String, String&gt;**](String.md)| request body | |
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
 
 ### Return type
 
@@ -1798,9 +1933,11 @@ No authorization required
 
 ## testInlineAdditionalPropertiesWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> testInlineAdditionalProperties testInlineAdditionalPropertiesWithHttpInfo(param)
+> CompletableFuture<ApiResponse<Void>> testInlineAdditionalProperties testInlineAdditionalPropertiesWithHttpInfo(requestBody)
 
 test inline additionalProperties
+
+
 
 ### Example
 
@@ -1820,9 +1957,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Map<String, String> param = new HashMap(); // Map<String, String> | request body
+        Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.testInlineAdditionalPropertiesWithHttpInfo(param);
+            CompletableFuture<ApiResponse<Void>> response = apiInstance.testInlineAdditionalPropertiesWithHttpInfo(requestBody);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
         } catch (InterruptedException | ExecutionException e) {
@@ -1848,7 +1985,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **param** | [**Map&lt;String, String&gt;**](String.md)| request body | |
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
 
 ### Return type
 
@@ -1875,6 +2012,8 @@ No authorization required
 > CompletableFuture<Void> testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 
@@ -1940,6 +2079,8 @@ No authorization required
 > CompletableFuture<ApiResponse<Void>> testJsonFormData testJsonFormDataWithHttpInfo(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 

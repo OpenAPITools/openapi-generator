@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-import { Category } from './Category';
-import { Tag } from './Tag';
+import { Category } from '../models/Category';
+import { Tag } from '../models/Tag';
 import { HttpFile } from '../http/http';
 
 /**

@@ -7,10 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.openapitools.model.Addressable;
 import org.openapitools.model.Bar;
 import org.openapitools.model.BarCreate;
-import org.openapitools.model.Extensible;
 import org.openapitools.model.Foo;
 import org.openapitools.model.Pasta;
 import org.openapitools.model.Pizza;
@@ -61,6 +59,22 @@ public class Entity {
   @JsonProperty("@type")
   private String atType;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Entity#Entity(String)}
+   */
+  @Deprecated
+  public Entity() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Entity(String atType) {
+    this.atType = atType;
+  }
+
   public Entity href(String href) {
     this.href = href;
     return this;
@@ -71,7 +85,7 @@ public class Entity {
    * @return href
   */
   
-  @Schema(name = "href", description = "Hyperlink reference", required = false)
+  @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getHref() {
     return href;
   }
@@ -90,7 +104,7 @@ public class Entity {
    * @return id
   */
   
-  @Schema(name = "id", description = "unique identifier", required = false)
+  @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getId() {
     return id;
   }
@@ -109,7 +123,7 @@ public class Entity {
    * @return atSchemaLocation
   */
   
-  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
+  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -128,7 +142,7 @@ public class Entity {
    * @return atBaseType
   */
   
-  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
+  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -147,7 +161,7 @@ public class Entity {
    * @return atType
   */
   @NotNull 
-  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
+  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   public String getAtType() {
     return atType;
   }

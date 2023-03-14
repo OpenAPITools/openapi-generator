@@ -30,6 +30,65 @@ class GenerateTaskDslTest : TestBase() {
     """.trimIndent()
 
     @Test
+    fun `openApiGenerate should create an expected file structure from URL config`() {
+        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        // Arrange
+        val buildContents = """
+         plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            remoteInputSpec = "$specUrl"
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+        """.trimIndent()
+        File(temp, "build.gradle").writeText(buildContents)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        listOf(
+            "build/kotlin/.openapi-generator-ignore",
+            "build/kotlin/docs/PetsApi.md",
+            "build/kotlin/docs/Error.md",
+            "build/kotlin/docs/Pet.md",
+            "build/kotlin/README.md",
+            "build/kotlin/build.gradle",
+            "build/kotlin/.openapi-generator/VERSION",
+            "build/kotlin/settings.gradle",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
+        }
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
     fun `openApiGenerate should create an expected file structure from DSL config`() {
         // Arrange
         val projectFiles = mapOf(
@@ -67,6 +126,91 @@ class GenerateTaskDslTest : TestBase() {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
                 "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    @Test
+    fun `openApiGenerate should not cleanup outputDir by default`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(defaultBuildGradle, projectFiles)
+
+        val oldFile = File(temp, "build/kotlin/should-not-be-removed")
+        oldFile.mkdirs()
+        oldFile.createNewFile()
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        assertTrue(oldFile.exists(), "Old files should NOT have been removed")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
+    fun `openApiGenerate should cleanup outputDir`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(
+            """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+            cleanupOutput = true
+        }
+    """.trimIndent(),
+            projectFiles
+        )
+
+        val oldFile = File(temp, "build/kotlin/should-be-removed")
+        oldFile.mkdirs()
+        oldFile.createNewFile()
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        assertFalse(oldFile.exists(), "Old files should have been removed")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
     }
 
     @Test
