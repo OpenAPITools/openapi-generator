@@ -96,6 +96,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
+    public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -157,6 +158,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     protected boolean useSpringBoot3 = false;
+    protected boolean generatedConstructorWithRequiredArgs = true;
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
 
     public SpringCodegen() {
@@ -248,6 +250,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
             "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
             useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
+            "Whether to generate constructors with required args for models",
+            generatedConstructorWithRequiredArgs));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -456,6 +461,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUseSpringController(convertPropertyToBoolean(SPRING_CONTROLLER));
         }
         writePropertyBack(SPRING_CONTROLLER, useSpringController);
+
+        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS)) {
+            this.generatedConstructorWithRequiredArgs = convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS);
+        }
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, generatedConstructorWithRequiredArgs);
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));

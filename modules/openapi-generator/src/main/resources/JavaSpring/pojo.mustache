@@ -80,6 +80,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
+  {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
   /**
@@ -110,6 +111,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{/vars}}
   }
   {{/hasRequired}}
+  {{/generatedConstructorWithRequiredArgs}}
   {{#vars}}
 
   {{! begin feature: fluent setter methods }}

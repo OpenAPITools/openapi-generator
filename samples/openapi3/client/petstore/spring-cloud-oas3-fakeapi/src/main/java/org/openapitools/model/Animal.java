@@ -44,22 +44,6 @@ public class Animal {
   @JsonProperty("color")
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Animal#Animal(String)}
-   */
-  @Deprecated
-  public Animal() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Animal(String className) {
-    this.className = className;
-  }
-
   public Animal className(String className) {
     this.className = className;
     return this;
