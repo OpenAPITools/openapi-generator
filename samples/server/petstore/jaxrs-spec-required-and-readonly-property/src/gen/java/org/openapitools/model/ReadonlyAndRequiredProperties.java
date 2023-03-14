@@ -18,17 +18,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ReadonlyAndRequiredProperties")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ReadonlyAndRequiredProperties  implements Serializable {
-  
   private @Valid String requiredYesReadonlyYes;
   private @Valid String requiredYesReadonlyNo;
   private @Valid String requiredNoReadonlyYes;
   private @Valid String requiredNoReadonlyNo;
 
   protected ReadonlyAndRequiredProperties(ReadonlyAndRequiredPropertiesBuilder<?, ?> b) {
-  this.requiredYesReadonlyYes = b.requiredYesReadonlyYes;this.requiredYesReadonlyNo = b.requiredYesReadonlyNo;this.requiredNoReadonlyYes = b.requiredNoReadonlyYes;this.requiredNoReadonlyNo = b.requiredNoReadonlyNo;
+    this.requiredYesReadonlyYes = b.requiredYesReadonlyYes;
+    this.requiredYesReadonlyNo = b.requiredYesReadonlyNo;
+    this.requiredNoReadonlyYes = b.requiredNoReadonlyYes;
+    this.requiredNoReadonlyNo = b.requiredNoReadonlyNo;
   }
 
-  public ReadonlyAndRequiredProperties() { }
+  public ReadonlyAndRequiredProperties() {
+  }
 
   /**
    **/
@@ -49,7 +52,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     this.requiredYesReadonlyYes = requiredYesReadonlyYes;
   }
 
-/**
+  /**
    **/
   public ReadonlyAndRequiredProperties requiredYesReadonlyNo(String requiredYesReadonlyNo) {
     this.requiredYesReadonlyNo = requiredYesReadonlyNo;
@@ -69,7 +72,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     this.requiredYesReadonlyNo = requiredYesReadonlyNo;
   }
 
-/**
+  /**
    **/
   public ReadonlyAndRequiredProperties requiredNoReadonlyYes(String requiredNoReadonlyYes) {
     this.requiredNoReadonlyYes = requiredNoReadonlyYes;
@@ -88,7 +91,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     this.requiredNoReadonlyYes = requiredNoReadonlyYes;
   }
 
-/**
+  /**
    **/
   public ReadonlyAndRequiredProperties requiredNoReadonlyNo(String requiredNoReadonlyNo) {
     this.requiredNoReadonlyNo = requiredNoReadonlyNo;
