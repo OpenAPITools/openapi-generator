@@ -23,6 +23,7 @@ import org.openapitools.client.Pair;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HeaderApi {
+
+
   private ApiClient apiClient;
 
   public HeaderApi() {
@@ -58,6 +61,21 @@ public class HeaderApi {
    * @throws ApiException if fails to make API call
    */
   public String testHeaderIntegerBooleanString(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
+    return this.testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test header parameter(s)
+   * Test header parameter(s)
+   * @param integerHeader  (optional)
+   * @param booleanHeader  (optional)
+   * @param stringHeader  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testHeaderIntegerBooleanString(Integer integerHeader, Boolean booleanHeader, String stringHeader, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -77,6 +95,8 @@ if (booleanHeader != null)
       localVarHeaderParams.put("boolean_header", apiClient.parameterToString(booleanHeader));
 if (stringHeader != null)
       localVarHeaderParams.put("string_header", apiClient.parameterToString(stringHeader));
+
+    localVarHeaderParams.putAll(additionalHeaders);
 
     
     
@@ -109,4 +129,5 @@ if (stringHeader != null)
         localVarReturnType
     );
   }
+
 }
