@@ -50,6 +50,9 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter addValuesItem(String valuesItem) {
+    if (this.values == null) {
+      this.values = new ArrayList<>();
+    }
     this.values.add(valuesItem);
     return this;
   }

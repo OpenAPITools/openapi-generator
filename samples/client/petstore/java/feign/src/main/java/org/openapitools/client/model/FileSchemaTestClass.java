@@ -77,6 +77,9 @@ public class FileSchemaTestClass {
   }
 
   public FileSchemaTestClass addFilesItem(File filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<>();
+    }
     this.files.add(filesItem);
     return this;
   }

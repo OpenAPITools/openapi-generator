@@ -396,6 +396,9 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
   public NullableClass addArrayItemsNullableItem(Object arrayItemsNullableItem) {
+    if (this.arrayItemsNullable == null) {
+      this.arrayItemsNullable = new ArrayList<>();
+    }
     this.arrayItemsNullable.add(arrayItemsNullableItem);
     return this;
   }

@@ -255,6 +255,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringItem(String arrayStringItem) {
+    if (this.arrayString == null) {
+      this.arrayString = new ArrayList<>();
+    }
     this.arrayString.add(arrayStringItem);
     return this;
   }
