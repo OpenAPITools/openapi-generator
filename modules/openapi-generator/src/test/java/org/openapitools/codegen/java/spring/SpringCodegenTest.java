@@ -1566,7 +1566,7 @@ public class SpringCodegenTest {
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
 
-      @Test
+    @Test
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndWithoutDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
@@ -1577,20 +1577,25 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         additionalProperties.put(USE_RESPONSE_ENTITY, "false");
-        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("List<TestResponse>")
+                .assertMethod("getSomething")
+                .hasReturnType("List<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.OK")
+                )
+                .toMethod()
                 .toFileAssert()
-                .assertMethod("getWithArrayOfString").hasReturnType("List<String>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("Set<TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfStrings").hasReturnType("Set<String>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("Map<String, TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfStrings").hasReturnType("Map<String, String>");
+                .assertMethod("putSomething")
+                .hasReturnType("String")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.CREATED")
+                );
     }
 
     @Test
@@ -1604,33 +1609,30 @@ public class SpringCodegenTest {
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         additionalProperties.put(USE_RESPONSE_ENTITY, "false");
         additionalProperties.put(DELEGATE_PATTERN, "true");
-        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApiDelegate.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("List<TestResponse>")
+                .assertMethod("getSomething").hasReturnType("List<String>")
                 .toFileAssert()
-                .assertMethod("getWithArrayOfString").hasReturnType("List<String>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("Set<TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfStrings").hasReturnType("Set<String>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("Map<String, TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfStrings").hasReturnType("Map<String, String>");
+                .assertMethod("putSomething").hasReturnType("String");
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("List<TestResponse>")
+                .assertMethod("getSomething")
+                .hasReturnType("List<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.OK")
+                )
+                .toMethod()
                 .toFileAssert()
-                .assertMethod("getWithArrayOfString").hasReturnType("List<String>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("Set<TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithSetOfStrings").hasReturnType("Set<String>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("Map<String, TestResponse>")
-                .toFileAssert()
-                .assertMethod("getWithMapOfStrings").hasReturnType("Map<String, String>");
+                .assertMethod("putSomething")
+                .hasReturnType("String")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.CREATED")
+                );
     }
 
     @Test

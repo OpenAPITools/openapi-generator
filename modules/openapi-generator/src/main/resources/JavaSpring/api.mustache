@@ -31,6 +31,9 @@ import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 {{/jdk8-no-delegate}}
+{{^useResponseEntity}}
+import org.springframework.http.HttpStatus;
+{{/useResponseEntity}}
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
@@ -224,6 +227,7 @@ public interface {{classname}} {
         headers = { {{#vendorExtensions.versionHeaderParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionHeaderParamsList}} } {{/hasVersionHeaders}}{{#hasVersionQueryParams}},
         params = { {{#vendorExtensions.versionQueryParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionQueryParamsList}} } {{/hasVersionQueryParams}}
     )
+    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},

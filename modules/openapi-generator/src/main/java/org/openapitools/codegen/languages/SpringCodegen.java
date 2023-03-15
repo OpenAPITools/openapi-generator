@@ -65,6 +65,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
+import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -487,6 +488,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+        additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));

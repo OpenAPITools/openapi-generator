@@ -111,6 +111,9 @@ public class {{classname}}Controller implements {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
+    {{^useResponseEntity}}
+    @ResponseStatus({{#springHttpStatus}}{{{code}}}{{/springHttpStatus}})
+    {{/useResponseEntity}}
     public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
