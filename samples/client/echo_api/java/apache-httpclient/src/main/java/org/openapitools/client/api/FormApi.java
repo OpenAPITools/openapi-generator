@@ -23,6 +23,7 @@ import org.openapitools.client.Pair;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormApi {
+
+
   private ApiClient apiClient;
 
   public FormApi() {
@@ -58,6 +61,21 @@ public class FormApi {
    * @throws ApiException if fails to make API call
    */
   public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+    return this.testFormIntegerBooleanString(integerForm, booleanForm, stringForm, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test form parameter(s)
+   * Test form parameter(s)
+   * @param integerForm  (optional)
+   * @param booleanForm  (optional)
+   * @param stringForm  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -72,6 +90,8 @@ public class FormApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     if (integerForm != null)
       localVarFormParams.put("integer_form", integerForm);
@@ -109,4 +129,5 @@ if (stringForm != null)
         localVarReturnType
     );
   }
+
 }

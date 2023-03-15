@@ -69,22 +69,6 @@ public class BigCat extends Cat {
   @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCat#BigCat(String)}
-   */
-  @Deprecated
-  public BigCat() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public BigCat(String className) {
-    super(className);
-  }
-
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;

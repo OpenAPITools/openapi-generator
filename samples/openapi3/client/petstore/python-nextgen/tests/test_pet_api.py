@@ -6,9 +6,9 @@
 Run the tests.
 $ docker pull swaggerapi/petstore
 $ docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-$ pip install nose (optional)
+$ pip install -U pytest
 $ cd petstore_api-python
-$ nosetests -v
+$ pytest
 """
 
 import os

@@ -149,10 +149,12 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "my_boolean":
-                            myBoolean = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                myBoolean = utf8JsonReader.GetBoolean();
                             break;
                         case "my_number":
-                            myNumber = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDecimal(out myNumber);
                             break;
                         case "my_string":
                             myString = utf8JsonReader.GetString();

@@ -247,6 +247,8 @@ public interface IJsonSchemaValidationProperties {
                 ;
             } else if (ModelUtils.isEmailSchema(p)) {
                 ;
+            } else if (ModelUtils.isPasswordSchema(p)) {
+              ;
             } else if (ModelUtils.isDateSchema(p)) {
                 ;
             } else if (ModelUtils.isDateTimeSchema(p)) {

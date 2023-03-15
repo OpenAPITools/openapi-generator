@@ -139,7 +139,8 @@ namespace Org.OpenAPITools.Model
                             classProperty = utf8JsonReader.GetString();
                             break;
                         case "name":
-                            name = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out name);
                             break;
                         default:
                             break;

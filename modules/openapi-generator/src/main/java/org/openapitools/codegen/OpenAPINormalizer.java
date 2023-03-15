@@ -65,6 +65,7 @@ public class OpenAPINormalizer {
 
     // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
     // and if sub-schema contains "null", remove it and set nullable to true instead
+    // and if sub-schema contains enum of "null", remove it and set nullable to true instead
     final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
     boolean simplifyOneOfAnyOf;
 
@@ -75,6 +76,11 @@ public class OpenAPINormalizer {
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
+
+    // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
+    // by adding x-unsigned to the schema
+    final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
+    boolean addUnsignedToIntegerWithInvalidMaxValue;
 
     // ============= end of rules =============
 
@@ -132,6 +138,9 @@ public class OpenAPINormalizer {
             setTagsForAllOperations = rules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         }
 
+        if (enableAll || "true".equalsIgnoreCase(rules.get(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE))) {
+            addUnsignedToIntegerWithInvalidMaxValue = true;
+        }
     }
 
     /**
@@ -333,6 +342,12 @@ public class OpenAPINormalizer {
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+        } else if (ModelUtils.isOneOf(schema)) { // oneOf
+            return normalizeOneOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAnyOf(schema)) { // anyOf
+            return normalizeAnyOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAllOf(schema)) { // allOf
+            return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
 
@@ -361,12 +376,12 @@ public class OpenAPINormalizer {
             }
 
             return cs;
-        } else if (schema.getNot() != null) {// not schema
-            normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
+        } else if (schema instanceof IntegerSchema) {
+            normalizeIntegerSchema(schema, visitedSchemas);
         } else if (schema instanceof Schema) {
             normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
@@ -378,6 +393,10 @@ public class OpenAPINormalizer {
 
     private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
         processSimplifyBooleanEnum(schema);
+    }
+
+    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+        processAddUnsignedToIntegerWithInvalidMaxValue(schema);
     }
 
     private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
@@ -446,6 +465,10 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+        // loop through properties, if any
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            normalizeProperties(schema.getProperties(), visitedSchemas);
+        }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
@@ -564,7 +587,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        Schema s0 = null, s1 = null;
+        Schema result = null, s0 = null, s1 = null;
         if (schema.getAnyOf().size() == 2) {
             s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
             s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));
@@ -578,15 +601,27 @@ public class OpenAPINormalizer {
         // find the string schema (not enum)
         if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
             if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
-                return (StringSchema) s1;
+                result = (StringSchema) s1;
             } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
-                return (StringSchema) s0;
+                result = (StringSchema) s0;
             } else { // both are string
-                return schema;
+                result = schema;
             }
         } else {
-            return schema;
+            result = schema;
         }
+
+        // set nullable
+        if (schema.getNullable() != null) {
+            result.setNullable(schema.getNullable());
+        }
+
+        // set default
+        if (schema.getDefault() != null) {
+            result.setDefault(schema.getDefault());
+        }
+
+        return result;
     }
 
     /**
@@ -602,11 +637,22 @@ public class OpenAPINormalizer {
         }
 
         if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
-            // convert null sub-schema to `nullable: true`
             for (int i = 0; i < schema.getOneOf().size(); i++) {
+                // convert null sub-schema to `nullable: true`
                 if (schema.getOneOf().get(i) == null || ((Schema) schema.getOneOf().get(i)).getType() == null) {
                     schema.getOneOf().remove(i);
                     schema.setNullable(true);
+                    continue;
+                }
+
+                // convert enum of null only to `nullable:true`
+                Schema oneOfElement = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getOneOf().get(i));
+                if (oneOfElement.getEnum() != null && oneOfElement.getEnum().size() == 1) {
+                    if ("null".equals(String.valueOf(oneOfElement.getEnum().get(0)))) {
+                        schema.setNullable(true);
+                        schema.getOneOf().remove(i);
+                        continue;
+                    }
                 }
             }
 
@@ -635,11 +681,22 @@ public class OpenAPINormalizer {
         }
 
         if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
-            // convert null sub-schema to `nullable: true`
             for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                // convert null sub-schema to `nullable: true`
                 if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
                     schema.getAnyOf().remove(i);
                     schema.setNullable(true);
+                    continue;
+                }
+
+                // convert enum of null only to `nullable:true`
+                Schema anyOfElement = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAnyOf().get(i));
+                if (anyOfElement.getEnum() != null && anyOfElement.getEnum().size() == 1) {
+                    if ("null".equals(String.valueOf(anyOfElement.getEnum().get(0)))) {
+                        schema.setNullable(true);
+                        schema.getAnyOf().remove(i);
+                        continue;
+                    }
                 }
             }
 
@@ -671,6 +728,33 @@ public class OpenAPINormalizer {
             BooleanSchema bs = (BooleanSchema) schema;
             if (bs.getEnum() != null && !bs.getEnum().isEmpty()) { // enum defined
                 bs.setEnum(null);
+            }
+        }
+    }
+
+    /**
+     * If the schema is integer and the max value is invalid (out of bound)
+     * then add x-unsigned to use unsigned integer/long instead.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
+        if (!addUnsignedToIntegerWithInvalidMaxValue && !enableAll) {
+            return;
+        }
+
+        if (schema instanceof IntegerSchema) {
+            if (ModelUtils.isLongSchema(schema)) {
+                if ("18446744073709551615".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                }
+            } else {
+                if ("4294967295".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                }
             }
         }
     }

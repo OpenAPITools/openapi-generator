@@ -1836,6 +1836,19 @@ components:
       - 1
       - 2
       default: 0
+    SpecialCharacterEnum:
+      type: string
+      enum:
+      - "456"
+      - "123abc"
+      - "_"
+      - " "
+      - "&"
+      - "$"
+      - ">="
+      - "this_is_!"
+      - "import" # reserved word
+      - " hello world "
     OuterComposite:
       type: object
       properties:

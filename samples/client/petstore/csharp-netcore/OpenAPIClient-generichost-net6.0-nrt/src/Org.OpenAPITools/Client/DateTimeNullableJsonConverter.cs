@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Client
             if (dateTimeValue == null)
                 writer.WriteNullValue();
             else
-                writer.WriteStringValue(dateTimeValue.Value.ToString(Formats[0], CultureInfo.InvariantCulture));
+                writer.WriteStringValue(dateTimeValue.Value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK", CultureInfo.InvariantCulture));
         }
     }
 }

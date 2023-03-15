@@ -162,7 +162,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Fruit() {
         super("oneOf", Boolean.FALSE);
@@ -201,12 +201,12 @@ public class Fruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

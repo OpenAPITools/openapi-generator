@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
+        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 
@@ -91,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// A Json reader.
@@ -128,7 +129,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateOnlyProperty":
-                            dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

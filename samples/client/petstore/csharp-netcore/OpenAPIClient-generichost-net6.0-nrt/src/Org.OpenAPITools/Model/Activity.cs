@@ -125,7 +125,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "activity_outputs":
-                            activityOutputs = JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                activityOutputs = JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;

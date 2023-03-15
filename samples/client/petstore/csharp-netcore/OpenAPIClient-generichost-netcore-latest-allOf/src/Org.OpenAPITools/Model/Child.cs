@@ -126,7 +126,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "boosterSeat":
-                            boosterSeat = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                boosterSeat = utf8JsonReader.GetBoolean();
                             break;
                         case "firstName":
                             firstName = utf8JsonReader.GetString();

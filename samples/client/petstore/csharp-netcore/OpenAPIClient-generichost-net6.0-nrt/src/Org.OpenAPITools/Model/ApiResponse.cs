@@ -151,7 +151,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "code":
-                            code = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out code);
                             break;
                         case "message":
                             message = utf8JsonReader.GetString();

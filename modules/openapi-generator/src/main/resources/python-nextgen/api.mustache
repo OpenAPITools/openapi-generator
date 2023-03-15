@@ -7,7 +7,8 @@ from __future__ import absolute_import
 import re  # noqa: F401
 
 from pydantic import validate_arguments, ValidationError
-from typing_extensions import Annotated
+from typing_extensions import Annotated{{#asyncio}}
+from typing import overload, Optional, Union, Awaitable{{/asyncio}}
 
 {{#imports}}
 {{import}}
@@ -34,8 +35,18 @@ class {{classname}}(object):
         self.api_client = api_client
 {{#operation}}
 
+{{#asyncio}}
+    @overload
+    async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+        ...
+
+    @overload
+    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}async_req: Optional[bool]=True, **kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+        ...
+
+{{/asyncio}}
     @validate_arguments
-    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -67,6 +78,10 @@ class {{classname}}(object):
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
+{{#asyncio}}
+        if async_req is not None:
+            kwargs['async_req'] = async_req
+{{/asyncio}}
         return self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
     @validate_arguments

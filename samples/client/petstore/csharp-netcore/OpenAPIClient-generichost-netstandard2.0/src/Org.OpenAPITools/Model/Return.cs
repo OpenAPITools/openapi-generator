@@ -123,7 +123,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "return":
-                            returnProperty = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetInt32(out returnProperty);
                             break;
                         default:
                             break;
