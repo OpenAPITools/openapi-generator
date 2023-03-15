@@ -84,8 +84,7 @@ func bee_connect_client_if_needed(
 		on_success.call()
 
 	var connecting := self.bee_client.connect_to_host(
-		self.bee_config.host, self.bee_config.port,
-		self.bee_config.ssl_enabled, self.bee_config.verify_host
+		self.bee_config.host, self.bee_config.port
 	)
 	if connecting != OK:
 		var error := {{>partials/api_error_class_name}}.new()
