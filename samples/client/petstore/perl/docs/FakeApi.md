@@ -558,8 +558,8 @@ my $int64 = 789; # int | None
 my $float = 3.4; # double | None
 my $string = "string_example"; # string | None
 my $binary = "/path/to/file"; # string | None
-my $date = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
-my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
+my $date = DateTime->from_epoch(epoch => str2time('null')); # DATE | None
+my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DATE_TIME | None
 my $password = "password_example"; # string | None
 my $callback = "callback_example"; # string | None
 
@@ -585,8 +585,8 @@ Name | Type | Description  | Notes
  **float** | **double**| None | [optional] 
  **string** | **string**| None | [optional] 
  **binary** | **string****string**| None | [optional] 
- **date** | **DateTime**| None | [optional] 
- **date_time** | **DateTime**| None | [optional] 
+ **date** | **DATE**| None | [optional] 
+ **date_time** | **DATE_TIME**| None | [optional] 
  **password** | **string**| None | [optional] 
  **callback** | **string**| None | [optional] 
 

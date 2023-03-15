@@ -19,7 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonPriorClientCodegen;
 
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(PythonClientCodegen.PACKAGE_URL, PACKAGE_URL_VALUE)
+        return builder.put(PythonPriorClientCodegen.PACKAGE_URL, PACKAGE_URL_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
@@ -50,9 +50,9 @@ public class PythonClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SOURCECODEONLY_GENERATION, "false")
                 .put(CodegenConstants.LIBRARY, "urllib3")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)
-                .put(PythonClientCodegen.USE_NOSE, USE_NOSE_VALUE)
-                .put(PythonClientCodegen.RECURSION_LIMIT, RECURSION_LIMIT)
-                .put(PythonClientCodegen.PYTHON_ATTR_NONE_IF_UNSET, PYTHON_ATTR_NONE_IF_UNSET)
+                .put(PythonPriorClientCodegen.USE_NOSE, USE_NOSE_VALUE)
+                .put(PythonPriorClientCodegen.RECURSION_LIMIT, RECURSION_LIMIT)
+                .put(PythonPriorClientCodegen.PYTHON_ATTR_NONE_IF_UNSET, PYTHON_ATTR_NONE_IF_UNSET)
                 .put(CodegenConstants.INIT_REQUIRED_VARS, INIT_REQUIRED_VARS)
                 .build();
     }

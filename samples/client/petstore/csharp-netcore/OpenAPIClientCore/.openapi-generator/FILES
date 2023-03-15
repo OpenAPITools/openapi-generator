@@ -2,6 +2,8 @@
 Org.OpenAPITools.sln
 README.md
 appveyor.yml
+docs/Activity.md
+docs/ActivityOutputElementRepresentation.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -23,6 +25,7 @@ docs/ChildCatAllOf.md
 docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
+docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -54,6 +57,7 @@ docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
 docs/NullableClass.md
+docs/NullableGuidClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -97,6 +101,9 @@ src/Org.OpenAPITools/Api/UserApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs
 src/Org.OpenAPITools/Client/ApiException.cs
 src/Org.OpenAPITools/Client/ApiResponse.cs
+src/Org.OpenAPITools/Client/Auth/OAuthAuthenticator.cs
+src/Org.OpenAPITools/Client/Auth/OAuthFlow.cs
+src/Org.OpenAPITools/Client/Auth/TokenResponse.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs
@@ -112,6 +119,8 @@ src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
+src/Org.OpenAPITools/Model/Activity.cs
+src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
@@ -132,6 +141,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs
@@ -160,6 +170,7 @@ src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
+src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs

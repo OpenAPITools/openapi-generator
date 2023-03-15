@@ -29,9 +29,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Object|#include &quot;Object.h&quot;|
+|file|#include &lt;string&gt;|
 |restbed::Bytes|#include &lt;corvusoft/restbed/byte.hpp&gt;|
 |std::map|#include &lt;map&gt;|
+|std::set|#include &lt;set&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
 

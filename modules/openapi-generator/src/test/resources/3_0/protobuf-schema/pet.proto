@@ -12,10 +12,6 @@ syntax = "proto3";
 
 package openapitools;
 
-import "models/cat_all_of.proto";
-import "models/dog_all_of.proto";
-import "models/lizard_all_of.proto";
-
 message Pet {
 
   string petType = 140636936;

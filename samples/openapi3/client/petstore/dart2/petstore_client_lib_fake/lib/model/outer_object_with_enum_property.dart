@@ -31,9 +31,9 @@ class OuterObjectWithEnumProperty {
   String toString() => 'OuterObjectWithEnumProperty[value=$value]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'value'] = value;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'value'] = this.value;
+    return json;
   }
 
   /// Returns a new [OuterObjectWithEnumProperty] instance and imports its values from

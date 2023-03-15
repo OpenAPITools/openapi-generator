@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -38,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -49,33 +48,32 @@ import org.openapitools.client.JSON;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
-  public static final String SERIALIZED_NAME_COLOR = "color";
-  @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color;
+  public static final String SERIALIZED_NAME_BREED = "breed";
+  @SerializedName(SERIALIZED_NAME_BREED)
+  private String breed;
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() { 
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() {
   }
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf color(String color) {
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf breed(String breed) {
     
-    this.color = color;
+    this.breed = breed;
     return this;
   }
 
    /**
-   * Get color
-   * @return color
+   * Get breed
+   * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
-  public String getColor() {
-    return color;
+  public String getBreed() {
+    return breed;
   }
 
 
-  public void setColor(String color) {
-    this.color = color;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
   /**
@@ -88,6 +86,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf instance itself
    */
   public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -99,6 +101,8 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -106,6 +110,9 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -124,20 +131,20 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
       return false;
     }
     ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf = (ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf) o;
-    return Objects.equals(this.color, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.color)&&
+    return Objects.equals(this.breed, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.breed)&&
         Objects.equals(this.additionalProperties, arrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(color, additionalProperties);
+    return Objects.hash(breed, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -161,7 +168,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("color");
+    openapiFields.add("breed");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -175,14 +182,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("color") != null && !jsonObj.get("color").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `color` to be a primitive type in the JSON string but got `%s`", jsonObj.get("color").toString()));
+      if ((jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonNull()) && !jsonObj.get("breed").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `breed` to be a primitive type in the JSON string but got `%s`", jsonObj.get("breed").toString()));
       }
   }
 
@@ -202,7 +207,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
            public void write(JsonWriter out, ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -238,8 +243,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

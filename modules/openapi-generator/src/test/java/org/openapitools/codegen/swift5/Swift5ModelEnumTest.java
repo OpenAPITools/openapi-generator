@@ -35,7 +35,7 @@ import java.util.Arrays;
 
 @SuppressWarnings("static-method")
 public class Swift5ModelEnumTest {
-    @Test(description = "convert a java model with an string enum and a default value")
+    @Test(description = "convert a java model with a string enum and a default value")
     public void convertStringDefaultValueTest() {
         final StringSchema enumSchema = new StringSchema();
         enumSchema.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
@@ -59,7 +59,7 @@ public class Swift5ModelEnumTest {
         Assert.assertTrue(enumVar.isEnum);
     }
 
-    @Test(description = "convert a java model with an reserved word string enum and a default value")
+    @Test(description = "convert a java model with a reserved word string enum and a default value")
     public void convertReservedWordStringDefaultValueTest() {
         final StringSchema enumSchema = new StringSchema();
         enumSchema.setEnum(Arrays.asList("1st", "2nd", "3rd"));
@@ -107,7 +107,7 @@ public class Swift5ModelEnumTest {
         Assert.assertTrue(enumVar.isEnum);
     }
 
-    @Test(description = "convert a java model with an number enum and a default value")
+    @Test(description = "convert a java model with a number enum and a default value")
     public void convertNumberDefaultValueTest() {
         final NumberSchema enumSchema = new NumberSchema();
         enumSchema.setEnum(Arrays.asList(new BigDecimal(10), new BigDecimal(100), new BigDecimal(1000)));

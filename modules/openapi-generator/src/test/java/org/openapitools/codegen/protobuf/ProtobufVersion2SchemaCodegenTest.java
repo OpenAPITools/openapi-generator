@@ -96,7 +96,7 @@ public class ProtobufVersion2SchemaCodegenTest {
 
     private List<File> generate(File output, Map<String, Object> properties, String inputFile) {        
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("protobuf-schema-version-2")
+                .setGeneratorName("protobuf-version-2-schema")
                 .setAdditionalProperties(properties)                
                 .setInputSpec(inputFile)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));

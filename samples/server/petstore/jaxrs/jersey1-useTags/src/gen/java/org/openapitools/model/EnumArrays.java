@@ -102,7 +102,7 @@ public class EnumArrays   {
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;

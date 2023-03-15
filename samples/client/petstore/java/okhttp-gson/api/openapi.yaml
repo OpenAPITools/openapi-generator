@@ -386,7 +386,7 @@ paths:
       x-accepts: application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -686,7 +686,7 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -1496,6 +1496,10 @@ components:
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
+        uuid_with_default:
+          default: 11111111-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          type: string
         password:
           format: password
           maxLength: 64
@@ -2186,6 +2190,20 @@ components:
       required:
       - name
       type: object
+    EnumStringDiscriminator:
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          enum:
+          - type_a
+          - type_b
+          type: string
+      required:
+      - enum_str_type
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2336,20 +2354,27 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
+      properties:
+        breed:
+          type: string
+      type: object
+    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
       properties:
         color:
           type: string
       type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/Dog_allOf'
       - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
   securitySchemes:
     petstore_auth:
       flows:

@@ -84,44 +84,44 @@ class EnumTest {
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (enumString != null) {
-      _json[r'enum_string'] = enumString;
+    final json = <String, dynamic>{};
+    if (this.enumString != null) {
+      json[r'enum_string'] = this.enumString;
     } else {
-      _json[r'enum_string'] = null;
+      json[r'enum_string'] = null;
     }
-      _json[r'enum_string_required'] = enumStringRequired;
-    if (enumInteger != null) {
-      _json[r'enum_integer'] = enumInteger;
+      json[r'enum_string_required'] = this.enumStringRequired;
+    if (this.enumInteger != null) {
+      json[r'enum_integer'] = this.enumInteger;
     } else {
-      _json[r'enum_integer'] = null;
+      json[r'enum_integer'] = null;
     }
-    if (enumNumber != null) {
-      _json[r'enum_number'] = enumNumber;
+    if (this.enumNumber != null) {
+      json[r'enum_number'] = this.enumNumber;
     } else {
-      _json[r'enum_number'] = null;
+      json[r'enum_number'] = null;
     }
-    if (outerEnum != null) {
-      _json[r'outerEnum'] = outerEnum;
+    if (this.outerEnum != null) {
+      json[r'outerEnum'] = this.outerEnum;
     } else {
-      _json[r'outerEnum'] = null;
+      json[r'outerEnum'] = null;
     }
-    if (outerEnumInteger != null) {
-      _json[r'outerEnumInteger'] = outerEnumInteger;
+    if (this.outerEnumInteger != null) {
+      json[r'outerEnumInteger'] = this.outerEnumInteger;
     } else {
-      _json[r'outerEnumInteger'] = null;
+      json[r'outerEnumInteger'] = null;
     }
-    if (outerEnumDefaultValue != null) {
-      _json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
+    if (this.outerEnumDefaultValue != null) {
+      json[r'outerEnumDefaultValue'] = this.outerEnumDefaultValue;
     } else {
-      _json[r'outerEnumDefaultValue'] = null;
+      json[r'outerEnumDefaultValue'] = null;
     }
-    if (outerEnumIntegerDefaultValue != null) {
-      _json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+    if (this.outerEnumIntegerDefaultValue != null) {
+      json[r'outerEnumIntegerDefaultValue'] = this.outerEnumIntegerDefaultValue;
     } else {
-      _json[r'outerEnumIntegerDefaultValue'] = null;
+      json[r'outerEnumIntegerDefaultValue'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [EnumTest] instance and imports its values from
@@ -263,7 +263,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return EnumTestEnumStringEnum.UPPER;
         case r'lower': return EnumTestEnumStringEnum.lower;
         case r'': return EnumTestEnumStringEnum.empty;
@@ -340,7 +340,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
         case r'lower': return EnumTestEnumStringRequiredEnum.lower;
         case r'': return EnumTestEnumStringRequiredEnum.empty;
@@ -415,7 +415,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case 1: return EnumTestEnumIntegerEnum.number1;
         case -1: return EnumTestEnumIntegerEnum.numberNegative1;
         default:
@@ -489,7 +489,7 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case '1.1': return EnumTestEnumNumberEnum.number1Period1;
         case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
         default:

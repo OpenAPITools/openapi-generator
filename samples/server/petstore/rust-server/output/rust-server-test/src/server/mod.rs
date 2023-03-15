@@ -120,7 +120,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -133,7 +133,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -159,17 +159,17 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // AllOfGet - GET /allOf
-            &hyper::Method::GET if path.matched(paths::ID_ALLOF) => {
+            hyper::Method::GET if path.matched(paths::ID_ALLOF) => {
                                 let result = api_impl.all_of_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -198,14 +198,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // DummyGet - GET /dummy
-            &hyper::Method::GET if path.matched(paths::ID_DUMMY) => {
+            hyper::Method::GET if path.matched(paths::ID_DUMMY) => {
                                 let result = api_impl.dummy_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -227,7 +227,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // DummyPut - PUT /dummy
-            &hyper::Method::PUT if path.matched(paths::ID_DUMMY) => {
+            hyper::Method::PUT if path.matched(paths::ID_DUMMY) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -265,7 +265,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -300,14 +300,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // FileResponseGet - GET /file_response
-            &hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => {
+            hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => {
                                 let result = api_impl.file_response_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -336,14 +336,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // GetStructuredYaml - GET /get-structured-yaml
-            &hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => {
+            hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => {
                                 let result = api_impl.get_structured_yaml(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -372,7 +372,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // HtmlPost - POST /html
-            &hyper::Method::POST if path.matched(paths::ID_HTML) => {
+            hyper::Method::POST if path.matched(paths::ID_HTML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -405,7 +405,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -440,7 +440,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // PostYaml - POST /post-yaml
-            &hyper::Method::POST if path.matched(paths::ID_POST_YAML) => {
+            hyper::Method::POST if path.matched(paths::ID_POST_YAML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -473,7 +473,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -501,14 +501,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // RawJsonGet - GET /raw_json
-            &hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => {
+            hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => {
                                 let result = api_impl.raw_json_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -537,7 +537,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // SoloObjectPost - POST /solo-object
-            &hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => {
+            hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -575,7 +575,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -629,25 +629,25 @@ pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // AllOfGet - GET /allOf
-            &hyper::Method::GET if path.matched(paths::ID_ALLOF) => Some("AllOfGet"),
+            hyper::Method::GET if path.matched(paths::ID_ALLOF) => Some("AllOfGet"),
             // DummyGet - GET /dummy
-            &hyper::Method::GET if path.matched(paths::ID_DUMMY) => Some("DummyGet"),
+            hyper::Method::GET if path.matched(paths::ID_DUMMY) => Some("DummyGet"),
             // DummyPut - PUT /dummy
-            &hyper::Method::PUT if path.matched(paths::ID_DUMMY) => Some("DummyPut"),
+            hyper::Method::PUT if path.matched(paths::ID_DUMMY) => Some("DummyPut"),
             // FileResponseGet - GET /file_response
-            &hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => Some("FileResponseGet"),
+            hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => Some("FileResponseGet"),
             // GetStructuredYaml - GET /get-structured-yaml
-            &hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => Some("GetStructuredYaml"),
+            hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => Some("GetStructuredYaml"),
             // HtmlPost - POST /html
-            &hyper::Method::POST if path.matched(paths::ID_HTML) => Some("HtmlPost"),
+            hyper::Method::POST if path.matched(paths::ID_HTML) => Some("HtmlPost"),
             // PostYaml - POST /post-yaml
-            &hyper::Method::POST if path.matched(paths::ID_POST_YAML) => Some("PostYaml"),
+            hyper::Method::POST if path.matched(paths::ID_POST_YAML) => Some("PostYaml"),
             // RawJsonGet - GET /raw_json
-            &hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => Some("RawJsonGet"),
+            hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => Some("RawJsonGet"),
             // SoloObjectPost - POST /solo-object
-            &hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => Some("SoloObjectPost"),
+            hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => Some("SoloObjectPost"),
             _ => None,
         }
     }

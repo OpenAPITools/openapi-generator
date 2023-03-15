@@ -49,7 +49,7 @@
   describe('OuterEnumDefaultValue', function() {
     it('should create an instance of OuterEnumDefaultValue', function() {
       // uncomment below and update the code to test OuterEnumDefaultValue
-      //var instane = new OpenApiPetstore.OuterEnumDefaultValue();
+      //var instance = new OpenApiPetstore.OuterEnumDefaultValue();
       //expect(instance).to.be.a(OpenApiPetstore.OuterEnumDefaultValue);
     });
 

@@ -1227,6 +1227,12 @@
       ]
     },
     {
+      "input": "typescript-nestjs-v8-petstore-provided-in-root.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
       "input": "typescript-node-petstore-with-npm.sh",
       "matches": [
         "Client: TypeScript"

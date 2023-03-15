@@ -7,13 +7,13 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// A container for a collection of tokens.
     /// </summary>
     /// <typeparam name="TTokenBase"></typeparam>
-    public sealed class TokenContainer<TTokenBase> where TTokenBase : TokenBase
+    {{>visibility}} sealed class TokenContainer<TTokenBase> where TTokenBase : TokenBase
     {
         /// <summary>
         /// The collection of tokens

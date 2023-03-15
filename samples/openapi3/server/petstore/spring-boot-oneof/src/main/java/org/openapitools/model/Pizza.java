@@ -49,7 +49,7 @@ public class Pizza extends Entity {
    * @return pizzaSize
   */
   @Valid 
-  @Schema(name = "pizzaSize", required = false)
+  @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public BigDecimal getPizzaSize() {
     return pizzaSize;
   }

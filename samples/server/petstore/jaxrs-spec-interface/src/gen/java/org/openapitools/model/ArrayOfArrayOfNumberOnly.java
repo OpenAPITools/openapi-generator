@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
-  
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   /**

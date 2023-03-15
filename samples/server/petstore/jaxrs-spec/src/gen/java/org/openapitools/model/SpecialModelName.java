@@ -19,14 +19,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("$special[model.name]")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class SpecialModelName  implements Serializable {
-  
   private @Valid Long $specialPropertyName;
 
   protected SpecialModelName(SpecialModelNameBuilder<?, ?> b) {
-  this.$specialPropertyName = b.$specialPropertyName;
+    this.$specialPropertyName = b.$specialPropertyName;
   }
 
-  public SpecialModelName() { }
+  public SpecialModelName() {
+  }
 
   /**
    **/

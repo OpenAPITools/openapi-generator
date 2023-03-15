@@ -20,10 +20,13 @@ import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
 import org.openapitools.codegen.options.TypeScriptNestjsClientOptionsProvider;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
 
     private TypeScriptNestjsClientCodegen clientCodegen = mock(TypeScriptNestjsClientCodegen.class, mockSettings);

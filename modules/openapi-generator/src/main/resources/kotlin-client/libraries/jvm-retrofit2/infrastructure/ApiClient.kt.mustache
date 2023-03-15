@@ -51,7 +51,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 {{#kotlinx_serialization}}
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import {{packageName}}.infrastructure.Serializer.jvmJson
+import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}
 
@@ -84,7 +84,7 @@ import okhttp3.MediaType.Companion.toMediaType
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
             {{#kotlinx_serialization}}
-            .addConverterFactory(jvmJson.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()))
             {{/kotlinx_serialization}}
             .apply {
                 if (converterFactory != null) {

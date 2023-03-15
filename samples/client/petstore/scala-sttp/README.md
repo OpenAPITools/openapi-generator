@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](ApiResponse.md)
  - [Category](Category.md)
+ - [EnumTest](EnumTest.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [Tag](Tag.md)

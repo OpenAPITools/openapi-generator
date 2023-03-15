@@ -203,7 +203,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         if (input->vars.count() > 0) {
             bool first = true;
             isFormData = true;
-            foreach (QString key, input->vars.keys()) {
+            for (QString key : input->vars.keys()) {
                 if (!first) {
                     request_content.append("&");
                 }
@@ -234,7 +234,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         QString new_line = "\r\n";
 
         // add variables
-        foreach (QString key, input->vars.keys()) {
+        for (QString key : input->vars.keys()) {
             // add boundary
             request_content.append(boundary_delimiter.toUtf8());
             request_content.append(boundary.toUtf8());
@@ -336,7 +336,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         request.setSslConfiguration(*PFXHttpRequestWorker::sslDefaultConfiguration);
     }
     request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt");
-    foreach (QString key, input->headers.keys()) { request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str()); }
+    for (QString key : input->headers.keys()) { request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str()); }
 
     if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
         if (!input->headers.contains("Content-Type")) {

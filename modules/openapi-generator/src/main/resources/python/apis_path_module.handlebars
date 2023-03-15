@@ -1,0 +1,52 @@
+{{#if pathItem.get}}
+from {{packageName}}.paths.{{pathModule}}.get import ApiForget
+{{/if}}
+{{#if pathItem.put}}
+from {{packageName}}.paths.{{pathModule}}.put import ApiForput
+{{/if}}
+{{#if pathItem.post}}
+from {{packageName}}.paths.{{pathModule}}.post import ApiForpost
+{{/if}}
+{{#if pathItem.delete}}
+from {{packageName}}.paths.{{pathModule}}.delete import ApiFordelete
+{{/if}}
+{{#if pathItem.options}}
+from {{packageName}}.paths.{{pathModule}}.options import ApiForoptions
+{{/if}}
+{{#if pathItem.head}}
+from {{packageName}}.paths.{{pathModule}}.head import ApiForhead
+{{/if}}
+{{#if pathItem.patch}}
+from {{packageName}}.paths.{{pathModule}}.patch import ApiForpatch
+{{/if}}
+{{#if pathItem.trace}}
+from {{packageName}}.paths.{{pathModule}}.trace import ApiFortrace
+{{/if}}
+
+
+class {{apiClassName}}(
+{{#if pathItem.get}}
+    ApiForget,
+{{/if}}
+{{#if pathItem.put}}
+    ApiForput,
+{{/if}}
+{{#if pathItem.post}}
+    ApiForpost,
+{{/if}}
+{{#if pathItem.delete}}
+    ApiFordelete,
+{{/if}}
+{{#if pathItem.options}}
+    ApiForoptions,
+{{/if}}
+{{#if pathItem.head}}
+    ApiForhead,
+{{/if}}
+{{#if pathItem.patch}}
+    ApiForpatch,
+{{/if}}
+{{#if pathItem.trace}}
+    ApiFortrace,
+{{/if}}):
+    pass

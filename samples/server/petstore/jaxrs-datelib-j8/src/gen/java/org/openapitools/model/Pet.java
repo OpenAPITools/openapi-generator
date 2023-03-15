@@ -62,7 +62,7 @@ public class Pet  implements Serializable {
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store

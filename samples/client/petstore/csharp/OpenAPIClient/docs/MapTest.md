@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapMapOfString** | **Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt;** |  | [optional] 
-**MapOfEnumString** | **Dictionary&lt;string, string&gt;** |  | [optional] 
+**MapOfEnumString** | **Dictionary&lt;string, MapTest.InnerEnum&gt;** |  | [optional] 
 **DirectMap** | **Dictionary&lt;string, bool&gt;** |  | [optional] 
 **IndirectMap** | **Dictionary&lt;string, bool&gt;** |  | [optional] 
 
