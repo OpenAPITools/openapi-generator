@@ -31,11 +31,11 @@ public interface FakeClassnameTestApiDelegate {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    default Mono<ResponseEntity<Client>> testClassname(Mono<Client> body,
+    default Mono<ResponseEntity<Client>> testClassname(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -46,7 +46,7 @@ public interface FakeClassnameTestApiDelegate {
                 break;
             }
         }
-        return result.then(body).then(Mono.empty());
+        return result.then(client).then(Mono.empty());
 
     }
 

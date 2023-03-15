@@ -45,14 +45,16 @@ public interface PetApi {
 
     /**
      * POST /pet : Add a new pet to the store
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
      *         or Invalid input (status code 405)
      */
     @Operation(
         operationId = "addPet",
         summary = "Add a new pet to the store",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -68,15 +70,16 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> addPet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body,
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
-        return getDelegate().addPet(body, exchange);
+        return getDelegate().addPet(pet, exchange);
     }
 
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -86,6 +89,7 @@ public interface PetApi {
     @Operation(
         operationId = "deletePet",
         summary = "Deletes a pet",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -225,8 +229,9 @@ public interface PetApi {
 
     /**
      * PUT /pet : Update an existing pet
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
@@ -235,6 +240,7 @@ public interface PetApi {
     @Operation(
         operationId = "updatePet",
         summary = "Update an existing pet",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -252,15 +258,16 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> updatePet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body,
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
-        return getDelegate().updatePet(body, exchange);
+        return getDelegate().updatePet(pet, exchange);
     }
 
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -270,6 +277,7 @@ public interface PetApi {
     @Operation(
         operationId = "updatePetWithForm",
         summary = "Updates a pet in the store with form data",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
@@ -295,6 +303,7 @@ public interface PetApi {
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -304,6 +313,7 @@ public interface PetApi {
     @Operation(
         operationId = "uploadFile",
         summary = "uploads an image",
+        description = "",
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {

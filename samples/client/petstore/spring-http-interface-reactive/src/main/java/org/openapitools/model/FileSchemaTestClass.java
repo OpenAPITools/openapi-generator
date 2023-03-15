@@ -27,7 +27,7 @@ public class FileSchemaTestClass {
 
   @JsonProperty("files")
   
-  private List<File> files = null;
+  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

@@ -45,7 +45,7 @@ public interface FakeClassnameTestApi {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @Operation(
@@ -69,10 +69,10 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Client>> testClassname(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Mono<Client> body,
+        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
-        return getDelegate().testClassname(body, exchange);
+        return getDelegate().testClassname(client, exchange);
     }
 
 }

@@ -28,8 +28,9 @@ public interface PetApi {
 
     /**
      * POST /pet : Add a new pet to the store
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
      *         or Invalid input (status code 405)
      */
@@ -40,12 +41,13 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> addPet(
-         @RequestBody Mono<Pet> body
+         @RequestBody Mono<Pet> pet
     );
 
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -122,8 +124,9 @@ public interface PetApi {
 
     /**
      * PUT /pet : Update an existing pet
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
@@ -136,12 +139,13 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updatePet(
-         @RequestBody Mono<Pet> body
+         @RequestBody Mono<Pet> pet
     );
 
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -163,6 +167,7 @@ public interface PetApi {
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -184,6 +189,7 @@ public interface PetApi {
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)

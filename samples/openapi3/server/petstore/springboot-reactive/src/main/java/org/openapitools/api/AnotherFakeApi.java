@@ -45,7 +45,7 @@ public interface AnotherFakeApi {
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @Operation(
@@ -66,10 +66,10 @@ public interface AnotherFakeApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Client>> call123testSpecialTags(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Mono<Client> body,
+        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
-        return getDelegate().call123testSpecialTags(body, exchange);
+        return getDelegate().call123testSpecialTags(client, exchange);
     }
 
 }

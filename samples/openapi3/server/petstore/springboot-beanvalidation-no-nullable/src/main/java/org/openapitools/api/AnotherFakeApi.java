@@ -45,7 +45,7 @@ public interface AnotherFakeApi {
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @Operation(
@@ -66,7 +66,7 @@ public interface AnotherFakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Client> call123testSpecialTags(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
+        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
