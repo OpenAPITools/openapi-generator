@@ -171,7 +171,7 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
     }
 
     private void addCliOptions() {
-        cliOptions.add(new CliOption(CAMEL_REST_COMPONENT, "name of the Camel component to u as the REST consumer").defaultValue(camelRestComponent));
+        cliOptions.add(new CliOption(CAMEL_REST_COMPONENT, "name of the Camel component to use as the REST consumer").defaultValue(camelRestComponent));
         cliOptions.add(new CliOption(CAMEL_REST_BINDING_MODE, "binding mode to be used by the REST consumer").defaultValue(camelRestBindingMode));
         cliOptions.add(CliOption.newBoolean(CAMEL_REST_CLIENT_REQUEST_VALIDATION, "enable validation of the client request to check whether the Content-Type and Accept headers from the client is supported by the Rest-DSL configuration", camelRestClientRequestValidation));
         cliOptions.add(CliOption.newBoolean(CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR, "generate default validation error processor", camelUseDefaultValidationErrorProcessor));

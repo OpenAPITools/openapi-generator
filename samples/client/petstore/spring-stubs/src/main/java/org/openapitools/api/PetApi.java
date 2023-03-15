@@ -64,7 +64,6 @@ public interface PetApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
