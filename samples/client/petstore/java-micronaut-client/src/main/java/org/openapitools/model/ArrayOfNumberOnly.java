@@ -46,7 +46,7 @@ public class ArrayOfNumberOnly {
 
     public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
         if (this.arrayNumber == null) {
-            this.arrayNumber = ;
+            this.arrayNumber = new ArrayList<>();
         }
         this.arrayNumber.add(arrayNumberItem);
         return this;
@@ -107,3 +107,4 @@ public class ArrayOfNumberOnly {
     }
 
 }
+
