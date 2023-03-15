@@ -136,12 +136,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
         public async Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            ApiResponse<ModelClient> apiResponseLocalVar = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -153,17 +153,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
         public async Task<ModelClient> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ModelClient> result = null;
+            ApiResponse<ModelClient> apiResponseLocalVar = null;
             try 
             {
-                result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
         }
 
@@ -189,9 +189,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterTestClassname(ApiResponse<ModelClient> apiResponse, ModelClient modelClient)
+        protected virtual void AfterTestClassname(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
         {
         }
 
@@ -216,83 +216,83 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
         public async Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 modelClient = OnTestClassname(modelClient);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake_classname_test";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake_classname_test";
 
 
 
-                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);                    request.Content = (modelClient as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);                    httpRequestMessageLocalVar.Content = (modelClient as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
-                    List<TokenBase> tokens = new List<TokenBase>();
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-                    ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(apiKey);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar);
 
-                    apiKey.UseInQuery(request, uriBuilder, parseQueryString, "api_key_query");
+                    apiKeyTokenLocalVar.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "api_key_query");
 
-                    uriBuilder.Query = parseQueryString.ToString();
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/json" 
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Patch;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/fake_classname_test", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake_classname_test", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterTestClassname(apiResponse, modelClient);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<ModelClient>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterTestClassname(apiResponseLocalVar, modelClient);
                         }
-                        else if (apiResponse.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase token in tokens)
-                                token.BeginRateLimit();
+                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorTestClassname(e, "/fake_classname_test", uriBuilder.Path, modelClient);
+                OnErrorTestClassname(e, "/fake_classname_test", uriBuilderLocalVar.Path, modelClient);
                 throw;
             }
         }
