@@ -71,6 +71,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))

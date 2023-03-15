@@ -206,12 +206,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
         public async Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<object> result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+            ApiResponse<object> apiResponseLocalVar = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -223,17 +223,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
         public async Task<object> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<object> result = null;
+            ApiResponse<object> apiResponseLocalVar = null;
             try 
             {
-                result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
         }
 
@@ -259,9 +259,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        protected virtual void AfterDeleteOrder(ApiResponse<object> apiResponse, string orderId)
+        protected virtual void AfterDeleteOrder(ApiResponse<object> apiResponseLocalVar, string orderId)
         {
         }
 
@@ -286,48 +286,48 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
         public async Task<ApiResponse<object>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 orderId = OnDeleteOrder(orderId);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
 
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
                         
-                    request.Method = HttpMethod.Delete;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/store/order/{order_id}", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterDeleteOrder(apiResponse, orderId);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterDeleteOrder(apiResponseLocalVar, orderId);
                         }
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
                 throw;
             }
         }
@@ -340,14 +340,14 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Dictionary&lt;string, int&gt;"/>&gt;</returns>
         public async Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            ApiResponse<Dictionary<string, int>> apiResponseLocalVar = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (result.Content == null)
+            if (apiResponseLocalVar.Content == null)
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -362,8 +362,8 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
-        protected virtual void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
+        /// <param name="apiResponseLocalVar"></param>
+        protected virtual void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponseLocalVar)
         {
         }
 
@@ -386,66 +386,66 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
         public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 OnGetInventory();
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
 
-                    List<TokenBase> tokens = new List<TokenBase>();
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-                    ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(apiKey);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar);
 
-                    apiKey.UseInHeader(request, "api_key");
+                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "api_key");
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/json" 
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/store/inventory", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Dictionary<string, int>> apiResponse = new ApiResponse<Dictionary<string, int>>(responseMessage, responseContent);
+                        ApiResponse<Dictionary<string, int>> apiResponseLocalVar = new ApiResponse<Dictionary<string, int>>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterGetInventory(apiResponse);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterGetInventory(apiResponseLocalVar);
                         }
-                        else if (apiResponse.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase token in tokens)
-                                token.BeginRateLimit();
+                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
+                OnErrorGetInventory(e, "/store/inventory", uriBuilderLocalVar.Path);
                 throw;
             }
         }
@@ -459,12 +459,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
         public async Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+            ApiResponse<Order> apiResponseLocalVar = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -476,17 +476,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
         public async Task<Order> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Order> result = null;
+            ApiResponse<Order> apiResponseLocalVar = null;
             try 
             {
-                result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
         }
 
@@ -512,9 +512,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        protected virtual void AfterGetOrderById(ApiResponse<Order> apiResponse, long orderId)
+        protected virtual void AfterGetOrderById(ApiResponse<Order> apiResponseLocalVar, long orderId)
         {
         }
 
@@ -539,58 +539,58 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 orderId = OnGetOrderById(orderId);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
 
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/store/order/{order_id}", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterGetOrderById(apiResponse, orderId);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Order>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterGetOrderById(apiResponseLocalVar, orderId);
                         }
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
                 throw;
             }
         }
@@ -604,12 +604,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
         public async Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
+            ApiResponse<Order> apiResponseLocalVar = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -621,17 +621,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
         public async Task<Order> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Order> result = null;
+            ApiResponse<Order> apiResponseLocalVar = null;
             try 
             {
-                result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
         }
 
@@ -657,9 +657,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        protected virtual void AfterPlaceOrder(ApiResponse<Order> apiResponse, Order order)
+        protected virtual void AfterPlaceOrder(ApiResponse<Order> apiResponseLocalVar, Order order)
         {
         }
 
@@ -684,71 +684,71 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
         public async Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 order = OnPlaceOrder(order);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order";
 
-                    request.Content = (order as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (order as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
 
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Post;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/store/order", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterPlaceOrder(apiResponse, order);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Order>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterPlaceOrder(apiResponseLocalVar, order);
                         }
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
+                OnErrorPlaceOrder(e, "/store/order", uriBuilderLocalVar.Path, order);
                 throw;
             }
         }
