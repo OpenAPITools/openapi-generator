@@ -13,7 +13,7 @@ package petstore
 import (
 	"bytes"
 	"context"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -294,9 +294,9 @@ func (a *FakeApiService) CreateXmlItemExecute(r ApiCreateXmlItemRequest) (*http.
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -393,9 +393,9 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -501,9 +501,9 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -609,9 +609,9 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -717,9 +717,9 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -825,9 +825,9 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -902,7 +902,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 		return nil, reportError("body is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "query", r.query, "")
+	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -932,9 +932,9 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1034,9 +1034,9 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1073,7 +1073,7 @@ type ApiTestEndpointParametersRequest struct {
 	int64_ *int64
 	float *float32
 	string_ *string
-	binary *os.File
+	binary **os.File
 	date *string
 	dateTime *time.Time
 	password *string
@@ -1136,7 +1136,7 @@ func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpoin
 
 // None
 func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
-	r.binary = binary
+	r.binary = &binary
 	return r
 }
 
@@ -1247,52 +1247,52 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.integer != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "integer", r.integer, "")
+		localVarFormParams.Add("integer", parameterToString(*r.integer, ""))
 	}
 	if r.int32_ != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "int32", r.int32_, "")
+		localVarFormParams.Add("int32", parameterToString(*r.int32_, ""))
 	}
 	if r.int64_ != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "int64", r.int64_, "")
+		localVarFormParams.Add("int64", parameterToString(*r.int64_, ""))
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "number", r.number, "")
+	localVarFormParams.Add("number", parameterToString(*r.number, ""))
 	if r.float != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "float", r.float, "")
+		localVarFormParams.Add("float", parameterToString(*r.float, ""))
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "double", r.double, "")
+	localVarFormParams.Add("double", parameterToString(*r.double, ""))
 	if r.string_ != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "string", r.string_, "")
+		localVarFormParams.Add("string", parameterToString(*r.string_, ""))
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "pattern_without_delimiter", r.patternWithoutDelimiter, "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "byte", r.byte_, "")
+	localVarFormParams.Add("pattern_without_delimiter", parameterToString(*r.patternWithoutDelimiter, ""))
+	localVarFormParams.Add("byte", parameterToString(*r.byte_, ""))
 	var binaryLocalVarFormFileName string
 	var binaryLocalVarFileName     string
 	var binaryLocalVarFileBytes    []byte
 
 	binaryLocalVarFormFileName = "binary"
 
-
-	binaryLocalVarFile := r.binary
-
+	var binaryLocalVarFile *os.File
+	if r.binary != nil {
+		binaryLocalVarFile = *r.binary
+	}
 	if binaryLocalVarFile != nil {
-		fbs, _ := io.ReadAll(binaryLocalVarFile)
-
+		fbs, _ := ioutil.ReadAll(binaryLocalVarFile)
 		binaryLocalVarFileBytes = fbs
 		binaryLocalVarFileName = binaryLocalVarFile.Name()
 		binaryLocalVarFile.Close()
-		formFiles = append(formFiles, formFile{fileBytes: binaryLocalVarFileBytes, fileName: binaryLocalVarFileName, formFileName: binaryLocalVarFormFileName})
 	}
+	formFiles = append(formFiles, formFile{fileBytes: binaryLocalVarFileBytes, fileName: binaryLocalVarFileName, formFileName: binaryLocalVarFormFileName})
 	if r.date != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "date", r.date, "")
+		localVarFormParams.Add("date", parameterToString(*r.date, ""))
 	}
 	if r.dateTime != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "dateTime", r.dateTime, "")
+		localVarFormParams.Add("dateTime", parameterToString(*r.dateTime, ""))
 	}
 	if r.password != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "password", r.password, "")
+		localVarFormParams.Add("password", parameterToString(*r.password, ""))
 	}
 	if r.callback != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "callback", r.callback, "")
+		localVarFormParams.Add("callback", parameterToString(*r.callback, ""))
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1304,9 +1304,9 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1422,16 +1422,16 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	localVarFormParams := url.Values{}
 
 	if r.enumQueryStringArray != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string_array", r.enumQueryStringArray, "csv")
+		localVarQueryParams.Add("enum_query_string_array", parameterToString(*r.enumQueryStringArray, "csv"))
 	}
 	if r.enumQueryString != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
+		localVarQueryParams.Add("enum_query_string", parameterToString(*r.enumQueryString, ""))
 	}
 	if r.enumQueryInteger != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
+		localVarQueryParams.Add("enum_query_integer", parameterToString(*r.enumQueryInteger, ""))
 	}
 	if r.enumQueryDouble != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_double", r.enumQueryDouble, "")
+		localVarQueryParams.Add("enum_query_double", parameterToString(*r.enumQueryDouble, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1451,16 +1451,16 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.enumHeaderStringArray != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_header_string_array", r.enumHeaderStringArray, "csv")
+		localVarHeaderParams["enum_header_string_array"] = parameterToString(*r.enumHeaderStringArray, "csv")
 	}
 	if r.enumHeaderString != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_header_string", r.enumHeaderString, "")
+		localVarHeaderParams["enum_header_string"] = parameterToString(*r.enumHeaderString, "")
 	}
 	if r.enumFormStringArray != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enum_form_string_array", r.enumFormStringArray, "csv")
+		localVarFormParams.Add("enum_form_string_array", parameterToString(*r.enumFormStringArray, "csv"))
 	}
 	if r.enumFormString != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enum_form_string", r.enumFormString, "")
+		localVarFormParams.Add("enum_form_string", parameterToString(*r.enumFormString, ""))
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1472,9 +1472,9 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1584,13 +1584,13 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 		return nil, reportError("requiredInt64Group is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "required_string_group", r.requiredStringGroup, "")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "required_int64_group", r.requiredInt64Group, "")
+	localVarQueryParams.Add("required_string_group", parameterToString(*r.requiredStringGroup, ""))
+	localVarQueryParams.Add("required_int64_group", parameterToString(*r.requiredInt64Group, ""))
 	if r.stringGroup != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "string_group", r.stringGroup, "")
+		localVarQueryParams.Add("string_group", parameterToString(*r.stringGroup, ""))
 	}
 	if r.int64Group != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "int64_group", r.int64Group, "")
+		localVarQueryParams.Add("int64_group", parameterToString(*r.int64Group, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1609,9 +1609,9 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "required_boolean_group", r.requiredBooleanGroup, "")
+	localVarHeaderParams["required_boolean_group"] = parameterToString(*r.requiredBooleanGroup, "")
 	if r.booleanGroup != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "boolean_group", r.booleanGroup, "")
+		localVarHeaderParams["boolean_group"] = parameterToString(*r.booleanGroup, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1623,9 +1623,9 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1721,9 +1721,9 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1817,8 +1817,8 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "param", r.param, "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "param2", r.param2, "")
+	localVarFormParams.Add("param", parameterToString(*r.param, ""))
+	localVarFormParams.Add("param2", parameterToString(*r.param2, ""))
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -1829,9 +1829,9 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1935,19 +1935,19 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		return nil, reportError("context is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "pipe", r.pipe, "csv")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "ioutil", r.ioutil, "csv")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "http", r.http, "ssv")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "url", r.url, "csv")
+	localVarQueryParams.Add("pipe", parameterToString(*r.pipe, "csv"))
+	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
+	localVarQueryParams.Add("http", parameterToString(*r.http, "ssv"))
+	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
 	{
 		t := *r.context
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "context", s.Index(i), "multi")
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
 			}
 		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "context", t, "multi")
+			localVarQueryParams.Add("context", parameterToString(t, "multi"))
 		}
 	}
 	// to determine the Content-Type header
@@ -1977,9 +1977,9 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

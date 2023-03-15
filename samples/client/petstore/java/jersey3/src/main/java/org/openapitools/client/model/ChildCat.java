@@ -29,6 +29,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.client.model.ChildCatAllOf;
 import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
@@ -70,6 +73,7 @@ public class ChildCat extends ParentPet {
    * @return name
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -102,9 +106,10 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPetType() {
     return petType;
@@ -112,7 +117,7 @@ public class ChildCat extends ParentPet {
 
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPetType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));

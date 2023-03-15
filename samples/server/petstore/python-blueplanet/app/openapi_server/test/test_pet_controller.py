@@ -61,7 +61,7 @@ class TestPetController(BaseTestCase):
 
         Finds Pets by status
         """
-        query_string = [('status', ['available'])]
+        query_string = [('status', 'available')]
         response = self.client.open(
             '/v2/pet/findByStatus',
             method='GET',
@@ -74,7 +74,7 @@ class TestPetController(BaseTestCase):
 
         Finds Pets by tags
         """
-        query_string = [('tags', ['tags_example'])]
+        query_string = [('tags', 'tags_example')]
         response = self.client.open(
             '/v2/pet/findByTags',
             method='GET',
@@ -144,7 +144,7 @@ class TestPetController(BaseTestCase):
         uploads an image
         """
         data = dict(additional_metadata='additional_metadata_example',
-                    file='/path/to/file')
+                    file=(BytesIO(b'some file data'), 'file.txt'))
         response = self.client.open(
             '/v2/pet/{pet_id}/uploadImage'.format(pet_id=56),
             method='POST',

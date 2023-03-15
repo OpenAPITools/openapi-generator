@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Return type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Return{}
-
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
@@ -44,7 +41,7 @@ func NewReturnWithDefaults() *Return {
 
 // GetReturn returns the Return field value if set, zero value otherwise.
 func (o *Return) GetReturn() int32 {
-	if o == nil || IsNil(o.Return) {
+	if o == nil || o.Return == nil {
 		var ret int32
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *Return) GetReturn() int32 {
 // GetReturnOk returns a tuple with the Return field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Return) GetReturnOk() (*int32, bool) {
-	if o == nil || IsNil(o.Return) {
+	if o == nil || o.Return == nil {
 		return nil, false
 	}
 	return o.Return, true
@@ -62,7 +59,7 @@ func (o *Return) GetReturnOk() (*int32, bool) {
 
 // HasReturn returns a boolean if a field has been set.
 func (o *Return) HasReturn() bool {
-	if o != nil && !IsNil(o.Return) {
+	if o != nil && o.Return != nil {
 		return true
 	}
 
@@ -75,16 +72,8 @@ func (o *Return) SetReturn(v int32) {
 }
 
 func (o Return) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Return) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Return) {
+	if o.Return != nil {
 		toSerialize["return"] = o.Return
 	}
 
@@ -92,7 +81,7 @@ func (o Return) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *Return) UnmarshalJSON(bytes []byte) (err error) {

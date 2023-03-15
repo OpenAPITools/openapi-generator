@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -28,14 +29,13 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Pig
     /// </summary>
-    public partial class Pig : IValidatableObject
+    public partial class Pig : IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
-        [JsonConstructor]
-        internal Pig(BasquePig basquePig)
+        public Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
         }
@@ -44,8 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
-        [JsonConstructor]
-        internal Pig(DanishPig danishPig)
+        public Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
         }
@@ -53,18 +52,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets BasquePig
         /// </summary>
-        public BasquePig? BasquePig { get; set; }
+        public BasquePig BasquePig { get; set; }
 
         /// <summary>
         /// Gets or Sets DanishPig
         /// </summary>
-        public DanishPig? DanishPig { get; set; }
+        public DanishPig DanishPig { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,6 +77,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Pig).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Pig instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Pig to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Pig? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -105,46 +142,46 @@ namespace Org.OpenAPITools.Model
     public class PigJsonConverter : JsonConverter<Pig>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Pig).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="utf8JsonReader"></param>
+        /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Pig Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override Pig Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int currentDepth = utf8JsonReader.CurrentDepth;
+            int currentDepth = reader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            Utf8JsonReader basquePigReader = reader;
+            bool basquePigDeserialized = Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, options, out BasquePig? basquePig);
 
-            Utf8JsonReader basquePigReader = utf8JsonReader;
-            bool basquePigDeserialized = Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig? basquePig);
-
-            Utf8JsonReader danishPigReader = utf8JsonReader;
-            bool danishPigDeserialized = Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig? danishPig);
+            Utf8JsonReader danishPigReader = reader;
+            bool danishPigDeserialized = Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, options, out DanishPig? danishPig);
 
 
-            while (utf8JsonReader.Read())
+            while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
-                    utf8JsonReader.Read();
+                    string? propertyName = reader.GetString();
+                    reader.Read();
 
                     switch (propertyName)
                     {
-                        default:
-                            break;
                     }
                 }
             }
@@ -163,14 +200,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pig"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
-        {
-            writer.WriteStartObject();
-
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

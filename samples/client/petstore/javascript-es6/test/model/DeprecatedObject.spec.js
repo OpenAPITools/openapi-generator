@@ -50,7 +50,7 @@
   describe('DeprecatedObject', function() {
     it('should create an instance of DeprecatedObject', function() {
       // uncomment below and update the code to test DeprecatedObject
-      //var instance = new OpenApiPetstore.DeprecatedObject();
+      //var instane = new OpenApiPetstore.DeprecatedObject();
       //expect(instance).to.be.a(OpenApiPetstore.DeprecatedObject);
     });
 

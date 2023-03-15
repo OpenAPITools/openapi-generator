@@ -54,24 +54,8 @@ class ArrayOfArrayOfNumberOnly {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>ArrayOfArrayOfNumberOnly</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ArrayOfArrayOfNumberOnly</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is an array
-        if (!Array.isArray(data['ArrayArrayNumber'])) {
-            throw new Error("Expected the field `ArrayArrayNumber` to be an array in the JSON data but got " + data['ArrayArrayNumber']);
-        }
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * @member {Array.<Array.<Number>>} ArrayArrayNumber

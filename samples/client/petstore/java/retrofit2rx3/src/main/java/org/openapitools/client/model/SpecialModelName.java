@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
@@ -31,7 +33,7 @@ public class SpecialModelName {
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
-  public SpecialModelName() {
+  public SpecialModelName() { 
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
@@ -45,6 +47,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;

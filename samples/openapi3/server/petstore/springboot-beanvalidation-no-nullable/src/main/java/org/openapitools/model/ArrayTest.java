@@ -53,7 +53,7 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
-  @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "array_of_string", required = false)
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -80,7 +80,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   @Valid 
-  @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "array_array_of_integer", required = false)
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -94,7 +94,7 @@ public class ArrayTest {
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -107,7 +107,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   @Valid 
-  @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "array_array_of_model", required = false)
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

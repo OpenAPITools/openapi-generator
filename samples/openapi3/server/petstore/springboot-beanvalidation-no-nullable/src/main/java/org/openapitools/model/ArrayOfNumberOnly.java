@@ -45,7 +45,7 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
   */
   @Valid 
-  @Schema(name = "ArrayNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "ArrayNumber", required = false)
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

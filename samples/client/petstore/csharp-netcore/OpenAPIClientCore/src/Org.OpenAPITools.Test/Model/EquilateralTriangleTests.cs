@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing EquilateralTriangle
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void EquilateralTriangleInstanceTest()
         {
-            // TODO uncomment below to test "IsType" EquilateralTriangle
-            //Assert.IsType<EquilateralTriangle>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" EquilateralTriangle
+            //Assert.IsInstanceOfType<EquilateralTriangle> (instance, "variable 'instance' is a EquilateralTriangle");
         }
 
 

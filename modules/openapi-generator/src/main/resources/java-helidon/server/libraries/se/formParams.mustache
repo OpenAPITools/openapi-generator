@@ -1,1 +1,0 @@
-{{#isFormParam}}{{^isFile}}{{>dataType}} {{paramName}} = {{>paramValue}}{{/isFile}}{{#isFile}}{{#isArray}}List<{{/isArray}}InputStream{{#isArray}}>{{/isArray}} {{paramName}} = {{>paramValue}}{{/isFile}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{/isFormParam}}

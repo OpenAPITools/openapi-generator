@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
@@ -31,7 +33,7 @@ public class DogAllOf {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public DogAllOf() {
+  public DogAllOf() { 
   }
 
   public DogAllOf breed(String breed) {
@@ -45,6 +47,7 @@ public class DogAllOf {
    * @return breed
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getBreed() {
     return breed;

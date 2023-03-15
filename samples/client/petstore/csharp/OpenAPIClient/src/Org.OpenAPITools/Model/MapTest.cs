@@ -50,6 +50,12 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name="map_of_enum_string", EmitDefaultValue=false)]
+        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -71,11 +77,6 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="map_map_of_string", EmitDefaultValue=false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
 
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-        [DataMember(Name="map_of_enum_string", EmitDefaultValue=false)]
-        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets DirectMap

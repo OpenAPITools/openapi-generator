@@ -20,17 +20,18 @@ const docusaurusConfig = {
   favicon: 'img/favicon.png',
   organizationName: 'OpenAPITools',
   projectName: 'openapi-generator',
-  onBrokenLinks: 'ignore',
 
   // // You may provide arbitrary config keys to be used as needed by your
   // // template. For example, if you need your repo's URL...
   // repoUrl: 'https://github.com/OpenAPITools/openapi-generator',
 
-  //plugins: ['@docusaurus/plugin-google-analytics'],
+  plugins: ['@docusaurus/plugin-google-analytics'],
 
   themeConfig: {
     // Open Graph and Twitter card images.
     image: 'img/docusaurus.png',
+
+    sidebarCollapsible: true,
 
     prism: {
       theme: require('prism-react-renderer/themes/dracula'),
@@ -44,7 +45,7 @@ const docusaurusConfig = {
         alt: 'OpenAPI Tools logo',
       },
 
-      items: [
+      links: [
         {to: 'docs/installation', label: 'Getting Started'},
         {to: 'docs/generators', label: 'Generators'},
         {to: 'docs/roadmap', label: 'Roadmap'},
@@ -55,11 +56,16 @@ const docusaurusConfig = {
       ],
     },
 
-    algolia: {
-      appId: 'MVE1LN4DBI',
-      apiKey: '3c3f7f355de15fa3f392264b2e7a5300',
-      indexName: 'openapi-generator',
+    googleAnalytics: {
+      trackingID: 'UA-132927057-1',
     },
+
+    algolia: {
+      apiKey: '28e55aff9bab37236baa1c5f0f84f4bb',
+      indexName: 'openapi-generator',
+      algoliaOptions: { advancedSyntax: true, hitsPerPage: 5},
+    },
+
 
     footer: {
       style: 'dark',
@@ -147,7 +153,6 @@ const docusaurusConfig = {
            */
           docLayoutComponent: '@theme/DocPage',
           docItemComponent: '@theme/DocItem',
-          sidebarCollapsible: true,
 
           editUrl: 'https://github.com/OpenAPITools/openapi-generator/edit/master/website',
 
@@ -160,10 +165,6 @@ const docusaurusConfig = {
           showLastUpdateAuthor: true,
           // Equivalent to `enableUpdateTime`.
           showLastUpdateTime: true,
-        },
-
-        googleAnalytics: {
-          trackingID: 'UA-132927057-1',
         },
       },
     ],

@@ -37,7 +37,7 @@ public class ReadOnlyFirst {
    * @return bar
   */
   
-  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public String getBar() {
     return bar;
   }
@@ -56,7 +56,7 @@ public class ReadOnlyFirst {
    * @return baz
   */
   
-  @Schema(name = "baz", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "baz", required = false)
   public String getBaz() {
     return baz;
   }

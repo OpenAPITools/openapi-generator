@@ -33,10 +33,6 @@ extension Double: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
 
-extension Decimal: JSONEncodable {
-    func encodeToJSON() -> Any { self }
-}
-
 extension String: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
@@ -106,6 +102,6 @@ extension JSONEncodable where Self: Encodable {
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Configuration.successfulStatusCodeRange.contains(statusCode)
+        return (200 ..< 300).contains(statusCode)
     }
 }

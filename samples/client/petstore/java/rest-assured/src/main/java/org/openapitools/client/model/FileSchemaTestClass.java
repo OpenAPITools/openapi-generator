@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +41,9 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = new ArrayList<>();
+  private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() {
+  public FileSchemaTestClass() { 
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
@@ -56,7 +58,7 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @Valid
-
+  @ApiModelProperty(value = "")
 
   public ModelFile getFile() {
     return _file;
@@ -88,7 +90,7 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @Valid
-
+  @ApiModelProperty(value = "")
 
   public List<ModelFile> getFiles() {
     return files;

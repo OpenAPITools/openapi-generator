@@ -205,7 +205,7 @@ class OpenApiModel(object):
         if self.get("_spec_property_naming", False):
             new_inst = cls._new_from_openapi_data()
         else:
-            new_inst = cls.__new__(cls, **self.__dict__)
+            new_inst = cls.__new__(cls)
 
         for k, v in self.__dict__.items():
             setattr(new_inst, k, deepcopy(v, memo))

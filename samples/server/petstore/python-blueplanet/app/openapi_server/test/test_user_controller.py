@@ -17,7 +17,7 @@ class TestUserController(BaseTestCase):
 
         Create user
         """
-        body = openapi_server.User()
+        body = {}
         response = self.client.open(
             '/v2/user',
             method='POST',
@@ -31,7 +31,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [openapi_server.User()]
+        body = []
         response = self.client.open(
             '/v2/user/createWithArray',
             method='POST',
@@ -45,7 +45,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [openapi_server.User()]
+        body = []
         response = self.client.open(
             '/v2/user/createWithList',
             method='POST',
@@ -106,7 +106,7 @@ class TestUserController(BaseTestCase):
 
         Updated user
         """
-        body = openapi_server.User()
+        body = {}
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),
             method='PUT',

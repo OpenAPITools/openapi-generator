@@ -264,19 +264,17 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
         // Header parameters
-        #[allow(clippy::single_match)]
         match param_information {
             Some(param_information) => {
         request.headers_mut().append(
             HeaderName::from_static("information"),
-            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_information.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -288,11 +286,12 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             None => {}
         }
 
-        let response = client_service.call((request, context.clone()))
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             204 => {
+                let body = response.into_body();
                 Ok(
                     CallbackCallbackWithHeaderPostResponse::OK
                 )
@@ -351,17 +350,18 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let response = client_service.call((request, context.clone()))
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             204 => {
+                let body = response.into_body();
                 Ok(
                     CallbackCallbackPostResponse::OK
                 )

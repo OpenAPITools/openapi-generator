@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -34,8 +36,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesNumber() {
-
+  public AdditionalPropertiesNumber() { 
   }
 
   public AdditionalPropertiesNumber name(String name) {
@@ -49,6 +50,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;

@@ -26,7 +26,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "pet", description = "Everything about your Pets")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface PetApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -164,7 +163,6 @@ public interface PetApi {
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
-    @Deprecated
     @ApiOperation(
         tags = { "pet" },
         value = "Finds Pets by tags",

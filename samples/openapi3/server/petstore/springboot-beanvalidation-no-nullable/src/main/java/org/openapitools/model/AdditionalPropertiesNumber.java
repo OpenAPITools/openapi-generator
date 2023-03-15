@@ -36,7 +36,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   */
   
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }

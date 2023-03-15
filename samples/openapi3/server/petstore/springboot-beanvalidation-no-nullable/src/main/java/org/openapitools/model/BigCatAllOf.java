@@ -75,7 +75,7 @@ public class BigCatAllOf {
    * @return kind
   */
   
-  @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "kind", required = false)
   public KindEnum getKind() {
     return kind;
   }

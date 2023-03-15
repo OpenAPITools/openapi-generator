@@ -50,7 +50,7 @@ func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 		dst.Banana = nil
 	}
 
-	return fmt.Errorf("data failed to match schemas in anyOf(GmFruit)")
+	return fmt.Errorf("Data failed to match schemas in anyOf(GmFruit)")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

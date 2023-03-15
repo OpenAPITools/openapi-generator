@@ -36,7 +36,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    * @return name
   */
   
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }

@@ -20,7 +20,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User) async throws {
-        return try await createUserWithRequestBuilder(body: body).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = createUserWithRequestBuilder(body: body).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -45,7 +65,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -56,7 +76,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User]) async throws {
-        return try await createUsersWithArrayInputWithRequestBuilder(body: body).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -80,7 +120,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -91,7 +131,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User]) async throws {
-        return try await createUsersWithListInputWithRequestBuilder(body: body).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -115,7 +175,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -126,7 +186,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String) async throws {
-        return try await deleteUserWithRequestBuilder(username: username).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -154,7 +234,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -165,7 +245,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String) async throws -> User {
-        return try await getUserByNameWithRequestBuilder(username: username).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -192,7 +292,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -204,7 +304,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String) async throws -> String {
-        return try await loginUserWithRequestBuilder(username: username, password: password).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -222,8 +342,8 @@ open class UserAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": (wrappedValue: username.encodeToJSON(), isExplode: false),
-            "password": (wrappedValue: password.encodeToJSON(), isExplode: false),
+            "username": username.encodeToJSON(),
+            "password": password.encodeToJSON(),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -234,7 +354,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -244,7 +364,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser() async throws {
-        return try await logoutUserWithRequestBuilder().execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = logoutUserWithRequestBuilder().execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -267,7 +407,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -279,7 +419,27 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User) async throws {
-        return try await updateUserWithRequestBuilder(username: username, body: body).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -308,6 +468,6 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 }

@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 {{/serializableModel}}
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 
 {{#models}}

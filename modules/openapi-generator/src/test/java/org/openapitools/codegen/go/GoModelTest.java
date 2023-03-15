@@ -37,9 +37,9 @@ public class GoModelTest {
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperty("name", new StringSchema())
-                .addProperty("createdAt", new DateTimeSchema())
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new GoClientCodegen();
@@ -85,8 +85,8 @@ public class GoModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperty("urls", new ArraySchema()
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
@@ -122,7 +122,7 @@ public class GoModelTest {
     public void mapPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("translations", new MapSchema()
+                .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
@@ -150,7 +150,7 @@ public class GoModelTest {
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("children", new Schema().$ref("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -173,7 +173,7 @@ public class GoModelTest {
     public void complexListProperty() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("children", new ArraySchema()
+                .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -199,7 +199,7 @@ public class GoModelTest {
     public void complexMapProperty() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperty("children", new MapSchema()
+                .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);

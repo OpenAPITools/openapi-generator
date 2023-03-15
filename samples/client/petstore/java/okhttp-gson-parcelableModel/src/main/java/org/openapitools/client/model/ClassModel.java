@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -38,7 +40,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -48,13 +49,14 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
+@ApiModel(description = "Model for testing model with \"_class\" property")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ClassModel implements Parcelable {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public ClassModel() {
+  public ClassModel() { 
   }
 
   public ClassModel propertyClass(String propertyClass) {
@@ -68,6 +70,7 @@ public class ClassModel implements Parcelable {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getPropertyClass() {
     return propertyClass;
@@ -159,7 +162,9 @@ public class ClassModel implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!ClassModel.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (ClassModel.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ClassModel is not found in the empty JSON string", ClassModel.openapiRequiredFields.toString()));
         }
       }
@@ -171,7 +176,7 @@ public class ClassModel implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ClassModel` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("_class") != null && !jsonObj.get("_class").isJsonNull()) && !jsonObj.get("_class").isJsonPrimitive()) {
+      if (jsonObj.get("_class") != null && !jsonObj.get("_class").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `_class` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_class").toString()));
       }
   }

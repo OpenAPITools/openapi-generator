@@ -74,10 +74,9 @@ _responseData = deserialize<HealthCheckResult, HealthCheckResult>(_response.data
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<HealthCheckResult>(
@@ -155,10 +154,9 @@ _bodyData=jsonEncode(pet);
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -221,10 +219,9 @@ _bodyData=jsonEncode(body);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -244,10 +241,9 @@ _responseData = deserialize<bool, bool>(_response.data!, 'bool', growable: true)
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<bool>(
@@ -309,10 +305,9 @@ _bodyData=jsonEncode(outerComposite);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -332,10 +327,9 @@ _responseData = deserialize<OuterComposite, OuterComposite>(_response.data!, 'Ou
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterComposite>(
@@ -397,10 +391,9 @@ _bodyData=jsonEncode(body);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -420,10 +413,9 @@ _responseData = deserialize<num, num>(_response.data!, 'num', growable: true);
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<num>(
@@ -485,10 +477,9 @@ _bodyData=jsonEncode(body);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -508,10 +499,9 @@ _responseData = deserialize<String, String>(_response.data!, 'String', growable:
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<String>(
@@ -573,10 +563,9 @@ _bodyData=jsonEncode(outerObjectWithEnumProperty);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -596,10 +585,9 @@ _responseData = deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProp
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterObjectWithEnumProperty>(
@@ -661,10 +649,9 @@ _bodyData=jsonEncode(body);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -726,10 +713,9 @@ _bodyData=jsonEncode(fileSchemaTestClass);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -798,10 +784,9 @@ _bodyData=jsonEncode(user);
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -864,10 +849,9 @@ _bodyData=jsonEncode(modelClient);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -887,10 +871,9 @@ _responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelCli
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(
@@ -984,10 +967,9 @@ _responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelCli
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1076,10 +1058,9 @@ _responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelCli
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1215,10 +1196,9 @@ _bodyData=jsonEncode(requestBody);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1282,10 +1262,9 @@ _bodyData=jsonEncode(requestBody);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(

@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing BananaReq
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void BananaReqInstanceTest()
         {
-            // TODO uncomment below to test "IsType" BananaReq
-            //Assert.IsType<BananaReq>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" BananaReq
+            //Assert.IsInstanceOfType<BananaReq> (instance, "variable 'instance' is a BananaReq");
         }
 
 

@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **petId** | **integer** |  | [optional] 
 **quantity** | **integer** |  | [optional] 
 **shipDate** | **character** |  | [optional] 
-**status** | **character** | Order Status | [optional] [Enum: [placed, approved, delivered]] 
-**complete** | **character** |  | [optional] [default to FALSE] 
+**status** | **character** | Order Status | [optional] 
+**complete** | **character** |  | [optional] [default to FALSE]
 
 

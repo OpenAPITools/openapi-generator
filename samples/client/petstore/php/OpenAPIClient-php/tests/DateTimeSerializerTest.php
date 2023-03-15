@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeSerializerTest extends TestCase
 {
-    public function testDateTimeSanitation()
+    public function testDateTimeSanitazion()
     {
         $dateTime = new \DateTime('April 30, 1973 17:05 CEST');
 
@@ -25,7 +25,7 @@ class DateTimeSerializerTest extends TestCase
         ObjectSerializer::setDateTimeFormat(\DateTime::ATOM);
     }
 
-    public function testDateSanitation()
+    public function testDateSanitazion()
     {
         $dateTime = new \DateTime('April 30, 1973 17:05 CEST');
 

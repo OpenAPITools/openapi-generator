@@ -10,7 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## testClassname
 
-> Client testClassname(client)
+> Client testClassname(body)
 
 To test class name in snake case
 
@@ -39,9 +39,9 @@ public class Example {
         //api_key_query.setApiKeyPrefix("Token");
 
         FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
-        Client client = new Client(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.testClassname(client);
+            Client result = apiInstance.testClassname(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
@@ -59,7 +59,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **client** | [**Client**](Client.md)| client model | |
+| **body** | [**Client**](Client.md)| client model | |
 
 ### Return type
 

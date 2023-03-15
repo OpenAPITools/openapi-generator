@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the MapTest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &MapTest{}
-
 // MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
@@ -44,7 +41,7 @@ func NewMapTestWithDefaults() *MapTest {
 
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
 func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
-	if o == nil || IsNil(o.MapMapOfString) {
+	if o == nil || o.MapMapOfString == nil {
 		var ret map[string]map[string]string
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 // GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
-	if o == nil || IsNil(o.MapMapOfString) {
+	if o == nil || o.MapMapOfString == nil {
 		return nil, false
 	}
 	return o.MapMapOfString, true
@@ -62,7 +59,7 @@ func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 
 // HasMapMapOfString returns a boolean if a field has been set.
 func (o *MapTest) HasMapMapOfString() bool {
-	if o != nil && !IsNil(o.MapMapOfString) {
+	if o != nil && o.MapMapOfString != nil {
 		return true
 	}
 
@@ -76,7 +73,7 @@ func (o *MapTest) SetMapMapOfString(v map[string]map[string]string) {
 
 // GetMapOfEnumString returns the MapOfEnumString field value if set, zero value otherwise.
 func (o *MapTest) GetMapOfEnumString() map[string]string {
-	if o == nil || IsNil(o.MapOfEnumString) {
+	if o == nil || o.MapOfEnumString == nil {
 		var ret map[string]string
 		return ret
 	}
@@ -86,7 +83,7 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
-	if o == nil || IsNil(o.MapOfEnumString) {
+	if o == nil || o.MapOfEnumString == nil {
 		return nil, false
 	}
 	return o.MapOfEnumString, true
@@ -94,7 +91,7 @@ func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
 
 // HasMapOfEnumString returns a boolean if a field has been set.
 func (o *MapTest) HasMapOfEnumString() bool {
-	if o != nil && !IsNil(o.MapOfEnumString) {
+	if o != nil && o.MapOfEnumString != nil {
 		return true
 	}
 
@@ -108,7 +105,7 @@ func (o *MapTest) SetMapOfEnumString(v map[string]string) {
 
 // GetDirectMap returns the DirectMap field value if set, zero value otherwise.
 func (o *MapTest) GetDirectMap() map[string]bool {
-	if o == nil || IsNil(o.DirectMap) {
+	if o == nil || o.DirectMap == nil {
 		var ret map[string]bool
 		return ret
 	}
@@ -118,7 +115,7 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 // GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
-	if o == nil || IsNil(o.DirectMap) {
+	if o == nil || o.DirectMap == nil {
 		return nil, false
 	}
 	return o.DirectMap, true
@@ -126,7 +123,7 @@ func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 
 // HasDirectMap returns a boolean if a field has been set.
 func (o *MapTest) HasDirectMap() bool {
-	if o != nil && !IsNil(o.DirectMap) {
+	if o != nil && o.DirectMap != nil {
 		return true
 	}
 
@@ -140,7 +137,7 @@ func (o *MapTest) SetDirectMap(v map[string]bool) {
 
 // GetIndirectMap returns the IndirectMap field value if set, zero value otherwise.
 func (o *MapTest) GetIndirectMap() map[string]bool {
-	if o == nil || IsNil(o.IndirectMap) {
+	if o == nil || o.IndirectMap == nil {
 		var ret map[string]bool
 		return ret
 	}
@@ -150,7 +147,7 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 // GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
-	if o == nil || IsNil(o.IndirectMap) {
+	if o == nil || o.IndirectMap == nil {
 		return nil, false
 	}
 	return o.IndirectMap, true
@@ -158,7 +155,7 @@ func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 
 // HasIndirectMap returns a boolean if a field has been set.
 func (o *MapTest) HasIndirectMap() bool {
-	if o != nil && !IsNil(o.IndirectMap) {
+	if o != nil && o.IndirectMap != nil {
 		return true
 	}
 
@@ -171,28 +168,20 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 }
 
 func (o MapTest) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o MapTest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.MapMapOfString) {
+	if o.MapMapOfString != nil {
 		toSerialize["map_map_of_string"] = o.MapMapOfString
 	}
-	if !IsNil(o.MapOfEnumString) {
+	if o.MapOfEnumString != nil {
 		toSerialize["map_of_enum_string"] = o.MapOfEnumString
 	}
-	if !IsNil(o.DirectMap) {
+	if o.DirectMap != nil {
 		toSerialize["direct_map"] = o.DirectMap
 	}
-	if !IsNil(o.IndirectMap) {
+	if o.IndirectMap != nil {
 		toSerialize["indirect_map"] = o.IndirectMap
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableMapTest struct {

@@ -14,27 +14,27 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import {{javaxPackage}}.servlet.Filter;
-import {{javaxPackage}}.servlet.FilterChain;
-import {{javaxPackage}}.servlet.FilterConfig;
-import {{javaxPackage}}.servlet.ReadListener;
-import {{javaxPackage}}.servlet.ServletException;
-import {{javaxPackage}}.servlet.ServletInputStream;
-import {{javaxPackage}}.servlet.ServletOutputStream;
-import {{javaxPackage}}.servlet.ServletRequest;
-import {{javaxPackage}}.servlet.ServletResponse;
-import {{javaxPackage}}.servlet.WriteListener;
-import {{javaxPackage}}.servlet.http.Cookie;
-import {{javaxPackage}}.servlet.http.HttpServletRequest;
-import {{javaxPackage}}.servlet.http.HttpServletRequestWrapper;
-import {{javaxPackage}}.servlet.http.HttpServletResponse;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import org.apache.commons.io.output.TeeOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 /**
- * Implements {{javaxPackage}}.servlet.Filter and dump the request/response to syslog
+ * Implements javax.servlet.Filter and dump the request/response to syslog
  * @author pkmst
  *
  */

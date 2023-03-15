@@ -44,7 +44,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -386,8 +385,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty property = super.fromProperty(name, p, required);
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty property = super.fromProperty(name, p);
         if (property != null) {
             String nameInCamelCase = property.nameInCamelCase;
             nameInCamelCase = sanitizeName(nameInCamelCase);
@@ -567,7 +566,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), false);
+                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
                 op.vendorExtensions.put("x-codegen-response", cm);
                 op.vendorExtensions.put("x-is-model-type", isModelType(cm));
                 op.vendorExtensions.put("x-is-stream-type", isStreamType(cm));
@@ -827,7 +826,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 // method with only the scope that it requires.  We have to create a new auth method
                 // instance because the original object must not be modified.
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
-                authMethod.name = camelize(sanitizeName(authMethod.name), LOWERCASE_FIRST_LETTER);
+                authMethod.name = camelize(sanitizeName(authMethod.name), true);
                 if (opScopes != null) {
                     CodegenSecurity opSecurity = new CodegenSecurity();
                     opSecurity.name = authMethod.name;

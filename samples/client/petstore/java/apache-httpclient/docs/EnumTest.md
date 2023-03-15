@@ -12,9 +12,6 @@
 |**enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional] |
 |**enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional] |
 |**outerEnum** | **OuterEnum** |  |  [optional] |
-|**outerEnumInteger** | **OuterEnumInteger** |  |  [optional] |
-|**outerEnumDefaultValue** | **OuterEnumDefaultValue** |  |  [optional] |
-|**outerEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  |  [optional] |
 
 
 

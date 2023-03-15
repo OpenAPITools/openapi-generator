@@ -31,7 +31,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -316,7 +315,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, LOWERCASE_FIRST_LETTER) + ".service";
+        return camelize(name, true) + ".service";
     }
 
     @Override
@@ -326,7 +325,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
+        return camelize(toModelName(name), true);
     }
 
     @Override

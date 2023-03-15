@@ -62,7 +62,7 @@ class {{classname}}(Model):
 {{/vars}}
 
     @classmethod
-    def from_dict(cls, dikt) -> '{{classname}}':
+    def from_dict(cls, dikt){{^supportPython2}} -> '{{classname}}'{{/supportPython2}}:
         """Returns the dict as a model
 
         :param dikt: A dict.

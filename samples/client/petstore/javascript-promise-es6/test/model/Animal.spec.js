@@ -50,19 +50,19 @@
   describe('Animal', function() {
     it('should create an instance of Animal', function() {
       // uncomment below and update the code to test Animal
-      //var instance = new OpenApiPetstore.Animal();
+      //var instane = new OpenApiPetstore.Animal();
       //expect(instance).to.be.a(OpenApiPetstore.Animal);
     });
 
     it('should have the property className (base name: "className")', function() {
       // uncomment below and update the code to test the property className
-      //var instance = new OpenApiPetstore.Animal();
+      //var instane = new OpenApiPetstore.Animal();
       //expect(instance).to.be();
     });
 
     it('should have the property color (base name: "color")', function() {
       // uncomment below and update the code to test the property color
-      //var instance = new OpenApiPetstore.Animal();
+      //var instane = new OpenApiPetstore.Animal();
       //expect(instance).to.be();
     });
 

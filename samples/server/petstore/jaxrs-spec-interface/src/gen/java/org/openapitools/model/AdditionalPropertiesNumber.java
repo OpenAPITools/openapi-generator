@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesNumber")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
+  
   private @Valid String name;
 
   /**

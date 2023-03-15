@@ -64,32 +64,8 @@ class ObjectWithDeprecatedFields {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>ObjectWithDeprecatedFields</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ObjectWithDeprecatedFields</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['uuid'] && !(typeof data['uuid'] === 'string' || data['uuid'] instanceof String)) {
-            throw new Error("Expected the field `uuid` to be a primitive type in the JSON string but got " + data['uuid']);
-        }
-        // validate the optional field `deprecatedRef`
-        if (data['deprecatedRef']) { // data not null
-          DeprecatedObject.validateJSON(data['deprecatedRef']);
-        }
-        // ensure the json data is an array
-        if (!Array.isArray(data['bars'])) {
-            throw new Error("Expected the field `bars` to be an array in the JSON data but got " + data['bars']);
-        }
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * @member {String} uuid

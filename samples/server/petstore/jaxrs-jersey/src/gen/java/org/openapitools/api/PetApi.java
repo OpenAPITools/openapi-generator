@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import org.openapitools.model.*;
 import org.openapitools.api.PetApiService;
 import org.openapitools.api.factories.PetApiServiceFactory;
 

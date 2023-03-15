@@ -50,7 +50,7 @@
   describe('Return', function() {
     it('should create an instance of Return', function() {
       // uncomment below and update the code to test Return
-      //var instance = new OpenApiPetstore.Return();
+      //var instane = new OpenApiPetstore.Return();
       //expect(instance).to.be.a(OpenApiPetstore.Return);
     });
 

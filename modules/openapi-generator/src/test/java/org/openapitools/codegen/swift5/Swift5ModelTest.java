@@ -122,45 +122,4 @@ public class Swift5ModelTest {
         Assert.assertFalse(property7.isContainer);
     }
 
-    @Test(description = "convert a simple java model", enabled = true)
-    public void useCustomDateTimeTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("binary", new BinarySchema())
-                .addProperties("byte", new ByteArraySchema())
-                .addProperties("uuid", new UUIDSchema())
-                .addProperties("dateOfBirth", new DateSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name")
-                .discriminator(new Discriminator().propertyName("test"));
-        final DefaultCodegen codegen = new Swift5ClientCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setOpenAPI(openAPI);
-        codegen.additionalProperties().put(Swift5ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, true);
-        codegen.processOpts();
-
-        final CodegenModel cm = codegen.fromModel("sample", schema);
-        final CodegenProperty property7 = cm.vars.get(6);
-
-        final CodegenProperty property3 = cm.vars.get(2);
-        Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "Date");
-        Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isContainer);
-
-        Assert.assertEquals(property7.baseName, "dateOfBirth");
-        Assert.assertEquals(property7.dataType, "OpenAPIDateWithoutTime");
-        Assert.assertEquals(property7.name, "dateOfBirth");
-        Assert.assertNull(property7.defaultValue);
-        Assert.assertEquals(property7.baseType, "OpenAPIDateWithoutTime");
-        Assert.assertFalse(property7.required);
-        Assert.assertFalse(property7.isContainer);
-    }
-
 }

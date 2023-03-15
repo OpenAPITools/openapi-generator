@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -28,13 +30,14 @@ import org.hibernate.validator.constraints.*;
 /**
  * Model for testing reserved words
  */
+@ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
 
-  public ModelReturn() {
+  public ModelReturn() { 
   }
 
   public ModelReturn _return(Integer _return) {
@@ -48,7 +51,7 @@ public class ModelReturn {
    * @return _return
   **/
   @javax.annotation.Nullable
-
+  @ApiModelProperty(value = "")
 
   public Integer getReturn() {
     return _return;

@@ -49,7 +49,7 @@
   describe('OuterEnumInteger', function() {
     it('should create an instance of OuterEnumInteger', function() {
       // uncomment below and update the code to test OuterEnumInteger
-      //var instance = new OpenApiPetstore.OuterEnumInteger();
+      //var instane = new OpenApiPetstore.OuterEnumInteger();
       //expect(instance).to.be.a(OpenApiPetstore.OuterEnumInteger);
     });
 

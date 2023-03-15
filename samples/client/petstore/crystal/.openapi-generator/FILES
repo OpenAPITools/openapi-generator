@@ -13,7 +13,6 @@ src/petstore/api_error.cr
 src/petstore/configuration.cr
 src/petstore/models/api_response.cr
 src/petstore/models/category.cr
-src/petstore/models/format_test.cr
 src/petstore/models/order.cr
 src/petstore/models/pet.cr
 src/petstore/models/tag.cr

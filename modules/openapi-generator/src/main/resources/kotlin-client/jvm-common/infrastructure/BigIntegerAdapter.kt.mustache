@@ -15,9 +15,8 @@ import com.squareup.moshi.ToJson
 {{/moshi}}
 import java.math.BigInteger
 
-{{#kotlinx_serialization}}
-@Serializer(forClass = BigInteger::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object BigIntegerAdapter : KSerializer<BigInteger> {
+{{#kotlinx_serialization}}@Serializer(forClass = BigInteger::class)
+object BigIntegerAdapter : KSerializer<BigInteger> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): BigInteger {
         return BigInteger(decoder.decodeString())
@@ -26,10 +25,7 @@ import java.math.BigInteger
     override fun serialize(encoder: Encoder, value: BigInteger) {
         encoder.encodeString(value.toString())
     }
-}
-{{/kotlinx_serialization}}
-{{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class BigIntegerAdapter {
+}{{/kotlinx_serialization}}{{#moshi}}{{#nonPublicApi}}internal {{/nonPublicApi}}class BigIntegerAdapter {
     @ToJson
     fun toJson(value: BigInteger): String {
         return value.toString()
@@ -39,5 +35,4 @@ import java.math.BigInteger
     fun fromJson(value: String): BigInteger {
         return BigInteger(value)
     }
-}
-{{/moshi}}
+}{{/moshi}}

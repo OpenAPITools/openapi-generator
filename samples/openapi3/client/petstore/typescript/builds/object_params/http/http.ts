@@ -1,8 +1,9 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
-import { URL, URLSearchParams } from 'url';
+import { URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
+import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -30,6 +31,7 @@ export type HttpFile = {
     name: string
 };
 
+
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -47,7 +49,7 @@ export type RequestBody = undefined | string | FormData | URLSearchParams;
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URL;
+    private url: URLParse;
     private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
@@ -57,7 +59,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URL(url);
+        this.url = new URLParse(url, true);
     }
 
     /*
@@ -65,9 +67,7 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString().endsWith("/") ?
-            this.url.toString().slice(0, -1)
-            : this.url.toString();
+        return this.url.toString();
     }
 
     /**
@@ -75,7 +75,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URL(url);
+        this.url = new URLParse(url, true);
     }
 
     /**
@@ -104,7 +104,9 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        this.url.searchParams.set(name, value);
+        let queryObj = this.url.query;
+        queryObj[name] = value;
+        this.url.set("query", queryObj);
     }
 
     /**

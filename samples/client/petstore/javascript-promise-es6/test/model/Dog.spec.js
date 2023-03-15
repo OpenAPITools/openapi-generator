@@ -50,13 +50,13 @@
   describe('Dog', function() {
     it('should create an instance of Dog', function() {
       // uncomment below and update the code to test Dog
-      //var instance = new OpenApiPetstore.Dog();
+      //var instane = new OpenApiPetstore.Dog();
       //expect(instance).to.be.a(OpenApiPetstore.Dog);
     });
 
     it('should have the property breed (base name: "breed")', function() {
       // uncomment below and update the code to test the property breed
-      //var instance = new OpenApiPetstore.Dog();
+      //var instane = new OpenApiPetstore.Dog();
       //expect(instance).to.be();
     });
 

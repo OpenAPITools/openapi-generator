@@ -50,13 +50,13 @@
   describe('HealthCheckResult', function() {
     it('should create an instance of HealthCheckResult', function() {
       // uncomment below and update the code to test HealthCheckResult
-      //var instance = new OpenApiPetstore.HealthCheckResult();
+      //var instane = new OpenApiPetstore.HealthCheckResult();
       //expect(instance).to.be.a(OpenApiPetstore.HealthCheckResult);
     });
 
     it('should have the property nullableMessage (base name: "NullableMessage")', function() {
       // uncomment below and update the code to test the property nullableMessage
-      //var instance = new OpenApiPetstore.HealthCheckResult();
+      //var instane = new OpenApiPetstore.HealthCheckResult();
       //expect(instance).to.be();
     });
 

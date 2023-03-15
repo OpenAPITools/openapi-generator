@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the DogAllOf type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &DogAllOf{}
-
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
@@ -41,7 +38,7 @@ func NewDogAllOfWithDefaults() *DogAllOf {
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *DogAllOf) GetBreed() string {
-	if o == nil || IsNil(o.Breed) {
+	if o == nil || o.Breed == nil {
 		var ret string
 		return ret
 	}
@@ -51,7 +48,7 @@ func (o *DogAllOf) GetBreed() string {
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DogAllOf) GetBreedOk() (*string, bool) {
-	if o == nil || IsNil(o.Breed) {
+	if o == nil || o.Breed == nil {
 		return nil, false
 	}
 	return o.Breed, true
@@ -59,7 +56,7 @@ func (o *DogAllOf) GetBreedOk() (*string, bool) {
 
 // HasBreed returns a boolean if a field has been set.
 func (o *DogAllOf) HasBreed() bool {
-	if o != nil && !IsNil(o.Breed) {
+	if o != nil && o.Breed != nil {
 		return true
 	}
 
@@ -72,19 +69,11 @@ func (o *DogAllOf) SetBreed(v string) {
 }
 
 func (o DogAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o DogAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Breed) {
+	if o.Breed != nil {
 		toSerialize["breed"] = o.Breed
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableDogAllOf struct {

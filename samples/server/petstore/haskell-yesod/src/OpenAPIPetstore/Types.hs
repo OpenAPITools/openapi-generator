@@ -163,7 +163,6 @@ removeFieldLabelPrefix forParsing prefix =
       , ("<=", "'Less_Than_Or_Equal_To")
       , (">=", "'Greater_Than_Or_Equal_To")
       , ("!=", "'Not_Equal")
-      , ("<>", "'Not_Equal")
       , ("~=", "'Tilde_Equal")
       , ("\\", "'Back_Slash")
       , ("\"", "'Double_Quote")

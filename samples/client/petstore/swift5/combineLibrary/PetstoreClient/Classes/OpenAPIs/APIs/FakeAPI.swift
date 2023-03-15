@@ -23,10 +23,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> AnyPublisher<Bool, Error> {
-        let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Bool, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -36,7 +35,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -63,7 +62,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Bool>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -74,10 +73,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> AnyPublisher<OuterComposite, Error> {
-        let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<OuterComposite, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -87,7 +85,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -114,7 +112,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<OuterComposite>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -125,10 +123,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil) -> AnyPublisher<Double, Error> {
-        let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Double, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -138,7 +135,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -165,7 +162,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Double>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -176,10 +173,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
-        let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<String, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -189,7 +185,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -216,7 +212,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -227,10 +223,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -240,7 +235,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -267,7 +262,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -279,10 +274,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -292,7 +286,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -311,7 +305,7 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(), isExplode: false),
+            "query": query.encodeToJSON(),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -322,7 +316,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -334,10 +328,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
-        let requestBuilder = testClientModelWithRequestBuilder(body: body)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Client, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -347,7 +340,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -375,7 +368,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -400,10 +393,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -413,7 +405,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -475,7 +467,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -561,10 +553,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -574,7 +565,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -607,10 +598,10 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(), isExplode: false),
+            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
+            "enum_query_string": enumQueryString?.encodeToJSON(),
+            "enum_query_integer": enumQueryInteger?.encodeToJSON(),
+            "enum_query_double": enumQueryDouble?.encodeToJSON(),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -623,7 +614,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -640,10 +631,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -653,7 +643,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -678,10 +668,10 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(), isExplode: false),
+            "required_string_group": requiredStringGroup.encodeToJSON(),
+            "required_int64_group": requiredInt64Group.encodeToJSON(),
+            "string_group": stringGroup?.encodeToJSON(),
+            "int64_group": int64Group?.encodeToJSON(),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -693,7 +683,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -705,10 +695,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -718,7 +707,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -745,7 +734,7 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -758,10 +747,9 @@ open class FakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
-        let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
-        let requestTask = requestBuilder.requestTask
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            requestBuilder.execute { result in
+            requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -771,7 +759,7 @@ open class FakeAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -805,6 +793,6 @@ open class FakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 }

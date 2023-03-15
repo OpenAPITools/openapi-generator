@@ -37,13 +37,13 @@ class FooGetDefaultResponse {
   String toString() => 'FooGetDefaultResponse[string=$string]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.string != null) {
-      json[r'string'] = this.string;
+    final _json = <String, dynamic>{};
+    if (string != null) {
+      _json[r'string'] = string;
     } else {
-      json[r'string'] = null;
+      _json[r'string'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [FooGetDefaultResponse] instance and imports its values from

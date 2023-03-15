@@ -86,60 +86,60 @@ class NullableClass {
   String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.integerProp != null) {
-      json[r'integer_prop'] = this.integerProp;
+    final _json = <String, dynamic>{};
+    if (integerProp != null) {
+      _json[r'integer_prop'] = integerProp;
     } else {
-      json[r'integer_prop'] = null;
+      _json[r'integer_prop'] = null;
     }
-    if (this.numberProp != null) {
-      json[r'number_prop'] = this.numberProp;
+    if (numberProp != null) {
+      _json[r'number_prop'] = numberProp;
     } else {
-      json[r'number_prop'] = null;
+      _json[r'number_prop'] = null;
     }
-    if (this.booleanProp != null) {
-      json[r'boolean_prop'] = this.booleanProp;
+    if (booleanProp != null) {
+      _json[r'boolean_prop'] = booleanProp;
     } else {
-      json[r'boolean_prop'] = null;
+      _json[r'boolean_prop'] = null;
     }
-    if (this.stringProp != null) {
-      json[r'string_prop'] = this.stringProp;
+    if (stringProp != null) {
+      _json[r'string_prop'] = stringProp;
     } else {
-      json[r'string_prop'] = null;
+      _json[r'string_prop'] = null;
     }
-    if (this.dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(this.dateProp!.toUtc());
+    if (dateProp != null) {
+      _json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
     } else {
-      json[r'date_prop'] = null;
+      _json[r'date_prop'] = null;
     }
-    if (this.datetimeProp != null) {
-      json[r'datetime_prop'] = this.datetimeProp!.toUtc().toIso8601String();
+    if (datetimeProp != null) {
+      _json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
     } else {
-      json[r'datetime_prop'] = null;
+      _json[r'datetime_prop'] = null;
     }
-    if (this.arrayNullableProp != null) {
-      json[r'array_nullable_prop'] = this.arrayNullableProp;
+    if (arrayNullableProp != null) {
+      _json[r'array_nullable_prop'] = arrayNullableProp;
     } else {
-      json[r'array_nullable_prop'] = null;
+      _json[r'array_nullable_prop'] = null;
     }
-    if (this.arrayAndItemsNullableProp != null) {
-      json[r'array_and_items_nullable_prop'] = this.arrayAndItemsNullableProp;
+    if (arrayAndItemsNullableProp != null) {
+      _json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
     } else {
-      json[r'array_and_items_nullable_prop'] = null;
+      _json[r'array_and_items_nullable_prop'] = null;
     }
-      json[r'array_items_nullable'] = this.arrayItemsNullable;
-    if (this.objectNullableProp != null) {
-      json[r'object_nullable_prop'] = this.objectNullableProp;
+      _json[r'array_items_nullable'] = arrayItemsNullable;
+    if (objectNullableProp != null) {
+      _json[r'object_nullable_prop'] = objectNullableProp;
     } else {
-      json[r'object_nullable_prop'] = null;
+      _json[r'object_nullable_prop'] = null;
     }
-    if (this.objectAndItemsNullableProp != null) {
-      json[r'object_and_items_nullable_prop'] = this.objectAndItemsNullableProp;
+    if (objectAndItemsNullableProp != null) {
+      _json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
     } else {
-      json[r'object_and_items_nullable_prop'] = null;
+      _json[r'object_and_items_nullable_prop'] = null;
     }
-      json[r'object_items_nullable'] = this.objectItemsNullable;
-    return json;
+      _json[r'object_items_nullable'] = objectItemsNullable;
+    return _json;
   }
 
   /// Returns a new [NullableClass] instance and imports its values from

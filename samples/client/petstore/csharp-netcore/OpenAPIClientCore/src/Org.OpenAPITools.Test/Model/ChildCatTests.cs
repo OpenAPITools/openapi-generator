@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing ChildCat
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void ChildCatInstanceTest()
         {
-            // TODO uncomment below to test "IsType" ChildCat
-            //Assert.IsType<ChildCat>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" ChildCat
+            //Assert.IsInstanceOfType<ChildCat> (instance, "variable 'instance' is a ChildCat");
         }
 
 
@@ -63,14 +63,6 @@ namespace Org.OpenAPITools.Test.Model
         public void NameTest()
         {
             // TODO unit test for the property 'Name'
-        }
-        /// <summary>
-        /// Test the property 'PetType'
-        /// </summary>
-        [Fact]
-        public void PetTypeTest()
-        {
-            // TODO unit test for the property 'PetType'
         }
 
     }

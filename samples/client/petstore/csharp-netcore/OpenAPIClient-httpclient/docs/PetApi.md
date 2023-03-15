@@ -91,7 +91,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -283,7 +283,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -382,7 +382,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -577,7 +577,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -880,7 +880,7 @@ catch (ApiException e)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+ - **Accept**: application/json
 
 
 ### HTTP response details

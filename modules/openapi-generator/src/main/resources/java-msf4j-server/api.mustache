@@ -18,10 +18,10 @@ import java.io.InputStream;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import {{javaxPackage}}.ws.rs.core.Context;
-import {{javaxPackage}}.ws.rs.core.Response;
-import {{javaxPackage}}.ws.rs.core.SecurityContext;
-import {{javaxPackage}}.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.*;
 
 @Path("{{commonPath}}")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}

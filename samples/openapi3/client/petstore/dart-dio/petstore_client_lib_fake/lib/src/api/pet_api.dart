@@ -74,10 +74,9 @@ class PetApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -214,10 +213,9 @@ class PetApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltList<Pet>>(
@@ -300,10 +298,9 @@ class PetApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltSet<Pet>>(
@@ -382,10 +379,9 @@ class PetApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Pet>(
@@ -454,10 +450,9 @@ class PetApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -532,10 +527,9 @@ class PetApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -610,10 +604,9 @@ class PetApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -638,10 +631,9 @@ class PetApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
@@ -716,10 +708,9 @@ class PetApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -744,10 +735,9 @@ class PetApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(

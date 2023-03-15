@@ -38,7 +38,7 @@ public class Tag {
    * @return id
   */
   
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -57,7 +57,7 @@ public class Tag {
    * @return name
   */
   
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }

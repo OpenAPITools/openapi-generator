@@ -35,6 +35,5 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package {{modelPackage}}
  * @author  OpenAPI Generator team
  */
-{{#isEnum}}{{>model_enum}}{{/isEnum}}
-{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{>model_generic}}
 {{/model}}{{/models}}

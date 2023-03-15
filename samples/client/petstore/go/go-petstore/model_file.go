@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the File type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &File{}
-
 // File Must be named `File` for test.
 type File struct {
 	// Test capitalization
@@ -42,7 +39,7 @@ func NewFileWithDefaults() *File {
 
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
 func (o *File) GetSourceURI() string {
-	if o == nil || IsNil(o.SourceURI) {
+	if o == nil || o.SourceURI == nil {
 		var ret string
 		return ret
 	}
@@ -52,7 +49,7 @@ func (o *File) GetSourceURI() string {
 // GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *File) GetSourceURIOk() (*string, bool) {
-	if o == nil || IsNil(o.SourceURI) {
+	if o == nil || o.SourceURI == nil {
 		return nil, false
 	}
 	return o.SourceURI, true
@@ -60,7 +57,7 @@ func (o *File) GetSourceURIOk() (*string, bool) {
 
 // HasSourceURI returns a boolean if a field has been set.
 func (o *File) HasSourceURI() bool {
-	if o != nil && !IsNil(o.SourceURI) {
+	if o != nil && o.SourceURI != nil {
 		return true
 	}
 
@@ -73,19 +70,11 @@ func (o *File) SetSourceURI(v string) {
 }
 
 func (o File) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o File) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.SourceURI) {
+	if o.SourceURI != nil {
 		toSerialize["sourceURI"] = o.SourceURI
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableFile struct {

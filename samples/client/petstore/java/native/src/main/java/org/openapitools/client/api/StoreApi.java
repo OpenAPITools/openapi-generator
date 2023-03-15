@@ -22,21 +22,8 @@ import org.openapitools.client.model.Order;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.http.HttpRequest;
-import java.nio.channels.Channels;
-import java.nio.channels.Pipe;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -50,7 +37,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -120,6 +107,7 @@ public class StoreApi {
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
       } finally {
@@ -195,7 +183,8 @@ public class StoreApi {
         return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -229,7 +218,7 @@ public class StoreApi {
   }
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -241,7 +230,7 @@ public class StoreApi {
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
@@ -262,7 +251,8 @@ public class StoreApi {
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -302,24 +292,24 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order) throws ApiException {
-    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order);
+  public Order placeOrder(Order body) throws ApiException {
+    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(body);
     return localVarResponse.getData();
   }
 
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
+  public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(body);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -334,7 +324,8 @@ public class StoreApi {
         return new ApiResponse<Order>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}) // closes the InputStream
+          
         );
       } finally {
       }
@@ -347,10 +338,10 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(Order order) throws ApiException {
-    // verify the required parameter 'order' is set
-    if (order == null) {
-      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
+  private HttpRequest.Builder placeOrderRequestBuilder(Order body) throws ApiException {
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -363,7 +354,7 @@ public class StoreApi {
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(order);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

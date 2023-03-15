@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,6 +8,7 @@
 """
 
 
+import sys
 import unittest
 
 import petstore_api
@@ -25,13 +24,13 @@ class TestBooleanEnum(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_BooleanEnum(self):
+    def testBooleanEnum(self):
         """Test BooleanEnum"""
         model = BooleanEnum(True)
-        assert model is BooleanEnum.TRUE
-        assert model.is_true_oapg()
-        assert model.is_false_oapg() is False
-        assert repr(model) == '<DynamicSchema: True>'
+        assert model.value is True
+
+        assert BooleanEnum.allowed_values[('value',)]['TRUE'] is True
+
         with self.assertRaises(petstore_api.ApiValueError):
             BooleanEnum(False)
 

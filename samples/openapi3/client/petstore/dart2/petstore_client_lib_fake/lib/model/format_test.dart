@@ -190,72 +190,72 @@ class FormatTest {
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.integer != null) {
-      json[r'integer'] = this.integer;
+    final _json = <String, dynamic>{};
+    if (integer != null) {
+      _json[r'integer'] = integer;
     } else {
-      json[r'integer'] = null;
+      _json[r'integer'] = null;
     }
-    if (this.int32 != null) {
-      json[r'int32'] = this.int32;
+    if (int32 != null) {
+      _json[r'int32'] = int32;
     } else {
-      json[r'int32'] = null;
+      _json[r'int32'] = null;
     }
-    if (this.int64 != null) {
-      json[r'int64'] = this.int64;
+    if (int64 != null) {
+      _json[r'int64'] = int64;
     } else {
-      json[r'int64'] = null;
+      _json[r'int64'] = null;
     }
-      json[r'number'] = this.number;
-    if (this.float != null) {
-      json[r'float'] = this.float;
+      _json[r'number'] = number;
+    if (float != null) {
+      _json[r'float'] = float;
     } else {
-      json[r'float'] = null;
+      _json[r'float'] = null;
     }
-    if (this.double_ != null) {
-      json[r'double'] = this.double_;
+    if (double_ != null) {
+      _json[r'double'] = double_;
     } else {
-      json[r'double'] = null;
+      _json[r'double'] = null;
     }
-    if (this.decimal != null) {
-      json[r'decimal'] = this.decimal;
+    if (decimal != null) {
+      _json[r'decimal'] = decimal;
     } else {
-      json[r'decimal'] = null;
+      _json[r'decimal'] = null;
     }
-    if (this.string != null) {
-      json[r'string'] = this.string;
+    if (string != null) {
+      _json[r'string'] = string;
     } else {
-      json[r'string'] = null;
+      _json[r'string'] = null;
     }
-      json[r'byte'] = this.byte;
-    if (this.binary != null) {
-      json[r'binary'] = this.binary;
+      _json[r'byte'] = byte;
+    if (binary != null) {
+      _json[r'binary'] = binary;
     } else {
-      json[r'binary'] = null;
+      _json[r'binary'] = null;
     }
-      json[r'date'] = _dateFormatter.format(this.date.toUtc());
-    if (this.dateTime != null) {
-      json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
+      _json[r'date'] = _dateFormatter.format(date.toUtc());
+    if (dateTime != null) {
+      _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
     } else {
-      json[r'dateTime'] = null;
+      _json[r'dateTime'] = null;
     }
-    if (this.uuid != null) {
-      json[r'uuid'] = this.uuid;
+    if (uuid != null) {
+      _json[r'uuid'] = uuid;
     } else {
-      json[r'uuid'] = null;
+      _json[r'uuid'] = null;
     }
-      json[r'password'] = this.password;
-    if (this.patternWithDigits != null) {
-      json[r'pattern_with_digits'] = this.patternWithDigits;
+      _json[r'password'] = password;
+    if (patternWithDigits != null) {
+      _json[r'pattern_with_digits'] = patternWithDigits;
     } else {
-      json[r'pattern_with_digits'] = null;
+      _json[r'pattern_with_digits'] = null;
     }
-    if (this.patternWithDigitsAndDelimiter != null) {
-      json[r'pattern_with_digits_and_delimiter'] = this.patternWithDigitsAndDelimiter;
+    if (patternWithDigitsAndDelimiter != null) {
+      _json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
     } else {
-      json[r'pattern_with_digits_and_delimiter'] = null;
+      _json[r'pattern_with_digits_and_delimiter'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [FormatTest] instance and imports its values from

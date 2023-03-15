@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -29,22 +30,6 @@ public class Dog extends Animal {
 
   @JsonProperty("breed")
   private String breed;
-
-  /**
-   * Default constructor
-   * @deprecated Use {@link Dog#Dog(String)}
-   */
-  @Deprecated
-  public Dog() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Dog(String className) {
-    super(className);
-  }
 
   public Dog breed(String breed) {
     this.breed = breed;

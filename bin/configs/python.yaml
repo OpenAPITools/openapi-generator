@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/python
 additionalProperties:
   packageName: petstore_api
   recursionLimit: "1234"
+  initRequiredVars: false

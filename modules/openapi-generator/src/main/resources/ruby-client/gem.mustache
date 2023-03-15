@@ -9,7 +9,6 @@ require '{{gemName}}/version'
 require '{{gemName}}/configuration'
 
 # Models
-{{^useAutoload}}
 {{#models}}
 {{#model}}
 {{^parent}}
@@ -24,24 +23,11 @@ require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
 {{/parent}}
 {{/model}}
 {{/models}}
-{{/useAutoload}}
-{{#useAutoload}}
-{{#models}}
-{{#model}}
-{{moduleName}}.autoload :{{classname}}, '{{gemName}}/{{modelPackage}}/{{classFilename}}'
-{{/model}}
-{{/models}}
-{{/useAutoload}}
 
 # APIs
 {{#apiInfo}}
 {{#apis}}
-{{^useAutoload}}
 require '{{importPath}}'
-{{/useAutoload}}
-{{#useAutoload}}
-{{moduleName}}.autoload :{{classname}}, '{{importPath}}'
-{{/useAutoload}}
 {{/apis}}
 {{/apiInfo}}
 

@@ -113,7 +113,7 @@ API.Client.StoreApi.prototype.getInventory = function(opt_extraHttpRequestParams
 
 /**
  * Find purchase order by ID
- * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+ * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * @param {!number} orderId ID of pet that needs to be fetched
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise<!API.Client.Order>}

@@ -390,7 +390,7 @@ paths:
                 $ref: '#/components/schemas/StringObject'
           description: OK
       tags:
-      - repo
+      - Repo
       - Info
   /repos:
     post:
@@ -459,9 +459,11 @@ paths:
               items:
                 $ref: '#/components/schemas/StringObject'
               type: array
+        explode: true
         in: query
         name: list-of-strings
         required: false
+        style: form
       responses:
         "200":
           description: Success
@@ -478,20 +480,13 @@ components:
       - requiredAnyOf
     AnyOfObject:
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        type: string
+      - $ref: '#/components/schemas/AnyOfObject_anyOf'
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf
     "12345AnyOfObject":
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        - '*'
-        type: string
+      - $ref: '#/components/schemas/_12345AnyOfObject_anyOf'
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf that starts with a number
@@ -685,6 +680,17 @@ components:
       anyOf:
       - $ref: '#/components/schemas/StringObject'
       - $ref: '#/components/schemas/UuidObject'
+    AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    _12345AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
   securitySchemes:
     authScheme:
       flows:

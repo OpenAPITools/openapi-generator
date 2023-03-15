@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -98,6 +100,7 @@ public class User {
    * @return id
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -123,6 +126,7 @@ public class User {
    * @return username
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -148,6 +152,7 @@ public class User {
    * @return firstName
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -173,6 +178,7 @@ public class User {
    * @return lastName
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -198,6 +204,7 @@ public class User {
    * @return email
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -223,6 +230,7 @@ public class User {
    * @return password
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -248,6 +256,7 @@ public class User {
    * @return phone
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -273,6 +282,7 @@ public class User {
    * @return userStatus
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "User Status")
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -298,6 +308,7 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.")
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -323,6 +334,7 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.")
   @JsonIgnore
 
   public Object getObjectWithNoDeclaredPropsNullable() {
@@ -356,6 +368,7 @@ public class User {
    * @return anyTypeProp
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
   @JsonIgnore
 
   public Object getAnyTypeProp() {
@@ -389,6 +402,7 @@ public class User {
    * @return anyTypePropNullable
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.")
   @JsonIgnore
 
   public Object getAnyTypePropNullable() {

@@ -48,7 +48,7 @@ describe "StoreApi" do
 
   # unit tests for get_order_by_id
   # Find purchase order by ID
-  # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+  # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   # @param order_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
   # @return [Order]

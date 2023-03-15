@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -49,28 +51,28 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString = null;
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger = null;
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private Object anytype1;
@@ -102,6 +104,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -135,6 +138,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -168,6 +172,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -201,6 +206,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -234,6 +240,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -267,6 +274,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -300,6 +308,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -333,6 +342,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -358,6 +368,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -383,6 +394,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -408,6 +420,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

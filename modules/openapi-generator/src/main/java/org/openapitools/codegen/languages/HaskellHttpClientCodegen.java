@@ -43,8 +43,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1173,10 +1171,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String toVarName(String prefix, String name) {
-        boolean hasPrefix = !StringUtils.isBlank(prefix);
+        Boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
-        name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
-
+        name = camelize(name, !hasPrefix);
         if (hasPrefix) {
             return prefix + name;
         } else {
@@ -1230,7 +1227,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
-        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
+        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), true));
         return operationId;
     }
 

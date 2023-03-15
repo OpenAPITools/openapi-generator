@@ -48,7 +48,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{orderId}")
-    void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
+    public void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
 
     /**
      * Returns pet inventories by status
@@ -59,18 +59,18 @@ public interface StoreApi  {
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    Map<String, Integer> getInventory() throws ApiException, ProcessingException;
+    public Map<String, Integer> getInventory() throws ApiException, ProcessingException;
 
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      */
     @GET
     @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
-    Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
+    public Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
 
     /**
      * Place an order for a pet
@@ -79,5 +79,5 @@ public interface StoreApi  {
     @POST
     @Path("/order")
     @Produces({ "application/xml", "application/json" })
-    Order placeOrder(Order body) throws ApiException, ProcessingException;
+    public Order placeOrder(Order body) throws ApiException, ProcessingException;
 }

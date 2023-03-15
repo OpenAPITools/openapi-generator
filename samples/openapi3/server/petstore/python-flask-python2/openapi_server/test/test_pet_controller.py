@@ -17,7 +17,7 @@ from openapi_server.test import BaseTestCase
 class TestPetController(BaseTestCase):
     """PetController integration test stubs"""
 
-    @unittest.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
+    @unittest.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
     def test_add_pet(self):
         """Test case for add_pet
 
@@ -121,7 +121,7 @@ class TestPetController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    @unittest.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
+    @unittest.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
     def test_update_pet(self):
         """Test case for update_pet
 

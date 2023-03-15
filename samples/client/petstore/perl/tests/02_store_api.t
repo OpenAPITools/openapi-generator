@@ -1,4 +1,4 @@
-use Test::More tests => 57;
+use Test::More tests => 41;
 use Test::Exception;
 
 use lib 'lib';
@@ -13,7 +13,6 @@ use_ok('WWW::OpenAPIClient::Object::Pet');
 use_ok('WWW::OpenAPIClient::Object::Tag');
 use_ok('WWW::OpenAPIClient::Object::Category');
 use_ok('WWW::OpenAPIClient::Object::User');
-use_ok('WWW::OpenAPIClient::Object::Order');
 
 
 my $api_client = WWW::OpenAPIClient::ApiClient->new();
@@ -29,7 +28,7 @@ like ($get_inventory_response->{sold}, qr/^\d+$/, "sold is numeric");
 
 my $pet_json = <<JSON;
 {
-    "pet": {
+    "pet": { 
         "id": 0,
         "category": {
             "id": 0,
@@ -61,7 +60,7 @@ is $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{photo_urls}-
 
 my $array_json = <<JSON;
 [
-    {
+    { 
         "id": 0,
         "category": {
             "id": 0,
@@ -121,8 +120,9 @@ is ref $api_client->deserialize("Pet", $pet_json_nopet)->{tags}->[0], "WWW::Open
 is $api_client->deserialize("Pet", $pet_json_nopet)->{tags}->[0]->{name}, "tag string", "get the tag name the Pet object";
 is $api_client->deserialize("Pet", $pet_json_nopet)->{photo_urls}->[0], "string", "get the photoUrl from the Pet object";
 
+
 my %userdata = (
-	id => "4000",
+	id => 4000, 
 	username => "tony",
     firstName => "Tony",
     lastName => "Tiger",
@@ -131,7 +131,7 @@ my %userdata = (
     phone => "408-867-5309",
     userStatus => 1,
     );
-
+      
 my $user = WWW::OpenAPIClient::Object::User->new->from_hash(\%userdata);
 is ref $user, 'WWW::OpenAPIClient::Object::User', "built a User object via from_hash()";
 is $user->{id}, $userdata{id}, "got the id of the User object";
@@ -143,52 +143,4 @@ is $user->{password}, $userdata{password}, "got the password of the User object"
 is $user->{phone}, $userdata{phone}, "got the phone of the User object";
 is $user->{user_status}, $userdata{userStatus}, "got the userStatus of the User object";
 
-my $user_to_json = JSON->new->convert_blessed->encode($user);
-like $user_to_json, qr/4000/, '$userdata{id} is string. But, json id is a number';
-unlike $user_to_json, qr/"4000"/, '$userdata{id} is string. But, json id is a number';
 
-
-my %order_data = (
-    id       => '123',
-    petId    => '456',
-    quantity => 789,
-    shipDate => '2020-11-06T09:20:48Z',
-    status   => 101112, # status type is string, but this data is number 
-    complete => 0, # status type is boolean, but this data is number
-);
-my $order = WWW::OpenAPIClient::Object::Order->new->from_hash(\%order_data);
-is ref($order->ship_date), 'DateTime';
-
-my $order_to_json = JSON->new->convert_blessed->encode($order);
-like $order_to_json, qr/123/, '$order{id} is string. But, json type is number';
-unlike $order_to_json, qr/"123"/, '$order{id} is string. But, json type is number';
-
-like $order_to_json, qr/789/, '$order{quantity} is number';
-unlike $order_to_json, qr/"789"/, '$order{quantity} is number';
-
-like $order_to_json, qr/2020-11-06T09:20:48Z/, '$order{shipDate} to date-time format';
-
-like $order_to_json, qr/"101112"/, '$order{status} is number. But json type is string';
-
-like $order_to_json, qr/false/, '$order{complete} is number. But json type is boolean';
-
-my $pet_object = WWW::OpenAPIClient::Object::Pet->new->from_hash({
-    tags => [ 
-        WWW::OpenAPIClient::Object::Tag->new->from_hash({id => 123, name => 1000}), 
-        WWW::OpenAPIClient::Object::Tag->new->from_hash({id => 456, name => 'test2'}),
-    ]
-});
-
-
-my $pet_object_to_json = JSON->new->convert_blessed->encode($pet_object);
-like $pet_object_to_json, qr/\"id\":123/, '$pet_object->tags->[0]->id';
-like $pet_object_to_json, qr/\"name\":\"1000\"/, '$pet_object->tags->[0]->name';
-like $pet_object_to_json, qr/\"id\":456/, '$pet_object->tags->[1]->id';
-like $pet_object_to_json, qr/\"name\":\"test2\"/, '$pet_object->tags->[1]->name';
-
-my %undef_test_order_data = (
-    id     => undef,
-    status => undef,
-);
-my $undef_test_order = WWW::OpenAPIClient::Object::Order->new->from_hash(\%undef_test_order_data);
-lives_ok { JSON->new->convert_blessed->encode($undef_test_order) };

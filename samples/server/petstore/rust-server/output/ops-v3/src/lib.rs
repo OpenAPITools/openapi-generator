@@ -1,6 +1,4 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-#![allow(unused_imports, unused_attributes)]
-#![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -11,8 +9,8 @@ use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
-pub const BASE_PATH: &str = "";
-pub const API_VERSION: &str = "0.0.1";
+pub const BASE_PATH: &'static str = "";
+pub const API_VERSION: &'static str = "0.0.1";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Op10GetResponse {
@@ -238,7 +236,6 @@ pub enum Op9GetResponse {
 
 /// API
 #[async_trait]
-#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
         Poll::Ready(Ok(()))
@@ -396,7 +393,6 @@ pub trait Api<C: Send + Sync> {
 
 /// API where `Context` isn't passed on every API call
 #[async_trait]
-#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
 
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
@@ -557,7 +553,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
 {
     /// Binds this API to a context.
-    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {

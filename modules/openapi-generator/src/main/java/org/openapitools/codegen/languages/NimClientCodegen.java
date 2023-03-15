@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -254,10 +253,10 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         String sanitizedOperationId = sanitizeName(operationId);
 
         if (isReservedWord(sanitizedOperationId)) {
-            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId);
+            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId, false);
         }
 
-        return StringUtils.camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
+        return StringUtils.camelize(sanitizedOperationId, true);
     }
 
     @Override
@@ -321,7 +320,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_LETTER);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name)) {
@@ -351,7 +350,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String name = StringUtils.camelize(property.name);
+        String name = StringUtils.camelize(property.name, false);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";
@@ -363,7 +362,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         name = name.replace(" ", "_");
-        name = StringUtils.camelize(name);
+        name = StringUtils.camelize(name, false);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";

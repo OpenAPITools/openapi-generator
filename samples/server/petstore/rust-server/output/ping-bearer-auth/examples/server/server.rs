@@ -32,7 +32,6 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
-    #[allow(unused_mut)]
     let mut service =
         ping_bearer_auth::server::context::MakeAddContext::<_, EmptyContext>::new(
             service

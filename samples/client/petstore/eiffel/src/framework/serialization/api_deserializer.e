@@ -19,7 +19,7 @@ class
 feature -- Access
 
 	deserializer (f: FUNCTION [TUPLE [content_type:READABLE_STRING_8; body:READABLE_STRING_8; type:TYPE [detachable ANY]], detachable ANY]; a_content_type: READABLE_STRING_8; a_body: READABLE_STRING_8; a_type:TYPE [detachable ANY]): detachable ANY
-			-- From a given response deserialize body `a_body' with content_type `a_content_type' to a target object of type `a_type'.
+			-- From a given response deserialize body `a_body' with conent_type `a_content_type' to a target object of type `a_type'.
 		do
 			Result := f.item ([a_content_type, a_body, a_type])
 		end

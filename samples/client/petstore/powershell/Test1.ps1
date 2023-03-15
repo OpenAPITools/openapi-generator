@@ -36,7 +36,7 @@ $Id = 38369
     #Write-Host $Result3["Headers"]["Content-Type"]
     #Write-Host $Result3["Response"]
 #} catch {
-#    Write-Host ("Exception occurred when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+#    Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
 #    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 #}
 

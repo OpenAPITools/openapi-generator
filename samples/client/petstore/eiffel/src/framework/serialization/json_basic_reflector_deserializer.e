@@ -282,7 +282,7 @@ feature {NONE} -- Helpers: Object
 			l_field_static_types: like fields_infos
 		do
 			if Result = Void then
-					-- Updated to use the Type info instead of the type_field in JSON.
+					-- Updated to use the Type info insted of the type_field in JSON.
 					--  fn.same_string ({JSON_REFLECTOR_SERIALIZER}.type_field_name
 				if attached a_type then
 					l_type_name := a_type.name.to_string_8

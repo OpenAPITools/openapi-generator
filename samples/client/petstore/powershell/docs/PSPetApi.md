@@ -28,9 +28,6 @@ Add a new pet to the store
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
-# Configure OAuth2 access token for authorization: petstore_auth
-$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
-
 # Configure HTTP basic authorization: http_signature_test
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
@@ -42,6 +39,9 @@ $httpSigningParams = @{
     HashAlgorithm = "sha256"
 }
 Set-ConfigurationHttpSigning $httpSigningParams
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Category = Initialize-Category -Id 0 -Name "MyName"
 $Tag = Initialize-Tag -Id 0 -Name "MyName"
@@ -68,7 +68,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -141,9 +141,6 @@ Multiple status values can be provided with comma separated strings
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
-# Configure OAuth2 access token for authorization: petstore_auth
-$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
-
 # Configure HTTP basic authorization: http_signature_test
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
@@ -155,6 +152,9 @@ $httpSigningParams = @{
     HashAlgorithm = "sha256"
 }
 Set-ConfigurationHttpSigning $httpSigningParams
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Status = "available" # String[] | Status values that need to be considered for filter
 
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -201,9 +201,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
-# Configure OAuth2 access token for authorization: petstore_auth
-$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
-
 # Configure HTTP basic authorization: http_signature_test
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
@@ -215,6 +212,9 @@ $httpSigningParams = @{
     HashAlgorithm = "sha256"
 }
 Set-ConfigurationHttpSigning $httpSigningParams
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Tags = "MyTags" # String[] | Tags to filter by
 
@@ -239,7 +239,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -311,9 +311,6 @@ Update an existing pet
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
-# Configure OAuth2 access token for authorization: petstore_auth
-$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
-
 # Configure HTTP basic authorization: http_signature_test
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
@@ -325,6 +322,9 @@ $httpSigningParams = @{
     HashAlgorithm = "sha256"
 }
 Set-ConfigurationHttpSigning $httpSigningParams
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Category = Initialize-Category -Id 0 -Name "MyName"
 $Tag = Initialize-Tag -Id 0 -Name "MyName"
@@ -351,7 +351,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 

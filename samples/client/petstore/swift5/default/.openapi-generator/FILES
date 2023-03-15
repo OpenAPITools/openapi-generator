@@ -1,5 +1,4 @@
 .gitignore
-.swiftformat
 Cartfile
 Package.swift
 PetstoreClient.podspec
@@ -70,7 +69,6 @@ PetstoreClient/Classes/OpenAPIs/Models/XmlItem.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
-PetstoreClient/Classes/OpenAPIs/Validation.swift
 README.md
 docs/AdditionalPropertiesAnyType.md
 docs/AdditionalPropertiesArray.md

@@ -40,7 +40,7 @@ class TestStoreController(BaseTestCase):
         Find purchase order by ID
         """
         response = self.client.open(
-            '/v2/store/order/{order_id}'.format(order_id=1),
+            '/v2/store/order/{order_id}'.format(order_id=5),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -50,7 +50,7 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        body = openapi_server.Order()
+        body = {}
         response = self.client.open(
             '/v2/store/order',
             method='POST',

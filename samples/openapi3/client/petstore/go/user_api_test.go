@@ -132,7 +132,7 @@ func TestUpdateUser(t *testing.T) {
 		t.Log(apiResponse)
 	}
 
-	//verify changes are correct
+	//verify changings are correct
 	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher").Execute()
 	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)

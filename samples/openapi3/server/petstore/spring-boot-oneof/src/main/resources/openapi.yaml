@@ -97,7 +97,7 @@ components:
       description: Success
   schemas:
     Addressable:
-      description: Base schema for addressable entities
+      description: Base schema for adressable entities
       properties:
         href:
           description: Hyperlink reference

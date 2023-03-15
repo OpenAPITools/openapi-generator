@@ -1,23 +1,24 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{importFileExtension}}';
-import { Configuration} from '../configuration{{importFileExtension}}'
-import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
-import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import * as models from '../models/all{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
+import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
-import { AbstractConfiguration } from "../services/configuration{{importFileExtension}}";
+import { AbstractConfiguration } from "../services/configuration{{extensionForDeno}}";
 {{/useInversify}}
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '{{{ importPath }}}{{importFileExtension}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{importFileExtension}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
 {{#useInversify}}
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{importFileExtension}}";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{extensionForDeno}}";
 
 @injectable()
 {{/useInversify}}

@@ -1,8 +1,0 @@
-{
-  "id" : 123,
-  "petId" : 4444,
-  "quantity" : 3,
-  "shipDate" : "2011-09-21T17:32:28Z",
-  "status" : "placed",
-  "complete" : false
-}

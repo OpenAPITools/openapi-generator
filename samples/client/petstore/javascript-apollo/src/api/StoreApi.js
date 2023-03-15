@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -28,8 +28,9 @@ export default class StoreApi extends ApiClient {
     * @alias module:api/StoreApi
     * @class
     */
-    constructor(baseURL = 'http://petstore.swagger.io:80/v2') {
-      super(baseURL);
+    constructor() {
+      super();
+      this.baseURL = null;
     }
 
 
@@ -37,10 +38,9 @@ export default class StoreApi extends ApiClient {
      * Delete purchase order by ID
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String} orderId ID of the order that needs to be deleted
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
-    async deleteOrder(orderId, requestInit) {
+    async deleteOrder(orderId) {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -48,12 +48,11 @@ export default class StoreApi extends ApiClient {
       }
 
       let pathParams = {
-        'order_id': orderId
+        'orderId': orderId
       };
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -64,19 +63,18 @@ export default class StoreApi extends ApiClient {
       let returnType = null;
 
       return this.callApi(
-        '/store/order/{order_id}', 'DELETE',
+        '/store/order/{orderId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<Object.<String, {String: Number}>>}
      */
-    async getInventory(requestInit) {
+    async getInventory() {
       let postBody = null;
 
       let pathParams = {
@@ -84,7 +82,6 @@ export default class StoreApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -97,18 +94,17 @@ export default class StoreApi extends ApiClient {
       return this.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
-     * @return {Promise<module:model/Order>}
+     * @return {Promise<Order>}
      */
-    async getOrderById(orderId, requestInit) {
+    async getOrderById(orderId) {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -116,12 +112,11 @@ export default class StoreApi extends ApiClient {
       }
 
       let pathParams = {
-        'order_id': orderId
+        'orderId': orderId
       };
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -132,24 +127,22 @@ export default class StoreApi extends ApiClient {
       let returnType = Order;
 
       return this.callApi(
-        '/store/order/{order_id}', 'GET',
+        '/store/order/{orderId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Place an order for a pet
-     * 
-     * @param {module:model/Order} order order placed for purchasing the pet
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
-     * @return {Promise<module:model/Order>}
+     * @param {Order} body order placed for purchasing the pet
+     * @return {Promise<Order>}
      */
-    async placeOrder(order, requestInit) {
-      let postBody = order;
-      // verify the required parameter 'order' is set
-      if (order === undefined || order === null) {
-        throw new Error("Missing the required parameter 'order' when calling placeOrder");
+    async placeOrder(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 
       let pathParams = {
@@ -157,20 +150,19 @@ export default class StoreApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
 
       return this.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 

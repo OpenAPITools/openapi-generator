@@ -11,13 +11,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;{{/netStandard}}
 
-namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
+namespace {{packageName}}.Client {{^netStandard}}
 {
     /// <summary>
     /// Provides a token to the api clients. Tokens will be rate limited based on the provided TimeSpan.
     /// </summary>
     /// <typeparam name="TTokenBase"></typeparam>
-    {{>visibility}} class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
+    public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
         internal Channel<TTokenBase> AvailableTokens { get; }
 

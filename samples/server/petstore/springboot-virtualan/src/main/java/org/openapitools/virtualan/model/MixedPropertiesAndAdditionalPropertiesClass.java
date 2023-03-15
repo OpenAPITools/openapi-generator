@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.virtualan.model.Animal;
@@ -48,7 +49,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
   */
   @Valid 
-  @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "uuid", required = false)
   public UUID getUuid() {
     return uuid;
   }
@@ -67,7 +68,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
   */
   @Valid 
-  @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "dateTime", required = false)
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -94,7 +95,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
   */
   @Valid 
-  @Schema(name = "map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "map", required = false)
   public Map<String, Animal> getMap() {
     return map;
   }

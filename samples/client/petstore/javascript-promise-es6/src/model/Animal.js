@@ -59,34 +59,8 @@ class Animal {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>Animal</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Animal</code>.
-     */
-    static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of Animal.RequiredProperties) {
-            if (!data[property]) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
-        // ensure the json data is a string
-        if (data['className'] && !(typeof data['className'] === 'string' || data['className'] instanceof String)) {
-            throw new Error("Expected the field `className` to be a primitive type in the JSON string but got " + data['className']);
-        }
-        // ensure the json data is a string
-        if (data['color'] && !(typeof data['color'] === 'string' || data['color'] instanceof String)) {
-            throw new Error("Expected the field `color` to be a primitive type in the JSON string but got " + data['color']);
-        }
-
-        return true;
-    }
-
 
 }
-
-Animal.RequiredProperties = ["className"];
 
 /**
  * @member {String} className

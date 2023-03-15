@@ -36,7 +36,7 @@ public class ModelReturn {
    * @return _return
   */
   
-  @Schema(name = "return", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "return", required = false)
   public Integer getReturn() {
     return _return;
   }

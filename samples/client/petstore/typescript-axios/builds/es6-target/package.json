@@ -17,14 +17,12 @@
   "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "sideEffects": false,
   "scripts": {
-    "build": "tsc && tsc -p tsconfig.esm.json",
+    "build": "tsc --outDir dist/",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.26.1"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",

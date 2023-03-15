@@ -1,4 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import * as models from '../models/all';
 import { Configuration} from '../configuration'
 
 import { ApiResponse } from '../models/ApiResponse';
@@ -253,7 +254,7 @@ export class ObjectStoreApi {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      * @param param the request object
      */

@@ -50,13 +50,13 @@
   describe('Cat', function() {
     it('should create an instance of Cat', function() {
       // uncomment below and update the code to test Cat
-      //var instance = new OpenApiPetstore.Cat();
+      //var instane = new OpenApiPetstore.Cat();
       //expect(instance).to.be.a(OpenApiPetstore.Cat);
     });
 
     it('should have the property declawed (base name: "declawed")', function() {
       // uncomment below and update the code to test the property declawed
-      //var instance = new OpenApiPetstore.Cat();
+      //var instane = new OpenApiPetstore.Cat();
       //expect(instance).to.be();
     });
 

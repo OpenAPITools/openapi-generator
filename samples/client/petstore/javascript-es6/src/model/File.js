@@ -55,24 +55,8 @@ class File {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>File</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>File</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['sourceURI'] && !(typeof data['sourceURI'] === 'string' || data['sourceURI'] instanceof String)) {
-            throw new Error("Expected the field `sourceURI` to be a primitive type in the JSON string but got " + data['sourceURI']);
-        }
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * Test capitalization

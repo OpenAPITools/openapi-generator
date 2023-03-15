@@ -27,7 +27,7 @@ Short term are focused on improving contributor and user productivity (part of t
 * Automated release stability
 * General
 * OAS3.0 features support: anyOf, oneOf, callbacks, etc
-* Consider opt-in telemetry about generators being used, limited to a counter of invocations by generator name. This would allow us to make prioritization decisions based on statistics.
+* Consider opt-in telemetry about generators being used, limited to a counter of invocations by generator name). This would allow us to make prioritization decisions based on statistics.
 * Code clean up
   * centralize build scripts
   * organize samples/bin scripts according to new generator names
@@ -43,7 +43,7 @@ Short term are focused on improving contributor and user productivity (part of t
 > Feature set, well-defined API (code and templates), and extensibility improvements.
 
 ### API
-* Typed representation of the model bound to our templates. As it is, everything is treated as an Object, and this can lead to changes in the interface which might be unexpected from the template perspective.
+* Typed representation of the model bound to our templates. As it is, everything is treated an an Object, and this can lead to changes in the interface which might be unexpected from the template perspective.
 * Feature set (potential generators to add; not an exhaustive list)
   * Azure functions (node.js, server)
   * Finagle HTTP Client (Scala, client)

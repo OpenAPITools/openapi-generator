@@ -6,7 +6,7 @@ package {{package}};
 import java.io.Serializable;
 {{/serializableModel}}
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
+import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}{{#description}}

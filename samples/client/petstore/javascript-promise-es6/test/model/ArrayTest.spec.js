@@ -50,25 +50,25 @@
   describe('ArrayTest', function() {
     it('should create an instance of ArrayTest', function() {
       // uncomment below and update the code to test ArrayTest
-      //var instance = new OpenApiPetstore.ArrayTest();
+      //var instane = new OpenApiPetstore.ArrayTest();
       //expect(instance).to.be.a(OpenApiPetstore.ArrayTest);
     });
 
     it('should have the property arrayOfString (base name: "array_of_string")', function() {
       // uncomment below and update the code to test the property arrayOfString
-      //var instance = new OpenApiPetstore.ArrayTest();
+      //var instane = new OpenApiPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayArrayOfInteger (base name: "array_array_of_integer")', function() {
       // uncomment below and update the code to test the property arrayArrayOfInteger
-      //var instance = new OpenApiPetstore.ArrayTest();
+      //var instane = new OpenApiPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayArrayOfModel (base name: "array_array_of_model")', function() {
       // uncomment below and update the code to test the property arrayArrayOfModel
-      //var instance = new OpenApiPetstore.ArrayTest();
+      //var instane = new OpenApiPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 

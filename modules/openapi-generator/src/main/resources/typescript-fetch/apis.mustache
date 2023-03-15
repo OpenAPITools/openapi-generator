@@ -123,17 +123,17 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
-            {{#isDateTimeType}}
+            {{#isDateTime}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
-            {{/isDateTimeType}}
-            {{^isDateTimeType}}
-            {{#isDateType}}
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
-            {{/isDateType}}
-            {{^isDateType}}
+            {{/isDate}}
+            {{^isDate}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
-            {{/isDateType}}
-            {{/isDateTimeType}}
+            {{/isDate}}
+            {{/isDateTime}}
         }
 
         {{/isArray}}

@@ -13,6 +13,7 @@
 
 package org.openapitools.client.model;
 
+import org.openapitools.client.ApiException;
 import java.util.Objects;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Abstract class for oneOf,anyOf schemas defined in OpenAPI spec
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public abstract class AbstractOpenApiSchema {
 
     // store the actual instance of the schema/object

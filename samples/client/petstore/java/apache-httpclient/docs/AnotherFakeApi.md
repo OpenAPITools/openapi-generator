@@ -10,7 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## call123testSpecialTags
 
-> Client call123testSpecialTags(client)
+> Client call123testSpecialTags(body)
 
 To test special tags
 
@@ -32,9 +32,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client client = new Client(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(client);
+            Client result = apiInstance.call123testSpecialTags(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -52,7 +52,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **client** | [**Client**](Client.md)| client model | |
+| **body** | [**Client**](Client.md)| client model | |
 
 ### Return type
 

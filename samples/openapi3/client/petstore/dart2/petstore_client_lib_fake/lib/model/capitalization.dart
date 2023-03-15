@@ -93,38 +93,38 @@ class Capitalization {
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.smallCamel != null) {
-      json[r'smallCamel'] = this.smallCamel;
+    final _json = <String, dynamic>{};
+    if (smallCamel != null) {
+      _json[r'smallCamel'] = smallCamel;
     } else {
-      json[r'smallCamel'] = null;
+      _json[r'smallCamel'] = null;
     }
-    if (this.capitalCamel != null) {
-      json[r'CapitalCamel'] = this.capitalCamel;
+    if (capitalCamel != null) {
+      _json[r'CapitalCamel'] = capitalCamel;
     } else {
-      json[r'CapitalCamel'] = null;
+      _json[r'CapitalCamel'] = null;
     }
-    if (this.smallSnake != null) {
-      json[r'small_Snake'] = this.smallSnake;
+    if (smallSnake != null) {
+      _json[r'small_Snake'] = smallSnake;
     } else {
-      json[r'small_Snake'] = null;
+      _json[r'small_Snake'] = null;
     }
-    if (this.capitalSnake != null) {
-      json[r'Capital_Snake'] = this.capitalSnake;
+    if (capitalSnake != null) {
+      _json[r'Capital_Snake'] = capitalSnake;
     } else {
-      json[r'Capital_Snake'] = null;
+      _json[r'Capital_Snake'] = null;
     }
-    if (this.sCAETHFlowPoints != null) {
-      json[r'SCA_ETH_Flow_Points'] = this.sCAETHFlowPoints;
+    if (sCAETHFlowPoints != null) {
+      _json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
     } else {
-      json[r'SCA_ETH_Flow_Points'] = null;
+      _json[r'SCA_ETH_Flow_Points'] = null;
     }
-    if (this.ATT_NAME != null) {
-      json[r'ATT_NAME'] = this.ATT_NAME;
+    if (ATT_NAME != null) {
+      _json[r'ATT_NAME'] = ATT_NAME;
     } else {
-      json[r'ATT_NAME'] = null;
+      _json[r'ATT_NAME'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Capitalization] instance and imports its values from

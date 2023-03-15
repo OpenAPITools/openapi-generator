@@ -1,4 +1,9 @@
+{{#supportPython2}}
+FROM python:2-alpine
+{{/supportPython2}}
+{{^supportPython2}}
 FROM python:3-alpine
+{{/supportPython2}}
 
 ARG GLTOKEN
 
@@ -14,7 +19,12 @@ WORKDIR /bp2/src
 
 COPY requirements.txt /bp2/src
 
+{{#supportPython2}}
+RUN pip install --extra-index-url https://GLTOKEN:$GLTOKEN@pypi.blueplanet.com/simple --no-cache-dir -r requirements.txt
+{{/supportPython2}}
+{{^supportPython2}}
 RUN pip3 install --extra-index-url https://GLTOKEN:$GLTOKEN@pypi.blueplanet.com/simple --no-cache-dir -r requirements.txt
+{{/supportPython2}}
 
 COPY . /bp2/src
 
@@ -23,6 +33,11 @@ ENV SBIS=bpocore \
 
 EXPOSE {{serverPort}}
 
+{{#supportPython2}}
+ENTRYPOINT ["python"]
+{{/supportPython2}}
+{{^supportPython2}}
 ENTRYPOINT ["python3"]
+{{/supportPython2}}
 
 CMD ["-B", "-m", "{{packageName}}"]

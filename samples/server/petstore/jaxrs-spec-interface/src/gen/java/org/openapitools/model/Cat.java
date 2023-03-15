@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Cat extends Animal implements Serializable {
+  
   private @Valid Boolean declawed;
 
   /**

@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import {{javaxPackage}}.ws.rs.HttpMethod;
-import {{javaxPackage}}.ws.rs.Path;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.Path;
 
 import org.apache.cxf.jaxrs.ext.ResourceComparator;
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
@@ -60,7 +60,7 @@ public class CXFInterfaceComparator implements ResourceComparator {
       Method[] methods = cri.getServiceClass().getInterfaces()[0].getMethods();
       // Java reflexion. Check all the methods of an interface.
       for (Method method : methods) {
-         Path pathAnnotation = method.getAnnotation({{javaxPackage}}.ws.rs.Path.class);
+         Path pathAnnotation = method.getAnnotation(javax.ws.rs.Path.class);
          if (pathAnnotation != null && pathAnnotation.value() != null) {
             String pathValue = pathAnnotation.value();
             String methodHttpVerb = getMethodHttpVerb(method);
@@ -69,7 +69,7 @@ public class CXFInterfaceComparator implements ResourceComparator {
             if (requestVerb.equals(HttpMethod.OPTIONS) && match(pathValue,requestPath)) {
                return true;
             }
-            // Also check the HTTP verb since a single path can be match do multiple request, depending on the HTTP request verb.
+            // Also check the HTTP verb since a single path can be match do multiple request, depending of the HTTP request verb.
             if (requestVerb.equals(methodHttpVerb) && match(pathValue, requestPath)) {
                return true;
             }
@@ -79,17 +79,17 @@ public class CXFInterfaceComparator implements ResourceComparator {
    }
 
    private static String getMethodHttpVerb(Method method) {
-      if (method.getAnnotation({{javaxPackage}}.ws.rs.POST.class) != null) {
+      if (method.getAnnotation(javax.ws.rs.POST.class) != null) {
          return HttpMethod.POST;
-      } else if (method.getAnnotation({{javaxPackage}}.ws.rs.GET.class) != null) {
+      } else if (method.getAnnotation(javax.ws.rs.GET.class) != null) {
          return HttpMethod.GET;
-      } else if (method.getAnnotation({{javaxPackage}}.ws.rs.PUT.class) != null) {
+      } else if (method.getAnnotation(javax.ws.rs.PUT.class) != null) {
          return HttpMethod.PUT;
-      } else if (method.getAnnotation({{javaxPackage}}.ws.rs.OPTIONS.class) != null) {
+      } else if (method.getAnnotation(javax.ws.rs.OPTIONS.class) != null) {
          return HttpMethod.OPTIONS;
-      } else if (method.getAnnotation({{javaxPackage}}.ws.rs.DELETE.class) != null) {
+      } else if (method.getAnnotation(javax.ws.rs.DELETE.class) != null) {
          return HttpMethod.DELETE;
-      } else if (method.getAnnotation({{javaxPackage}}.ws.rs.HEAD.class) != null) {
+      } else if (method.getAnnotation(javax.ws.rs.HEAD.class) != null) {
          return HttpMethod.HEAD;
       }
       assert false;

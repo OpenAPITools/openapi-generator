@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing Apple
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void AppleInstanceTest()
         {
-            // TODO uncomment below to test "IsType" Apple
-            //Assert.IsType<Apple>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" Apple
+            //Assert.IsInstanceOfType<Apple> (instance, "variable 'instance' is a Apple");
         }
 
 

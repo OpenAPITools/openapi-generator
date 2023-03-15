@@ -12,8 +12,8 @@ void main() {
       // TODO
     });
 
-    // String classField
-    test('to test the property `classField`', () async {
+    // String class_
+    test('to test the property `class_`', () async {
       // TODO
     });
 

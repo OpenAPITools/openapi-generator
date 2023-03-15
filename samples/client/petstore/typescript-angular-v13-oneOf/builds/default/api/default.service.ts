@@ -37,15 +37,11 @@ export class DefaultService {
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
-                basePath = basePath[0];
-            }
-
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -131,8 +127,7 @@ export class DefaultService {
             }
         }
 
-        let localVarPath = `/`;
-        return this.httpClient.request<Fruit>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.get<Fruit>(`${this.configuration.basePath}/`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -193,11 +188,10 @@ export class DefaultService {
             }
         }
 
-        let localVarPath = `/`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/`,
+            body,
             {
                 context: localVarHttpContext,
-                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

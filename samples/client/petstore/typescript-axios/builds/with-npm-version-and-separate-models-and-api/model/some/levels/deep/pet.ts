@@ -13,11 +13,7 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
 import { Category } from './category';
-// May contain unused imports in some cases
-// @ts-ignore
 import { Tag } from './tag';
 
 /**

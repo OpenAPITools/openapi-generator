@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: Rust client test spec
+  description: Special testing for the Rust client generator
+  version: 1.0.7
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    TypeTesting:
+      description: Test handling of differing types (see \#3463)
+      type: object
+      properties:
+        integer:
+          type: integer
+        long:
+          type: long
+        number:
+          type: number
+        float:
+          type: float
+        double:
+          type: double
+        uuid:
+          type: string
+          format: uuid

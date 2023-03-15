@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AdditionalPropertiesClass  implements Serializable {
+  
   private @Valid Map<String, String> mapString = new HashMap<>();
   private @Valid Map<String, BigDecimal> mapNumber = new HashMap<>();
   private @Valid Map<String, Integer> mapInteger = new HashMap<>();
@@ -69,7 +70,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
@@ -104,7 +105,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
@@ -139,7 +140,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
@@ -174,7 +175,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
@@ -209,7 +210,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
@@ -244,7 +245,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
@@ -279,7 +280,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
@@ -314,7 +315,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     this.anytype1 = anytype1;
@@ -333,7 +334,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.anytype1 = anytype1;
   }
 
-  /**
+/**
    **/
   public AdditionalPropertiesClass anytype2(Object anytype2) {
     this.anytype2 = anytype2;
@@ -352,7 +353,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.anytype2 = anytype2;
   }
 
-  /**
+/**
    **/
   public AdditionalPropertiesClass anytype3(Object anytype3) {
     this.anytype3 = anytype3;

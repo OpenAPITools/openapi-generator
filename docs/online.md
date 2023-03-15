@@ -125,7 +125,7 @@ curl -H "Content-type: application/json" \
     http://localhost:8080/api/gen/clients/python
 ```
 
-Instead of using `openAPIUrl` with a URL to the OpenAPI spec, one can include the spec in the JSON payload with `spec`:
+Instead of using `openAPIUrl` with an URL to the OpenAPI spec, one can include the spec in the JSON payload with `spec`:
 
 ```json
 {

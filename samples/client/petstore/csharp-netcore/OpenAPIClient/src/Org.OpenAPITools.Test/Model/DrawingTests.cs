@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing Drawing
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void DrawingInstanceTest()
         {
-            // TODO uncomment below to test "IsType" Drawing
-            //Assert.IsType<Drawing>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" Drawing
+            //Assert.IsInstanceOfType<Drawing> (instance, "variable 'instance' is a Drawing");
         }
 
 

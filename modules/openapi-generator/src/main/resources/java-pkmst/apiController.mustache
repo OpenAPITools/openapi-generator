@@ -32,8 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 {{/useSpringCloudClient}}
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 /**
  * Api implementation

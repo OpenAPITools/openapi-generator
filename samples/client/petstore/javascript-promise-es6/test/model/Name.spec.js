@@ -50,31 +50,31 @@
   describe('Name', function() {
     it('should create an instance of Name', function() {
       // uncomment below and update the code to test Name
-      //var instance = new OpenApiPetstore.Name();
+      //var instane = new OpenApiPetstore.Name();
       //expect(instance).to.be.a(OpenApiPetstore.Name);
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instance = new OpenApiPetstore.Name();
+      //var instane = new OpenApiPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property snakeCase (base name: "snake_case")', function() {
       // uncomment below and update the code to test the property snakeCase
-      //var instance = new OpenApiPetstore.Name();
+      //var instane = new OpenApiPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property property (base name: "property")', function() {
       // uncomment below and update the code to test the property property
-      //var instance = new OpenApiPetstore.Name();
+      //var instane = new OpenApiPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property _123number (base name: "123Number")', function() {
       // uncomment below and update the code to test the property _123number
-      //var instance = new OpenApiPetstore.Name();
+      //var instane = new OpenApiPetstore.Name();
       //expect(instance).to.be();
     });
 

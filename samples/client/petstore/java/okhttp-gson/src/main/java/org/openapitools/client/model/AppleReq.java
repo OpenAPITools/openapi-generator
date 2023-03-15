@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -36,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class AppleReq {
   @SerializedName(SERIALIZED_NAME_MEALY)
   private Boolean mealy;
 
-  public AppleReq() {
+  public AppleReq() { 
   }
 
   public AppleReq cultivar(String cultivar) {
@@ -70,6 +71,7 @@ public class AppleReq {
    * @return cultivar
   **/
   @javax.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
 
   public String getCultivar() {
     return cultivar;
@@ -92,6 +94,7 @@ public class AppleReq {
    * @return mealy
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Boolean getMealy() {
     return mealy;
@@ -166,7 +169,9 @@ public class AppleReq {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!AppleReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (AppleReq.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
         }
       }
@@ -185,7 +190,7 @@ public class AppleReq {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (!jsonObj.get("cultivar").isJsonPrimitive()) {
+      if (jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
   }

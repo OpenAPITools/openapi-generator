@@ -105,14 +105,6 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Double'
         }
         /// <summary>
-        /// Test the property 'Decimal'
-        /// </summary>
-        [Fact]
-        public void DecimalTest()
-        {
-            // TODO unit test for the property 'Decimal'
-        }
-        /// <summary>
         /// Test the property 'String'
         /// </summary>
         [Fact]

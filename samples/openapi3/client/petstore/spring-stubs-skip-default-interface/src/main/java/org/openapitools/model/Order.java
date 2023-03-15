@@ -91,7 +91,7 @@ public class Order {
    * @return id
   */
   
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -110,7 +110,7 @@ public class Order {
    * @return petId
   */
   
-  @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
   }
@@ -129,7 +129,7 @@ public class Order {
    * @return quantity
   */
   
-  @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
   }
@@ -148,7 +148,7 @@ public class Order {
    * @return shipDate
   */
   @Valid 
-  @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "shipDate", required = false)
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -167,7 +167,7 @@ public class Order {
    * @return status
   */
   
-  @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -186,7 +186,7 @@ public class Order {
    * @return complete
   */
   
-  @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
   }

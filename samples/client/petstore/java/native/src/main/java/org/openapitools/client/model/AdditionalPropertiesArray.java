@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return name
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -81,7 +84,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    * @param key the name of the property
-   * @param value the value of the property
+   * @param value the value value of the property
    * @return self reference
    */
   @JsonAnySetter

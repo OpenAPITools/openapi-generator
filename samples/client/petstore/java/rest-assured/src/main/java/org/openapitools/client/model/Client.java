@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -34,7 +36,7 @@ public class Client {
   @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
 
-  public Client() {
+  public Client() { 
   }
 
   public Client client(String client) {
@@ -48,7 +50,7 @@ public class Client {
    * @return client
   **/
   @javax.annotation.Nullable
-
+  @ApiModelProperty(value = "")
 
   public String getClient() {
     return client;

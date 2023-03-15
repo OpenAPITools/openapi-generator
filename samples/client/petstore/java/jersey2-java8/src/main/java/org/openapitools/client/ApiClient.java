@@ -128,14 +128,6 @@ public class ApiClient extends JavaTimeFormatter {
     authentications = new HashMap<String, Authentication>();
     Authentication auth = null;
     if (authMap != null) {
-      auth = authMap.get("petstore_auth");
-    }
-    if (auth instanceof OAuth) {
-      authentications.put("petstore_auth", auth);
-    } else {
-      authentications.put("petstore_auth", new OAuth(basePath, ""));
-    }
-    if (authMap != null) {
       auth = authMap.get("api_key");
     }
     if (auth instanceof ApiKeyAuth) {
@@ -158,6 +150,14 @@ public class ApiClient extends JavaTimeFormatter {
       authentications.put("http_basic_test", auth);
     } else {
       authentications.put("http_basic_test", new HttpBasicAuth());
+    }
+    if (authMap != null) {
+      auth = authMap.get("petstore_auth");
+    }
+    if (auth instanceof OAuth) {
+      authentications.put("petstore_auth", auth);
+    } else {
+      authentications.put("petstore_auth", new OAuth(basePath, ""));
     }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -372,10 +372,9 @@ public class ApiClient extends JavaTimeFormatter {
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
-        name = authenticationLookup.getOrDefault(name, name);
-        String secret = secrets.get(name);
-        if (secret != null) {
-          ((ApiKeyAuth) auth).setApiKey(secret);
+        name = authenticationLookup.containsKey(name) ? authenticationLookup.get(name) : name;
+        if (secrets.containsKey(name)) {
+          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
         }
       }
     }
@@ -441,22 +440,6 @@ public class ApiClient extends JavaTimeFormatter {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setCredentials(clientId, clientSecret, isDebugging());
-        return this;
-      }
-    }
-    throw new RuntimeException("No OAuth2 authentication configured!");
-  }
-
-  /**
-   * Helper method to set the credentials of a public client for the first OAuth2 authentication.
-   *
-   * @param clientId the client ID
-   * @return a {@link org.openapitools.client.ApiClient} object.
-   */
-  public ApiClient setOauthCredentialsForPublicClient(String clientId) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof OAuth) {
-        ((OAuth) auth).setCredentialsForPublicClient(clientId, isDebugging());
         return this;
       }
     }
@@ -989,6 +972,11 @@ public class ApiClient extends JavaTimeFormatter {
       return file;
     }
 
+    String contentType = null;
+    List<Object> contentTypes = response.getHeaders().get("Content-Type");
+    if (contentTypes != null && !contentTypes.isEmpty())
+      contentType = String.valueOf(contentTypes.get(0));
+
     // read the entity stream multiple times
     response.bufferEntity();
 
@@ -1090,11 +1078,14 @@ public class ApiClient extends JavaTimeFormatter {
       boolean isBodyNullable)
       throws ApiException {
 
+    // Not using `.target(targetURL).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    List<ServerConfiguration> serverConfigurations;
-    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
-      int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
-      Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
+    if (serverIndex != null && operationServers.containsKey(operation)) {
+      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
+      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
+        operationServerVariables.get(operation) : serverVariables;
+      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
@@ -1105,8 +1096,6 @@ public class ApiClient extends JavaTimeFormatter {
     } else {
       targetURL = this.basePath + path;
     }
-    // Not using `.target(targetURL).path(path)` below,
-    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
@@ -1117,10 +1106,11 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Invocation.Builder invocationBuilder = target.request();
-
+    Invocation.Builder invocationBuilder;
     if (accept != null) {
-      invocationBuilder = invocationBuilder.accept(accept);
+      invocationBuilder = target.request().accept(accept);
+    } else {
+      invocationBuilder = target.request();
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
@@ -1165,10 +1155,8 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      if (response.getStatusInfo() == Status.UNAUTHORIZED) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1183,9 +1171,10 @@ public class ApiClient extends JavaTimeFormatter {
         }
       }
 
+      int statusCode = response.getStatusInfo().getStatusCode();
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
-      if (statusCode == Status.NO_CONTENT.getStatusCode()) {
+      if (response.getStatusInfo() == Status.NO_CONTENT) {
         return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
         if (returnType == null) {

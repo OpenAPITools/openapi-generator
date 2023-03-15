@@ -27,28 +27,28 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class User(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") var id: kotlin.Long? = null,
+    @field:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("username") var username: kotlin.String? = null,
+    @field:JsonProperty("username") var username: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("firstName") var firstName: kotlin.String? = null,
+    @field:JsonProperty("firstName") var firstName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("lastName") var lastName: kotlin.String? = null,
+    @field:JsonProperty("lastName") var lastName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("email") var email: kotlin.String? = null,
+    @field:JsonProperty("email") var email: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("password") var password: kotlin.String? = null,
+    @field:JsonProperty("password") var password: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("phone") var phone: kotlin.String? = null,
+    @field:JsonProperty("phone") var phone: kotlin.String? = null,
 
     @Schema(example = "null", description = "User Status")
-    @get:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
+    @field:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
 ) {
 
 }

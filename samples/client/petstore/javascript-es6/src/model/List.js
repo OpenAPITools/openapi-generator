@@ -54,24 +54,8 @@ class List {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>List</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>List</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['123-list'] && !(typeof data['123-list'] === 'string' || data['123-list'] instanceof String)) {
-            throw new Error("Expected the field `123-list` to be a primitive type in the JSON string but got " + data['123-list']);
-        }
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * @member {String} 123-list

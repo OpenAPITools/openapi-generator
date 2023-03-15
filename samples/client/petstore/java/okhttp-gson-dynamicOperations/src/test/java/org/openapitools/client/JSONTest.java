@@ -94,7 +94,7 @@ public class JSONTest {
             // OK
         }
         try {
-            // unexpected milliseconds
+            // unexpected miliseconds
             json.deserialize("\"2015-11-07T03:49:09.000Z\"", Date.class);
             fail("json parsing should fail");
         } catch (RuntimeException e) {

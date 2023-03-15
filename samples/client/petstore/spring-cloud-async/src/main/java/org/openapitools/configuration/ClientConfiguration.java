@@ -15,6 +15,15 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
 @EnableConfigurationProperties
 public class ClientConfiguration {
 
+  @Value("${openapipetstore.security.apiKey.key:}")
+  private String apiKeyKey;
+
+  @Bean
+  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+  }
+
   @Bean
   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
@@ -34,15 +43,6 @@ public class ClientConfiguration {
     ImplicitResourceDetails details = new ImplicitResourceDetails();
     details.setUserAuthorizationUri("http://petstore.swagger.io/api/oauth/dialog");
     return details;
-  }
-
-  @Value("${openapipetstore.security.apiKey.key:}")
-  private String apiKeyKey;
-
-  @Bean
-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
   }
 
 }

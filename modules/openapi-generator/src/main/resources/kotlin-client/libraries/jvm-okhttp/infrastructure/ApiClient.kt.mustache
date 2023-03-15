@@ -116,12 +116,6 @@ import com.squareup.moshi.adapter
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
-            {{#jvm-okhttp3}}
-            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
-            {{/jvm-okhttp3}}
-            {{#jvm-okhttp4}}
-            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            {{/jvm-okhttp4}}
             mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -129,41 +123,27 @@ import com.squareup.moshi.adapter
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                {{#jvm-okhttp3}}
-                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(part.body))
-                                addPart(
-                                    Headers.of(partHeaders),
-                                    RequestBody.create(fileMediaType, part.body)
-                                )
-                                {{/jvm-okhttp3}}
-                                {{#jvm-okhttp4}}
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                                {{/jvm-okhttp4}}
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                {{#jvm-okhttp3}}
-                                addPart(
-                                    Headers.of(partHeaders),
-                                    RequestBody.create(null, parameterToString(part.body))
-                                )
-                                {{/jvm-okhttp3}}
-                                {{#jvm-okhttp4}}
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
-                                {{/jvm-okhttp4}}
+                            val contentType = part.headers.remove("Content-Type")
+                            val bodies = if (part.body is Iterable<*>) part.body else listOf(part.body)
+                            bodies.forEach { body ->
+                                val headers = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"" + if (body is File) "; filename=\"${body.name}\"" else "")
+                                addPart({{#jvm-okhttp3}}Headers.of(headers){{/jvm-okhttp3}}{{#jvm-okhttp4}}headers.toHeaders(){{/jvm-okhttp4}},
+                                    requestSingleBody(body, contentType))
                             }
                         }
                     }.build()
+            else -> requestSingleBody(content, mediaType)
+        }
+
+    protected inline fun <reified T> requestSingleBody(content: T, mediaType: String?): RequestBody =
+        when {
+            {{#jvm-okhttp3}}
+            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
+            {{/jvm-okhttp3}}
+            {{#jvm-okhttp4}}
+            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
+            {{/jvm-okhttp4}}
             mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, PartConfig<*>>
@@ -189,7 +169,7 @@ import com.squareup.moshi.adapter
                         MediaType.parse(mediaType ?: JsonMediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
                         {{/jackson}}
                         {{#kotlinx_serialization}}
-                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.kotlinxSerializationJson.encodeToString(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.jvmJson.encodeToString(content)
                         {{/kotlinx_serialization}}
                     )
                 }
@@ -208,7 +188,7 @@ import com.squareup.moshi.adapter
                     Serializer.jacksonObjectMapper.writeValueAsString(content)
                     {{/jackson}}
                     {{#kotlinx_serialization}}
-                    Serializer.kotlinxSerializationJson.encodeToString(content)
+                    Serializer.jvmJson.encodeToString(content)
                     {{/kotlinx_serialization}}
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
@@ -256,7 +236,7 @@ import com.squareup.moshi.adapter
                 {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
                 }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
                 }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
-                }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+                }}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -333,7 +313,7 @@ import com.squareup.moshi.adapter
         {{/hasAuthMethods}}
 
         val url = httpUrl.newBuilder()
-            .addEncodedPathSegments(requestConfig.path.trimStart('/'))
+            .addPathSegments(requestConfig.path.trimStart('/'))
             .apply {
                 requestConfig.query.forEach { query ->
                     query.value.forEach { queryValue ->
@@ -343,7 +323,7 @@ import com.squareup.moshi.adapter
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
+        if (requestConfig.headers[ContentType].isNullOrEmpty()) {
             requestConfig.headers[ContentType] = JsonMediaType
         }
         if (requestConfig.headers[Accept].isNullOrEmpty()) {
@@ -351,16 +331,16 @@ import com.squareup.moshi.adapter
         }
         val headers = requestConfig.headers
 
-        if (headers[Accept].isNullOrEmpty()) {
+        if(headers[ContentType].isNullOrEmpty()) {
+            throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
+        }
+
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
-        val contentType = if (headers[ContentType] != null) {
-            // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
-        } else {
-            null
-        }
+        // TODO: support multiple contentType options here.
+        val contentType = (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
 
         val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
@@ -452,7 +432,7 @@ import com.squareup.moshi.adapter
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
         {{/jackson}}
         {{#kotlinx_serialization}}
-        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
+        return Serializer.jvmJson.encodeToString(value).replace("\"", "")
         {{/kotlinx_serialization}}
         {{/toJson}}
         {{^toJson}}

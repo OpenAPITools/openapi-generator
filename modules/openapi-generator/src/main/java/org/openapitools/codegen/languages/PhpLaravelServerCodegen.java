@@ -276,7 +276,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -298,7 +298,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 
     @Override
@@ -307,8 +307,8 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty property = super.fromProperty(name, p, required);
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty property = super.fromProperty(name, p);
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
@@ -382,7 +382,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         }
 
         // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");

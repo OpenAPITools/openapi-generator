@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
+    <groupId>org.opoenapitools</groupId>
     <artifactId>Slim4PetstoreServerTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>

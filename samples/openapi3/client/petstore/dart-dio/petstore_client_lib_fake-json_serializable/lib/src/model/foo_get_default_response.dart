@@ -2,7 +2,6 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
 import 'package:openapi/src/model/foo.dart';
 import 'package:json_annotation/json_annotation.dart';
 

@@ -116,7 +116,7 @@ TODO validate regex of string using pattern variable. This has two challenges
             { {{! and I do a similar hack with currentValuePath... }}
                 const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
                 {{#items}}
-                {{> model-validation-body }} {{! Recursively apply template to array - this is where things will probably go wrong }}
+                {{> model-validation-body }} {{! Recursively apply template to array - this is where things will probbaly go wrong }}
                 {{/items}}
                 i++;
             }

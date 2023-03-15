@@ -9,7 +9,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 
 @Serializer(forClass = StringBuilder::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object StringBuilderAdapter : KSerializer<StringBuilder> {
+object StringBuilderAdapter : KSerializer<StringBuilder> {
     override fun serialize(encoder: Encoder, value: StringBuilder) {
         encoder.encodeString(value.toString())
     }

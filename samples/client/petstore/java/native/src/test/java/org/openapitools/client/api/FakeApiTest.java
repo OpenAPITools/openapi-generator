@@ -18,12 +18,11 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
-import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -44,17 +42,18 @@ public class FakeApiTest {
 
     
     /**
-     * Health check endpoint
+     * creates an XmlItem
      *
-     * 
+     * this route creates an XmlItem
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void fakeHealthGetTest() throws ApiException {
-        HealthCheckResult response = 
-        api.fakeHealthGet();
+    public void createXmlItemTest() throws ApiException {
+        XmlItem xmlItem = null;
+        
+        api.createXmlItem(xmlItem);
         
         // TODO: test validations
     }
@@ -86,9 +85,9 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() throws ApiException {
-        OuterComposite outerComposite = null;
+        OuterComposite body = null;
         OuterComposite response = 
-        api.fakeOuterCompositeSerialize(outerComposite);
+        api.fakeOuterCompositeSerialize(body);
         
         // TODO: test validations
     }
@@ -128,22 +127,6 @@ public class FakeApiTest {
     }
     
     /**
-     * Array of Enums
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getArrayOfEnumsTest() throws ApiException {
-        List<OuterEnum> response = 
-        api.getArrayOfEnums();
-        
-        // TODO: test validations
-    }
-    
-    /**
      * 
      *
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -153,9 +136,9 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() throws ApiException {
-        FileSchemaTestClass fileSchemaTestClass = null;
+        FileSchemaTestClass body = null;
         
-        api.testBodyWithFileSchema(fileSchemaTestClass);
+        api.testBodyWithFileSchema(body);
         
         // TODO: test validations
     }
@@ -171,9 +154,9 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() throws ApiException {
         String query = null;
-        User user = null;
+        User body = null;
         
-        api.testBodyWithQueryParams(query, user);
+        api.testBodyWithQueryParams(query, body);
         
         // TODO: test validations
     }
@@ -188,17 +171,17 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() throws ApiException {
-        Client client = null;
+        Client body = null;
         Client response = 
-        api.testClientModel(client);
+        api.testClientModel(body);
         
         // TODO: test validations
     }
     
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @throws ApiException
      *          if the Api call fails
@@ -290,9 +273,9 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() throws ApiException {
-        Map<String, String> requestBody = null;
+        Map<String, String> param = null;
         
-        api.testInlineAdditionalProperties(requestBody);
+        api.testInlineAdditionalProperties(param);
         
         // TODO: test validations
     }

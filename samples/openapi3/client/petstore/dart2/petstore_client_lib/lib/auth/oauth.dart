@@ -16,7 +16,7 @@ class OAuth implements Authentication {
   String accessToken;
 
   @override
-  Future<void> applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams,) async {
+  void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     if (accessToken.isNotEmpty) {
       headerParams['Authorization'] = 'Bearer $accessToken';
     }

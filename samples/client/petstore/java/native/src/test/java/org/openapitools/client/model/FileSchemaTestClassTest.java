@@ -18,9 +18,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.ModelFile;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,11 +42,11 @@ public class FileSchemaTestClassTest {
     }
 
     /**
-     * Test the property '_file'
+     * Test the property 'file'
      */
     @Test
-    public void _fileTest() {
-        // TODO: test _file
+    public void fileTest() {
+        // TODO: test file
     }
 
     /**

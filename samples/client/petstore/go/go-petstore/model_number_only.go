@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the NumberOnly type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &NumberOnly{}
-
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
@@ -41,7 +38,7 @@ func NewNumberOnlyWithDefaults() *NumberOnly {
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
-	if o == nil || IsNil(o.JustNumber) {
+	if o == nil || o.JustNumber == nil {
 		var ret float32
 		return ret
 	}
@@ -51,7 +48,7 @@ func (o *NumberOnly) GetJustNumber() float32 {
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
-	if o == nil || IsNil(o.JustNumber) {
+	if o == nil || o.JustNumber == nil {
 		return nil, false
 	}
 	return o.JustNumber, true
@@ -59,7 +56,7 @@ func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 
 // HasJustNumber returns a boolean if a field has been set.
 func (o *NumberOnly) HasJustNumber() bool {
-	if o != nil && !IsNil(o.JustNumber) {
+	if o != nil && o.JustNumber != nil {
 		return true
 	}
 
@@ -72,19 +69,11 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 }
 
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.JustNumber) {
+	if o.JustNumber != nil {
 		toSerialize["JustNumber"] = o.JustNumber
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableNumberOnly struct {

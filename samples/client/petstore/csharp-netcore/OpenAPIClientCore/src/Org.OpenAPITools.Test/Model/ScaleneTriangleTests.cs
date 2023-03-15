@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing ScaleneTriangle
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void ScaleneTriangleInstanceTest()
         {
-            // TODO uncomment below to test "IsType" ScaleneTriangle
-            //Assert.IsType<ScaleneTriangle>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" ScaleneTriangle
+            //Assert.IsInstanceOfType<ScaleneTriangle> (instance, "variable 'instance' is a ScaleneTriangle");
         }
 
 

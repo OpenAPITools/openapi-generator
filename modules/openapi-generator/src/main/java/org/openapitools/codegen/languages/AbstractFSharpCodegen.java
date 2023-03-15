@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -662,7 +661,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             case original:
                 return name;
             case camelCase:
-                return camelize(name, LOWERCASE_FIRST_LETTER);
+                return camelize(name, true);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -708,7 +707,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_LETTER);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {

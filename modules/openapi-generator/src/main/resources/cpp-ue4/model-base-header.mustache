@@ -7,7 +7,6 @@
 #include "Dom/JsonObject.h"
 #include "HttpRetrySystem.h"
 #include "Containers/Ticker.h"
-#include "Runtime/Launch/Resources/Version.h"
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}}
@@ -17,13 +16,7 @@ namespace {{this}}
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
 using namespace FHttpRetrySystem;
 
-struct {{dllapi}} HttpRetryManager
-	: public FManager
-#if ENGINE_MAJOR_VERSION <= 4
-	, public FTickerObjectBase
-#else
-	, public FTSTickerObjectBase
-#endif
+struct {{dllapi}} HttpRetryManager : public FManager, public FTickerObjectBase
 {
 	using FManager::FManager;
 

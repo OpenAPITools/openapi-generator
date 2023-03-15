@@ -127,10 +127,9 @@ class StoreApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltMap<String, int>>(
@@ -146,7 +145,7 @@ class StoreApi {
   }
 
   /// Find purchase order by ID
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   ///
   /// Parameters:
   /// * [orderId] - ID of pet that needs to be fetched
@@ -202,10 +201,9 @@ class StoreApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Order>(
@@ -269,10 +267,9 @@ class StoreApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -297,10 +294,9 @@ class StoreApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Order>(

@@ -70,7 +70,7 @@ runPet mgr config = do
   -- -- No instance for (S.Produces S.AddPet S.MimePlainText)
   -- addPetResponse <- S.dispatchLbs mgr config addPetRequest
 
-  -- inspect the AddPet type to see typeclasses indicating which
+  -- inspect the AddPet type to see typeclasses indicating wihch
   -- content-type and accept types (mimeTypes) are valid
 
   -- :i S.AddPet
@@ -122,7 +122,7 @@ runPet mgr config = do
                 }
         _ <- S.dispatchLbs mgr config updatePetRequest
 
-        -- required parameters are included as function arguments, optional parameters are included with applyOptionalParam
+        -- requred parameters are included as function arguments, optional parameters are included with applyOptionalParam
         -- inspect the UpdatePetWithForm type to see typeclasses indicating optional paramteters (:i S.UpdatePetWithForm)
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Name
         --   -- Defined in ‘OpenAPIPetstore.API’

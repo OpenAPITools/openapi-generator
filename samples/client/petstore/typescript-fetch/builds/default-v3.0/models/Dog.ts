@@ -19,6 +19,12 @@ import {
     AnimalFromJSONTyped,
     AnimalToJSON,
 } from './Animal';
+import type { DogAllOf } from './DogAllOf';
+import {
+    DogAllOfFromJSON,
+    DogAllOfFromJSONTyped,
+    DogAllOfToJSON,
+} from './DogAllOf';
 
 /**
  * 

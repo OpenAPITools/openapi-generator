@@ -1,9 +1,7 @@
 package {{package}};
 
 import {{package}}.*;
-{{#models.0}}
 import {{modelPackage}}.*;
-{{/models.0}}
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
@@ -15,10 +13,10 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
-import {{javaxPackage}}.ws.rs.core.Response;
-import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
+import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}

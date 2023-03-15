@@ -50,19 +50,19 @@
   describe('EnumArrays', function() {
     it('should create an instance of EnumArrays', function() {
       // uncomment below and update the code to test EnumArrays
-      //var instance = new OpenApiPetstore.EnumArrays();
+      //var instane = new OpenApiPetstore.EnumArrays();
       //expect(instance).to.be.a(OpenApiPetstore.EnumArrays);
     });
 
     it('should have the property justSymbol (base name: "just_symbol")', function() {
       // uncomment below and update the code to test the property justSymbol
-      //var instance = new OpenApiPetstore.EnumArrays();
+      //var instane = new OpenApiPetstore.EnumArrays();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayEnum (base name: "array_enum")', function() {
       // uncomment below and update the code to test the property arrayEnum
-      //var instance = new OpenApiPetstore.EnumArrays();
+      //var instane = new OpenApiPetstore.EnumArrays();
       //expect(instance).to.be();
     });
 

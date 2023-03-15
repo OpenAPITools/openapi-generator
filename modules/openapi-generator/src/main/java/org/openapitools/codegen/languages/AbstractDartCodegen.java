@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -109,7 +109,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         final List<String> reservedWordsList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(
+        try(BufferedReader reader = new BufferedReader(
                 new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
                         StandardCharsets.UTF_8))) {
             while (reader.ready()) {
@@ -373,7 +373,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_LETTER);
+        name = camelize(name, true);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -445,8 +445,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         return underscore(toModelName(name));
     }
 
-    @Override
-    public String toModelDocFilename(String name) {
+    @Override public String toModelDocFilename(String name) {
         return toModelName(name);
     }
 
@@ -489,7 +488,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = unaliasSchema(p);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -552,8 +551,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        final CodegenProperty property = super.fromProperty(name, p, required);
+    public CodegenProperty fromProperty(String name, Schema p) {
+        final CodegenProperty property = super.fromProperty(name, p);
 
         // Handle composed properties
         if (ModelUtils.isComposedSchema(p)) {
@@ -721,18 +720,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId);
 
-        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
+        operationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             operationId = newOperationId;
         }
@@ -820,7 +819,5 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() {
-        return GeneratorLanguage.DART;
-    }
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
 }

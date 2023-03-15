@@ -50,43 +50,43 @@
   describe('Order', function() {
     it('should create an instance of Order', function() {
       // uncomment below and update the code to test Order
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be.a(OpenApiPetstore.Order);
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property petId (base name: "petId")', function() {
       // uncomment below and update the code to test the property petId
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property quantity (base name: "quantity")', function() {
       // uncomment below and update the code to test the property quantity
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property shipDate (base name: "shipDate")', function() {
       // uncomment below and update the code to test the property shipDate
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property status (base name: "status")', function() {
       // uncomment below and update the code to test the property status
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property complete (base name: "complete")', function() {
       // uncomment below and update the code to test the property complete
-      //var instance = new OpenApiPetstore.Order();
+      //var instane = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 

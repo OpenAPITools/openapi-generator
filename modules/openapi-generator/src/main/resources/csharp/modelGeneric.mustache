@@ -323,7 +323,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{^isByteArray}}
             // {{{name}}} ({{{dataType}}}) pattern
             Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
-            if (false == regex{{{name}}}.Match(this.{{{name}}}{{#isUuid}}.ToString(){{/isUuid}}).Success)
+            if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
             }

@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -23,7 +24,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map = null;
  /**
    * Get uuid
    * @return uuid

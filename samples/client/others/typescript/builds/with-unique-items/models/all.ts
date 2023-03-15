@@ -1,1 +1,1 @@
-export * from '../models/Response'
+export * from './Response'

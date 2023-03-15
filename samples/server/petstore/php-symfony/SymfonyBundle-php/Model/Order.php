@@ -41,7 +41,6 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
-
 class Order 
 {
         /**

@@ -27,22 +27,6 @@ public class Category {
   @JsonProperty("name")
   private String name = "default-name";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Category#Category(String)}
-   */
-  @Deprecated
-  public Category() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Category(String name) {
-    this.name = name;
-  }
-
   public Category id(Long id) {
     this.id = id;
     return this;
@@ -53,7 +37,7 @@ public class Category {
    * @return id
   */
   
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -72,7 +56,7 @@ public class Category {
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", required = true)
   public String getName() {
     return name;
   }

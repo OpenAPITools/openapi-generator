@@ -39,8 +39,6 @@ public class DefaultGeneratorTest {
                     "build.sbt",
                     "src/main/AndroidManifest.xml",
                     "pom.xml",
-                    ".github/**",
-                    "api/**.yaml",
                     "src/test/**",
                     "src/main/java/org/openapitools/client/api/UserApi.java"
             );
@@ -68,7 +66,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 42);
+            Assert.assertEquals(files.size(), 44);
 
             // Check expected generated files
             // api sanity check
@@ -86,11 +84,8 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, "build.gradle");
             Assert.assertTrue(new File(output, "build.gradle").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "api/openapi.yaml");
-            Assert.assertFalse(new File(output, "api").exists());
-
-            TestUtils.ensureDoesNotContainsFile(files, output, ".github/workflows/");
-            Assert.assertFalse(new File(output, ".github").exists());
+            TestUtils.ensureContainsFile(files, output, "api/openapi.yaml");
+            Assert.assertTrue(new File(output, "build.gradle").exists());
 
             // Check excluded files
             TestUtils.ensureDoesNotContainsFile(files, output, ".travis.yml");

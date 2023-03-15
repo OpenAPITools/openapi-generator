@@ -132,12 +132,15 @@ public class AnotherFakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
+        
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new ApiException("Missing the required parameter 'client' when calling call123testSpecialTags(Async)");
         }
+        
 
-        return call123testSpecialTagsCall(client, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsCall(client, _callback);
+        return localVarCall;
 
     }
 

@@ -36,7 +36,7 @@ public class DogAllOf {
    * @return breed
   */
   
-  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "breed", required = false)
   public String getBreed() {
     return breed;
   }

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -26,17 +27,16 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Cat
     /// </summary>
-    public partial class Cat : Animal, IValidatableObject
+    public partial class Cat : Animal, IEquatable<Cat>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="dictionary"></param>
         /// <param name="catAllOf"></param>
-        /// <param name="className">className</param>
+        /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        [JsonConstructor]
-        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = "red") : base(className, color)
+        public Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = "red") : base(className, color)
         {
             Dictionary = dictionary;
             CatAllOf = catAllOf;
@@ -64,6 +64,40 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Cat).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Cat instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Cat to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Cat input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                return hashCode;
+            }
+        }
+
     }
 
     /// <summary>
@@ -72,53 +106,53 @@ namespace Org.OpenAPITools.Model
     public class CatJsonConverter : JsonConverter<Cat>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(Cat).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="utf8JsonReader"></param>
+        /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Cat Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override Cat Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int currentDepth = utf8JsonReader.CurrentDepth;
+            int currentDepth = reader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            Utf8JsonReader dictionaryReader = reader;
+            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref dictionaryReader, options, out Dictionary<string, int> dictionary);
 
-            Utf8JsonReader dictionaryReader = utf8JsonReader;
-            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref utf8JsonReader, jsonSerializerOptions, out Dictionary<string, int> dictionary);
-
-            Utf8JsonReader catAllOfReader = utf8JsonReader;
-            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out CatAllOf catAllOf);
+            Utf8JsonReader catAllOfReader = reader;
+            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref catAllOfReader, options, out CatAllOf catAllOf);
 
             string className = default;
             string color = default;
 
-            while (utf8JsonReader.Read())
+            while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string propertyName = utf8JsonReader.GetString();
-                    utf8JsonReader.Read();
+                    string propertyName = reader.GetString();
+                    reader.Read();
 
                     switch (propertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = reader.GetString();
                             break;
                         case "color":
-                            color = utf8JsonReader.GetString();
-                            break;
-                        default:
+                            color = reader.GetString();
                             break;
                     }
                 }
@@ -132,16 +166,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="cat"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
-        {
-            writer.WriteStartObject();
-
-            writer.WriteString("className", cat.ClassName);
-            writer.WriteString("color", cat.Color);
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

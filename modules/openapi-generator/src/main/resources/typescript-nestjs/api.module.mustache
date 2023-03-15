@@ -1,10 +1,4 @@
-{{#useAxiosHttpModule}}
-import { DynamicModule, Module, Global } from '@nestjs/common';
-import { HttpModule, HttpService } from '@nestjs/axios';
-{{/useAxiosHttpModule}}
-{{^useAxiosHttpModule}}
 import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
-{{/useAxiosHttpModule}}
 import { Configuration } from './configuration';
 
 {{#apiInfo}}

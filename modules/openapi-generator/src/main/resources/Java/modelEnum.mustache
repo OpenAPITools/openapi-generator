@@ -78,7 +78,6 @@ import com.google.gson.stream.JsonWriter;
   }
 {{/gson}}
 {{#jsonb}}
-
   public static final class Deserializer implements JsonbDeserializer<{{datatypeWithEnum}}> {
     @Override
     public {{datatypeWithEnum}} deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
@@ -98,20 +97,4 @@ import com.google.gson.stream.JsonWriter;
     }
   }
 {{/jsonb}}
-{{#supportUrlQuery}}
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    if (prefix == null) {
-      prefix = "";
-    }
-
-    return String.format("%s=%s", prefix, this.toString());
-  }
-{{/supportUrlQuery}}
 }

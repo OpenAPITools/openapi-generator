@@ -58,24 +58,8 @@ class Model200Response {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>Model200Response</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Model200Response</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['class'] && !(typeof data['class'] === 'string' || data['class'] instanceof String)) {
-            throw new Error("Expected the field `class` to be a primitive type in the JSON string but got " + data['class']);
-        }
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * @member {Number} name

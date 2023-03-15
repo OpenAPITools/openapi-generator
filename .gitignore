@@ -32,9 +32,6 @@ packages/
 **/.vs
 .factorypath
 .metals/*
-nbproject/
-nbactions.xml
-nb-configuration.xml
 
 .settings
 
@@ -227,8 +224,6 @@ samples/client/petstore/R/**/petstore.Rcheck/
 samples/client/petstore/R/**/*.tar.gz
 samples/client/petstore/R/R.Rproj
 samples/client/petstore/R/man/
-samples/client/petstore/R-httr2-wrapper/man/
-samples/client/petstore/R-httr2/man/
 
 # elixir
 samples/client/petstore/elixir/_build/
@@ -256,7 +251,6 @@ samples/server/petstore/erlang-server/rebar.lock
 # JS
 samples/client/petstore/javascript-es6/package-lock.json
 samples/client/petstore/javascript-promise-es6/package-lock.json
-samples/client/petstore/javascript-apollo/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html

@@ -27,7 +27,7 @@ public class XmlItem  {
   private Boolean attributeBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = null;
 
   @ApiModelProperty(example = "string", value = "")
   private String nameString;
@@ -43,10 +43,10 @@ public class XmlItem  {
   private Boolean nameBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameArray = null;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = null;
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixString;
@@ -62,10 +62,10 @@ public class XmlItem  {
   private Boolean prefixBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixArray = null;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = null;
 
   @ApiModelProperty(example = "string", value = "")
   private String namespaceString;
@@ -81,10 +81,10 @@ public class XmlItem  {
   private Boolean namespaceBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceArray = null;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = null;
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixNsString;
@@ -100,10 +100,10 @@ public class XmlItem  {
   private Boolean prefixNsBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = null;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = null;
  /**
    * Get attributeString
    * @return attributeString

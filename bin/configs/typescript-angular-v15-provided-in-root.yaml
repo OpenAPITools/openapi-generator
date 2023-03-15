@@ -1,7 +1,0 @@
-generatorName: typescript-angular
-outputDir: samples/client/petstore/typescript-angular-v15-provided-in-root/builds/default
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/typescript-angular
-additionalProperties:
-  ngVersion: 15.0.3
-  supportsES6: true

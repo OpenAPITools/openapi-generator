@@ -55,7 +55,6 @@ function Initialize-PSEnumTest {
         [System.Nullable[Double]]
         ${EnumNumber},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("placed", "approved", "delivered")]
         [PSCustomObject]
         ${OuterEnum}
     )

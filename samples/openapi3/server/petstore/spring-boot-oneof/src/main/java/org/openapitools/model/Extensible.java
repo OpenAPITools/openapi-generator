@@ -30,22 +30,6 @@ public class Extensible {
   @JsonProperty("@type")
   private String atType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Extensible#Extensible(String)}
-   */
-  @Deprecated
-  public Extensible() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Extensible(String atType) {
-    this.atType = atType;
-  }
-
   public Extensible atSchemaLocation(String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
@@ -56,7 +40,7 @@ public class Extensible {
    * @return atSchemaLocation
   */
   
-  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", required = false)
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -75,7 +59,7 @@ public class Extensible {
    * @return atBaseType
   */
   
-  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", required = false)
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -94,7 +78,7 @@ public class Extensible {
    * @return atType
   */
   @NotNull 
-  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", required = true)
   public String getAtType() {
     return atType;
   }

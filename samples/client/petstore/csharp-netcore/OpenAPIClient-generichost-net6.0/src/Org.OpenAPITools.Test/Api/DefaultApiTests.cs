@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.IApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class DefaultApiTests : ApiTestsBase
     {
-        private readonly IApi.IDefaultApi _instance;
+        private readonly IDefaultApi _instance;
 
         public DefaultApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IApi.IDefaultApi>();
+            _instance = _host.Services.GetRequiredService<IDefaultApi>();
         }
 
 
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FooGetAsyncTest()
         {
             var response = await _instance.FooGetAsync();
-            Assert.IsType<FooGetDefaultResponse>(response);
+            Assert.IsType<InlineResponseDefault>(response);
         }
     }
 }

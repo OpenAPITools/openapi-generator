@@ -50,25 +50,25 @@
   describe('OuterComposite', function() {
     it('should create an instance of OuterComposite', function() {
       // uncomment below and update the code to test OuterComposite
-      //var instance = new OpenApiPetstore.OuterComposite();
+      //var instane = new OpenApiPetstore.OuterComposite();
       //expect(instance).to.be.a(OpenApiPetstore.OuterComposite);
     });
 
     it('should have the property myNumber (base name: "my_number")', function() {
       // uncomment below and update the code to test the property myNumber
-      //var instance = new OpenApiPetstore.OuterComposite();
+      //var instane = new OpenApiPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 
     it('should have the property myString (base name: "my_string")', function() {
       // uncomment below and update the code to test the property myString
-      //var instance = new OpenApiPetstore.OuterComposite();
+      //var instane = new OpenApiPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 
     it('should have the property myBoolean (base name: "my_boolean")', function() {
       // uncomment below and update the code to test the property myBoolean
-      //var instance = new OpenApiPetstore.OuterComposite();
+      //var instane = new OpenApiPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 

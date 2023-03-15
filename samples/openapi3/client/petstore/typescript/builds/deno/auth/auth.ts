@@ -22,26 +22,6 @@ export interface TokenProvider {
 }
 
 /**
- * Applies oauth2 authentication to the request context.
- */
-export class PetstoreAuthAuthentication implements SecurityAuthentication {
-    /**
-     * Configures OAuth2 with the necessary properties
-     *
-     * @param accessToken: The access token to be used for every request
-     */
-    public constructor(private accessToken: string) {}
-
-    public getName(): string {
-        return "petstore_auth";
-    }
-
-    public applySecurityAuthentication(context: RequestContext) {
-        context.setHeaderParam("Authorization", "Bearer " + this.accessToken);
-    }
-}
-
-/**
  * Applies apiKey authentication to the request context.
  */
 export class ApiKeyAuthentication implements SecurityAuthentication {
@@ -61,11 +41,31 @@ export class ApiKeyAuthentication implements SecurityAuthentication {
     }
 }
 
+/**
+ * Applies oauth2 authentication to the request context.
+ */
+export class PetstoreAuthAuthentication implements SecurityAuthentication {
+    /**
+     * Configures OAuth2 with the necessary properties
+     *
+     * @param accessToken: The access token to be used for every request
+     */
+    public constructor(private accessToken: string) {}
+
+    public getName(): string {
+        return "petstore_auth";
+    }
+
+    public applySecurityAuthentication(context: RequestContext) {
+        context.setHeaderParam("Authorization", "Bearer " + this.accessToken);
+    }
+}
+
 
 export type AuthMethods = {
     "default"?: SecurityAuthentication,
-    "petstore_auth"?: SecurityAuthentication,
-    "api_key"?: SecurityAuthentication
+    "api_key"?: SecurityAuthentication,
+    "petstore_auth"?: SecurityAuthentication
 }
 
 export type ApiKeyConfiguration = string;
@@ -75,8 +75,8 @@ export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
     "default"?: SecurityAuthentication,
-    "petstore_auth"?: OAuth2Configuration,
-    "api_key"?: ApiKeyConfiguration
+    "api_key"?: ApiKeyConfiguration,
+    "petstore_auth"?: OAuth2Configuration
 }
 
 /**
@@ -91,15 +91,15 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
     }
     authMethods["default"] = config["default"]
 
-    if (config["petstore_auth"]) {
-        authMethods["petstore_auth"] = new PetstoreAuthAuthentication(
-            config["petstore_auth"]["accessToken"]
-        );
-    }
-
     if (config["api_key"]) {
         authMethods["api_key"] = new ApiKeyAuthentication(
             config["api_key"]
+        );
+    }
+
+    if (config["petstore_auth"]) {
+        authMethods["petstore_auth"] = new PetstoreAuthAuthentication(
+            config["petstore_auth"]["accessToken"]
         );
     }
 

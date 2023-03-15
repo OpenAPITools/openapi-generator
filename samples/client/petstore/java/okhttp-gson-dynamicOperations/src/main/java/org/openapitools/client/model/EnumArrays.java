@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -150,9 +151,9 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum = null;
 
-  public EnumArrays() {
+  public EnumArrays() { 
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -166,6 +167,7 @@ public class EnumArrays {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -196,6 +198,7 @@ public class EnumArrays {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -269,7 +272,9 @@ public class EnumArrays {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (EnumArrays.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in EnumArrays is not found in the empty JSON string", EnumArrays.openapiRequiredFields.toString()));
         }
       }
@@ -281,10 +286,10 @@ public class EnumArrays {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `EnumArrays` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
+      if (jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }

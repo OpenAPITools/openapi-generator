@@ -115,8 +115,8 @@ public:
     bool userStatusIsSet() const;
     void unsetUserStatus();
 
-    friend  void to_json(nlohmann::json& j, const User& o);
-    friend  void from_json(const nlohmann::json& j, User& o);
+    friend void to_json(nlohmann::json& j, const User& o);
+    friend void from_json(const nlohmann::json& j, User& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

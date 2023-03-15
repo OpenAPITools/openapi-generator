@@ -59,17 +59,17 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/additionalPropertiesType}}
         {{#vars}}
         {{#isPrimitiveType}}
-        {{#isDateType}}
+        {{#isDate}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDateType}}
-        {{#isDateTimeType}}
+        {{/isDate}}
+        {{#isDateTime}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDateTimeType}}
-        {{^isDateType}}
-        {{^isDateTimeType}}
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
-        {{/isDateTimeType}}
-        {{/isDateType}}
+        {{/isDateTime}}
+        {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
@@ -118,22 +118,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        {{#isDateType}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)),
-        {{/isDateType}}
-        {{#isDateTimeType}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()),
-        {{/isDateTimeType}}
-        {{#isArray}}
-        '{{baseName}}': {{#uniqueItems}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}{{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from(value.{{name}} as Set<any>){{/uniqueItems}}{{^uniqueItems}}value.{{name}}{{/uniqueItems}},
-        {{/isArray}}
-        {{^isDateType}}
-        {{^isDateTimeType}}
-        {{^isArray}}
-        '{{baseName}}': value.{{name}},
-        {{/isArray}}
-        {{/isDateTimeType}}
-        {{/isDateType}}
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}

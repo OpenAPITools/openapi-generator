@@ -15,7 +15,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Client.Auth;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -657,22 +656,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -688,6 +671,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -762,22 +751,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -793,6 +766,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -865,19 +844,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -952,19 +921,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1038,22 +997,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1069,6 +1012,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1144,22 +1093,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1175,6 +1108,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1250,22 +1189,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1281,6 +1204,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1358,22 +1287,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1389,6 +1302,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1605,22 +1524,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1636,6 +1539,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1710,22 +1619,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1741,6 +1634,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1820,19 +1719,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1914,19 +1803,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2008,19 +1887,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2104,19 +1973,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2174,8 +2033,7 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2202,19 +2060,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2274,8 +2122,7 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2302,19 +2149,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request

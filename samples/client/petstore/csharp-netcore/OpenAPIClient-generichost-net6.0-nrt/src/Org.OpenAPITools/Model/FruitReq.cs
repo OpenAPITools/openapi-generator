@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -28,14 +29,13 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// FruitReq
     /// </summary>
-    public partial class FruitReq : IValidatableObject
+    public partial class FruitReq : IEquatable<FruitReq>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
-        [JsonConstructor]
-        internal FruitReq(AppleReq appleReq)
+        public FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
         }
@@ -44,8 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
-        [JsonConstructor]
-        internal FruitReq(BananaReq bananaReq)
+        public FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
         }
@@ -53,12 +52,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AppleReq
         /// </summary>
-        public AppleReq? AppleReq { get; set; }
+        public AppleReq AppleReq { get; set; }
 
         /// <summary>
         /// Gets or Sets BananaReq
         /// </summary>
-        public BananaReq? BananaReq { get; set; }
+        public BananaReq BananaReq { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -71,6 +70,40 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as FruitReq).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if FruitReq instances are equal
+        /// </summary>
+        /// <param name="input">Instance of FruitReq to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(FruitReq? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -88,46 +121,46 @@ namespace Org.OpenAPITools.Model
     public class FruitReqJsonConverter : JsonConverter<FruitReq>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(FruitReq).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="utf8JsonReader"></param>
+        /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override FruitReq Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override FruitReq Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int currentDepth = utf8JsonReader.CurrentDepth;
+            int currentDepth = reader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            Utf8JsonReader appleReqReader = reader;
+            bool appleReqDeserialized = Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, options, out AppleReq? appleReq);
 
-            Utf8JsonReader appleReqReader = utf8JsonReader;
-            bool appleReqDeserialized = Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, jsonSerializerOptions, out AppleReq? appleReq);
-
-            Utf8JsonReader bananaReqReader = utf8JsonReader;
-            bool bananaReqDeserialized = Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, jsonSerializerOptions, out BananaReq? bananaReq);
+            Utf8JsonReader bananaReqReader = reader;
+            bool bananaReqDeserialized = Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, options, out BananaReq? bananaReq);
 
 
-            while (utf8JsonReader.Read())
+            while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
-                    utf8JsonReader.Read();
+                    string? propertyName = reader.GetString();
+                    reader.Read();
 
                     switch (propertyName)
                     {
-                        default:
-                            break;
                     }
                 }
             }
@@ -146,14 +179,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fruitReq"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions jsonSerializerOptions)
-        {
-            writer.WriteStartObject();
-
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

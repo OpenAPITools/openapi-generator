@@ -19,9 +19,9 @@ import javax.validation.Valid
  */
 data class Category(
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @field:JsonProperty("name") val name: kotlin.String? = null
 ) {
 
 }

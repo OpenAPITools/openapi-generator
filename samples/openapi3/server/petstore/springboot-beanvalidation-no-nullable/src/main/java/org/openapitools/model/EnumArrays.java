@@ -110,7 +110,7 @@ public class EnumArrays {
    * @return justSymbol
   */
   
-  @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "just_symbol", required = false)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -137,7 +137,7 @@ public class EnumArrays {
    * @return arrayEnum
   */
   
-  @Schema(name = "array_enum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "array_enum", required = false)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

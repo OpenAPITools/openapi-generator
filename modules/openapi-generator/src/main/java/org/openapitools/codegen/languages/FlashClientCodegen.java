@@ -33,7 +33,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -298,7 +297,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // underscore the variable name
         // petId => pet_id
-        name = camelize(dropDots(name), LOWERCASE_FIRST_LETTER);
+        name = camelize(dropDots(name), true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {

@@ -7,4 +7,3 @@ additionalProperties:
   artifactId: petstore-resttemplate
   hideGenerationTimestamp: "true"
   java8: true
-  containerDefaultToNull: true

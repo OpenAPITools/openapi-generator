@@ -823,7 +823,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
          * @summary Find purchase order by ID
          * @throws {RequiredError}
          */
@@ -930,7 +930,7 @@ export const StoreApi = function(configuration?: Configuration, fetch: FetchAPI 
             });
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
          * @summary Find purchase order by ID
          * @throws {RequiredError}
          */

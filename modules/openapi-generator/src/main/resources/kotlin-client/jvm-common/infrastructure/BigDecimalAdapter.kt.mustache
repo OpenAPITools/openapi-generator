@@ -15,16 +15,12 @@ import com.squareup.moshi.ToJson
 {{/moshi}}
 import java.math.BigDecimal
 
-{{#kotlinx_serialization}}
-@Serializer(forClass = BigDecimal::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object BigDecimalAdapter : KSerializer<BigDecimal> {
+{{#kotlinx_serialization}}@Serializer(forClass = BigDecimal::class)
+object BigDecimalAdapter : KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal(decoder.decodeString())
     override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeString(value.toPlainString())
-}
-{{/kotlinx_serialization}}
-{{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class BigDecimalAdapter {
+}{{/kotlinx_serialization}}{{#moshi}}{{#nonPublicApi}}internal {{/nonPublicApi}}class BigDecimalAdapter {
     @ToJson
     fun toJson(value: BigDecimal): String {
         return value.toPlainString()
@@ -34,5 +30,4 @@ import java.math.BigDecimal
     fun fromJson(value: String): BigDecimal {
         return BigDecimal(value)
     }
-}
-{{/moshi}}
+}{{/moshi}}

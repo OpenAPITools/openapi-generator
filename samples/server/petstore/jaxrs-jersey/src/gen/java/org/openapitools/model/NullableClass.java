@@ -73,27 +73,27 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
-  private List<Object> arrayNullableProp;
+  private List<Object> arrayNullableProp = null;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
-  private List<Object> arrayAndItemsNullableProp;
+  private List<Object> arrayAndItemsNullableProp = null;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private List<Object> arrayItemsNullable = null;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
-  private Map<String, Object> objectNullableProp;
+  private Map<String, Object> objectNullableProp = null;
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
-  private Map<String, Object> objectAndItemsNullableProp;
+  private Map<String, Object> objectAndItemsNullableProp = null;
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
-  private Map<String, Object> objectItemsNullable = new HashMap<>();
+  private Map<String, Object> objectItemsNullable = null;
 
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = integerProp;

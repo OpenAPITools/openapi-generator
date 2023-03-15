@@ -1,0 +1,6 @@
+generatorName: javascript-apollo
+outputDir: samples/client/petstore/javascript-apollo
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Javascript-Apollo
+additionalProperties:
+  appName: PetstoreClient

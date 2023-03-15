@@ -6,8 +6,8 @@ py>=1.4.31
 randomize>=0.13
 {{/useNose}}
 {{^useNose}}
-pytest~=7.1.0
+pytest~=4.6.7 # needed for python 2.7+3.4
 pytest-cov>=2.8.1
-pytest-randomly>=1.2.3
+pytest-randomly==1.2.3 # needed for python 2.7+3.4
 pytest-aiohttp>=0.3.0
 {{/useNose}}

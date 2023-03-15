@@ -1,3 +1,0 @@
-exclude:
-  - test
-  - pub run build_runner

@@ -34,22 +34,6 @@ public class Name {
   @JsonProperty("123Number")
   private Integer _123number;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Name#Name(Integer)}
-   */
-  @Deprecated
-  public Name() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Name(Integer name) {
-    this.name = name;
-  }
-
   public Name name(Integer name) {
     this.name = name;
     return this;
@@ -60,7 +44,7 @@ public class Name {
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", required = true)
   public Integer getName() {
     return name;
   }
@@ -79,7 +63,7 @@ public class Name {
    * @return snakeCase
   */
   
-  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -98,7 +82,7 @@ public class Name {
    * @return property
   */
   
-  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "property", required = false)
   public String getProperty() {
     return property;
   }
@@ -117,7 +101,7 @@ public class Name {
    * @return _123number
   */
   
-  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer get123number() {
     return _123number;
   }

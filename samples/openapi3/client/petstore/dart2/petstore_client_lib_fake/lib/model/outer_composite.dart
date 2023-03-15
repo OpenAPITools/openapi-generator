@@ -59,23 +59,23 @@ class OuterComposite {
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.myNumber != null) {
-      json[r'my_number'] = this.myNumber;
+    final _json = <String, dynamic>{};
+    if (myNumber != null) {
+      _json[r'my_number'] = myNumber;
     } else {
-      json[r'my_number'] = null;
+      _json[r'my_number'] = null;
     }
-    if (this.myString != null) {
-      json[r'my_string'] = this.myString;
+    if (myString != null) {
+      _json[r'my_string'] = myString;
     } else {
-      json[r'my_string'] = null;
+      _json[r'my_string'] = null;
     }
-    if (this.myBoolean != null) {
-      json[r'my_boolean'] = this.myBoolean;
+    if (myBoolean != null) {
+      _json[r'my_boolean'] = myBoolean;
     } else {
-      json[r'my_boolean'] = null;
+      _json[r'my_boolean'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [OuterComposite] instance and imports its values from

@@ -21,6 +21,40 @@ export enum HttpMethod {
  */
 export type HttpFile = Blob & { readonly name: string };
 
+/**
+ * URLParse Wrapper for Deno
+ */
+class URLParse {
+    private url: URL;
+
+    constructor(address: string, _parser: boolean) {
+        this.url = new URL(address);
+    }
+
+    public set(_part: 'query', obj: {[key: string]: string | undefined}) {
+        for (const key in obj) {
+            const value = obj[key];
+            if (value) {
+              this.url.searchParams.set(key, value);
+            } else {
+              this.url.searchParams.set(key, "");
+            }
+        }
+    }
+
+    public get query() {
+        const obj: {[key: string]: string} = {};
+        for (const [key, value] of this.url.searchParams.entries()) {
+            obj[key] = value;
+        }
+        return obj;
+    }
+
+    public toString() {
+        return this.url.toString();
+    }
+}
+
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -38,7 +72,7 @@ export type RequestBody = undefined | string | FormData | URLSearchParams;
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URL;
+    private url: URLParse;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -47,7 +81,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URL(url);
+        this.url = new URLParse(url, true);
     }
 
     /*
@@ -55,9 +89,7 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString().endsWith("/") ?
-            this.url.toString().slice(0, -1)
-            : this.url.toString();
+        return this.url.toString();
     }
 
     /**
@@ -65,7 +97,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URL(url);
+        this.url = new URLParse(url, true);
     }
 
     /**
@@ -94,7 +126,9 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        this.url.searchParams.set(name, value);
+        let queryObj = this.url.query;
+        queryObj[name] = value;
+        this.url.set("query", queryObj);
     }
 
     /**

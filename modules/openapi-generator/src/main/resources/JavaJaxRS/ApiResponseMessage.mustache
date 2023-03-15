@@ -1,11 +1,11 @@
 package {{apiPackage}};
 
 {{#withXml}}
-import {{javaxPackage}}.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlTransient;
 {{/withXml}}
 
 {{#withXml}}
-@{{javaxPackage}}.xml.bind.annotation.XmlRootElement
+@javax.xml.bind.annotation.XmlRootElement
 {{/withXml}}
 {{>generatedAnnotation}}
 public class ApiResponseMessage {

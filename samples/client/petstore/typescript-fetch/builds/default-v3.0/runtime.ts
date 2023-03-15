@@ -116,7 +116,7 @@ export class BaseAPI {
     protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
-        if (response && (response.status >= 200 && response.status < 300)) {
+        if (response.status >= 200 && response.status < 300) {
             return response;
         }
         throw new ResponseError(response, 'Response returned an error code');
@@ -146,22 +146,22 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const overriddenInit: RequestInit = {
+        const overridedInit: RequestInit = {
             ...initParams,
             ...(await initOverrideFn({
                 init: initParams,
                 context,
             }))
-        };
+        }
 
         const init: RequestInit = {
-            ...overriddenInit,
+            ...overridedInit,
             body:
-                isFormData(overriddenInit.body) ||
-                overriddenInit.body instanceof URLSearchParams ||
-                isBlob(overriddenInit.body)
-                    ? overriddenInit.body
-                    : JSON.stringify(overriddenInit.body),
+                isFormData(overridedInit.body) ||
+                overridedInit.body instanceof URLSearchParams ||
+                isBlob(overridedInit.body)
+                    ? overridedInit.body
+                    : JSON.stringify(overridedInit.body),
         };
 
         return { url, init };
@@ -177,7 +177,7 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response: Response | undefined = undefined;
+        let response = undefined;
         try {
             response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         } catch (e) {
@@ -193,11 +193,7 @@ export class BaseAPI {
                 }
             }
             if (response === undefined) {
-              if (e instanceof Error) {
                 throw new FetchError(e, 'The request failed and the interceptors did not return an alternative response');
-              } else {
-                throw e;
-              }
             }
         }
         for (const middleware of this.middleware) {
@@ -226,29 +222,29 @@ export class BaseAPI {
 };
 
 function isBlob(value: any): value is Blob {
-    return typeof Blob !== 'undefined' && value instanceof Blob;
+    return typeof Blob !== 'undefined' && value instanceof Blob
 }
 
 function isFormData(value: any): value is FormData {
-    return typeof FormData !== "undefined" && value instanceof FormData;
+    return typeof FormData !== "undefined" && value instanceof FormData
 }
 
 export class ResponseError extends Error {
-    override name: "ResponseError" = "ResponseError";
+    name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
         super(msg);
     }
 }
 
 export class FetchError extends Error {
-    override name: "FetchError" = "FetchError";
-    constructor(public cause: Error, msg?: string) {
+    name: "FetchError" = "FetchError";
+    constructor(public cause: unknown, msg?: string) {
         super(msg);
     }
 }
 
 export class RequiredError extends Error {
-    override name: "RequiredError" = "RequiredError";
+    name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
     }
@@ -268,7 +264,7 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody };
+export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
@@ -335,7 +331,7 @@ export function canConsumeForm(consumes: Consume[]): boolean {
 }
 
 export interface Consume {
-    contentType: string;
+    contentType: string
 }
 
 export interface RequestContext {

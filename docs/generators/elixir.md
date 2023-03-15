@@ -45,7 +45,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>AnyType</li>
 <li>Atom</li>
 <li>Boolean</li>
 <li>DateTime</li>
@@ -57,7 +56,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>PID</li>
 <li>String</li>
 <li>Tuple</li>
-<li>any()</li>
 <li>map()</li>
 </ul>
 
@@ -105,7 +103,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
-|AnyType|✓|OAS2,OAS3
+|AnyType|✗|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2

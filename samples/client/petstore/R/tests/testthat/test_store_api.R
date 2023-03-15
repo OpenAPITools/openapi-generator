@@ -32,7 +32,7 @@ test_that("GetOrderById", {
   # tests for GetOrderById
   # base path: http://petstore.swagger.io/v2
   # Find purchase order by ID
-  # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+  # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   # @param order.id integer ID of pet that needs to be fetched
   # @return [Order]
 

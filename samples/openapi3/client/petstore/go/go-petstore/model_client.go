@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Client type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Client{}
-
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
@@ -44,7 +41,7 @@ func NewClientWithDefaults() *Client {
 
 // GetClient returns the Client field value if set, zero value otherwise.
 func (o *Client) GetClient() string {
-	if o == nil || IsNil(o.Client) {
+	if o == nil || o.Client == nil {
 		var ret string
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *Client) GetClient() string {
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Client) GetClientOk() (*string, bool) {
-	if o == nil || IsNil(o.Client) {
+	if o == nil || o.Client == nil {
 		return nil, false
 	}
 	return o.Client, true
@@ -62,7 +59,7 @@ func (o *Client) GetClientOk() (*string, bool) {
 
 // HasClient returns a boolean if a field has been set.
 func (o *Client) HasClient() bool {
-	if o != nil && !IsNil(o.Client) {
+	if o != nil && o.Client != nil {
 		return true
 	}
 
@@ -75,16 +72,8 @@ func (o *Client) SetClient(v string) {
 }
 
 func (o Client) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Client) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Client) {
+	if o.Client != nil {
 		toSerialize["client"] = o.Client
 	}
 
@@ -92,7 +81,7 @@ func (o Client) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *Client) UnmarshalJSON(bytes []byte) (err error) {

@@ -27,7 +27,6 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
-import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +38,6 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Locale;
 
-@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 @SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
 

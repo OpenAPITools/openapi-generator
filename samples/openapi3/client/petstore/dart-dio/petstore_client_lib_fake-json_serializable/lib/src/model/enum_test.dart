@@ -2,7 +2,6 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
 import 'package:openapi/src/model/outer_enum.dart';
 import 'package:openapi/src/model/outer_enum_default_value.dart';
 import 'package:openapi/src/model/outer_enum_integer.dart';

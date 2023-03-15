@@ -59,7 +59,6 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
-import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -96,7 +95,8 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Location of the output directory.
      */
-    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
+    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output",
+            defaultValue = "${project.build.directory}/generated-sources/openapi")
     private File output;
 
     /**
@@ -104,18 +104,6 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
     private String inputSpec;
-
-    /**
-     * Local root folder with spec files
-     */
-    @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
-    private String inputSpecRootDirectory;
-
-    /**
-     * Name of the file that will contains all merged specs
-     */
-    @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
-    private String mergedFileName;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -329,12 +317,6 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameDefaults;
 
     /**
-     * A set of rules for OpenAPI normalizer
-     */
-    @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
-    private List<String> openapiNormalizer;
-
-    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -481,19 +463,7 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
-                .buildMergedSpec();
-            LOGGER.info("Merge input spec would be used - {}", inputSpec);
-        }
-
         File inputSpecFile = new File(inputSpec);
-
-        if (output == null) {
-            output = new File(project.getBuild().getDirectory(),
-                    LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
-                            "generated-test-sources/openapi" : "generated-sources/openapi");
-        }
         addCompileSourceRootIfConfigured();
 
         try {
@@ -725,12 +695,6 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> openapi-normalizer
-                if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
-                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
-                            configurator);
-                }
-
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
@@ -782,11 +746,6 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Inline Schema Name Defaults
             if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
                 applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
-            }
-
-            // Apply OpenAPI normalizer rules
-            if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
-                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings
@@ -954,16 +913,21 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separatorChar + ".openapi-generator" + File.separatorChar + name + "-" + mojo.getExecutionId() + ".sha256");
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder = sourceFolderObject != null ? sourceFolderObject.toString() : "src/main/java";
+        final String sourceFolder;
+        if (sourceFolderObject != null) {
+            sourceFolder = sourceFolderObject.toString();
+        } else {
+            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
+        }
 
-        return output.getPath() + File.separatorChar + sourceFolder;
+        return output.toString() + "/" + sourceFolder;
     }
 
     private void addCompileSourceRootIfConfigured() throws MojoExecutionException {

@@ -26,22 +26,22 @@ import io.swagger.annotations.ApiModelProperty
 data class Order(
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @field:JsonProperty("petId") val petId: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @field:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @field:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
     @ApiModelProperty(example = "null", value = "Order Status")
-    @get:JsonProperty("status") val status: Order.Status? = null,
+    @field:JsonProperty("status") val status: Order.Status? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @field:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 
     /**

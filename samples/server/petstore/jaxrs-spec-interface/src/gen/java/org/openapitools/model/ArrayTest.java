@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ArrayTest  implements Serializable {
+  
   private @Valid List<String> arrayOfString = new ArrayList<>();
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
   private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
@@ -60,7 +61,7 @@ public class ArrayTest  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -95,7 +96,7 @@ public class ArrayTest  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;

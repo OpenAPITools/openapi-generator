@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Dog_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
-public class DogAllOf  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class DogAllOf  implements Serializable {
+  
   private @Valid String breed;
 
   /**
@@ -27,6 +27,8 @@ public class DogAllOf  implements Serializable {
     this.breed = breed;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(value = "")

@@ -38,7 +38,7 @@ pytest
 
 ## Prevent file overriding
 
-After first generation, add edited files to _.openapi-generator-ignore_ to prevent generator from overwriting them. Typically:
+After first generation, add edited files to _.openapi-generator-ignore_ to prevent generator to overwrite them. Typically:
 ```
 server/controllers/*
 test/*

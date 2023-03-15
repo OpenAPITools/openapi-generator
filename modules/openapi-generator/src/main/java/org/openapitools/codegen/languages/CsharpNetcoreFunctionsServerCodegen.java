@@ -304,12 +304,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
-
-        if (!additionalProperties.containsKey("userSecretsGuid")) {
-            additionalProperties.put("userSecretsGuid", userSecretsGuid);
-        } else {
-            userSecretsGuid = (String) additionalProperties.get("userSecretsGuid");
-        }
+        additionalProperties.put("userSecretsGuid", userSecretsGuid);
 
         if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
             additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);

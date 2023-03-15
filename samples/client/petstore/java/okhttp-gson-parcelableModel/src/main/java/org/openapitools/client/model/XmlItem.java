@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,7 +43,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class XmlItem implements Parcelable {
 
   public static final String SERIALIZED_NAME_WRAPPED_ARRAY = "wrapped_array";
   @SerializedName(SERIALIZED_NAME_WRAPPED_ARRAY)
-  private List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = null;
 
   public static final String SERIALIZED_NAME_NAME_STRING = "name_string";
   @SerializedName(SERIALIZED_NAME_NAME_STRING)
@@ -91,11 +92,11 @@ public class XmlItem implements Parcelable {
 
   public static final String SERIALIZED_NAME_NAME_ARRAY = "name_array";
   @SerializedName(SERIALIZED_NAME_NAME_ARRAY)
-  private List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameArray = null;
 
   public static final String SERIALIZED_NAME_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAME_WRAPPED_ARRAY)
-  private List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = null;
 
   public static final String SERIALIZED_NAME_PREFIX_STRING = "prefix_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_STRING)
@@ -115,11 +116,11 @@ public class XmlItem implements Parcelable {
 
   public static final String SERIALIZED_NAME_PREFIX_ARRAY = "prefix_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_ARRAY)
-  private List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixArray = null;
 
   public static final String SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY)
-  private List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = null;
 
   public static final String SERIALIZED_NAME_NAMESPACE_STRING = "namespace_string";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_STRING)
@@ -139,11 +140,11 @@ public class XmlItem implements Parcelable {
 
   public static final String SERIALIZED_NAME_NAMESPACE_ARRAY = "namespace_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_ARRAY)
-  private List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceArray = null;
 
   public static final String SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY)
-  private List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = null;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_STRING = "prefix_ns_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_STRING)
@@ -163,13 +164,13 @@ public class XmlItem implements Parcelable {
 
   public static final String SERIALIZED_NAME_PREFIX_NS_ARRAY = "prefix_ns_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_ARRAY)
-  private List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = null;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
-  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = null;
 
-  public XmlItem() {
+  public XmlItem() { 
   }
 
   public XmlItem attributeString(String attributeString) {
@@ -183,6 +184,7 @@ public class XmlItem implements Parcelable {
    * @return attributeString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
 
   public String getAttributeString() {
     return attributeString;
@@ -205,6 +207,7 @@ public class XmlItem implements Parcelable {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -227,6 +230,7 @@ public class XmlItem implements Parcelable {
    * @return attributeInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
 
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -249,6 +253,7 @@ public class XmlItem implements Parcelable {
    * @return attributeBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
 
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -279,6 +284,7 @@ public class XmlItem implements Parcelable {
    * @return wrappedArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -301,6 +307,7 @@ public class XmlItem implements Parcelable {
    * @return nameString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
 
   public String getNameString() {
     return nameString;
@@ -323,6 +330,7 @@ public class XmlItem implements Parcelable {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -345,6 +353,7 @@ public class XmlItem implements Parcelable {
    * @return nameInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
 
   public Integer getNameInteger() {
     return nameInteger;
@@ -367,6 +376,7 @@ public class XmlItem implements Parcelable {
    * @return nameBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
 
   public Boolean getNameBoolean() {
     return nameBoolean;
@@ -397,6 +407,7 @@ public class XmlItem implements Parcelable {
    * @return nameArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getNameArray() {
     return nameArray;
@@ -427,6 +438,7 @@ public class XmlItem implements Parcelable {
    * @return nameWrappedArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -449,6 +461,7 @@ public class XmlItem implements Parcelable {
    * @return prefixString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
 
   public String getPrefixString() {
     return prefixString;
@@ -471,6 +484,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -493,6 +507,7 @@ public class XmlItem implements Parcelable {
    * @return prefixInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
 
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -515,6 +530,7 @@ public class XmlItem implements Parcelable {
    * @return prefixBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
 
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -545,6 +561,7 @@ public class XmlItem implements Parcelable {
    * @return prefixArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -575,6 +592,7 @@ public class XmlItem implements Parcelable {
    * @return prefixWrappedArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -597,6 +615,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
 
   public String getNamespaceString() {
     return namespaceString;
@@ -619,6 +638,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -641,6 +661,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
 
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -663,6 +684,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
 
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -693,6 +715,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -723,6 +746,7 @@ public class XmlItem implements Parcelable {
    * @return namespaceWrappedArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -745,6 +769,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "string", value = "")
 
   public String getPrefixNsString() {
     return prefixNsString;
@@ -767,6 +792,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -789,6 +815,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "-2", value = "")
 
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -811,6 +838,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(example = "true", value = "")
 
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -841,6 +869,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -871,6 +900,7 @@ public class XmlItem implements Parcelable {
    * @return prefixNsWrappedArray
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
@@ -1102,7 +1132,9 @@ public class XmlItem implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (XmlItem.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }
@@ -1114,54 +1146,54 @@ public class XmlItem implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonNull()) && !jsonObj.get("attribute_string").isJsonPrimitive()) {
+      if (jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("wrapped_array") != null && !jsonObj.get("wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("wrapped_array").toString()));
       }
-      if ((jsonObj.get("name_string") != null && !jsonObj.get("name_string").isJsonNull()) && !jsonObj.get("name_string").isJsonPrimitive()) {
+      if (jsonObj.get("name_string") != null && !jsonObj.get("name_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name_string").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("name_array") != null && !jsonObj.get("name_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `name_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_array").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("name_wrapped_array") != null && !jsonObj.get("name_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `name_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_wrapped_array").toString()));
       }
-      if ((jsonObj.get("prefix_string") != null && !jsonObj.get("prefix_string").isJsonNull()) && !jsonObj.get("prefix_string").isJsonPrimitive()) {
+      if (jsonObj.get("prefix_string") != null && !jsonObj.get("prefix_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_string").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("prefix_array") != null && !jsonObj.get("prefix_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_array").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("prefix_wrapped_array") != null && !jsonObj.get("prefix_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_wrapped_array").toString()));
       }
-      if ((jsonObj.get("namespace_string") != null && !jsonObj.get("namespace_string").isJsonNull()) && !jsonObj.get("namespace_string").isJsonPrimitive()) {
+      if (jsonObj.get("namespace_string") != null && !jsonObj.get("namespace_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `namespace_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("namespace_string").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("namespace_array") != null && !jsonObj.get("namespace_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `namespace_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_array").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("namespace_wrapped_array") != null && !jsonObj.get("namespace_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `namespace_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_wrapped_array").toString()));
       }
-      if ((jsonObj.get("prefix_ns_string") != null && !jsonObj.get("prefix_ns_string").isJsonNull()) && !jsonObj.get("prefix_ns_string").isJsonPrimitive()) {
+      if (jsonObj.get("prefix_ns_string") != null && !jsonObj.get("prefix_ns_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_ns_string").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("prefix_ns_array") != null && !jsonObj.get("prefix_ns_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_array").toString()));
       }
-      // ensure the optional json data is an array if present
+      // ensure the json data is an array
       if (jsonObj.get("prefix_ns_wrapped_array") != null && !jsonObj.get("prefix_ns_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_wrapped_array").toString()));
       }

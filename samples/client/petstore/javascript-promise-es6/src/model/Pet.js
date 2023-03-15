@@ -75,52 +75,8 @@ class Pet {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>Pet</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Pet</code>.
-     */
-    static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of Pet.RequiredProperties) {
-            if (!data[property]) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
-        // validate the optional field `category`
-        if (data['category']) { // data not null
-          Category.validateJSON(data['category']);
-        }
-        // ensure the json data is a string
-        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
-            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
-        }
-        // ensure the json data is an array
-        if (!Array.isArray(data['photoUrls'])) {
-            throw new Error("Expected the field `photoUrls` to be an array in the JSON data but got " + data['photoUrls']);
-        }
-        if (data['tags']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['tags'])) {
-                throw new Error("Expected the field `tags` to be an array in the JSON data but got " + data['tags']);
-            }
-            // validate the optional field `tags` (array)
-            for (const item of data['tags']) {
-                Tag.validateJSON(item);
-            };
-        }
-        // ensure the json data is a string
-        if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
-            throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-
-        return true;
-    }
-
 
 }
-
-Pet.RequiredProperties = ["name", "photoUrls"];
 
 /**
  * @member {Number} id

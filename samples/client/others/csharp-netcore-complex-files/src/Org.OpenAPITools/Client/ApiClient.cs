@@ -24,8 +24,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharp;
-using RestSharp.Serializers;
+using RestSharp.Deserializers;
 using RestSharpMethod = RestSharp.Method;
 using Polly;
 
@@ -34,7 +35,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Allows RestSharp to Serialize/Deserialize JSON using our custom logic, but only when ContentType is JSON.
     /// </summary>
-    internal class CustomJsonCodec : IRestSerializer, ISerializer, IDeserializer
+    internal class CustomJsonCodec : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
         private static readonly string _contentType = "application/json";
@@ -80,9 +81,7 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        public string Serialize(Parameter bodyParameter) => Serialize(bodyParameter.Value);
-
-        public T Deserialize<T>(RestResponse response)
+        public T Deserialize<T>(IRestResponse response)
         {
             var result = (T)Deserialize(response, typeof(T));
             return result;
@@ -94,7 +93,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(RestResponse response, Type type)
+        internal object Deserialize(IRestResponse response, Type type)
         {
             if (type == typeof(byte[])) // return byte array
             {
@@ -147,22 +146,15 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        public ISerializer Serializer => this;
-        public IDeserializer Deserializer => this;
-
-        public string[] AcceptedContentTypes => RestSharp.Serializers.ContentType.JsonAccept;
-
-        public SupportsContentType SupportsContentType => contentType =>
-            contentType.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
-            contentType.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
+        public string RootElement { get; set; }
+        public string Namespace { get; set; }
+        public string DateFormat { get; set; }
 
         public string ContentType
         {
             get { return _contentType; }
             set { throw new InvalidOperationException("Not allowed to set content type."); }
         }
-
-        public DataFormat DataFormat => DataFormat.Json;
     }
     /// <summary>
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
@@ -193,14 +185,14 @@ namespace Org.OpenAPITools.Client
         /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
         /// </summary>
         /// <param name="request">The RestSharp request object</param>
-        partial void InterceptRequest(RestRequest request);
+        partial void InterceptRequest(IRestRequest request);
 
         /// <summary>
         /// Allows for extending response processing for <see cref="ApiClient"/> generated code.
         /// </summary>
         /// <param name="request">The RestSharp request object</param>
         /// <param name="response">The RestSharp response object</param>
-        partial void InterceptResponse(RestRequest request, RestResponse response);
+        partial void InterceptResponse(IRestRequest request, IRestResponse response);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
@@ -235,25 +227,25 @@ namespace Org.OpenAPITools.Client
             switch (method)
             {
                 case HttpMethod.Get:
-                    other = RestSharpMethod.Get;
+                    other = RestSharpMethod.GET;
                     break;
                 case HttpMethod.Post:
-                    other = RestSharpMethod.Post;
+                    other = RestSharpMethod.POST;
                     break;
                 case HttpMethod.Put:
-                    other = RestSharpMethod.Put;
+                    other = RestSharpMethod.PUT;
                     break;
                 case HttpMethod.Delete:
-                    other = RestSharpMethod.Delete;
+                    other = RestSharpMethod.DELETE;
                     break;
                 case HttpMethod.Head:
-                    other = RestSharpMethod.Head;
+                    other = RestSharpMethod.HEAD;
                     break;
                 case HttpMethod.Options:
-                    other = RestSharpMethod.Options;
+                    other = RestSharpMethod.OPTIONS;
                     break;
                 case HttpMethod.Patch:
-                    other = RestSharpMethod.Patch;
+                    other = RestSharpMethod.PATCH;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("method", method, null);
@@ -284,7 +276,11 @@ namespace Org.OpenAPITools.Client
             if (options == null) throw new ArgumentNullException("options");
             if (configuration == null) throw new ArgumentNullException("configuration");
 
-            RestRequest request = new RestRequest(path, Method(method));
+            RestRequest request = new RestRequest(Method(method))
+            {
+                Resource = path,
+                JsonSerializer = new CustomJsonCodec(SerializerSettings, configuration)
+            };
 
             if (options.PathParameters != null)
             {
@@ -379,17 +375,25 @@ namespace Org.OpenAPITools.Client
                         var bytes = ClientUtils.ReadAsBytes(file);
                         var fileStream = file as FileStream;
                         if (fileStream != null)
-                            request.AddFile(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name));
+                            request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
                         else
-                            request.AddFile(fileParam.Key, bytes, "no_file_name_provided");
+                            request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
                     }
+                }
+            }
+
+            if (options.Cookies != null && options.Cookies.Count > 0)
+            {
+                foreach (var cookie in options.Cookies)
+                {
+                    request.AddCookie(cookie.Name, cookie.Value);
                 }
             }
 
             return request;
         }
 
-        private ApiResponse<T> ToApiResponse<T>(RestResponse<T> response)
+        private ApiResponse<T> ToApiResponse<T>(IRestResponse<T> response)
         {
             T result = response.Data;
             string rawContent = response.Content;
@@ -408,17 +412,9 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            if (response.ContentHeaders != null)
-            {
-                foreach (var responseHeader in response.ContentHeaders)
-                {
-                    transformed.Headers.Add(responseHeader.Name, ClientUtils.ParameterToString(responseHeader.Value));
-                }
-            }
-
             if (response.Cookies != null)
             {
-                foreach (var responseCookies in response.Cookies.Cast<Cookie>())
+                foreach (var responseCookies in response.Cookies)
                 {
                     transformed.Cookies.Add(
                         new Cookie(
@@ -436,32 +432,54 @@ namespace Org.OpenAPITools.Client
         private ApiResponse<T> Exec<T>(RestRequest req, RequestOptions options, IReadableConfiguration configuration)
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
+            RestClient client = new RestClient(baseUrl);
 
-            var cookies = new CookieContainer();
-
-            if (options.Cookies != null && options.Cookies.Count > 0)
+            client.ClearHandlers();
+            var existingDeserializer = req.JsonSerializer as IDeserializer;
+            if (existingDeserializer != null)
             {
-                foreach (var cookie in options.Cookies)
-                {
-                    cookies.Add(new Cookie(cookie.Name, cookie.Value));
-                }
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
+            }
+            else
+            {
+                var customDeserializer = new CustomJsonCodec(SerializerSettings, configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
             }
 
-            var clientOptions = new RestClientOptions(baseUrl)
-            {
-                ClientCertificates = configuration.ClientCertificates,
-                CookieContainer = cookies,
-                MaxTimeout = configuration.Timeout,
-                Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
-            };
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            client.Timeout = configuration.Timeout;
+
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.UserAgent != null)
+            {
+                client.UserAgent = configuration.UserAgent;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                client.ClientCertificates = configuration.ClientCertificates;
+            }
 
             InterceptRequest(req);
 
-            RestResponse<T> response;
+            IRestResponse<T> response;
             if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
@@ -497,10 +515,6 @@ namespace Org.OpenAPITools.Client
             {
                 response.Data = (T)(object)response.RawBytes;
             }
-            else if (typeof(T).Name == "String") // for string response
-            {
-                response.Data = (T)(object)response.Content;
-            }
 
             InterceptResponse(req, response);
 
@@ -513,7 +527,7 @@ namespace Org.OpenAPITools.Client
             if (response.Cookies != null && response.Cookies.Count > 0)
             {
                 if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
+                foreach (var restResponseCookie in response.Cookies)
                 {
                     var cookie = new Cookie(
                         restResponseCookie.Name,
@@ -542,21 +556,54 @@ namespace Org.OpenAPITools.Client
         private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, RequestOptions options, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
+            RestClient client = new RestClient(baseUrl);
 
-            var clientOptions = new RestClientOptions(baseUrl)
+            client.ClearHandlers();
+            var existingDeserializer = req.JsonSerializer as IDeserializer;
+            if (existingDeserializer != null)
             {
-                ClientCertificates = configuration.ClientCertificates,
-                MaxTimeout = configuration.Timeout,
-                Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
-            };
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
+            }
+            else
+            {
+                var customDeserializer = new CustomJsonCodec(SerializerSettings, configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
+            }
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
+
+            client.Timeout = configuration.Timeout;
+
+            if (configuration.Proxy != null)
+            {
+                client.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.UserAgent != null)
+            {
+                client.UserAgent = configuration.UserAgent;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                client.ClientCertificates = configuration.ClientCertificates;
+            }
 
             InterceptRequest(req);
 
-            RestResponse<T> response;
+            IRestResponse<T> response;
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
@@ -597,7 +644,7 @@ namespace Org.OpenAPITools.Client
             if (response.Cookies != null && response.Cookies.Count > 0)
             {
                 if (result.Cookies == null) result.Cookies = new List<Cookie>();
-                foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
+                foreach (var restResponseCookie in response.Cookies)
                 {
                     var cookie = new Cookie(
                         restResponseCookie.Name,

@@ -18,16 +18,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ReadOnlyFirst")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ReadOnlyFirst  implements Serializable {
+  
   private @Valid String bar;
   private @Valid String baz;
 
   protected ReadOnlyFirst(ReadOnlyFirstBuilder<?, ?> b) {
-    this.bar = b.bar;
-    this.baz = b.baz;
+  this.bar = b.bar;this.baz = b.baz;
   }
 
-  public ReadOnlyFirst() {
-  }
+  public ReadOnlyFirst() { }
 
   /**
    **/
@@ -48,7 +47,7 @@ public class ReadOnlyFirst  implements Serializable {
     this.bar = bar;
   }
 
-  /**
+/**
    **/
   public ReadOnlyFirst baz(String baz) {
     this.baz = baz;

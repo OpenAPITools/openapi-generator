@@ -32,7 +32,6 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
-    #[allow(unused_mut)]
     let mut service =
         petstore_with_fake_endpoints_models_for_testing::server::context::MakeAddContext::<_, EmptyContext>::new(
             service

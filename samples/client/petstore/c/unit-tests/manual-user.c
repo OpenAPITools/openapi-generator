@@ -24,16 +24,16 @@ int main() {
 
 	printf("Created User is: \n%s\n", dataToPrint);
 
-	user_t *parsedUser = user_parseFromJSON(JSONNODE);
+	user_t *pasrsedUser = user_parseFromJSON(JSONNODE);
 
-	cJSON *fromJSON = user_convertToJSON(parsedUser);
+	cJSON *fromJSON = user_convertToJSON(pasrsedUser);
 
 	char *dataToPrintFromJSON = cJSON_Print(fromJSON);
 
 	printf("Parsed User From JSON is: \n%s\n", dataToPrintFromJSON);
 
 	user_free(newuser);
-	user_free(parsedUser);
+	user_free(pasrsedUser);
 	cJSON_Delete(JSONNODE);
 	cJSON_Delete(fromJSON);
 }

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FormatTest  implements Serializable {
+  
   private @Valid Integer integer;
   private @Valid Integer int32;
   private @Valid Long int64;
@@ -61,7 +62,7 @@ public class FormatTest  implements Serializable {
     this.integer = integer;
   }
 
-  /**
+/**
    * minimum: 20
    * maximum: 200
    **/
@@ -82,7 +83,7 @@ public class FormatTest  implements Serializable {
     this.int32 = int32;
   }
 
-  /**
+/**
    **/
   public FormatTest int64(Long int64) {
     this.int64 = int64;
@@ -101,7 +102,7 @@ public class FormatTest  implements Serializable {
     this.int64 = int64;
   }
 
-  /**
+/**
    * minimum: 32.1
    * maximum: 543.2
    **/
@@ -123,7 +124,7 @@ public class FormatTest  implements Serializable {
     this.number = number;
   }
 
-  /**
+/**
    * minimum: 54.3
    * maximum: 987.6
    **/
@@ -144,7 +145,7 @@ public class FormatTest  implements Serializable {
     this._float = _float;
   }
 
-  /**
+/**
    * minimum: 67.8
    * maximum: 123.4
    **/
@@ -165,7 +166,7 @@ public class FormatTest  implements Serializable {
     this._double = _double;
   }
 
-  /**
+/**
    **/
   public FormatTest string(String string) {
     this.string = string;
@@ -184,7 +185,7 @@ public class FormatTest  implements Serializable {
     this.string = string;
   }
 
-  /**
+/**
    **/
   public FormatTest _byte(byte[] _byte) {
     this._byte = _byte;
@@ -204,7 +205,7 @@ public class FormatTest  implements Serializable {
     this._byte = _byte;
   }
 
-  /**
+/**
    **/
   public FormatTest binary(File binary) {
     this.binary = binary;
@@ -223,7 +224,7 @@ public class FormatTest  implements Serializable {
     this.binary = binary;
   }
 
-  /**
+/**
    **/
   public FormatTest date(LocalDate date) {
     this.date = date;
@@ -243,7 +244,7 @@ public class FormatTest  implements Serializable {
     this.date = date;
   }
 
-  /**
+/**
    **/
   public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -262,7 +263,7 @@ public class FormatTest  implements Serializable {
     this.dateTime = dateTime;
   }
 
-  /**
+/**
    **/
   public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
@@ -281,7 +282,7 @@ public class FormatTest  implements Serializable {
     this.uuid = uuid;
   }
 
-  /**
+/**
    **/
   public FormatTest password(String password) {
     this.password = password;
@@ -301,7 +302,7 @@ public class FormatTest  implements Serializable {
     this.password = password;
   }
 
-  /**
+/**
    **/
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;

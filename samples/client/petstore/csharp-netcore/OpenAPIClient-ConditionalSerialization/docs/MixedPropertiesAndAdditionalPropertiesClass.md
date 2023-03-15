@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UuidWithPattern** | **Guid** |  | [optional] 
 **Uuid** | **Guid** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
 **Map** | [**Dictionary&lt;string, Animal&gt;**](Animal.md) |  | [optional] 

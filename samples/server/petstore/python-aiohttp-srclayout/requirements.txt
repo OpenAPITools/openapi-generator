@@ -5,5 +5,5 @@ connexion[aiohttp,swagger-ui] <= 2.3.0; python_version=="3.5" or python_version=
 # we must peg werkzeug versions below to fix connexion
 # https://github.com/zalando/connexion/pull/1044
 werkzeug == 0.16.1; python_version=="3.5" or python_version=="3.4"
-swagger-ui-bundle == 0.0.9
-aiohttp_jinja2 == 1.5.0
+swagger-ui-bundle == 0.0.6
+aiohttp_jinja2 == 1.2.0

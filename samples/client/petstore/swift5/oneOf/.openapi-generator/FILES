@@ -1,5 +1,4 @@
 .gitignore
-.swiftformat
 Cartfile
 Package.swift
 PetstoreClient.podspec
@@ -18,7 +17,6 @@ PetstoreClient/Classes/OpenAPIs/Models/Fruit.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
-PetstoreClient/Classes/OpenAPIs/Validation.swift
 README.md
 docs/Apple.md
 docs/Banana.md

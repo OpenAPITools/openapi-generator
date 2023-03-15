@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Capitalization")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Capitalization  implements Serializable {
+  
   private @Valid String smallCamel;
   private @Valid String capitalCamel;
   private @Valid String smallSnake;
@@ -44,7 +45,7 @@ public class Capitalization  implements Serializable {
     this.smallCamel = smallCamel;
   }
 
-  /**
+/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -63,7 +64,7 @@ public class Capitalization  implements Serializable {
     this.capitalCamel = capitalCamel;
   }
 
-  /**
+/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -82,7 +83,7 @@ public class Capitalization  implements Serializable {
     this.smallSnake = smallSnake;
   }
 
-  /**
+/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -101,7 +102,7 @@ public class Capitalization  implements Serializable {
     this.capitalSnake = capitalSnake;
   }
 
-  /**
+/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -120,7 +121,7 @@ public class Capitalization  implements Serializable {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-  /**
+/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {

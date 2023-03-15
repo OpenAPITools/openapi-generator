@@ -78,7 +78,7 @@ describe "Pet" do
         fail 'it should raise error'
       rescue Petstore::ApiError => e
         expect(e.code).to eq(404)
-        # skip the check as the response contains a timestamp that changes on every response
+        # skip the check as the response contains a timestamp that changes on every reponse
         # expect(e.message).to eq("Error message: the server returns an error\nHTTP status code: 404\nResponse headers: {\"Date\"=>\"Tue, 26 Feb 2019 04:35:40 GMT\", \"Access-Control-Allow-Origin\"=>\"*\", \"Access-Control-Allow-Methods\"=>\"GET, POST, DELETE, PUT\", \"Access-Control-Allow-Headers\"=>\"Content-Type, api_key, Authorization\", \"Content-Type\"=>\"application/json\", \"Connection\"=>\"close\", \"Server\"=>\"Jetty(9.2.9.v20150224)\"}\nResponse body: {\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}")
         expect(e.response_body).to eq('{"code":1,"type":"error","message":"Pet not found"}')
         expect(e.response_headers).to include('Content-Type')

@@ -1,4 +1,4 @@
-use Test::More tests => 6;
+use Test::More tests => 37;
 use Test::Exception;
 
 use lib 'lib';
@@ -45,7 +45,7 @@ isa_ok($human, 'WWW::OpenAPIClient::Object::Human');
 #
 #
 #my $update_pet_with_form = $api->update_pet_with_form(pet_id => $pet_id, name => 'test_name', status => 'sold');
-#is $update_pet_with_form, undef, 'get the null response from update_pet_with_form';
+#is $update_pet_with_form, undef, 'get the null response from update_pet_wth_form';
 #
 #my $get_pet_after_update = $api->get_pet_by_id(pet_id => $pet_id);
 #is $get_pet_after_update->{status}, 'sold', 'get the updated status after update_pet_with_form';

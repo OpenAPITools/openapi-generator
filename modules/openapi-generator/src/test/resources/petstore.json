@@ -471,7 +471,7 @@
           "store"
         ],
         "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
+        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
         "operationId": "getOrderById",
         "produces": [
           "application/json",

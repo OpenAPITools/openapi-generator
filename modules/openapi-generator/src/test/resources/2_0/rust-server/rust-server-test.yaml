@@ -139,7 +139,7 @@ definitions:
   baseAllOf:
     type: object
     properties:
-      sampleBaseProperty:
+      sampleBasePropery:
         type: string
   aNullableContainer:
     type: object

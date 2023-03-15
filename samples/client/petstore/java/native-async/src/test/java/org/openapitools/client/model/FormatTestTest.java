@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -91,14 +93,6 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'decimal'
-     */
-    @Test
-    public void decimalTest() {
-        // TODO: test decimal
-    }
-
-    /**
      * Test the property 'string'
      */
     @Test
@@ -155,19 +149,11 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'patternWithDigits'
+     * Test the property 'bigDecimal'
      */
     @Test
-    public void patternWithDigitsTest() {
-        // TODO: test patternWithDigits
-    }
-
-    /**
-     * Test the property 'patternWithDigitsAndDelimiter'
-     */
-    @Test
-    public void patternWithDigitsAndDelimiterTest() {
-        // TODO: test patternWithDigitsAndDelimiter
+    public void bigDecimalTest() {
+        // TODO: test bigDecimal
     }
 
 }

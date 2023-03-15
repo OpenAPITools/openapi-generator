@@ -21,7 +21,6 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -39,7 +38,6 @@ import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
-import org.openapitools.codegen.config.MergedSpecBuilder
 
 /**
  * A task which generates the desired code.
@@ -92,39 +90,15 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
-    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
     /**
-     * Local root folder with spec files
-     */
-    @Optional
-    @get:InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpecRootDirectory = project.objects.property<String>();
-
-    /**
-     * Name of the file that will contains all merged specs
-     */
-    @Input
-    @Optional
-    val mergedFileName = project.objects.property<String>();
-
-    /**
-     * The remote Open API 2.0/3.x specification URL location.
-     */
-    @Input
-    @Optional
-    val remoteInputSpec = project.objects.property<String>()
-
-    /**
      * The template directory holding a custom template.
      */
     @Optional
-    @InputDirectory
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @Input
     val templateDir = project.objects.property<String?>()
 
     /**
@@ -148,8 +122,7 @@ open class GenerateTask : DefaultTask() {
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
     @Optional
-    @InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @Input
     val configFile = project.objects.property<String>()
 
     /**
@@ -267,13 +240,6 @@ open class GenerateTask : DefaultTask() {
     val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies mappings (rules) in OpenAPI normalizer
-     */
-    @Optional
-    @Input
-    val openapiNormalizer = project.objects.mapProperty<String, String>()
-
-    /**
      * Root package for generated code.
      */
     @Optional
@@ -354,8 +320,7 @@ open class GenerateTask : DefaultTask() {
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
     @Optional
-    @InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @Input
     val ignoreFileOverride = project.objects.property<String?>()
 
     /**
@@ -513,14 +478,6 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
-    /**
-     * Defines whether the output dir should be cleaned up before generating the output.
-     *
-     */
-    @Optional
-    @Input
-    val cleanupOutput = project.objects.property<Boolean>()
-
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -538,28 +495,12 @@ open class GenerateTask : DefaultTask() {
         }
     }
 
-    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
-
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue -> {
-            inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
-            logger.info("Merge input spec would be used - {}", inputSpec.get())
-        }}
-
-        cleanupOutput.ifNotEmpty { cleanup ->
-            if (cleanup) {
-                project.delete(outputDir)
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-                out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
-            }
-        }
-
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
-        } else createDefaultCodegenConfigurator()
+        } else CodegenConfigurator()
 
         try {
             if (globalProperties.isPresent) {
@@ -609,10 +550,6 @@ open class GenerateTask : DefaultTask() {
                 GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
-            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
-                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
-            }
-
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -627,10 +564,6 @@ open class GenerateTask : DefaultTask() {
             }
 
             inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
-            }
-
-            remoteInputSpec.ifNotEmpty { value ->
                 configurator.setInputSpec(value)
             }
 
@@ -783,12 +716,6 @@ open class GenerateTask : DefaultTask() {
             if (inlineSchemaNameDefaults.isPresent) {
                 inlineSchemaNameDefaults.get().forEach { entry ->
                     configurator.addInlineSchemaNameDefault(entry.key, entry.value)
-                }
-            }
-
-            if (openapiNormalizer.isPresent) {
-                openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenAPINormalizer(entry.key, entry.value)
                 }
             }
 

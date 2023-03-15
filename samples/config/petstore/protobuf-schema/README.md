@@ -16,9 +16,9 @@ Below are some usage examples for Go and Ruby. For other languages, please refer
 ### Go
 ```
 # assuming `protoc-gen-go` has been installed with `go get -u github.com/golang/protobuf/protoc-gen-go`
-mkdir /var/tmp/go/petstore
-protoc --go_out=/var/tmp/go/petstore services/*
-protoc --go_out=/var/tmp/go/petstore models/*
+mkdir /var/tmp/go/
+protoc --go_out=/var/tmp/go/ services/*
+protoc --go_out=/var/tmp/go/ models/*
 ```
 
 ### Ruby

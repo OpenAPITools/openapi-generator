@@ -244,16 +244,6 @@ public class TestUtils {
         }
     }
 
-    public static void assertFileExists(Path path) {
-        try {
-            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-            // File exists, pass.
-            assertTrue(true);
-        } catch (IOException e) {
-            fail("File does not exist when it should: " + path);
-        }
-    }
-
     public static void assertExtraAnnotationFiles(String baseOutputPath) {
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))

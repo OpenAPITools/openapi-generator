@@ -72,7 +72,7 @@ import org.threeten.bp.format.DateTimeFormatter
 {{/gson}}
 {{#kotlinx_serialization}}
 @Serializer(forClass = OffsetDateTime::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
+object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffsetDateTime", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: OffsetDateTime) {

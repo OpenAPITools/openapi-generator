@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Banana type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Banana{}
-
 // Banana struct for Banana
 type Banana struct {
 	LengthCm *float32 `json:"lengthCm,omitempty"`
@@ -44,7 +41,7 @@ func NewBananaWithDefaults() *Banana {
 
 // GetLengthCm returns the LengthCm field value if set, zero value otherwise.
 func (o *Banana) GetLengthCm() float32 {
-	if o == nil || IsNil(o.LengthCm) {
+	if o == nil || o.LengthCm == nil {
 		var ret float32
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *Banana) GetLengthCm() float32 {
 // GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Banana) GetLengthCmOk() (*float32, bool) {
-	if o == nil || IsNil(o.LengthCm) {
+	if o == nil || o.LengthCm == nil {
 		return nil, false
 	}
 	return o.LengthCm, true
@@ -62,7 +59,7 @@ func (o *Banana) GetLengthCmOk() (*float32, bool) {
 
 // HasLengthCm returns a boolean if a field has been set.
 func (o *Banana) HasLengthCm() bool {
-	if o != nil && !IsNil(o.LengthCm) {
+	if o != nil && o.LengthCm != nil {
 		return true
 	}
 
@@ -75,16 +72,8 @@ func (o *Banana) SetLengthCm(v float32) {
 }
 
 func (o Banana) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Banana) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.LengthCm) {
+	if o.LengthCm != nil {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
 
@@ -92,7 +81,7 @@ func (o Banana) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {

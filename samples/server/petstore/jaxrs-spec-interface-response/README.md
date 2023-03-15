@@ -8,5 +8,5 @@ This is an example of building a OpenAPI-enabled JAX-RS server.
 This example uses the [JAX-RS](https://jax-rs-spec.java.net/) framework.
 
 This project produces a jar that defines some interfaces.
-The jar can be used in combination with another project providing the implementation.
+The jar can be used in combination with an other project providing the implementation.
 

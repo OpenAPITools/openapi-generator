@@ -50,13 +50,13 @@
   describe('SpecialModelName', function() {
     it('should create an instance of SpecialModelName', function() {
       // uncomment below and update the code to test SpecialModelName
-      //var instance = new OpenApiPetstore.SpecialModelName();
+      //var instane = new OpenApiPetstore.SpecialModelName();
       //expect(instance).to.be.a(OpenApiPetstore.SpecialModelName);
     });
 
     it('should have the property specialPropertyName (base name: "$special[property.name]")', function() {
       // uncomment below and update the code to test the property specialPropertyName
-      //var instance = new OpenApiPetstore.SpecialModelName();
+      //var instane = new OpenApiPetstore.SpecialModelName();
       //expect(instance).to.be();
     });
 

@@ -66,15 +66,11 @@ export class {{classname}} {
     public configuration = new {{configurationClassName}}();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: {{configurationClassName}}) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: {{configurationClassName}}) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
-                basePath = basePath[0];
-            }
-
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -121,11 +117,7 @@ export class {{classname}} {
 
         if (typeof value === "object") {
             {{#isQueryParamObjectFormatJson}}
-            if (key != null) {
-                httpParams = httpParams.append(key, JSON.stringify(value));
-            } else {
-                throw Error("key may not be null if value is a QueryParamObject");
-            }
+            httpParams = httpParams.append(key, JSON.stringify(value));
             {{/isQueryParamObjectFormatJson}}
             {{^isQueryParamObjectFormatJson}}
             if (Array.isArray(value)) {
@@ -206,7 +198,7 @@ export class {{classname}} {
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
+                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         {{/isQueryParamObjectFormatJson}}
         }
@@ -224,7 +216,7 @@ export class {{classname}} {
 {{#headerParams}}
         {{#isArray}}
         if ({{paramName}}) {
-            localVarHeaders = localVarHeaders.set('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            localVarHeaders = localVarHeaders.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         }
         {{/isArray}}
         {{^isArray}}
@@ -343,7 +335,7 @@ export class {{classname}} {
                     localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
             })
             } else {
-                localVarFormParams = localVarFormParams.append('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
             }
         {{/isCollectionFormatMulti}}
         }
@@ -369,20 +361,12 @@ export class {{classname}} {
         }
 
     {{/isResponseFile}}
-        let localVarPath = `{{{path}}}`;
-        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,
     {{/httpContextInOptions}}
-    {{#bodyParam}}
-                body: {{paramName}},
-    {{/bodyParam}}
-    {{^bodyParam}}
-    {{#hasFormParams}}
-                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
-    {{/hasFormParams}}
-    {{/bodyParam}}
     {{#hasQueryParamsOrAuth}}
                 params: localVarQueryParameters,
     {{/hasQueryParamsOrAuth}}

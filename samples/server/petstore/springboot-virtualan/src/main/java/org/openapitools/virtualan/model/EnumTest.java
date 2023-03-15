@@ -184,22 +184,6 @@ public class EnumTest {
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EnumTest#EnumTest(EnumStringRequiredEnum)}
-   */
-  @Deprecated
-  public EnumTest() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public EnumTest(EnumStringRequiredEnum enumStringRequired) {
-    this.enumStringRequired = enumStringRequired;
-  }
-
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
@@ -210,7 +194,7 @@ public class EnumTest {
    * @return enumString
   */
   
-  @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "enum_string", required = false)
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -229,7 +213,7 @@ public class EnumTest {
    * @return enumStringRequired
   */
   @NotNull 
-  @Schema(name = "enum_string_required", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "enum_string_required", required = true)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -248,7 +232,7 @@ public class EnumTest {
    * @return enumInteger
   */
   
-  @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "enum_integer", required = false)
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -267,7 +251,7 @@ public class EnumTest {
    * @return enumNumber
   */
   
-  @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "enum_number", required = false)
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -286,7 +270,7 @@ public class EnumTest {
    * @return outerEnum
   */
   @Valid 
-  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "outerEnum", required = false)
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

@@ -11,13 +11,11 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.authentication,});
+  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.authentication});
 
   final String basePath;
-  final Authentication? authentication;
 
   var _client = Client();
-  final _defaultHeaderMap = <String, String>{};
 
   /// Returns the current HTTP [Client] instance to use in this class.
   ///
@@ -29,11 +27,14 @@ class ApiClient {
     _client = newClient;
   }
 
-  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
+  final _defaultHeaderMap = <String, String>{};
+  final Authentication? authentication;
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
   }
+
+  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
@@ -46,7 +47,7 @@ class ApiClient {
     Map<String, String> formParams,
     String? contentType,
   ) async {
-    await authentication?.applyToParams(queryParams, headerParams);
+    _updateParamsForAuth(queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -163,6 +164,16 @@ class ApiClient {
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object? value) => value == null ? '' : json.encode(value);
+
+  /// Update query and header parameters based on authentication settings.
+  void _updateParamsForAuth(
+    List<QueryParam> queryParams,
+    Map<String, String> headerParams,
+  ) {
+    if (authentication != null) {
+      authentication!.applyToParams(queryParams, headerParams);
+    }
+  }
 
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
     try {

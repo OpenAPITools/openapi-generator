@@ -75,13 +75,7 @@ public class {{classname}} extends RouteBuilder {
                     .type(RestParamType.header)
                     .required({{required}}){{#description}}
                     .description("{{{.}}}"){{/description}}
-                .endParam(){{/headerParams}}{{#implicitHeadersParams}}
-                .param()
-                    .name("{{baseName}}")
-                    .type(RestParamType.header)
-                    .required({{required}}){{#description}}
-                    .description("{{{.}}}"){{/description}}
-                .endParam(){{/implicitHeadersParams}}{{#bodyParams}}
+                .endParam(){{/headerParams}}{{#bodyParams}}
                 .param()
                     .name("{{paramName}}")
                     .type(RestParamType.body)

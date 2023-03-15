@@ -54,25 +54,6 @@ openApiGenerate {
     enablePostProcessFile = false
 }
 
-task buildJavaResttemplateSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-    generatorName = "java"
-    library = "resttemplate"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = "$buildDir/java-resttemplate-api-client"
-    apiPackage = "com.example.client"
-    invokerPackage = "com.example.invoker"
-    modelPackage = "com.example.cdm"
-    configOptions = [
-            dateLibrary: "java8"
-    ]
-    groupId = 'com.example'
-    id = 'client'
-    skipValidateSpec = true
-    logToStderr = true
-    generateAliasAsModel = false
-    enablePostProcessFile = false
-}
-
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     generatorName = "go"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()

@@ -72,7 +72,7 @@ import org.threeten.bp.format.DateTimeFormatter
 {{/gson}}
 {{#kotlinx_serialization}}
 @Serializer(forClass = LocalDate::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object LocalDateAdapter : KSerializer<LocalDate> {
+object LocalDateAdapter : KSerializer<LocalDate> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalDate) {

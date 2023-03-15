@@ -22,29 +22,21 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
 
 class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.requiresAuthentication {
+        let bearerTokenHandler = BearerTokenHandler()
 
-            let bearerTokenHandler = BearerTokenHandler()
-            let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
-
-            return alamofireSession
-        } else {
-            return super.createAlamofireSession(interceptor: nil)
-        }      
+        let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
+        
+        return alamofireSession
     }
 }
 
 class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T> {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.requiresAuthentication {
-
-            let bearerTokenHandler = BearerTokenHandler()
-            let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
-
-            return alamofireSession
-        } else {
-            return super.createAlamofireSession(interceptor: nil)
-        }  
+        let bearerTokenHandler = BearerTokenHandler()
+        
+        let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
+        
+        return alamofireSession
     }
 }
 

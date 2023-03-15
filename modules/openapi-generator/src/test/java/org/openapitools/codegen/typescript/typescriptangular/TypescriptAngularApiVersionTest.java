@@ -3,11 +3,9 @@ package org.openapitools.codegen.typescript.typescriptangular;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
-import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypescriptAngularApiVersionTest {
 
     @Test(description = "tests if API version specification is used if no version is provided in additional properties")

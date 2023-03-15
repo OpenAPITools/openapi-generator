@@ -60,7 +60,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result = Update-PSPet -Pet $NewPet
             $Result = Get-PSPetById -petId $Id -WithHttpInfo
             $Result.GetType().fullname | Should -Be "System.Collections.Hashtable"
-            #$Result["Response"].GetType().fullname | Should -Be "System.Management.Automation.PSCustomObject"
+            #$Result["Response"].GetType().fullanme | Should -Be "System.Management.Automation.PSCustomObject"
             $Result["Response"]."id" | Should -Be 38369
             $Result["Response"]."name" | Should -Be "PowerShell2"
             $Result["Response"]."status" | Should -Be "Sold"

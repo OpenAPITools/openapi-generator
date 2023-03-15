@@ -51,11 +51,11 @@ describe("PetApi", () => {
         throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
     })
 
-    it("deleteNonExistentPet", async () => {
+    it("deleteNonExistantPet", async () => {
         // Use an id that is too big for the server to handle.
-        const nonExistentId = 100000000000000000000000000.0;
+        const nonExistantId = 100000000000000000000000000.0;
         try {
-            await petApi.deletePet(nonExistentId)
+            await petApi.deletePet(nonExistantId)
         } catch (error) {
             const err = error as ApiException<unknown>;
             // The 404 response for this endpoint is officially documented, but
@@ -68,7 +68,7 @@ describe("PetApi", () => {
             expect(err.body).to.include("message");
             return;
         }
-        throw new Error("Deleted non-existent pet with id " + nonExistentId + "!");
+        throw new Error("Deleted non-existant pet with id " + nonExistantId + "!");
     })
 
     it("failRunTimeRequiredParameterCheck", async () => {

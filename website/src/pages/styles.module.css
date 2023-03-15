@@ -53,9 +53,9 @@
 }
 
 .productShowcaseSectionLogo {
-    max-height: 180px;
+    max-height: 110px;
     padding: 20px;
-    width: 180px;
+    width: 110px;
 }
 
 .productShowcaseSectionButton {
@@ -64,7 +64,6 @@
 
 .bronzeSponsorAvatars {
     display: inline-flex;
-    flex-wrap: wrap;
 }
 
 @media screen and (max-width: 966px) {

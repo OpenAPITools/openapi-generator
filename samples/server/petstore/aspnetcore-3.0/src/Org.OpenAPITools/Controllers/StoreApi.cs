@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Controllers
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Dictionary<string, int>>(exampleJson)
-            : new Dictionary<string, int>();
+            : default(Dictionary<string, int>);
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
-        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions</remarks>
+        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid ID supplied</response>

@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,7 +20,42 @@ import ApiClient from '../ApiClient';
  */
 class Order {
     /**
+     * @member {Number} id
+     * @type {Number}
+     */
+    id;
+    /**
+     * @member {Number} petId
+     * @type {Number}
+     */
+    petId;
+    /**
+     * @member {Number} quantity
+     * @type {Number}
+     */
+    quantity;
+    /**
+     * @member {Date} shipDate
+     * @type {Date}
+     */
+    shipDate;
+    /**
+     * @member {Order.StatusEnum} status
+     * @type {Order.StatusEnum}
+     */
+    status;
+    /**
+     * @member {Boolean} complete
+     * @type {Boolean}
+     * @default false
+     */
+    complete = false;
+
+    
+
+    /**
      * Constructs a new <code>Order</code>.
+     * An order for a pets from the pet store
      * @alias module:model/Order
      */
     constructor() { 
@@ -68,60 +103,7 @@ class Order {
         }
         return obj;
     }
-
-    /**
-     * Validates the JSON data with respect to <code>Order</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Order</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
-            throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-
-        return true;
-    }
-
-
 }
-
-
-
-/**
- * @member {Number} id
- */
-Order.prototype['id'] = undefined;
-
-/**
- * @member {Number} petId
- */
-Order.prototype['petId'] = undefined;
-
-/**
- * @member {Number} quantity
- */
-Order.prototype['quantity'] = undefined;
-
-/**
- * @member {Date} shipDate
- */
-Order.prototype['shipDate'] = undefined;
-
-/**
- * Order Status
- * @member {module:model/Order.StatusEnum} status
- */
-Order.prototype['status'] = undefined;
-
-/**
- * @member {Boolean} complete
- * @default false
- */
-Order.prototype['complete'] = false;
-
-
-
 
 
 /**

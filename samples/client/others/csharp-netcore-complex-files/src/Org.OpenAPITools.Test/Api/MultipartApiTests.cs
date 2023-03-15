@@ -72,10 +72,9 @@ namespace Org.OpenAPITools.Test.Api
         public void MultipartMixedTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //MultipartMixedStatus status = null;
             //System.IO.Stream file = null;
-            //MultipartMixedRequestMarker marker = null;
-            //instance.MultipartMixed(status, file, marker);
+            //MultipartMixedMarker marker = null;
+            //instance.MultipartMixed(file, marker);
         }
 
         /// <summary>

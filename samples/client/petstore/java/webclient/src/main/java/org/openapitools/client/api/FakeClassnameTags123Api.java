@@ -96,28 +96,8 @@ public class FakeClassnameTags123Api {
         return testClassnameRequestCreation(client).bodyToMono(localVarReturnType);
     }
 
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * <p><b>200</b> - successful operation
-     * @param client client model
-     * @return ResponseEntity&lt;Client&gt;
-     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-     */
     public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClassnameRequestCreation(client).toEntity(localVarReturnType);
-    }
-
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * <p><b>200</b> - successful operation
-     * @param client client model
-     * @return ResponseSpec
-     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-     */
-    public ResponseSpec testClassnameWithResponseSpec(Client client) throws WebClientResponseException {
-        return testClassnameRequestCreation(client);
     }
 }

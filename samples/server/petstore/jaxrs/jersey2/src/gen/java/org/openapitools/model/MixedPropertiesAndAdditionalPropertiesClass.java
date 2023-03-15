@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -47,7 +48,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public static final String JSON_PROPERTY_MAP = "map";
   @JsonProperty(JSON_PROPERTY_MAP)
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;

@@ -26,19 +26,19 @@ import javax.validation.Valid
  */
 data class Pet(
 
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @field:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
-
-    @field:Valid
-    @get:JsonProperty("category") val category: Category? = null,
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @field:JsonProperty("category") val category: Category? = null,
 
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @field:Valid
+    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+
+    @field:JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**

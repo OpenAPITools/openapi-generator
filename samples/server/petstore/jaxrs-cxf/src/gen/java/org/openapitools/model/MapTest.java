@@ -3,6 +3,7 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -16,7 +17,7 @@ public class MapTest  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
 public enum InnerEnum {
 
@@ -51,13 +52,13 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 }
 
   @ApiModelProperty(value = "")
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = null;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap = null;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private Map<String, Boolean> indirectMap = null;
  /**
    * Get mapMapOfString
    * @return mapMapOfString

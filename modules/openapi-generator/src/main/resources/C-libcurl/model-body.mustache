@@ -635,7 +635,7 @@ fail:
     {{^isEnum}}
     {{#isString}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}){{^required}} && !cJSON_IsNull({{{name}}}){{/required}})
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //String
     }
@@ -669,7 +669,7 @@ fail:
     {{/isDate}}
     {{#isDateTime}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}) && !cJSON_IsNull({{{name}}}))
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //DateTime
     }
@@ -781,49 +781,45 @@ fail:
     {{^required}}if ({{{name}}}) { {{/required}}
     {{#isPrimitiveType}}
     cJSON *{{{name}}}_local_map = NULL;
-    if(!cJSON_IsObject({{{name}}}) && !cJSON_IsNull({{{name}}}))
-    {
+    if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
-    if(cJSON_IsObject({{{name}}}))
+    {{{name}}}List = list_createList();
+    keyValuePair_t *localMapKeyPair;
+    cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
-        {{{name}}}List = list_createList();
-        keyValuePair_t *localMapKeyPair;
-        cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
+		cJSON *localMapObject = {{{name}}}_local_map;
+        {{#items}}
+        {{#isString}}
+        if(!cJSON_IsString(localMapObject))
         {
-            cJSON *localMapObject = {{{name}}}_local_map;
-            {{#items}}
-            {{#isString}}
-            if(!cJSON_IsString(localMapObject))
-            {
-                goto end;
-            }
-            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
-            {{/isString}}
-            {{#isByteArray}}
-            if(!cJSON_IsString(localMapObject))
-            {
-                goto end;
-            }
-            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
-            {{/isByteArray}}
-            {{#isBoolean}}
-            if(!cJSON_IsBool(localMapObject))
-            {
-                goto end;
-            }
-            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
-            {{/isBoolean}}
-            {{#isNumeric}}
-            if(!cJSON_IsNumber(localMapObject))
-            {
-                goto end;
-            }
-            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
-            {{/isNumeric}}
-		    {{/items}}
-            list_addElement({{{name}}}List , localMapKeyPair);
+            goto end;
         }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isString}}
+        {{#isByteArray}}
+        if(!cJSON_IsString(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isByteArray}}
+        {{#isBoolean}}
+        if(!cJSON_IsBool(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
+        {{/isBoolean}}
+        {{#isNumeric}}
+        if(!cJSON_IsNumber(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
+        {{/isNumeric}}
+		{{/items}}
+        list_addElement({{{name}}}List , localMapKeyPair);
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -880,7 +876,7 @@ fail:
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
@@ -893,7 +889,7 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}

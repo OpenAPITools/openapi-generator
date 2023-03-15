@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
@@ -35,7 +37,7 @@ public class ReadOnlyFirst {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
-  public ReadOnlyFirst() {
+  public ReadOnlyFirst() { 
   }
 
   
@@ -51,6 +53,7 @@ public class ReadOnlyFirst {
    * @return bar
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getBar() {
     return bar;
@@ -70,6 +73,7 @@ public class ReadOnlyFirst {
    * @return baz
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getBaz() {
     return baz;

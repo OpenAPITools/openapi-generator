@@ -29,12 +29,12 @@ public class Pet   {
 
   private List<String> photoUrls = new ArrayList<>();
 
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags = null;
 
 
 public enum StatusEnum {
 
-    @JsonProperty("available") AVAILABLE(String.valueOf("available")), @JsonProperty("pending") PENDING(String.valueOf("pending")), @JsonProperty("sold") SOLD(String.valueOf("sold"));
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
 
     private String value;
@@ -63,6 +63,7 @@ public enum StatusEnum {
 }
 
   private StatusEnum status;
+
 
   /**
    **/

@@ -24,7 +24,7 @@
 # 
 #
 
-# For improved pattern matching in case statements
+# For improved pattern matching in case statemets
 shopt -s extglob
 
 ###############################################################################
@@ -65,7 +65,7 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
-# Declare colors with autodetection if output is terminal
+# Declare colors with autodection if output is terminal
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"
     GREEN="$(tput setaf 2)"
@@ -591,7 +591,7 @@ build_request_path() {
                 parameter_value+="${qparam}=${qvalue}"
             done
         #
-        # Append parameters specified as 'multi' collections i.e. param=value1&param=value2&...
+        # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
         #
         elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
@@ -802,7 +802,7 @@ echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io')"
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
     echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
     echo -e "           \\t\\t\\t\\texecuting it"
-    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodetected"
+    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodected"
     echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\\t\\tSet the 'Accept' header in the request"
     echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\\tSet the 'Content-type' header in "
     echo -e "                                \\tthe request"
@@ -1100,7 +1100,7 @@ print_testGroupParameters_help() {
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
-    echo -e "${result_color_table[${code:0:1}]}  400;Something wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  400;Someting wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1365,7 +1365,7 @@ print_getOrderById_help() {
     echo ""
     echo -e "${BOLD}${WHITE}getOrderById - Find purchase order by ID${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions" | paste -sd' ' | fold -sw 80
+    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1586,7 +1586,7 @@ call_123Test@$%SpecialTags() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1736,7 +1736,7 @@ call_fakeOuterBooleanSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1814,7 +1814,7 @@ call_fakeOuterCompositeSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1892,7 +1892,7 @@ call_fakeOuterNumberSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1970,7 +1970,7 @@ call_fakeOuterStringSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2048,7 +2048,7 @@ call_testBodyWithFileSchema() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2126,7 +2126,7 @@ call_testBodyWithQueryParams() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2204,7 +2204,7 @@ call_testClientModel() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2390,7 +2390,7 @@ call_testInlineAdditionalProperties() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2504,7 +2504,7 @@ call_testClassname() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2582,7 +2582,7 @@ call_addPet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
 
 
@@ -2802,7 +2802,7 @@ call_updatePet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
 
 
@@ -3094,7 +3094,7 @@ call_placeOrder() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3172,7 +3172,7 @@ call_createUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3250,7 +3250,7 @@ call_createUsersWithArrayInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3328,7 +3328,7 @@ call_createUsersWithListInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3550,7 +3550,7 @@ call_updateUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambiguously
+    # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3812,7 +3812,7 @@ case $key in
     ;;
     *:=*)
     # Parse body arguments and convert them into top level
-    # JSON properties passed in the body content without quotes
+    # JSON properties passed in the body content without qoutes
     if [[ "$operation" ]]; then
         # ignore error about 'sep' being unused
         # shellcheck disable=SC2034

@@ -26,22 +26,22 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Order(
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("id") var id: kotlin.Long? = null,
+    @field:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("petId") var petId: kotlin.Long? = null,
+    @field:JsonProperty("petId") var petId: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("quantity") var quantity: kotlin.Int? = null,
+    @field:JsonProperty("quantity") var quantity: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
+    @field:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
-    @get:JsonProperty("status") var status: Order.Status? = null,
+    @field:JsonProperty("status") var status: Order.Status? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("complete") var complete: kotlin.Boolean? = false
+    @field:JsonProperty("complete") var complete: kotlin.Boolean? = false
 ) {
 
     /**

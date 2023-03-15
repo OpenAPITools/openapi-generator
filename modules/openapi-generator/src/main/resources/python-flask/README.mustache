@@ -8,14 +8,25 @@ is an example of building a OpenAPI-enabled Flask server.
 This example uses the [Connexion](https://github.com/zalando/connexion) library on top of Flask.
 
 ## Requirements
+{{#supportPython2}}
+Python 2.7+
+{{/supportPython2}}
+{{^supportPython2}}
 Python 3.5.2+
+{{/supportPython2}}
 
 ## Usage
 To run the server, please execute the following from the root directory:
 
 ```
+{{#supportPython2}}
+pip install -r requirements.txt
+python -m {{packageName}}
+{{/supportPython2}}
+{{^supportPython2}}
 pip3 install -r requirements.txt
 python3 -m {{packageName}}
+{{/supportPython2}}
 ```
 
 and open your browser to here:

@@ -78,6 +78,13 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
+
+        /// <summary>
+        /// Gets or Sets ArrayEnum
+        /// </summary>
+        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
+        public List<ArrayEnumEnum> ArrayEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
@@ -88,12 +95,6 @@ namespace Org.OpenAPITools.Model
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
         }
-
-        /// <summary>
-        /// Gets or Sets ArrayEnum
-        /// </summary>
-        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -148,10 +149,7 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
-                {
-                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
                 return hashCode;
             }
         }

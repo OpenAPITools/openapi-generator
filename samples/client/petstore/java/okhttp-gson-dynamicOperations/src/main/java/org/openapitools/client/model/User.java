@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -36,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -80,7 +81,7 @@ public class User {
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
-  public User() {
+  public User() { 
   }
 
   public User id(Long id) {
@@ -94,6 +95,7 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -116,6 +118,7 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getUsername() {
     return username;
@@ -138,6 +141,7 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getFirstName() {
     return firstName;
@@ -160,6 +164,7 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getLastName() {
     return lastName;
@@ -182,6 +187,7 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getEmail() {
     return email;
@@ -204,6 +210,7 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getPassword() {
     return password;
@@ -226,6 +233,7 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getPhone() {
     return phone;
@@ -248,6 +256,7 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "User Status")
 
   public Integer getUserStatus() {
     return userStatus;
@@ -339,7 +348,9 @@ public class User {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (User.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
@@ -351,22 +362,22 @@ public class User {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `User` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
+      if (jsonObj.get("username") != null && !jsonObj.get("username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
-      if ((jsonObj.get("firstName") != null && !jsonObj.get("firstName").isJsonNull()) && !jsonObj.get("firstName").isJsonPrimitive()) {
+      if (jsonObj.get("firstName") != null && !jsonObj.get("firstName").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `firstName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("firstName").toString()));
       }
-      if ((jsonObj.get("lastName") != null && !jsonObj.get("lastName").isJsonNull()) && !jsonObj.get("lastName").isJsonPrimitive()) {
+      if (jsonObj.get("lastName") != null && !jsonObj.get("lastName").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `lastName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lastName").toString()));
       }
-      if ((jsonObj.get("email") != null && !jsonObj.get("email").isJsonNull()) && !jsonObj.get("email").isJsonPrimitive()) {
+      if (jsonObj.get("email") != null && !jsonObj.get("email").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj.get("email").toString()));
       }
-      if ((jsonObj.get("password") != null && !jsonObj.get("password").isJsonNull()) && !jsonObj.get("password").isJsonPrimitive()) {
+      if (jsonObj.get("password") != null && !jsonObj.get("password").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
       }
-      if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
+      if (jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
       }
   }

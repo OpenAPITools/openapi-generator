@@ -44,22 +44,6 @@ public class Animal {
   @JsonProperty("color")
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Animal#Animal(String)}
-   */
-  @Deprecated
-  public Animal() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Animal(String className) {
-    this.className = className;
-  }
-
   public Animal className(String className) {
     this.className = className;
     return this;
@@ -70,7 +54,7 @@ public class Animal {
    * @return className
   */
   @NotNull 
-  @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "className", required = true)
   public String getClassName() {
     return className;
   }
@@ -89,7 +73,7 @@ public class Animal {
    * @return color
   */
   
-  @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "color", required = false)
   public String getColor() {
     return color;
   }

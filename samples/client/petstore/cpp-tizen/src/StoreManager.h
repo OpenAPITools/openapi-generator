@@ -79,7 +79,7 @@ bool getInventoryAsync(char * accessToken,
 
 /*! \brief Find purchase order by ID. *Synchronous*
  *
- * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+ * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
  * \param orderId ID of pet that needs to be fetched *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
@@ -92,7 +92,7 @@ bool getOrderByIdSync(char * accessToken,
 
 /*! \brief Find purchase order by ID. *Asynchronous*
  *
- * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+ * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
  * \param orderId ID of pet that needs to be fetched *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*

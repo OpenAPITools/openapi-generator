@@ -138,7 +138,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Assertion.test_strings">
+          <collectionProp name="Asserion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -213,7 +213,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Assertion.test_strings">
+          <collectionProp name="Asserion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -267,7 +267,7 @@
           <stringProp name="HTTPSampler.implementation"></stringProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="TestPlan.comments">Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions</stringProp>
+          <stringProp name="TestPlan.comments">Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Load CSV Test Data - getOrderById" enabled="true">
@@ -284,7 +284,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Assertion.test_strings">
+          <collectionProp name="Asserion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -360,7 +360,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Assertion.test_strings">
+          <collectionProp name="Asserion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>

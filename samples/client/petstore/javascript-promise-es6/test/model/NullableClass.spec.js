@@ -50,79 +50,79 @@
   describe('NullableClass', function() {
     it('should create an instance of NullableClass', function() {
       // uncomment below and update the code to test NullableClass
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be.a(OpenApiPetstore.NullableClass);
     });
 
     it('should have the property integerProp (base name: "integer_prop")', function() {
       // uncomment below and update the code to test the property integerProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property numberProp (base name: "number_prop")', function() {
       // uncomment below and update the code to test the property numberProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property booleanProp (base name: "boolean_prop")', function() {
       // uncomment below and update the code to test the property booleanProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property stringProp (base name: "string_prop")', function() {
       // uncomment below and update the code to test the property stringProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property dateProp (base name: "date_prop")', function() {
       // uncomment below and update the code to test the property dateProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property datetimeProp (base name: "datetime_prop")', function() {
       // uncomment below and update the code to test the property datetimeProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayNullableProp (base name: "array_nullable_prop")', function() {
       // uncomment below and update the code to test the property arrayNullableProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayAndItemsNullableProp (base name: "array_and_items_nullable_prop")', function() {
       // uncomment below and update the code to test the property arrayAndItemsNullableProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayItemsNullable (base name: "array_items_nullable")', function() {
       // uncomment below and update the code to test the property arrayItemsNullable
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property objectNullableProp (base name: "object_nullable_prop")', function() {
       // uncomment below and update the code to test the property objectNullableProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property objectAndItemsNullableProp (base name: "object_and_items_nullable_prop")', function() {
       // uncomment below and update the code to test the property objectAndItemsNullableProp
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 
     it('should have the property objectItemsNullable (base name: "object_items_nullable")', function() {
       // uncomment below and update the code to test the property objectItemsNullable
-      //var instance = new OpenApiPetstore.NullableClass();
+      //var instane = new OpenApiPetstore.NullableClass();
       //expect(instance).to.be();
     });
 

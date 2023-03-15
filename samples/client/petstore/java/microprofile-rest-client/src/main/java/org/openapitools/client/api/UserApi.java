@@ -49,7 +49,7 @@ public interface UserApi  {
      */
     @POST
     
-    void createUser(User body) throws ApiException, ProcessingException;
+    public void createUser(User body) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -57,7 +57,7 @@ public interface UserApi  {
      */
     @POST
     @Path("/createWithArray")
-    void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
+    public void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -65,7 +65,7 @@ public interface UserApi  {
      */
     @POST
     @Path("/createWithList")
-    void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
+    public void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
      * Delete user
@@ -75,7 +75,7 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
+    public void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Get user by user name
@@ -84,7 +84,7 @@ public interface UserApi  {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
+    public User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Logs user into the system
@@ -93,7 +93,7 @@ public interface UserApi  {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
+    public String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
 
     /**
      * Logs out current logged in user session
@@ -101,7 +101,7 @@ public interface UserApi  {
      */
     @GET
     @Path("/logout")
-    void logoutUser() throws ApiException, ProcessingException;
+    public void logoutUser() throws ApiException, ProcessingException;
 
     /**
      * Updated user
@@ -111,5 +111,5 @@ public interface UserApi  {
      */
     @PUT
     @Path("/{username}")
-    void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
+    public void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
 }

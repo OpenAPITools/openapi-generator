@@ -20,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("EnumArrays")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class EnumArrays  implements Serializable {
-  public enum JustSymbolEnum {
+  
+
+public enum JustSymbolEnum {
 
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
@@ -68,7 +70,8 @@ public class EnumArrays  implements Serializable {
 }
 
   private @Valid JustSymbolEnum justSymbol;
-  public enum ArrayEnumEnum {
+
+public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 
@@ -118,12 +121,10 @@ public class EnumArrays  implements Serializable {
   private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   protected EnumArrays(EnumArraysBuilder<?, ?> b) {
-    this.justSymbol = b.justSymbol;
-    this.arrayEnum = b.arrayEnum;
+  this.justSymbol = b.justSymbol;this.arrayEnum = b.arrayEnum;
   }
 
-  public EnumArrays() {
-  }
+  public EnumArrays() { }
 
   /**
    **/
@@ -144,7 +145,7 @@ public class EnumArrays  implements Serializable {
     this.justSymbol = justSymbol;
   }
 
-  /**
+/**
    **/
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

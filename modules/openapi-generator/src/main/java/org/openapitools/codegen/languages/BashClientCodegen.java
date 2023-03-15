@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -808,7 +807,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++, LOWERCASE_FIRST_LETTER);
+            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++, true);
             LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
@@ -826,7 +825,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             operationId = "call_" + operationId;
         }
 
-        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
+        return camelize(sanitizeName(operationId), true);
     }
 
     @Override

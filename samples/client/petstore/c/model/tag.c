@@ -74,7 +74,7 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     // tag->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
     if (name) { 
-    if(!cJSON_IsString(name) && !cJSON_IsNull(name))
+    if(!cJSON_IsString(name))
     {
     goto end; //String
     }
@@ -83,7 +83,7 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     tag_local_var = tag_create (
         id ? id->valuedouble : 0,
-        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
+        name ? strdup(name->valuestring) : NULL
         );
 
     return tag_local_var;

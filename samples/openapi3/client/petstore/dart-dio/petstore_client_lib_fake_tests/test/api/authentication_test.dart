@@ -4,8 +4,8 @@ import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 void main() {
-  late Openapi client;
-  late DioAdapter tester;
+  Openapi client;
+  DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());

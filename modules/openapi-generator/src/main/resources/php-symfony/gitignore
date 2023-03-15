@@ -18,7 +18,7 @@
 !var/sessions/.gitkeep
 
 # Parameters
-/app/config/parameters.yaml
+/app/config/parameters.yml
 /app/config/parameters.ini
 
 # Managed by Composer

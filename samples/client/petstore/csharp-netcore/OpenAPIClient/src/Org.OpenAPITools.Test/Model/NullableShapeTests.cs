@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing NullableShape
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void NullableShapeInstanceTest()
         {
-            // TODO uncomment below to test "IsType" NullableShape
-            //Assert.IsType<NullableShape>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" NullableShape
+            //Assert.IsInstanceOfType<NullableShape> (instance, "variable 'instance' is a NullableShape");
         }
 
 

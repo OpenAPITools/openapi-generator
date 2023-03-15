@@ -26,7 +26,7 @@ StoreAPI_getInventory(apiClient_t *apiClient);
 
 // Find purchase order by ID
 //
-// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 //
 order_t*
 StoreAPI_getOrderById(apiClient_t *apiClient, long orderId );

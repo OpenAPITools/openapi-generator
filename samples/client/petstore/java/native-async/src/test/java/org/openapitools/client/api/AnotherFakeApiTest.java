@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -45,9 +44,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
-        Client client = null;
+        Client body = null;
         CompletableFuture<Client> response = 
-        api.call123testSpecialTags(client);
+        api.call123testSpecialTags(body);
         
         // TODO: test validations
     }

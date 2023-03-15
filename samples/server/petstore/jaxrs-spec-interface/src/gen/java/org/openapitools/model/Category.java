@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Category")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Category  implements Serializable {
+  
   private @Valid Long id;
   private @Valid String name = "default-name";
 
@@ -40,7 +41,7 @@ public class Category  implements Serializable {
     this.id = id;
   }
 
-  /**
+/**
    **/
   public Category name(String name) {
     this.name = name;

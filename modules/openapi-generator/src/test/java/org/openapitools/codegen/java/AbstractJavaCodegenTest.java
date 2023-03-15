@@ -23,9 +23,14 @@ import io.swagger.v3.oas.models.media.*;
 
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
@@ -34,6 +39,10 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Collections;
 
 public class AbstractJavaCodegenTest {
 
@@ -44,14 +53,6 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_", "String"), "UNDERSCORE");
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("__", "String"), "__");
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
-    }
-
-    /**
-     * As of Java 9, '_' is a keyword, and may not be used as an identifier.
-     */
-    @Test
-    public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
-        Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
     }
 
     @Test
@@ -94,7 +95,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void convertVarName() {
+    public void convertVarName() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
@@ -110,15 +111,10 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
-
-        AbstractJavaCodegen withCaml = new P_AbstractJavaCodegen();
-        withCaml.setCamelCaseDollarSign(true);
-        Assert.assertEquals(withCaml.toVarName("$name"), "$Name");
-        Assert.assertEquals(withCaml.toVarName("1AAaa"), "_1AAaa");
     }
 
     @Test
-    public void convertModelName() {
+    public void convertModelName() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
         Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
@@ -555,31 +551,24 @@ public class AbstractJavaCodegenTest {
         codegen.setDateLibrary("legacy");
         String defaultValue;
 
-        // Test default value for date format (DateSchema)
+        // Test default value for date format
         DateSchema dateSchema = new DateSchema();
-
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        LocalDate defaultLocalDate = LocalDate.of(2021, 5, 23);
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Assert.assertEquals(date.toString(), "Sun May 23 00:00:00 UTC 2021");
-
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
 
         // dateLibrary <> java8
-        Assert.assertEquals(defaultValue, "Sun May 23 00:00:00 UTC 2021");
+        Assert.assertNull(defaultValue);
 
-        // Test default value for date format (DateTimeSchema)
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
-
-        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-09:00");
-        Assert.assertEquals(defaultDateTime.toString(), "1984-12-19T03:39:57-09:00");
-
+        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
+        ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         dateTimeSchema.setDefault(defaultDateTime);
         defaultValue = codegen.toDefaultValue(dateTimeSchema);
 
         // dateLibrary <> java8
-        Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
+        Assert.assertNull(defaultValue);
     }
 
     @Test
@@ -590,7 +579,7 @@ public class AbstractJavaCodegenTest {
 
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "null");
+        Assert.assertNull(defaultValue);
 
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
@@ -600,22 +589,22 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
+        defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
+        defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
+        defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
+        defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         // Test default value for date format
@@ -623,26 +612,26 @@ public class AbstractJavaCodegenTest {
         LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateSchema);
+        defaultValue = codegen.toDefaultValue(dateSchema);
         Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate.toString() + "\")");
 
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
         ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         dateTimeSchema.setDefault(defaultDateTime);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateTimeSchema);
+        defaultValue = codegen.toDefaultValue(dateTimeSchema);
         Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime.toString()));
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
         Double doubleValue = 100.0;
         numberSchema.setDefault(doubleValue);
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
+        defaultValue = codegen.toDefaultValue(numberSchema);
         Assert.assertEquals(defaultValue, "new BigDecimal(\"" + doubleValue + "\")");
 
         // Test default value for number with format set to double
         numberSchema.setFormat("double");
-        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
+        defaultValue = codegen.toDefaultValue(numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
     }
 
@@ -809,7 +798,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "null");
+        Assert.assertNull(defaultValue);
     }
 
     @Test
@@ -825,7 +814,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "null", "Expected string-string map aliased model to default to null since nullable is not set to true");
+        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
     }
 
     @Test
@@ -841,7 +830,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "null", "Expected string-ref map aliased model to default to null since nullable is not set to tru");
+        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
     }
 
     @Test
@@ -856,21 +845,6 @@ public class AbstractJavaCodegenTest {
         // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
         // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
         Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
-    }
-
-    @Test
-    public void testOneOfModelImports() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
-        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.preprocessOpenAPI(openAPI);
-
-        Schema<?> schema = openAPI.getComponents().getSchemas().get("Example");
-        CodegenModel cm = codegen.fromModel("Example", schema);
-        Assert.assertEquals(cm.imports.size(), 3);
-        Assert.assertTrue(cm.imports.contains("BigDecimal"));
-        Assert.assertTrue(cm.imports.contains("Date"));
-        Assert.assertTrue(cm.imports.contains("UUID"));
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

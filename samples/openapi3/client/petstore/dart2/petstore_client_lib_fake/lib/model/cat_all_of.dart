@@ -37,13 +37,13 @@ class CatAllOf {
   String toString() => 'CatAllOf[declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.declawed != null) {
-      json[r'declawed'] = this.declawed;
+    final _json = <String, dynamic>{};
+    if (declawed != null) {
+      _json[r'declawed'] = declawed;
     } else {
-      json[r'declawed'] = null;
+      _json[r'declawed'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [CatAllOf] instance and imports its values from

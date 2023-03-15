@@ -5,6 +5,7 @@ package {{apiPackage}};
  */
 {{>generatedAnnotation}}
 public class ApiException extends Exception {
+
     /** The HTTP status code. */
     private int code;
 
@@ -28,10 +29,4 @@ public class ApiException extends Exception {
         return code;
     }
 
-    @Override
-    public String toString() {
-        return "ApiException{" +
-               "code=" + code +
-               '}';
-    }
 }

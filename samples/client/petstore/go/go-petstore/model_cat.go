@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Cat type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Cat{}
-
 // Cat struct for Cat
 type Cat struct {
 	Animal
@@ -45,7 +42,7 @@ func NewCatWithDefaults() *Cat {
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
-	if o == nil || IsNil(o.Declawed) {
+	if o == nil || o.Declawed == nil {
 		var ret bool
 		return ret
 	}
@@ -55,7 +52,7 @@ func (o *Cat) GetDeclawed() bool {
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Cat) GetDeclawedOk() (*bool, bool) {
-	if o == nil || IsNil(o.Declawed) {
+	if o == nil || o.Declawed == nil {
 		return nil, false
 	}
 	return o.Declawed, true
@@ -63,7 +60,7 @@ func (o *Cat) GetDeclawedOk() (*bool, bool) {
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *Cat) HasDeclawed() bool {
-	if o != nil && !IsNil(o.Declawed) {
+	if o != nil && o.Declawed != nil {
 		return true
 	}
 
@@ -76,27 +73,19 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 func (o Cat) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Cat) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
-		return map[string]interface{}{}, errAnimal
+		return []byte{}, errAnimal
 	}
 	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
 	if errAnimal != nil {
-		return map[string]interface{}{}, errAnimal
+		return []byte{}, errAnimal
 	}
-	if !IsNil(o.Declawed) {
+	if o.Declawed != nil {
 		toSerialize["declawed"] = o.Declawed
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableCat struct {

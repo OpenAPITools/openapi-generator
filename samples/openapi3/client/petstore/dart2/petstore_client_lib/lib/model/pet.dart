@@ -69,26 +69,26 @@ class Pet {
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.id != null) {
-      json[r'id'] = this.id;
+    final _json = <String, dynamic>{};
+    if (id != null) {
+      _json[r'id'] = id;
     } else {
-      json[r'id'] = null;
+      _json[r'id'] = null;
     }
-    if (this.category != null) {
-      json[r'category'] = this.category;
+    if (category != null) {
+      _json[r'category'] = category;
     } else {
-      json[r'category'] = null;
+      _json[r'category'] = null;
     }
-      json[r'name'] = this.name;
-      json[r'photoUrls'] = this.photoUrls;
-      json[r'tags'] = this.tags;
-    if (this.status != null) {
-      json[r'status'] = this.status;
+      _json[r'name'] = name;
+      _json[r'photoUrls'] = photoUrls;
+      _json[r'tags'] = tags;
+    if (status != null) {
+      _json[r'status'] = status;
     } else {
-      json[r'status'] = null;
+      _json[r'status'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Pet] instance and imports its values from
@@ -231,7 +231,7 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data) {
+      switch (data.toString()) {
         case r'available': return PetStatusEnum.available;
         case r'pending': return PetStatusEnum.pending;
         case r'sold': return PetStatusEnum.sold;

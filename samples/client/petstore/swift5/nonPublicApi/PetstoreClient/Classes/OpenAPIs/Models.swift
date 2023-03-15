@@ -18,7 +18,7 @@ extension CaseIterableDefaultsLast {
     /// Initializes an enum such that if a known raw value is found, then it is decoded.
     /// Otherwise the last case is used.
     /// - Parameter decoder: A decoder.
-    internal init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         if let value = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) {
             self = value
         } else if let lastValue = Self.allCases.last {
@@ -86,16 +86,14 @@ internal class Response<T> {
     internal let statusCode: Int
     internal let header: [String: String]
     internal let body: T
-    internal let bodyData: Data?
 
-    internal init(statusCode: Int, header: [String: String], body: T, bodyData: Data?) {
+    internal init(statusCode: Int, header: [String: String], body: T) {
         self.statusCode = statusCode
         self.header = header
         self.body = body
-        self.bodyData = bodyData
     }
 
-    internal convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
+    internal convenience init(response: HTTPURLResponse, body: T) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
@@ -103,23 +101,18 @@ internal class Response<T> {
                 header[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, body: body, bodyData: bodyData)
+        self.init(statusCode: response.statusCode, header: header, body: body)
     }
 }
 
 internal final class RequestTask {
-    private var lock = NSRecursiveLock()
     private var task: URLSessionTask?
 
     internal func set(task: URLSessionTask) {
-        lock.lock()
-        defer { lock.unlock() }
         self.task = task
     }
 
     internal func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
         task?.cancel()
         task = nil
     }

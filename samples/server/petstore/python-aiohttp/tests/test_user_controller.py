@@ -13,7 +13,7 @@ async def test_create_user(client):
 
     Create user
     """
-    body = openapi_server.User()
+    body = {}
     headers = { 
         'Content-Type': 'application/json',
     }
@@ -32,7 +32,7 @@ async def test_create_users_with_array_input(client):
 
     Creates list of users with given input array
     """
-    body = [openapi_server.User()]
+    body = [{}]
     headers = { 
         'Content-Type': 'application/json',
     }
@@ -51,7 +51,7 @@ async def test_create_users_with_list_input(client):
 
     Creates list of users with given input array
     """
-    body = [openapi_server.User()]
+    body = [{}]
     headers = { 
         'Content-Type': 'application/json',
     }
@@ -135,7 +135,7 @@ async def test_update_user(client):
 
     Updated user
     """
-    body = openapi_server.User()
+    body = {}
     headers = { 
         'Content-Type': 'application/json',
     }

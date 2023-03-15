@@ -19,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Order  implements Serializable {
+  
   private @Valid Long id;
   private @Valid Long petId;
   private @Valid Integer quantity;
   private @Valid Date shipDate;
-  public enum StatusEnum {
+
+public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
@@ -92,7 +94,7 @@ public class Order  implements Serializable {
     this.id = id;
   }
 
-  /**
+/**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
@@ -111,7 +113,7 @@ public class Order  implements Serializable {
     this.petId = petId;
   }
 
-  /**
+/**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
@@ -130,7 +132,7 @@ public class Order  implements Serializable {
     this.quantity = quantity;
   }
 
-  /**
+/**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -149,7 +151,7 @@ public class Order  implements Serializable {
     this.shipDate = shipDate;
   }
 
-  /**
+/**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -169,7 +171,7 @@ public class Order  implements Serializable {
     this.status = status;
   }
 
-  /**
+/**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;

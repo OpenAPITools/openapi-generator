@@ -107,7 +107,7 @@ public class RuleConfiguration {
     }
 
     /**
-     * Gets whether the recommendation check for schemas containing type definitions.
+     * Gets whether the recommendation check for for schemas containing type definitions.
      * <p>
      * In OpenAPI 3.0.x, the "type" attribute must be a string value.
      * In OpenAPI 3.1, the type attribute may be:
@@ -134,7 +134,7 @@ public class RuleConfiguration {
     }
 
     /**
-     * Gets whether the recommendation check for schemas containing the 'nullable' attribute.
+     * Gets whether the recommendation check for for schemas containing the 'nullable' attribute.
      * <p>
      * In OpenAPI 3.0.x, the "nullable" attribute is supported. However, because it is deprecated in 3.1
      * and above, a warning is logged to prepare for OpenAPI 3.1 recommendations.
@@ -160,7 +160,7 @@ public class RuleConfiguration {
     }
 
     /**
-     * Gets whether the recommendation check for schemas containing invalid values for the 'type' attribute.
+     * Gets whether the recommendation check for for schemas containing invalid values for the 'type' attribute.
      * <p>
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled

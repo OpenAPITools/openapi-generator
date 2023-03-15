@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the BananaReq type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &BananaReq{}
-
 // BananaReq struct for BananaReq
 type BananaReq struct {
 	LengthCm float32 `json:"lengthCm"`
@@ -70,7 +67,7 @@ func (o *BananaReq) SetLengthCm(v float32) {
 
 // GetSweet returns the Sweet field value if set, zero value otherwise.
 func (o *BananaReq) GetSweet() bool {
-	if o == nil || IsNil(o.Sweet) {
+	if o == nil || o.Sweet == nil {
 		var ret bool
 		return ret
 	}
@@ -80,7 +77,7 @@ func (o *BananaReq) GetSweet() bool {
 // GetSweetOk returns a tuple with the Sweet field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetSweetOk() (*bool, bool) {
-	if o == nil || IsNil(o.Sweet) {
+	if o == nil || o.Sweet == nil {
 		return nil, false
 	}
 	return o.Sweet, true
@@ -88,7 +85,7 @@ func (o *BananaReq) GetSweetOk() (*bool, bool) {
 
 // HasSweet returns a boolean if a field has been set.
 func (o *BananaReq) HasSweet() bool {
-	if o != nil && !IsNil(o.Sweet) {
+	if o != nil && o.Sweet != nil {
 		return true
 	}
 
@@ -101,17 +98,11 @@ func (o *BananaReq) SetSweet(v bool) {
 }
 
 func (o BananaReq) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o BananaReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["lengthCm"] = o.LengthCm
-	if !IsNil(o.Sweet) {
+	if true {
+		toSerialize["lengthCm"] = o.LengthCm
+	}
+	if o.Sweet != nil {
 		toSerialize["sweet"] = o.Sweet
 	}
 
@@ -119,7 +110,7 @@ func (o BananaReq) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *BananaReq) UnmarshalJSON(bytes []byte) (err error) {

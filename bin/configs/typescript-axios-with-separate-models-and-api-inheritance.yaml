@@ -1,8 +1,0 @@
-generatorName: typescript-axios
-outputDir: samples/client/others/typescript-axios/with-separate-models-and-api-inheritance
-inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-axios/with-separate-models-and-api-inheritance.yaml
-templateDir: modules/openapi-generator/src/main/resources/typescript-axios
-additionalProperties:
-  apiPackage: api
-  modelPackage: model
-  withSeparateModelsAndApi: true

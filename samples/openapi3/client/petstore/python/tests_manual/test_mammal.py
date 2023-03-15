@@ -14,6 +14,16 @@ import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import whale
+except ImportError:
+    whale = sys.modules[
+        'petstore_api.model.whale']
+try:
+    from petstore_api.model import zebra
+except ImportError:
+    zebra = sys.modules[
+        'petstore_api.model.zebra']
 from petstore_api.model.mammal import Mammal
 
 
@@ -29,26 +39,10 @@ class TestMammal(unittest.TestCase):
     def testMammal(self):
         """Test Mammal"""
 
-        # tests that we can make a BasquePig by traveling through discriminator in Pig
-        m = Mammal(className="BasquePig")
-        from petstore_api.model import pig
+        # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
+        model = Mammal(class_name="BasquePig")
         from petstore_api.model import basque_pig
-        assert isinstance(m, Mammal)
-        assert isinstance(m, basque_pig.BasquePig)
-        assert isinstance(m, pig.Pig)
-
-        # can make a Whale
-        m = Mammal(className="whale")
-        from petstore_api.model import whale
-        assert isinstance(m, whale.Whale)
-
-        # can use the enum value
-        m = Mammal(className=whale.Whale.MetaOapg.properties.className.WHALE)
-        assert isinstance(m, whale.Whale)
-
-        from petstore_api.model import zebra
-        m = Mammal(className='zebra')
-        assert isinstance(m, zebra.Zebra)
+        assert isinstance(model, basque_pig.BasquePig)
 
 
 if __name__ == '__main__':

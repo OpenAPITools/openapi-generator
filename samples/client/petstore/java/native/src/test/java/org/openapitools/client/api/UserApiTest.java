@@ -14,7 +14,6 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -45,9 +43,9 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() throws ApiException {
-        User user = null;
+        User body = null;
         
-        api.createUser(user);
+        api.createUser(body);
         
         // TODO: test validations
     }
@@ -62,9 +60,9 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
-        List<User> user = null;
+        List<User> body = null;
         
-        api.createUsersWithArrayInput(user);
+        api.createUsersWithArrayInput(body);
         
         // TODO: test validations
     }
@@ -79,9 +77,9 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
-        List<User> user = null;
+        List<User> body = null;
         
-        api.createUsersWithListInput(user);
+        api.createUsersWithListInput(body);
         
         // TODO: test validations
     }
@@ -165,9 +163,9 @@ public class UserApiTest {
     @Test
     public void updateUserTest() throws ApiException {
         String username = null;
-        User user = null;
+        User body = null;
         
-        api.updateUser(username, user);
+        api.updateUser(username, body);
         
         // TODO: test validations
     }

@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class TypeHolderExample {
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExample() {
+  public TypeHolderExample() { 
   }
 
   public TypeHolderExample stringItem(String stringItem) {
@@ -74,7 +76,7 @@ public class TypeHolderExample {
   **/
   @javax.annotation.Nonnull
   @NotNull
-
+  @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -103,7 +105,7 @@ public class TypeHolderExample {
   @javax.annotation.Nonnull
   @NotNull
   @Valid
-
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -131,7 +133,7 @@ public class TypeHolderExample {
   **/
   @javax.annotation.Nonnull
   @NotNull
-
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -159,7 +161,7 @@ public class TypeHolderExample {
   **/
   @javax.annotation.Nonnull
   @NotNull
-
+  @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -187,7 +189,7 @@ public class TypeHolderExample {
   **/
   @javax.annotation.Nonnull
   @NotNull
-
+  @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -220,7 +222,7 @@ public class TypeHolderExample {
   **/
   @javax.annotation.Nonnull
   @NotNull
-
+  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

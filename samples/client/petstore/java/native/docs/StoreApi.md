@@ -295,7 +295,7 @@ ApiResponse<**Map&lt;String, Integer&gt;**>
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 
 ### Example
 
@@ -362,7 +362,7 @@ No authorization required
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 
 ### Example
 
@@ -429,11 +429,9 @@ No authorization required
 
 ## placeOrder
 
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
-
-
 
 ### Example
 
@@ -451,9 +449,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order order = new Order(); // Order | order placed for purchasing the pet
+        Order body = new Order(); // Order | order placed for purchasing the pet
         try {
-            Order result = apiInstance.placeOrder(order);
+            Order result = apiInstance.placeOrder(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
@@ -471,7 +469,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **order** | [**Order**](Order.md)| order placed for purchasing the pet | |
+| **body** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 
@@ -484,7 +482,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
 ### HTTP response details
@@ -495,11 +493,9 @@ No authorization required
 
 ## placeOrderWithHttpInfo
 
-> ApiResponse<Order> placeOrder placeOrderWithHttpInfo(order)
+> ApiResponse<Order> placeOrder placeOrderWithHttpInfo(body)
 
 Place an order for a pet
-
-
 
 ### Example
 
@@ -518,9 +514,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order order = new Order(); // Order | order placed for purchasing the pet
+        Order body = new Order(); // Order | order placed for purchasing the pet
         try {
-            ApiResponse<Order> response = apiInstance.placeOrderWithHttpInfo(order);
+            ApiResponse<Order> response = apiInstance.placeOrderWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -540,7 +536,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **order** | [**Order**](Order.md)| order placed for purchasing the pet | |
+| **body** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 
@@ -553,7 +549,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
 ### HTTP response details

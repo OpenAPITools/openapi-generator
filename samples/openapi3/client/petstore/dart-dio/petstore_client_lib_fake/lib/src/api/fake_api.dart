@@ -83,10 +83,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<HealthCheckResult>(
@@ -166,10 +165,9 @@ class FakeApi {
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -233,10 +231,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -257,10 +254,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<bool>(
@@ -324,10 +320,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -352,10 +347,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterComposite>(
@@ -418,10 +412,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -442,10 +435,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<num>(
@@ -508,10 +500,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -532,10 +523,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<String>(
@@ -599,10 +589,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -627,10 +616,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterObjectWithEnumProperty>(
@@ -693,10 +681,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -760,10 +747,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -834,10 +820,9 @@ class FakeApi {
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -902,10 +887,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -930,10 +914,9 @@ class FakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(
@@ -1043,10 +1026,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1139,10 +1121,9 @@ class FakeApi {
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1280,10 +1261,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1351,10 +1331,9 @@ class FakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(

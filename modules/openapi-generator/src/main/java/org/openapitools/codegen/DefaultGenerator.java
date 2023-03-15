@@ -42,8 +42,8 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.PythonPriorClientCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -257,21 +257,6 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
-
-        // normalize the spec
-        if (config.getUseOpenAPINormalizer()) {
-            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
-            openapiNormalizer.normalize();
-        }
-
-        // resolve inline models
-        if (config.getUseInlineModelResolver()) {
-            InlineModelResolver inlineModelResolver = new InlineModelResolver();
-            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            inlineModelResolver.flatten(openAPI);
-        }
-
         config.preprocessOpenAPI(openAPI);
 
         // set OpenAPI to make these available to all methods
@@ -555,7 +540,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.schemaMapping());
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -619,7 +604,7 @@ public class DefaultGenerator implements Generator {
                     ModelMap modelTemplate = modelList.get(0);
                     if (modelTemplate != null && modelTemplate.getModel() != null) {
                         CodegenModel m = modelTemplate.getModel();
-                        if (m.isAlias && !((config instanceof PythonPriorClientCodegen) || (config instanceof PythonClientCodegen))) {
+                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen))) {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -805,17 +790,14 @@ public class DefaultGenerator implements Generator {
                     outputFolder += File.separator + support.getFolder();
                 }
                 File of = new File(outputFolder);
-                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
-                        ? support.getDestinationFilename()
-                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
-
                 if (!of.isDirectory()) {
-                    // check that its not a dryrun and the files in the directory aren't ignored before we make the directory
-                    if (!dryRun && ignoreProcessor.allowsFile(new File(outputFilename)) && !of.mkdirs()) {
+                    if (!dryRun && !of.mkdirs()) {
                         once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
                     }
                 }
-
+                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
+                        ? support.getDestinationFilename()
+                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
 
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
@@ -983,6 +965,14 @@ public class DefaultGenerator implements Generator {
             } else {
                 LOGGER.info(stabilityMessage);
             }
+        }
+
+        // resolve inline models
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.flatten(openAPI);
         }
 
         configureGeneratorProperties();
@@ -1292,18 +1282,16 @@ public class DefaultGenerator implements Generator {
         objs.setClassname(config.toApiName(tag));
         objs.setPathPrefix(config.toApiVarName(tag));
 
-        // check for nickname uniqueness
-        if (config.getAddSuffixToDuplicateOperationNicknames()) {
-            Set<String> opIds = new HashSet<>();
-            int counter = 0;
-            for (CodegenOperation op : ops) {
-                String opId = op.nickname;
-                if (opIds.contains(opId)) {
-                    counter++;
-                    op.nickname += "_" + counter;
-                }
-                opIds.add(opId);
+        // check for operationId uniqueness
+        Set<String> opIds = new HashSet<>();
+        int counter = 0;
+        for (CodegenOperation op : ops) {
+            String opId = op.nickname;
+            if (opIds.contains(opId)) {
+                counter++;
+                op.nickname += "_" + counter;
             }
+            opIds.add(opId);
         }
         objs.setOperation(ops);
 

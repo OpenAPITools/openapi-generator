@@ -1,5 +1,4 @@
 .gitignore
-.swiftformat
 Package.swift
 README.md
 Sources/PetstoreClient/APIs.swift
@@ -61,8 +60,6 @@ Sources/PetstoreClient/Models/TypeHolderDefault.swift
 Sources/PetstoreClient/Models/TypeHolderExample.swift
 Sources/PetstoreClient/Models/User.swift
 Sources/PetstoreClient/Models/XmlItem.swift
-Sources/PetstoreClient/OpenISO8601DateFormatter.swift
-Sources/PetstoreClient/Validation.swift
 docs/AdditionalPropertiesAnyType.md
 docs/AdditionalPropertiesArray.md
 docs/AdditionalPropertiesBoolean.md

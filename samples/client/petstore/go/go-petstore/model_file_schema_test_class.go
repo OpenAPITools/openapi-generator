@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the FileSchemaTestClass type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &FileSchemaTestClass{}
-
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
@@ -42,7 +39,7 @@ func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
 
 // GetFile returns the File field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFile() File {
-	if o == nil || IsNil(o.File) {
+	if o == nil || o.File == nil {
 		var ret File
 		return ret
 	}
@@ -52,7 +49,7 @@ func (o *FileSchemaTestClass) GetFile() File {
 // GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
-	if o == nil || IsNil(o.File) {
+	if o == nil || o.File == nil {
 		return nil, false
 	}
 	return o.File, true
@@ -60,7 +57,7 @@ func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
 
 // HasFile returns a boolean if a field has been set.
 func (o *FileSchemaTestClass) HasFile() bool {
-	if o != nil && !IsNil(o.File) {
+	if o != nil && o.File != nil {
 		return true
 	}
 
@@ -74,7 +71,7 @@ func (o *FileSchemaTestClass) SetFile(v File) {
 
 // GetFiles returns the Files field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFiles() []File {
-	if o == nil || IsNil(o.Files) {
+	if o == nil || o.Files == nil {
 		var ret []File
 		return ret
 	}
@@ -84,7 +81,7 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
-	if o == nil || IsNil(o.Files) {
+	if o == nil || o.Files == nil {
 		return nil, false
 	}
 	return o.Files, true
@@ -92,7 +89,7 @@ func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 
 // HasFiles returns a boolean if a field has been set.
 func (o *FileSchemaTestClass) HasFiles() bool {
-	if o != nil && !IsNil(o.Files) {
+	if o != nil && o.Files != nil {
 		return true
 	}
 
@@ -105,22 +102,14 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 }
 
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o FileSchemaTestClass) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.File) {
+	if o.File != nil {
 		toSerialize["file"] = o.File
 	}
-	if !IsNil(o.Files) {
+	if o.Files != nil {
 		toSerialize["files"] = o.Files
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableFileSchemaTestClass struct {

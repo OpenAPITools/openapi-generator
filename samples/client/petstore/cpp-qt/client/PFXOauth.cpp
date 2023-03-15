@@ -53,8 +53,8 @@ void OauthCode::link(){
 
 void OauthCode::unlink()
 {
-    disconnect(this, nullptr, nullptr, nullptr);
-    disconnect(&m_server, nullptr, nullptr, nullptr);
+    disconnect(this,0,0,0);
+    disconnect(&m_server,0,0,0);
 }
 
 void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
@@ -119,8 +119,8 @@ void OauthImplicit::link()
 
 void OauthImplicit::unlink()
 {
-     disconnect(this, nullptr, nullptr, nullptr);
-     disconnect(&m_server, nullptr, nullptr, nullptr);
+     disconnect(this,0,0,0);
+     disconnect(&m_server,0,0,0);
      m_linked = false;
 }
 
@@ -163,7 +163,7 @@ void OauthCredentials::link()
 
 void OauthCredentials::unlink()
 {
-    disconnect(this, nullptr, nullptr, nullptr);
+    disconnect(this,0,0,0);
 }
 
 void OauthCredentials::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret){
@@ -206,7 +206,7 @@ void OauthPassword::link()
 
 void OauthPassword::unlink()
 {
-    disconnect(this, nullptr, nullptr, nullptr);
+    disconnect(this,0,0,0);
 }
 
 void OauthPassword::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret, QString username, QString password){
@@ -327,7 +327,8 @@ void ReplyServer::read()
 
 
     QMap<QString, QString> queryParams;
-    for (auto tokenPair : tokens) {
+    QPair<QString, QString> tokenPair;
+    foreach (tokenPair, tokens) {
         QString key = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.first.trimmed().toLatin1()));
         QString value = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.second.trimmed().toLatin1()));
         queryParams.insert(key, value);

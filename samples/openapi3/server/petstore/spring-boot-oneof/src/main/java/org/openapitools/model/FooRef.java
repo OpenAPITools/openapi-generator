@@ -29,22 +29,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   @JsonProperty("foorefPropA")
   private String foorefPropA;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FooRef#FooRef(String)}
-   */
-  @Deprecated
-  public FooRef() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public FooRef(String atType) {
-    super(atType);
-  }
-
   public FooRef foorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
     return this;
@@ -55,7 +39,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * @return foorefPropA
   */
   
-  @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "foorefPropA", required = false)
   public String getFoorefPropA() {
     return foorefPropA;
   }

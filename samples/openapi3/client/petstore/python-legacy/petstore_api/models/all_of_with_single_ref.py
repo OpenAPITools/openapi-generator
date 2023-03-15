@@ -57,8 +57,7 @@ class AllOfWithSingleRef(object):
 
         if username is not None:
             self.username = username
-        if single_ref_type is not None:
-            self.single_ref_type = single_ref_type
+        self.single_ref_type = single_ref_type
 
     @property
     def username(self):

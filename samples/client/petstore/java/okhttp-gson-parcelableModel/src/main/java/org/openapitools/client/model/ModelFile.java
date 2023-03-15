@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -38,7 +40,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -48,13 +49,14 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
+@ApiModel(description = "Must be named `File` for test.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelFile implements Parcelable {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
   private String sourceURI;
 
-  public ModelFile() {
+  public ModelFile() { 
   }
 
   public ModelFile sourceURI(String sourceURI) {
@@ -68,6 +70,7 @@ public class ModelFile implements Parcelable {
    * @return sourceURI
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "Test capitalization")
 
   public String getSourceURI() {
     return sourceURI;
@@ -159,7 +162,9 @@ public class ModelFile implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!ModelFile.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (ModelFile.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelFile is not found in the empty JSON string", ModelFile.openapiRequiredFields.toString()));
         }
       }
@@ -171,7 +176,7 @@ public class ModelFile implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelFile` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("sourceURI") != null && !jsonObj.get("sourceURI").isJsonNull()) && !jsonObj.get("sourceURI").isJsonPrimitive()) {
+      if (jsonObj.get("sourceURI") != null && !jsonObj.get("sourceURI").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `sourceURI` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sourceURI").toString()));
       }
   }

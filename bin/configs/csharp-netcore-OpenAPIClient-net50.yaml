@@ -8,4 +8,4 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   useOneOfDiscriminatorLookup: true
-  targetFramework: net7.0
+  targetFramework: net5.0

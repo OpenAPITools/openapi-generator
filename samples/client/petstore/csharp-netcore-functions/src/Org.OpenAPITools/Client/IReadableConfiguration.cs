@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the date time format.
         /// </summary>
-        /// <value>Date time format.</value>
+        /// <value>Date time foramt.</value>
         string DateTimeFormat { get; }
 
         /// <summary>

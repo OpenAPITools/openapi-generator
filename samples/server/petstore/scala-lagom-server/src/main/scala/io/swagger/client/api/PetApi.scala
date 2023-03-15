@@ -49,7 +49,7 @@ trait PetApi extends Service {
   def addPet(): ServiceCall[Pet ,Pet]
   
 
-  // apiKey:String  -- not yet supported header params
+  // apiKey:String  -- not yet supported heder params
   /**
     * Deletes a pet
     * 

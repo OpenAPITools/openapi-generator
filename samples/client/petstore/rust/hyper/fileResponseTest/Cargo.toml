@@ -1,0 +1,18 @@
+[package]
+name = "fileResponseTest-hyper"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+edition = "2018"
+
+[dependencies]
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+url = "1.5"
+hyper = "~0.11"
+serde_yaml = "0.7"
+base64 = "~0.7.0"
+futures = "0.1.23"
+
+[dev-dependencies]
+tokio-core = "*"

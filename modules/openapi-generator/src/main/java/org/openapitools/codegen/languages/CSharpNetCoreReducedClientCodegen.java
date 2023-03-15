@@ -37,7 +37,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -416,7 +415,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, LOWERCASE_FIRST_LETTER);
+                return camelize(name, true);
             case PascalCase:
                 return camelize(name);
             case snake_case:

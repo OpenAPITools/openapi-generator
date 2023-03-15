@@ -24,17 +24,17 @@ import javax.validation.Valid
  */
 data class Order(
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @field:JsonProperty("petId") val petId: kotlin.Long? = null,
 
-    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @field:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
-    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @field:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-    @get:JsonProperty("status") val status: Order.Status? = null,
+    @field:JsonProperty("status") val status: Order.Status? = null,
 
-    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @field:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 
     /**

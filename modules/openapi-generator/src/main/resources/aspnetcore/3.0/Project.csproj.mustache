@@ -20,9 +20,6 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
-{{#useSeparateModelProject}}
-    <ProjectReference Include="../{{modelPackage}}/{{modelPackage}}.csproj"/>
-{{/useSeparateModelProject}}
 {{#useFrameworkReference}}
 {{#isLibrary}}
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -31,9 +28,7 @@
 {{^useFrameworkReference}}
     <PackageReference Include="Microsoft.AspNetCore.App" />
 {{/useFrameworkReference}}
-{{^useSeparateModelProject}}
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="{{aspnetCoreVersion}}.0"/>
-{{/useSeparateModelProject}}
 {{#useSwashbuckle}}
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
 {{#useNewtonsoft}}

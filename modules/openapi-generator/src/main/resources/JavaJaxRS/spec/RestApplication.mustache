@@ -1,9 +1,9 @@
 package {{invokerPackage}};
 
-import {{javaxPackage}}.ws.rs.ApplicationPath;
-import {{javaxPackage}}.ws.rs.core.Application;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-@ApplicationPath(RestResourceRoot.APPLICATION_PATH)
+@ApplicationPath("{{{contextPath}}}")
 public class RestApplication extends Application {
 
 }

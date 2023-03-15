@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/petstore/java/webclient-nullable-arrays
+outputDir: samples/client/petstore/java/webclient-nulable-arrays
 library: webclient
 inputSpec: modules/openapi-generator/src/test/resources/3_0/schema-with-nullable-arrays.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java

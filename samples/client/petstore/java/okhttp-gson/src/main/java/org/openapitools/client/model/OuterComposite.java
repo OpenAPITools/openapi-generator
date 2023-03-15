@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -37,7 +39,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -61,7 +62,7 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
-  public OuterComposite() {
+  public OuterComposite() { 
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -75,6 +76,7 @@ public class OuterComposite {
    * @return myNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -97,6 +99,7 @@ public class OuterComposite {
    * @return myString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getMyString() {
     return myString;
@@ -119,6 +122,7 @@ public class OuterComposite {
    * @return myBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Boolean getMyBoolean() {
     return myBoolean;
@@ -139,10 +143,6 @@ public class OuterComposite {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
-   *
-   * @param key name of the property
-   * @param value value of the property
-   * @return the OuterComposite instance itself
    */
   public OuterComposite putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -154,8 +154,6 @@ public class OuterComposite {
 
   /**
    * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -163,9 +161,6 @@ public class OuterComposite {
 
   /**
    * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -241,11 +236,13 @@ public class OuterComposite {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!OuterComposite.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (OuterComposite.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
-      if ((jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonNull()) && !jsonObj.get("my_string").isJsonPrimitive()) {
+      if (jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
       }
   }
@@ -266,7 +263,7 @@ public class OuterComposite {
            public void write(JsonWriter out, OuterComposite value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additional properties
+             // serialize additonal properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -302,10 +299,8 @@ public class OuterComposite {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else if (entry.getValue().isJsonArray()) {
-                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
-                 } else { // JSON object
-                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else { // non-primitive type
+                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

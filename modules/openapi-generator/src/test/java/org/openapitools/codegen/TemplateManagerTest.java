@@ -109,7 +109,7 @@ public class TemplateManagerTest {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void writeUsingMustacheAdapterSkipsNonMustache() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
         TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{ locator });
@@ -119,8 +119,8 @@ public class TemplateManagerTest {
 
         Path target = Files.createTempDirectory("test-templatemanager");
         try {
-            File output = new File(target.toFile(), "simple.txt");
-            File written = manager.write(data, "simple.txt", output);
+            File output = new File(target.toFile(), ".gitignore");
+            File written = manager.write(data, ".gitignore", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
 
             output = new File(target.toFile(), "README.md");
@@ -227,7 +227,7 @@ public class TemplateManagerTest {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void writeUsingHandlebarsAdapterSkipsNonHandlebars() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
         TemplateManager manager = new TemplateManager(opts, handlebarsEngineAdapter, new TemplatePathLocator[]{ locator });
@@ -237,8 +237,8 @@ public class TemplateManagerTest {
 
         Path target = Files.createTempDirectory("test-templatemanager");
         try {
-            File output = new File(target.toFile(), "simple.txt");
-            File written = manager.write(data, "simple.txt", output);
+            File output = new File(target.toFile(), ".gitignore");
+            File written = manager.write(data, ".gitignore", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
 
             output = new File(target.toFile(), "README.md");

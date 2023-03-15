@@ -21,22 +21,11 @@ import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
-import org.openapitools.codegen.typescript.TypeScriptGroups;
-import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypescriptAngularAdditionalPropertiesIntegrationTest extends AbstractIntegrationTest {
-
-    {
-        // when running repeatedly from an IDE, some files do not get overwritten
-        // and thus are missing from the FILES metadata.
-        // Since metadata-verification is not the core responsibility of this test: disable it.
-        generateMetadata = false;
-    }
 
     @Override
     protected CodegenConfig getCodegenConfig() {
@@ -56,12 +45,5 @@ public class TypescriptAngularAdditionalPropertiesIntegrationTest extends Abstra
     @Override
     protected IntegrationTestPathsConfig getIntegrationTestPathsConfig() {
         return new IntegrationTestPathsConfig("typescript/additional-properties");
-    }
-
-    @Test(enabled = false)
-    @Override
-    public void generatesCorrectDirectoryStructure() throws IOException {
-        // test are currently disabled in Superclass
-        super.generatesCorrectDirectoryStructure();
     }
 }

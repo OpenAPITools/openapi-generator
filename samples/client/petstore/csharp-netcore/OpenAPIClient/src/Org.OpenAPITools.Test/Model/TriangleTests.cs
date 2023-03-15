@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing Triangle
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void TriangleInstanceTest()
         {
-            // TODO uncomment below to test "IsType" Triangle
-            //Assert.IsType<Triangle>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" Triangle
+            //Assert.IsInstanceOfType<Triangle> (instance, "variable 'instance' is a Triangle");
         }
 
 

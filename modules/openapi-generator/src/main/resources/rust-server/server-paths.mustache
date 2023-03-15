@@ -14,7 +14,6 @@ mod paths {
 {{#hasPathParams}}
     lazy_static! {
         pub static ref REGEX_{{{PATH_ID}}}: regex::Regex =
-            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}")
                 .expect("Unable to create regex for {{{PATH_ID}}}");
     }

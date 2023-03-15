@@ -38,22 +38,6 @@ public class BarCreate extends Entity {
   @JsonProperty("foo")
   private FooRefOrValue foo;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BarCreate#BarCreate(String)}
-   */
-  @Deprecated
-  public BarCreate() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public BarCreate(String atType) {
-    super(atType);
-  }
-
   public BarCreate barPropA(String barPropA) {
     this.barPropA = barPropA;
     return this;
@@ -64,7 +48,7 @@ public class BarCreate extends Entity {
    * @return barPropA
   */
   
-  @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "barPropA", required = false)
   public String getBarPropA() {
     return barPropA;
   }
@@ -83,7 +67,7 @@ public class BarCreate extends Entity {
    * @return fooPropB
   */
   
-  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "fooPropB", required = false)
   public String getFooPropB() {
     return fooPropB;
   }
@@ -102,7 +86,7 @@ public class BarCreate extends Entity {
    * @return foo
   */
   @Valid 
-  @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "foo", required = false)
   public FooRefOrValue getFoo() {
     return foo;
   }

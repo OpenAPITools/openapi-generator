@@ -11,7 +11,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## call123testSpecialTags
 
-> Client call123testSpecialTags(client)
+> Client call123testSpecialTags(body)
 
 To test special tags
 
@@ -33,9 +33,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client client = new Client(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(client);
+            Client result = apiInstance.call123testSpecialTags(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -53,7 +53,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **client** | [**Client**](Client.md)| client model | |
+| **body** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -76,7 +76,7 @@ No authorization required
 
 ## call123testSpecialTagsWithHttpInfo
 
-> ApiResponse<Client> call123testSpecialTags call123testSpecialTagsWithHttpInfo(client)
+> ApiResponse<Client> call123testSpecialTags call123testSpecialTagsWithHttpInfo(body)
 
 To test special tags
 
@@ -99,9 +99,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client client = new Client(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
-            ApiResponse<Client> response = apiInstance.call123testSpecialTagsWithHttpInfo(client);
+            ApiResponse<Client> response = apiInstance.call123testSpecialTagsWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -121,7 +121,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **client** | [**Client**](Client.md)| client model | |
+| **body** | [**Client**](Client.md)| client model | |
 
 ### Return type
 

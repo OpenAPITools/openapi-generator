@@ -50,25 +50,25 @@
   describe('ApiResponse', function() {
     it('should create an instance of ApiResponse', function() {
       // uncomment below and update the code to test ApiResponse
-      //var instance = new OpenApiPetstore.ApiResponse();
+      //var instane = new OpenApiPetstore.ApiResponse();
       //expect(instance).to.be.a(OpenApiPetstore.ApiResponse);
     });
 
     it('should have the property code (base name: "code")', function() {
       // uncomment below and update the code to test the property code
-      //var instance = new OpenApiPetstore.ApiResponse();
+      //var instane = new OpenApiPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 
     it('should have the property type (base name: "type")', function() {
       // uncomment below and update the code to test the property type
-      //var instance = new OpenApiPetstore.ApiResponse();
+      //var instane = new OpenApiPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 
     it('should have the property message (base name: "message")', function() {
       // uncomment below and update the code to test the property message
-      //var instance = new OpenApiPetstore.ApiResponse();
+      //var instane = new OpenApiPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 

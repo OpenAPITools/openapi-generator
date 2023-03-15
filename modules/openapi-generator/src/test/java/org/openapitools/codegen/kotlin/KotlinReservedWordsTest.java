@@ -66,7 +66,7 @@ public class KotlinReservedWordsTest {
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final Schema schema = new Schema();
         final String escaped = "`" + reservedWord + "`";
-        final String titleCased = StringUtils.camelize(reservedWord);
+        final String titleCased = StringUtils.camelize(reservedWord, false);
 
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel(reservedWord, schema);
@@ -106,7 +106,7 @@ public class KotlinReservedWordsTest {
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
         final String escaped = "`" + reservedWord + "`";
-        final String titleCased = StringUtils.camelize(reservedWord);
+        final String titleCased = StringUtils.camelize(reservedWord, false);
 
         Schema linked = openAPI.getComponents().getSchemas().get("Linked");
 

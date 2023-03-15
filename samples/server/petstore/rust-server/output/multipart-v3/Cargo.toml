@@ -1,9 +1,8 @@
 [package]
 name = "multipart-v3"
 version = "1.0.7"
-authors = ["OpenAPI Generator team and contributors"]
+authors = []
 description = "API under test"
-# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
 edition = "2018"
 

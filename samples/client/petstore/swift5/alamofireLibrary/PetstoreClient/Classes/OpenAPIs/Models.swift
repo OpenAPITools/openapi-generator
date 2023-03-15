@@ -87,16 +87,14 @@ open class Response<T> {
     public let statusCode: Int
     public let header: [String: String]
     public let body: T
-    public let bodyData: Data?
 
-    public init(statusCode: Int, header: [String: String], body: T, bodyData: Data?) {
+    public init(statusCode: Int, header: [String: String], body: T) {
         self.statusCode = statusCode
         self.header = header
         self.body = body
-        self.bodyData = bodyData
     }
 
-    public convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
+    public convenience init(response: HTTPURLResponse, body: T) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
@@ -104,23 +102,18 @@ open class Response<T> {
                 header[key] = value
             }
         }
-        self.init(statusCode: response.statusCode, header: header, body: body, bodyData: bodyData)
+        self.init(statusCode: response.statusCode, header: header, body: body)
     }
 }
 
 public final class RequestTask {
-    private var lock = NSRecursiveLock()
     private var request: Request?
 
     internal func set(request: Request) {
-        lock.lock()
-        defer { lock.unlock() }
         self.request = request
     }
 
     public func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
         request?.cancel()
         request = nil
     }

@@ -50,19 +50,19 @@
   describe('HasOnlyReadOnly', function() {
     it('should create an instance of HasOnlyReadOnly', function() {
       // uncomment below and update the code to test HasOnlyReadOnly
-      //var instance = new OpenApiPetstore.HasOnlyReadOnly();
+      //var instane = new OpenApiPetstore.HasOnlyReadOnly();
       //expect(instance).to.be.a(OpenApiPetstore.HasOnlyReadOnly);
     });
 
     it('should have the property bar (base name: "bar")', function() {
       // uncomment below and update the code to test the property bar
-      //var instance = new OpenApiPetstore.HasOnlyReadOnly();
+      //var instane = new OpenApiPetstore.HasOnlyReadOnly();
       //expect(instance).to.be();
     });
 
     it('should have the property foo (base name: "foo")', function() {
       // uncomment below and update the code to test the property foo
-      //var instance = new OpenApiPetstore.HasOnlyReadOnly();
+      //var instane = new OpenApiPetstore.HasOnlyReadOnly();
       //expect(instance).to.be();
     });
 

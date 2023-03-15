@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -244,7 +243,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
-                    String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);
+                    String replacement = ":" + camelize(match.group(1), true);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
 
@@ -266,7 +265,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             for (ModelMap mo : outer.getModels()) {
                 CodegenModel cm = mo.getModel();
                 postProcessModelsEnum(outer);
-                cm.classVarName = camelize(cm.classVarName, LOWERCASE_FIRST_LETTER);
+                cm.classVarName = camelize(cm.classVarName, true);
                 modelsByClassName.put(cm.classname, cm);
                 boolean hasFiles = cm.vars.stream().anyMatch(var -> var.isFile);
                 cm.vendorExtensions.put("x-has-files", hasFiles);

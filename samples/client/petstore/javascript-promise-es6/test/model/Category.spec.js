@@ -50,19 +50,19 @@
   describe('Category', function() {
     it('should create an instance of Category', function() {
       // uncomment below and update the code to test Category
-      //var instance = new OpenApiPetstore.Category();
+      //var instane = new OpenApiPetstore.Category();
       //expect(instance).to.be.a(OpenApiPetstore.Category);
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instance = new OpenApiPetstore.Category();
+      //var instane = new OpenApiPetstore.Category();
       //expect(instance).to.be();
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instance = new OpenApiPetstore.Category();
+      //var instane = new OpenApiPetstore.Category();
       //expect(instance).to.be();
     });
 

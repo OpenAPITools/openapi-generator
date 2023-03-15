@@ -37,7 +37,7 @@ components:
       properties:
         visitDate:
           default: 1971-12-19T03:39:57-08:00
-          description: Updated last visit timestamp
+          description: Updated last vist timestamp
           format: date-time
           type: string
       type: object

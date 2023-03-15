@@ -115,48 +115,48 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.id != null) {
-      json[r'id'] = this.id;
+    final _json = <String, dynamic>{};
+    if (id != null) {
+      _json[r'id'] = id;
     } else {
-      json[r'id'] = null;
+      _json[r'id'] = null;
     }
-    if (this.username != null) {
-      json[r'username'] = this.username;
+    if (username != null) {
+      _json[r'username'] = username;
     } else {
-      json[r'username'] = null;
+      _json[r'username'] = null;
     }
-    if (this.firstName != null) {
-      json[r'firstName'] = this.firstName;
+    if (firstName != null) {
+      _json[r'firstName'] = firstName;
     } else {
-      json[r'firstName'] = null;
+      _json[r'firstName'] = null;
     }
-    if (this.lastName != null) {
-      json[r'lastName'] = this.lastName;
+    if (lastName != null) {
+      _json[r'lastName'] = lastName;
     } else {
-      json[r'lastName'] = null;
+      _json[r'lastName'] = null;
     }
-    if (this.email != null) {
-      json[r'email'] = this.email;
+    if (email != null) {
+      _json[r'email'] = email;
     } else {
-      json[r'email'] = null;
+      _json[r'email'] = null;
     }
-    if (this.password != null) {
-      json[r'password'] = this.password;
+    if (password != null) {
+      _json[r'password'] = password;
     } else {
-      json[r'password'] = null;
+      _json[r'password'] = null;
     }
-    if (this.phone != null) {
-      json[r'phone'] = this.phone;
+    if (phone != null) {
+      _json[r'phone'] = phone;
     } else {
-      json[r'phone'] = null;
+      _json[r'phone'] = null;
     }
-    if (this.userStatus != null) {
-      json[r'userStatus'] = this.userStatus;
+    if (userStatus != null) {
+      _json[r'userStatus'] = userStatus;
     } else {
-      json[r'userStatus'] = null;
+      _json[r'userStatus'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [User] instance and imports its values from

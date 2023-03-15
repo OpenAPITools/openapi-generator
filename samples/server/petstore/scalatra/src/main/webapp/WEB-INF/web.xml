@@ -7,7 +7,7 @@
 
   <!-- 
     This listener loads a class in the default package called Scalatra.
-    That class should implement org.scalatra.LifeCycle.  Your app
+    That class should should implement org.scalatra.LifeCycle.  Your app
     can be configured in Scala code there.
   -->
   <listener>

@@ -40,7 +40,7 @@ class OrderApiTest extends TestCase
         $order->setStatus("invalid_value");
     }
 
-    // test deserialization of order
+    // test deseralization of order
     public function testDeserializationOfOrder()
     {
         $order_json = <<<ORDER
@@ -67,7 +67,7 @@ ORDER;
         $this->assertSame(false, $order->getComplete());
     }
   
-    // test deserialization of array of array of order
+    // test deseralization of array of array of order
     public function testDeserializationOfArrayOfArrayOfOrder()
     {
         $order_json = <<<ORDER
@@ -97,7 +97,7 @@ ORDER;
         $this->assertSame(false, $_order->getComplete());
     }
 
-    // test deserialization of map of map of order
+    // test deseralization of map of map of order
     public function testDeserializationOfMapOfMapOfOrder()
     {
         $order_json = <<<ORDER

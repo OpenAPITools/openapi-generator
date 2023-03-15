@@ -35,9 +35,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -62,8 +59,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
-
-    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractPhpCodegen() {
         super();
@@ -94,6 +89,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "boolean",
                         "int",
                         "integer",
+                        "double",
                         "float",
                         "string",
                         "object",
@@ -121,7 +117,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("decimal", "float");
-        typeMapping.put("double", "float");
+        typeMapping.put("double", "double");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
@@ -248,22 +244,21 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return packageName;
     }
 
-    public String toSrcPath(final String packageName, final String basePath) {
-        String modifiedPackageName = packageName.replace(invokerPackage, "");
-        String modifiedBasePath = basePath;
-        if (basePath != null && !basePath.isEmpty()) {
-            modifiedBasePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator;
+    public String toSrcPath(String packageName, String basePath) {
+        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        if (basePath != null && basePath.length() > 0) {
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
             // Replace period, backslash, forward slash with file separator in package name
-            modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
             File.separator
         );
 
         // Trim trailing file separators from the overall path
-        return StringUtils.removeEnd(modifiedBasePath + packagePath, File.separator);
+        return StringUtils.removeEnd(basePath + packagePath, File.separator);
     }
 
     @Override
@@ -416,9 +411,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
             // phone_number => phoneNumber
-            name = camelize(name, LOWERCASE_FIRST_LETTER);
+            name = camelize(name, true);
         } else if ("PascalCase".equals(variableNamingConvention)) {
-            name = camelize(name, UPPERCASE_FIRST_CHAR);
+            name = camelize(name, false);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
@@ -468,15 +463,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toModelName(String name) {
-        // memoization
-        String origName = name;
-        if (schemaKeyToModelNameCache.containsKey(origName)) {
-            return schemaKeyToModelNameCache.get(origName);
-        }
-
         name = toGenericName(name);
 
-        // add prefix and/or suffix only if name does not start with \ (e.g. \DateTime)
+        // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
                 name = modelNamePrefix + "_" + name;
@@ -489,9 +478,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // camelize the model name
         // phone_number => PhoneNumber
-        String camelizedName = camelize(name);
-        schemaKeyToModelNameCache.put(origName, camelizedName);
-        return camelizedName;
+        return camelize(name);
     }
 
     @Override
@@ -545,17 +532,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
-        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
+        return camelize(sanitizeName(operationId), true);
     }
 
     /**
@@ -659,7 +646,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\'" + escapeText(value) + "\'";
@@ -677,17 +664,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return "EMPTY";
         }
 
-        if(name.trim().length() == 0) {
-            return "SPACE_" + name.length();
-        }
-
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return (getSymbolName(name)).toUpperCase(Locale.ROOT);
         }
 
         // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -753,11 +736,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String escapeText(String input) {
         if (input == null) {
-            return input;
-        }
-
-        // If the string contains only "trim-able" characters, don't trim it
-        if(input.trim().length() == 0) {
             return input;
         }
 

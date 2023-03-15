@@ -1,6 +1,8 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
+import org.openapitools.model.*;
+
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.io.File;

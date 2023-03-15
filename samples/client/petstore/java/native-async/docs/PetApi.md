@@ -27,11 +27,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## addPet
 
-> CompletableFuture<Void> addPet(pet)
+> CompletableFuture<Void> addPet(body)
 
 Add a new pet to the store
-
-
 
 ### Example
 
@@ -54,11 +52,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            CompletableFuture<Void> result = apiInstance.addPet(pet);
+            CompletableFuture<Void> result = apiInstance.addPet(body);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -75,7 +72,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -84,7 +81,7 @@ CompletableFuture<void> (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -94,15 +91,14 @@ CompletableFuture<void> (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 ## addPetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> addPet addPetWithHttpInfo(pet)
+> CompletableFuture<ApiResponse<Void>> addPet addPetWithHttpInfo(body)
 
 Add a new pet to the store
-
-
 
 ### Example
 
@@ -126,11 +122,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.addPetWithHttpInfo(pet);
+            CompletableFuture<ApiResponse<Void>> response = apiInstance.addPetWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
         } catch (InterruptedException | ExecutionException e) {
@@ -156,7 +151,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -165,7 +160,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -175,6 +170,7 @@ CompletableFuture<ApiResponse<Void>>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -183,8 +179,6 @@ CompletableFuture<ApiResponse<Void>>
 > CompletableFuture<Void> deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 
@@ -248,6 +242,7 @@ CompletableFuture<void> (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 ## deletePetWithHttpInfo
@@ -255,8 +250,6 @@ CompletableFuture<void> (empty response body)
 > CompletableFuture<ApiResponse<Void>> deletePet deletePetWithHttpInfo(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 
@@ -330,6 +323,7 @@ CompletableFuture<ApiResponse<Void>>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 
@@ -362,7 +356,6 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
@@ -393,7 +386,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -436,7 +429,6 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
@@ -476,7 +468,7 @@ CompletableFuture<ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -492,7 +484,7 @@ CompletableFuture<ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>>
 
 ## findPetsByTags
 
-> CompletableFuture<List<Pet>> findPetsByTags(tags)
+> CompletableFuture<Set<Pet>> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -519,11 +511,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
-            CompletableFuture<List<Pet>> result = apiInstance.findPetsByTags(tags);
+            CompletableFuture<Set<Pet>> result = apiInstance.findPetsByTags(tags);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -541,16 +532,16 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
+| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
+CompletableFuture<[**Set&lt;Pet&gt;**](Pet.md)>
 
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -565,7 +556,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ## findPetsByTagsWithHttpInfo
 
-> CompletableFuture<ApiResponse<List<Pet>>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
+> CompletableFuture<ApiResponse<Set<Pet>>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
 
 Finds Pets by tags
 
@@ -593,11 +584,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
-            CompletableFuture<ApiResponse<List<Pet>>> response = apiInstance.findPetsByTagsWithHttpInfo(tags);
+            CompletableFuture<ApiResponse<Set<Pet>>> response = apiInstance.findPetsByTagsWithHttpInfo(tags);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -624,16 +614,16 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | |
+| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
-CompletableFuture<ApiResponse<[**List&lt;Pet&gt;**](Pet.md)>>
+CompletableFuture<ApiResponse<[**Set&lt;Pet&gt;**](Pet.md)>>
 
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -810,11 +800,9 @@ CompletableFuture<ApiResponse<[**Pet**](Pet.md)>>
 
 ## updatePet
 
-> CompletableFuture<Void> updatePet(pet)
+> CompletableFuture<Void> updatePet(body)
 
 Update an existing pet
-
-
 
 ### Example
 
@@ -837,11 +825,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            CompletableFuture<Void> result = apiInstance.updatePet(pet);
+            CompletableFuture<Void> result = apiInstance.updatePet(body);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -858,7 +845,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -867,7 +854,7 @@ CompletableFuture<void> (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -877,17 +864,16 @@ CompletableFuture<void> (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
 
 ## updatePetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> updatePet updatePetWithHttpInfo(pet)
+> CompletableFuture<ApiResponse<Void>> updatePet updatePetWithHttpInfo(body)
 
 Update an existing pet
-
-
 
 ### Example
 
@@ -911,11 +897,10 @@ public class Example {
         OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            CompletableFuture<ApiResponse<Void>> response = apiInstance.updatePetWithHttpInfo(pet);
+            CompletableFuture<ApiResponse<Void>> response = apiInstance.updatePetWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
         } catch (InterruptedException | ExecutionException e) {
@@ -941,7 +926,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -950,7 +935,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -960,6 +945,7 @@ CompletableFuture<ApiResponse<Void>>
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -970,8 +956,6 @@ CompletableFuture<ApiResponse<Void>>
 > CompletableFuture<Void> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 
@@ -1044,8 +1028,6 @@ CompletableFuture<void> (empty response body)
 > CompletableFuture<ApiResponse<Void>> updatePetWithForm updatePetWithFormWithHttpInfo(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 
@@ -1130,8 +1112,6 @@ CompletableFuture<ApiResponse<Void>>
 
 uploads an image
 
-
-
 ### Example
 
 ```java
@@ -1204,8 +1184,6 @@ CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
 > CompletableFuture<ApiResponse<ModelApiResponse>> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
-
-
 
 ### Example
 
@@ -1291,8 +1269,6 @@ CompletableFuture<ApiResponse<[**ModelApiResponse**](ModelApiResponse.md)>>
 
 uploads an image (required)
 
-
-
 ### Example
 
 ```java
@@ -1365,8 +1341,6 @@ CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
 > CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFile uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
-
-
 
 ### Example
 

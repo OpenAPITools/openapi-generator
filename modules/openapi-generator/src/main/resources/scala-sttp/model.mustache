@@ -21,7 +21,7 @@ case class {{classname}}(
   {{#description}}
   /* {{{.}}} */
   {{/description}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
 )
 {{/isEnum}}

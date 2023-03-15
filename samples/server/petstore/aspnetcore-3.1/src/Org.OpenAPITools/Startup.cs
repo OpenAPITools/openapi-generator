@@ -80,8 +80,6 @@ namespace Org.OpenAPITools
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
-                    
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",

@@ -10,7 +10,7 @@ This example uses the [JAX-RS](https://jax-rs-spec.java.net/) framework.
 
 The JAX-RS implementation needs to be provided by the application server you are deploying on.
 
-To run the server from the command line, you can use maven to provision and start a TomEE Server.
+To run the server from the command line, you can use maven to provision an start a TomEE Server.
 Please execute the following:
 
 ```

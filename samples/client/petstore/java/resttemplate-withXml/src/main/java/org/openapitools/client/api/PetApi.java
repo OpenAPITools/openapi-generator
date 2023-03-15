@@ -29,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@Component("org.openapitools.client.api.PetApi")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -36,6 +37,7 @@ public class PetApi {
         this(new ApiClient());
     }
 
+    @Autowired
     public PetApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

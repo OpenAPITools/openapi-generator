@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -33,35 +35,35 @@ import java.util.Map;
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString = null;
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger = null;
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = null;
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
@@ -75,7 +77,7 @@ public class AdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
   private Object anytype3;
 
-  public AdditionalPropertiesClass() {
+  public AdditionalPropertiesClass() { 
   }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -97,6 +99,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, String> getMapString() {
     return mapString;
@@ -127,6 +130,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -157,6 +161,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -187,6 +192,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -217,6 +223,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -247,6 +254,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -277,6 +285,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -307,6 +316,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -329,6 +339,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Object getAnytype1() {
     return anytype1;
@@ -351,6 +362,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Object getAnytype2() {
     return anytype2;
@@ -373,6 +385,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Object getAnytype3() {
     return anytype3;

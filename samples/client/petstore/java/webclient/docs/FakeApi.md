@@ -1001,7 +1001,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Something wrong |  -  |
+| **400** | Someting wrong |  -  |
 
 
 ## testInlineAdditionalProperties

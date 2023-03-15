@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing GmFruit
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void GmFruitInstanceTest()
         {
-            // TODO uncomment below to test "IsType" GmFruit
-            //Assert.IsType<GmFruit>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" GmFruit
+            //Assert.IsInstanceOfType<GmFruit> (instance, "variable 'instance' is a GmFruit");
         }
 
 

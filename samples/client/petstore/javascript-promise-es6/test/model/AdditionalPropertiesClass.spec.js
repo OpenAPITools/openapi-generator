@@ -50,19 +50,19 @@
   describe('AdditionalPropertiesClass', function() {
     it('should create an instance of AdditionalPropertiesClass', function() {
       // uncomment below and update the code to test AdditionalPropertiesClass
-      //var instance = new OpenApiPetstore.AdditionalPropertiesClass();
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be.a(OpenApiPetstore.AdditionalPropertiesClass);
     });
 
     it('should have the property mapProperty (base name: "map_property")', function() {
       // uncomment below and update the code to test the property mapProperty
-      //var instance = new OpenApiPetstore.AdditionalPropertiesClass();
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property mapOfMapProperty (base name: "map_of_map_property")', function() {
       // uncomment below and update the code to test the property mapOfMapProperty
-      //var instance = new OpenApiPetstore.AdditionalPropertiesClass();
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 

@@ -16,5 +16,4 @@ model/order.ts
 model/pet.ts
 model/tag.ts
 model/user.ts
-param.ts
 variables.ts

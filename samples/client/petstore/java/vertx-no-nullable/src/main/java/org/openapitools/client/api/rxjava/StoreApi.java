@@ -110,7 +110,7 @@ public class StoreApi {
     }
     /**
     * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched (required)
     * @param resultHandler Asynchronous result handler
     */
@@ -120,7 +120,7 @@ public class StoreApi {
 
     /**
     * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
@@ -131,7 +131,7 @@ public class StoreApi {
 
     /**
     * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched (required)
     * @return Asynchronous result handler (RxJava Single)
     */
@@ -143,7 +143,7 @@ public class StoreApi {
 
     /**
     * Find purchase order by ID
-    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)

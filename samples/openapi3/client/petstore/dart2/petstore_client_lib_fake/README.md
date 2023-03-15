@@ -156,15 +156,6 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## petstore_auth
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
-
 ## api_key
 
 - **Type**: API key
@@ -177,16 +168,25 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## http_basic_test
-
-- **Type**: HTTP Basic authentication
-
 ## bearer_test
 
 - **Type**: HTTP Bearer authentication
 
+## http_basic_test
+
+- **Type**: HTTP Basic authentication
+
 ## http_signature_test
 
+
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
 
 
 ## Author

@@ -26,6 +26,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -34,6 +35,7 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
+@Api(value = "Store")
 public class StoreApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -64,18 +66,46 @@ public class StoreApi {
         );
     }
 
+    @ApiOperation(value = "Delete purchase order by ID",
+            notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+            nickname = "deleteOrder",
+            tags = { "store" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Order not found")  })
     public DeleteOrderOper deleteOrder() {
         return new DeleteOrderOper(createReqSpec());
     }
 
+    @ApiOperation(value = "Returns pet inventories by status",
+            notes = "Returns a map of status codes to quantities",
+            nickname = "getInventory",
+            tags = { "store" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public GetInventoryOper getInventory() {
         return new GetInventoryOper(createReqSpec());
     }
 
+    @ApiOperation(value = "Find purchase order by ID",
+            notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+            nickname = "getOrderById",
+            tags = { "store" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Order not found")  })
     public GetOrderByIdOper getOrderById() {
         return new GetOrderByIdOper(createReqSpec());
     }
 
+    @ApiOperation(value = "Place an order for a pet",
+            notes = "",
+            nickname = "placeOrder",
+            tags = { "store" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid Order")  })
     public PlaceOrderOper placeOrder() {
         return new PlaceOrderOper(createReqSpec());
     }
@@ -215,7 +245,7 @@ public class StoreApi {
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @see #orderIdPath ID of pet that needs to be fetched (required)
      * return Order

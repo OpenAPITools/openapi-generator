@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **string** | **String** |  | [optional] 
 **byte** | **Data** |  | 
 **binary** | **URL** |  | [optional] 
-**date** | **OpenAPIDateWithoutTime** |  | 
+**date** | **Date** |  | 
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **UUID** |  | [optional] 
 **password** | **String** |  | 

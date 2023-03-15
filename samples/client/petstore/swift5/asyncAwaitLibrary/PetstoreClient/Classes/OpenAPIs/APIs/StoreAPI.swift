@@ -20,7 +20,27 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String) async throws {
-        return try await deleteOrderWithRequestBuilder(orderId: orderId).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -48,7 +68,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -58,7 +78,27 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory() async throws -> [String: Int] {
-        return try await getInventoryWithRequestBuilder().execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = getInventoryWithRequestBuilder().execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -66,7 +106,7 @@ open class StoreAPI {
      - GET /store/inventory
      - Returns a map of status codes to quantities
      - API Key:
-       - type: apiKey api_key (HEADER)
+       - type: apiKey api_key 
        - name: api_key
      - returns: RequestBuilder<[String: Int]> 
      */
@@ -85,7 +125,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -96,13 +136,33 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64) async throws -> Order {
-        return try await getOrderByIdWithRequestBuilder(orderId: orderId).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
      Find purchase order by ID
      - GET /store/order/{order_id}
-     - For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+     - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: RequestBuilder<Order> 
      */
@@ -124,7 +184,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**
@@ -135,7 +195,27 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order) async throws -> Order {
-        return try await placeOrderWithRequestBuilder(body: body).execute().body
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = placeOrderWithRequestBuilder(body: body).execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
+        }
     }
 
     /**
@@ -159,6 +239,6 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 }

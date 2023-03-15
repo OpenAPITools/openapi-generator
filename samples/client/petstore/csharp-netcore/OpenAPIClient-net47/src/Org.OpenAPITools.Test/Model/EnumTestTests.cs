@@ -81,14 +81,6 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'EnumInteger'
         }
         /// <summary>
-        /// Test the property 'EnumIntegerOnly'
-        /// </summary>
-        [Fact]
-        public void EnumIntegerOnlyTest()
-        {
-            // TODO unit test for the property 'EnumIntegerOnly'
-        }
-        /// <summary>
         /// Test the property 'EnumNumber'
         /// </summary>
         [Fact]

@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace {{packageName}}.{{clientPackage}}
+namespace {{packageName}}.Client
 {
     /// <summary>
     /// A token constructed from a token from a bearer token.
     /// </summary>
-    {{>visibility}} class BearerToken : TokenBase
+    public class BearerToken : TokenBase
     {
         private string _raw;
 

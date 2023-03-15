@@ -10,22 +10,18 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using {{packageName}}.{{modelPackage}};
+using {{packageName}}.Api;
+using {{packageName}}.Model;
 
-namespace {{packageName}}.{{clientPackage}}
+namespace {{packageName}}.Client
 {
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
     /// </summary>
-    {{>visibility}} class HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>
-        {{#apiInfo}}
-        {{#apis}}
-        where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-        {{/apis}}
-        {{/apiInfo}}
+    public class HostConfiguration
     {
         private readonly IServiceCollection _services;
-        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
+        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
 
         internal bool HttpClientsAdded { get; private set; }
 
@@ -37,22 +33,30 @@ namespace {{packageName}}.{{clientPackage}}
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
-            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
-            {{#models}}
-            {{#model}}
-            {{#isEnum}}
-            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter());
-            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableConverter());
-            {{/isEnum}}
-            {{^isEnum}}
+            _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{#allOf}}
+{{#-first}}
             _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-            {{/isEnum}}
-            {{/model}}
-            {{/models}}
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
-            _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
-            _services.AddTransient<T{{classname}}, T{{classname}}>();{{/apis}}{{/apiInfo}}
+{{/-first}}
+{{/allOf}}
+{{#anyOf}}
+{{#-first}}
+            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/anyOf}}
+{{#oneOf}}
+{{#-first}}
+            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));{{#apiInfo}}{{#apis}}
+            _services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -61,16 +65,17 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> Add{{apiName}}HttpClients
+        public HostConfiguration Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
         (
-            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null){{#apis}}
+            where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
         {
             if (client == null)
                 client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
-
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            
+            {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
@@ -82,11 +87,24 @@ namespace {{packageName}}.{{clientPackage}}
         }
 
         /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{apiName}}HttpClients(Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        {
+            Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
+
+            return this;
+        }
+
+        /// <summary>
         /// Configures the JsonSerializerSettings
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> ConfigureJsonOptions(Action<JsonSerializerOptions> options)
+        public HostConfiguration ConfigureJsonOptions(Action<JsonSerializerOptions> options)
         {
             options(_jsonOptions);
 
@@ -99,7 +117,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
             return AddTokens(new TTokenBase[]{ token });
         }
@@ -110,7 +128,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton(services => container);
@@ -124,7 +142,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> UseProvider<TTokenProvider, TTokenBase>() 
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {

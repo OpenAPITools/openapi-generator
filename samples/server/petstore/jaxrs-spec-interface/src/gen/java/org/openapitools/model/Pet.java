@@ -25,12 +25,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Pet  implements Serializable {
+  
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
   private @Valid List<Tag> tags = new ArrayList<>();
-  public enum StatusEnum {
+
+public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
@@ -98,7 +100,7 @@ public class Pet  implements Serializable {
     this.id = id;
   }
 
-  /**
+/**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -117,7 +119,7 @@ public class Pet  implements Serializable {
     this.category = category;
   }
 
-  /**
+/**
    **/
   public Pet name(String name) {
     this.name = name;
@@ -137,7 +139,7 @@ public class Pet  implements Serializable {
     this.name = name;
   }
 
-  /**
+/**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -174,7 +176,7 @@ public class Pet  implements Serializable {
 
     return this;
   }
-  /**
+/**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -209,7 +211,7 @@ public class Pet  implements Serializable {
 
     return this;
   }
-  /**
+/**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {

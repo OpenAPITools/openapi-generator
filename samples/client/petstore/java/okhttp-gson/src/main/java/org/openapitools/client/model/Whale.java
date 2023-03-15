@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -36,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class Whale {
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 
-  public Whale() {
+  public Whale() { 
   }
 
   public Whale hasBaleen(Boolean hasBaleen) {
@@ -74,6 +75,7 @@ public class Whale {
    * @return hasBaleen
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Boolean getHasBaleen() {
     return hasBaleen;
@@ -96,6 +98,7 @@ public class Whale {
    * @return hasTeeth
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public Boolean getHasTeeth() {
     return hasTeeth;
@@ -118,6 +121,7 @@ public class Whale {
    * @return className
   **/
   @javax.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;
@@ -138,10 +142,6 @@ public class Whale {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
-   *
-   * @param key name of the property
-   * @param value value of the property
-   * @return the Whale instance itself
    */
   public Whale putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -153,8 +153,6 @@ public class Whale {
 
   /**
    * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -162,9 +160,6 @@ public class Whale {
 
   /**
    * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -241,7 +236,9 @@ public class Whale {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!Whale.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (Whale.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Whale is not found in the empty JSON string", Whale.openapiRequiredFields.toString()));
         }
       }
@@ -252,7 +249,7 @@ public class Whale {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (!jsonObj.get("className").isJsonPrimitive()) {
+      if (jsonObj.get("className") != null && !jsonObj.get("className").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `className` to be a primitive type in the JSON string but got `%s`", jsonObj.get("className").toString()));
       }
   }
@@ -273,7 +270,7 @@ public class Whale {
            public void write(JsonWriter out, Whale value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additional properties
+             // serialize additonal properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -309,10 +306,8 @@ public class Whale {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else if (entry.getValue().isJsonArray()) {
-                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
-                 } else { // JSON object
-                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else { // non-primitive type
+                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

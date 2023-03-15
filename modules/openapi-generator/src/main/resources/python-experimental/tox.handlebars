@@ -1,0 +1,9 @@
+[tox]
+envlist = py39
+
+[testenv]
+deps=-r{toxinidir}/requirements.txt
+     -r{toxinidir}/test-requirements.txt
+
+commands=
+   {{#unless useNose}}pytest --cov={{{packageName}}}{{/unless}}{{#if useNose}}nosetests{{/if}}

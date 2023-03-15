@@ -70,10 +70,6 @@ paths:
                   description: "a file"
                   type: string
                   format: binary
-                statusArray:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/MultipartMixedStatus'
       responses:
         '204':
           description: Successful operation

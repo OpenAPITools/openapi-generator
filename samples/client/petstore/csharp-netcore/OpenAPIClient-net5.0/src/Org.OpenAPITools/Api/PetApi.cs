@@ -15,7 +15,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Client.Auth;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -55,7 +54,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void DeletePet(long petId, string? apiKey = default(string?), int operationIndex = 0);
+        void DeletePet(long petId, string apiKey = default(string), int operationIndex = 0);
 
         /// <summary>
         /// Deletes a pet
@@ -68,7 +67,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetWithHttpInfo(long petId, string? apiKey = default(string?), int operationIndex = 0);
+        ApiResponse<Object> DeletePetWithHttpInfo(long petId, string apiKey = default(string), int operationIndex = 0);
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -169,7 +168,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void UpdatePetWithForm(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0);
+        void UpdatePetWithForm(long petId, string name = default(string), string status = default(string), int operationIndex = 0);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -183,7 +182,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormWithHttpInfo(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0);
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo(long petId, string name = default(string), string status = default(string), int operationIndex = 0);
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -193,7 +192,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0);
+        ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
 
         /// <summary>
         /// uploads an image
@@ -207,7 +206,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -217,7 +216,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0);
+        ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0);
 
         /// <summary>
         /// uploads an image (required)
@@ -231,7 +230,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0);
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -278,7 +277,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeletePetAsync(long petId, string? apiKey = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task DeletePetAsync(long petId, string apiKey = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Deletes a pet
@@ -292,7 +291,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string? apiKey = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string apiKey = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -408,7 +407,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string name = default(string), string status = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -423,7 +422,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string name = default(string), string status = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -437,7 +436,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// uploads an image
@@ -452,7 +451,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -466,7 +465,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// uploads an image (required)
@@ -481,7 +480,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -657,22 +656,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -688,6 +671,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -762,22 +751,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -793,6 +766,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -818,7 +797,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void DeletePet(long petId, string? apiKey = default(string?), int operationIndex = 0)
+        public void DeletePet(long petId, string apiKey = default(string), int operationIndex = 0)
         {
             DeletePetWithHttpInfo(petId, apiKey);
         }
@@ -831,7 +810,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> DeletePetWithHttpInfo(long petId, string? apiKey = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> DeletePetWithHttpInfo(long petId, string apiKey = default(string), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -865,19 +844,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -903,7 +872,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeletePetAsync(long petId, string? apiKey = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task DeletePetAsync(long petId, string apiKey = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await DeletePetWithHttpInfoAsync(petId, apiKey, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -917,7 +886,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string? apiKey = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetWithHttpInfoAsync(long petId, string apiKey = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -952,19 +921,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1038,22 +997,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1069,6 +1012,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1144,22 +1093,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1175,6 +1108,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1250,22 +1189,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1281,6 +1204,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1358,22 +1287,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1389,6 +1302,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1605,22 +1524,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1636,6 +1539,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1710,22 +1619,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1741,6 +1634,12 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
+            }
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1767,7 +1666,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void UpdatePetWithForm(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0)
+        public void UpdatePetWithForm(long petId, string name = default(string), string status = default(string), int operationIndex = 0)
         {
             UpdatePetWithFormWithHttpInfo(petId, name, status);
         }
@@ -1781,7 +1680,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithFormWithHttpInfo(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithFormWithHttpInfo(long petId, string name = default(string), string status = default(string), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1820,19 +1719,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1859,7 +1748,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task UpdatePetWithFormAsync(long petId, string name = default(string), string status = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await UpdatePetWithFormWithHttpInfoAsync(petId, name, status, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -1874,7 +1763,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string? name = default(string?), string? status = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync(long petId, string name = default(string), string status = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1914,19 +1803,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1953,7 +1832,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0)
+        public ApiResponse UploadFile(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
             return localVarResponse.Data;
@@ -1968,7 +1847,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithHttpInfo(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2008,19 +1887,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2047,7 +1916,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2063,7 +1932,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string? additionalMetadata = default(string?), System.IO.Stream? file = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync(long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2104,19 +1973,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2143,7 +2002,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0)
+        public ApiResponse UploadFileWithRequiredFile(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
             return localVarResponse.Data;
@@ -2158,7 +2017,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0)
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
@@ -2174,8 +2033,7 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2202,19 +2060,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -2241,7 +2089,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2257,7 +2105,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
@@ -2274,8 +2122,7 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2302,19 +2149,9 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
-                         this.Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request

@@ -282,7 +282,7 @@ goog.addDependency = function(relPath, provides, requires) {
 
 
 
-// NOTE(nnaze): The debug DOM loader was included in base.js as an original
+// NOTE(nnaze): The debug DOM loader was included in base.js as an orignal
 // way to do "debug-mode" development.  The dependency system can sometimes
 // be confusing, as can the debug DOM loader's asynchronous nature.
 //
@@ -324,7 +324,7 @@ goog.ENABLE_DEBUG_LOADER = true;
  */
 goog.require = function(name) {
 
-  // if the object already exists we do not need do anything
+  // if the object already exists we do not need do do anything
   // TODO(arv): If we start to support require based on file name this has
   //            to change
   // TODO(arv): If we allow goog.foo.* this has to change
@@ -687,7 +687,7 @@ goog.typeOf = function(value) {
       // Check these first, so we can avoid calling Object.prototype.toString if
       // possible.
       //
-      // IE improperly marshals typeof across execution contexts, but a
+      // IE improperly marshals tyepof across execution contexts, but a
       // cross-context object will still return false for "instanceof Object".
       if (value instanceof Array) {
         return 'array';
@@ -1378,7 +1378,7 @@ goog.getMsg = function(str, opt_values) {
  * This is useful when introducing a new message that has not yet been
  * translated into all languages.
  *
- * This function is a compiler primitive. Must be used in the form:
+ * This function is a compiler primtive. Must be used in the form:
  * <code>var x = goog.getMsgWithFallback(MSG_A, MSG_B);</code>
  * where MSG_A and MSG_B were initialized with goog.getMsg.
  *
@@ -1478,7 +1478,7 @@ goog.inherits = function(childCtor, parentCtor) {
  * Call up to the superclass.
  *
  * If this is called from a constructor, then this calls the superclass
- * constructor with arguments 1-N.
+ * contructor with arguments 1-N.
  *
  * If this is called from a prototype method, then you must pass
  * the name of the method as the second argument to this function. If

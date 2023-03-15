@@ -15,13 +15,10 @@ import {{rootJavaEEPackage}}.ws.rs.core.MediaType;
 {{^disableMultipart}}
 import org.apache.cxf.jaxrs.ext.multipart.*;
 {{/disableMultipart}}
-{{#microprofileMutiny}}
-import io.smallrye.mutiny.Uni;
-{{/microprofileMutiny}}
 
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
@@ -69,7 +66,7 @@ public interface {{classname}}  {
 {{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
-    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/operation}}
 }
 {{/operations}}

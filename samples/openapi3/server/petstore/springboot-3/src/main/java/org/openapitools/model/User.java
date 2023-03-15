@@ -56,7 +56,7 @@ public class User {
    * @return id
   */
   
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -75,7 +75,7 @@ public class User {
    * @return username
   */
   
-  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "username", required = false)
   public String getUsername() {
     return username;
   }
@@ -94,7 +94,7 @@ public class User {
    * @return firstName
   */
   
-  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "firstName", required = false)
   public String getFirstName() {
     return firstName;
   }
@@ -113,7 +113,7 @@ public class User {
    * @return lastName
   */
   
-  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "lastName", required = false)
   public String getLastName() {
     return lastName;
   }
@@ -132,7 +132,7 @@ public class User {
    * @return email
   */
   
-  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "email", required = false)
   public String getEmail() {
     return email;
   }
@@ -151,7 +151,7 @@ public class User {
    * @return password
   */
   
-  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "password", required = false)
   public String getPassword() {
     return password;
   }
@@ -170,7 +170,7 @@ public class User {
    * @return phone
   */
   
-  @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "phone", required = false)
   public String getPhone() {
     return phone;
   }
@@ -189,7 +189,7 @@ public class User {
    * @return userStatus
   */
   
-  @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {
     return userStatus;
   }

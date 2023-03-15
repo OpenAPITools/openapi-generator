@@ -451,106 +451,80 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            CancellationTokenSource timeoutTokenSource = null;
-            CancellationTokenSource finalTokenSource = null;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
+
             var finalToken = cancellationToken;
 
-            try
+            if (configuration.Timeout > 0)
             {
-                if (configuration.Timeout > 0)
+                var tokenSource = new CancellationTokenSource(configuration.Timeout);
+                finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
+            }
+
+            if (configuration.Proxy != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
+            }
+
+            var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
+
+            if (cookieContainer != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                foreach (var cookie in cookieContainer)
                 {
-                    timeoutTokenSource = new CancellationTokenSource(configuration.Timeout);
-                    finalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(finalToken, timeoutTokenSource.Token);
-                    finalToken = finalTokenSource.Token;
+                    _httpClientHandler.CookieContainer.Add(cookie);
                 }
+            }
 
-                if (configuration.Proxy != null)
-                {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    _httpClientHandler.Proxy = configuration.Proxy;
-                }
+            InterceptRequest(req);
 
-                if (configuration.ClientCertificates != null)
-                {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
-                }
-
-                var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
-
-                if (cookieContainer != null)
-                {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    foreach (var cookie in cookieContainer)
+            HttpResponseMessage response;
+            if (RetryConfiguration.AsyncRetryPolicy != null)
+            {
+                var policy = RetryConfiguration.AsyncRetryPolicy;
+                var policyResult = await policy
+                    .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, cancellationToken))
+                    .ConfigureAwait(false);
+                response = (policyResult.Outcome == OutcomeType.Successful) ?
+                    policyResult.Result : new HttpResponseMessage()
                     {
-                        _httpClientHandler.CookieContainer.Add(cookie);
-                    }
-                }
-
-                InterceptRequest(req);
-
-                HttpResponseMessage response;
-                if (RetryConfiguration.AsyncRetryPolicy != null)
-                {
-                    var policy = RetryConfiguration.AsyncRetryPolicy;
-                    var policyResult = await policy
-                        .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, finalToken))
-                        .ConfigureAwait(false);
-                    response = (policyResult.Outcome == OutcomeType.Successful) ?
-                        policyResult.Result : new HttpResponseMessage()
-                        {
-                            ReasonPhrase = policyResult.FinalException.ToString(),
-                            RequestMessage = req
-                        };
-                }
-                else
-                {
-                    response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
-                }
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    return await ToApiResponse<T>(response, default(T), req.RequestUri);
-                }
-
-                object responseData = await deserializer.Deserialize<T>(response);
-
-                // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-                if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
-                {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
-                }
-                else if (typeof(T).Name == "Stream") // for binary response
-                {
-                    responseData = (T) (object) await response.Content.ReadAsStreamAsync();
-                }
-
-                InterceptResponse(req, response);
-
-                return await ToApiResponse<T>(response, responseData, req.RequestUri);
+                        ReasonPhrase = policyResult.FinalException.ToString(),
+                        RequestMessage = req
+                    };
             }
-            catch (OperationCanceledException original)
+            else
             {
-                if (timeoutTokenSource != null && timeoutTokenSource.IsCancellationRequested)
-                {
-                    throw new TaskCanceledException($"[{req.Method}] {req.RequestUri} was timeout.",
-                        new TimeoutException(original.Message, original));
-                }
-                throw;
+                response = await _httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
             }
-            finally
-            {
-                if (timeoutTokenSource != null)
-                {
-                    timeoutTokenSource.Dispose();
-                }
 
-                if (finalTokenSource != null)
-                {
-                    finalTokenSource.Dispose();
-                }
+            if (!response.IsSuccessStatusCode)
+            {
+                return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
+
+            object responseData = await deserializer.Deserialize<T>(response);
+
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+            }
+            else if (typeof(T).Name == "Stream") // for binary response
+            {
+                responseData = (T) (object) await response.Content.ReadAsStreamAsync();
+            }
+
+            InterceptResponse(req, response);
+
+            return await ToApiResponse<T>(response, responseData, req.RequestUri);
         }
 
         #region IAsynchronousClient

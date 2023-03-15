@@ -6,12 +6,12 @@
 {{/nrt}}
 using System;
 
-namespace {{packageName}}.{{clientPackage}}
+namespace {{packageName}}.Client
 {
     /// <summary>
     /// The base for all tokens.
     /// </summary>
-    {{>visibility}} abstract class TokenBase
+    public abstract class TokenBase
     {
         private DateTime _nextAvailable = DateTime.UtcNow;
         private object _nextAvailableLock = new object();

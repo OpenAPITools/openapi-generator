@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the TypeHolderExample type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &TypeHolderExample{}
-
 // TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
 	StringItem string `json:"string_item"`
@@ -195,22 +192,26 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["string_item"] = o.StringItem
+	}
+	if true {
+		toSerialize["number_item"] = o.NumberItem
+	}
+	if true {
+		toSerialize["float_item"] = o.FloatItem
+	}
+	if true {
+		toSerialize["integer_item"] = o.IntegerItem
+	}
+	if true {
+		toSerialize["bool_item"] = o.BoolItem
+	}
+	if true {
+		toSerialize["array_item"] = o.ArrayItem
 	}
 	return json.Marshal(toSerialize)
-}
-
-func (o TypeHolderExample) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	toSerialize["string_item"] = o.StringItem
-	toSerialize["number_item"] = o.NumberItem
-	toSerialize["float_item"] = o.FloatItem
-	toSerialize["integer_item"] = o.IntegerItem
-	toSerialize["bool_item"] = o.BoolItem
-	toSerialize["array_item"] = o.ArrayItem
-	return toSerialize, nil
 }
 
 type NullableTypeHolderExample struct {

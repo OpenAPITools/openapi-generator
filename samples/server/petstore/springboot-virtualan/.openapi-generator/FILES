@@ -2,7 +2,6 @@ README.md
 pom.xml
 src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
-src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApi.java

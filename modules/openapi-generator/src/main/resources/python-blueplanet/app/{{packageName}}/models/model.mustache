@@ -27,7 +27,7 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}: {{datatype}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in Swagger
 
         {{#vars}}
@@ -52,7 +52,7 @@ class {{classname}}(Model):
 {{/vars}}
 
     @classmethod
-    def from_dict(cls, dikt) -> '{{classname}}':
+    def from_dict(cls, dikt){{^supportPython2}} -> '{{classname}}'{{/supportPython2}}:
         """Returns the dict as a model
 
         :param dikt: A dict.
@@ -64,7 +64,7 @@ class {{classname}}(Model):
 
 {{/-first}}
     @property
-    def {{name}}(self) -> {{datatype}}:
+    def {{name}}(self){{^supportPython2}} -> {{datatype}}{{/supportPython2}}:
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -77,7 +77,7 @@ class {{classname}}(Model):
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}: {{datatype}}):
+    def {{name}}(self, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}

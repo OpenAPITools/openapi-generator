@@ -20,25 +20,13 @@ import org.openapitools.client.Pair;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.http.HttpRequest;
-import java.nio.channels.Channels;
-import java.nio.channels.Pipe;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -54,7 +42,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -93,13 +81,13 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> addPet(Pet pet) throws ApiException {
+  public CompletableFuture<Void> addPet(Pet body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet);
+      HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -117,13 +105,13 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(Pet pet) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(Pet body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet);
+      HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -144,10 +132,10 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder addPetRequestBuilder(Pet pet) throws ApiException {
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
+  private HttpRequest.Builder addPetRequestBuilder(Pet body) throws ApiException {
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -160,7 +148,7 @@ public class PetApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -273,9 +261,8 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("findPetsByStatus", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -307,12 +294,11 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("findPetsByStatus", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<List<Pet>>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -336,17 +322,11 @@ public class PetApi {
     String localVarPath = "/pet/findByStatus";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "status", status));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty()) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -367,12 +347,12 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return CompletableFuture&lt;List&lt;Pet&gt;&gt;
+   * @return CompletableFuture&lt;Set&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public CompletableFuture<List<Pet>> findPetsByTags(List<String> tags) throws ApiException {
+  public CompletableFuture<Set<Pet>> findPetsByTags(Set<String> tags) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
       return memberVarHttpClient.sendAsync(
@@ -382,9 +362,8 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("findPetsByTags", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -400,12 +379,12 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return CompletableFuture&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;
+   * @return CompletableFuture&lt;ApiResponse&lt;Set&lt;Pet&gt;&gt;&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+  public CompletableFuture<ApiResponse<Set<Pet>>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
       return memberVarHttpClient.sendAsync(
@@ -418,12 +397,11 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("findPetsByTags", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  new ApiResponse<List<Pet>>(
+                  new ApiResponse<Set<Pet>>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -436,7 +414,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByTagsRequestBuilder(List<String> tags) throws ApiException {
+  private HttpRequest.Builder findPetsByTagsRequestBuilder(Set<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -447,17 +425,11 @@ public class PetApi {
     String localVarPath = "/pet/findByTags";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "tags";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "tags", tags));
 
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+    if (!localVarQueryParams.isEmpty()) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -491,9 +463,8 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("getPetById", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -525,12 +496,11 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("getPetById", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Pet>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -570,13 +540,13 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> updatePet(Pet pet) throws ApiException {
+  public CompletableFuture<Void> updatePet(Pet body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet);
+      HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -594,13 +564,13 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(Pet pet) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(Pet body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet);
+      HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -621,10 +591,10 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetRequestBuilder(Pet pet) throws ApiException {
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
+  private HttpRequest.Builder updatePetRequestBuilder(Pet body) throws ApiException {
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -637,7 +607,7 @@ public class PetApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -723,20 +693,7 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    List<NameValuePair> formValues = new ArrayList<>();
-    formValues.add(new BasicNameValuePair("name", name.toString()));
-    formValues.add(new BasicNameValuePair("status", status.toString()));
-    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
-    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
-    try {
-        entity.writeTo(formOutputStream);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-    localVarRequestBuilder
-        .header("Content-Type", entity.getContentType().getValue())
-        .method("POST", HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -764,9 +721,8 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("uploadFile", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -800,12 +756,11 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("uploadFile", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<ModelApiResponse>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -833,41 +788,7 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
-    boolean hasFiles = false;
-    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
-    multiPartBuilder.addBinaryBody("file", _file);
-    hasFiles = true;
-    HttpEntity entity = multiPartBuilder.build();
-    HttpRequest.BodyPublisher formDataPublisher;
-    if (hasFiles) {
-        Pipe pipe;
-        try {
-            pipe = Pipe.open();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        new Thread(() -> {
-            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
-                entity.writeTo(outputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-        formDataPublisher = HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source()));
-    } else {
-        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
-        try {
-            entity.writeTo(formOutputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
-    }
-    localVarRequestBuilder
-        .header("Content-Type", entity.getContentType().getValue())
-        .method("POST", formDataPublisher);
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -895,9 +816,8 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("uploadFileWithRequiredFile", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -931,12 +851,11 @@ public class PetApi {
               return CompletableFuture.failedFuture(getApiException("uploadFileWithRequiredFile", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<ModelApiResponse>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -968,41 +887,7 @@ public class PetApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
-    boolean hasFiles = false;
-    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
-    multiPartBuilder.addBinaryBody("requiredFile", requiredFile);
-    hasFiles = true;
-    HttpEntity entity = multiPartBuilder.build();
-    HttpRequest.BodyPublisher formDataPublisher;
-    if (hasFiles) {
-        Pipe pipe;
-        try {
-            pipe = Pipe.open();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        new Thread(() -> {
-            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
-                entity.writeTo(outputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-        formDataPublisher = HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source()));
-    } else {
-        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
-        try {
-            entity.writeTo(formOutputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
-    }
-    localVarRequestBuilder
-        .header("Content-Type", entity.getContentType().getValue())
-        .method("POST", formDataPublisher);
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

@@ -367,7 +367,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.store_controller
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generate exceptions
+        values will generated exceptions
       operationId: get_order_by_id
       parameters:
       - description: ID of pet that needs to be fetched
@@ -495,7 +495,7 @@ paths:
                 type: integer
               style: simple
             X-Expires-After:
-              description: date in UTC when token expires
+              description: date in UTC when toekn expires
               explode: false
               schema:
                 format: date-time

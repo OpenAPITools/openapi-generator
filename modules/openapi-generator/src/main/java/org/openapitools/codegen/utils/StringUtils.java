@@ -17,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
-
 public class StringUtils {
 
     /**
@@ -32,7 +30,7 @@ public class StringUtils {
 
     // A cache of camelized words. The camelize() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static Cache<Pair<String, CamelizeOption>, String> camelizedWordsCache;
+    private static Cache<Pair<String, Boolean>, String> camelizedWordsCache;
 
     // A cache of underscored words, used to optimize the performance of the underscore() method.
     private static Cache<String, String> underscoreWordsCache;
@@ -113,7 +111,7 @@ public class StringUtils {
      * @return camelized string
      */
     public static String camelize(String word) {
-        return camelize(word, UPPERCASE_FIRST_CHAR);
+        return camelize(word, false);
     }
 
     private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
@@ -126,16 +124,16 @@ public class StringUtils {
     /**
      * Camelize name (parameter, property, method, etc)
      *
-     * @param inputWord string to be camelize
-     * @param camelizeOption option for the camelize result
+     * @param inputWord                 string to be camelize
+     * @param lowercaseFirstLetter lower case for first letter if set to true
      * @return camelized string
      */
-    public static String camelize(final String inputWord, CamelizeOption camelizeOption) {
-        Pair<String, CamelizeOption> key = new ImmutablePair<>(inputWord, camelizeOption);
+    public static String camelize(final String inputWord, boolean lowercaseFirstLetter) {
+        Pair<String, Boolean> key = new ImmutablePair<>(inputWord, lowercaseFirstLetter);
 
         return camelizedWordsCache.get(key, pair -> {
             String word = pair.getKey();
-            CamelizeOption option = pair.getValue();
+            Boolean lowerFirstLetter = pair.getValue();
             // Replace all slashes with dots (package separator)
             Matcher m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
@@ -187,33 +185,21 @@ public class StringUtils {
                 m = camelizeHyphenPattern.matcher(word);
             }
 
-            switch (option) {
-                case LOWERCASE_FIRST_LETTER:
-                    word = lowercaseFirstLetter(word);
-                    break;
-                case LOWERCASE_FIRST_CHAR:
-                    word = word.substring(0, 1).toLowerCase(Locale.ROOT) + word.substring(1);
-                    break;
+            if (lowerFirstLetter && word.length() > 0) {
+                int i = 0;
+                char charAt = word.charAt(i);
+                while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
+                    i = i + 1;
+                    charAt = word.charAt(i);
+                }
+                i = i + 1;
+                word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
             }
 
             // remove all underscore
             word = camelizeSimpleUnderscorePattern.matcher(word).replaceAll("");
             return word;
         });
-    }
-
-    private static String lowercaseFirstLetter(String word) {
-        if (word.length() > 0) {
-            int i = 0;
-            char charAt = word.charAt(i);
-            while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
-                i = i + 1;
-                charAt = word.charAt(i);
-            }
-            i = i + 1;
-            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
-        }
-        return word;
     }
 
     private static class EscapedNameOptions {

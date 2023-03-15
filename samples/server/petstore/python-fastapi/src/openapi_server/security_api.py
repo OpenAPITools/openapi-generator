@@ -18,6 +18,25 @@ from fastapi.security.api_key import APIKeyCookie, APIKeyHeader, APIKeyQuery  # 
 
 from openapi_server.models.extra_models import TokenModel
 
+
+def get_token_api_key(
+    token_api_key_header: str = Security(
+        APIKeyHeader(name="api_key", auto_error=False)
+    ),
+) -> TokenModel:
+    """
+    Check and retrieve authentication information from api_key.
+
+    :param token_api_key_header API key provided by Authorization[api_key] header
+    
+    
+    :type token_api_key_header: str
+    :return: Information attached to provided api_key or None if api_key is invalid or does not allow access to called API
+    :rtype: TokenModel | None
+    """
+
+    ...
+
 oauth2_implicit = OAuth2(
     flows=OAuthFlows(
         implicit=OAuthFlowImplicit(
@@ -61,23 +80,4 @@ def validate_scope_petstore_auth(
     """
 
     return False
-
-
-def get_token_api_key(
-    token_api_key_header: str = Security(
-        APIKeyHeader(name="api_key", auto_error=False)
-    ),
-) -> TokenModel:
-    """
-    Check and retrieve authentication information from api_key.
-
-    :param token_api_key_header API key provided by Authorization[api_key] header
-    
-    
-    :type token_api_key_header: str
-    :return: Information attached to provided api_key or None if api_key is invalid or does not allow access to called API
-    :rtype: TokenModel | None
-    """
-
-    ...
 

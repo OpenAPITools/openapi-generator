@@ -48,18 +48,18 @@ class Model200Response {
   String toString() => 'Model200Response[name=$name, class_=$class_]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.name != null) {
-      json[r'name'] = this.name;
+    final _json = <String, dynamic>{};
+    if (name != null) {
+      _json[r'name'] = name;
     } else {
-      json[r'name'] = null;
+      _json[r'name'] = null;
     }
-    if (this.class_ != null) {
-      json[r'class'] = this.class_;
+    if (class_ != null) {
+      _json[r'class'] = class_;
     } else {
-      json[r'class'] = null;
+      _json[r'class'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [Model200Response] instance and imports its values from

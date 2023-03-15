@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the FooGetDefaultResponse type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &FooGetDefaultResponse{}
-
 // FooGetDefaultResponse struct for FooGetDefaultResponse
 type FooGetDefaultResponse struct {
 	String *Foo `json:"string,omitempty"`
@@ -44,7 +41,7 @@ func NewFooGetDefaultResponseWithDefaults() *FooGetDefaultResponse {
 
 // GetString returns the String field value if set, zero value otherwise.
 func (o *FooGetDefaultResponse) GetString() Foo {
-	if o == nil || IsNil(o.String) {
+	if o == nil || o.String == nil {
 		var ret Foo
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *FooGetDefaultResponse) GetString() Foo {
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
-	if o == nil || IsNil(o.String) {
+	if o == nil || o.String == nil {
 		return nil, false
 	}
 	return o.String, true
@@ -62,7 +59,7 @@ func (o *FooGetDefaultResponse) GetStringOk() (*Foo, bool) {
 
 // HasString returns a boolean if a field has been set.
 func (o *FooGetDefaultResponse) HasString() bool {
-	if o != nil && !IsNil(o.String) {
+	if o != nil && o.String != nil {
 		return true
 	}
 
@@ -75,16 +72,8 @@ func (o *FooGetDefaultResponse) SetString(v Foo) {
 }
 
 func (o FooGetDefaultResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.String) {
+	if o.String != nil {
 		toSerialize["string"] = o.String
 	}
 
@@ -92,7 +81,7 @@ func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {

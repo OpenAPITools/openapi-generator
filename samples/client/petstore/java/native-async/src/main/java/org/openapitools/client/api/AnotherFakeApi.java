@@ -22,15 +22,8 @@ import org.openapitools.client.model.Client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.http.HttpRequest;
-import java.nio.channels.Channels;
-import java.nio.channels.Pipe;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -46,7 +39,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -85,13 +78,13 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param client client model (required)
+   * @param body client model (required)
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> call123testSpecialTags(Client client) throws ApiException {
+  public CompletableFuture<Client> call123testSpecialTags(Client body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
+      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -99,9 +92,8 @@ public class AnotherFakeApi {
               return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {})
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -116,13 +108,13 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param client client model (required)
+   * @param body client model (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
+      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -133,12 +125,11 @@ public class AnotherFakeApi {
               return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Client>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}))
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -151,10 +142,10 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client client) throws ApiException {
-    // verify the required parameter 'client' is set
-    if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client body) throws ApiException {
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -167,7 +158,7 @@ public class AnotherFakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

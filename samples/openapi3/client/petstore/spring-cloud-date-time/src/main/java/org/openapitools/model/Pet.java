@@ -45,22 +45,6 @@ public class Pet {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String)}
-   */
-  @Deprecated
-  public Pet() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public Pet(String atType) {
-    this.atType = atType;
-  }
-
   public Pet atType(String atType) {
     this.atType = atType;
     return this;
@@ -71,7 +55,7 @@ public class Pet {
    * @return atType
   */
   @NotNull 
-  @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "@type", required = true)
   public String getAtType() {
     return atType;
   }
@@ -90,7 +74,7 @@ public class Pet {
    * @return age
   */
   
-  @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "age", required = false)
   public Integer getAge() {
     return age;
   }
@@ -109,7 +93,7 @@ public class Pet {
    * @return happy
   */
   
-  @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "happy", required = false)
   public Boolean getHappy() {
     return happy;
   }
@@ -128,7 +112,7 @@ public class Pet {
    * @return price
   */
   @Valid 
-  @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "price", required = false)
   public BigDecimal getPrice() {
     return price;
   }
@@ -147,7 +131,7 @@ public class Pet {
    * @return lastFeed
   */
   @Valid 
-  @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "lastFeed", required = false)
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -166,7 +150,7 @@ public class Pet {
    * @return dateOfBirth
   */
   @Valid 
-  @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "dateOfBirth", required = false)
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }

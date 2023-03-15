@@ -18,7 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
@@ -38,19 +42,91 @@ class AdditionalPropertiesClassTest {
     }
 
     /**
-     * Test the property 'mapProperty'
+     * Test the property 'mapString'
      */
     @Test
-    void mapPropertyTest() {
-        // TODO: test mapProperty
+    void mapStringTest() {
+        // TODO: test mapString
     }
 
     /**
-     * Test the property 'mapOfMapProperty'
+     * Test the property 'mapNumber'
      */
     @Test
-    void mapOfMapPropertyTest() {
-        // TODO: test mapOfMapProperty
+    void mapNumberTest() {
+        // TODO: test mapNumber
+    }
+
+    /**
+     * Test the property 'mapInteger'
+     */
+    @Test
+    void mapIntegerTest() {
+        // TODO: test mapInteger
+    }
+
+    /**
+     * Test the property 'mapBoolean'
+     */
+    @Test
+    void mapBooleanTest() {
+        // TODO: test mapBoolean
+    }
+
+    /**
+     * Test the property 'mapArrayInteger'
+     */
+    @Test
+    void mapArrayIntegerTest() {
+        // TODO: test mapArrayInteger
+    }
+
+    /**
+     * Test the property 'mapArrayAnytype'
+     */
+    @Test
+    void mapArrayAnytypeTest() {
+        // TODO: test mapArrayAnytype
+    }
+
+    /**
+     * Test the property 'mapMapString'
+     */
+    @Test
+    void mapMapStringTest() {
+        // TODO: test mapMapString
+    }
+
+    /**
+     * Test the property 'mapMapAnytype'
+     */
+    @Test
+    void mapMapAnytypeTest() {
+        // TODO: test mapMapAnytype
+    }
+
+    /**
+     * Test the property 'anytype1'
+     */
+    @Test
+    void anytype1Test() {
+        // TODO: test anytype1
+    }
+
+    /**
+     * Test the property 'anytype2'
+     */
+    @Test
+    void anytype2Test() {
+        // TODO: test anytype2
+    }
+
+    /**
+     * Test the property 'anytype3'
+     */
+    @Test
+    void anytype3Test() {
+        // TODO: test anytype3
     }
 
 }

@@ -31,46 +31,4 @@ describe {{moduleName}}::Configuration do
       end
     end
   end
-{{#isFaraday}}
-
-  describe '#configure_faraday_connection' do
-    let(:faraday_connection) { Faraday::Connection.new }
-
-    before do
-      stub_const('CustomAdapter', Class.new(Faraday::Adapter))
-      stub_const('AnotherCustomAdapter', Class.new(Faraday::Adapter))
-
-      config.configure_faraday_connection do |conn|
-        conn.adapter CustomAdapter
-        conn.response :logger, nil, headers: true, bodies: true, log_level: :debug do |logger|
-          logger.filter(/(Authorization: )(.*)/, '\1[REDACTED]')
-        end
-      end
-    end
-
-    it 'adds a block that will be used to configure the connection' do
-      expect(faraday_connection.adapter).to eq(Faraday::Adapter::NetHttp)
-      expect(faraday_connection.builder.handlers).to_not include(Faraday::Response::Logger)
-
-      config.configure_connection(faraday_connection)
-
-      expect(faraday_connection.adapter).to eq(CustomAdapter)
-      expect(faraday_connection.builder.handlers).to include(Faraday::Response::Logger)
-    end
-
-    it 'supports multiple configuration blocks' do
-      config.configure_faraday_connection do |conn|
-        conn.adapter AnotherCustomAdapter
-      end
-
-      expect(faraday_connection.adapter).to eq(Faraday::Adapter::NetHttp)
-      expect(faraday_connection.builder.handlers).to_not include(Faraday::Response::Logger)
-
-      config.configure_connection(faraday_connection)
-
-      expect(faraday_connection.adapter).to eq(AnotherCustomAdapter)
-      expect(faraday_connection.builder.handlers).to include(Faraday::Response::Logger)
-    end
-  end
-{{/isFaraday}}
 end

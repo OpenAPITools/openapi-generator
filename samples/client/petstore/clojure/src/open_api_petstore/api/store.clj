@@ -61,7 +61,7 @@
 
 (defn-spec get-order-by-id-with-http-info any?
   "Find purchase order by ID
-  For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions"
+  For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
   [orderId string?]
   (check-required-params orderId)
   (call-api "/store/order/{orderId}" :get
@@ -75,7 +75,7 @@
 
 (defn-spec get-order-by-id order-spec
   "Find purchase order by ID
-  For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions"
+  For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
   [orderId string?]
   (let [res (:data (get-order-by-id-with-http-info orderId))]
     (if (:decode-models *api-context*)

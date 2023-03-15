@@ -159,8 +159,6 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaNameDefault();
 
-    Map<String, String> openapiNormalizer();
-
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
@@ -335,7 +333,7 @@ public interface CodegenConfig {
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
-    Schema unaliasSchema(Schema schema);
+    Schema unaliasSchema(Schema schema, Map<String, String> schemaMappings);
 
     String defaultTemplatingEngine();
 
@@ -350,9 +348,4 @@ public interface CodegenConfig {
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
-
-    boolean getAddSuffixToDuplicateOperationNicknames();
-
-    boolean getUseOpenAPINormalizer();
-
 }

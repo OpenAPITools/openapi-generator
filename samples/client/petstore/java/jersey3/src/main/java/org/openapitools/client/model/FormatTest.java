@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -118,6 +120,7 @@ public class FormatTest {
    * @return integer
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -145,6 +148,7 @@ public class FormatTest {
    * @return int32
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -170,6 +174,7 @@ public class FormatTest {
    * @return int64
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -197,6 +202,7 @@ public class FormatTest {
    * @return number
   **/
   @jakarta.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -224,6 +230,7 @@ public class FormatTest {
    * @return _float
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -251,6 +258,7 @@ public class FormatTest {
    * @return _double
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -276,6 +284,7 @@ public class FormatTest {
    * @return decimal
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -301,6 +310,7 @@ public class FormatTest {
    * @return string
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -326,6 +336,7 @@ public class FormatTest {
    * @return _byte
   **/
   @jakarta.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -351,6 +362,7 @@ public class FormatTest {
    * @return binary
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -376,6 +388,7 @@ public class FormatTest {
    * @return date
   **/
   @jakarta.annotation.Nonnull
+  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -401,6 +414,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -426,6 +440,7 @@ public class FormatTest {
    * @return uuid
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -451,6 +466,7 @@ public class FormatTest {
    * @return password
   **/
   @jakarta.annotation.Nonnull
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -476,6 +492,7 @@ public class FormatTest {
    * @return patternWithDigits
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -501,6 +518,7 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
   **/
   @jakarta.annotation.Nullable
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

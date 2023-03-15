@@ -8,4 +8,3 @@ additionalProperties:
   documentationProvider: springfox
   artifactId: springboot-spring-pageable-delegatePattern
   hideGenerationTimestamp: 'true'
-  implicitHeadersRegex: ^Version.*

@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace {{packageName}}.{{clientPackage}}
+namespace {{packageName}}.Client
 {
     /// <summary>
     /// A token constructed from an HttpSigningConfiguration
     /// </summary>
-    {{>visibility}} class HttpSignatureToken : TokenBase
+    public class HttpSignatureToken : TokenBase
     {
         private HttpSigningConfiguration _configuration;
 

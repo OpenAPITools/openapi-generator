@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -26,15 +27,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// IsoscelesTriangle
     /// </summary>
-    public partial class IsoscelesTriangle : IValidatableObject
+    public partial class IsoscelesTriangle : IEquatable<IsoscelesTriangle>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
         /// <param name="shapeInterface"></param>
         /// <param name="triangleInterface"></param>
-        [JsonConstructor]
-        internal IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        public IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;
@@ -61,6 +61,40 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as IsoscelesTriangle).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if IsoscelesTriangle instances are equal
+        /// </summary>
+        /// <param name="input">Instance of IsoscelesTriangle to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(IsoscelesTriangle input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -78,46 +112,46 @@ namespace Org.OpenAPITools.Model
     public class IsoscelesTriangleJsonConverter : JsonConverter<IsoscelesTriangle>
     {
         /// <summary>
+        /// Returns a boolean if the type is compatible with this converter.
+        /// </summary>
+        /// <param name="typeToConvert"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type typeToConvert) => typeof(IsoscelesTriangle).IsAssignableFrom(typeToConvert);
+
+        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="utf8JsonReader"></param>
+        /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override IsoscelesTriangle Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override IsoscelesTriangle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int currentDepth = utf8JsonReader.CurrentDepth;
+            int currentDepth = reader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            Utf8JsonReader shapeInterfaceReader = reader;
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface shapeInterface);
 
-            Utf8JsonReader shapeInterfaceReader = utf8JsonReader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref utf8JsonReader, jsonSerializerOptions, out ShapeInterface shapeInterface);
-
-            Utf8JsonReader triangleInterfaceReader = utf8JsonReader;
-            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref utf8JsonReader, jsonSerializerOptions, out TriangleInterface triangleInterface);
+            Utf8JsonReader triangleInterfaceReader = reader;
+            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref triangleInterfaceReader, options, out TriangleInterface triangleInterface);
 
 
-            while (utf8JsonReader.Read())
+            while (reader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string propertyName = utf8JsonReader.GetString();
-                    utf8JsonReader.Read();
+                    string propertyName = reader.GetString();
+                    reader.Read();
 
                     switch (propertyName)
                     {
-                        default:
-                            break;
                     }
                 }
             }
@@ -130,14 +164,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
-        {
-            writer.WriteStartObject();
-
-
-            writer.WriteEndObject();
-        }
+        public override void Write(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions options) => throw new NotImplementedException();
     }
 }

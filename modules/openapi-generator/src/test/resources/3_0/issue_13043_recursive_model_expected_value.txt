@@ -1,4 +1,0 @@
-GeoJsonGeometry(
-        type="GeometryCollection",
-        geometries=[],
-    )

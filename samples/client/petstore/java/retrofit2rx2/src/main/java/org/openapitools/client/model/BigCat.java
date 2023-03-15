@@ -20,7 +20,10 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 
 /**
@@ -83,8 +86,8 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() {
-
+  public BigCat() { 
+    this.className = this.getClass().getSimpleName();
   }
 
   public BigCat kind(KindEnum kind) {
@@ -98,6 +101,7 @@ public class BigCat extends Cat {
    * @return kind
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public KindEnum getKind() {
     return kind;

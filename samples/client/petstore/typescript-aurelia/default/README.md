@@ -27,7 +27,7 @@ npm run build
 ```
 
 #### NPM ####
-You may publish the module to NPM. In this case, you would be able to install the module as any other NPM module. It may be useful to use [scoped packages](https://docs.npmjs.com/misc/scope).
+You may publish the module to NPM. In this case, you would be able to install the module as any other NPM module. It maybe useful to use [scoped packages](https://docs.npmjs.com/misc/scope).
 
 You can also use `npm link` to link the module. However, this would not modify `package.json` of the installing project, as such you would need to relink every time you deploy that project. 
 

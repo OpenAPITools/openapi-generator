@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the ClassModel type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ClassModel{}
-
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
@@ -41,7 +38,7 @@ func NewClassModelWithDefaults() *ClassModel {
 
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
-	if o == nil || IsNil(o.Class) {
+	if o == nil || o.Class == nil {
 		var ret string
 		return ret
 	}
@@ -51,7 +48,7 @@ func (o *ClassModel) GetClass() string {
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (*string, bool) {
-	if o == nil || IsNil(o.Class) {
+	if o == nil || o.Class == nil {
 		return nil, false
 	}
 	return o.Class, true
@@ -59,7 +56,7 @@ func (o *ClassModel) GetClassOk() (*string, bool) {
 
 // HasClass returns a boolean if a field has been set.
 func (o *ClassModel) HasClass() bool {
-	if o != nil && !IsNil(o.Class) {
+	if o != nil && o.Class != nil {
 		return true
 	}
 
@@ -72,19 +69,11 @@ func (o *ClassModel) SetClass(v string) {
 }
 
 func (o ClassModel) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o ClassModel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Class) {
+	if o.Class != nil {
 		toSerialize["_class"] = o.Class
 	}
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 type NullableClassModel struct {

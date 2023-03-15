@@ -12,6 +12,9 @@ syntax = "proto3";
 
 package openapitools;
 
+import "models/cat_all_of.proto";
+import "models/pet.proto";
+
 message Cat {
 
   enum PetType {

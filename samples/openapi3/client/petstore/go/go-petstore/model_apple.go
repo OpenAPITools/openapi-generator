@@ -14,9 +14,6 @@ import (
 	"encoding/json"
 )
 
-// checks if the Apple type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Apple{}
-
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
@@ -44,7 +41,7 @@ func NewAppleWithDefaults() *Apple {
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
 func (o *Apple) GetCultivar() string {
-	if o == nil || IsNil(o.Cultivar) {
+	if o == nil || o.Cultivar == nil {
 		var ret string
 		return ret
 	}
@@ -54,7 +51,7 @@ func (o *Apple) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Apple) GetCultivarOk() (*string, bool) {
-	if o == nil || IsNil(o.Cultivar) {
+	if o == nil || o.Cultivar == nil {
 		return nil, false
 	}
 	return o.Cultivar, true
@@ -62,7 +59,7 @@ func (o *Apple) GetCultivarOk() (*string, bool) {
 
 // HasCultivar returns a boolean if a field has been set.
 func (o *Apple) HasCultivar() bool {
-	if o != nil && !IsNil(o.Cultivar) {
+	if o != nil && o.Cultivar != nil {
 		return true
 	}
 
@@ -75,16 +72,8 @@ func (o *Apple) SetCultivar(v string) {
 }
 
 func (o Apple) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Apple) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Cultivar) {
+	if o.Cultivar != nil {
 		toSerialize["cultivar"] = o.Cultivar
 	}
 
@@ -92,7 +81,7 @@ func (o Apple) ToMap() (map[string]interface{}, error) {
 		toSerialize[key] = value
 	}
 
-	return toSerialize, nil
+	return json.Marshal(toSerialize)
 }
 
 func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {

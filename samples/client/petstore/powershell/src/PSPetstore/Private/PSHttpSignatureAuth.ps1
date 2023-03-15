@@ -118,7 +118,7 @@ function Get-PSHttpSignedHeader {
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
             -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase
     }
-    #Deprecated
+    #Depricated
     <#$cryptographicScheme = Get-PSCryptographicScheme -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm `
                                                  -HashAlgorithm $httpSigningConfiguration.HashAlgorithm
     #>

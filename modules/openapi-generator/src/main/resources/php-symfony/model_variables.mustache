@@ -77,10 +77,10 @@
     {{/minimum}}
     {{#maximum}}
     {{#exclusiveMaximum}}
-     * @Assert\LessThan({{maximum}})
+     * @Assert\LessThan({{minimum}})
     {{/exclusiveMaximum}}
     {{^exclusiveMaximum}}
-     * @Assert\LessThanOrEqual({{maximum}})
+     * @Assert\LessThanOrEqual({{minimum}})
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}

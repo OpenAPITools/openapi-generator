@@ -20,7 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.SingleRefType;
+import org.openapitools.jackson.nullable.JsonNullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -37,9 +43,9 @@ public class AllOfWithSingleRef {
   private String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
-  private SingleRefType singleRefType;
+  private JsonNullable<SingleRefType> singleRefType = JsonNullable.<SingleRefType>undefined();
 
-  public AllOfWithSingleRef() {
+  public AllOfWithSingleRef() { 
   }
 
   public AllOfWithSingleRef username(String username) {
@@ -53,6 +59,7 @@ public class AllOfWithSingleRef {
    * @return username
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -69,8 +76,8 @@ public class AllOfWithSingleRef {
 
 
   public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
+    this.singleRefType = JsonNullable.<SingleRefType>of(singleRefType);
     
-    this.singleRefType = singleRefType;
     return this;
   }
 
@@ -79,18 +86,27 @@ public class AllOfWithSingleRef {
    * @return singleRefType
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @ApiModelProperty(value = "")
+  @JsonIgnore
 
   public SingleRefType getSingleRefType() {
-    return singleRefType;
+        return singleRefType.orElse(null);
   }
-
 
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSingleRefType(SingleRefType singleRefType) {
+
+  public JsonNullable<SingleRefType> getSingleRefType_JsonNullable() {
+    return singleRefType;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  public void setSingleRefType_JsonNullable(JsonNullable<SingleRefType> singleRefType) {
     this.singleRefType = singleRefType;
+  }
+
+  public void setSingleRefType(SingleRefType singleRefType) {
+    this.singleRefType = JsonNullable.<SingleRefType>of(singleRefType);
   }
 
 
@@ -104,12 +120,23 @@ public class AllOfWithSingleRef {
     }
     AllOfWithSingleRef allOfWithSingleRef = (AllOfWithSingleRef) o;
     return Objects.equals(this.username, allOfWithSingleRef.username) &&
-        Objects.equals(this.singleRefType, allOfWithSingleRef.singleRefType);
+        equalsNullable(this.singleRefType, allOfWithSingleRef.singleRefType);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, singleRefType);
+    return Objects.hash(username, hashCodeNullable(singleRefType));
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

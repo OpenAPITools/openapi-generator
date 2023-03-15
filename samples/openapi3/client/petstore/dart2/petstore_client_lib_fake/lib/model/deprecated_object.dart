@@ -37,13 +37,13 @@ class DeprecatedObject {
   String toString() => 'DeprecatedObject[name=$name]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.name != null) {
-      json[r'name'] = this.name;
+    final _json = <String, dynamic>{};
+    if (name != null) {
+      _json[r'name'] = name;
     } else {
-      json[r'name'] = null;
+      _json[r'name'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [DeprecatedObject] instance and imports its values from

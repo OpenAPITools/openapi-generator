@@ -42,18 +42,18 @@ class AllOfWithSingleRef {
   String toString() => 'AllOfWithSingleRef[username=$username, singleRefType=$singleRefType]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (this.username != null) {
-      json[r'username'] = this.username;
+    final _json = <String, dynamic>{};
+    if (username != null) {
+      _json[r'username'] = username;
     } else {
-      json[r'username'] = null;
+      _json[r'username'] = null;
     }
-    if (this.singleRefType != null) {
-      json[r'SingleRefType'] = this.singleRefType;
+    if (singleRefType != null) {
+      _json[r'SingleRefType'] = singleRefType;
     } else {
-      json[r'SingleRefType'] = null;
+      _json[r'SingleRefType'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [AllOfWithSingleRef] instance and imports its values from

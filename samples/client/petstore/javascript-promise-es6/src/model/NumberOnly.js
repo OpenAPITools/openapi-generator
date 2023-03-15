@@ -54,20 +54,8 @@ class NumberOnly {
         return obj;
     }
 
-    /**
-     * Validates the JSON data with respect to <code>NumberOnly</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>NumberOnly</code>.
-     */
-    static validateJSON(data) {
-
-        return true;
-    }
-
 
 }
-
-
 
 /**
  * @member {Number} JustNumber

@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
-public class Model200Response  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
+  
   private @Valid Integer name;
   private @Valid String propertyClass;
 
@@ -30,6 +30,8 @@ public class Model200Response  implements Serializable {
     this.name = name;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(value = "")
@@ -43,12 +45,14 @@ public class Model200Response  implements Serializable {
     this.name = name;
   }
 
-  /**
+/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(value = "")

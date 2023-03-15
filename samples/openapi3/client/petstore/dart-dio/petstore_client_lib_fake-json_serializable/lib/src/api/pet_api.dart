@@ -70,10 +70,9 @@ _bodyData=jsonEncode(pet);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -205,10 +204,9 @@ _responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growab
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<List<Pet>>(
@@ -286,10 +284,9 @@ _responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Set<Pet>>(
@@ -363,10 +360,9 @@ _responseData = deserialize<Pet, Pet>(_response.data!, 'Pet', growable: true);
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Pet>(
@@ -433,10 +429,9 @@ _bodyData=jsonEncode(pet);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -507,10 +502,9 @@ _bodyData=jsonEncode(pet);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -581,10 +575,9 @@ _bodyData=jsonEncode(pet);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -604,10 +597,9 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
@@ -678,10 +670,9 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -701,10 +692,9 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(

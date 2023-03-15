@@ -1,1 +1,3 @@
-rootProject.name = "openapi-generator-gradle-plugin"
+rootProject.name = 'openapi-generator-gradle-plugin'
+enableFeaturePreview('STABLE_PUBLISHING')
+

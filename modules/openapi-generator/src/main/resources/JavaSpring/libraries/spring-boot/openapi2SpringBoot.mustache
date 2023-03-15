@@ -8,16 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-@SpringBootApplication(
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
-@ComponentScan(
-    basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"},
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
+@SpringBootApplication
+@ComponentScan(basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"})
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {
@@ -25,7 +18,7 @@ public class OpenApiGeneratorApplication {
     }
 
 {{#openApiNullable}}
-    @Bean(name = "{{basePackage}}.OpenApiGeneratorApplication.jsonNullableModule")
+    @Bean
     public Module jsonNullableModule() {
         return new JsonNullableModule();
     }

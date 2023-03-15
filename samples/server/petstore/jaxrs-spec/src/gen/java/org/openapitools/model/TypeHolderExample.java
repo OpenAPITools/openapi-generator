@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("TypeHolderExample")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class TypeHolderExample  implements Serializable {
+  
   private @Valid String stringItem;
   private @Valid BigDecimal numberItem;
   private @Valid Float floatItem;
@@ -29,16 +30,10 @@ public class TypeHolderExample  implements Serializable {
   private @Valid List<Integer> arrayItem = new ArrayList<>();
 
   protected TypeHolderExample(TypeHolderExampleBuilder<?, ?> b) {
-    this.stringItem = b.stringItem;
-    this.numberItem = b.numberItem;
-    this.floatItem = b.floatItem;
-    this.integerItem = b.integerItem;
-    this.boolItem = b.boolItem;
-    this.arrayItem = b.arrayItem;
+  this.stringItem = b.stringItem;this.numberItem = b.numberItem;this.floatItem = b.floatItem;this.integerItem = b.integerItem;this.boolItem = b.boolItem;this.arrayItem = b.arrayItem;
   }
 
-  public TypeHolderExample() {
-  }
+  public TypeHolderExample() { }
 
   /**
    **/
@@ -60,7 +55,7 @@ public class TypeHolderExample  implements Serializable {
     this.stringItem = stringItem;
   }
 
-  /**
+/**
    **/
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -80,7 +75,7 @@ public class TypeHolderExample  implements Serializable {
     this.numberItem = numberItem;
   }
 
-  /**
+/**
    **/
   public TypeHolderExample floatItem(Float floatItem) {
     this.floatItem = floatItem;
@@ -100,7 +95,7 @@ public class TypeHolderExample  implements Serializable {
     this.floatItem = floatItem;
   }
 
-  /**
+/**
    **/
   public TypeHolderExample integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -120,7 +115,7 @@ public class TypeHolderExample  implements Serializable {
     this.integerItem = integerItem;
   }
 
-  /**
+/**
    **/
   public TypeHolderExample boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -140,7 +135,7 @@ public class TypeHolderExample  implements Serializable {
     this.boolItem = boolItem;
   }
 
-  /**
+/**
    **/
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

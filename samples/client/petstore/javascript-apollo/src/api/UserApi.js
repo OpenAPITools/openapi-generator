@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -28,23 +28,23 @@ export default class UserApi extends ApiClient {
     * @alias module:api/UserApi
     * @class
     */
-    constructor(baseURL = 'http://petstore.swagger.io:80/v2') {
-      super(baseURL);
+    constructor() {
+      super();
+      this.baseURL = null;
     }
 
 
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @param {User} body Created user object
      * @return {Promise}
      */
-    async createUser(user, requestInit) {
-      let postBody = user;
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUser");
+    async createUser(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUser");
       }
 
       let pathParams = {
@@ -52,35 +52,32 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = [];
       let accepts = [];
       let returnType = null;
 
       return this.callApi(
         '/user', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Creates list of users with given input array
-     * 
-     * @param {Array.<module:model/User>} user List of user object
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @param {Array.<User>} body List of user object
      * @return {Promise}
      */
-    async createUsersWithArrayInput(user, requestInit) {
-      let postBody = user;
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    async createUsersWithArrayInput(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
 
       let pathParams = {
@@ -88,35 +85,32 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = [];
       let accepts = [];
       let returnType = null;
 
       return this.callApi(
         '/user/createWithArray', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Creates list of users with given input array
-     * 
-     * @param {Array.<module:model/User>} user List of user object
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @param {Array.<User>} body List of user object
      * @return {Promise}
      */
-    async createUsersWithListInput(user, requestInit) {
-      let postBody = user;
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
+    async createUsersWithListInput(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
 
       let pathParams = {
@@ -124,20 +118,19 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = [];
       let accepts = [];
       let returnType = null;
 
       return this.callApi(
         '/user/createWithList', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
@@ -145,10 +138,9 @@ export default class UserApi extends ApiClient {
      * Delete user
      * This can only be done by the logged in user.
      * @param {String} username The name that needs to be deleted
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
-    async deleteUser(username, requestInit) {
+    async deleteUser(username) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -161,7 +153,6 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -174,18 +165,16 @@ export default class UserApi extends ApiClient {
       return this.callApi(
         '/user/{username}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Get user by user name
-     * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
-     * @return {Promise<module:model/User>}
+     * @return {Promise<User>}
      */
-    async getUserByName(username, requestInit) {
+    async getUserByName(username) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -198,7 +187,6 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -211,19 +199,17 @@ export default class UserApi extends ApiClient {
       return this.callApi(
         '/user/{username}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Logs user into the system
-     * 
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<String>}
      */
-    async loginUser(username, password, requestInit) {
+    async loginUser(username, password) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -241,7 +227,6 @@ export default class UserApi extends ApiClient {
         'password': password
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -254,17 +239,15 @@ export default class UserApi extends ApiClient {
       return this.callApi(
         '/user/login', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
     /**
      * Logs out current logged in user session
-     * 
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
-    async logoutUser(requestInit) {
+    async logoutUser() {
       let postBody = null;
 
       let pathParams = {
@@ -272,7 +255,6 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
@@ -285,7 +267,7 @@ export default class UserApi extends ApiClient {
       return this.callApi(
         '/user/logout', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 
@@ -293,19 +275,18 @@ export default class UserApi extends ApiClient {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @param {User} body Updated user object
      * @return {Promise}
      */
-    async updateUser(username, user, requestInit) {
-      let postBody = user;
+    async updateUser(username, body) {
+      let postBody = body;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling updateUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
 
       let pathParams = {
@@ -314,20 +295,19 @@ export default class UserApi extends ApiClient {
       let queryParams = {
       };
       let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
       };
       let formParams = {
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = [];
       let accepts = [];
       let returnType = null;
 
       return this.callApi(
         '/user/{username}', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
+        authNames, contentTypes, accepts, returnType
       );
     }
 

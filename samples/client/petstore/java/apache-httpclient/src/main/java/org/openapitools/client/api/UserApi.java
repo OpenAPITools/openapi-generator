@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UserApi {
@@ -53,27 +52,27 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User user) throws ApiException {
-    Object localVarPostBody = user;
+  public void createUser(User body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
     }
     
     // create path and map variables
     String localVarPath = "/user";
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -84,7 +83,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -95,7 +94,6 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -109,27 +107,27 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
+  public void createUsersWithArrayInput(List<User> body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
     
     // create path and map variables
     String localVarPath = "/user/createWithArray";
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -140,7 +138,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -151,7 +149,6 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -165,27 +162,27 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
+  public void createUsersWithListInput(List<User> body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
     
     // create path and map variables
     String localVarPath = "/user/createWithList";
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -196,7 +193,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -207,7 +204,6 @@ public class UserApi {
         "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -236,13 +232,13 @@ public class UserApi {
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -264,7 +260,6 @@ public class UserApi {
         "DELETE",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -294,13 +289,13 @@ public class UserApi {
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -323,7 +318,6 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -358,8 +352,7 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/login";
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -368,6 +361,7 @@ public class UserApi {
 
     localVarQueryParams.addAll(apiClient.parameterToPair("username", username));
     localVarQueryParams.addAll(apiClient.parameterToPair("password", password));
+
     
     
     
@@ -389,7 +383,6 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -411,13 +404,13 @@ public class UserApi {
     // create path and map variables
     String localVarPath = "/user/logout";
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -439,7 +432,6 @@ public class UserApi {
         "GET",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,
@@ -454,33 +446,33 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User user) throws ApiException {
-    Object localVarPostBody = user;
+  public void updateUser(String username, User body) throws ApiException {
+    Object localVarPostBody = body;
     
     // verify the required parameter 'username' is set
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
     
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
+    // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
 
     
     
@@ -491,7 +483,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -502,7 +494,6 @@ public class UserApi {
         "PUT",
         localVarQueryParams,
         localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
         localVarPostBody,
         localVarHeaderParams,
         localVarCookieParams,

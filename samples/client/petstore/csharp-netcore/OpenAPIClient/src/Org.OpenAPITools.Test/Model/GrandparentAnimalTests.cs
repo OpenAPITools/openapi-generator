@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing GrandparentAnimal
@@ -51,19 +51,10 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void GrandparentAnimalInstanceTest()
         {
-            // TODO uncomment below to test "IsType" GrandparentAnimal
-            //Assert.IsType<GrandparentAnimal>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" GrandparentAnimal
+            //Assert.IsInstanceOfType<GrandparentAnimal> (instance, "variable 'instance' is a GrandparentAnimal");
         }
 
-        /// <summary>
-        /// Test deserialize a ChildCat from type ParentPet
-        /// </summary>
-        [Fact]
-        public void ChildCatDeserializeFromParentPetTest()
-        {
-            // TODO uncomment below to test deserialize a ChildCat from type ParentPet
-            //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
-        }
         /// <summary>
         /// Test deserialize a ParentPet from type GrandparentAnimal
         /// </summary>
@@ -71,7 +62,16 @@ namespace Org.OpenAPITools.Test.Model
         public void ParentPetDeserializeFromGrandparentAnimalTest()
         {
             // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
-            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
+            //Assert.IsInstanceOf<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
+        }
+        /// <summary>
+        /// Test deserialize a ChildCat from type ParentPet
+        /// </summary>
+        [Fact]
+        public void ChildCatDeserializeFromParentPetTest()
+        {
+            // TODO uncomment below to test deserialize a ChildCat from type ParentPet
+            //Assert.IsInstanceOf<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
         }
 
         /// <summary>

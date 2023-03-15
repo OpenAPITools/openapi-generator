@@ -12,7 +12,6 @@ additionalProperties:
   library: "spring-boot"
   withXml: true
   jackson: true
-  camelUseDefaultValidationErrorProcessor: true
+  camelUseDefaultValidationtErrorProcessor: true
   camelRestClientRequestValidation: true
   camelSecurityDefinitions: true
-  implicitHeaders: true

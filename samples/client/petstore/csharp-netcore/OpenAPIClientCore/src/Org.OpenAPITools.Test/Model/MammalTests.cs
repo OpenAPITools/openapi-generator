@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing Mammal
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void MammalInstanceTest()
         {
-            // TODO uncomment below to test "IsType" Mammal
-            //Assert.IsType<Mammal>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" Mammal
+            //Assert.IsInstanceOfType<Mammal> (instance, "variable 'instance' is a Mammal");
         }
 
 

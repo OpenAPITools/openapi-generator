@@ -12,7 +12,7 @@ use crate::header;
 {{/description}}
 {{#isEnum}}
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -33,7 +33,7 @@ impl std::fmt::Display for {{{classname}}} {
         match *self {
 {{#allowableValues}}
   {{#enumVars}}
-            {{{classname}}}::{{{name}}} => write!(f, {{{value}}}),
+            {{{classname}}}::{{{name}}} => write!(f, "{}", {{{value}}}),
   {{/enumVars}}
 {{/allowableValues}}
         }
@@ -189,7 +189,7 @@ impl<'a> std::iter::IntoIterator for &'a {{{classname}}} {
     type IntoIter = std::slice::Iter<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        self.0.iter()
+        (&self.0).into_iter()
     }
 }
 
@@ -198,7 +198,7 @@ impl<'a> std::iter::IntoIterator for &'a mut {{{classname}}} {
     type IntoIter = std::slice::IterMut<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        self.0.iter_mut()
+        (&mut self.0).into_iter()
     }
 }
 
@@ -220,7 +220,7 @@ impl std::ops::DerefMut for {{{classname}}} {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
     }
 }
 
@@ -274,10 +274,9 @@ pub struct {{{classname}}} {
 }
 
 impl {{{classname}}} {
-    #[allow(clippy::new_without_default)]
     pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}}            {{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
+{{#vars}}            {{{name}}}: {{{defaultValue}}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
 {{/vars}}
         }
     }
@@ -288,68 +287,64 @@ impl {{{classname}}} {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![
+        let mut params: Vec<String> = vec![];
 {{#vars}}
 {{#isByteArray}}
-            // Skipping {{baseName}} in query parameter serialization
+        // Skipping {{baseName}} in query parameter serialization
 {{/isByteArray}}
 {{#isBinary}}
-            // Skipping {{baseName}} in query parameter serialization
+        // Skipping {{baseName}} in query parameter serialization
 {{/isBinary}}
 {{#isMap}}
-            // Skipping {{baseName}} in query parameter serialization
+        // Skipping {{baseName}} in query parameter serialization
 {{/isMap}}
 {{^isPrimitiveType}}
-            // Skipping {{baseName}} in query parameter serialization
+        // Skipping {{baseName}} in query parameter serialization
 {{/isPrimitiveType}}
 {{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
 {{#required}}
-            Some("{{{baseName}}}".to_string()),
+        params.push("{{{baseName}}}".to_string());
 {{^isArray}}
 {{#isNullable}}
-            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())),
+        params.push(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
 {{/isNullable}}
 {{^isNullable}}
-            Some(self.{{{name}}}.to_string()),
+        params.push(self.{{{name}}}.to_string());
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-            Some(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
+        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
 {{/isNullable}}
 {{^isNullable}}
-            Some(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
 {{/isNullable}}
 {{/isArray}}
 {{/required}}
 {{^required}}
-            self.{{{name}}}.as_ref().map(|{{{name}}}| {
-                vec![
-                    "{{{baseName}}}".to_string(),
+        if let Some(ref {{{name}}}) = self.{{{name}}} {
+            params.push("{{{baseName}}}".to_string());
 {{^isArray}}
 {{#isNullable}}
-                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()),
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
 {{/isNullable}}
 {{^isNullable}}
-                    {{{name}}}.to_string(),
+            params.push({{{name}}}.to_string());
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
 {{/isNullable}}
 {{^isNullable}}
-                    {{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
 {{/isNullable}}
 {{/isArray}}
-                ].join(",")
-            }),
+        }
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
-        ];
-
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        params.join(",").to_string()
     }
 }
 
@@ -360,9 +355,8 @@ impl std::str::FromStr for {{{classname}}} {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        #[allow(dead_code)]
+        // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
             {{#vars}}
             pub {{{name}}}: Vec<{{{dataType}}}>,
@@ -372,7 +366,7 @@ impl std::str::FromStr for {{{classname}}} {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',');
+        let mut string_iter = s.split(',').into_iter();
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -382,7 +376,6 @@ impl std::str::FromStr for {{{classname}}} {
             };
 
             if let Some(key) = key_result {
-                #[allow(clippy::match_single_binding)]
                 match key {
           {{#vars}}
             {{#isBinary}}
@@ -401,8 +394,7 @@ impl std::str::FromStr for {{{classname}}} {
                     "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    #[allow(clippy::redundant_clone)]
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}
@@ -423,7 +415,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
             {{/isNullable}}
             {{/vars}}
         })
@@ -487,7 +479,7 @@ impl {{{classname}}} {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
+    pub(crate) fn to_xml(&self) -> String {
         {{#xmlNamespace}}
         let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.

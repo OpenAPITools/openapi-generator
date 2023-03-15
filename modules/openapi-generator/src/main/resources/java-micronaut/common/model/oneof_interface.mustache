@@ -1,6 +1,6 @@
-{{#additionalOneOfTypeAnnotations}}
+{{#additionalModelTypeAnnotations}}
 {{{.}}}
-{{/additionalOneOfTypeAnnotations}}
+{{/additionalModelTypeAnnotations}}
 {{>common/generatedAnnotation}}{{>common/model/typeInfoAnnotation}}{{>common/model/xmlAnnotation}}
 public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
     {{#discriminator}}

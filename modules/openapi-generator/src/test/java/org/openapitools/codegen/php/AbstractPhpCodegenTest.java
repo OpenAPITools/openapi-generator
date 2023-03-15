@@ -132,7 +132,6 @@ public class AbstractPhpCodegenTest {
     public void testArrayOfArrays() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
-        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MyResponse");
         CodegenModel cm1 = codegen.fromModel("MyResponse", test1);
@@ -151,7 +150,6 @@ public class AbstractPhpCodegenTest {
     public void testEnumPropertyWithDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
-        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);

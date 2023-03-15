@@ -67,10 +67,9 @@ _responseData = deserialize<FooGetDefaultResponse, FooGetDefaultResponse>(_respo
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         error: error,
-        stackTrace: stackTrace,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<FooGetDefaultResponse>(

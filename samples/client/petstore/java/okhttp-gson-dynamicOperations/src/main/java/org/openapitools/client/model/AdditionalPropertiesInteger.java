@@ -20,6 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -36,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -52,7 +53,7 @@ public class AdditionalPropertiesInteger {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesInteger() {
+  public AdditionalPropertiesInteger() { 
   }
 
   public AdditionalPropertiesInteger name(String name) {
@@ -66,6 +67,7 @@ public class AdditionalPropertiesInteger {
    * @return name
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;
@@ -136,7 +138,9 @@ public class AdditionalPropertiesInteger {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!AdditionalPropertiesInteger.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+        if (AdditionalPropertiesInteger.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesInteger is not found in the empty JSON string", AdditionalPropertiesInteger.openapiRequiredFields.toString()));
         }
       }
@@ -148,7 +152,7 @@ public class AdditionalPropertiesInteger {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesInteger` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
+      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
   }

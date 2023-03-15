@@ -1,0 +1,50 @@
+language: java
+
+jdk:
+- openjdk11
+
+build:
+  cache: true
+  cache_dir_list:
+    - $HOME/.m2
+    - $HOME/.stack
+    - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
+  ci:
+    # fix shippable apt-get errors
+    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 23E7166788B63E1E 6A030B21BA07F4FB 4B8EC3BAABDC4346 EB3E94ADBE1229CF 960B2B2623A0BD5D 6B05F25D762E3157
+    #- rm /etc/apt/sources.list.d/jonathonf-ubuntu-backports-xenial.list 
+    - rm /etc/apt/sources.list.d/basho_riak.list
+    # install gradle 5.6.4
+    - wget https://services.gradle.org/distributions/gradle-5.6.4-bin.zip
+    - sudo mkdir /opt/gradle
+    - unzip -d /opt/gradle gradle-5.6.4-bin.zip
+    - export PATH=/opt/gradle/gradle-5.6.4/bin:$PATH 
+    - gradle -v
+    - java -version
+    # ensure all modifications created by 'mature' generators are in the git repo
+    # below move to CircleCI ./bin/utils/ensure-up-to-date
+    # prepare environment for tests
+    #- sudo apt-get update -qq
+    # install stack
+    #- curl -sSL https://get.haskellstack.org/ | sh
+    #- stack upgrade
+    #- stack --version
+    # install elixir
+    #- sudo apt-get install erlang
+    - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
+    - sudo apt-get update
+    - sudo apt-get install elixir
+    # install elm
+    - curl -SL https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz | zcat > /usr/local/bin/elm
+    - chmod +x /usr/local/bin/elm
+    # install rebar3
+    - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
+    # install php
+    #- apt-get install php
+    # show version
+    #- php -v
+    - rebar3 -v
+    - elixir --version
+    - mix --version
+    # test samples defined in pom.xml
+    - mvn --no-snapshot-updates --quiet verify -P samples.shippable -Dmaven.javadoc.skip=true

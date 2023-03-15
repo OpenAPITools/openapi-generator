@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test.Model
+namespace Org.OpenAPITools.Test
 {
     /// <summary>
     ///  Class for testing ShapeOrNull
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test.Model
         [Fact]
         public void ShapeOrNullInstanceTest()
         {
-            // TODO uncomment below to test "IsType" ShapeOrNull
-            //Assert.IsType<ShapeOrNull>(instance);
+            // TODO uncomment below to test "IsInstanceOfType" ShapeOrNull
+            //Assert.IsInstanceOfType<ShapeOrNull> (instance, "variable 'instance' is a ShapeOrNull");
         }
 
 

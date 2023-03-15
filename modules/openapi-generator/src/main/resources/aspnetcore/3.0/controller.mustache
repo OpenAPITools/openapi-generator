@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 {{#operationResultTask}}
-using System.Threading;
 using System.Threading.Tasks;
 {{/operationResultTask}}
 using Microsoft.AspNetCore.Authorization;
@@ -32,8 +31,7 @@ namespace {{apiPackage}}
         /// {{summary}}
         /// </summary>{{#notes}}
         /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#operationResultTask}}{{#operationIsAsync}}
-        /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>{{/operationIsAsync}}{{/operationResultTask}}{{#responses}}
+        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
@@ -55,7 +53,7 @@ namespace {{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{#-last}}{{#operationResultTask}}{{#operationIsAsync}}, {{/operationIsAsync}}{{/operationResultTask}}{{/-last}}{{/allParams}}{{#operationResultTask}}{{#operationIsAsync}}CancellationToken cancellationToken{{/operationIsAsync}}{{/operationResultTask}}){{^generateBody}};{{/generateBody}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         {
             {{#cookieParams}}
@@ -80,7 +78,7 @@ namespace {{apiPackage}}
             {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMap}}{{>mapReturn}}{{/isMap}}{{^isMap}}{{>objectReturn}}{{/isMap}}{{/isListCollection}}
             {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
             //TODO: Change the data returned
-            return {{#operationResultTask}}{{#operationIsAsync}}await {{/operationIsAsync}}Task.FromResult<IActionResult>({{/operationResultTask}}new ObjectResult(example){{#operationResultTask}}){{/operationResultTask}};{{/returnType}}{{^returnType}}
+            return {{#operationResultTask}}Task.FromResult<IActionResult>({{/operationResultTask}}new ObjectResult(example){{#operationResultTask}}){{/operationResultTask}};{{/returnType}}{{^returnType}}
             throw new NotImplementedException();{{/returnType}}
         }
         {{/generateBody}}

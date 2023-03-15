@@ -153,7 +153,7 @@ components:
           type: string
     baseAllOf:
       properties:
-        sampleBaseProperty:
+        sampleBasePropery:
           type: string
       type: object
     aNullableContainer:

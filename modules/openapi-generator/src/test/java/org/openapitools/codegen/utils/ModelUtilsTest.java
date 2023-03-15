@@ -206,8 +206,7 @@ public class ModelUtilsTest {
      */
     @Test
     public void testComposedSchemasAreNotUnaliased() {
-        ComposedSchema composedSchema = new ComposedSchema();
-        composedSchema.allOf(Arrays.asList(
+        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
                 new Schema<>().$ref("#/components/schemas/SomeSchema"),
                 new ObjectSchema()
         ));

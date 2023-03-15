@@ -104,7 +104,7 @@ public class Order {
      * @return id
      **/
     @Nullable
-    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", required = false)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -127,7 +127,7 @@ public class Order {
      * @return petId
      **/
     @Nullable
-    @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "petId", required = false)
     @JsonProperty(JSON_PROPERTY_PET_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getPetId() {
@@ -150,7 +150,7 @@ public class Order {
      * @return quantity
      **/
     @Nullable
-    @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "quantity", required = false)
     @JsonProperty(JSON_PROPERTY_QUANTITY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getQuantity() {
@@ -173,7 +173,7 @@ public class Order {
      * @return shipDate
      **/
     @Nullable
-    @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "shipDate", required = false)
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
@@ -198,7 +198,7 @@ public class Order {
      * @return status
      **/
     @Nullable
-    @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "Order Status", required = false)
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public StatusEnum getStatus() {
@@ -221,7 +221,7 @@ public class Order {
      * @return complete
      **/
     @Nullable
-    @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "complete", required = false)
     @JsonProperty(JSON_PROPERTY_COMPLETE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getComplete() {

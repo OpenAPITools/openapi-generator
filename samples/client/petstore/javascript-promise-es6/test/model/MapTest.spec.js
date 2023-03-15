@@ -50,31 +50,31 @@
   describe('MapTest', function() {
     it('should create an instance of MapTest', function() {
       // uncomment below and update the code to test MapTest
-      //var instance = new OpenApiPetstore.MapTest();
+      //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be.a(OpenApiPetstore.MapTest);
     });
 
     it('should have the property mapMapOfString (base name: "map_map_of_string")', function() {
       // uncomment below and update the code to test the property mapMapOfString
-      //var instance = new OpenApiPetstore.MapTest();
+      //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be();
     });
 
     it('should have the property mapOfEnumString (base name: "map_of_enum_string")', function() {
       // uncomment below and update the code to test the property mapOfEnumString
-      //var instance = new OpenApiPetstore.MapTest();
+      //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be();
     });
 
     it('should have the property directMap (base name: "direct_map")', function() {
       // uncomment below and update the code to test the property directMap
-      //var instance = new OpenApiPetstore.MapTest();
+      //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be();
     });
 
     it('should have the property indirectMap (base name: "indirect_map")', function() {
       // uncomment below and update the code to test the property indirectMap
-      //var instance = new OpenApiPetstore.MapTest();
+      //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be();
     });
 

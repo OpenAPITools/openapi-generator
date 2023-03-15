@@ -61,7 +61,7 @@ print "\nupload_file:"
     additional_metadata => 'testabc',
     file                => './test.pl'
   );
-print "\nadd_pet:" . Dumper $api->add_pet( pet => $pet );
+print "\nadd_pet:" . Dumper $api->add_pet( body => $pet );
 print "\nget_pet_by_id:" . Dumper $api->get_pet_by_id( pet_id => $pet_id );
 print "\nupdate_pet_with_form:"
   . Dumper $api->update_pet_with_form(

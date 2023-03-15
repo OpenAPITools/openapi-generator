@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -37,8 +39,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public AdditionalPropertiesAnyType() {
-
+  public AdditionalPropertiesAnyType() { 
   }
 
   public AdditionalPropertiesAnyType name(String name) {
@@ -52,6 +53,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
    * @return name
   **/
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

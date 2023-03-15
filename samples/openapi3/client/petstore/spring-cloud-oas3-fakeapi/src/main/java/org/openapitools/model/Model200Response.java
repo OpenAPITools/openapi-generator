@@ -40,7 +40,7 @@ public class Model200Response {
    * @return name
   */
   
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "name", required = false)
   public Integer getName() {
     return name;
   }
@@ -59,7 +59,7 @@ public class Model200Response {
    * @return propertyClass
   */
   
-  @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "class", required = false)
   public String getPropertyClass() {
     return propertyClass;
   }
