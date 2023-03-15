@@ -2077,6 +2077,35 @@ components:
           type: integer
       xml:
         name: "$special[model.name]"
+    ContainerDefaultValue:
+      properties:
+        nullable_array:
+          items:
+            type: string
+          nullable: true
+          type: array
+        nullable_required_array:
+          items:
+            type: string
+          nullable: true
+          type: array
+        required_array:
+          items:
+            type: string
+          nullable: false
+          type: array
+        nullable_array_with_default:
+          default:
+          - foo
+          - bar
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - nullable_required_array
+      - required_array
+      type: object
     updatePetWithForm_request:
       properties:
         name:

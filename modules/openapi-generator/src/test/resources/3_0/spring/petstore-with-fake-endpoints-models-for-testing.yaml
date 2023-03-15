@@ -1979,3 +1979,30 @@ components:
           format: int64
       xml:
         name: $special[model.name]
+    ContainerDefaultValue:
+      type: object
+      required:
+        - required_array
+        - nullable_required_array
+      properties:
+        nullable_array:
+          type: array
+          nullable: true
+          items:
+            type: string
+        nullable_required_array:
+          type: array
+          nullable: true
+          items:
+            type: string
+        required_array:
+          type: array
+          nullable: false
+          items:
+            type: string
+        nullable_array_with_default:
+          type: array
+          nullable: true
+          items:
+            type: string
+          default: ["foo", "bar"]
