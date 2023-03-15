@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the addition of UNSPECIFIED value, and the use of enum name as prefix for each enum value
+  version: 1.0.0
+  title: Enum
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Status:
+      type: string
+      enum:
+        - placed
+        - approved
+        - delivered

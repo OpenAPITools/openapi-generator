@@ -155,13 +155,12 @@ public class ProtobufSchemaCodegenTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("startEnumsWithUnspecified", true);
         Map<String, String> globalProperties = new HashMap<>();
-        globalProperties.put("models", "Order");
 
         File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/petstore.yaml");
-        TestUtils.ensureContainsFile(files, output, "models/order.proto");
-        Path path = Paths.get(output + "/models/order.proto");
-        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/order.proto"));
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/enum.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/status.proto");
+        Path path = Paths.get(output + "/models/status.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/enum.proto"));
 
         output.delete();
     }
@@ -548,6 +547,40 @@ public class ProtobufSchemaCodegenTest {
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/package_structure/my_package/bar/photo.proto"));
         path = Paths.get(output + "/models/tag.proto");
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/package_structure/models/tag.proto"));
+
+        output.delete();
+    }
+
+    @Test
+    public void testTimeTypes() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        Map<String, String> globalProperties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/time-types.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        TestUtils.ensureContainsFile(files, output, "google/type/date.proto");
+        TestUtils.ensureContainsFile(files, output, "google/type/timeofday.proto");
+        Path path = Paths.get(output + "/models/pet.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/time-types.proto"));
+
+        output.delete();       
+    }
+
+    @Test
+    public void testCodeGenWithWrapperTypes() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("useWrapperTypes", true);
+        Map<String, String> globalProperties = new HashMap<>();
+        globalProperties.put("models", "User");
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/petstore.yaml");
+        TestUtils.ensureContainsFile(files, output, "models/user.proto");
+        Path path = Paths.get(output + "/models/user.proto");
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/user-with-wrapper-types.proto"));
 
         output.delete();
     }
