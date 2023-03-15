@@ -21,7 +21,6 @@ import javax.annotation.Generated;
  * BigCatAllOf
  */
 
-@JsonTypeName("BigCat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCatAllOf {
 

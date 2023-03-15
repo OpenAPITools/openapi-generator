@@ -14,11 +14,6 @@
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
 {{/vars}}
 })
-{{#isClassnameSanitized}}
-{{^hasDiscriminatorWithNonEmptyMapping}}
-@JsonTypeName("{{name}}")
-{{/hasDiscriminatorWithNonEmptyMapping}}
-{{/isClassnameSanitized}}
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}

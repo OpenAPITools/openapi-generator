@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClassDto
  */
 
-@JsonTypeName("FileSchemaTestClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClassDto {
 

@@ -17,7 +17,6 @@ import jakarta.annotation.Generated;
  * DogAllOfDto
  */
 
-@JsonTypeName("Dog_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogAllOfDto {
 

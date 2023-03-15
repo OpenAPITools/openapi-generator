@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
  * ArrayOfNumberOnlyDto
  */
 
-@JsonTypeName("ArrayOfNumberOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfNumberOnlyDto {
 

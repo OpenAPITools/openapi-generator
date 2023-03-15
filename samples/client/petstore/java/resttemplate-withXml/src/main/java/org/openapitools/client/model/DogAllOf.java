@@ -33,7 +33,6 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
-@JsonTypeName("Dog_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "DogAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)

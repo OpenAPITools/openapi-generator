@@ -20,7 +20,6 @@ import javax.annotation.Generated;
  * CatAllOfDto
  */
 
-@JsonTypeName("Cat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOfDto {
 

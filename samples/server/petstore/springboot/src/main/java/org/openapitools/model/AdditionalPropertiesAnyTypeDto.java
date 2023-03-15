@@ -22,7 +22,6 @@ import javax.annotation.Generated;
  * AdditionalPropertiesAnyTypeDto
  */
 
-@JsonTypeName("AdditionalPropertiesAnyType")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesAnyTypeDto extends HashMap<String, Object> {
 
