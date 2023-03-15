@@ -133,6 +133,7 @@ public class SpringHttpStatusLambda implements Mustache.Lambda {
             case "304":
                 writer.write(HTTP_STATUS_PREFIX + "NOT_MODIFIED");
                 break;
+            case "":
             case "200":
                 writer.write(HTTP_STATUS_PREFIX + "OK");
                 break;

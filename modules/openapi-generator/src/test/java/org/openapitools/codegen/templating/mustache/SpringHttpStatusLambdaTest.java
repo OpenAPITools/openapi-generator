@@ -78,13 +78,20 @@ public class SpringHttpStatusLambdaTest extends LambdaTest {
   }
 
   @Test(dataProvider = "springHttpStatusCodes")
-  public void executeShouldConvert2xxValues(String expectedHttpStatus, String httpCode) {
+  public void executeShouldConvertValues(String expectedHttpStatus, String httpCode) {
     Map<String, Object> ctx = context("springHttpStatus", new SpringHttpStatusLambda());
 
     test(
         HTTP_STATUS_PREFIX + expectedHttpStatus,
         String.format("{{#springHttpStatus}}%s{{/springHttpStatus}}", httpCode),
         ctx);
+  }
+
+  @Test
+  public void executeShouldConvertEmptyHttpStatusTo200Ok() {
+    Map<String, Object> ctx = context("springHttpStatus", new SpringHttpStatusLambda());
+
+    test(HTTP_STATUS_PREFIX + "OK", "{{#springHttpStatus}}{{/springHttpStatus}}", ctx);
   }
 
   @Test
