@@ -304,6 +304,23 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+    	CodegenModel model = super.fromModel(name, schema);
+    	if (model.getDiscriminator() != null) {
+    		// Add descriminator as a var if not defined as an attribute already
+        	CodegenProperty discriminatorProperty = new CodegenProperty();
+        	discriminatorProperty.setDatatype(model.getDiscriminator().getPropertyType());
+        	discriminatorProperty.isString = true;
+        	discriminatorProperty.setRequired(false);
+        	discriminatorProperty.setName(model.getDiscriminator().getPropertyName());
+        	if (!modelVarsContainsVar(model.getVars(), discriminatorProperty)) {
+        		model.getVars().add(discriminatorProperty);
+        	}
+    	}
+    	return model;
+    }
+
     /**
      * Adds prefix to the enum allowable values
      * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
@@ -939,6 +956,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
+        super.updateAllModels(objs);
 
         Map<String, CodegenModel> allModels = this.getAllModels(objs);
 
@@ -947,7 +965,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
                 CodegenModel parentCM = cm.getParentModel();
                 for (CodegenProperty var : cm.getVars()) {
-                    if (!parentVarsContainsVar(parentCM.vars, var)) {
+                    if (!modelVarsContainsVar(parentCM.vars, var)) {
                         parentCM.vars.add(var);
                     }
                 }
@@ -957,9 +975,33 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
                         .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
             }
+
+            if (cm.getDiscriminator() != null && cm.hasChildren) {
+                // add discriminator as a var for all children, if not already defined
+                CodegenProperty discriminatorProperty = getVarWithName(cm.getDiscriminator().getPropertyName(), cm.getVars());
+                if (discriminatorProperty != null) {
+                    cm.getChildren().stream()
+                        .forEach(child -> addVarIfNotAlreadyPresent(child, discriminatorProperty));
+                }
+            }
         }
         return objs;
     }
+
+    private CodegenProperty getVarWithName(String propertyName, List<CodegenProperty> vars) {
+		for (CodegenProperty var : vars) {
+			if (propertyName.equals(var.getName())) {
+				return var;
+			}
+		}
+		return null;
+	}
+
+	private void addVarIfNotAlreadyPresent(CodegenModel model, CodegenProperty newVar) {
+    	if (!modelVarsContainsVar(model.getVars(), newVar)) {
+    		model.getVars().add(newVar);
+    	}
+	}
 
     public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
         String mapping = importMapping().get(importValue);
@@ -1298,17 +1340,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
-     * Checks if the var provided is already in the list of the parent's vars, matching the type and the name
+     * Checks if the var provided is already in the list of the model's vars, matching the type and the name
      *
-     * @param parentVars list of parent's vars
+     * @param modelVars list of model's vars
      * @param var        var to compare
-     * @return true if the var is already in the parent's list, false otherwise
+     * @return true if the var is already in the model's list, false otherwise
      */
-    private boolean parentVarsContainsVar(List<CodegenProperty> parentVars, CodegenProperty var) {
+    private boolean modelVarsContainsVar(List<CodegenProperty> modelVars, CodegenProperty var) {
         boolean containsVar = false;
-        for (CodegenProperty parentVar : parentVars) {
-            if (var.getDataType().equals(parentVar.getDataType())
-                    && var.getName().equals(parentVar.getName())) {
+        for (CodegenProperty modelVar : modelVars) {
+            if (var.getDataType().equals(modelVar.getDataType())
+                    && var.getName().equals(modelVar.getName())) {
                 containsVar = true;
                 break;
             }

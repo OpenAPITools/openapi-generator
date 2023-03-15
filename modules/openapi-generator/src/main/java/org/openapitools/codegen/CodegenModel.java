@@ -63,6 +63,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public CodegenDiscriminator discriminator;
+    public boolean hasDiscriminatorUpward;
+    public String upwardDiscriminatorPropertyBaseName;
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
@@ -415,6 +417,22 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }
+    }
+
+    public void setHasDiscriminatorUpward(boolean hasDiscriminatorUpward) {
+        this.hasDiscriminatorUpward = hasDiscriminatorUpward;
+    }
+    
+      public boolean getHasDiscriminatorUpward() {
+        return hasDiscriminatorUpward;
+    }
+      
+      public void setUpwardDiscriminatorPropertyBaseName(String upwardDiscriminatorPropertyBaseName) {
+        this.upwardDiscriminatorPropertyBaseName = upwardDiscriminatorPropertyBaseName;
+    }
+    
+      public String getUpwardDiscriminatorPropertyBaseName() {
+        return upwardDiscriminatorPropertyBaseName;
     }
 
     /**

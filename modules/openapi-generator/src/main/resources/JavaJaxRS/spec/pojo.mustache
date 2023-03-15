@@ -17,17 +17,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
-  {{#vars}}
-  {{#isEnum}}
-  {{^isContainer}}
-  {{>enumClass}}
-  {{/isContainer}}
-  {{#isContainer}}
-  {{#mostInnerItems}}
-  {{>enumClass}}
-  {{/mostInnerItems}}
-  {{/isContainer}}
-  {{/isEnum}}
+  {{#vars}}{{#isEnum}}{{^isContainer}}
+
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
+
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  {{#jackson}}{{#isDiscriminator}}@JsonIgnore{{/isDiscriminator}}{{/jackson}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -35,6 +30,11 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{/vars}}
   {{#generateBuilders}}
   {{^additionalProperties}}
+
+  {{#hasDiscriminatorUpward}}public {{classname}}() {
+    super();
+    this.{{upwardDiscriminatorPropertyBaseName}}("{{{name}}}");
+  }{{/hasDiscriminatorUpward}}
 
   protected {{classname}}({{classname}}Builder<?, ?> b) {
     {{#parent}}
@@ -62,12 +62,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
    * maximum: {{.}}
    {{/maximum}}
    **/
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#isDiscriminator}}protected {{/isDiscriminator}}{{^isDiscriminator}}public {{/isDiscriminator}}{{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
+  {{#jackson}}{{#isDiscriminator}}@JsonIgnore{{/isDiscriminator}}{{/jackson}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
@@ -76,7 +77,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   @JsonProperty("{{baseName}}")
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
-  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{/vendorExtensions.x-setter-extra-annotation}}{{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}public{{/isDiscriminator}} void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
