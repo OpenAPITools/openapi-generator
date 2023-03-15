@@ -35,6 +35,10 @@ public class StringUtilsTest {
 
         Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
         Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");
+        Assert.assertEquals(camelize("\\Type", LOWERCASE_FIRST_CHAR), "\\Type");
+
+        Assert.assertEquals(camelize("&*Foobar", LOWERCASE_FIRST_LETTER), "&*foobar");
+        Assert.assertEquals(camelize("\\Foobar", LOWERCASE_FIRST_LETTER), "\\foobar");
     }
 
     @Test

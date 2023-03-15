@@ -6217,33 +6217,20 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
             String modifiable = sanitizeNameOptions.getName();
             List<String> exceptions = sanitizeNameOptions.getExceptions();
-            // input[] => input
-            modifiable = this.sanitizeValue(modifiable, "\\[\\]", "", exceptions);
 
-            // input[a][b] => input_a_b
-            modifiable = this.sanitizeValue(modifiable, "\\[", "_", exceptions);
-            modifiable = this.sanitizeValue(modifiable, "\\]", "", exceptions);
-
-            // input(a)(b) => input_a_b
-            modifiable = this.sanitizeValue(modifiable, "\\(", "_", exceptions);
-            modifiable = this.sanitizeValue(modifiable, "\\)", "", exceptions);
-
-            // input.name => input_name
-            modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
-
-            // input-name => input_name
-            modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);
-
-            // a|b => a_b
-            modifiable = this.sanitizeValue(modifiable, "\\|", "_", exceptions);
-
-            // input name and age => input_name_and_age
-            modifiable = this.sanitizeValue(modifiable, " ", "_", exceptions);
-
-            // /api/films/get => _api_films_get
-            // \api\films\get => _api_films_get
-            modifiable = modifiable.replaceAll("/", "_");
-            modifiable = modifiable.replaceAll("\\\\", "_");
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < modifiable.length(); i++) {
+                char currentChar = modifiable.charAt(i);
+                char nextChar = i + 1 < modifiable.length() ? modifiable.charAt(i + 1) : ' ';
+                if (currentChar == '[' && nextChar != ']') {
+                    result.append('_');
+                } else if (currentChar == '(' || currentChar == '.' || currentChar == '-' || currentChar == '|' || currentChar == ' ' || currentChar == '/' || currentChar == '\\') {
+                    result.append('_');
+                } else if (currentChar != '[' && currentChar != ']' && currentChar != ')') {
+                    result.append(currentChar);
+                }
+            }
+            modifiable = result.toString();
 
             // remove everything else other than word, number and _
             // $php_variable => php_variable

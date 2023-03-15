@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 
 public class StringUtils {
@@ -136,84 +137,33 @@ public class StringUtils {
         return camelizedWordsCache.get(key, pair -> {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
-            // Replace all slashes with dots (package separator)
-            Matcher m = camelizeSlashPattern.matcher(word);
-            while (m.find()) {
-                word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
-                m = camelizeSlashPattern.matcher(word);
-            }
 
-            // case out dots
-            String[] parts = word.split("\\.");
-            StringBuilder f = new StringBuilder();
-            for (String z : parts) {
-                if (z.length() > 0) {
-                    f.append(Character.toUpperCase(z.charAt(0))).append(z.substring(1));
-                }
-            }
-            word = f.toString();
-
-            m = camelizeSlashPattern.matcher(word);
-            while (m.find()) {
-                word = m.replaceFirst(Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
-                m = camelizeSlashPattern.matcher(word);
-            }
-
-            // Uppercase the class name.
-            m = camelizeUppercasePattern.matcher(word);
-            if (m.find()) {
-                String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
-                rep = camelizeDollarPattern.matcher(rep).replaceAll("\\\\\\$");
-                word = m.replaceAll(rep);
-            }
-
-            // Remove all underscores (underscore_case to camelCase)
-            m = camelizeUnderscorePattern.matcher(word);
-            while (m.find()) {
-                String original = m.group(2);
-                String upperCase = original.toUpperCase(Locale.ROOT);
-                if (original.equals(upperCase)) {
-                    word = camelizeSimpleUnderscorePattern.matcher(word).replaceFirst("");
+            StringBuilder result = new StringBuilder();
+            boolean capitalizeNext = option == UPPERCASE_FIRST_CHAR;
+            boolean lowercaseNextLetter = option == LOWERCASE_FIRST_LETTER;
+            for (int i = 0; i < word.length(); i++) {
+                char currentChar = word.charAt(i);
+                if (currentChar == '_' || currentChar == '-' || currentChar == '.' || currentChar == '/') {
+                    if (i == 0) {
+                        capitalizeNext = !lowercaseNextLetter;
+                    } else {
+                        capitalizeNext = true;
+                    }
+                } else if ((currentChar == '$' || currentChar == '\\') && i == 0) {
+                    result.append(currentChar);
+                    capitalizeNext = !lowercaseNextLetter;
+                } else if (capitalizeNext) {
+                    result.append(Character.toUpperCase(currentChar));
+                    capitalizeNext = false;
+                } else if (Character.isAlphabetic(currentChar) && (i == 0 || lowercaseNextLetter)) {
+                    result.append(Character.toLowerCase(currentChar));
+                    lowercaseNextLetter = false;
                 } else {
-                    word = m.replaceFirst(upperCase);
+                    result.append(currentChar);
                 }
-                m = camelizeUnderscorePattern.matcher(word);
             }
-
-            // Remove all hyphens (hyphen-case to camelCase)
-            m = camelizeHyphenPattern.matcher(word);
-            while (m.find()) {
-                word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-                m = camelizeHyphenPattern.matcher(word);
-            }
-
-            switch (option) {
-                case LOWERCASE_FIRST_LETTER:
-                    word = lowercaseFirstLetter(word);
-                    break;
-                case LOWERCASE_FIRST_CHAR:
-                    word = word.substring(0, 1).toLowerCase(Locale.ROOT) + word.substring(1);
-                    break;
-            }
-
-            // remove all underscore
-            word = camelizeSimpleUnderscorePattern.matcher(word).replaceAll("");
-            return word;
+            return result.toString();
         });
-    }
-
-    private static String lowercaseFirstLetter(String word) {
-        if (word.length() > 0) {
-            int i = 0;
-            char charAt = word.charAt(i);
-            while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
-                i = i + 1;
-                charAt = word.charAt(i);
-            }
-            i = i + 1;
-            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
-        }
-        return word;
     }
 
     private static class EscapedNameOptions {
