@@ -110,12 +110,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Fruit"/>&gt;</returns>
         public async Task<Fruit> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Fruit?> result = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            ApiResponse<Fruit?> apiResponseLocalVar = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -126,17 +126,17 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="Fruit"/>&gt;</returns>
         public async Task<Fruit?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<Fruit?>? result = null;
+            ApiResponse<Fruit?>? apiResponseLocalVar = null;
             try 
             {
-                result = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
         }
 
@@ -152,8 +152,8 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
-        protected virtual void AfterRootGet(ApiResponse<Fruit?> apiResponse)
+        /// <param name="apiResponseLocalVar"></param>
+        protected virtual void AfterRootGet(ApiResponse<Fruit?> apiResponseLocalVar)
         {
         }
 
@@ -176,57 +176,57 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
         public async Task<ApiResponse<Fruit?>> RootGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 OnRootGet();
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/";
 
 
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/json" 
                     };
 
-                    string? accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Fruit?> apiResponse = new ApiResponse<Fruit?>(responseMessage, responseContent);
+                        ApiResponse<Fruit?> apiResponseLocalVar = new ApiResponse<Fruit?>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<Fruit>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterRootGet(apiResponse);
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Fruit>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterRootGet(apiResponseLocalVar);
                         }
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorRootGet(e, "/", uriBuilder.Path);
+                OnErrorRootGet(e, "/", uriBuilderLocalVar.Path);
                 throw;
             }
         }
