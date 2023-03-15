@@ -118,6 +118,9 @@ public class TypeHolderDefaultDto {
   }
 
   public TypeHolderDefaultDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }

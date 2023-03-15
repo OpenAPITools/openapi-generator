@@ -92,6 +92,9 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
+    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent()) {
+      this.nullableRequiredArray = JsonNullable.of(new ArrayList<>());
+    }
     this.nullableRequiredArray.get().add(nullableRequiredArrayItem);
     return this;
   }
@@ -116,6 +119,9 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addRequiredArrayItem(String requiredArrayItem) {
+    if (this.requiredArray == null) {
+      this.requiredArray = new ArrayList<>();
+    }
     this.requiredArray.add(requiredArrayItem);
     return this;
   }

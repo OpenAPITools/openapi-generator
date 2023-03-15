@@ -62,6 +62,9 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayItem(String nullableArrayItem) {
+    if (this.nullableArray == null) {
+      this.nullableArray = new ArrayList<>();
+    }
     this.nullableArray.add(nullableArrayItem);
     return this;
   }
@@ -86,6 +89,9 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
+    if (this.nullableRequiredArray == null) {
+      this.nullableRequiredArray = new ArrayList<>();
+    }
     this.nullableRequiredArray.add(nullableRequiredArrayItem);
     return this;
   }
