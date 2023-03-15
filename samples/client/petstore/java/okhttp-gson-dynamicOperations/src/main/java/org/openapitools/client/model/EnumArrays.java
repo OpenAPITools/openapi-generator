@@ -150,7 +150,7 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays() {
   }
@@ -184,9 +184,6 @@ public class EnumArrays {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
-    if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<>();
-    }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }

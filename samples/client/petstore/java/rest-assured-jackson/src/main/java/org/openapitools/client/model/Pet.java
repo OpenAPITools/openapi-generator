@@ -59,7 +59,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -228,9 +228,6 @@ public class Pet {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<>();
-    }
     this.tags.add(tagsItem);
     return this;
   }

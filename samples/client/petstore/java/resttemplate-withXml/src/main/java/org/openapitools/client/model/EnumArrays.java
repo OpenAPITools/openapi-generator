@@ -128,7 +128,7 @@ public class EnumArrays {
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays() {
   }
@@ -168,9 +168,6 @@ public class EnumArrays {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
-    if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<>();
-    }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }

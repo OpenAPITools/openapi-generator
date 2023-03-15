@@ -107,7 +107,7 @@ public class EnumArrays   {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (arrayEnum == null) {
-      arrayEnum = new ArrayList<>();
+      arrayEnum = ;
     }
     arrayEnum.add(arrayEnumItem);
     return this;

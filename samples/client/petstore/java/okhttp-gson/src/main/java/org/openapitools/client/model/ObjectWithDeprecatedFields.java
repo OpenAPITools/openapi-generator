@@ -66,7 +66,7 @@ public class ObjectWithDeprecatedFields {
 
   public static final String SERIALIZED_NAME_BARS = "bars";
   @SerializedName(SERIALIZED_NAME_BARS)
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }
@@ -148,9 +148,6 @@ public class ObjectWithDeprecatedFields {
   }
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
-    if (this.bars == null) {
-      this.bars = new ArrayList<>();
-    }
     this.bars.add(barsItem);
     return this;
   }

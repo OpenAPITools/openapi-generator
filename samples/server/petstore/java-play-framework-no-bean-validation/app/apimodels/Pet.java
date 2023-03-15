@@ -145,7 +145,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (tags == null) {
-      tags = new ArrayList<>();
+      tags = ;
     }
     tags.add(tagsItem);
     return this;

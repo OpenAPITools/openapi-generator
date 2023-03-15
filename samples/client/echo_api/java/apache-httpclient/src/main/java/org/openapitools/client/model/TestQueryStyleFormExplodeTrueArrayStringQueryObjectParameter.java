@@ -38,7 +38,7 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  private List<String> values = new ArrayList<>();
+  private List<String> values;
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -50,9 +50,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter addValuesItem(String valuesItem) {
-    if (this.values == null) {
-      this.values = new ArrayList<>();
-    }
     this.values.add(valuesItem);
     return this;
   }

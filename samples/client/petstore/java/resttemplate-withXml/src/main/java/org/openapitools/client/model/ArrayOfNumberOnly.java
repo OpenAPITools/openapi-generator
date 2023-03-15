@@ -46,7 +46,7 @@ public class ArrayOfNumberOnly {
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "arrayNumber")
-  private List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber;
 
   public ArrayOfNumberOnly() {
   }
@@ -58,9 +58,6 @@ public class ArrayOfNumberOnly {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
-    if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<>();
-    }
     this.arrayNumber.add(arrayNumberItem);
     return this;
   }

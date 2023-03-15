@@ -55,15 +55,15 @@ import org.openapitools.client.JSON;
 public class ArrayTest implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  private List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString;
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -75,9 +75,6 @@ public class ArrayTest implements Parcelable {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
-    if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<>();
-    }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
@@ -105,9 +102,6 @@ public class ArrayTest implements Parcelable {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
-    if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<>();
-    }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
@@ -135,9 +129,6 @@ public class ArrayTest implements Parcelable {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
-    if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<>();
-    }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }

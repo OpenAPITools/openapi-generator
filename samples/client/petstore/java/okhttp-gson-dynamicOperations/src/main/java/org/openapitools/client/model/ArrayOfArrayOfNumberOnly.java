@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
@@ -65,9 +65,6 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
   public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
-    if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<>();
-    }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
   }

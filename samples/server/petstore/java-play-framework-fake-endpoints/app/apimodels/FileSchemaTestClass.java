@@ -48,7 +48,7 @@ public class FileSchemaTestClass   {
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (files == null) {
-      files = new ArrayList<>();
+      files = ;
     }
     files.add(filesItem);
     return this;
