@@ -251,7 +251,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
             useSwaggerUI));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_ENTITY,
-                "Use ResponseEntity to wrap return values of generated API methods",
+                "Use the `ResponseEntity` type to wrap return values of generated API methods. "
+                    + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
             "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
