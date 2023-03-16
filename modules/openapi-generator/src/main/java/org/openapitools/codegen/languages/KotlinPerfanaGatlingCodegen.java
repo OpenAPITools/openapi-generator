@@ -397,7 +397,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 } else if (schema.getType() != null) {
                     switch (schema.getType()) {
                         case "boolean":
-                            rootNode.put(propertyName, "true");
+                            rootNode.put(propertyName, true);
                             break;
                         case "number":
                         case "integer":
@@ -540,7 +540,18 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-database-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "DatabaseFeeder");
 
             try {
-                FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.dataFolder + File.separator + operation.getOperationId().replace("_", "") + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"), StringUtils.join(parameterNames, ",") + "\n" + StringUtils.join(parameterNames, ",").replaceAll("([^,]+)", "dummy-data"), StandardCharsets.UTF_8);
+                FileUtils.writeStringToFile(new File(
+                        this.outputFolder +
+                                File.separator +
+                                this.dataFolder +
+                                File.separator +
+                                operation.getOperationId().replace("_", "") +
+                                "-" +
+                                parameterType.toLowerCase(Locale.ROOT) +
+                                "Params.csv"),
+                        StringUtils.join(parameterNames, ",") +
+                                "\n" +
+                                StringUtils.join(parameterNames, ",").replaceAll("([^,]+)", "dummy-data"), StandardCharsets.UTF_8);
             } catch (IOException var9) {
                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var9);
             }
