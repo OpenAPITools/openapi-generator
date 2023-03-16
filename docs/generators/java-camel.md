@@ -97,6 +97,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOptional|Use Optional container for optional parameters| |false|
+|useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
