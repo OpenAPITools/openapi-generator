@@ -337,7 +337,7 @@ public class NullableClass {
 
   public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
     if (this.objectNullableProp == null) {
-      this.objectNullableProp = new HashMap<>());
+      this.objectNullableProp = new HashMap<>();
     }
     this.objectNullableProp.put(key, objectNullablePropItem);
     return this;
@@ -367,7 +367,7 @@ public class NullableClass {
 
   public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
     if (this.objectAndItemsNullableProp == null) {
-      this.objectAndItemsNullableProp = new HashMap<>());
+      this.objectAndItemsNullableProp = new HashMap<>();
     }
     this.objectAndItemsNullableProp.put(key, objectAndItemsNullablePropItem);
     return this;
@@ -397,7 +397,7 @@ public class NullableClass {
 
   public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
     if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<>());
+      this.objectItemsNullable = new HashMap<>();
     }
     this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;
