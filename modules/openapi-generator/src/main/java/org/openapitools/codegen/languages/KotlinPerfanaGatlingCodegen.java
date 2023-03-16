@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.joda.time.DateTime;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -35,12 +36,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaPerfanaGatlingCodegen.class);
-    public static final String PREFIX_INTEGER_VAR = "I@";
+    private static final String PREFIX_INTEGER_VAR = "I@";
+    private static final String NEW_ROW = "\n";
     protected String resourceFolder;
     protected String dataFolder;
     protected String bodiesFolder;
@@ -229,11 +230,13 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
     }
 
     public String modelFileFolder() {
-        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") + File.separator + this.modelPackage().replace('.', File.separatorChar);
+        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") +
+                File.separator + this.modelPackage().replace('.', File.separatorChar);
     }
 
     public String apiFileFolder() {
-        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") + File.separator + this.apiPackage().replace('.', File.separatorChar);
+        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") +
+                File.separator + this.apiPackage().replace('.', File.separatorChar);
     }
 
     public void preprocessOpenAPI(OpenAPI openAPI) {
@@ -279,31 +282,27 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                                 }
                             }
 
-                            Set<Parameter> headerParameters = new HashSet<>();
-                            Set<Parameter> formParameters = new HashSet<>();
-                            Set<Parameter> queryParameters = new HashSet<>();
-                            Set<Parameter> pathParameters = new HashSet<>();
+                            Map<String, Set<Parameter>> parametersByType = new HashMap<>();
+
                             if (operation.getParameters() != null) {
-
                                 for (Parameter parameter : operation.getParameters()) {
-                                    if (parameter.getIn().equalsIgnoreCase("header")) {
-                                        headerParameters.add(parameter);
-                                    }
-
-                                    if (parameter.getIn().equalsIgnoreCase("query")) {
-                                        queryParameters.add(parameter);
-                                    }
-
-                                    if (parameter.getIn().equalsIgnoreCase("path")) {
-                                        pathParameters.add(parameter);
-                                    }
+                                    String parameterType = parameter.getIn().toLowerCase();
+                                    Set<Parameter> parameterSet = parametersByType.computeIfAbsent(parameterType,
+                                            k -> new HashSet<>());
+                                    parameterSet.add(parameter);
                                 }
                             }
+
+                            Set<Parameter> headerParameters = parametersByType.getOrDefault("header", new HashSet<>());
+                            Set<Parameter> formParameters = parametersByType.getOrDefault("form", new HashSet<>());
+                            Set<Parameter> queryParameters = parametersByType.getOrDefault("query", new HashSet<>());
+                            Set<Parameter> pathParameters = parametersByType.getOrDefault("path", new HashSet<>());
 
                             this.prepareGatlingData(operation, headerParameters, "header");
                             this.prepareGatlingData(operation, formParameters, "form");
                             this.prepareGatlingData(operation, queryParameters, "query");
                             this.prepareGatlingData(operation, pathParameters, "path");
+
                             requestBody = operation.getRequestBody();
                             ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                         } while (requestBody == null);
@@ -342,13 +341,47 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 }
 
                 try {
-                    FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.dataFolder + File.separator + operation.getOperationId() + "-bodyParams.json"), "[" + replaceIntegerVariable(jsonFeeder) + "]", StandardCharsets.UTF_8);
-                    this.prepareGatlingRequestBodies(operation, bodyFeederParams);
+                    String bodyParamsFeederFilePath = this.outputFolder + File.separator + this.dataFolder +
+                            File.separator + operation.getOperationId() + "-bodyParams.json";
+
+                    FileUtils.writeStringToFile(new File(bodyParamsFeederFilePath),
+                            "[" + replaceIntegerVariable(jsonFeeder) + "]", StandardCharsets.UTF_8);
+
+                    ObjectNode jsonRequestBodyFromSchema = createJsonRequestBodyFromSchema(propertiesMap);
+                    String bodyParams = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonRequestBodyFromSchema);
+                    this.writeBodyJsonFile(operation, bodyParams);
+
                 } catch (IOException var22) {
                     LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var22);
                 }
             }
         }
+    }
+
+    private ObjectNode createJsonRequestBodyFromSchema(Map<String, Schema<?>> propertiesMap) {
+        ObjectNode rootNode = this.objectMapper.createObjectNode();
+
+        for (Map.Entry<String, Schema<?>> stringSchemaEntry : propertiesMap.entrySet()) {
+            Schema<?> schema = stringSchemaEntry.getValue();
+            String propertyName = stringSchemaEntry.getKey();
+
+            if (schema instanceof ArraySchema && schema.getType().equals("array")) {
+                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, true);
+                rootNode.set(propertyName, arrayNode);
+            } else if (schema.get$ref() != null) {
+                Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
+                rootNode.set(propertyName, this.createJsonRequestBodyFromSchema(nestedPropertiesMap));
+            } else {
+                if (schema.getEnum() != null) {
+                    ArrayNode arrayNode = this.objectMapper.createArrayNode();
+                    arrayNode.add("#{" + propertyName + "}");
+                    rootNode.set(propertyName, arrayNode);
+                } else {
+                    rootNode.put(propertyName, "#{" + propertyName + "}");
+                }
+            }
+        }
+        return rootNode;
     }
 
     private ObjectNode createJsonFromSchema(Map<String, Schema<?>> propertiesMap) {
@@ -359,7 +392,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             String propertyName = stringSchemaEntry.getKey();
 
             if (schema instanceof ArraySchema && schema.getType().equals("array")) {
-                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI);
+                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, false);
                 rootNode.set(propertyName, arrayNode);
             } else if (schema.get$ref() != null) {
                 Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
@@ -413,7 +446,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         return rootNode;
     }
 
-    private ArrayNode parseArraySchema(Schema<?> schema, ObjectMapper objectMapper, OpenAPI openAPI) {
+    private ArrayNode parseArraySchema(Schema<?> schema, ObjectMapper objectMapper, OpenAPI openAPI, boolean isBody) {
         Schema<?> items = schema.getItems();
         ArrayNode arrayNode = objectMapper.createArrayNode();
 
@@ -421,7 +454,14 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             String[] refArray = items.get$ref().split("/");
             Schema nestedModel = openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
             Map<String, Schema<?>> nestedPropertiesMap = nestedModel.getProperties();
-            ObjectNode jsonFromSchema = this.createJsonFromSchema(nestedPropertiesMap);
+            ObjectNode jsonFromSchema;
+
+            if (isBody) {
+                jsonFromSchema = this.createJsonRequestBodyFromSchema(nestedPropertiesMap);
+            } else {
+                jsonFromSchema = this.createJsonFromSchema(nestedPropertiesMap);
+            }
+
             arrayNode.add(jsonFromSchema);
         } else {
             arrayNode.add(items.getType());
@@ -442,76 +482,11 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         return arrayNode;
     }
 
-
-//    private ObjectNode createJsonFromSchema(Map<String, Schema<?>> propertiesMap) {
-//        ObjectNode rootNode = this.objectMapper.createObjectNode();
-//
-//        for (Map.Entry<String, Schema<?>> stringSchemaEntry : propertiesMap.entrySet()) {
-//            Schema<?> schema = stringSchemaEntry.getValue();
-//            String key = stringSchemaEntry.getKey();
-//
-//            if (schema instanceof ArraySchema && "array".equals(schema.getType())) {
-//                Schema<?> items = schema.getItems();
-//                if (items.get$ref() != null) {
-//                    String[] refArray = items.get$ref().split("/");
-//                    Schema nestedModel = this.openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
-//                    Map<String, Schema<?>> nestedPropertiesMap = nestedModel.getProperties();
-//                    rootNode.set(key, createJsonFromSchema(nestedPropertiesMap));
-//                } else {
-//                    ArrayNode arrayNode = this.objectMapper.createArrayNode();
-//                    arrayNode.add(items.getType());
-//                    rootNode.set(key, arrayNode);
-//                }
-//                continue;
-//            }
-//            String type = schema.getType();
-//            System.out.println("TYPE: " + type);
-//            switch (schema.getType()) {
-//                case "boolean":
-//                    rootNode.put(key, true);
-//                    break;
-//                case "integer":
-//                    rootNode.put(key, 0);
-//                    break;
-//                default:
-//                    if (schema.getFormat() != null) {
-//                        DateTime date = DateTime.now();
-//                        switch (schema.getFormat().toLowerCase()) {
-//                            case "date":
-//                                rootNode.put(key, date.toLocalDate().toString());
-//                                break;
-//                            case "date-time":
-//                                rootNode.put(key, date.toLocalDateTime().toString());
-//                                break;
-//                            case "uuid":
-//                                rootNode.put(key, "9c5f2640-a590-4f14-8e88-536764e57251");
-//                                break;
-//                            default:
-//                                rootNode.put(key, schema.getFormat());
-//                                break;
-//                        }
-//                    } else if (schema.getEnum() != null) {
-//                        ArrayNode arrayNode = this.objectMapper.createArrayNode();
-//                        arrayNode.add(schema.getEnum().get(0).toString());
-//                        rootNode.set(key, arrayNode);
-//                    } else if (schema.getPattern() != null) {
-//                        rootNode.put(key, schema.getPattern());
-//                    } else if (schema.getMaximum() != null) {
-//                        rootNode.put(key, schema.getMaximum());
-//                    } else if (schema.getType() != null) {
-//                        rootNode.put(key, schema.getType());
-//                    }
-//                    break;
-//            }
-//        }
-//        return rootNode;
-//    }
-
-    private void prepareGatlingRequestBodies(Operation operation, Set<String> parameters) {
-        String jsonBody = parameters.stream().map((par) -> "\"" + par + "\": \"#{" + par + "}\"").collect(Collectors.joining(",\n\t", "{\n\t", "\n}"));
-
+    private void writeBodyJsonFile(Operation operation, String bodyParams) {
         try {
-            FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.bodiesFolder + File.separator + operation.getOperationId().replace("_", "") + "Body.json"), jsonBody, StandardCharsets.UTF_8);
+            String bodyFilePath = this.outputFolder + File.separator + this.bodiesFolder + File.separator +
+                    operation.getOperationId().replace("_", "") + "Body.json";
+            FileUtils.writeStringToFile(new File(bodyFilePath), bodyParams, StandardCharsets.UTF_8);
         } catch (IOException var5) {
             LOGGER.error("Could not create request body file for operationId" + operation.getOperationId(), var5);
         }
@@ -524,39 +499,64 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
 
     private void prepareGatlingData(Operation operation, Set<Parameter> parameters, String parameterType) {
         if (parameters.size() > 0 && !Objects.equals(parameterType, "body")) {
-            List<String> parameterNames = new ArrayList<>();
             List<Object> vendorList = new ArrayList<>();
+            Map<String, String> parameterNameType = new HashMap<>();
 
             for (Parameter parameter : parameters) {
                 Map<String, Object> extensionMap = new HashMap<>();
                 extensionMap.put("gatlingParamName", parameter.getName());
                 extensionMap.put("gatlingParamValue", "#{" + parameter.getName() + "}");
                 vendorList.add(extensionMap);
-                parameterNames.add(parameter.getName());
+
+                if (parameter.getSchema() != null) {
+                    parameterNameType.put(parameter.getName(), parameter.getSchema().getType());
+                }
             }
 
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-params", vendorList);
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-database-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "DatabaseFeeder");
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+                    "-params", vendorList);
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+                    "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+                    "-database-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "DatabaseFeeder");
 
             try {
-                FileUtils.writeStringToFile(new File(
-                        this.outputFolder +
-                                File.separator +
-                                this.dataFolder +
-                                File.separator +
-                                operation.getOperationId().replace("_", "") +
-                                "-" +
-                                parameterType.toLowerCase(Locale.ROOT) +
-                                "Params.csv"),
-                        StringUtils.join(parameterNames, ",") +
-                                "\n" +
-                                StringUtils.join(parameterNames, ",").replaceAll("([^,]+)", "dummy-data"), StandardCharsets.UTF_8);
+                String feederFilePath = this.outputFolder + File.separator + this.dataFolder +
+                        File.separator + operation.getOperationId().replace("_", "") + "-" +
+                        parameterType.toLowerCase(Locale.ROOT) + "Params.csv";
+
+                ImmutablePair<String, String> csvData = generateCsvFeederData(parameterNameType);
+
+                FileUtils.writeStringToFile(new File(feederFilePath),
+                        csvData.getLeft() + NEW_ROW + csvData.getRight(), StandardCharsets.UTF_8);
             } catch (IOException var9) {
                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var9);
             }
         }
+    }
 
+    private ImmutablePair<String, String> generateCsvFeederData(Map<String, String> parameterNameType) {
+        List<String> typeValues = new ArrayList<>();
+        String headerRowString = String.join(",", parameterNameType.keySet());
+
+        parameterNameType.values()
+                .forEach(value -> {
+                    switch (value) {
+                        case "boolean":
+                            typeValues.add("false");
+                            break;
+                        case "number":
+                        case "integer":
+                            typeValues.add("0");
+                            break;
+                        default:
+                            typeValues.add("string");
+                            break;
+                    }
+                });
+        String valuesRowString = String.join(",", typeValues);
+
+        return new ImmutablePair<>(headerRowString, valuesRowString);
     }
 
     public String getTypeDeclaration(Schema p) {
