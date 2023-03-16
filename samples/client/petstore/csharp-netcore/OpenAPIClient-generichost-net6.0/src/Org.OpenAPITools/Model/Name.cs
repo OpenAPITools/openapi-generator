@@ -200,18 +200,18 @@ namespace Org.OpenAPITools.Model
                     {
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out nameProperty);
+                                nameProperty = utf8JsonReader.GetInt32();
                             break;
                         case "property":
                             property = utf8JsonReader.GetString();
                             break;
                         case "snake_case":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out snakeCase);
+                                snakeCase = utf8JsonReader.GetInt32();
                             break;
                         case "123Number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out _123number);
+                                _123number = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;

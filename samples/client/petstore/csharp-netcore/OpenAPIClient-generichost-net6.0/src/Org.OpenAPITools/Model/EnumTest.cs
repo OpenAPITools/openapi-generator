@@ -485,24 +485,15 @@ namespace Org.OpenAPITools.Model
                     {
                         case "enum_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int enumIntegerResult);
-                                enumInteger = (EnumTest.EnumIntegerEnum)enumIntegerResult;
-                            }
+                                enumInteger = (EnumTest.EnumIntegerEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_integer_only":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int enumIntegerOnlyResult);
-                                enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum)enumIntegerOnlyResult;
-                            }
+                                enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int enumNumberResult);
-                                enumNumber = (EnumTest.EnumNumberEnum)enumNumberResult;
-                            }
+                                enumNumber = (EnumTest.EnumNumberEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_string":
                             string enumStringRawValue = utf8JsonReader.GetString();

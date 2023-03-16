@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDecimal(out id);
+                                id = utf8JsonReader.GetDecimal();
                             break;
                         case "uuid":
                             uuid = utf8JsonReader.GetString();

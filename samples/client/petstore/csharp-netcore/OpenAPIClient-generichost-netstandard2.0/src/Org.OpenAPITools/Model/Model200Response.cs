@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out name);
+                                name = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
