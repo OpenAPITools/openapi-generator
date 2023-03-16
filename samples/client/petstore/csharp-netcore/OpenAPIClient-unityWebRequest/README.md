@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country | 
+*DefaultApi* | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello
 *FakeApi* | [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
