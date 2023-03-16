@@ -1,0 +1,32 @@
+package {{ helperPackage}}
+
+import java.net.URI
+import java.nio.file.Path
+import java.nio.file.Paths
+
+
+
+/**
+* Utility object to create the paths used throughout this loadtest script.
+*/
+object IDEPathHelper {
+
+    val gatlingConfUrl: URI = javaClass.classLoader.getResource("gatling.conf").toURI()
+    val projectRootDir: Path = Paths.get(gatlingConfUrl).parent.parent.parent
+
+    val mavenTargetDirectory = projectRootDir.resolve("target")
+    val mavenSrcTestDirectory = projectRootDir.resolve("src").resolve("test")
+
+
+    val mavenSourcesDirectory = mavenSrcTestDirectory.resolve("kotlin")
+    val mavenResourcesDirectory = mavenSrcTestDirectory.resolve("resources")
+    val mavenBinariesDirectory = mavenTargetDirectory.resolve("test-classes")
+
+    val dataDirectory = mavenResourcesDirectory.resolve("data")
+    val bodiesDirectory = mavenResourcesDirectory.resolve("bodies")
+
+    val recorderOutputDirectory = mavenSourcesDirectory
+    val resultsDirectory = mavenTargetDirectory.resolve("results")
+
+    val recorderConfigFile = mavenResourcesDirectory.resolve("recorder.conf")
+}

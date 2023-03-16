@@ -1,0 +1,665 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package org.openapitools.codegen.languages;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+
+public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaPerfanaGatlingCodegen.class);
+    public static final String PREFIX_INTEGER_VAR = "I@";
+    protected String resourceFolder;
+    protected String dataFolder;
+    protected String bodiesFolder;
+    protected String apiVersion;
+    private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
+    private static final List<Property<?>> properties;
+    private final ObjectMapper objectMapper;
+    private static final Pattern VAR_PATTERN;
+
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    public String getName() {
+        return "kotlin-perfana-gatling";
+    }
+
+    public String getHelp() {
+        return "Generates a Gatling script including to be used with Perfana, continuous performance testing dashboard";
+    }
+
+    public KotlinPerfanaGatlingCodegen() {
+        this.resourceFolder = "src" + File.separator + "test" + File.separator + "resources";
+        this.dataFolder = this.resourceFolder + File.separator + "data";
+        this.bodiesFolder = this.resourceFolder + File.separator + "bodies";
+        this.apiVersion = "1.0.0";
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+        this.objectMapper.configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, true);
+        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        this.modifyFeatureSet((features) -> features.includeDocumentationFeatures(DocumentationFeature.Readme).wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom)).securityFeatures(EnumSet.noneOf(SecurityFeature.class)).excludeGlobalFeatures(GlobalFeature.XMLStructureDefinitions, GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling).excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism).excludeParameterFeatures(ParameterFeature.Cookie).includeClientModificationFeatures(new ClientModificationFeature[]{ClientModificationFeature.BasePath}));
+        this.sourceFolder = "src" + File.separator + "test" + File.separator + "kotlin";
+        this.outputFolder = "generated-code/gatling";
+        this.apiTemplateFiles.put("api.mustache", ".kt");
+        this.templateDir = "kotlin-perfana-gatling";
+        properties.stream().map(Property::toCliOptions).flatMap(Collection::stream).forEach((option) -> this.cliOptions.add(option));
+        this.importMapping.remove("List");
+        this.importMapping.remove("Set");
+        this.importMapping.remove("Map");
+        this.importMapping.put("Date", "java.util.Date");
+        this.typeMapping = new HashMap<>();
+        this.typeMapping.put("enum", "NSString");
+        this.typeMapping.put("array", "List");
+        this.typeMapping.put("set", "Set");
+        this.typeMapping.put("boolean", "Boolean");
+        this.typeMapping.put("string", "String");
+        this.typeMapping.put("int", "Int");
+        this.typeMapping.put("long", "Long");
+        this.typeMapping.put("float", "Float");
+        this.typeMapping.put("byte", "Byte");
+        this.typeMapping.put("short", "Short");
+        this.typeMapping.put("char", "Char");
+        this.typeMapping.put("double", "Double");
+        this.typeMapping.put("object", "Any");
+        this.typeMapping.put("file", "File");
+        this.typeMapping.put("binary", "String");
+        this.typeMapping.put("ByteArray", "String");
+        this.typeMapping.put("date-time", "Date");
+        this.typeMapping.put("DateTime", "Date");
+        this.instantiationTypes.put("array", "ListBuffer");
+        this.instantiationTypes.put("map", "HashMap");
+        this.setReservedWordsLowerCase(Arrays.asList("path", "contentTypes", "contentType", "queryParams", "headerParams", "formParams", "postBody", "mp", "basePath", "apiInvoker", "abstract", "case", "catch", "class", "def", "do", "else", "extends", "false", "final", "finally", "for", "forSome", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "this", "throw", "trait", "try", "true", "type", "val", "var", "while", "with", "yield"));
+    }
+
+    public void processOpts() {
+        super.processOpts();
+        properties.forEach((p) -> p.updateAdditionalProperties(this.additionalProperties));
+        this.invokerPackage = PACKAGE_PROPERTY.getInvokerPackage(this.additionalProperties);
+        this.apiPackage = PACKAGE_PROPERTY.getApiPackage(this.additionalProperties);
+        this.modelPackage = PACKAGE_PROPERTY.getModelPackage(this.additionalProperties);
+        String systemUnderTest;
+        if (this.additionalProperties.containsKey("systemUnderTest")) {
+            systemUnderTest = this.additionalProperties.get("systemUnderTest").toString();
+        } else {
+            systemUnderTest = "AddSystemUnderTest";
+        }
+
+        String artifactId;
+        if (this.additionalProperties.containsKey("artifactId")) {
+            artifactId = this.additionalProperties.get("artifactId").toString();
+        } else {
+            artifactId = "gatling-add-system-under-test";
+        }
+
+        String simulationClassName;
+        if (this.additionalProperties.containsKey("simulationClassName")) {
+            simulationClassName = this.additionalProperties.get("simulationClassName").toString();
+        } else {
+            simulationClassName = "AddSimulationClassName";
+        }
+
+        String gatlingVersion;
+        if (this.additionalProperties.containsKey("gatlingVersion")) {
+            gatlingVersion = this.additionalProperties.get("gatlingVersion").toString();
+        } else {
+            gatlingVersion = "3.7.4";
+        }
+
+        String eventsGatlingMavenPluginVersion;
+        if (this.additionalProperties.containsKey("eventsGatlingMavenPluginVersion")) {
+            eventsGatlingMavenPluginVersion = this.additionalProperties.get("eventsGatlingMavenPluginVersion").toString();
+        } else {
+            eventsGatlingMavenPluginVersion = "4.1.0-events-2";
+        }
+
+        String perfanaJavaClientVersion;
+        if (this.additionalProperties.containsKey("perfanaJavaClientVersion")) {
+            perfanaJavaClientVersion = this.additionalProperties.get("perfanaJavaClientVersion").toString();
+        } else {
+            perfanaJavaClientVersion = "2.0.1";
+        }
+
+        String testEventsWiremockVersion;
+        if (this.additionalProperties.containsKey("testEventsWiremockVersion")) {
+            testEventsWiremockVersion = this.additionalProperties.get("testEventsWiremockVersion").toString();
+        } else {
+            testEventsWiremockVersion = "1.2.0-SNAPSHOT";
+        }
+
+        String perfanaUrl;
+        if (this.additionalProperties.containsKey("perfanaUrl")) {
+            perfanaUrl = this.additionalProperties.get("perfanaUrl").toString();
+        } else {
+            perfanaUrl = "https://perfana.io";
+        }
+
+        String targetBaseUrl;
+        if (this.additionalProperties.containsKey("targetBaseUrl")) {
+            targetBaseUrl = this.additionalProperties.get("targetBaseUrl").toString();
+        } else {
+            targetBaseUrl = "http://your-app.com";
+        }
+
+        String influxDbHost;
+        if (this.additionalProperties.containsKey("influxDbHost")) {
+            influxDbHost = this.additionalProperties.get("influxDbHost").toString();
+        } else {
+            influxDbHost = "http://influxdb";
+        }
+
+        String feederPackage = this.apiPackage.replace(".api", ".feeders");
+        String configurationPackage = this.apiPackage.replace(".api", ".configuration");
+        String helperPackage = this.apiPackage.replace(".api", ".helpers");
+        String setUpPackage = this.apiPackage.replace(".api", ".setup");
+        this.additionalProperties.put("systemUnderTest", systemUnderTest);
+        this.additionalProperties.put("simulationClassName", simulationClassName);
+        this.additionalProperties.put("gatlingVersion", gatlingVersion);
+        this.additionalProperties.put("perfanaJavaClientVersion", perfanaJavaClientVersion);
+        this.additionalProperties.put("eventsGatlingMavenPluginVersion", eventsGatlingMavenPluginVersion);
+        this.additionalProperties.put("testEventsWiremockVersion", testEventsWiremockVersion);
+        this.additionalProperties.put("perfanaUrl", perfanaUrl);
+        this.additionalProperties.put("targetBaseUrl", targetBaseUrl);
+        this.additionalProperties.put("artifactId", artifactId);
+        this.additionalProperties.put("apiVersion", this.apiVersion);
+        this.additionalProperties.put("feederPackage", feederPackage);
+        this.additionalProperties.put("configurationPackage", configurationPackage);
+        this.additionalProperties.put("setUpPackage", setUpPackage);
+        this.additionalProperties.put("helperPackage", helperPackage);
+        this.additionalProperties.put("influxDbHost", influxDbHost);
+        String feederFolder = this.sourceFolder.replace("main", "test") + File.separator + feederPackage.replace('.', File.separatorChar);
+        String configurationFolder = this.sourceFolder.replace("main", "test") + File.separator + configurationPackage.replace('.', File.separatorChar);
+        String setUpFolder = this.sourceFolder.replace("main", "test") + File.separator + setUpPackage.replace('.', File.separatorChar);
+        String helperFolder = this.sourceFolder.replace("main", "test") + File.separator + helperPackage.replace('.', File.separatorChar);
+        this.supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        this.supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        this.supportingFiles.add(new SupportingFile("logback.xml", this.resourceFolder, "logback.xml"));
+        this.supportingFiles.add(new SupportingFile("gatling.mustache", this.resourceFolder, "gatling.conf"));
+        this.supportingFiles.add(new SupportingFile("members-acc-small.csv", this.dataFolder, "members-acc-small.csv"));
+        this.supportingFiles.add(new SupportingFile("members-acc.csv", this.dataFolder, "members-acc.csv"));
+        this.supportingFiles.add(new SupportingFile("csvFeeders.mustache", feederFolder, "CsvFeeders.kt"));
+        this.supportingFiles.add(new SupportingFile("jdbcFeeders.mustache", feederFolder, "JdbcFeeders.kt"));
+        this.supportingFiles.add(new SupportingFile("jsonFeeders.mustache", feederFolder, "JsonFeeders.kt"));
+        this.supportingFiles.add(new SupportingFile("MemberIdFeeders.mustache", feederFolder, "MemberIdFeeders.kt"));
+        this.supportingFiles.add(new SupportingFile("httpProtocolConfiguration.mustache", configurationFolder, "HttpProtocolConfiguration.kt"));
+        this.supportingFiles.add(new SupportingFile("scenarioConfiguration.mustache", configurationFolder, "ScenarioConfiguration.kt"));
+        this.supportingFiles.add(new SupportingFile("testConfiguration.mustache", configurationFolder, "TestConfiguration.kt"));
+        this.supportingFiles.add(new SupportingFile("configurationDumper.mustache", helperFolder, "ConfigurationDumper.kt"));
+        this.supportingFiles.add(new SupportingFile("idePathHelper.mustache", helperFolder, "IDEPathHelper.kt"));
+        this.supportingFiles.add(new SupportingFile("JWTGenerator.mustache", helperFolder, "JWTGenerator.kt"));
+        this.supportingFiles.add(new SupportingFile("scenarios.mustache", setUpFolder, "Scenarios.kt"));
+        this.supportingFiles.add(new SupportingFile("setup.mustache", setUpFolder, simulationClassName + ".kt"));
+    }
+
+    public String escapeReservedWord(String name) {
+        return name;
+    }
+
+    public String modelFileFolder() {
+        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") + File.separator + this.modelPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiFileFolder() {
+        return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") + File.separator + this.apiPackage().replace('.', File.separatorChar);
+    }
+
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Iterator<String> var2 = openAPI.getPaths().keySet().iterator();
+
+        label96:
+        while (true) {
+            String pathname;
+            PathItem path;
+            do {
+                if (!var2.hasNext()) {
+                    return;
+                }
+
+                pathname = var2.next();
+                path = openAPI.getPaths().get(pathname);
+            } while (path.readOperations() == null);
+
+            Iterator<Operation> var5 = path.readOperations().iterator();
+
+            while (true) {
+                Operation operation;
+                Schema<?> schema;
+                do {
+                    do {
+                        RequestBody requestBody;
+                        do {
+                            if (!var5.hasNext()) {
+                                continue label96;
+                            }
+
+                            operation = var5.next();
+                            if (operation.getExtensions() == null) {
+                                operation.setExtensions(new HashMap<>());
+                            }
+
+                            if (!operation.getExtensions().containsKey("x-gatling-path")) {
+                                if (pathname.contains("{")) {
+                                    String gatlingPath = pathname.replaceAll("\\{", "\\#\\{");
+                                    operation.addExtension("x-gatling-path", gatlingPath);
+                                } else {
+                                    operation.addExtension("x-gatling-path", pathname);
+                                }
+                            }
+
+                            Set<Parameter> headerParameters = new HashSet<>();
+                            Set<Parameter> formParameters = new HashSet<>();
+                            Set<Parameter> queryParameters = new HashSet<>();
+                            Set<Parameter> pathParameters = new HashSet<>();
+                            if (operation.getParameters() != null) {
+
+                                for (Parameter parameter : operation.getParameters()) {
+                                    if (parameter.getIn().equalsIgnoreCase("header")) {
+                                        headerParameters.add(parameter);
+                                    }
+
+                                    if (parameter.getIn().equalsIgnoreCase("query")) {
+                                        queryParameters.add(parameter);
+                                    }
+
+                                    if (parameter.getIn().equalsIgnoreCase("path")) {
+                                        pathParameters.add(parameter);
+                                    }
+                                }
+                            }
+
+                            this.prepareGatlingData(operation, headerParameters, "header");
+                            this.prepareGatlingData(operation, formParameters, "form");
+                            this.prepareGatlingData(operation, queryParameters, "query");
+                            this.prepareGatlingData(operation, pathParameters, "path");
+                            requestBody = operation.getRequestBody();
+                            ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                        } while (requestBody == null);
+
+                        schema = ModelUtils.getSchemaFromRequestBody(requestBody);
+                    } while (schema == null);
+                } while (schema.get$ref() == null);
+
+                String[] refArray = schema.get$ref().split("/");
+                String bodySchemaName = refArray[refArray.length - 1];
+                operation.addExtension("x-gatling-body-object", bodySchemaName + ".toStringBody");
+                Set<String> bodyFeederParams = new HashSet<>();
+                Set<String> sessionBodyVars = new HashSet<>();
+
+                Schema model = openAPI.getComponents().getSchemas().get(bodySchemaName);
+                Map<String, Schema<?>> propertiesMap = model.getProperties();
+
+                if (propertiesMap == null) {
+                    continue;
+                }
+
+                for (Map.Entry<String, Schema<?>> o : propertiesMap.entrySet()) {
+                    bodyFeederParams.add(o.getKey());
+                    sessionBodyVars.add("\"#{" + o.getKey() + "}\"");
+                }
+
+                operation.addExtension("x-gatling-body-feeder", operation.getOperationId() + "BodyFeeder");
+                operation.addExtension("x-gatling-body-feeder-params", StringUtils.join(sessionBodyVars, ","));
+                String jsonFeeder;
+
+                try {
+                    ObjectNode rootNode = createJsonFromSchema(propertiesMap);
+                    jsonFeeder = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+                } catch (JsonProcessingException var23) {
+                    throw new RuntimeException("Writing object to json failed.", var23);
+                }
+
+                try {
+                    FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.dataFolder + File.separator + operation.getOperationId() + "-bodyParams.json"), "[" + replaceIntegerVariable(jsonFeeder) + "]", StandardCharsets.UTF_8);
+                    this.prepareGatlingRequestBodies(operation, bodyFeederParams);
+                } catch (IOException var22) {
+                    LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var22);
+                }
+            }
+        }
+    }
+
+    private ObjectNode createJsonFromSchema(Map<String, Schema<?>> propertiesMap) {
+        ObjectNode rootNode = this.objectMapper.createObjectNode();
+
+        for (Map.Entry<String, Schema<?>> stringSchemaEntry : propertiesMap.entrySet()) {
+            Schema<?> schema = stringSchemaEntry.getValue();
+            String propertyName = stringSchemaEntry.getKey();
+
+            if (schema instanceof ArraySchema && schema.getType().equals("array")) {
+                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI);
+                rootNode.set(propertyName, arrayNode);
+            } else if (schema.get$ref() != null) {
+                Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
+                rootNode.set(propertyName, this.createJsonFromSchema(nestedPropertiesMap));
+            } else {
+                if (schema.getMaximum() != null) {
+                    rootNode.put(propertyName, schema.getMaximum());
+                } else if (schema.getFormat() != null) {
+                    DateTime date = DateTime.now();
+                    switch (schema.getFormat()) {
+                        case "date":
+                            String dateString = date.toLocalDate().toString();
+                            rootNode.put(propertyName, dateString);
+                            break;
+                        case "date-time":
+                            String dateTimeString = date.toLocalDateTime().toString();
+                            rootNode.put(propertyName, dateTimeString);
+                            break;
+                        case "int32":
+                        case "int64":
+                            rootNode.put(propertyName, 0);
+                            break;
+                        case "uuid":
+                            rootNode.put(propertyName, "9c5f2640-a590-4f14-8e88-536764e57251");
+                            break;
+                        default:
+                            rootNode.put(propertyName, schema.getFormat());
+                            break;
+                    }
+                } else if (schema.getEnum() != null) {
+                    ArrayNode arrayNode = getFirstValueFromEnum(schema, this.objectMapper);
+                    rootNode.set(propertyName, arrayNode);
+                } else if (schema.getPattern() != null) {
+                    rootNode.put(propertyName, schema.getPattern());
+                } else if (schema.getType() != null) {
+                    switch (schema.getType()) {
+                        case "boolean":
+                            rootNode.put(propertyName, "true");
+                            break;
+                        case "number":
+                        case "integer":
+                            rootNode.put(propertyName, 0);
+                            break;
+                        default:
+                            rootNode.put(propertyName, schema.getType());
+                            break;
+                    }
+                }
+            }
+        }
+        return rootNode;
+    }
+
+    private ArrayNode parseArraySchema(Schema<?> schema, ObjectMapper objectMapper, OpenAPI openAPI) {
+        Schema<?> items = schema.getItems();
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+
+        if (items.get$ref() != null) {
+            String[] refArray = items.get$ref().split("/");
+            Schema nestedModel = openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
+            Map<String, Schema<?>> nestedPropertiesMap = nestedModel.getProperties();
+            ObjectNode jsonFromSchema = this.createJsonFromSchema(nestedPropertiesMap);
+            arrayNode.add(jsonFromSchema);
+        } else {
+            arrayNode.add(items.getType());
+        }
+        return arrayNode;
+    }
+
+    private Map<String, Schema<?>> getNestedProperties(Schema<?> schema, OpenAPI openAPI) {
+        String[] refArray = schema.get$ref().split("/");
+        Schema nestedModel = openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
+        return nestedModel.getProperties();
+    }
+
+    private ArrayNode getFirstValueFromEnum(Schema<?> schema, ObjectMapper objectMapper) {
+        String enumValue = schema.getEnum().get(0).toString();
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+        arrayNode.add(enumValue);
+        return arrayNode;
+    }
+
+
+//    private ObjectNode createJsonFromSchema(Map<String, Schema<?>> propertiesMap) {
+//        ObjectNode rootNode = this.objectMapper.createObjectNode();
+//
+//        for (Map.Entry<String, Schema<?>> stringSchemaEntry : propertiesMap.entrySet()) {
+//            Schema<?> schema = stringSchemaEntry.getValue();
+//            String key = stringSchemaEntry.getKey();
+//
+//            if (schema instanceof ArraySchema && "array".equals(schema.getType())) {
+//                Schema<?> items = schema.getItems();
+//                if (items.get$ref() != null) {
+//                    String[] refArray = items.get$ref().split("/");
+//                    Schema nestedModel = this.openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
+//                    Map<String, Schema<?>> nestedPropertiesMap = nestedModel.getProperties();
+//                    rootNode.set(key, createJsonFromSchema(nestedPropertiesMap));
+//                } else {
+//                    ArrayNode arrayNode = this.objectMapper.createArrayNode();
+//                    arrayNode.add(items.getType());
+//                    rootNode.set(key, arrayNode);
+//                }
+//                continue;
+//            }
+//            String type = schema.getType();
+//            System.out.println("TYPE: " + type);
+//            switch (schema.getType()) {
+//                case "boolean":
+//                    rootNode.put(key, true);
+//                    break;
+//                case "integer":
+//                    rootNode.put(key, 0);
+//                    break;
+//                default:
+//                    if (schema.getFormat() != null) {
+//                        DateTime date = DateTime.now();
+//                        switch (schema.getFormat().toLowerCase()) {
+//                            case "date":
+//                                rootNode.put(key, date.toLocalDate().toString());
+//                                break;
+//                            case "date-time":
+//                                rootNode.put(key, date.toLocalDateTime().toString());
+//                                break;
+//                            case "uuid":
+//                                rootNode.put(key, "9c5f2640-a590-4f14-8e88-536764e57251");
+//                                break;
+//                            default:
+//                                rootNode.put(key, schema.getFormat());
+//                                break;
+//                        }
+//                    } else if (schema.getEnum() != null) {
+//                        ArrayNode arrayNode = this.objectMapper.createArrayNode();
+//                        arrayNode.add(schema.getEnum().get(0).toString());
+//                        rootNode.set(key, arrayNode);
+//                    } else if (schema.getPattern() != null) {
+//                        rootNode.put(key, schema.getPattern());
+//                    } else if (schema.getMaximum() != null) {
+//                        rootNode.put(key, schema.getMaximum());
+//                    } else if (schema.getType() != null) {
+//                        rootNode.put(key, schema.getType());
+//                    }
+//                    break;
+//            }
+//        }
+//        return rootNode;
+//    }
+
+    private void prepareGatlingRequestBodies(Operation operation, Set<String> parameters) {
+        String jsonBody = parameters.stream().map((par) -> "\"" + par + "\": \"#{" + par + "}\"").collect(Collectors.joining(",\n\t", "{\n\t", "\n}"));
+
+        try {
+            FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.bodiesFolder + File.separator + operation.getOperationId().replace("_", "") + "Body.json"), jsonBody, StandardCharsets.UTF_8);
+        } catch (IOException var5) {
+            LOGGER.error("Could not create request body file for operationId" + operation.getOperationId(), var5);
+        }
+
+    }
+
+    public static String replaceIntegerVariable(String text) {
+        return VAR_PATTERN.matcher(text).replaceAll("$1");
+    }
+
+    private void prepareGatlingData(Operation operation, Set<Parameter> parameters, String parameterType) {
+        if (parameters.size() > 0 && !Objects.equals(parameterType, "body")) {
+            List<String> parameterNames = new ArrayList<>();
+            List<Object> vendorList = new ArrayList<>();
+
+            for (Parameter parameter : parameters) {
+                Map<String, Object> extensionMap = new HashMap<>();
+                extensionMap.put("gatlingParamName", parameter.getName());
+                extensionMap.put("gatlingParamValue", "#{" + parameter.getName() + "}");
+                vendorList.add(extensionMap);
+                parameterNames.add(parameter.getName());
+            }
+
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-params", vendorList);
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-database-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "DatabaseFeeder");
+
+            try {
+                FileUtils.writeStringToFile(new File(this.outputFolder + File.separator + this.dataFolder + File.separator + operation.getOperationId().replace("_", "") + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"), StringUtils.join(parameterNames, ",") + "\n" + StringUtils.join(parameterNames, ",").replaceAll("([^,]+)", "dummy-data"), StandardCharsets.UTF_8);
+            } catch (IOException var9) {
+                LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var9);
+            }
+        }
+
+    }
+
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema<?> inner = ap.getItems();
+            return this.getSchemaType(p) + "[" + this.getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = this.getAdditionalProperties(p);
+            return this.getSchemaType(p) + "[String, " + this.getTypeDeclaration(inner) + "]";
+        } else {
+            return super.getTypeDeclaration(p);
+        }
+    }
+
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
+        String type;
+        if (this.typeMapping.containsKey(schemaType)) {
+            type = this.typeMapping.get(schemaType);
+            if (this.languageSpecificPrimitives.contains(type)) {
+                return this.toModelName(type);
+            }
+        } else {
+            type = schemaType;
+        }
+
+        return this.toModelName(type);
+    }
+
+    static {
+        properties = Collections.singletonList(PACKAGE_PROPERTY);
+        VAR_PATTERN = Pattern.compile("\"" + PREFIX_INTEGER_VAR + " (.*?)\"");
+    }
+
+    public static class PackageProperty extends StringProperty {
+        public PackageProperty() {
+            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'", "org.openapitools.client");
+        }
+
+        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
+            String mainPackage = this.getValue(additionalProperties);
+            String invokerPackage;
+            if (!additionalProperties.containsKey("apiPackage")) {
+                invokerPackage = mainPackage + ".api";
+                additionalProperties.put("apiPackage", invokerPackage);
+            }
+
+            if (!additionalProperties.containsKey("modelPackage")) {
+                invokerPackage = mainPackage + ".model";
+                additionalProperties.put("modelPackage", invokerPackage);
+            }
+
+            if (!additionalProperties.containsKey("invokerPackage")) {
+                invokerPackage = mainPackage + ".core";
+                additionalProperties.put("invokerPackage", invokerPackage);
+            }
+
+        }
+
+        public String getApiPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault("apiPackage", "org.openapitools.client.api").toString();
+        }
+
+        public String getModelPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault("modelPackage", "org.openapitools.client.model").toString();
+        }
+
+        public String getInvokerPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault("invokerPackage", "org.openapitools.client.core").toString();
+        }
+    }
+
+    public abstract static class Property<T> {
+        final String name;
+        final String description;
+        final T defaultValue;
+
+        public Property(String name, String description, T defaultValue) {
+            this.name = name;
+            this.description = description;
+            this.defaultValue = defaultValue;
+        }
+
+        public abstract List<CliOption> toCliOptions();
+
+        public abstract void updateAdditionalProperties(Map<String, Object> var1);
+
+        public abstract T getValue(Map<String, Object> var1);
+
+        public void setValue(Map<String, Object> additionalProperties, T value) {
+            additionalProperties.put(this.name, value);
+        }
+    }
+
+    public static class StringProperty extends Property<String> {
+        public StringProperty(String name, String description, String defaultValue) {
+            super(name, description, defaultValue);
+        }
+
+        public List<CliOption> toCliOptions() {
+            return Collections.singletonList(CliOption.newString(this.name, this.description).defaultValue(this.defaultValue));
+        }
+
+        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
+            if (!additionalProperties.containsKey(this.name)) {
+                additionalProperties.put(this.name, this.defaultValue);
+            }
+
+        }
+
+        public String getValue(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault(this.name, this.defaultValue).toString();
+        }
+    }
+}
+

@@ -1,0 +1,41 @@
+package {{feederPackage}}
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import io.gatling.jdbc.Predef._
+
+object JdbcFeeders {
+
+  val databaseUrl = Option(System.getProperty("database.url")).getOrElse("jdbc://your.host.here")
+  val databaseUsername = Option(System.getProperty("database.username")).getOrElse("database-user")
+  val databasePassword = Option(System.getProperty("database.password")).getOrElse("database-password")
+
+
+// jdbc feeders
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-query-database-feeder}}
+    val {{vendorExtensions.x-gatling-query-database-feeder}} = jdbcFeeder(databaseUrl, databaseUsername, databasePassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-query-database-feeder}}
+                    {{#vendorExtensions.x-gatling-header-database-feeder}}
+    val {{vendorExtensions.x-gatling-header-database-feeder}} = jdbcFeeder(databaseUrl, databaseUsername, databasePassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-header-database-feeder}}
+                    {{#vendorExtensions.x-gatling-form-database-feeder}}
+    val {{vendorExtensions.x-gatling-form-database-feeder}} = jdbcFeeder(databaseUrl, databaseUsername, databasePassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-form-database-feeder}}
+                    {{#vendorExtensions.x-gatling-path-database-feeder}}
+    val {{vendorExtensions.x-gatling-path-database-feeder}} = jdbcFeeder(databaseUrl, databaseUsername, databasePassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-path-database-feeder}}
+                    {{#vendorExtensions.x-gatling-body-database-feeder}}
+    val {{vendorExtensions.x-gatling-body-database-feeder}} = jdbcFeeder(databaseUrl, databaseUsername, databasePassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-body-database-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

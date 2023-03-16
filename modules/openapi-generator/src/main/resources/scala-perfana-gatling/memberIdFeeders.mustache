@@ -1,0 +1,20 @@
+package {{feederPackage}}
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import java.io.File
+
+object MemberIdFeeders {
+
+    def getCurrentDirectory = new File("").getAbsolutePath
+
+    def userDataDirectory = getCurrentDirectory + "/src/test/resources/data"
+
+    // memberId feeders, the small file only be used in debug mode. 
+
+    val memberIdFeeder = csv(userDataDirectory + File.separator + "members-acc.csv").random
+    val memberIdSmallFeeder = csv(userDataDirectory + File.separator + "members-acc-small.csv").random
+
+
+
+}

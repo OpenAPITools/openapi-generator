@@ -1,0 +1,65 @@
+package {{ setUpPackage }}
+
+
+import {{ configurationPackage }}._
+import {{ apiPackage }}._
+import {{ feederPackage }}._
+import {{ helperPackage }}._
+import io.gatling.core.Predef._
+import scala.concurrent.duration._
+import com.jayway.jsonpath.JsonPath
+import java.security.MessageDigest
+import scalaj.http.{Http, HttpResponse}
+
+/**
+* This object collects the Scenarios in the project for use in the Simulation.
+* If you create new scenarios, make sure to add them to ScenarioConfiguration too
+*/
+
+object Scenarios {
+    val jwt = JWTGenerator.getClientJwt
+    /**
+    * These are the scenarios run in 'normal' mode. Change the randomSwitch percentages to emulate your production-like workload distribution
+    * Define the number of transactions per second and test duration in the profile section of the pom.xml for your load, stress and endurance tests.  
+    * As per default the JwtFeeder is active and creates JWT Tokens for members that exists in the acc environment using:  http://idp.ah-acc.k8s.digitaldev.nl/secure/test-member-jwt
+    * In case you need client tokens then uncomment: .exec(session => session.set("JWT", jwt)) then the JWTGenerator will create tokens using this url: http://idp.ah-acc.k8s.digitaldev.nl/secure/client-jwt
+    */
+
+    val acceptanceScenario = scenario("acceptance").feed(JwtFeeder.jwtFeed)
+    .exec(session => session.set("testRunId", TestConfiguration.testRunId))
+    //.exec(session => session.set("JWT", jwt))
+    .randomSwitch(
+
+        {{#apiInfo}}
+            {{#apis}}
+                {{#operations}}
+                    {{#operation}}
+        1.0 -> exec({{classname}}.{{operationId}}Scn),
+                    {{/operation}}
+                {{/operations}}
+            {{/apis}}
+        1.0 -> exec() // remove this, plus preceding comma
+        {{/apiInfo}}
+
+       )
+
+    /**
+    * These are the scenarios run in 'debug' mode. The purpose of the debug mode is to iterate through all the requests just once to validate that they work as intended.
+    */
+
+    val debugScenario = scenario("debug").feed(JwtFeeder.jwtFeed)
+    .exec(session => session.set("testRunId", TestConfiguration.testRunId))
+    //.exec(session => session.set("jwt", jwt))
+{{#apiInfo}}
+    {{#apis}}
+        {{#operations}}
+            {{#operation}}
+    .exec({{ classname }}.{{operationId}}Scn)
+            {{/operation}}
+        {{/operations}}
+    {{/apis}}
+{{/apiInfo}}
+
+
+
+}

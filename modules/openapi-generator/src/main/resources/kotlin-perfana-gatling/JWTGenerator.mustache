@@ -1,0 +1,60 @@
+package {{ helperPackage}}
+
+import {{ configurationPackage }}.*
+import com.google.common.cache.CacheBuilder
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.TimeUnit
+
+object JWTGenerator {
+
+    private val jwtCache = CacheBuilder.newBuilder()
+            .maximumSize(3000L)
+            .expireAfterWrite(30, TimeUnit.MINUTES)
+            .build<String, String>()
+
+    fun getToken(memberId: String? = null): String {
+        val cachedJwt = getJwtFromCacheIfPresent(memberId)
+        if (TestConfiguration.idpUrl != null) {
+            if (cachedJwt == null) {
+                val body = getRequestBody(memberId)
+                val url = getIdpURL(memberId)
+                val http = url.openConnection() as HttpURLConnection
+
+                http.requestMethod = "POST"
+                http.doOutput = true
+                http.setFixedLengthStreamingMode(body.size)
+                http.setRequestProperty("Content-Type", "application/json")
+                http.connect()
+                http.outputStream.use { os -> os.write(body) }
+
+                val response = http.inputStream.bufferedReader().use { it.readText() }
+
+                if (http.responseCode == 200) {
+                    putJwtInCache(memberId, response)
+                    return response
+                } else {
+                    throw RuntimeException("Failed to retrieve JWT from member $memberId from IDP. Response ${http.responseCode}: $response")
+                }
+            }
+        }
+        return cachedJwt.toString()
+    }
+
+    private fun getJwtFromCacheIfPresent(memberId: String?) =
+            memberId?.let { jwtCache.getIfPresent(it) } ?: jwtCache.getIfPresent("load-test")
+
+    private fun putJwtInCache(memberId: String?, jwt: String) {
+        memberId?.let { jwtCache.put(it, jwt) } ?: jwtCache.put("load-test", jwt)
+    }
+
+    private fun getIdpURL(memberId: String?) =
+            memberId?.let { URL("${TestConfiguration.idpUrl}/secure/test-member-jwt") }
+                    ?: URL("${TestConfiguration.idpUrl}/secure/client-jwt")
+
+    private fun getRequestBody(memberId: String?) =
+            memberId?.let {
+                """{"client_id": "load-test", "client_secret": "load-test-secret", "member": ${memberId}}""".toByteArray()
+            } ?: """{"client_id": "load-test", "client_secret": "load-test-secret"}""".toByteArray()
+
+}

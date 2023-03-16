@@ -1,0 +1,23 @@
+package {{ helperPackage}}
+
+import {{ configurationPackage }}.*
+
+object ConfigurationDumper {
+
+    // dump all configuration settings to log
+
+    fun dumpConfig() {
+        println("=".repeat(100))
+        println("System Properties values:")
+        System.getProperties().forEach { name, value ->
+            println("$name = $value")
+        }
+        println("=".repeat(100))
+        println("TestConfiguration values:")
+        TestConfiguration.javaClass.declaredFields.forEach {
+            it.isAccessible = true
+            println("${it.name} = ${it.get(TestConfiguration)}")
+        }
+        println("=".repeat(100))
+    }
+}

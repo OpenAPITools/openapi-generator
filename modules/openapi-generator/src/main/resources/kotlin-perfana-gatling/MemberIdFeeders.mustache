@@ -1,0 +1,10 @@
+package {{feederPackage}}
+
+import io.gatling.javaapi.core.CoreDsl.csv
+
+
+object MemberIdFeeders {
+
+    val memberIdFeeder = csv("data/members-acc.csv").circular()
+    val memberIdSmallFeeder = csv("data/members-acc-small.csv").circular()
+}

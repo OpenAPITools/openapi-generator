@@ -1,0 +1,5 @@
+package {{ feederPackage}}
+
+object TimestampFeeder {
+    val timestamp: Iterator[Map[String, Long]] = Iterator.continually(Map("timestamp" -> System.currentTimeMillis()))
+}

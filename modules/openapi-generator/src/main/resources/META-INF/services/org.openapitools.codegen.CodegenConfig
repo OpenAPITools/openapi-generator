@@ -41,6 +41,7 @@ org.openapitools.codegen.languages.GraphQLSchemaCodegen
 org.openapitools.codegen.languages.GraphQLNodeJSExpressServerCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
+org.openapitools.codegen.languages.KotlinPerfanaGatlingCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.KotlinVertxServerCodegen
@@ -120,6 +121,7 @@ org.openapitools.codegen.languages.ScalaFinchServerCodegen
 org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
+org.openapitools.codegen.languages.ScalaPerfanaGatlingCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalaSttpClientCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen

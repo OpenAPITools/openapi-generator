@@ -1,0 +1,30 @@
+package {{feederPackage}}
+
+
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import java.io.File
+
+object JsonFeeders {
+
+    def getCurrentDirectory = new File("").getAbsolutePath
+
+    def userDataDirectory = getCurrentDirectory + "/src/test/resources/data"
+
+    // json feeders
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-body-feeder}}
+    val {{vendorExtensions.x-gatling-body-feeder}} = jsonFile(userDataDirectory + File.separator + "{{operationId}}-bodyParams.json").random
+                    {{/vendorExtensions.x-gatling-body-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

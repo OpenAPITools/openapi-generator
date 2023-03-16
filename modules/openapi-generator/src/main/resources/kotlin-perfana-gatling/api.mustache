@@ -1,0 +1,51 @@
+package {{package}}
+
+import {{feederPackage}}.*
+import io.gatling.javaapi.core.CoreDsl.*
+import io.gatling.javaapi.http.HttpDsl.*
+
+object {{classname}}  {
+
+
+{{#operations}}
+{{#operation}}
+    private val {{{operationId}}}RequestName = "{{{operationId}}}"
+
+    {{#description}}/* {{{description}}} */{{/description}}
+    val {{operationId}}Scn = scenario("{{operationId}}Simulation")
+    {{#vendorExtensions.x-gatling-query-feeder}}
+        .feed(CsvFeeders.{{vendorExtensions.x-gatling-query-feeder}})
+    {{/vendorExtensions.x-gatling-query-feeder}}
+    {{#vendorExtensions.x-gatling-header-feeder}}
+        .feed(CsvFeeders.{{vendorExtensions.x-gatling-header-feeder}})
+    {{/vendorExtensions.x-gatling-header-feeder}}
+    {{#vendorExtensions.x-gatling-form-feeder}}
+        .feed(CsvFeeders.{{vendorExtensions.x-gatling-form-feeder}})
+    {{/vendorExtensions.x-gatling-form-feeder}}
+    {{#vendorExtensions.x-gatling-body-feeder}}
+        .feed(JsonFeeders.{{vendorExtensions.x-gatling-body-feeder}})
+    {{/vendorExtensions.x-gatling-body-feeder}}
+    {{#vendorExtensions.x-gatling-path-feeder}}
+        .feed(CsvFeeders.{{vendorExtensions.x-gatling-path-feeder}})
+    {{/vendorExtensions.x-gatling-path-feeder}}
+        .exec(http({{{operationId}}}RequestName)
+        .httpRequest("{{httpMethod}}","{{{vendorExtensions.x-gatling-path}}}")
+        {{#vendorExtensions.x-gatling-query-params}}
+        .queryParam("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-query-params}}
+        .header("perfana-request-name", {{{operationId}}}RequestName.replace(" ", "_"))
+        {{#vendorExtensions.x-gatling-header-params}}
+        .header("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-header-params}}
+        {{#vendorExtensions.x-gatling-form-params}}
+        .formParam("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-form-params}}
+        {{#vendorExtensions.x-gatling-body-object}}
+        .body(ElFileBody("bodies/{{operationId}}Body.json")).asJson()
+        {{/vendorExtensions.x-gatling-body-object}}
+        )
+
+
+{{/operation}}
+{{/operations}}
+}

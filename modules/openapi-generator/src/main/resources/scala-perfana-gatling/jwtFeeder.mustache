@@ -1,0 +1,57 @@
+package {{feederPackage}}
+
+import {{ configurationPackage }}._
+import com.jayway.jsonpath.JsonPath
+import java.security.MessageDigest
+import scalaj.http.{Http, HttpResponse}
+import io.gatling.core.Predef._
+
+
+object JwtFeeder {
+
+  val jwtFeed = jwtFeeder.circular
+
+  /**
+   * JWT feeder using IDP
+   */
+
+  def jwtFeeder: Array[Map[String, String]] = {
+
+    val testDataPath = if (TestConfiguration.isDebugActive) { // when debug profile is activated only the small testdata set is taken otherwise debugging scripts will take too long
+      "data/members-acc-small.csv"
+    } else {
+      "data/members-acc.csv"
+    }
+
+    val records = csv(testDataPath).readRecords
+
+    println(s"Starting to retrieve tokens and JWTs for ${records.length} members:")
+
+    var listOfJWTs: Array[Map[String, String]] = Array.empty
+
+    var counter: Int = 0
+    records.foreach(entry => {
+      val memberId: String = entry.getOrElse("memberId", "").asInstanceOf[String]
+
+      val body = s"""{"client_id": "load-test", "client_secret": "load-test-secret", "member": ${memberId}}"""
+      val response: HttpResponse[String] = Http("http://idp.ah-acc.k8s.digitaldev.nl/secure/test-member-jwt")
+        .postData(body)
+        .timeout(connTimeoutMs = 3000, readTimeoutMs = 30000)
+        .header("Content-Type", "application/json")
+        .asString
+
+      response.code match {
+        case 200 =>
+          counter = counter + 1
+          listOfJWTs = listOfJWTs :+ Map("JWT" -> response.body, "memberId" -> memberId) // JWT and member number are placed in feeder array
+          if (counter >= 10) {
+            println(s"Retrieved ${listOfJWTs.length} from the total of ${records.length}")
+            counter = 0
+          }
+        case _ => throw new RuntimeException(s"Failed to retrieve JWT from member $memberId from IDP. Response ${response.code}: ${response.body}")
+      }})
+    listOfJWTs // return the array
+
+  }
+
+}

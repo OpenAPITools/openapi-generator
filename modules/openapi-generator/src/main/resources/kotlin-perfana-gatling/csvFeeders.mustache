@@ -1,0 +1,31 @@
+package {{feederPackage}}
+
+import io.gatling.javaapi.core.CoreDsl.csv
+
+object CsvFeeders {
+
+    // csv feeders
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-query-feeder}}
+    val {{vendorExtensions.x-gatling-query-feeder}} = csv("data/{{operationId}}-queryParams.csv").random()
+                    {{/vendorExtensions.x-gatling-query-feeder}}
+                    {{#vendorExtensions.x-gatling-header-feeder}}
+    val {{vendorExtensions.x-gatling-header-feeder}} = csv("data/{{operationId}}-headerParams.csv").random()
+                    {{/vendorExtensions.x-gatling-header-feeder}}
+                    {{#vendorExtensions.x-gatling-form-feeder}}
+    val {{vendorExtensions.x-gatling-form-feeder}} = csv("data/{{operationId}}-formParams.csv").random()
+                    {{/vendorExtensions.x-gatling-form-feeder}}
+                    {{#vendorExtensions.x-gatling-path-feeder}}
+    val {{vendorExtensions.x-gatling-path-feeder}} = csv("data/{{operationId}}-pathParams.csv").random()
+                    {{/vendorExtensions.x-gatling-path-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

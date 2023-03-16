@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
+		</encoder>
+		<immediateFlush>false</immediateFlush>
+	</appender>
+
+	<!-- uncomment and set to DEBUG to log all failing HTTP requests -->
+	<!-- uncomment and set to TRACE to log all HTTP requests -->
+	<!-- <logger name="io.gatling.http.engine.response" level="TRACE" /> -->
+
+	<root level="WARN">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

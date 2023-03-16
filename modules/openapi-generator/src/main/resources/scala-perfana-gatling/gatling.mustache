@@ -1,0 +1,127 @@
+#########################
+# Gatling Configuration #
+#########################
+
+# This file contains all the settings configurable for Gatling with their default values
+
+gatling {
+  core {
+    outputDirectoryBaseName = "" # The prefix for each simulation result folder (then suffixed by the report generation timestamp)
+    runDescription = "Perfana"          # The description for this simulation run, displayed in each report
+    encoding = "utf-8"           # Encoding to use throughout Gatling for file and string manipulation
+    simulationClass = ""         # The FQCN of the simulation to run (when used in conjunction with noReports, the simulation for which assertions will be validated)
+    elFileBodiesCacheMaxCapacity = 200      # Cache size for request body EL templates, set to 0 to disable
+    rawFileBodiesCacheMaxCapacity = 200     # Cache size for request body Raw templates, set to 0 to disable
+    rawFileBodiesInMemoryMaxSize = 1000     # Below this limit, raw file bodies will be cached in memory
+    pebbleFileBodiesCacheMaxCapacity = 200  # Cache size for request body Peeble templates, set to 0 to disable
+    feederAdaptiveLoadModeThreshold = 100   # File size threshold (in MB). Below load eagerly in memory, above use batch mode with default buffer size
+    shutdownTimeout = 10000                 # Milliseconds to wait for the actor system to shutdown
+    extract {
+      regex {
+        cacheMaxCapacity = 200 # Cache size for the compiled regexes, set to 0 to disable caching
+      }
+      xpath {
+        cacheMaxCapacity = 200 # Cache size for the compiled XPath queries,  set to 0 to disable caching
+      }
+      jsonPath {
+        cacheMaxCapacity = 200 # Cache size for the compiled jsonPath queries, set to 0 to disable caching
+      }
+      css {
+        cacheMaxCapacity = 200 # Cache size for the compiled CSS selectors queries,  set to 0 to disable caching
+      }
+    }
+    directory {
+      simulations = user-files/simulations # Directory where simulation classes are located (for bundle packaging only)
+      resources = user-files/resources     # Directory where resources, such as feeder files and request bodies are located (for bundle packaging only)
+      reportsOnly = ""                     # If set, name of report folder to look for in order to generate its report
+      binaries = ""                        # If set, name of the folder where compiles classes are located: Defaults to GATLING_HOME/target.
+      results = results                    # Name of the folder where all reports folder are located
+    }
+  }
+  socket {
+    connectTimeout = 10000                 # Timeout in millis for establishing a TCP socket
+    tcpNoDelay = true
+    soKeepAlive = false                    # if TCP keepalive configured at OS level should be used
+    soReuseAddress = false
+  }
+  netty {
+    useNativeTransport = true              # if Netty native transport should be used instead of Java NIO
+    allocator = "pooled"                   # switch to unpooled for unpooled ByteBufAllocator
+    maxThreadLocalCharBufferSize = 200000  # Netty's default is 16k
+  }
+  ssl {
+    useOpenSsl = true                    # if OpenSSL should be used instead of JSSE (only the latter can be debugged with -Djava.net.debug=ssl)
+    useOpenSslFinalizers = false         # if OpenSSL contexts should be freed with Finalizer or if using RefCounted is fine
+    handshakeTimeout = 10000             # TLS handshake timeout in millis
+    useInsecureTrustManager = true       # Use an insecure TrustManager that trusts all server certificates
+    enabledProtocols = []             # Array of enabled protocols for HTTPS, if empty use Netty's defaults
+    enabledCipherSuites = []          # Array of enabled cipher suites for HTTPS, if empty enable all available ciphers
+    sessionCacheSize = 0              # SSLSession cache size, set to 0 to use JDK's default
+    sessionTimeout = 0                # SSLSession timeout in seconds, set to 0 to use JDK's default (24h)
+    enableSni = true                     # When set to true, enable Server Name indication (SNI)
+    keyStore {
+      type = ""      # Type of SSLContext's KeyManagers store
+      file = ""      # Location of SSLContext's KeyManagers store
+      password = ""  # Password for SSLContext's KeyManagers store
+      algorithm = "" # Algorithm used SSLContext's KeyManagers store
+    }
+    trustStore {
+      type = ""      # Type of SSLContext's TrustManagers store
+      file = ""      # Location of SSLContext's TrustManagers store
+      password = ""  # Password for SSLContext's TrustManagers store
+      algorithm = "" # Algorithm used by SSLContext's TrustManagers store
+    }
+  }
+  charting {
+    noReports = false       # When set to true, don't generate HTML reports
+    maxPlotPerSeries = 1000 # Number of points per graph in Gatling reports
+    useGroupDurationMetric = false  # Switch group timings from cumulated response time to group duration.
+    indicators {
+      lowerBound = 800      # Lower bound for the requests' response time to track in the reports and the console summary
+      higherBound = 1200    # Higher bound for the requests' response time to track in the reports and the console summary
+      percentile1 = 50      # Value for the 1st percentile to track in the reports, the console summary and Graphite
+      percentile2 = 75      # Value for the 2nd percentile to track in the reports, the console summary and Graphite
+      percentile3 = 95      # Value for the 3rd percentile to track in the reports, the console summary and Graphite
+      percentile4 = 99      # Value for the 4th percentile to track in the reports, the console summary and Graphite
+    }
+  }
+  http {
+    fetchedCssCacheMaxCapacity = 200          # Cache size for CSS parsed content, set to 0 to disable
+    fetchedHtmlCacheMaxCapacity = 200         # Cache size for HTML parsed content, set to 0 to disable
+    perUserCacheMaxCapacity = 200             # Per virtual user cache size, set to 0 to disable
+    warmUpUrl = "https://gatling.io"          # The URL to use to warm-up the HTTP stack (blank means disabled)
+    enableGA = true                           # Very light Google Analytics (Gatling and Java version), please support
+    pooledConnectionIdleTimeout = 60000       # Timeout in millis for a connection to stay idle in the pool
+    requestTimeout = 60000                    # Timeout in millis for performing an HTTP request
+    enableHostnameVerification = false        # When set to true, enable hostname verification: SSLEngine.setHttpsEndpointIdentificationAlgorithm("HTTPS")
+    dns {
+      queryTimeout = 5000                     # Timeout in millis of each DNS query in millis
+      maxQueriesPerResolve = 6                # Maximum allowed number of DNS queries for a given name resolution
+    }
+  }
+  jms {
+    replyTimeoutScanPeriod = 1000  # scan period for timedout reply messages
+  }
+  data {
+    writers = [console, file, graphite]      # The list of DataWriters to which Gatling write simulation data (currently supported : console, file, graphite)
+    console {
+      light = false                # When set to true, displays a light version without detailed request stats
+      writePeriod = 5              # Write interval, in seconds
+    }
+    file {
+      bufferSize = 8192            # FileDataWriter's internal data buffer size, in bytes
+    }
+    leak {
+      noActivityTimeout = 30  # Period, in seconds, for which Gatling may have no activity before considering a leak may be happening
+    }
+    graphite {
+      #light = false              # only send the all* stats
+      host = "{{ influxDbHost }}"
+      port = 2003
+      protocol = "tcp"           # The protocol used to send data to Carbon (currently supported : "tcp", "udp")
+      rootPathPrefix = "gatling2" # The common prefix of all metrics sent to Graphite
+      #bufferSize = 8192          # GraphiteDataWriter's internal data buffer size, in bytes
+      writePeriod = 10          # GraphiteDataWriter's write interval, in seconds
+    }
+  }
+}

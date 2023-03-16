@@ -1,0 +1,35 @@
+package {{ configurationPackage }}
+
+/**
+* Contains the configuration needed to build the Scenarios to run.
+*/
+
+object TestConfiguration {
+
+    val targetBaseUrl = System.getProperty("targetBaseUrl") ?: "http://localhost:8080"
+
+    val testEnvironment = System.getProperty("testEnvironment") ?: "UNKNOWN_TEST_ENVIRONMENT"
+
+    val testRunId = System.getProperty("testRunId") ?: "NO_TEST_RUN_ID"
+
+    val idpUrl = System.getProperty("idpUrl") ?: null
+
+    val initialUsersPerSecond: Double = System.getProperty("initialUsersPerSecond")?.toDouble() ?: 1.0
+
+    val targetUsersPerSecond: Double = System.getProperty("targetUsersPerSecond")?.toDouble() ?: 1.0
+
+    val rampupTimeInSeconds = System.getProperty("rampupTimeInSeconds")?.toLong() ?: 1
+
+    val constantLoadTimeInSeconds = System.getProperty("constantLoadTimeInSeconds")?.toLong() ?: 60
+
+    val isDebugActive = System.getProperty("debug") == "true"
+
+    val useProxy = System.getProperty("useProxy") == "true"
+
+    val dbUrl: String = System.getProperty("db.url") ?: "jdbc://localhost:3306"
+
+    val dbUsername: String = System.getProperty("db.username") ?: "root"
+
+    val dbPassword: String = System.getProperty("db.password") ?: "perfana"
+
+}

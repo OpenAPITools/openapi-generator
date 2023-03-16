@@ -1,0 +1,26 @@
+package {{ configurationPackage }}
+
+
+import {{ setUpPackage }}.Scenarios
+
+object ScenarioConfiguration {
+
+/**
+* This determines what scenario to use as baseScenario based on the profile
+* selected when starting the test. Add new profile to scenarios mappings here.
+*/
+
+val scenario = System.getProperty("scenario")
+
+    val baseScenario = scenario match {
+
+        case "debug" => Scenarios.debugScenario
+        case "acceptance" => Scenarios.acceptanceScenario
+        case _ => Scenarios.acceptanceScenario
+
+
+    }
+
+
+
+}
