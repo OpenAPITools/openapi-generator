@@ -81,7 +81,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<>());
+      this.mapProperty = new HashMap<>();
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -114,7 +114,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<>());
+      this.mapOfMapProperty = new HashMap<>();
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
@@ -230,7 +230,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapWithUndeclaredPropertiesAnytype3Item(String key, Object mapWithUndeclaredPropertiesAnytype3Item) {
     if (this.mapWithUndeclaredPropertiesAnytype3 == null) {
-      this.mapWithUndeclaredPropertiesAnytype3 = new HashMap<>());
+      this.mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
     }
     this.mapWithUndeclaredPropertiesAnytype3.put(key, mapWithUndeclaredPropertiesAnytype3Item);
     return this;
@@ -288,7 +288,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapWithUndeclaredPropertiesStringItem(String key, String mapWithUndeclaredPropertiesStringItem) {
     if (this.mapWithUndeclaredPropertiesString == null) {
-      this.mapWithUndeclaredPropertiesString = new HashMap<>());
+      this.mapWithUndeclaredPropertiesString = new HashMap<>();
     }
     this.mapWithUndeclaredPropertiesString.put(key, mapWithUndeclaredPropertiesStringItem);
     return this;
