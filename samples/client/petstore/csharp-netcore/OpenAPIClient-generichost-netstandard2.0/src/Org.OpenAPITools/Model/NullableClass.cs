@@ -269,17 +269,11 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "integer_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int integerPropResult);
-                                integerProp = integerPropResult;
-                            }
+                                integerProp = utf8JsonReader.GetInt32();
                             break;
                         case "number_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int numberPropResult);
-                                numberProp = numberPropResult;
-                            }
+                                numberProp = utf8JsonReader.GetInt32();
                             break;
                         case "object_and_items_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

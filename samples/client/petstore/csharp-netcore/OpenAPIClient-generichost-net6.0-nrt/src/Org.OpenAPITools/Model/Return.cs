@@ -126,7 +126,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out returnProperty);
+                                returnProperty = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;

@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "my_number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDecimal(out myNumber);
+                                myNumber = utf8JsonReader.GetDecimal();
                             break;
                         case "my_string":
                             myString = utf8JsonReader.GetString();

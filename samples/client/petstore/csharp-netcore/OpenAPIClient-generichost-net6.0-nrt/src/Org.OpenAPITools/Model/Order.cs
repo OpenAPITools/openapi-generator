@@ -260,15 +260,15 @@ namespace Org.OpenAPITools.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt64(out id);
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "petId":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt64(out petId);
+                                petId = utf8JsonReader.GetInt64();
                             break;
                         case "quantity":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out quantity);
+                                quantity = utf8JsonReader.GetInt32();
                             break;
                         case "shipDate":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

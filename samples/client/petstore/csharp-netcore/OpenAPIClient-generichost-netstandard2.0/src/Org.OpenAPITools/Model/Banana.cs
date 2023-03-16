@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDecimal(out lengthCm);
+                                lengthCm = utf8JsonReader.GetDecimal();
                             break;
                         default:
                             break;

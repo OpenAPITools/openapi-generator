@@ -183,11 +183,11 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetGuid(out uuid);
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         case "uuid_with_pattern":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetGuid(out uuidWithPattern);
+                                uuidWithPattern = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;

@@ -126,7 +126,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "age":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out age);
+                                age = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;

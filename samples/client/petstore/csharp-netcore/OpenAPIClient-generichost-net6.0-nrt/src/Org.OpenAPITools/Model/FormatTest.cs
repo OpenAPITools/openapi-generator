@@ -487,30 +487,27 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "double":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDouble(out doubleProperty);
+                                doubleProperty = utf8JsonReader.GetDouble();
                             break;
                         case "float":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetDouble(out double floatPropertyResult);
-                                floatProperty = (float)floatPropertyResult;
-                            }
+                                floatProperty = (float)utf8JsonReader.GetDouble();
                             break;
                         case "int32":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out int32);
+                                int32 = utf8JsonReader.GetInt32();
                             break;
                         case "int64":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt64(out int64);
+                                int64 = utf8JsonReader.GetInt64();
                             break;
                         case "integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out integer);
+                                integer = utf8JsonReader.GetInt32();
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDecimal(out number);
+                                number = utf8JsonReader.GetDecimal();
                             break;
                         case "password":
                             password = utf8JsonReader.GetString();
@@ -526,15 +523,15 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "unsigned_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetUInt32(out unsignedInteger);
+                                unsignedInteger = utf8JsonReader.GetUInt32();
                             break;
                         case "unsigned_long":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetUInt64(out unsignedLong);
+                                unsignedLong = utf8JsonReader.GetUInt64();
                             break;
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetGuid(out uuid);
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
