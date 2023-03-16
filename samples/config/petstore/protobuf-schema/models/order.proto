@@ -12,7 +12,7 @@ syntax = "proto3";
 
 package petstore;
 
-import "google/protobuf/timestamp.proto";
+import "google/type/datetime.proto";
 
 message Order {
 
@@ -22,7 +22,7 @@ message Order {
 
   int32 quantity = 211262327;
 
-  google.protobuf.Timestamp shipDate = 517554166;
+  google.type.DateTime shipDate = 517554166;
 
   // Order Status
   enum Status {

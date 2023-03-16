@@ -13,8 +13,8 @@ syntax = "proto3";
 package openapitools;
 
 import "google/protobuf/duration.proto";
-import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
+import "google/type/datetime.proto";
 import "google/type/timeofday.proto";
 
 message Pet {
@@ -23,7 +23,7 @@ message Pet {
 
   google.type.Date birthDate = 136290037;
 
-  google.protobuf.Timestamp shipDate = 517554166;
+  google.type.DateTime shipDate = 517554166;
 
   google.protobuf.Duration visitDuration = 381778945;
 

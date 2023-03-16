@@ -161,8 +161,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "string");
+        typeMapping.put("date", "google.type.Date");
+        typeMapping.put("time", "google.type.TimeOfDay");
+        typeMapping.put("DateTime", "google.type.DateTime");
+        typeMapping.put("duration", "google.protobuf.Duration");
         typeMapping.put("password", "string");
         // TODO fix file mapping
         typeMapping.put("file", "string");
@@ -175,7 +177,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         importMapping.put("google.protobuf.Any", "google/protobuf/any");
         importMapping.put("google.type.Date", "google/type/date");
         importMapping.put("google.type.TimeOfDay", "google/type/timeofday");
-        importMapping.put("google.protobuf.Timestamp", "google/protobuf/timestamp");
+        importMapping.put("google.type.DateTime", "google/type/datetime");
         importMapping.put("google.protobuf.Duration", "google/protobuf/duration");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
