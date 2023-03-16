@@ -1,5 +1,5 @@
 <h1 align="center">OpenAPI Generator</h1>
-
+ 
 
 <div align="center">
 
