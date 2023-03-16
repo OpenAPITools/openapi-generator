@@ -47,7 +47,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -63,7 +62,7 @@ public interface PetApiDelegate {
      */
     default Void deletePet(Long petId,
         String apiKey) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -91,7 +90,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -122,7 +120,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -152,7 +149,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -185,7 +181,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -203,7 +198,7 @@ public interface PetApiDelegate {
     default Void updatePetWithForm(Long petId,
         String name,
         String status) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -229,7 +224,6 @@ public interface PetApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }

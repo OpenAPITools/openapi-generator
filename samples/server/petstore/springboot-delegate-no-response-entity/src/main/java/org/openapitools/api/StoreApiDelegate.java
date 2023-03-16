@@ -33,7 +33,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#deleteOrder
      */
     default Void deleteOrder(String orderId) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -45,7 +45,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default Map<String, Integer> getInventory() {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -74,7 +74,6 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -103,7 +102,6 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }

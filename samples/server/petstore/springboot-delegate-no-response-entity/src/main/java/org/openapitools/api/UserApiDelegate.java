@@ -33,7 +33,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUser
      */
     default Void createUser(User user) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -46,7 +46,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     default Void createUsersWithArrayInput(List<User> user) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -59,7 +59,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     default Void createUsersWithListInput(List<User> user) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -73,7 +73,7 @@ public interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     default Void deleteUser(String username) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -102,7 +102,6 @@ public interface UserApiDelegate {
                 }
             }
         });
-        
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -119,7 +118,7 @@ public interface UserApiDelegate {
      */
     default String loginUser(String username,
         String password) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -131,7 +130,7 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default Void logoutUser() {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 
@@ -147,7 +146,7 @@ public interface UserApiDelegate {
      */
     default Void updateUser(String username,
         User user) {
-        return throw new IllegalArgumentException("Not implemented");
+        throw new IllegalArgumentException("Not implemented");
 
     }
 

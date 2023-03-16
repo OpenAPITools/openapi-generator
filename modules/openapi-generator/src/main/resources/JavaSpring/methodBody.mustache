@@ -14,8 +14,9 @@ return CompletableFuture.supplyAsync(()-> {
     {{#-last}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}        }
 {{#async}}    {{/async}}        });
-{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});{{/useResponseEntity}}
-{{^useResponseEntity}}        throw new IllegalArgumentException("Not implemented");
+{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
 {{/useResponseEntity}}
             {{#async}}
         }, Runnable::run);
@@ -23,7 +24,10 @@ return CompletableFuture.supplyAsync(()-> {
     {{/-last}}
 {{/examples}}
 {{^examples}}
-{{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};{{/useResponseEntity}}{{^useResponseEntity}}return {{#jdk8}}{{#async}}CompletableFuture.runAsync(() ->{{/async}}{{/jdk8}}throw new IllegalArgumentException("Not implemented"){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};{{/useResponseEntity}}
+{{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
