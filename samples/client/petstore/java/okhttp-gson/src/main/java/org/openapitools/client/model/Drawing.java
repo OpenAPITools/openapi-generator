@@ -147,6 +147,9 @@ public class Drawing {
   }
 
   public Drawing addShapesItem(Shape shapesItem) {
+    if (this.shapes == null) {
+      this.shapes = new ArrayList<>();
+    }
     this.shapes.add(shapesItem);
     return this;
   }

@@ -246,6 +246,9 @@ public class NullableClass {
   }
 
   public NullableClass addArrayNullablePropItem(Object arrayNullablePropItem) {
+    if (this.arrayNullableProp == null) {
+      this.arrayNullableProp = new ArrayList<>();
+    }
     this.arrayNullableProp.add(arrayNullablePropItem);
     return this;
   }
@@ -273,6 +276,9 @@ public class NullableClass {
   }
 
   public NullableClass addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
+    if (this.arrayAndItemsNullableProp == null) {
+      this.arrayAndItemsNullableProp = new ArrayList<>();
+    }
     this.arrayAndItemsNullableProp.add(arrayAndItemsNullablePropItem);
     return this;
   }
@@ -300,6 +306,9 @@ public class NullableClass {
   }
 
   public NullableClass addArrayItemsNullableItem(Object arrayItemsNullableItem) {
+    if (this.arrayItemsNullable == null) {
+      this.arrayItemsNullable = new ArrayList<>();
+    }
     this.arrayItemsNullable.add(arrayItemsNullableItem);
     return this;
   }
@@ -327,6 +336,9 @@ public class NullableClass {
   }
 
   public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
+    if (this.objectNullableProp == null) {
+      this.objectNullableProp = new HashMap<>());
+    }
     this.objectNullableProp.put(key, objectNullablePropItem);
     return this;
   }
@@ -354,6 +366,9 @@ public class NullableClass {
   }
 
   public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
+    if (this.objectAndItemsNullableProp == null) {
+      this.objectAndItemsNullableProp = new HashMap<>());
+    }
     this.objectAndItemsNullableProp.put(key, objectAndItemsNullablePropItem);
     return this;
   }
@@ -382,7 +397,7 @@ public class NullableClass {
 
   public NullableClass putObjectItemsNullableItem(String key, Object objectItemsNullableItem) {
     if (this.objectItemsNullable == null) {
-      this.objectItemsNullable = new HashMap<>();
+      this.objectItemsNullable = new HashMap<>());
     }
     this.objectItemsNullable.put(key, objectItemsNullableItem);
     return this;

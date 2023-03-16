@@ -117,6 +117,9 @@ public class ArrayOfInlineAllOf {
   }
 
   public ArrayOfInlineAllOf addArrayAllofDogPropertyItem(ArrayOfInlineAllOfArrayAllofDogPropertyInner arrayAllofDogPropertyItem) {
+    if (this.arrayAllofDogProperty == null) {
+      this.arrayAllofDogProperty = new ArrayList<>();
+    }
     this.arrayAllofDogProperty.add(arrayAllofDogPropertyItem);
     return this;
   }

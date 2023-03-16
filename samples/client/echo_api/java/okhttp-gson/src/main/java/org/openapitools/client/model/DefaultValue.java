@@ -263,6 +263,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringItem(String arrayStringItem) {
+    if (this.arrayString == null) {
+      this.arrayString = new ArrayList<>();
+    }
     this.arrayString.add(arrayStringItem);
     return this;
   }
@@ -290,6 +293,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
+    if (this.arrayStringNullable == null) {
+      this.arrayStringNullable = new ArrayList<>();
+    }
     this.arrayStringNullable.add(arrayStringNullableItem);
     return this;
   }
@@ -317,6 +323,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
+    if (this.arrayStringExtensionNullable == null) {
+      this.arrayStringExtensionNullable = new ArrayList<>();
+    }
     this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
     return this;
   }
