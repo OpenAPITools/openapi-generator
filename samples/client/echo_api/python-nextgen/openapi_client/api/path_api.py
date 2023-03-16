@@ -146,22 +146,20 @@ class PathApi(object):
         _path_params = {}
         if _params['path_string']:
             _path_params['path_string'] = _params['path_string']
+
         if _params['path_integer']:
             _path_params['path_integer'] = _params['path_integer']
 
+
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['text/plain'])  # noqa: E501

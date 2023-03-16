@@ -16,7 +16,7 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
 from typing import Any, List
 from pydantic import StrictStr, Field
@@ -68,6 +68,10 @@ class AnyOfColor(BaseModel):
             raise ValueError("No match found when deserializing the JSON string into AnyOfColor with anyOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
+
+    @classmethod
+    def from_dict(cls, obj: dict) -> AnyOfColor:
+        return cls.from_json(json.dumps(obj))
 
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfColor:

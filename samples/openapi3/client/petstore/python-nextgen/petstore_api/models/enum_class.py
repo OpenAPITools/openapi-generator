@@ -31,6 +31,6 @@ class EnumClass(str, Enum):
     """
 
     ABC = '_abc'
-    EFG = '-efg'
-    XYZ = '(xyz)'
+    MINUS_EFG = '-efg'
+    LEFT_PARENTHESIS_XYZ_RIGHT_PARENTHESIS = '(xyz)'
 

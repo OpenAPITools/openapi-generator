@@ -4389,4 +4389,81 @@ public class DefaultCodegenTest {
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
     }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema.getAnyOf().size(), 2);
+        assertNull(schema.getNullable());
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
+        assertEquals(schema2.getOneOf().size(), 2);
+        assertNull(schema2.getNullable());
+
+        Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema5.getOneOf().size(), 3);
+        assertNull(schema5.getNullable());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertNull(schema3.getAnyOf());
+        assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getNullable());
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("OneOfTest");
+        assertNull(schema4.getOneOf());
+        assertTrue(schema4 instanceof IntegerSchema);
+
+        Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
+        assertEquals(schema6.getOneOf().size(), 2);
+        assertTrue(schema6.getNullable());
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyBooleanEnum() {
+        // to test the rule SIMPLIFY_BOOLEAN_ENUM
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyBooleanEnum_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("BooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertEquals(bs.getEnum().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_BOOLEAN_ENUM", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("BooleanEnumTest");
+        assertEquals(schema.getProperties().size(), 3);
+        assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
+        BooleanSchema bs2 = (BooleanSchema) schema.getProperties().get("boolean_enum");
+        assertNull(bs2.getEnum()); //ensure the enum has been erased
+    }
+
+    @Test
+    public void testOpenAPINormalizerSetTagsInAllOperations() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_TAGS_FOR_ALL_OPERATIONS", "core");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "core");
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().get(0), "core");
+    }
 }

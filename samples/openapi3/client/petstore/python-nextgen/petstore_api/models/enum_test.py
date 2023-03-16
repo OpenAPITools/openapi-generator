@@ -32,6 +32,7 @@ class EnumTest(BaseModel):
     """
     enum_string: Optional[StrictStr] = None
     enum_string_required: StrictStr = ...
+    enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[StrictFloat] = None
     outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
@@ -39,7 +40,7 @@ class EnumTest(BaseModel):
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["enum_string", "enum_string_required", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @validator('enum_string')
     def enum_string_validate_enum(cls, v):
@@ -54,6 +55,15 @@ class EnumTest(BaseModel):
     def enum_string_required_validate_enum(cls, v):
         if v not in ('UPPER', 'lower', ''):
             raise ValueError("must validate the enum values ('UPPER', 'lower', '')")
+        return v
+
+    @validator('enum_integer_default')
+    def enum_integer_default_validate_enum(cls, v):
+        if v is None:
+            return v
+
+        if v not in (1, 5, 14):
+            raise ValueError("must validate the enum values (1, 5, 14)")
         return v
 
     @validator('enum_integer')
@@ -121,6 +131,7 @@ class EnumTest(BaseModel):
         _obj = EnumTest.parse_obj({
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),
+            "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
             "enum_integer": obj.get("enum_integer"),
             "enum_number": obj.get("enum_number"),
             "outer_enum": obj.get("outerEnum"),

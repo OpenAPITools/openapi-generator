@@ -7,3 +7,4 @@ additionalProperties:
   documentationProvider: springfox
   artifactId: springboot-spring-pageable
   hideGenerationTimestamp: 'true'
+  implicitHeadersRegex: ^Version.*

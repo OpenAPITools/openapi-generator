@@ -80,6 +80,36 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
+  {{#hasRequired}}
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link {{classname}}#{{classname}}({{#requiredVars}}{{{datatypeWithEnum}}}{{^-last}}, {{/-last}}{{/requiredVars}})}
+   */
+  @Deprecated
+  public {{classname}}() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
+    {{#parent}}
+    super({{#parentRequiredVars}}{{name}}{{^-last}}, {{/-last}}{{/parentRequiredVars}});
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
+    {{#openApiNullable}}
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    {{/openApiNullable}}
+    {{^openApiNullable}}
+    this.{{name}} = {{name}};
+    {{/openApiNullable}}
+    {{/required}}
+    {{/vars}}
+  }
+  {{/hasRequired}}
   {{#vars}}
 
   {{! begin feature: fluent setter methods }}

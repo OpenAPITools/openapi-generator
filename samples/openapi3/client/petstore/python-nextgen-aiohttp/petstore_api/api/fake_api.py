@@ -16,12 +16,13 @@ import re  # noqa: F401
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
+from typing import overload, Optional, Union, Awaitable
 
 from datetime import date, datetime
 
-from pydantic import Field, StrictBool, StrictInt, StrictStr, confloat, conint, constr, validator
+from pydantic import Field, StrictBool, StrictInt, StrictStr, confloat, conint, conlist, constr, validator
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from petstore_api.models.client import Client
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -50,8 +51,16 @@ class FakeApi(object):
             api_client = ApiClient.get_default()
         self.api_client = api_client
 
+    @overload
+    async def fake_health_get(self, **kwargs) -> HealthCheckResult:  # noqa: E501
+        ...
+
+    @overload
+    def fake_health_get(self, async_req: Optional[bool]=True, **kwargs) -> HealthCheckResult:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_health_get(self, **kwargs) -> HealthCheckResult:  # noqa: E501
+    def fake_health_get(self, async_req: Optional[bool]=None, **kwargs) -> Union[HealthCheckResult, Awaitable[HealthCheckResult]]:  # noqa: E501
         """Health check endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -76,6 +85,8 @@ class FakeApi(object):
         :rtype: HealthCheckResult
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
 
     @validate_arguments
@@ -145,17 +156,13 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -184,8 +191,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, **kwargs) -> None:  # noqa: E501
+    def fake_http_signature_test(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], query_1 : Annotated[Optional[StrictStr], Field(description="query parameter")] = None, header_1 : Annotated[Optional[StrictStr], Field(description="header parameter")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -216,6 +231,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_http_signature_test_with_http_info(pet, query_1, header_1, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -305,7 +322,6 @@ class FakeApi(object):
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['pet']:
@@ -340,8 +356,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> bool:  # noqa: E501
+        ...
+
+    @overload
+    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, async_req: Optional[bool]=True, **kwargs) -> bool:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, **kwargs) -> bool:  # noqa: E501
+    def fake_outer_boolean_serialize(self, body : Annotated[Optional[StrictBool], Field(description="Input boolean as post body")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[bool, Awaitable[bool]]:  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
         Test serialization of outer boolean types  # noqa: E501
@@ -369,6 +393,8 @@ class FakeApi(object):
         :rtype: bool
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_outer_boolean_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -442,14 +468,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -490,8 +513,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> OuterComposite:  # noqa: E501
+        ...
+
+    @overload
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, async_req: Optional[bool]=True, **kwargs) -> OuterComposite:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, **kwargs) -> OuterComposite:  # noqa: E501
+    def fake_outer_composite_serialize(self, outer_composite : Annotated[Optional[OuterComposite], Field(description="Input composite as post body")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[OuterComposite, Awaitable[OuterComposite]]:  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
         Test serialization of object with outer number type  # noqa: E501
@@ -519,6 +550,8 @@ class FakeApi(object):
         :rtype: OuterComposite
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_outer_composite_serialize_with_http_info(outer_composite, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -592,14 +625,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['outer_composite']:
@@ -640,8 +670,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_outer_number_serialize(self, body : Annotated[Optional[float], Field(description="Input number as post body")] = None, **kwargs) -> float:  # noqa: E501
+        ...
+
+    @overload
+    def fake_outer_number_serialize(self, body : Annotated[Optional[float], Field(description="Input number as post body")] = None, async_req: Optional[bool]=True, **kwargs) -> float:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_outer_number_serialize(self, body : Annotated[Optional[float], Field(description="Input number as post body")] = None, **kwargs) -> float:  # noqa: E501
+    def fake_outer_number_serialize(self, body : Annotated[Optional[float], Field(description="Input number as post body")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[float, Awaitable[float]]:  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
         Test serialization of outer number types  # noqa: E501
@@ -669,6 +707,8 @@ class FakeApi(object):
         :rtype: float
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_outer_number_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -742,14 +782,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -790,8 +827,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
+        ...
+
+    @overload
+    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, async_req: Optional[bool]=True, **kwargs) -> str:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
+    def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[str, Awaitable[str]]:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
@@ -819,6 +864,8 @@ class FakeApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_outer_string_serialize_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -892,14 +939,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -940,8 +984,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
+        ...
+
+    @overload
+    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], async_req: Optional[bool]=True, **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
+        ...
+
     @validate_arguments
-    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
+    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], async_req: Optional[bool]=None, **kwargs) -> Union[OuterObjectWithEnumProperty, Awaitable[OuterObjectWithEnumProperty]]:  # noqa: E501
         """fake_property_enum_integer_serialize  # noqa: E501
 
         Test serialization of enum (int) properties with examples  # noqa: E501
@@ -969,6 +1021,8 @@ class FakeApi(object):
         :rtype: OuterObjectWithEnumProperty
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1042,14 +1096,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['outer_object_with_enum_property']:
@@ -1090,8 +1141,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1119,6 +1178,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1192,14 +1253,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['body']:
@@ -1234,8 +1292,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, **kwargs) -> None:  # noqa: E501
+    def test_body_with_file_schema(self, file_schema_test_class : FileSchemaTestClass, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1263,6 +1329,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1336,14 +1404,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['file_schema_test_class']:
@@ -1378,8 +1443,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_body_with_query_params(self, query : StrictStr, user : User, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_body_with_query_params(self, query : StrictStr, user : User, **kwargs) -> None:  # noqa: E501
+    def test_body_with_query_params(self, query : StrictStr, user : User, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1408,6 +1481,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1488,11 +1563,9 @@ class FakeApi(object):
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['user']:
@@ -1527,8 +1600,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
+        ...
+
+    @overload
+    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=True, **kwargs) -> Client:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> Client:  # noqa: E501
+    def test_client_model(self, client : Annotated[Client, Field(..., description="client model")], async_req: Optional[bool]=None, **kwargs) -> Union[Client, Awaitable[Client]]:  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -1556,6 +1637,8 @@ class FakeApi(object):
         :rtype: Client
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1629,14 +1712,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['client']:
@@ -1677,8 +1757,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_date_time_query_parameter(self, date_time_query : datetime, str_query : StrictStr, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_date_time_query_parameter(self, date_time_query : datetime, str_query : StrictStr, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_date_time_query_parameter(self, date_time_query : datetime, str_query : StrictStr, **kwargs) -> None:  # noqa: E501
+    def test_date_time_query_parameter(self, date_time_query : datetime, str_query : StrictStr, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_date_time_query_parameter  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1707,6 +1795,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_date_time_query_parameter_with_http_info(date_time_query, str_query, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1783,20 +1873,21 @@ class FakeApi(object):
         # process the query parameters
         _query_params = []
         if _params.get('date_time_query') is not None:  # noqa: E501
-            _query_params.append(('date_time_query', _params['date_time_query']))
+            if isinstance(_params['date_time_query'], datetime):
+                _query_params.append(('date_time_query', _params['date_time_query'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('date_time_query', _params['date_time_query']))
+
         if _params.get('str_query') is not None:  # noqa: E501
             _query_params.append(('str_query', _params['str_query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -1819,8 +1910,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_endpoint_parameters(self, number : Annotated[confloat(ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_endpoint_parameters(self, number : Annotated[confloat(ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(ge=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -1874,6 +1973,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1986,45 +2087,55 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['integer']:
             _form_params.append(('integer', _params['integer']))
+
         if _params['int32']:
             _form_params.append(('int32', _params['int32']))
+
         if _params['int64']:
             _form_params.append(('int64', _params['int64']))
+
         if _params['number']:
             _form_params.append(('number', _params['number']))
+
         if _params['float']:
             _form_params.append(('float', _params['float']))
+
         if _params['double']:
             _form_params.append(('double', _params['double']))
+
         if _params['string']:
             _form_params.append(('string', _params['string']))
+
         if _params['pattern_without_delimiter']:
             _form_params.append(('pattern_without_delimiter', _params['pattern_without_delimiter']))
+
         if _params['byte']:
             _form_params.append(('byte', _params['byte']))
+
         if _params['binary']:
             _files['binary'] = _params['binary']
+
         if _params['var_date']:
             _form_params.append(('date', _params['var_date']))
+
         if _params['date_time']:
             _form_params.append(('dateTime', _params['date_time']))
+
         if _params['password']:
             _form_params.append(('password', _params['password']))
+
         if _params['param_callback']:
             _form_params.append(('callback', _params['param_callback']))
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2054,8 +2165,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, **kwargs) -> None:  # noqa: E501
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], string_group : Annotated[Optional[StrictInt], Field(description="String in group parameters")] = None, boolean_group : Annotated[Optional[StrictBool], Field(description="Boolean in group parameters")] = None, int64_group : Annotated[Optional[StrictInt], Field(description="Integer in group parameters")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -2093,6 +2212,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, string_group, boolean_group, int64_group, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -2183,10 +2304,13 @@ class FakeApi(object):
         _query_params = []
         if _params.get('required_string_group') is not None:  # noqa: E501
             _query_params.append(('required_string_group', _params['required_string_group']))
+
         if _params.get('required_int64_group') is not None:  # noqa: E501
             _query_params.append(('required_int64_group', _params['required_int64_group']))
+
         if _params.get('string_group') is not None:  # noqa: E501
             _query_params.append(('string_group', _params['string_group']))
+
         if _params.get('int64_group') is not None:  # noqa: E501
             _query_params.append(('int64_group', _params['int64_group']))
 
@@ -2194,16 +2318,15 @@ class FakeApi(object):
         _header_params = dict(_params.get('_headers', {}))
         if _params['required_boolean_group']:
             _header_params['required_boolean_group'] = _params['required_boolean_group']
+
         if _params['boolean_group']:
             _header_params['boolean_group'] = _params['boolean_group']
 
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = ['bearer_test']  # noqa: E501
 
@@ -2226,8 +2349,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2255,6 +2386,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -2328,14 +2461,11 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
         if _params['request_body']:
@@ -2370,8 +2500,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs) -> None:  # noqa: E501
+    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
@@ -2401,6 +2539,8 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -2477,21 +2617,19 @@ class FakeApi(object):
 
         # process the query parameters
         _query_params = []
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
         if _params['param']:
             _form_params.append(('param', _params['param']))
+
         if _params['param2']:
             _form_params.append(('param2', _params['param2']))
 
         # process the body parameter
         _body_params = None
-
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2521,8 +2659,16 @@ class FakeApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @overload
+    async def test_query_parameter_collection_format(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
+        ...
+
+    @overload
+    def test_query_parameter_collection_format(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+        ...
+
     @validate_arguments
-    def test_query_parameter_collection_format(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -2562,10 +2708,12 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if async_req is not None:
+            kwargs['async_req'] = async_req
         return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_parameter_collection_format_with_http_info(self, pipe : List[StrictStr], ioutil : List[StrictStr], http : List[StrictStr], url : List[StrictStr], context : List[StrictStr], allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -2656,33 +2804,36 @@ class FakeApi(object):
         if _params.get('pipe') is not None:  # noqa: E501
             _query_params.append(('pipe', _params['pipe']))
             _collection_formats['pipe'] = 'pipes'
+
         if _params.get('ioutil') is not None:  # noqa: E501
             _query_params.append(('ioutil', _params['ioutil']))
             _collection_formats['ioutil'] = 'csv'
+
         if _params.get('http') is not None:  # noqa: E501
             _query_params.append(('http', _params['http']))
             _collection_formats['http'] = 'ssv'
+
         if _params.get('url') is not None:  # noqa: E501
             _query_params.append(('url', _params['url']))
             _collection_formats['url'] = 'csv'
+
         if _params.get('context') is not None:  # noqa: E501
             _query_params.append(('context', _params['context']))
             _collection_formats['context'] = 'multi'
+
         if _params.get('language') is not None:  # noqa: E501
             _query_params.append(('language', _params['language']))
+
         if _params.get('allow_empty') is not None:  # noqa: E501
             _query_params.append(('allowEmpty', _params['allow_empty']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
-
         # process the form parameters
         _form_params = []
         _files = {}
-
         # process the body parameter
         _body_params = None
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 
