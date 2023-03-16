@@ -66,7 +66,6 @@ public interface PetApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -103,7 +102,6 @@ public interface PetApi {
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -157,7 +155,6 @@ public interface PetApi {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -214,7 +211,6 @@ public interface PetApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -266,7 +262,6 @@ public interface PetApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -307,7 +302,6 @@ public interface PetApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -345,7 +339,6 @@ public interface PetApi {
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -395,7 +388,6 @@ public interface PetApi {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 

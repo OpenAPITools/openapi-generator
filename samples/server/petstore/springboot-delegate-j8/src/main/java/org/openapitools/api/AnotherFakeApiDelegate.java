@@ -43,7 +43,6 @@ public interface AnotherFakeApiDelegate {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 }

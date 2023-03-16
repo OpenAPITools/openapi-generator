@@ -3,6 +3,7 @@ package org.openapitools.codegen.templating.mustache;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda.HTTP_STATUS_PREFIX;
@@ -83,7 +84,7 @@ public class SpringHttpStatusLambdaTest extends LambdaTest {
 
     test(
         HTTP_STATUS_PREFIX + expectedHttpStatus,
-        String.format("{{#springHttpStatus}}%s{{/springHttpStatus}}", httpCode),
+        String.format(Locale.ROOT, "{{#springHttpStatus}}%s{{/springHttpStatus}}", httpCode),
         ctx);
   }
 

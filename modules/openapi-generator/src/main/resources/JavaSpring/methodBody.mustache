@@ -14,7 +14,9 @@ return CompletableFuture.supplyAsync(()-> {
     {{#-last}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}        }
 {{#async}}    {{/async}}        });
-{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});{{/useResponseEntity}}{{^useResponseEntity}}        throw new IllegalArgumentException("Not implemented");{{/useResponseEntity}}
+{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});{{/useResponseEntity}}
+{{^useResponseEntity}}        throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
             {{#async}}
         }, Runnable::run);
             {{/async}}

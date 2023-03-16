@@ -73,7 +73,6 @@ public interface StoreApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -107,7 +106,6 @@ public interface StoreApi {
         
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -160,7 +158,6 @@ public interface StoreApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
 
@@ -207,7 +204,6 @@ public interface StoreApi {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 

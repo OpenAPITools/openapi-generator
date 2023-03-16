@@ -37,7 +37,6 @@ public interface PetApiDelegate {
     default ResponseEntity<Void> addPet(Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
     /**
@@ -52,7 +51,6 @@ public interface PetApiDelegate {
     default ResponseEntity<Void> deletePet(Long petId,
         String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -81,7 +79,6 @@ public interface PetApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -113,7 +110,6 @@ public interface PetApiDelegate {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
     /**
@@ -143,7 +139,6 @@ public interface PetApiDelegate {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-
     }
 
     /**
@@ -158,7 +153,6 @@ public interface PetApiDelegate {
      */
     default ResponseEntity<Void> updatePet(Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -175,7 +169,6 @@ public interface PetApiDelegate {
         String name,
         String status) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 
@@ -201,7 +194,6 @@ public interface PetApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
 
     }
 

@@ -36,6 +36,7 @@ jobs:
           - samples/server/petstore/springboot-implicitHeaders
           - samples/openapi3/server/petstore/springboot-implicitHeaders
           - samples/server/petstore/springboot-delegate
+          - samples/server/petstore/springboot-delegate-no-response-entity
           - samples/openapi3/server/petstore/springboot-delegate
           - samples/server/petstore/spring-boot-nullable-set
           - samples/server/petstore/spring-boot-defaultInterface-unhandledException
