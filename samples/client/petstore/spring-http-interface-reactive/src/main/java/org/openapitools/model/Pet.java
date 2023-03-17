@@ -42,7 +42,7 @@ public class Pet {
 
   @JsonProperty("tags")
   
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -161,6 +161,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }

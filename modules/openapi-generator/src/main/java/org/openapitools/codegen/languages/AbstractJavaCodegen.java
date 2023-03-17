@@ -1051,7 +1051,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
-                if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
+                // nullable, optional or containerDefaultToNull set to true
+                if (cp.isNullable || !cp.required || containerDefaultToNull) {
                     return null;
                 } else {
                     if (ModelUtils.isSet(schema)) {

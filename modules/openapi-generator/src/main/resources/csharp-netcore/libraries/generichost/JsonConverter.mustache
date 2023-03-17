@@ -91,37 +91,26 @@
                         {{^isEnum}}
                         {{#isDouble}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDouble(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDouble();
                         {{/isDouble}}
                         {{#isDecimal}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetDecimal(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDecimal();
                         {{/isDecimal}}
                         {{#isFloat}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetDouble(out double {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float){{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
-                            }
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)utf8JsonReader.GetDouble();
                         {{/isFloat}}
                         {{#isLong}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64();
                         {{/isLong}}
                         {{^isLong}}
                         {{^isFloat}}
                         {{^isDecimal}}
                         {{^isDouble}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {{#isNullable}}
-                            {
-                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}int {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
-                            }
-                            {{/isNullable}}
-                            {{^isNullable}}
-                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
-                            {{/isNullable}}
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32();
                         {{/isDouble}}
                         {{/isDecimal}}
                         {{/isFloat}}
@@ -140,10 +129,7 @@
                         {{^isMap}}
                         {{#isNumeric}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}int {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}){{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
-                            }
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}})utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32();
                         {{/isNumeric}}
                         {{^isNumeric}}
                             string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
@@ -158,15 +144,7 @@
                         {{/isEnum}}
                         {{#isUuid}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {{#isNullable}}
-                            {
-                                utf8JsonReader.TryGetGuid(out Guid {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
-                            }
-                            {{/isNullable}}
-                            {{^isNullable}}
-                                utf8JsonReader.TryGetGuid(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
-                            {{/isNullable}}
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetGuid();
                         {{/isUuid}}
                         {{^isUuid}}
                         {{^isEnum}}
@@ -192,6 +170,21 @@
                 }
             }
 
+            {{#nonNullableVars}}
+            {{#-first}}
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            {{/-first}}
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+                throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}), "Property is required for class {{classname}}.");
+
+            {{#-last}}
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            {{/-last}}
+            {{/nonNullableVars}}
             {{#composedSchemas.oneOf}}
             if ({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized)
                 return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});

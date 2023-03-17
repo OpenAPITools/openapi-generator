@@ -40,24 +40,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (mapMapOfString == null)
-                throw new ArgumentNullException("mapMapOfString is a required property for MapTest and cannot be null.");
-
-            if (mapOfEnumString == null)
-                throw new ArgumentNullException("mapOfEnumString is a required property for MapTest and cannot be null.");
-
-            if (directMap == null)
-                throw new ArgumentNullException("directMap is a required property for MapTest and cannot be null.");
-
-            if (indirectMap == null)
-                throw new ArgumentNullException("indirectMap is a required property for MapTest and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DirectMap = directMap;
             IndirectMap = indirectMap;
             MapMapOfString = mapMapOfString;
@@ -234,6 +216,24 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (mapMapOfString == null)
+                throw new ArgumentNullException(nameof(mapMapOfString), "Property is required for class MapTest.");
+
+            if (mapOfEnumString == null)
+                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is required for class MapTest.");
+
+            if (directMap == null)
+                throw new ArgumentNullException(nameof(directMap), "Property is required for class MapTest.");
+
+            if (indirectMap == null)
+                throw new ArgumentNullException(nameof(indirectMap), "Property is required for class MapTest.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }

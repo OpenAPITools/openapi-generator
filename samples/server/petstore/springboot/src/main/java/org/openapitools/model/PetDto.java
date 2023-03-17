@@ -47,7 +47,7 @@ public class PetDto {
 
   @JsonProperty("tags")
   @Valid
-  private List<@Valid TagDto> tags = null;
+  private List<@Valid TagDto> tags;
 
   /**
    * pet status in the store
@@ -169,6 +169,9 @@ public class PetDto {
   }
 
   public PetDto addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }

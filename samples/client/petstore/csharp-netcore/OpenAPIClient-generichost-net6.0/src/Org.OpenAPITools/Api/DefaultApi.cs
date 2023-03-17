@@ -72,6 +72,28 @@ namespace Org.OpenAPITools.IApi
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&lt;List&lt;Guid&gt;&gt;&gt;</returns>
+        Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse&lt;List&lt;Guid&gt;&gt;</returns>
+        Task<List<Guid>> HelloAsync(System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -428,6 +450,115 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetCountry(e, "/country", uriBuilderLocalVar.Path, country);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="List&lt;Guid&gt;"/>&gt;</returns>
+        public async Task<List<Guid>> HelloAsync(System.Threading.CancellationToken? cancellationToken = null)
+        {
+            ApiResponse<List<Guid>> apiResponseLocalVar = await HelloWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (apiResponseLocalVar.Content == null)
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
+
+            return apiResponseLocalVar.Content;
+        }
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <returns></returns>
+        protected virtual void OnHello()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        protected virtual void AfterHello(ApiResponse<List<Guid>> apiResponseLocalVar)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        protected virtual void OnErrorHello(Exception exception, string pathFormat, string path)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Guid&gt;"/></returns>
+        public async Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                OnHello();
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/hello";
+
+
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] { 
+                        "application/json" 
+                    };
+
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    {
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/hello", uriBuilderLocalVar.Path));
+
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+                        ApiResponse<List<Guid>> apiResponseLocalVar = new ApiResponse<List<Guid>>(httpResponseMessageLocalVar, responseContentLocalVar);
+
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
+                        {
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<List<Guid>>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterHello(apiResponseLocalVar);
+                        }
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorHello(e, "/hello", uriBuilderLocalVar.Path);
                 throw;
             }
         }

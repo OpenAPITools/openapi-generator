@@ -44,7 +44,7 @@ public class Pet {
 
   @JsonProperty("tags")
   @Valid
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store

@@ -46,18 +46,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectNullableProp = default, string stringProp = default) : base()
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (arrayItemsNullable == null)
-                throw new ArgumentNullException("arrayItemsNullable is a required property for NullableClass and cannot be null.");
-
-            if (objectItemsNullable == null)
-                throw new ArgumentNullException("objectItemsNullable is a required property for NullableClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayItemsNullable = arrayItemsNullable;
             ObjectItemsNullable = objectItemsNullable;
             ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
@@ -269,17 +257,11 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "integer_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int integerPropResult);
-                                integerProp = integerPropResult;
-                            }
+                                integerProp = utf8JsonReader.GetInt32();
                             break;
                         case "number_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                            {
-                                utf8JsonReader.TryGetInt32(out int numberPropResult);
-                                numberProp = numberPropResult;
-                            }
+                                numberProp = utf8JsonReader.GetInt32();
                             break;
                         case "object_and_items_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -297,6 +279,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (arrayItemsNullable == null)
+                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is required for class NullableClass.");
+
+            if (objectItemsNullable == null)
+                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is required for class NullableClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
         }

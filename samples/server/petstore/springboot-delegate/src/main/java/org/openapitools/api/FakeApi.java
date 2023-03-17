@@ -85,7 +85,8 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
-        produces = { "*/*" }
+        produces = { "*/*" },
+        consumes = { "application/json" }
     )
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
@@ -98,7 +99,7 @@ public interface FakeApi {
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
      *
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
     @ApiOperation(
@@ -114,12 +115,13 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/composite",
-        produces = { "*/*" }
+        produces = { "*/*" },
+        consumes = { "application/json" }
     )
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite body
+        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
     ) {
-        return getDelegate().fakeOuterCompositeSerialize(body);
+        return getDelegate().fakeOuterCompositeSerialize(outerComposite);
     }
 
 
@@ -143,7 +145,8 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
-        produces = { "*/*" }
+        produces = { "*/*" },
+        consumes = { "application/json" }
     )
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
@@ -172,7 +175,8 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
-        produces = { "*/*" }
+        produces = { "*/*" },
+        consumes = { "application/json" }
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
         @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body
@@ -185,7 +189,7 @@ public interface FakeApi {
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      */
     @ApiOperation(
@@ -203,9 +207,9 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass body
+        @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
-        return getDelegate().testBodyWithFileSchema(body);
+        return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
 
 
@@ -213,7 +217,7 @@ public interface FakeApi {
      * PUT /fake/body-with-query-params
      *
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @return Success (status code 200)
      */
     @ApiOperation(
@@ -232,9 +236,9 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @Valid @RequestBody User body
+        @ApiParam(value = "", required = true) @Valid @RequestBody User user
     ) {
-        return getDelegate().testBodyWithQueryParams(query, body);
+        return getDelegate().testBodyWithQueryParams(query, user);
     }
 
 
@@ -242,7 +246,7 @@ public interface FakeApi {
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @ApiOperation(
@@ -262,9 +266,9 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Client> testClientModel(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
-        return getDelegate().testClientModel(body);
+        return getDelegate().testClientModel(client);
     }
 
 
@@ -410,8 +414,9 @@ public interface FakeApi {
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
+     * 
      *
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @return successful operation (status code 200)
      */
     @ApiOperation(
@@ -429,14 +434,15 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> param
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
-        return getDelegate().testInlineAdditionalProperties(param);
+        return getDelegate().testInlineAdditionalProperties(requestBody);
     }
 
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
+     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -469,7 +475,6 @@ public interface FakeApi {
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
-     * @param ioutil  (required)
      * @param http  (required)
      * @param url  (required)
      * @param context  (required)
@@ -490,17 +495,17 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
-        return getDelegate().testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
 
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)

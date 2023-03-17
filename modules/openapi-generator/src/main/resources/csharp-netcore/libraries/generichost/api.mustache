@@ -167,7 +167,7 @@ namespace {{packageName}}.{{apiPackage}}
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/returnTypeIsPrimitive}}{{/nrt}}
                 throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return apiResponseLocalVar.Content{{#nrt}}{{#returnProperty}}{{#isPrimitiveType}}{{^isMap}}{{^isString}}.Value{{/isString}}{{/isMap}}{{/isPrimitiveType}}{{/returnProperty}}{{/nrt}};
+            return apiResponseLocalVar.Content{{#nrt}}{{#returnProperty}}{{#isPrimitiveType}}{{^isMap}}{{^isString}}{{^isContainer}}.Value{{/isContainer}}{{/isString}}{{/isMap}}{{/isPrimitiveType}}{{/returnProperty}}{{/nrt}};
         }
 
         {{#nrt}}
