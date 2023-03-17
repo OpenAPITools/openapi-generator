@@ -24,15 +24,15 @@ public class ArrayTest {
 
   @JsonProperty("array_of_string")
   
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @JsonProperty("array_array_of_integer")
   
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @JsonProperty("array_array_of_model")
   
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

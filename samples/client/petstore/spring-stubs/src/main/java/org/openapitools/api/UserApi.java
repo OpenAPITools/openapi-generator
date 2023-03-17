@@ -59,6 +59,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -86,6 +87,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -112,6 +114,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -142,6 +145,7 @@ public interface UserApi {
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -190,6 +194,7 @@ public interface UserApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -223,6 +228,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -248,6 +254,7 @@ public interface UserApi {
         
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -280,6 +287,7 @@ public interface UserApi {
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 

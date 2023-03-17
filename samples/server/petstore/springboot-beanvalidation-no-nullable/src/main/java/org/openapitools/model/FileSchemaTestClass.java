@@ -29,7 +29,7 @@ public class FileSchemaTestClass {
 
   @JsonProperty("files")
   @Valid
-  private List<@Valid File> files = null;
+  private List<@Valid File> files;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -57,7 +57,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = ;
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

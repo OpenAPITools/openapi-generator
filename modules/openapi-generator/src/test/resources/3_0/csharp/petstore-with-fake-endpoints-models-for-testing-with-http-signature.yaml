@@ -17,6 +17,21 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /hello:
+    get:
+      summary: Hello
+      description: Hello
+      operationId: Hello
+      responses:
+        '200':
+          description: UUIDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
   /foo:
     get:
       responses:

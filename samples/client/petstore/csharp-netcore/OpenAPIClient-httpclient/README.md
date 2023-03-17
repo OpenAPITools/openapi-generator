@@ -131,6 +131,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
+*DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 

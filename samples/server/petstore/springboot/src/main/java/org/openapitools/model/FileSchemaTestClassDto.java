@@ -32,7 +32,7 @@ public class FileSchemaTestClassDto {
 
   @JsonProperty("files")
   @Valid
-  private List<@Valid FileDto> files = null;
+  private List<@Valid FileDto> files;
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;

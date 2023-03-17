@@ -26,7 +26,7 @@ public class ArrayOfNumberOnly {
 
   @JsonProperty("ArrayNumber")
   @Valid
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -35,7 +35,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = ;
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;

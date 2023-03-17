@@ -26,15 +26,15 @@ public class ArrayTest {
 
   @JsonProperty("array_of_string")
   @Valid
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @JsonProperty("array_array_of_integer")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @JsonProperty("array_array_of_model")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -43,7 +43,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = ;
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -70,7 +70,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = ;
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -97,7 +97,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = ;
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;

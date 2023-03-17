@@ -269,7 +269,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt64(out id);
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "lastName":
                             lastName = utf8JsonReader.GetString();
@@ -286,7 +286,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "userStatus":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                utf8JsonReader.TryGetInt32(out userStatus);
+                                userStatus = utf8JsonReader.GetInt32();
                             break;
                         case "username":
                             username = utf8JsonReader.GetString();
