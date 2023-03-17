@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to check that duplicate ama-enum values are forbidden
+  version: 1.0.0
+  title: Extension ama-enum duplicate values
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+            - AVB
+            - P
+            - S
+          x-ama-enum:
+            name: petStatus
+            values:
+            - value: AVB
+              protobuf-enum-field-name: available
+            - value: P
+              protobuf-enum-field-name: pending1
+            - value: P
+              protobuf-enum-field-name: pending2
+            - value: S
+              protobuf-enum-field-name: sold

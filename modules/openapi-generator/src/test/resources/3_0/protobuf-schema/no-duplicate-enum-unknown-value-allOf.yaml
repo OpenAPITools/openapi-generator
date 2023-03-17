@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source to test that duplicate unknown values are avoided when using allOf and enumStructNameAsPrefix option
+  version: 1.0.0
+  title: No duplicate enum unknown value allOf
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          type: string
+          enum:
+            - Dog
+            - Cat
+        name:
+          type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum:
+                - Dingo
+                - Husky
+                - Retriever
+                - Sheperd
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            hunts:
+              type: boolean

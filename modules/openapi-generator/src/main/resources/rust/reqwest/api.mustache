@@ -112,9 +112,17 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
     {{/isNullable}}
     {{#isNullable}}
+    {{#isDeepObject}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+        local_var_req_builder = local_var_req_builder.query(&params);
+    };
+    {{/isDeepObject}}
+    {{^isDeepObject}}
     if let Some(ref local_var_str) = {{{paramName}}} {
         local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
     };
+    {{/isDeepObject}}
     {{/isNullable}}
     {{/isArray}}
     {{/required}}
@@ -127,7 +135,13 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         };
         {{/isArray}}
         {{^isArray}}
+        {{#isDeepObject}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+        local_var_req_builder = local_var_req_builder.query(&params);
+        {{/isDeepObject}}
+        {{^isDeepObject}}
         local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{/isDeepObject}}
         {{/isArray}}
     }
     {{/required}}

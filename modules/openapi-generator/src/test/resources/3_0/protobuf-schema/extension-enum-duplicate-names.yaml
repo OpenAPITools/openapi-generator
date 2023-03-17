@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to check that duplicate enum names are forbidden
+  version: 1.0.0
+  title: Extension enum duplicate names
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - PENDING
+            - SOLD
+          x-enum-varnames:
+            - available
+            - duplicate
+            - duplicate

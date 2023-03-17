@@ -4,9 +4,12 @@ syntax = "proto3";
 package {{#lambda.lowercase}}{{{packageName}}}.{{{apiPackage}}}.{{{classname}}};{{/lambda.lowercase}}
 
 import "google/protobuf/empty.proto";
+{{#useWrapperTypes}}
+import "google/protobuf/wrappers.proto";
+{{/useWrapperTypes}}
 {{#imports}}
 {{#import}}
-import public "{{{modelPackage}}}/{{{.}}}.proto";
+import {{#publicImports}}public {{/publicImports}}"{{{.}}}.proto";
 {{/import}}
 {{/imports}}
 
@@ -30,7 +33,7 @@ message {{operationId}}Request {
   {{#description}}
   // {{{.}}}
   {{/description}}
-  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{paramName}} = {{vendorExtensions.x-protobuf-index}};
+  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}};
   {{/allParams}}
 
 }

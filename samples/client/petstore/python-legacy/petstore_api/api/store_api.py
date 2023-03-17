@@ -190,7 +190,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: dict(str, int)
+        :rtype: dict[str, int]
         """
         kwargs['_return_http_data_only'] = True
         return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
@@ -226,7 +226,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(dict[str, int], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -274,7 +274,7 @@ class StoreApi(object):
         auth_settings = ['api_key']  # noqa: E501
 
         response_types_map = {
-            200: "dict(str, int)",
+            200: "dict[str, int]",
         }
 
         return self.api_client.call_api(
@@ -297,7 +297,7 @@ class StoreApi(object):
     def get_order_by_id(self, order_id, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -327,7 +327,7 @@ class StoreApi(object):
     def get_order_by_id_with_http_info(self, order_id, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

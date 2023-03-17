@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the BigCatAllOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &BigCatAllOf{}
+
 // BigCatAllOf struct for BigCatAllOf
 type BigCatAllOf struct {
 	Kind *string `json:"kind,omitempty"`
@@ -38,7 +41,7 @@ func NewBigCatAllOfWithDefaults() *BigCatAllOf {
 
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCatAllOf) GetKind() string {
-	if o == nil || o.Kind == nil {
+	if o == nil || IsNil(o.Kind) {
 		var ret string
 		return ret
 	}
@@ -48,7 +51,7 @@ func (o *BigCatAllOf) GetKind() string {
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BigCatAllOf) GetKindOk() (*string, bool) {
-	if o == nil || o.Kind == nil {
+	if o == nil || IsNil(o.Kind) {
 		return nil, false
 	}
 	return o.Kind, true
@@ -56,7 +59,7 @@ func (o *BigCatAllOf) GetKindOk() (*string, bool) {
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCatAllOf) HasKind() bool {
-	if o != nil && o.Kind != nil {
+	if o != nil && !IsNil(o.Kind) {
 		return true
 	}
 
@@ -69,11 +72,19 @@ func (o *BigCatAllOf) SetKind(v string) {
 }
 
 func (o BigCatAllOf) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Kind != nil {
-		toSerialize["kind"] = o.Kind
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o BigCatAllOf) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Kind) {
+		toSerialize["kind"] = o.Kind
+	}
+	return toSerialize, nil
 }
 
 type NullableBigCatAllOf struct {

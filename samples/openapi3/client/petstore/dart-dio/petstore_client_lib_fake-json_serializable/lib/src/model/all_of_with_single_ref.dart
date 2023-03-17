@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -55,7 +56,7 @@ class AllOfWithSingleRef {
   @override
   int get hashCode =>
     username.hashCode +
-    (singleRefType == null ? 0 : singleRefType.hashCode);
+    singleRefType.hashCode;
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
 

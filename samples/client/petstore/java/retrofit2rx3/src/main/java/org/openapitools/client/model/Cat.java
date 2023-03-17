@@ -20,12 +20,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 
 /**
  * Cat
@@ -36,8 +33,8 @@ public class Cat extends Animal {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() { 
-    this.className = this.getClass().getSimpleName();
+  public Cat() {
+
   }
 
   public Cat declawed(Boolean declawed) {
@@ -51,7 +48,6 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;

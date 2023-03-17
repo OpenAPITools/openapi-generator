@@ -1,0 +1,42 @@
+{{>partial_header}}
+syntax = "proto2";
+
+package {{#lambda.lowercase}}{{{vendorExtensions.x-package-name}}};{{/lambda.lowercase}}
+
+{{#imports}}
+{{#import}}
+import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
+{{/import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}message {{classname}} {
+
+  {{#vars}}
+  {{#description}}
+  // {{{.}}}
+  {{/description}}
+  {{^isEnum}}
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}}{{^customOptions.isEmpty}} [{{#customOptions}}{{^definition.category.isEmpty}}({{definition.category}}).{{definition.name}}{{/definition.category.isEmpty}}{{#definition.category.isEmpty}}({{definition.name}}){{/definition.category.isEmpty}} = {{{value}}}{{^-last}}, {{/-last}}{{/customOptions}}]{{/customOptions.isEmpty}}{{#defaultValue}} [default = {{{.}}}]{{/defaultValue}};
+  {{/isEnum}}
+  {{#isEnum}}
+  enum {{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{#enumDescription}}
+    // {{{.}}}
+    {{/enumDescription}}
+    {{{name}}} = {{{protobuf-enum-index}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+  }
+
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{enumName}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}};
+  {{/isEnum}}
+
+  {{/vars}}
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}

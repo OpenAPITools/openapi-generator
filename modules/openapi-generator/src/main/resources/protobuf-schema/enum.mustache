@@ -1,6 +1,9 @@
 enum {{classname}} {
   {{#allowableValues}}
   {{#enumVars}}
+  {{#enumDescription}}
+    // {{{.}}}
+    {{/enumDescription}}
   {{{name}}} = {{{protobuf-enum-index}}};
   {{/enumVars}}
   {{/allowableValues}}

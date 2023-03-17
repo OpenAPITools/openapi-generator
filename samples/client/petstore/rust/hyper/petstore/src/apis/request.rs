@@ -50,6 +50,7 @@ pub(crate) struct Request {
     serialized_body: Option<String>,
 }
 
+#[allow(dead_code)]
 impl Request {
     pub fn new(method: hyper::Method, path: String) -> Self {
         Request {
@@ -75,16 +76,19 @@ impl Request {
         self
     }
 
+    #[allow(unused)]
     pub fn with_query_param(mut self, basename: String, param: String) -> Self {
         self.query_params.insert(basename, param);
         self
     }
 
+    #[allow(unused)]
     pub fn with_path_param(mut self, basename: String, param: String) -> Self {
         self.path_params.insert(basename, param);
         self
     }
 
+    #[allow(unused)]
     pub fn with_form_param(mut self, basename: String, param: String) -> Self {
         self.form_params.insert(basename, param);
         self
@@ -194,7 +198,7 @@ impl Request {
 
         let req_headers = req_builder.headers_mut().unwrap();
         let request_result = if self.form_params.len() > 0 {
-            req_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/ x-www-form-urlencoded"));
+            req_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/x-www-form-urlencoded"));
             let mut enc = ::url::form_urlencoded::Serializer::new("".to_owned());
             for (k, v) in self.form_params {
                 enc.append_pair(&k, &v);

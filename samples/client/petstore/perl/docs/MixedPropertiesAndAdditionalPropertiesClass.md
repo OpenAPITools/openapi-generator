@@ -9,7 +9,7 @@ use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **uuid** | **string** |  | [optional] 
-**date_time** | **DateTime** |  | [optional] 
+**date_time** | **DATE_TIME** |  | [optional] 
 **map** | [**HASH[string,Animal]**](Animal.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the handling of x-protobuf-name
+  version: 1.0.0
+  title: Extension name
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+          x-protobuf-name: identifier

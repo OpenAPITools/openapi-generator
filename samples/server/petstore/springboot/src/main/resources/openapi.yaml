@@ -392,7 +392,7 @@ paths:
       - tag: store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -714,7 +714,7 @@ paths:
       responses:
         "400":
           content: {}
-          description: Someting wrong
+          description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -1843,12 +1843,6 @@ components:
         type: boolean
       type: object
     FileSchemaTestClass:
-      example:
-        file:
-          sourceURI: sourceURI
-        files:
-        - sourceURI: sourceURI
-        - sourceURI: sourceURI
       properties:
         file:
           $ref: '#/components/schemas/File'
@@ -1859,8 +1853,6 @@ components:
       type: object
     File:
       description: Must be named `File` for test.
-      example:
-        sourceURI: sourceURI
       properties:
         sourceURI:
           description: Test capitalization
@@ -2111,6 +2103,7 @@ components:
         status:
           description: Updated status of the pet
           type: string
+      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -2120,6 +2113,7 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
     testEnumParameters_request:
       properties:
         enum_form_string_array:
@@ -2139,6 +2133,7 @@ components:
           - -efg
           - (xyz)
           type: string
+      type: object
     testEndpointParameters_request:
       properties:
         integer:
@@ -2211,6 +2206,7 @@ components:
       - double
       - number
       - pattern_without_delimiter
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2222,6 +2218,7 @@ components:
       required:
       - param
       - param2
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2233,16 +2230,19 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
     Dog_allOf:
       properties:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     BigCat_allOf:
       properties:
         kind:
@@ -2253,6 +2253,7 @@ components:
           - jaguars
           type: string
       type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

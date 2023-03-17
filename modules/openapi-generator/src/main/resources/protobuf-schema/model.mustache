@@ -1,11 +1,14 @@
 {{>partial_header}}
 syntax = "proto3";
 
-package {{#lambda.lowercase}}{{{packageName}}};{{/lambda.lowercase}}
+package {{#lambda.lowercase}}{{{vendorExtensions.x-package-name}}};{{/lambda.lowercase}}
 
+{{#useWrapperTypes}}
+import "google/protobuf/wrappers.proto";
+{{/useWrapperTypes}}
 {{#imports}}
 {{#import}}
-import public "{{{modelPackage}}}/{{{import}}}.proto";
+import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
 {{/import}}
 {{/imports}}
 
@@ -18,18 +21,21 @@ import public "{{{modelPackage}}}/{{{import}}}.proto";
   // {{{.}}}
   {{/description}}
   {{^isEnum}}
-  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}}{{^customOptions.isEmpty}} [{{#customOptions}}{{^definition.category.isEmpty}}({{definition.category}}).{{definition.name}}{{/definition.category.isEmpty}}{{#definition.category.isEmpty}}({{definition.name}}){{/definition.category.isEmpty}} = {{{value}}}{{^-last}}, {{/-last}}{{/customOptions}}]{{/customOptions.isEmpty}};
   {{/isEnum}}
   {{#isEnum}}
   enum {{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
+    {{#enumDescription}}
+    // {{{.}}}
+    {{/enumDescription}}
     {{{name}}} = {{{protobuf-enum-index}}};
     {{/enumVars}}
     {{/allowableValues}}
   }
 
-  {{enumName}} {{name}} = {{vendorExtensions.x-protobuf-index}};
+  {{enumName}} {{{vendorExtensions.x-protobuf-name}}} = {{vendorExtensions.x-protobuf-index}};
   {{/isEnum}}
 
   {{/vars}}

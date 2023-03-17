@@ -13,11 +13,11 @@ syntax = "proto3";
 package petstore.services.petservice;
 
 import "google/protobuf/empty.proto";
-import public "models/api_response.proto";
-import public "models/pet.proto";
+import "models/api_response.proto";
+import "models/pet.proto";
 
 service PetService {
-  rpc AddPet (AddPetRequest) returns (Pet);
+  rpc AddPet (AddPetRequest) returns (petstore.Pet);
 
   rpc DeletePet (DeletePetRequest) returns (google.protobuf.Empty);
 
@@ -25,19 +25,19 @@ service PetService {
 
   rpc FindPetsByTags (FindPetsByTagsRequest) returns (FindPetsByTagsResponse);
 
-  rpc GetPetById (GetPetByIdRequest) returns (Pet);
+  rpc GetPetById (GetPetByIdRequest) returns (petstore.Pet);
 
-  rpc UpdatePet (UpdatePetRequest) returns (Pet);
+  rpc UpdatePet (UpdatePetRequest) returns (petstore.Pet);
 
   rpc UpdatePetWithForm (UpdatePetWithFormRequest) returns (google.protobuf.Empty);
 
-  rpc UploadFile (UploadFileRequest) returns (ApiResponse);
+  rpc UploadFile (UploadFileRequest) returns (petstore.ApiResponse);
 
 }
 
 message AddPetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1;
+  petstore.Pet pet = 1;
 
 }
 
@@ -55,7 +55,7 @@ message FindPetsByStatusRequest {
 }
 
 message FindPetsByStatusResponse {
-  repeated Pet data = 1;
+  repeated petstore.Pet data = 1;
 }
 
 message FindPetsByTagsRequest {
@@ -65,7 +65,7 @@ message FindPetsByTagsRequest {
 }
 
 message FindPetsByTagsResponse {
-  repeated Pet data = 1;
+  repeated petstore.Pet data = 1;
 }
 
 message GetPetByIdRequest {
@@ -76,7 +76,7 @@ message GetPetByIdRequest {
 
 message UpdatePetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1;
+  petstore.Pet pet = 1;
 
 }
 

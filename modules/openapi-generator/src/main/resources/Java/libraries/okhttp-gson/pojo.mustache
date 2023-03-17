@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -22,8 +23,12 @@ import {{invokerPackage}}.JSON;
  * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
  * @deprecated{{/isDeprecated}}
  */{{#isDeprecated}}
-@Deprecated{{/isDeprecated}}{{#description}}
-@ApiModel(description = "{{{.}}}"){{/description}}
+@Deprecated{{/isDeprecated}}
+{{#swagger1AnnotationLibrary}}
+{{#description}}
+@ApiModel(description = "{{{.}}}")
+{{/description}}
+{{/swagger1AnnotationLibrary}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -96,19 +101,26 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
   {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
-  public {{classname}}() { {{#parent}}{{#parcelableModel}}
-    super();{{/parcelableModel}}{{/parent}}{{#gson}}{{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/discriminator}}{{/gson}}
-  }{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+  public {{classname}}() {
+    {{#parent}}
+    {{#parcelableModel}}
+    super();
+    {{/parcelableModel}}
+    {{/parent}}
+    {{#gson}}
+    {{#discriminator}}
+    {{^discriminator.isEnum}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
+    {{/discriminator.isEnum}}
+    {{/discriminator}}
+    {{/gson}}
+  }
+  {{#vendorExtensions.x-has-readonly-properties}}
+  {{^withXml}}
 
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
@@ -120,7 +132,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#readOnlyVars}}
     this.{{name}} = {{name}};
   {{/readOnlyVars}}
-  }{{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
+  }
+  {{/withXml}}
+  {{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
 
   {{^isReadOnly}}
@@ -134,7 +148,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().add({{name}}Item);
@@ -145,9 +159,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
+    {{#defaultValue}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
+    {{/defaultValue}}
     {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
@@ -159,7 +175,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().put(key, {{name}}Item);
@@ -170,9 +186,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
+    {{#defaultValue}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
+    {{/defaultValue}}
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
@@ -204,19 +222,24 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/deprecated}}
 {{#required}}
 {{#isNullable}}
-  @javax.annotation.Nullable
+  @{{javaxPackage}}.annotation.Nullable
 {{/isNullable}}
 {{^isNullable}}
-  @javax.annotation.Nonnull
+  @{{javaxPackage}}.annotation.Nonnull
 {{/isNullable}}
 {{/required}}
 {{^required}}
-  @javax.annotation.Nullable
+  @{{javaxPackage}}.annotation.Nullable
 {{/required}}
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{#useBeanValidation}}
+{{>beanValidation}}
+{{/useBeanValidation}}
+{{#swagger1AnnotationLibrary}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
@@ -422,9 +445,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if ({{classname}}.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
         }
       }
@@ -455,56 +476,69 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#vars}}
       {{#isArray}}
       {{#items.isModel}}
-      JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
-      {{#isRequired}}
+      {{#required}}
       // ensure the json data is an array
       if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
 
+      JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
       // validate the required field `{{{baseName}}}` (array)
       for (int i = 0; i < jsonArray{{name}}.size(); i++) {
         {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
       };
-      {{/isRequired}}
-      {{^isRequired}}
-      if (jsonArray{{name}} != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
-        }
+      {{/required}}
+      {{^required}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        if (jsonArray{{name}} != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+          }
 
-        // validate the optional field `{{{baseName}}}` (array)
-        for (int i = 0; i < jsonArray{{name}}.size(); i++) {
-          {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
-        };
+          // validate the optional field `{{{baseName}}}` (array)
+          for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+            {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
+          };
+        }
       }
-      {{/isRequired}}
+      {{/required}}
       {{/items.isModel}}
       {{^items.isModel}}
-      // ensure the json data is an array
-      if ({{^isRequired}}jsonObj.get("{{{baseName}}}") != null && {{/isRequired}}!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+      {{^required}}
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
+      {{/required}}
+      {{#required}}
+      // ensure the required json array is present
+      if (jsonObj.get("{{{baseName}}}") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/required}}
       {{/items.isModel}}
       {{/isArray}}
       {{^isContainer}}
       {{#isString}}
-      if ({{^isRequired}}jsonObj.get("{{{baseName}}}") != null && {{/isRequired}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+      if ({{^required}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/required}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
       {{/isString}}
       {{#isModel}}
-      {{#isRequired}}
+      {{#required}}
       // validate the required field `{{{baseName}}}`
       {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
-      {{/isRequired}}
-      {{^isRequired}}
+      {{/required}}
+      {{^required}}
       // validate the optional field `{{{baseName}}}`
-      if (jsonObj.getAsJsonObject("{{{baseName}}}") != null) {
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
         {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
       }
-      {{/isRequired}}
+      {{/required}}
       {{/isModel}}
       {{/isContainer}}
       {{/vars}}
@@ -544,7 +578,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              {{#isAdditionalPropertiesTrue}}
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -582,8 +616,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

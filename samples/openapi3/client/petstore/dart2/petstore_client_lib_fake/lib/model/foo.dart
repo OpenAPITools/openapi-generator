@@ -31,9 +31,9 @@ class Foo {
   String toString() => 'Foo[bar=$bar]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'bar'] = bar;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'bar'] = this.bar;
+    return json;
   }
 
   /// Returns a new [Foo] instance and imports its values from

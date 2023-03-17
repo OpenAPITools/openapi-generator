@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to check that negative enum indexes are forbidden
+  version: 1.0.0
+  title: Extension enum negative index
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - PENDING
+            - SOLD
+          x-enum-protobuf-indexes:
+            - 0
+            - -2
+            - 3

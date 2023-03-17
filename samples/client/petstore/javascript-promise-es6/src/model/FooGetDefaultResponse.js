@@ -55,8 +55,24 @@ class FooGetDefaultResponse {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>FooGetDefaultResponse</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>FooGetDefaultResponse</code>.
+     */
+    static validateJSON(data) {
+        // validate the optional field `string`
+        if (data['string']) { // data not null
+          Foo.validateJSON(data['string']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {module:model/Foo} string

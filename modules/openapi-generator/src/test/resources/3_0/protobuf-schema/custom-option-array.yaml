@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the handling of custom option as array
+  version: 1.0.0
+  title: Custom option array
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        tags:
+          type: array
+          x-enum-filtering-option-values:
+            - 'CAT'
+            - 'DOG'
+          items:
+            type: string

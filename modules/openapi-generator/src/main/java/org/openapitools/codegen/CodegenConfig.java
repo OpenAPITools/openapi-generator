@@ -75,11 +75,17 @@ public interface CodegenConfig {
 
     String modelFileFolder();
 
+    String customOptionsPackage();
+
+    String customOptionsFileFolder();
+
     String modelTestFileFolder();
 
     String modelDocFileFolder();
 
     String modelPackage();
+
+    String modelPackage(String modelName);
 
     String toApiName(String name);
 
@@ -123,6 +129,8 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
+    CodegenProperty fromProperty(String name, Schema p);
+
     CodegenModel fromModel(String name, Schema schema);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
@@ -141,11 +149,17 @@ public interface CodegenConfig {
 
     Map<String, String> importMapping();
 
+    Map<String, String> modelsPackage();
+
+    Map<String, String> customOptionsTemplateFiles();
+
     Map<String, String> schemaMapping();
 
     Map<String, String> inlineSchemaNameMapping();
 
     Map<String, String> inlineSchemaNameDefault();
+
+    Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
 
@@ -195,7 +209,15 @@ public interface CodegenConfig {
 
     Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
 
+    void processPackageMapping(Map<String, Schema> schemas, Set<String> modelKeys);
+
     void postProcess();
+
+    void postProcessAllCustomOptions(List<CodegenProperty> customOptions, String customOptionsFileName);
+    
+    CodegenModel postProcessCustomOptionCategory(CodegenModel optionCategory);
+
+    void updateCustomOptionsMapping(List<CodegenProperty> customOptions, Map<String, CodegenModel> categories);
 
     Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs);
 
@@ -313,7 +335,7 @@ public interface CodegenConfig {
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
-    Schema unaliasSchema(Schema schema, Map<String, String> schemaMappings);
+    Schema unaliasSchema(Schema schema);
 
     String defaultTemplatingEngine();
 
@@ -328,4 +350,9 @@ public interface CodegenConfig {
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
+
+    boolean getAddSuffixToDuplicateOperationNicknames();
+
+    boolean getUseOpenAPINormalizer();
+
 }

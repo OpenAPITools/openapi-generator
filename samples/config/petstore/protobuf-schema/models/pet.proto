@@ -12,28 +12,28 @@ syntax = "proto3";
 
 package petstore;
 
-import public "models/category.proto";
-import public "models/tag.proto";
+import "models/category.proto";
+import "models/tag.proto";
 
 message Pet {
 
   int64 id = 3355;
 
-  Category category = 50511102;
+  petstore.Category category = 50511102;
 
   string name = 3373707;
 
   repeated string photoUrls = 311086539;
 
-  repeated Tag tags = 3552281;
+  repeated petstore.Tag tags = 3552281;
 
   // pet status in the store
-  enum StatusEnum {
-    StatusEnum_AVAILABLE = 0;
-    StatusEnum_PENDING = 1;
-    StatusEnum_SOLD = 2;
+  enum Status {
+    STATUS_AVAILABLE = 0;
+    STATUS_PENDING = 1;
+    STATUS_SOLD = 2;
   }
 
-  StatusEnum status = 355610639;
+  Status status = 355610639;
 
 }

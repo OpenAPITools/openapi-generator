@@ -18,12 +18,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|bestFitInt|Use best fitting integer type where minimum or maximum is set| |false|
 |enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
 |packageName|Rust package name (convention: lowercase).| |openapi|
 |packageVersion|Rust package version.| |1.0.0|
+|preferUnsignedInt|Prefer unsigned integers where minimum value is &gt;= 0| |false|
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
+|supportMiddleware|If set, add support for reqwest-middleware. This option is for 'reqwest' library only| |false|
 |supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
@@ -64,8 +67,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>Self</li>
 <li>abstract</li>
-<li>alignof</li>
 <li>as</li>
 <li>async</li>
 <li>await</li>
@@ -94,16 +97,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>mod</li>
 <li>move</li>
 <li>mut</li>
-<li>offsetof</li>
 <li>override</li>
 <li>priv</li>
-<li>proc</li>
 <li>pub</li>
-<li>pure</li>
 <li>ref</li>
 <li>return</li>
 <li>self</li>
-<li>sizeof</li>
 <li>static</li>
 <li>struct</li>
 <li>super</li>

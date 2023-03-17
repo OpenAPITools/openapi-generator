@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
 import org.openapitools.model.BigCat;
-import org.openapitools.model.CatAllOf;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -48,7 +47,7 @@ public class Cat extends Animal {
    * @return declawed
   */
   
-  @Schema(name = "declawed", required = false)
+  @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Boolean getDeclawed() {
     return declawed;
   }

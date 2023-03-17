@@ -3,7 +3,7 @@ import 'package:openapi/openapi.dart';
 
 // tests for CatAllOf
 void main() {
-  final instance = CatAllOfBuilder();
+  //final instance = CatAllOfBuilder();
   // TODO add properties to the builder and call build()
 
   group(CatAllOf, () {

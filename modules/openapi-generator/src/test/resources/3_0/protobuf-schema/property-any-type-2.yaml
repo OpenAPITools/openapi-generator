@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the use on google.protobuf.Any
+  version: 1.0.0
+  title: Any type
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        undefinedProperty: {}

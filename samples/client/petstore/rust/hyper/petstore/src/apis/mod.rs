@@ -47,10 +47,14 @@ impl From<serde_json::Error> for Error {
 
 mod request;
 
+mod fake_api;
+pub use self::fake_api::{ FakeApi, FakeApiClient };
 mod pet_api;
 pub use self::pet_api::{ PetApi, PetApiClient };
 mod store_api;
 pub use self::store_api::{ StoreApi, StoreApiClient };
+mod testing_api;
+pub use self::testing_api::{ TestingApi, TestingApiClient };
 mod user_api;
 pub use self::user_api::{ UserApi, UserApiClient };
 

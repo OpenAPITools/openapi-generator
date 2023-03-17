@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -93,7 +92,7 @@ public class MapTest {
    * @return mapMapOfString
   */
   @Valid 
-  @Schema(name = "map_map_of_string", required = false)
+  @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -120,7 +119,7 @@ public class MapTest {
    * @return mapOfEnumString
   */
   
-  @Schema(name = "map_of_enum_string", required = false)
+  @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -147,7 +146,7 @@ public class MapTest {
    * @return directMap
   */
   
-  @Schema(name = "direct_map", required = false)
+  @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -174,7 +173,7 @@ public class MapTest {
    * @return indirectMap
   */
   
-  @Schema(name = "indirect_map", required = false)
+  @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

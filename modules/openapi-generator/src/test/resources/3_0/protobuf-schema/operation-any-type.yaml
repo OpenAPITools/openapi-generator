@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to demonstrate the use on google.protobuf.Any from an operation
+  version: 1.0.0
+  title: Any type
+paths:
+  /pet:
+    post:
+      operationId: addAny
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Any'
+      requestBody:
+        $ref: '#/components/requestBodies/Any'
+components:
+  requestBodies:
+    Any:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Any'
+  schemas:
+    Any: {}

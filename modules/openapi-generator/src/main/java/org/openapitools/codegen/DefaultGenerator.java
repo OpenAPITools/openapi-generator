@@ -19,6 +19,8 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
@@ -40,8 +42,8 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.PythonPriorClientCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
-import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -58,6 +60,7 @@ import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -254,6 +257,21 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
+
+        // normalize the spec
+        if (config.getUseOpenAPINormalizer()) {
+            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+            openapiNormalizer.normalize();
+        }
+
+        // resolve inline models
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.flatten(openAPI);
+        }
+
         config.preprocessOpenAPI(openAPI);
 
         // set OpenAPI to make these available to all methods
@@ -340,6 +358,64 @@ public class DefaultGenerator implements Generator {
 
         if (info.getTermsOfService() != null) {
             config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
+        }
+    }
+
+    private void generateCustomOptions(List<File> files, String customOptionsSpec) {    
+        File customOptionsFile = new File(customOptionsSpec);
+        if(customOptionsFile.exists() && !customOptionsFile.isDirectory()) { 
+            String customOptionsFileName = FilenameUtils.removeExtension(customOptionsFile.getName());
+            OpenAPI customOptionsOpenAPI = new OpenAPIParser().readLocation(customOptionsSpec, null, new ParseOptions()).getOpenAPI();
+            final Map<String, Schema> schemas = ModelUtils.getSchemas(customOptionsOpenAPI);
+    
+            if (schemas == null) {
+                LOGGER.warn("Skipping generation of custom options because specification document has no schemas.");
+                return;
+            }
+    
+            Set<String> options = schemas.keySet();
+            // store all processed custom option categories and custom options
+            Map<String, Object> allProcessedCustomOptions = new HashMap<>();
+            allProcessedCustomOptions.put("customOptionsPackage", config.customOptionsPackage());
+            Map<String, CodegenModel> categories = new TreeMap<>((o1, o2) -> ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2)));
+            List<CodegenProperty> customOptions = new ArrayList<>();
+    
+            // process custom options
+            for (String name : options) {
+                Schema schema = schemas.get(name);
+            
+                CodegenProperty var = config.fromProperty(name, schema);
+                customOptions.add(var);
+                // if var is a category
+                if (var.isModel) {
+                    CodegenModel optionCategory = processCustomOptionCategory(config, name, schema);
+                    categories.put(name, optionCategory);
+                }
+            }
+
+            config.postProcessAllCustomOptions(customOptions, customOptionsFileName);
+            allProcessedCustomOptions.put("optionCategories", categories.values());
+            allProcessedCustomOptions.put("customOptions", customOptions);
+            config.updateCustomOptionsMapping(customOptions, categories);
+    
+            try {
+                // to generate custom options file
+                for (String templateName : config.customOptionsTemplateFiles().keySet()) {
+                    String suffix = config.customOptionsTemplateFiles().get(templateName);
+                    String filename = config.customOptionsFileFolder() + File.separator + customOptionsFileName + suffix;
+    
+                    File written = processTemplateToFile(allProcessedCustomOptions, templateName, filename, true, CodegenConstants.CUSTOM_OPTIONS);
+                    if (written != null) {
+                        files.add(written);
+                    }
+                }
+    
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate custom options", e);
+            }
+        }
+        else {
+            throw new RuntimeException("Could not generate custom options. Custom options spec not found: " + customOptionsSpec);
         }
     }
 
@@ -438,6 +514,8 @@ public class DefaultGenerator implements Generator {
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
+        config.processPackageMapping(schemas, modelKeys);
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -477,7 +555,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.schemaMapping());
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -503,6 +581,15 @@ public class DefaultGenerator implements Generator {
                 schemaMap.put(name, schema);
                 ModelsMap models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
+                // override vendor extension value with extension x-package-name used in spec
+                if (schema.getExtensions() != null && schema.getExtensions().get("x-package-name") != null) {
+                    Map<String, Object> vendorExtensions = (Map<String, Object>) models.get("vendorExtensions");
+                    if (vendorExtensions != null) {
+                        // x-package-name defined in OAS can be used to register the model package in config.modelsPackage through config.processPackageMapping
+                        // we thus retrieve the model package and convert it to a package name
+                        vendorExtensions.put("x-package-name", toPackageName(config.modelPackage(name)));
+                    }
+                }
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
@@ -519,7 +606,7 @@ public class DefaultGenerator implements Generator {
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
             ModelsMap models = allProcessedModels.get(modelName);
-            models.put("modelPackage", config.modelPackage());
+            models.put("modelPackage", config.modelPackage(modelName));
             try {
                 //don't generate models that have a schema mapping
                 if (config.schemaMapping().containsKey(modelName)) {
@@ -532,7 +619,7 @@ public class DefaultGenerator implements Generator {
                     ModelMap modelTemplate = modelList.get(0);
                     if (modelTemplate != null && modelTemplate.getModel() != null) {
                         CodegenModel m = modelTemplate.getModel();
-                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen))) {
+                        if (m.isAlias && !((config instanceof PythonPriorClientCodegen) || (config instanceof PythonClientCodegen))) {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -559,6 +646,12 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
 
+    }
+
+    // package name matches model package
+    // e.g. my_package/foo => my_package.foo
+    private String toPackageName(String modelPackage) {
+        return modelPackage.replace("/", ".");
     }
 
     @SuppressWarnings("unchecked")
@@ -712,14 +805,17 @@ public class DefaultGenerator implements Generator {
                     outputFolder += File.separator + support.getFolder();
                 }
                 File of = new File(outputFolder);
-                if (!of.isDirectory()) {
-                    if (!dryRun && !of.mkdirs()) {
-                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
-                    }
-                }
                 String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
                         ? support.getDestinationFilename()
                         : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
+
+                if (!of.isDirectory()) {
+                    // check that its not a dryrun and the files in the directory aren't ignored before we make the directory
+                    if (!dryRun && ignoreProcessor.allowsFile(new File(outputFilename)) && !of.mkdirs()) {
+                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
+                    }
+                }
+
 
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
@@ -889,14 +985,6 @@ public class DefaultGenerator implements Generator {
             }
         }
 
-        // resolve inline models
-        if (config.getUseInlineModelResolver()) {
-            InlineModelResolver inlineModelResolver = new InlineModelResolver();
-            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            inlineModelResolver.flatten(openAPI);
-        }
-
         configureGeneratorProperties();
         configureOpenAPIInfo();
 
@@ -905,6 +993,11 @@ public class DefaultGenerator implements Generator {
         processUserDefinedTemplates();
 
         List<File> files = new ArrayList<>();
+        // custom options
+        if (config.additionalProperties().containsKey(CodegenConstants.CUSTOM_OPTIONS_SPEC)) {
+            generateCustomOptions(files, config.additionalProperties().get(CodegenConstants.CUSTOM_OPTIONS_SPEC).toString());
+        }
+
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
@@ -1199,16 +1292,18 @@ public class DefaultGenerator implements Generator {
         objs.setClassname(config.toApiName(tag));
         objs.setPathPrefix(config.toApiVarName(tag));
 
-        // check for operationId uniqueness
-        Set<String> opIds = new HashSet<>();
-        int counter = 0;
-        for (CodegenOperation op : ops) {
-            String opId = op.nickname;
-            if (opIds.contains(opId)) {
-                counter++;
-                op.nickname += "_" + counter;
+        // check for nickname uniqueness
+        if (config.getAddSuffixToDuplicateOperationNicknames()) {
+            Set<String> opIds = new HashSet<>();
+            int counter = 0;
+            for (CodegenOperation op : ops) {
+                String opId = op.nickname;
+                if (opIds.contains(opId)) {
+                    counter++;
+                    op.nickname += "_" + counter;
+                }
+                opIds.add(opId);
             }
-            opIds.add(opId);
         }
         objs.setOperation(ops);
 
@@ -1275,8 +1370,19 @@ public class DefaultGenerator implements Generator {
         return result;
     }
 
+    private CodegenModel processCustomOptionCategory(CodegenConfig config, String optionCategoryName, Schema definition) {
+        if (definition == null)
+            throw new RuntimeException("schema cannot be null in processCustomOptionCategory");
+        CodegenModel optionCategory = config.fromModel(optionCategoryName, definition);
+
+        config.postProcessCustomOptionCategory(optionCategory);
+        return optionCategory;
+    }
+
     private ModelsMap processModels(CodegenConfig config, Map<String, Schema> definitions) {
         ModelsMap objs = new ModelsMap();
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        objs.put("vendorExtensions", vendorExtensions);
         objs.put("package", config.modelPackage());
         List<ModelMap> modelMaps = new ArrayList<>();
         Set<String> allImports = new LinkedHashSet<>();
