@@ -42,7 +42,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -77,24 +76,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.callbacks.Callback;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariable;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -107,6 +88,7 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
     private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final Cache<Pair<String, Boolean>, Pattern> compiledPatternCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
     protected static Schema falseSchema;
@@ -159,6 +141,11 @@ public class DefaultCodegen implements CodegenConfig {
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500"));
         int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10"));
         sanitizedNameCache = Caffeine.newBuilder()
+                .maximumSize(cacheSize)
+                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
+                .ticker(Ticker.systemTicker())
+                .build();
+        compiledPatternCache = Caffeine.newBuilder()
                 .maximumSize(cacheSize)
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
@@ -6196,11 +6183,6 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String sanitizeName(final String name, String removeCharRegEx, ArrayList<String> exceptionList) {
-        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
-        // character with _ or empty character. Below aims to spell out different cases we've
-        // encountered so far and hopefully make it easier for others to add more special
-        // cases in the future.
-
         // better error handling when map/array type is invalid
         if (name == null) {
             LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
@@ -6214,11 +6196,18 @@ public class DefaultCodegen implements CodegenConfig {
 
         SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
 
+
         return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
             String modifiable = sanitizeNameOptions.getName();
             List<String> exceptions = sanitizeNameOptions.getExceptions();
+            String removeRegEx = opts.getRemoveCharRegEx();
 
-            StringBuilder result = new StringBuilder();
+            Pair<String, Boolean> removePatternKey = new org.apache.commons.lang3.tuple.ImmutablePair<>(removeRegEx, allowUnicodeIdentifiers);
+
+            Pattern removePattern = compiledPatternCache.get(removePatternKey, patternPair ->
+                    Pattern.compile(patternPair.getLeft(), patternPair.getRight() ? Pattern.UNICODE_CHARACTER_CLASS : 0));
+
+            StringBuilder result = new StringBuilder(modifiable.length());
             for (int i = 0; i < modifiable.length(); i++) {
                 char currentChar = modifiable.charAt(i);
                 char nextChar = i + 1 < modifiable.length() ? modifiable.charAt(i + 1) : ' ';
@@ -6234,12 +6223,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // remove everything else other than word, number and _
             // $php_variable => php_variable
-            if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-                modifiable = Pattern.compile(sanitizeNameOptions.getRemoveCharRegEx(), Pattern.UNICODE_CHARACTER_CLASS).matcher(modifiable).replaceAll("");
-            } else {
-                modifiable = modifiable.replaceAll(sanitizeNameOptions.getRemoveCharRegEx(), "");
-            }
-            return modifiable;
+            return removePattern.matcher(modifiable).replaceAll("");
         });
     }
 

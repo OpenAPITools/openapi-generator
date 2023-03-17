@@ -138,7 +138,7 @@ public class StringUtils {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
 
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder(word.length());
             boolean capitalizeNext = option == UPPERCASE_FIRST_CHAR;
             boolean lowercaseNextLetter = option == LOWERCASE_FIRST_LETTER;
             for (int i = 0; i < word.length(); i++) {
