@@ -271,7 +271,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("URI", protobufType("string"));
         typeMapping.put("date", "google.type.Date");
         typeMapping.put("time", "google.type.TimeOfDay");
-        typeMapping.put("DateTime", "google.protobuf.Timestamp");
+        typeMapping.put("DateTime", "google.type.DateTime");
         typeMapping.put("duration", "google.protobuf.Duration");
         typeMapping.put("password", protobufType("string"));
         // TODO fix file mapping
