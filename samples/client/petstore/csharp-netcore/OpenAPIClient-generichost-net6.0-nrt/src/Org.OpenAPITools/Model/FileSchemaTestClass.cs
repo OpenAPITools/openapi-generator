@@ -38,18 +38,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public FileSchemaTestClass(File file, List<File> files)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (file == null)
-                throw new ArgumentNullException("file is a required property for FileSchemaTestClass and cannot be null.");
-
-            if (files == null)
-                throw new ArgumentNullException("files is a required property for FileSchemaTestClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             File = file;
             Files = files;
         }
@@ -150,6 +138,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (file == null)
+                throw new ArgumentNullException(nameof(file), "Property is required for class FileSchemaTestClass.");
+
+            if (files == null)
+                throw new ArgumentNullException(nameof(files), "Property is required for class FileSchemaTestClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new FileSchemaTestClass(file, files);
         }

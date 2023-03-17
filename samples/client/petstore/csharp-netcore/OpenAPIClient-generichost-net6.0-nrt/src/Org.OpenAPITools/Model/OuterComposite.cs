@@ -39,21 +39,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (myNumber == null)
-                throw new ArgumentNullException("myNumber is a required property for OuterComposite and cannot be null.");
-
-            if (myString == null)
-                throw new ArgumentNullException("myString is a required property for OuterComposite and cannot be null.");
-
-            if (myBoolean == null)
-                throw new ArgumentNullException("myBoolean is a required property for OuterComposite and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             MyBoolean = myBoolean;
             MyNumber = myNumber;
             MyString = myString;
@@ -166,6 +151,21 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (myNumber == null)
+                throw new ArgumentNullException(nameof(myNumber), "Property is required for class OuterComposite.");
+
+            if (myString == null)
+                throw new ArgumentNullException(nameof(myString), "Property is required for class OuterComposite.");
+
+            if (myBoolean == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new OuterComposite(myBoolean, myNumber, myString);
         }

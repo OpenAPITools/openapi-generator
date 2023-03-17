@@ -35,15 +35,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public DeprecatedObject(string name)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (name == null)
-                throw new ArgumentNullException("name is a required property for DeprecatedObject and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Name = name;
         }
 
@@ -130,6 +121,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class DeprecatedObject.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new DeprecatedObject(name);
         }

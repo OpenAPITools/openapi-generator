@@ -38,24 +38,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (uuidWithPattern == null)
-                throw new ArgumentNullException("uuidWithPattern is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (dateTime == null)
-                throw new ArgumentNullException("dateTime is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (map == null)
-                throw new ArgumentNullException("map is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DateTime = dateTime;
             Map = map;
             Uuid = uuid;
@@ -194,6 +176,24 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (map == null)
+                throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
