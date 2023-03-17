@@ -85,10 +85,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     public static FeatureSet DefaultFeatureSet;
 
-    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
-    // arguments, this cache is used to optimized performance.
-    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
-    private static final Cache<Pair<String, Boolean>, Pattern> compiledPatternCache;
+    private static final Cache<String, Pattern> compiledPatternCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
     protected static Schema falseSchema;
@@ -140,11 +137,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500"));
         int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10"));
-        sanitizedNameCache = Caffeine.newBuilder()
-                .maximumSize(cacheSize)
-                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
-                .ticker(Ticker.systemTicker())
-                .build();
         compiledPatternCache = Caffeine.newBuilder()
                 .maximumSize(cacheSize)
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
@@ -6194,37 +6186,25 @@ public class DefaultCodegen implements CodegenConfig {
             return "value";
         }
 
-        SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
-
-
-        return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
-            String modifiable = sanitizeNameOptions.getName();
-            List<String> exceptions = sanitizeNameOptions.getExceptions();
-            String removeRegEx = opts.getRemoveCharRegEx();
-
-            Pair<String, Boolean> removePatternKey = new org.apache.commons.lang3.tuple.ImmutablePair<>(removeRegEx, allowUnicodeIdentifiers);
-
-            Pattern removePattern = compiledPatternCache.get(removePatternKey, patternPair ->
-                    Pattern.compile(patternPair.getLeft(), patternPair.getRight() ? Pattern.UNICODE_CHARACTER_CLASS : 0));
-
-            StringBuilder result = new StringBuilder(modifiable.length());
-            for (int i = 0; i < modifiable.length(); i++) {
-                char currentChar = modifiable.charAt(i);
-                char nextChar = i + 1 < modifiable.length() ? modifiable.charAt(i + 1) : ' ';
-                if (currentChar == '[' && nextChar != ']') {
-                    result.append('_');
-                } else if (currentChar == '(' || currentChar == '.' || currentChar == '-' || currentChar == '|' || currentChar == ' ' || currentChar == '/' || currentChar == '\\') {
-                    result.append('_');
-                } else if (currentChar != '[' && currentChar != ']' && currentChar != ')') {
-                    result.append(currentChar);
-                }
+        StringBuilder result = new StringBuilder(name.length());
+        for (int i = 0; i < name.length(); i++) {
+            char currentChar = name.charAt(i);
+            char nextChar = i + 1 < name.length() ? name.charAt(i + 1) : ' ';
+            if (currentChar == '[' && nextChar != ']') {
+                result.append('_');
+            } else if (currentChar == '(' || currentChar == '.' || currentChar == '-' || currentChar == '|' || currentChar == ' ' || currentChar == '/' || currentChar == '\\') {
+                result.append('_');
+            } else if (currentChar != '[' && currentChar != ']' && currentChar != ')') {
+                result.append(currentChar);
             }
-            modifiable = result.toString();
+        }
 
-            // remove everything else other than word, number and _
-            // $php_variable => php_variable
-            return removePattern.matcher(modifiable).replaceAll("");
-        });
+        Pattern removePattern = compiledPatternCache.get(removeCharRegEx, regEx ->
+                Pattern.compile(regEx, allowUnicodeIdentifiers ? Pattern.UNICODE_CHARACTER_CLASS : 0));
+
+        // remove everything else other than word, number and _
+        // $php_variable => php_variable
+        return removePattern.matcher(result).replaceAll("");
     }
 
     private String sanitizeValue(String value, String replaceMatch, String replaceValue, List<String> exceptionList) {

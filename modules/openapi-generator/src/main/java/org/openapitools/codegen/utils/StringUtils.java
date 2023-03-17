@@ -31,10 +31,6 @@ public class StringUtils {
      */
     public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter.seconds";
 
-    // A cache of camelized words. The camelize() method is invoked many times with the same
-    // arguments, this cache is used to optimized performance.
-    private static Cache<Pair<String, CamelizeOption>, String> camelizedWordsCache;
-
     // A cache of underscored words, used to optimize the performance of the underscore() method.
     private static Cache<String, String> underscoreWordsCache;
 
@@ -44,11 +40,6 @@ public class StringUtils {
     static {
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
         int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "5"));
-        camelizedWordsCache = Caffeine.newBuilder()
-                .maximumSize(cacheSize)
-                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
-                .ticker(Ticker.systemTicker())
-                .build();
 
         escapedWordsCache = Caffeine.newBuilder()
                 .maximumSize(cacheSize)
@@ -117,13 +108,6 @@ public class StringUtils {
         return camelize(word, UPPERCASE_FIRST_CHAR);
     }
 
-    private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
-    private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-    private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
-    private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
-    private static Pattern camelizeDollarPattern = Pattern.compile("\\$");
-    private static Pattern camelizeSimpleUnderscorePattern = Pattern.compile("_");
-
     /**
      * Camelize name (parameter, property, method, etc)
      *
@@ -132,38 +116,31 @@ public class StringUtils {
      * @return camelized string
      */
     public static String camelize(final String inputWord, CamelizeOption camelizeOption) {
-        Pair<String, CamelizeOption> key = new ImmutablePair<>(inputWord, camelizeOption);
-
-        return camelizedWordsCache.get(key, pair -> {
-            String word = pair.getKey();
-            CamelizeOption option = pair.getValue();
-
-            StringBuilder result = new StringBuilder(word.length());
-            boolean capitalizeNext = option == UPPERCASE_FIRST_CHAR;
-            boolean lowercaseNextLetter = option == LOWERCASE_FIRST_LETTER;
-            for (int i = 0; i < word.length(); i++) {
-                char currentChar = word.charAt(i);
-                if (currentChar == '_' || currentChar == '-' || currentChar == '.' || currentChar == '/') {
-                    if (i == 0) {
-                        capitalizeNext = !lowercaseNextLetter;
-                    } else {
-                        capitalizeNext = true;
-                    }
-                } else if ((currentChar == '$' || currentChar == '\\') && i == 0) {
-                    result.append(currentChar);
+        StringBuilder result = new StringBuilder(inputWord.length());
+        boolean capitalizeNext = camelizeOption == UPPERCASE_FIRST_CHAR;
+        boolean lowercaseNextLetter = camelizeOption == LOWERCASE_FIRST_LETTER;
+        for (int i = 0; i < inputWord.length(); i++) {
+            char currentChar = inputWord.charAt(i);
+            if (currentChar == '_' || currentChar == '-' || currentChar == '.' || currentChar == '/') {
+                if (i == 0) {
                     capitalizeNext = !lowercaseNextLetter;
-                } else if (capitalizeNext) {
-                    result.append(Character.toUpperCase(currentChar));
-                    capitalizeNext = false;
-                } else if (Character.isAlphabetic(currentChar) && (i == 0 || lowercaseNextLetter)) {
-                    result.append(Character.toLowerCase(currentChar));
-                    lowercaseNextLetter = false;
                 } else {
-                    result.append(currentChar);
+                    capitalizeNext = true;
                 }
+            } else if ((currentChar == '$' || currentChar == '\\') && i == 0) {
+                result.append(currentChar);
+                capitalizeNext = !lowercaseNextLetter;
+            } else if (capitalizeNext) {
+                result.append(Character.toUpperCase(currentChar));
+                capitalizeNext = false;
+            } else if (Character.isAlphabetic(currentChar) && (i == 0 || lowercaseNextLetter)) {
+                result.append(Character.toLowerCase(currentChar));
+                lowercaseNextLetter = false;
+            } else {
+                result.append(currentChar);
             }
-            return result.toString();
-        });
+        }
+        return result.toString();
     }
 
     private static class EscapedNameOptions {
