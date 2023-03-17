@@ -39,15 +39,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public GmFruit(Apple? apple, Banana banana, string color)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException("color is a required property for GmFruit and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Apple = Apple;
             Banana = Banana;
             Color = color;
@@ -145,6 +136,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new GmFruit(apple, banana, color);
         }

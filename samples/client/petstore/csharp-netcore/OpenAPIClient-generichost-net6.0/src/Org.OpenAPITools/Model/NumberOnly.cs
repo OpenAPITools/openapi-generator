@@ -35,15 +35,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public NumberOnly(decimal justNumber)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (justNumber == null)
-                throw new ArgumentNullException("justNumber is a required property for NumberOnly and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             JustNumber = justNumber;
         }
 
@@ -131,6 +122,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (justNumber == null)
+                throw new ArgumentNullException(nameof(justNumber), "Property is required for class NumberOnly.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new NumberOnly(justNumber);
         }

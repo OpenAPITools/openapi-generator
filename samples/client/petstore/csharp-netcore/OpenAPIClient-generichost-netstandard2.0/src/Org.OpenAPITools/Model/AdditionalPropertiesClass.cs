@@ -42,33 +42,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object anytype1 = default)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (mapProperty == null)
-                throw new ArgumentNullException("mapProperty is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapOfMapProperty == null)
-                throw new ArgumentNullException("mapOfMapProperty is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype1 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype1 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype2 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype2 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype3 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype3 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (emptyMap == null)
-                throw new ArgumentNullException("emptyMap is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesString == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesString is a required property for AdditionalPropertiesClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             EmptyMap = emptyMap;
             MapOfMapProperty = mapOfMapProperty;
             MapProperty = mapProperty;
@@ -248,6 +221,33 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (mapProperty == null)
+                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapOfMapProperty == null)
+                throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype1 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype2 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype3 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
+
+            if (emptyMap == null)
+                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesString == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
         }

@@ -37,21 +37,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (arrayOfString == null)
-                throw new ArgumentNullException("arrayOfString is a required property for ArrayTest and cannot be null.");
-
-            if (arrayArrayOfInteger == null)
-                throw new ArgumentNullException("arrayArrayOfInteger is a required property for ArrayTest and cannot be null.");
-
-            if (arrayArrayOfModel == null)
-                throw new ArgumentNullException("arrayArrayOfModel is a required property for ArrayTest and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
             ArrayOfString = arrayOfString;
@@ -165,6 +150,21 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (arrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
+
+            if (arrayArrayOfInteger == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
+
+            if (arrayArrayOfModel == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }

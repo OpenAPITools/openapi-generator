@@ -40,30 +40,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for Order and cannot be null.");
-
-            if (petId == null)
-                throw new ArgumentNullException("petId is a required property for Order and cannot be null.");
-
-            if (quantity == null)
-                throw new ArgumentNullException("quantity is a required property for Order and cannot be null.");
-
-            if (shipDate == null)
-                throw new ArgumentNullException("shipDate is a required property for Order and cannot be null.");
-
-            if (status == null)
-                throw new ArgumentNullException("status is a required property for Order and cannot be null.");
-
-            if (complete == null)
-                throw new ArgumentNullException("complete is a required property for Order and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Id = id;
             PetId = petId;
             Quantity = quantity;
@@ -285,6 +261,30 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId), "Property is required for class Order.");
+
+            if (quantity == null)
+                throw new ArgumentNullException(nameof(quantity), "Property is required for class Order.");
+
+            if (shipDate == null)
+                throw new ArgumentNullException(nameof(shipDate), "Property is required for class Order.");
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status), "Property is required for class Order.");
+
+            if (complete == null)
+                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Order(id, petId, quantity, shipDate, status, complete);
         }
