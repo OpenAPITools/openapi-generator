@@ -47,7 +47,7 @@ public class PetDto {
 
   @JsonProperty("tags")
   @Valid
-  private List<@Valid TagDto> tags = new ArrayList<>();
+  private List<@Valid TagDto> tags;
 
   /**
    * pet status in the store

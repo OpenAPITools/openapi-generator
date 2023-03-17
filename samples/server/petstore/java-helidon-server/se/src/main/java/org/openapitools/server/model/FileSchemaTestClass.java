@@ -9,7 +9,7 @@ import org.openapitools.server.model.ModelFile;
 public class FileSchemaTestClass   {
 
     private ModelFile _file;
-    private List<ModelFile> files = new ArrayList<>();
+    private List<ModelFile> files;
 
     /**
      * Default constructor.

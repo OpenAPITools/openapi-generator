@@ -40,24 +40,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Name(int nameProperty, string property, int snakeCase, int _123number)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (nameProperty == null)
-                throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");
-
-            if (snakeCase == null)
-                throw new ArgumentNullException("snakeCase is a required property for Name and cannot be null.");
-
-            if (property == null)
-                throw new ArgumentNullException("property is a required property for Name and cannot be null.");
-
-            if (_123number == null)
-                throw new ArgumentNullException("_123number is a required property for Name and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             NameProperty = nameProperty;
             Property = property;
             SnakeCase = snakeCase;
@@ -220,6 +202,24 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (nameProperty == null)
+                throw new ArgumentNullException(nameof(nameProperty), "Property is required for class Name.");
+
+            if (snakeCase == null)
+                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
+
+            if (property == null)
+                throw new ArgumentNullException(nameof(property), "Property is required for class Name.");
+
+            if (_123number == null)
+                throw new ArgumentNullException(nameof(_123number), "Property is required for class Name.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Name(nameProperty, property, snakeCase, _123number);
         }

@@ -52,66 +52,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (integer == null)
-                throw new ArgumentNullException("integer is a required property for FormatTest and cannot be null.");
-
-            if (int32 == null)
-                throw new ArgumentNullException("int32 is a required property for FormatTest and cannot be null.");
-
-            if (unsignedInteger == null)
-                throw new ArgumentNullException("unsignedInteger is a required property for FormatTest and cannot be null.");
-
-            if (int64 == null)
-                throw new ArgumentNullException("int64 is a required property for FormatTest and cannot be null.");
-
-            if (unsignedLong == null)
-                throw new ArgumentNullException("unsignedLong is a required property for FormatTest and cannot be null.");
-
-            if (number == null)
-                throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
-
-            if (floatProperty == null)
-                throw new ArgumentNullException("floatProperty is a required property for FormatTest and cannot be null.");
-
-            if (doubleProperty == null)
-                throw new ArgumentNullException("doubleProperty is a required property for FormatTest and cannot be null.");
-
-            if (decimalProperty == null)
-                throw new ArgumentNullException("decimalProperty is a required property for FormatTest and cannot be null.");
-
-            if (stringProperty == null)
-                throw new ArgumentNullException("stringProperty is a required property for FormatTest and cannot be null.");
-
-            if (byteProperty == null)
-                throw new ArgumentNullException("byteProperty is a required property for FormatTest and cannot be null.");
-
-            if (binary == null)
-                throw new ArgumentNullException("binary is a required property for FormatTest and cannot be null.");
-
-            if (date == null)
-                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null.");
-
-            if (dateTime == null)
-                throw new ArgumentNullException("dateTime is a required property for FormatTest and cannot be null.");
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for FormatTest and cannot be null.");
-
-            if (password == null)
-                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null.");
-
-            if (patternWithDigits == null)
-                throw new ArgumentNullException("patternWithDigits is a required property for FormatTest and cannot be null.");
-
-            if (patternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException("patternWithDigitsAndDelimiter is a required property for FormatTest and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Binary = binary;
             ByteProperty = byteProperty;
             Date = date;
@@ -536,6 +476,66 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (integer == null)
+                throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
+
+            if (int32 == null)
+                throw new ArgumentNullException(nameof(int32), "Property is required for class FormatTest.");
+
+            if (unsignedInteger == null)
+                throw new ArgumentNullException(nameof(unsignedInteger), "Property is required for class FormatTest.");
+
+            if (int64 == null)
+                throw new ArgumentNullException(nameof(int64), "Property is required for class FormatTest.");
+
+            if (unsignedLong == null)
+                throw new ArgumentNullException(nameof(unsignedLong), "Property is required for class FormatTest.");
+
+            if (number == null)
+                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
+
+            if (floatProperty == null)
+                throw new ArgumentNullException(nameof(floatProperty), "Property is required for class FormatTest.");
+
+            if (doubleProperty == null)
+                throw new ArgumentNullException(nameof(doubleProperty), "Property is required for class FormatTest.");
+
+            if (decimalProperty == null)
+                throw new ArgumentNullException(nameof(decimalProperty), "Property is required for class FormatTest.");
+
+            if (stringProperty == null)
+                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FormatTest.");
+
+            if (byteProperty == null)
+                throw new ArgumentNullException(nameof(byteProperty), "Property is required for class FormatTest.");
+
+            if (binary == null)
+                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
+
+            if (date == null)
+                throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
+
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime), "Property is required for class FormatTest.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
+
+            if (patternWithDigits == null)
+                throw new ArgumentNullException(nameof(patternWithDigits), "Property is required for class FormatTest.");
+
+            if (patternWithDigitsAndDelimiter == null)
+                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger, unsignedLong, uuid);
         }

@@ -40,24 +40,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (deprecatedRef == null)
-                throw new ArgumentNullException("deprecatedRef is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (bars == null)
-                throw new ArgumentNullException("bars is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Bars = bars;
             DeprecatedRef = deprecatedRef;
             Id = id;
@@ -186,6 +168,24 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (deprecatedRef == null)
+                throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (bars == null)
+                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
         }

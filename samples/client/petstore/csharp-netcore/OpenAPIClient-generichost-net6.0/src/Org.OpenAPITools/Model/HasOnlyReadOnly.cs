@@ -36,18 +36,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal HasOnlyReadOnly(string bar, string foo)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (bar == null)
-                throw new ArgumentNullException("bar is a required property for HasOnlyReadOnly and cannot be null.");
-
-            if (foo == null)
-                throw new ArgumentNullException("foo is a required property for HasOnlyReadOnly and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Bar = bar;
             Foo = foo;
         }
@@ -183,6 +171,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class HasOnlyReadOnly.");
+
+            if (foo == null)
+                throw new ArgumentNullException(nameof(foo), "Property is required for class HasOnlyReadOnly.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new HasOnlyReadOnly(bar, foo);
         }

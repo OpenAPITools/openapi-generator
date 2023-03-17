@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ArrayOfNumberOnly   {
 
-    private List<BigDecimal> arrayNumber = new ArrayList<>();
+    private List<BigDecimal> arrayNumber;
 
     /**
      * Default constructor.

@@ -99,7 +99,7 @@ public class EnumArrays {
 
   @JsonProperty("array_enum")
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
