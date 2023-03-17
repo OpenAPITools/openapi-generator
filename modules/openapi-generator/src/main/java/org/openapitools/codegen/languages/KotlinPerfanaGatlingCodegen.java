@@ -285,12 +285,12 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                             Map<String, Set<Parameter>> parametersByType = new HashMap<>();
 
                             if (operation.getParameters() != null) {
-                                for (Parameter parameter : operation.getParameters()) {
+                                operation.getParameters().forEach(parameter -> {
                                     String parameterType = parameter.getIn().toLowerCase();
                                     Set<Parameter> parameterSet = parametersByType.computeIfAbsent(parameterType,
                                             k -> new HashSet<>());
                                     parameterSet.add(parameter);
-                                }
+                                });
                             }
 
                             Set<Parameter> headerParameters = parametersByType.getOrDefault("header", new HashSet<>());
@@ -314,7 +314,6 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 String[] refArray = schema.get$ref().split("/");
                 String bodySchemaName = refArray[refArray.length - 1];
                 operation.addExtension("x-gatling-body-object", bodySchemaName + ".toStringBody");
-                Set<String> bodyFeederParams = new HashSet<>();
                 Set<String> sessionBodyVars = new HashSet<>();
 
                 Schema model = openAPI.getComponents().getSchemas().get(bodySchemaName);
@@ -324,36 +323,18 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                     continue;
                 }
 
-                for (Map.Entry<String, Schema<?>> o : propertiesMap.entrySet()) {
-                    bodyFeederParams.add(o.getKey());
-                    sessionBodyVars.add("\"#{" + o.getKey() + "}\"");
-                }
+                propertiesMap.forEach((key, value) -> {
+                    sessionBodyVars.add("\"#{" + key + "}\"");
+                });
 
                 operation.addExtension("x-gatling-body-feeder", operation.getOperationId() + "BodyFeeder");
                 operation.addExtension("x-gatling-body-feeder-params", StringUtils.join(sessionBodyVars, ","));
-                String jsonFeeder;
 
-                try {
-                    ObjectNode rootNode = createJsonFromSchema(propertiesMap);
-                    jsonFeeder = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
-                } catch (JsonProcessingException var23) {
-                    throw new RuntimeException("Writing object to json failed.", var23);
-                }
+                ObjectNode feederBodyNode = createJsonFromSchema(propertiesMap);
+                writeBodyJsonFeederDataFile(operation, feederBodyNode);
 
-                try {
-                    String bodyParamsFeederFilePath = this.outputFolder + File.separator + this.dataFolder +
-                            File.separator + operation.getOperationId() + "-bodyParams.json";
-
-                    FileUtils.writeStringToFile(new File(bodyParamsFeederFilePath),
-                            "[" + replaceIntegerVariable(jsonFeeder) + "]", StandardCharsets.UTF_8);
-
-                    ObjectNode jsonRequestBodyFromSchema = createJsonRequestBodyFromSchema(propertiesMap);
-                    String bodyParams = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonRequestBodyFromSchema);
-                    this.writeBodyJsonFile(operation, bodyParams);
-
-                } catch (IOException var22) {
-                    LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), var22);
-                }
+                ObjectNode requestBodyNode = createJsonRequestBodyFromSchema(propertiesMap);
+                writeBodyJsonFile(operation, requestBodyNode);
             }
         }
     }
@@ -482,15 +463,28 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         return arrayNode;
     }
 
-    private void writeBodyJsonFile(Operation operation, String bodyParams) {
+    private void writeBodyJsonFile(Operation operation, ObjectNode node) {
         try {
+            String jsonBodyParams = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
             String bodyFilePath = this.outputFolder + File.separator + this.bodiesFolder + File.separator +
                     operation.getOperationId().replace("_", "") + "Body.json";
-            FileUtils.writeStringToFile(new File(bodyFilePath), bodyParams, StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(new File(bodyFilePath), jsonBodyParams, StandardCharsets.UTF_8);
         } catch (IOException var5) {
             LOGGER.error("Could not create request body file for operationId" + operation.getOperationId(), var5);
         }
+    }
 
+    private void writeBodyJsonFeederDataFile(Operation operation, ObjectNode node) {
+        try {
+            String jsonFeeder = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
+            String bodyParamsFeederFilePath = this.outputFolder + File.separator + this.dataFolder +
+                    File.separator + operation.getOperationId() + "-bodyParams.json";
+
+            FileUtils.writeStringToFile(new File(bodyParamsFeederFilePath),
+                    "[" + replaceIntegerVariable(jsonFeeder) + "]", StandardCharsets.UTF_8);
+        } catch (IOException var5) {
+            LOGGER.error("Could not create body feeder file for operationId" + operation.getOperationId(), var5);
+        }
     }
 
     public static String replaceIntegerVariable(String text) {
